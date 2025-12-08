@@ -1,12 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import UserService from "@/services/user.service";
 import { toast } from "sonner";
-import { UserFormValues } from "@/lib/schema/user.schema";
+import {
+    UserFormValues,
+    usersPaginatedApiResponseSchema,
+} from "@/lib/schema/user.schema";
+import { AxiosError } from "axios";
 
-export function useGetAllUsers() {
+export function useGetAllUsers(page: number, limit: number) {
     return useQuery({
-        queryKey: ["users"],
-        queryFn: UserService.getAllUsers,
+        queryKey: ["users", { page, limit }],
+        queryFn: async () => {
+            const data = await UserService.getAllUsers(page, limit);
+            return usersPaginatedApiResponseSchema.parse(data);
+        },
     });
 }
 
@@ -19,8 +26,12 @@ export function useCreateUser() {
             toast.success("User created successfully!");
             queryClient.invalidateQueries({ queryKey: ["users"] });
         },
-        onError: () => {
-            toast.error("Failed to create user.");
+        onError: (error) => {
+            let errorMessage = "Failed to create user.";
+            if (error instanceof AxiosError && error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
