@@ -1,20 +1,16 @@
 import { api } from "@/lib/api";
 import {
-    venueApiResponseSchema,
-    venueDetailApiResponseSchema,
     VenueFormValues,
-    venuesListApiResponseSchema,
 } from "@/lib/schema/venue.schema";
 import { AxiosError } from "axios";
 
 const VenueService = {
-    getAll: async () => {
+    getAll: async (page: number, limit: number) => {
         try {
-            const response = await api.get("/venues");
-            const validatedData = venuesListApiResponseSchema.parse(
-                response.data.data
-            );
-            return validatedData;
+            const response = await api.get("/venues", {
+                params: { page, limit },
+            });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -23,10 +19,7 @@ const VenueService = {
     getById: async (id: string) => {
         try {
             const response = await api.get(`/venues/${id}`);
-            const validatedData = venueDetailApiResponseSchema.parse(
-                response.data.data
-            );
-            return validatedData;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -35,10 +28,7 @@ const VenueService = {
     create: async (data: VenueFormValues) => {
         try {
             const response = await api.post("/venues", data);
-            const validatedData = venueApiResponseSchema.parse(
-                response.data.data
-            );
-            return validatedData;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -46,7 +36,8 @@ const VenueService = {
 
     update: async (id: string, data: VenueFormValues) => {
         try {
-            await api.put(`/venues/${id}`, data);
+            const response = await api.put(`/venues/${id}`, data);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -54,7 +45,8 @@ const VenueService = {
 
     delete: async (id: string) => {
         try {
-            await api.delete(`/venues/${id}`);
+            const response = await api.delete(`/venues/${id}`);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -62,9 +54,10 @@ const VenueService = {
 
     deleteMultiple: async (ids: string[]) => {
         try {
-            await api.post("/venues/multiple", {
+            const response = await api.post("/venues/multiple", {
                 ids: ids,
             });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -72,7 +65,8 @@ const VenueService = {
 
     approve: async (id: string) => {
         try {
-            await api.patch(`/venues/${id}/approve`);
+            const response = await api.patch(`/venues/${id}/approve`);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -80,7 +74,8 @@ const VenueService = {
 
     reject: async (id: string, data: { rejectionReason: string }) => {
         try {
-            await api.patch(`/venues/${id}/reject`, data);
+            const response = await api.patch(`/venues/${id}/reject`, data);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -100,7 +95,7 @@ const VenueService = {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -108,7 +103,8 @@ const VenueService = {
 
     deletePhoto: async (photoId: string) => {
         try {
-            await api.delete(`/venues/photos/${photoId}`);
+            const response = await api.delete(`/venues/photos/${photoId}`);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
