@@ -18,9 +18,10 @@ function exclude<User, Key extends keyof User>(
 }
 
 export class UserService {
-    public async findAllUsers(query: PaginationDto) {
-        const { page = 1, limit = 10, search } = query;
-        const skip = (page - 1) * limit;
+    public async findAllUsers(query: Partial<PaginationDto>) {
+        const { page, limit, search } = query;
+        const isPaginated = page !== undefined && limit !== undefined;
+        const skip = isPaginated ? (page! - 1) * limit! : 0;
 
         const whereCondition: Prisma.UserWhereInput = search
             ? {
@@ -31,8 +32,37 @@ export class UserService {
               }
             : {};
 
-        const [users, total] = await prisma.$transaction([
-            prisma.user.findMany({
+        if (isPaginated) {
+            const [users, total] = await prisma.$transaction([
+                prisma.user.findMany({
+                    where: whereCondition,
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true,
+                        createdAt: true,
+                    },
+                    skip: skip,
+                    take: limit,
+                    orderBy: { createdAt: "desc" },
+                }),
+                prisma.user.count({ where: whereCondition }),
+            ]);
+
+            const totalPages = Math.ceil(total / limit!);
+
+            return {
+                data: users,
+                meta: {
+                    total,
+                    page,
+                    limit,
+                    totalPages,
+                },
+            };
+        } else {
+            const users = await prisma.user.findMany({
                 where: whereCondition,
                 select: {
                     id: true,
@@ -41,24 +71,10 @@ export class UserService {
                     role: true,
                     createdAt: true,
                 },
-                skip: skip,
-                take: limit,
                 orderBy: { createdAt: "desc" },
-            }),
-            prisma.user.count({ where: whereCondition }),
-        ]);
-
-        const totalPages = Math.ceil(total / limit);
-
-        return {
-            data: users,
-            meta: {
-                total,
-                page,
-                limit,
-                totalPages,
-            },
-        };
+            });
+            return { data: users }; // Return only data for non-paginated requests
+        }
     }
 
     public async findUserById(
