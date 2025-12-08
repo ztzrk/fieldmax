@@ -7,31 +7,87 @@ import { Form } from "@/components/ui/form";
 import { UserFormValues, userSchema } from "@/lib/schema/user.schema";
 import { InputField } from "@/components/shared/form/InputField";
 import { SelectField } from "@/components/shared/form/SelectField";
-import { useCreateUser } from "@/hooks/useUsers";
+import { useCreateUser, useUpdateUser } from "@/hooks/useUsers";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useEffect } from "react";
+import { BackendErrorResponse } from "@/types/error";
 
 interface UserFormProps {
-    initialData?: Partial<UserFormValues>;
+    initialData?: Partial<UserFormValues> & { id?: string; createdAt?: string };
     dialogClose: () => void;
 }
 
 export function UserForm({ initialData, dialogClose }: UserFormProps) {
     const form = useForm<UserFormValues>({
         resolver: zodResolver(userSchema),
-        defaultValues: initialData || {
+        defaultValues: {
             fullName: "",
             email: "",
             password: "",
-            phoneNumber: "",
             role: "USER",
+            ...initialData,
         },
     });
 
-    const { mutate: createUser, isPending } = useCreateUser();
+    const { mutate: createUser, isPending: isCreating } = useCreateUser();
+    const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
+
+    useEffect(() => {
+        if (initialData) {
+            form.reset({
+                ...initialData,
+                password: "",
+            });
+        }
+    }, [initialData, form]);
+
+    const isPending = isCreating || isUpdating;
 
     const handleSubmit = async (data: UserFormValues) => {
-        createUser(data);
+        const mutationOptions = {
+            onSuccess: () => {
+                toast.success(
+                    `${data.fullName} ${
+                        initialData ? "updated" : "created"
+                    } successfully`
+                );
+                dialogClose();
+            },
+            onError: (error: AxiosError<BackendErrorResponse>) => {
+                if (error.response?.data?.errors) {
+                    for (const fieldName in error.response.data.errors) {
+                        if (
+                            Object.prototype.hasOwnProperty.call(
+                                userSchema.shape,
+                                fieldName
+                            )
+                        ) {
+                            form.setError(fieldName as keyof UserFormValues, {
+                                message: error.response.data.errors[fieldName],
+                            });
+                        }
+                    }
+                } else if (error.response?.data?.message) {
+                    toast.error(error.response.data.message);
+                } else if (error.request) {
+                    toast.error(
+                        "Cannot connect to server. Please check your connection."
+                    );
+                } else {
+                    toast.error(error.message);
+                }
+            },
+        };
+
+        if (initialData?.id) {
+            updateUser(
+                { userId: initialData.id, userData: data },
+                mutationOptions
+            );
+        } else {
+            createUser(data, mutationOptions);
+        }
     };
 
     return (
@@ -59,12 +115,6 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                     label="Password"
                     placeholder="********"
                     type="password"
-                />
-                <InputField
-                    control={form.control}
-                    name="phoneNumber"
-                    label="Phone Number"
-                    placeholder="08123456789"
                 />
                 <SelectField
                     control={form.control}
