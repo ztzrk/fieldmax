@@ -6,6 +6,8 @@ import {
     VenueFormValues,
     venuesPaginatedApiResponseSchema,
 } from "@/lib/schema/venue.schema";
+import { AxiosError } from "axios";
+import { BackendErrorResponse } from "@/types/error";
 
 export function useGetAllVenues(page: number, limit: number) {
     return useQuery({
@@ -34,8 +36,17 @@ export function useCreateVenue() {
             queryClient.invalidateQueries({ queryKey: ["venues"] });
             return newVenue;
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to create venue.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to create venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -50,8 +61,17 @@ export function useUpdateVenue(venueId: string) {
             queryClient.invalidateQueries({ queryKey: ["venues"] });
             queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to update venue.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to update venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -64,8 +84,17 @@ export function useDeleteVenue() {
             toast.success("Venue deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["venues"] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to delete venue.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to delete venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -78,8 +107,17 @@ export function useDeleteMultipleVenues() {
             toast.success(`${variables.length} venue(s) deleted successfully.`);
             queryClient.invalidateQueries({ queryKey: ["venues"] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to delete venues.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to delete venues.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -93,8 +131,17 @@ export function useApproveVenue(venueId: string) {
             queryClient.invalidateQueries({ queryKey: ["venues"] });
             queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to approve venue.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to approve venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -109,8 +156,17 @@ export function useRejectVenue(venueId: string) {
             queryClient.invalidateQueries({ queryKey: ["venues"] });
             queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to reject venue.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to reject venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -124,8 +180,17 @@ export function useUploadVenuePhotos(venueId: string) {
             toast.success("Photos uploaded successfully!");
             queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to upload photos.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to upload photos.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -138,8 +203,17 @@ export function useDeleteVenuePhoto(venueId: string) {
             toast.success("Photo deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to delete photo.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to delete photo.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
