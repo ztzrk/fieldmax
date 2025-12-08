@@ -28,9 +28,10 @@ export class UsersController {
         next: NextFunction
     ) => {
         try {
-            const query: PaginationDto = req.query;
-            const allUsers = await this.userService.findAllUsers(query);
-            res.status(200).json({ data: allUsers, message: "findAll" });
+            const query: PaginationDto =
+                (req as any).validatedQuery || req.query;
+            const result = await this.userService.findAllUsers(query);
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }
