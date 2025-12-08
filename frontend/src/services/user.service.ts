@@ -1,27 +1,22 @@
 import { api } from "@/lib/api";
-import {
-    UserFormValues,
-    usersApiResponseSchema,
-} from "@/lib/schema/user.schema";
+import { UserFormValues } from "@/lib/schema/user.schema";
 import { AxiosError } from "axios";
 
 const UserService = {
-    getAllUsers: async () => {
+    getAllUsers: async (page: number, limit: number) => {
         try {
-            const response = await api.get("/users");
-
-            const validatedData = usersApiResponseSchema.parse(
-                response.data.data
-            );
-
-            return validatedData;
+            const response = await api.get("/users", {
+                params: { page, limit },
+            });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
     },
     createUser: async (userData: UserFormValues) => {
         try {
-            await api.post("/users", userData);
+            const response = await api.post("/users", userData);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -29,7 +24,8 @@ const UserService = {
 
     updateUser: async (userId: string, userData: UserFormValues) => {
         try {
-            await api.put(`/users/${userId}`, userData);
+            const response = await api.put(`/users/${userId}`, userData);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -37,16 +33,18 @@ const UserService = {
 
     deleteUser: async (userId: string) => {
         try {
-            await api.delete(`/users/${userId}`);
+            const response = await api.delete(`/users/${userId}`);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
     },
     deleteMultipleUsers: async (userIds: string[]) => {
         try {
-            await api.post("/users/multiple", {
+            const response = await api.post("/users/multiple", {
                 ids: userIds,
             });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
