@@ -1,14 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { SportTypesService } from "./sport-types.service";
 import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
+import { PaginationDto } from "../dtos/pagination.dto";
 
 export class SportTypesController {
     public service = new SportTypesService();
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await this.service.findAll(req.query);
-            res.status(200).json({ data, message: "findAll" });
+            const query: PaginationDto =
+                (req as any).validatedQuery || req.query;
+            const result = await this.service.findAll(query);
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }
