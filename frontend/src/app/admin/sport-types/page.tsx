@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/shared/DataTable";
 import {
@@ -8,9 +8,18 @@ import {
 } from "@/hooks/useSportTypes";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import CreateSportTypeButton from "./components/CreateSportTypeButton";
+import { PaginationState } from "@tanstack/react-table";
 
 export default function AdminSportTypesPage() {
-    const { data: sportTypes, isLoading, isError } = useGetAllSportTypes();
+    const [{ pageIndex, pageSize }, setPagination] =
+        useState<PaginationState>({
+            pageIndex: 0,
+            pageSize: 10,
+        });
+    const { data, isLoading, isError } = useGetAllSportTypes(
+        pageIndex + 1,
+        pageSize
+    );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleSportTypes();
 
@@ -20,6 +29,8 @@ export default function AdminSportTypesPage() {
 
     if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError) return <p className="text-red-500">Error loading data.</p>;
+
+    const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
         <div>
@@ -34,8 +45,11 @@ export default function AdminSportTypesPage() {
             </div>
             <DataTable
                 columns={columns}
-                data={sportTypes || []}
+                data={data?.data || []}
                 onDeleteSelected={handleDeleteSelected}
+                pageCount={pageCount}
+                pagination={{ pageIndex, pageSize }}
+                onPaginationChange={setPagination}
             />
         </div>
     );
