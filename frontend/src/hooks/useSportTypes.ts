@@ -1,11 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SportTypeService from "@/services/sportType.service";
 import { toast } from "sonner";
+import { sportTypesPaginatedApiResponseSchema } from "@/lib/schema/sportType.schema";
 
-export function useGetAllSportTypes() {
+export function useGetAllSportTypes(page: number, limit: number) {
     return useQuery({
-        queryKey: ["sport-types"],
-        queryFn: SportTypeService.getAll,
+        queryKey: ["sport-types", { page, limit }],
+        queryFn: async () => {
+            const data = await SportTypeService.getAll(page, limit);
+            return sportTypesPaginatedApiResponseSchema.parse(data);
+        },
     });
 }
 
