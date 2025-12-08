@@ -1,18 +1,16 @@
 import { api } from "@/lib/api";
 import {
     FieldFormValues,
-    fieldsListApiResponseSchema,
 } from "@/lib/schema/field.schema";
 import { AxiosError } from "axios";
 
 const FieldService = {
-    getAll: async () => {
+    getAll: async (page: number, limit: number) => {
         try {
-            const response = await api.get("/fields");
-            const validatedData = fieldsListApiResponseSchema.parse(
-                response.data.data
-            );
-            return validatedData;
+            const response = await api.get("/fields", {
+                params: { page, limit },
+            });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -20,14 +18,15 @@ const FieldService = {
     getById: async (id: string) => {
         try {
             const response = await api.get(`/fields/${id}`);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
     },
     create: async (data: FieldFormValues) => {
         try {
-            await api.post("/fields", { ...data, schedules: [] });
+            const response = await api.post("/fields", { ...data, schedules: [] });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -35,21 +34,24 @@ const FieldService = {
 
     update: async (id: string, data: FieldFormValues) => {
         try {
-            await api.put(`/fields/${id}`, data);
+            const response = await api.put(`/fields/${id}`, data);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
     },
     delete: async (id: string) => {
         try {
-            await api.delete(`/fields/${id}`);
+            const response = await api.delete(`/fields/${id}`);
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
     },
     deleteMultiple: async (ids: string[]) => {
         try {
-            await api.post("/fields/multiple", { ids });
+            const response = await api.post("/fields/multiple", { ids });
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
