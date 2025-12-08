@@ -1,12 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import VenueService from "@/services/venue.service";
 import { toast } from "sonner";
-import { VenueApiResponse, VenueFormValues } from "@/lib/schema/venue.schema";
+import {
+    VenueApiResponse,
+    VenueFormValues,
+    venuesPaginatedApiResponseSchema,
+} from "@/lib/schema/venue.schema";
 
-export function useGetAllVenues() {
+export function useGetAllVenues(page: number, limit: number) {
     return useQuery({
-        queryKey: ["venues"],
-        queryFn: VenueService.getAll,
+        queryKey: ["venues", { page, limit }],
+        queryFn: async () => {
+            const data = await VenueService.getAll(page, limit);
+            return venuesPaginatedApiResponseSchema.parse(data);
+        },
     });
 }
 
