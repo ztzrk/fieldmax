@@ -1,16 +1,25 @@
 "use client";
-
+import { useState } from "react";
 import { useGetAllVenues } from "@/hooks/useVenues";
 import { CreateVenueWizard } from "./components/CreateVenueWizard";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
 import { columns } from "./components/column";
+import { PaginationState } from "@tanstack/react-table";
 
 export default function RenterVenuesPage() {
-    const { data: venues, isLoading } = useGetAllVenues();
+    const [{ pageIndex, pageSize }, setPagination] =
+        useState<PaginationState>({
+            pageIndex: 0,
+            pageSize: 10,
+        });
+
+    const { data, isLoading } = useGetAllVenues(pageIndex + 1, pageSize);
     if (isLoading) {
         return <FullScreenLoader />;
     }
+    const pageCount = data?.meta?.totalPages ?? 0;
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -22,10 +31,13 @@ export default function RenterVenuesPage() {
                 </div>
                 <CreateVenueWizard />
             </div>
-            <DataTable columns={columns} data={venues || []} />
-            <p className="text-center text-muted-foreground pt-10">
-                Your venues table will be displayed here.
-            </p>
+            <DataTable
+                columns={columns}
+                data={data?.data || []}
+                pageCount={pageCount}
+                pagination={{ pageIndex, pageSize }}
+                onPaginationChange={setPagination}
+            />
         </div>
     );
 }
