@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "../db";
 import { PaginationDto } from "../dtos/pagination.dto";
 import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
+import { ConflictError, NotFoundError } from "../utils/errors";
 
 export class SportTypesService {
     public async findAll(query: PaginationDto) {
@@ -29,7 +30,7 @@ export class SportTypesService {
 
     public async findById(id: string) {
         const sportType = await prisma.sportType.findUnique({ where: { id } });
-        if (!sportType) throw new Error("Sport type not found");
+        if (!sportType) throw new NotFoundError("Sport type not found");
         return sportType;
     }
 
@@ -38,7 +39,7 @@ export class SportTypesService {
             where: { name: data.name },
         });
         if (findSportType)
-            throw new Error("Sport type with this name already exists");
+            throw new ConflictError("Sport type with this name already exists");
 
         const newSportType = await prisma.sportType.create({ data });
         return newSportType;
@@ -59,7 +60,7 @@ export class SportTypesService {
             });
             return deletedSportType;
         } catch (error) {
-            throw new Error(
+            throw new ConflictError(
                 "Failed to delete sport type. It might be in use by some fields."
             );
         }
