@@ -10,9 +10,6 @@ export const userSchema = z.object({
         .min(8, { message: "Password minimal 8 karakter." })
         .optional()
         .or(z.literal("")),
-    phoneNumber: z
-        .string()
-        .min(1, { message: "Nomor telepon tidak boleh kosong." }),
     role: z.enum(["USER", "RENTER", "ADMIN"]),
 });
 
