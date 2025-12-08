@@ -7,18 +7,19 @@ export class VenuesController {
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            const query = (req as any).validatedQuery || req.query;
             if (req.user && req.user.role === "ADMIN") {
-                const data = await this.service.findAllAdmin(req.query);
-                res.status(200).json({ data, message: "findAllAdmin" });
+                const data = await this.service.findAllAdmin(query);
+                res.status(200).json(data);
             } else if (req.user && req.user.role === "RENTER") {
                 const data = await this.service.findAllForRenter(
                     req.user.id,
-                    req.query
+                    query
                 );
-                res.status(200).json({ data, message: "findAllForRenter" });
+                res.status(200).json(data);
             } else {
                 const data = await this.service.findAllPublic();
-                res.status(200).json({ data, message: "findAllPublic" });
+                res.status(200).json(data);
             }
         } catch (error) {
             next(error);
