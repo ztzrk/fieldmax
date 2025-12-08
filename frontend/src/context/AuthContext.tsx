@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         };
 
         initializeAuth();
-    }, [logout]);
+    }, []);
 
     const login = (user: User) => {
         setUser(user);
