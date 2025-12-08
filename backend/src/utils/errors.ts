@@ -33,7 +33,10 @@ export class ForbiddenError extends CustomError {
 }
 
 export class ValidationError extends CustomError {
-    constructor(message: string = "Validation failed.") {
+    constructor(
+        message: string = "Validation failed.",
+        public errors?: { [key: string]: string }
+    ) {
         super(message, 400);
     }
 }
