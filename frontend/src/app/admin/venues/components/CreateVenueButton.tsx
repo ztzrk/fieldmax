@@ -26,9 +26,7 @@ export function CreateVenueButton() {
                 setIsOpen(false);
                 router.push(`/admin/venues/${newVenue.id}/edit`);
             }
-        } catch (error) {
-            console.error("Creation failed:", error);
-        }
+        } catch (error) {}
     };
 
     return (
