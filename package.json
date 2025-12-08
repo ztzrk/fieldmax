@@ -1,0 +1,14 @@
+{
+  "name": "fieldmax",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.12"
+  }
+}
