@@ -5,27 +5,35 @@ import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
 import { ConflictError, NotFoundError } from "../utils/errors";
 
 export class SportTypesService {
-    public async findAll(query: PaginationDto) {
-        const { page = 1, limit = 10, search } = query;
-        const skip = (page - 1) * limit;
+    public async findAll(query: Partial<PaginationDto>) {
+        const { page, limit, search } = query;
+        const isPaginated = page !== undefined && limit !== undefined;
+        const skip = isPaginated ? (page! - 1) * limit! : 0;
 
         const whereCondition: Prisma.SportTypeWhereInput = search
             ? { name: { contains: search, mode: "insensitive" } }
             : {};
 
-        const [sportTypes, total] = await prisma.$transaction([
-            prisma.sportType.findMany({
-                where: whereCondition,
-                skip,
-                take: limit,
-            }),
-            prisma.sportType.count({
-                where: whereCondition,
-            }),
-        ]);
+        if (isPaginated) {
+            const [sportTypes, total] = await prisma.$transaction([
+                prisma.sportType.findMany({
+                    where: whereCondition,
+                    skip: skip,
+                    take: limit,
+                }),
+                prisma.sportType.count({
+                    where: whereCondition,
+                }),
+            ]);
 
-        const totalPages = Math.ceil(total / limit);
-        return { data: sportTypes, meta: { total, page, limit, totalPages } };
+            const totalPages = Math.ceil(total / limit!);
+            return { data: sportTypes, meta: { total, page, limit, totalPages } };
+        } else {
+            const sportTypes = await prisma.sportType.findMany({
+                where: whereCondition,
+            });
+            return { data: sportTypes }; // Return only data for non-paginated requests
+        }
     }
 
     public async findById(id: string) {
