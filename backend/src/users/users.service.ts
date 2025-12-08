@@ -5,6 +5,7 @@ import { RegisterUserDto } from "../auth/dtos/register-user.dto";
 import prisma from "../db";
 import * as bcrypt from "bcryptjs";
 import { PaginationDto } from "../dtos/pagination.dto";
+import { ConflictError, NotFoundError } from "../utils/errors";
 
 function exclude<User, Key extends keyof User>(
     user: User,
@@ -66,7 +67,7 @@ export class UserService {
         const user = await prisma.user.findUnique({
             where: { id: userId },
         });
-        if (!user) throw new Error("User not found");
+        if (!user) throw new NotFoundError("User not found");
         return exclude(user, ["password"]);
     }
 
@@ -91,11 +92,21 @@ export class UserService {
     public async createUser(
         userData: RegisterUserDto
     ): Promise<Omit<User, "password">> {
-        const findUser = await prisma.user.findUnique({
+        const findEmail = await prisma.user.findUnique({
             where: { email: userData.email },
         });
-        if (findUser) {
-            throw new Error(`This email ${userData.email} already exists.`);
+        if (findEmail) {
+            throw new ConflictError(
+                `This email ${userData.email} already exists.`
+            );
+        }
+        const findPhone = await prisma.user.findUnique({
+            where: { phoneNumber: userData.phoneNumber },
+        });
+        if (findPhone) {
+            throw new ConflictError(
+                `This phone number ${userData.phoneNumber} already exists.`
+            );
         }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
