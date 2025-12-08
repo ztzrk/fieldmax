@@ -9,12 +9,14 @@ export class FieldsController {
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await this.service.findAll(req.query);
-            res.status(200).json({ data, message: "findAll" });
+            const query = (req as any).validatedQuery || req.query;
+            const data = await this.service.findAll(query);
+            res.status(200).json(data);
         } catch (error) {
             next(error);
         }
     };
+
 
     public getById = async (
         req: Request,
