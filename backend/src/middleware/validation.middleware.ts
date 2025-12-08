@@ -8,22 +8,26 @@ export const validationMiddleware = (
     skipMissingProperties = false,
     validateQuery = false
 ): RequestHandler => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        const dto = plainToInstance(type, req.body);
-        validate(dto, { skipMissingProperties }).then(
-            (errors: ValidationError[]) => {
-                if (errors.length > 0) {
-                    const message = errors
-                        .map((error: ValidationError) =>
-                            Object.values(error.constraints || {})
-                        )
-                        .join(", ");
-                    res.status(400).json({ message });
-                } else {
-                    req.body = dto;
-                    next();
-                }
+    return async (req: Request, res: Response, next: NextFunction) => {
+        const source = validateQuery ? req.query : req.body;
+        const dto = plainToInstance(type, source);
+
+        const errors = await validate(dto, { skipMissingProperties });
+
+        if (errors.length > 0) {
+            const message = errors
+                .map((error: ValidationError) =>
+                    Object.values(error.constraints || {})
+                )
+                .join(", ");
+            res.status(400).json({ message });
+        } else {
+            if (validateQuery) {
+                (req as any).validatedQuery = dto;
+            } else {
+                req.body = dto;
             }
-        );
+            next();
+        }
     };
 };
