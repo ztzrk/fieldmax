@@ -19,12 +19,10 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { useDeleteUser, useUpdateUser } from "@/hooks/useUsers";
+import { useDeleteUser } from "@/hooks/useUsers";
 import { Checkbox } from "@/components/ui/checkbox";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { toast } from "sonner";
 import { UserForm } from "./userForm";
-import { UserFormValues } from "@/lib/schema/user.schema";
 
 export type User = {
     id: string;
@@ -37,27 +35,9 @@ export type User = {
 const ActionsCell = ({ user }: { user: User }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { mutate: deleteUser } = useDeleteUser();
-    const { mutate: updateUser, isPending } = useUpdateUser();
 
     const handleDelete = async () => {
         deleteUser(user.id);
-    };
-
-    const handleEditSubmit = async (data: UserFormValues) => {
-        updateUser(
-            { userId: user.id, userData: data },
-            {
-                onSuccess: () => {
-                    toast.success(`${user.fullName} updated successfully`);
-                    setIsOpen(false);
-                },
-                onError: (error) => {
-                    toast.error(
-                        `Failed to update ${user.fullName} error: ${error.message}`
-                    );
-                },
-            }
-        );
     };
 
     return (
@@ -98,11 +78,7 @@ const ActionsCell = ({ user }: { user: User }) => {
                 <DialogHeader>
                     <DialogTitle>Edit User</DialogTitle>
                 </DialogHeader>
-                <UserForm
-                    initialData={user}
-                    onSubmit={handleEditSubmit}
-                    isPending={isPending}
-                />
+                <UserForm initialData={user} dialogClose={() => setIsOpen(false)} />
             </DialogContent>
         </Dialog>
     );
