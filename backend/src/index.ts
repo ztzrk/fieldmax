@@ -19,7 +19,7 @@ import { ProfileRoute } from "./profile/profile.route";
 import { BookingsRoute } from "./bookings/bookings.route";
 import { PaymentsRoute } from "./payments/payments.route";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CustomError } from "./utils/errors";
+import { CustomError, ValidationError } from "./utils/errors";
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
@@ -74,6 +74,9 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof CustomError) {
         statusCode = err.statusCode;
         message = err.message;
+        if (err instanceof ValidationError && err.errors) {
+            return res.status(statusCode).json({ errors: err.errors });
+        }
     } else if (err instanceof PrismaClientKnownRequestError) {
         if (err.code === "P2002") {
             statusCode = 409; // Conflict
