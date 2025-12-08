@@ -4,13 +4,19 @@ import * as bcrypt from "bcryptjs";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { randomBytes } from "crypto";
 import prisma from "../db";
+import {
+    ConflictError,
+    ForbiddenError,
+    NotFoundError,
+    UnauthorizedError,
+} from "../utils/errors";
 
 export class AuthService {
     public async register(
         userData: RegisterUserDto
     ): Promise<Omit<User, "password">> {
         if (userData.role === "ADMIN") {
-            throw new Error(
+            throw new ForbiddenError(
                 "Admin role cannot be registered through this public endpoint."
             );
         }
@@ -19,7 +25,9 @@ export class AuthService {
             where: { email: userData.email },
         });
         if (findUser) {
-            throw new Error(`This email ${userData.email} already exists.`);
+            throw new ConflictError(
+                `This email ${userData.email} already exists.`
+            );
         }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -42,7 +50,7 @@ export class AuthService {
             where: { email: userData.email },
         });
         if (!findUser) {
-            throw new Error(`This email ${userData.email} was not found.`);
+            throw new NotFoundError(`This email ${userData.email} was not found.`);
         }
 
         const isPasswordMatching = await bcrypt.compare(
@@ -50,7 +58,7 @@ export class AuthService {
             findUser.password
         );
         if (!isPasswordMatching) {
-            throw new Error("Password not matching");
+            throw new UnauthorizedError("Password not matching");
         }
 
         const sessionId = randomBytes(32).toString("hex");
