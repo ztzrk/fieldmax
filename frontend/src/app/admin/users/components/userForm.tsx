@@ -7,14 +7,16 @@ import { Form } from "@/components/ui/form";
 import { UserFormValues, userSchema } from "@/lib/schema/user.schema";
 import { InputField } from "@/components/shared/form/InputField";
 import { SelectField } from "@/components/shared/form/SelectField";
+import { useCreateUser } from "@/hooks/useUsers";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 interface UserFormProps {
     initialData?: Partial<UserFormValues>;
-    onSubmit: (values: UserFormValues) => void;
-    isPending: boolean;
+    dialogClose: () => void;
 }
 
-export function UserForm({ initialData, onSubmit, isPending }: UserFormProps) {
+export function UserForm({ initialData, dialogClose }: UserFormProps) {
     const form = useForm<UserFormValues>({
         resolver: zodResolver(userSchema),
         defaultValues: initialData || {
@@ -26,9 +28,18 @@ export function UserForm({ initialData, onSubmit, isPending }: UserFormProps) {
         },
     });
 
+    const { mutate: createUser, isPending } = useCreateUser();
+
+    const handleSubmit = async (data: UserFormValues) => {
+        createUser(data);
+    };
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="space-y-4"
+            >
                 <InputField
                     control={form.control}
                     name="fullName"
