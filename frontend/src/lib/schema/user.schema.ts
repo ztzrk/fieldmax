@@ -22,11 +22,23 @@ export const userApiResponseSchema = z.object({
     id: z.string().uuid(),
     fullName: z.string(),
     email: z.string().email(),
-    phoneNumber: z.string().nullable(),
     role: z.enum(["USER", "RENTER", "ADMIN"]),
     createdAt: z.string().datetime(),
 });
 
 export const usersApiResponseSchema = z.array(userApiResponseSchema);
 
+export const usersPaginatedApiResponseSchema = z.object({
+    data: usersApiResponseSchema,
+    meta: z.object({
+        total: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        totalPages: z.number(),
+    }),
+});
+
 export type UserApiResponse = z.infer<typeof userApiResponseSchema>;
+export type UsersPaginatedApiResponse = z.infer<
+    typeof usersPaginatedApiResponseSchema
+>;
