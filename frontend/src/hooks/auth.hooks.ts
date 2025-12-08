@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAuth, User } from "@/context/AuthContext";
 import { AxiosError } from "axios";
+import { BackendErrorResponse } from "@/types/error";
 
 export function useLogin() {
     const queryClient = useQueryClient();
@@ -28,28 +29,16 @@ export function useLogin() {
 
             router.push(targetDashboard);
         },
-        onError: (error: AxiosError) => {
-            if (error.response) {
-                if (error.response.status === 401) {
-                    toast.error("Login Gagal", {
-                        description:
-                            "Email atau password yang Anda masukkan salah.",
-                    });
-                } else {
-                    toast.error("Server Error", {
-                        description: "Terjadi kesalahan di server kami.",
-                    });
-                }
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Login failed.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
             } else if (error.request) {
-                toast.error("Tidak Terhubung", {
-                    description:
-                        "Tidak dapat terhubung ke server. Silakan periksa koneksi Anda.",
-                });
+                errorMessage = "Cannot connect to server. Please check your connection.";
             } else {
-                toast.error("Terjadi Kesalahan", {
-                    description: error.message,
-                });
+                errorMessage = error.message;
             }
+            toast.error("Login Error", { description: errorMessage });
         },
     });
 }
