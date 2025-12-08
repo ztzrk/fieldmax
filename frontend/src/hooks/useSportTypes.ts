@@ -1,7 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SportTypeService from "@/services/sportType.service";
 import { toast } from "sonner";
-import { sportTypesPaginatedApiResponseSchema } from "@/lib/schema/sportType.schema";
+import {
+    sportTypesPaginatedApiResponseSchema,
+    sportTypesApiResponseSchema,
+} from "@/lib/schema/sportType.schema";
+import { AxiosError } from "axios";
+import { BackendErrorResponse } from "@/types/error";
 
 export function useGetAllSportTypes(page: number, limit: number) {
     return useQuery({
@@ -9,6 +14,16 @@ export function useGetAllSportTypes(page: number, limit: number) {
         queryFn: async () => {
             const data = await SportTypeService.getAll(page, limit);
             return sportTypesPaginatedApiResponseSchema.parse(data);
+        },
+    });
+}
+
+export function useGetAllSportTypesWithoutPagination() {
+    return useQuery({
+        queryKey: ["sport-types-all"],
+        queryFn: async () => {
+            const data = await SportTypeService.getAll();
+            return sportTypesApiResponseSchema.parse(data.data);
         },
     });
 }
@@ -22,8 +37,16 @@ export function useCreateSportType() {
             toast.success("Sport Type created successfully!");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to create sport type.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to create sport type.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -42,8 +65,16 @@ export function useUpdateSportType() {
             toast.success("Sport Type updated successfully!");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to update sport type.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to update sport type.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -56,8 +87,16 @@ export function useDeleteSportType() {
             toast.success("Sport Type deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to delete sport type.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to delete sport type.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
@@ -70,8 +109,16 @@ export function useDeleteMultipleSportTypes() {
             toast.success("Sport Types deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to delete sport types.");
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to delete sport types.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
         },
     });
 }
