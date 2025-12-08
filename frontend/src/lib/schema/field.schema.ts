@@ -24,4 +24,17 @@ export type FieldFormValues = z.infer<typeof fieldFormSchema>;
 
 export const fieldsListApiResponseSchema = z.array(fieldApiResponseSchema);
 
+export const fieldsPaginatedApiResponseSchema = z.object({
+    data: fieldsListApiResponseSchema,
+    meta: z.object({
+        total: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        totalPages: z.number(),
+    }),
+});
+
 export type FieldApiResponse = z.infer<typeof fieldApiResponseSchema>;
+export type FieldsPaginatedApiResponse = z.infer<
+    typeof fieldsPaginatedApiResponseSchema
+>;
