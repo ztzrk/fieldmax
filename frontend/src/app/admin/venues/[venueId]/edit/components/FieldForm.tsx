@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGetAllSportTypes } from "@/hooks/useSportTypes";
+import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
@@ -22,7 +22,7 @@ export function FieldForm({
     isPending,
 }: FieldFormProps) {
     const { data: sportTypes, isLoading: isLoadingSportTypes } =
-        useGetAllSportTypes();
+        useGetAllSportTypesWithoutPagination();
 
     const sportTypeOptions =
         sportTypes?.map((st: { id: string; name: string }) => ({
