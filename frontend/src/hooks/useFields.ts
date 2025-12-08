@@ -1,12 +1,18 @@
-import { FieldFormValues } from "@/lib/schema/field.schema";
+import {
+    FieldFormValues,
+    fieldsPaginatedApiResponseSchema,
+} from "@/lib/schema/field.schema";
 import FieldService from "@/services/field.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export function useGetAllFields() {
+export function useGetAllFields(page: number, limit: number) {
     return useQuery({
-        queryKey: ["fields"],
-        queryFn: () => FieldService.getAll(),
+        queryKey: ["fields", { page, limit }],
+        queryFn: async () => {
+            const data = await FieldService.getAll(page, limit);
+            return fieldsPaginatedApiResponseSchema.parse(data);
+        },
     });
 }
 
