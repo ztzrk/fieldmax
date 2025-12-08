@@ -65,4 +65,17 @@ export type VenueDetailApiResponse = z.infer<
 
 export const venuesListApiResponseSchema = z.array(venueApiResponseSchema);
 
+export const venuesPaginatedApiResponseSchema = z.object({
+    data: venuesListApiResponseSchema,
+    meta: z.object({
+        total: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        totalPages: z.number(),
+    }),
+});
+
 export type VenueApiResponse = z.infer<typeof venueApiResponseSchema>;
+export type VenuesPaginatedApiResponse = z.infer<
+    typeof venuesPaginatedApiResponseSchema
+>;
