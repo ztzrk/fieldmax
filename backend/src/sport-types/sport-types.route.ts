@@ -4,6 +4,7 @@ import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
+import { PaginationDto } from "../dtos/pagination.dto";
 
 export class SportTypesRoute {
     public path = "/sport-types";
@@ -15,7 +16,13 @@ export class SportTypesRoute {
     }
 
     private initializeRoutes() {
-        this.router.get(`${this.path}`, this.controller.getAll);
+        this.router.get(
+            `${this.path}`,
+            authMiddleware,
+            adminOnlyMiddleware,
+            validationMiddleware(PaginationDto, true, true),
+            this.controller.getAll
+        );
 
         this.router.post(
             `${this.path}`,
