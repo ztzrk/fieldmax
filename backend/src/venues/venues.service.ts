@@ -4,6 +4,12 @@ import { CreateVenueDto, UpdateVenueDto } from "./dtos/venue.dto";
 import e from "express";
 import { supabase } from "../lib/supabase";
 import { PaginationDto } from "../dtos/pagination.dto";
+import {
+    ConflictError,
+    NotFoundError,
+    ValidationError,
+    CustomError,
+} from "../utils/errors";
 
 export class VenuesService {
     public async findAllAdmin(query: PaginationDto) {
@@ -130,7 +136,7 @@ export class VenuesService {
             },
         });
 
-        if (!venue) throw new Error("Venue not found");
+        if (!venue) throw new NotFoundError("Venue not found");
 
         const transformedVenue = {
             ...venue,
@@ -152,7 +158,7 @@ export class VenuesService {
         const renter = await prisma.user.findFirst({
             where: { id: data.renterId, role: "RENTER" },
         });
-        if (!renter) throw new Error("Invalid renter ID provided.");
+        if (!renter) throw new ValidationError("Invalid renter ID provided.");
 
         const existingVenue = await prisma.venue.findFirst({
             where: {
@@ -161,7 +167,7 @@ export class VenuesService {
             },
         });
         if (existingVenue) {
-            throw new Error(
+            throw new ConflictError(
                 "A venue with this name already exists for this renter."
             );
         }
@@ -215,11 +221,11 @@ export class VenuesService {
         });
 
         if (!venueWithPhotoCount) {
-            throw new Error("Venue not found.");
+            throw new NotFoundError("Venue not found.");
         }
 
         if (venueWithPhotoCount._count.photos < 3) {
-            throw new Error(
+            throw new ValidationError(
                 "Venue must have at least 3 photos to be approved."
             );
         }
@@ -244,11 +250,11 @@ export class VenuesService {
         const venueToUpdate = await prisma.venue.findUnique({ where: { id } });
 
         if (!venueToUpdate) {
-            throw new Error("Venue not found.");
+            throw new NotFoundError("Venue not found.");
         }
 
         if (venueToUpdate.status !== "REJECTED") {
-            throw new Error("Only rejected venues can be resubmitted.");
+            throw new ValidationError("Only rejected venues can be resubmitted.");
         }
 
         return prisma.venue.update({
@@ -281,8 +287,8 @@ export class VenuesService {
 
         const photoDataToSave = uploadResults.map((result, index) => {
             if (result.error) {
-                throw new Error(
-                    `Failed to upload file: ${files[index].originalname}`
+                throw new CustomError(
+                    `Failed to upload file: ${files[index].originalname}`, 500
                 );
             }
             const {
