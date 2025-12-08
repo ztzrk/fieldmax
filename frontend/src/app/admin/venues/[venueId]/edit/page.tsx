@@ -23,8 +23,15 @@ import { PageHeader } from "@/app/admin/components/PageHeader";
 import { VenueFormValues } from "@/lib/schema/venue.schema";
 import { DataTable } from "@/components/shared/DataTable";
 import { getFieldColumns } from "./components/columns";
+import { PaginationState } from "@tanstack/react-table";
+import { useState } from "react";
 
 export default function EditVenuePage() {
+    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
     const params = useParams();
     const venueId = Array.isArray(params.venueId)
         ? params.venueId[0]
@@ -38,6 +45,7 @@ export default function EditVenuePage() {
     const { mutate: updateVenue, isPending: isUpdating } = useUpdateVenue(
         venueId as string
     );
+
     const { mutateAsync: uploadPhotos, isPending: isUploading } =
         useUploadVenuePhotos(venueId as string);
 
@@ -56,6 +64,8 @@ export default function EditVenuePage() {
     const handleUpload = async (files: File[]) => {
         await uploadPhotos(Array.from(files));
     };
+
+    const pageCount = venue?.meta?.totalPages ?? 0;
 
     return (
         <div className="space-y-8">
@@ -124,6 +134,9 @@ export default function EditVenuePage() {
                     <DataTable
                         columns={getFieldColumns(venueId)}
                         data={venue.fields || []}
+                        pageCount={pageCount}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
                     />
                 </CardContent>
             </Card>
