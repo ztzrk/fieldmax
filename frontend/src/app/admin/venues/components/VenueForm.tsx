@@ -44,11 +44,13 @@ export function VenueForm({
                     control={form.control}
                     name="name"
                     label="Venue Name"
+                    placeholder="Bintang Futsal"
                 />
                 <InputField
                     control={form.control}
                     name="address"
                     label="Address"
+                    placeholder="Kalibaru Street No. 10, Surabaya"
                 />
                 <SelectField
                     control={form.control}
@@ -56,11 +58,13 @@ export function VenueForm({
                     label="Renter (Owner)"
                     placeholder="Select a renter"
                     options={renterOptions}
+                    disabled={!!initialData}
                 />
                 <InputField
                     control={form.control}
                     name="description"
                     label="Description"
+                    placeholder="A brief description about the venue"
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}
