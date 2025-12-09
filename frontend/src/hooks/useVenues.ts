@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import {
     VenueApiResponse,
     VenueFormValues,
+    venueDetailApiResponseSchema,
     venuesPaginatedApiResponseSchema,
 } from "@/lib/schema/venue.schema";
 import { AxiosError } from "axios";
@@ -22,7 +23,10 @@ export function useGetAllVenues(page: number, limit: number) {
 export function useGetVenueById(venueId: string) {
     return useQuery({
         queryKey: ["venue", venueId],
-        queryFn: () => VenueService.getById(venueId),
+        queryFn: async () => {
+            const response = await VenueService.getById(venueId);
+            return venueDetailApiResponseSchema.parse(response.data);
+        },
         enabled: !!venueId,
     });
 }
