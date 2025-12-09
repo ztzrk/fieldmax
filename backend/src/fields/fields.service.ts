@@ -5,12 +5,12 @@ import { CreateFieldDto, UpdateFieldDto } from "./dtos/field.dto";
 import { ScheduleOverrideDto } from "./dtos/override.dto";
 import { GetAvailabilityDto } from "./dtos/availability.dtos";
 import { PaginationDto } from "../dtos/pagination.dto";
+import { ValidationError } from "../utils/errors";
 
 export class FieldsService {
     public async findAll(query: PaginationDto) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
-
         const whereCondition: Prisma.FieldWhereInput = search
             ? {
                   name: {
@@ -19,7 +19,6 @@ export class FieldsService {
                   },
               }
             : {};
-
         const [fields, total] = [
             await prisma.field.findMany({
                 where: whereCondition,
@@ -48,7 +47,6 @@ export class FieldsService {
             await prisma.field.count({ where: whereCondition }),
         ];
         const totalPages = Math.ceil(total / limit);
-
         return {
             data: fields,
             meta: {
@@ -77,6 +75,12 @@ export class FieldsService {
             where: { id: data.venueId },
         });
         if (!venue) throw new Error("Venue not found.");
+
+        if (venue.status !== "APPROVED") {
+            throw new ValidationError(
+                "Fields can only be added to approved venues."
+            );
+        }
 
         if (user.role === "RENTER" && venue.renterId !== user.id) {
             throw new Error("Forbidden: You do not own this venue.");
