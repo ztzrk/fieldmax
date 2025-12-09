@@ -32,6 +32,12 @@ export class VenuesRoute {
         );
 
         this.router.get(
+            `${this.path}/list`,
+            authMiddleware,
+            this.controller.getList
+        );
+
+        this.router.get(
             `${this.path}/:id`,
             authMiddleware,
             this.controller.getById
