@@ -20,6 +20,15 @@ export const fieldFormSchema = z.object({
     description: z.string().optional(),
 });
 
+export const fieldDetailApiResponseSchema = z
+    .object({
+        name: z.string(),
+        pricePerHour: z.number(),
+        description: z.string().nullable(),
+        sportTypeId: z.string().uuid(),
+    })
+    .passthrough();
+
 export type FieldFormValues = z.infer<typeof fieldFormSchema>;
 
 export const fieldsListApiResponseSchema = z.array(fieldApiResponseSchema);
