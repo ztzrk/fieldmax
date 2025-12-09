@@ -73,7 +73,7 @@ export class UserService {
                 },
                 orderBy: { createdAt: "desc" },
             });
-            return { data: users }; // Return only data for non-paginated requests
+            return { data: users };
         }
     }
 
