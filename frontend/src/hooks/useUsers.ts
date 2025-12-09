@@ -23,7 +23,7 @@ export function useGetAllUsersWithoutPagination() {
     return useQuery({
         queryKey: ["users-all"],
         queryFn: async () => {
-            const data = await UserService.getAllUsers(); // Call without pagination
+            const data = await UserService.getAllUsers();
             return usersApiResponseSchema.parse(data.data);
         },
     });
@@ -43,7 +43,8 @@ export function useCreateUser() {
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -71,7 +72,8 @@ export function useUpdateUser() {
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -93,7 +95,8 @@ export function useDeleteUser() {
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -115,7 +118,8 @@ export function useDeleteMultipleUsers() {
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
