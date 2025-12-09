@@ -103,6 +103,21 @@ export class VenuesService {
         return venues;
     }
 
+    public async findAllList() {
+        return prisma.venue.findMany({
+            select: { id: true, name: true },
+            orderBy: { name: "asc" },
+        });
+    }
+
+    public async findAllListForRenter(renterId: string) {
+        return prisma.venue.findMany({
+            where: { renterId },
+            select: { id: true, name: true },
+            orderBy: { name: "asc" },
+        });
+    }
+
     public async findById(id: string) {
         const venue = await prisma.venue.findUnique({
             where: { id },
@@ -193,7 +208,7 @@ export class VenuesService {
     public async update(id: string, data: UpdateVenueDto) {
         const updatedVenue = await prisma.venue.update({
             where: { id },
-            data,
+            data: data,
         });
         return updatedVenue;
     }
@@ -254,7 +269,9 @@ export class VenuesService {
         }
 
         if (venueToUpdate.status !== "REJECTED") {
-            throw new ValidationError("Only rejected venues can be resubmitted.");
+            throw new ValidationError(
+                "Only rejected venues can be resubmitted."
+            );
         }
 
         return prisma.venue.update({
@@ -288,7 +305,8 @@ export class VenuesService {
         const photoDataToSave = uploadResults.map((result, index) => {
             if (result.error) {
                 throw new CustomError(
-                    `Failed to upload file: ${files[index].originalname}`, 500
+                    `Failed to upload file: ${files[index].originalname}`,
+                    500
                 );
             }
             const {
