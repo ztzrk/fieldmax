@@ -1,5 +1,6 @@
 import {
     FieldFormValues,
+    fieldDetailApiResponseSchema,
     fieldsPaginatedApiResponseSchema,
 } from "@/lib/schema/field.schema";
 import FieldService from "@/services/field.service";
@@ -21,7 +22,10 @@ export function useGetAllFields(page: number, limit: number) {
 export function useGetFieldById(fieldId: string) {
     return useQuery({
         queryKey: ["field", fieldId],
-        queryFn: () => FieldService.getById(fieldId),
+        queryFn: async () => {
+            const response = await FieldService.getById(fieldId);
+            return fieldDetailApiResponseSchema.parse(response.data);
+        },
         enabled: !!fieldId,
     });
 }
