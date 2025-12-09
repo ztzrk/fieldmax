@@ -22,6 +22,7 @@ interface SelectFieldProps<T extends FieldValues> {
     label: string;
     placeholder?: string;
     options: { value: string; label: string }[];
+    disabled?: boolean;
 }
 
 export function SelectField<T extends FieldValues>({
@@ -30,6 +31,7 @@ export function SelectField<T extends FieldValues>({
     label,
     placeholder,
     options,
+    disabled,
 }: SelectFieldProps<T>) {
     return (
         <FormField
@@ -41,6 +43,7 @@ export function SelectField<T extends FieldValues>({
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={disabled}
                     >
                         <FormControl>
                             <SelectTrigger>
