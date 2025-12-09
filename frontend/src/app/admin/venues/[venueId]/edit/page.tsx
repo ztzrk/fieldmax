@@ -65,7 +65,7 @@ export default function EditVenuePage() {
         await uploadPhotos(Array.from(files));
     };
 
-    const pageCount = venue?.meta?.totalPages ?? 0;
+    const pageCount = venue.fields.length;
 
     return (
         <div className="space-y-8">
@@ -127,7 +127,13 @@ export default function EditVenuePage() {
                                 Manage all fields for {venue.name}
                             </CardDescription>
                         </div>
-                        <CreateFieldButton />
+                        {venue.status === "APPROVED" ? (
+                            <CreateFieldButton venueId={venueId} />
+                        ) : (
+                            <p className="text-sm text-muted-foreground">
+                                This venue must be approved before you can add fields.
+                            </p>
+                        )}
                     </div>
                 </CardHeader>
                 <CardContent>
