@@ -8,11 +8,10 @@ import { columns } from "./components/column";
 import { PaginationState } from "@tanstack/react-table";
 
 export default function RenterVenuesPage() {
-    const [{ pageIndex, pageSize }, setPagination] =
-        useState<PaginationState>({
-            pageIndex: 0,
-            pageSize: 10,
-        });
+    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
 
     const { data, isLoading } = useGetAllVenues(pageIndex + 1, pageSize);
     if (isLoading) {
