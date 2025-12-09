@@ -52,6 +52,7 @@ export default function EditFieldPage() {
                         Field Details
                     </h2>
                     <FieldForm
+                        key={field.id}
                         initialData={field}
                         onSubmit={handleFormSubmit}
                         isPending={isPending}
