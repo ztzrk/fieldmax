@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { ImageOff, Trash2 } from "lucide-react"; // Import ImageOff
 import { useDeleteVenuePhoto } from "@/hooks/useVenues";
 import {
     Dialog,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useState } from "react";
 
 type Photo = { id: string; url: string };
 
@@ -22,6 +23,11 @@ interface PhotoGalleryProps {
 
 export function PhotoGallery({ photos, venueId }: PhotoGalleryProps) {
     const { mutate: deletePhoto } = useDeleteVenuePhoto(venueId);
+    const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+
+    const handleImageError = (photoId: string) => {
+        setImageErrors((prevErrors) => ({ ...prevErrors, [photoId]: true }));
+    };
 
     if (photos.length === 0) {
         return (
@@ -40,13 +46,23 @@ export function PhotoGallery({ photos, venueId }: PhotoGalleryProps) {
                 >
                     <Dialog>
                         <DialogTrigger asChild>
-                            <button className="w-full h-full">
-                                <Image
-                                    src={photo.url}
-                                    alt="Venue Photo"
-                                    fill
-                                    className="object-cover cursor-pointer transition-transform group-hover:scale-105"
-                                />
+                            <button className="w-full h-full flex items-center justify-center bg-muted">
+                                {imageErrors[photo.id] ? (
+                                    <div className="flex items-center justify-center w-full h-full text-muted-foreground">
+                                        <ImageOff className="h-1/3 w-1/3 text-gray-400" />
+                                    </div>
+                                ) : (
+                                    <Image
+                                        src={photo.url}
+                                        alt="Venue Photo"
+                                        fill
+                                        unoptimized={true}
+                                        className="object-cover cursor-pointer transition-transform group-hover:scale-105"
+                                        onError={() =>
+                                            handleImageError(photo.id)
+                                        }
+                                    />
+                                )}
                             </button>
                         </DialogTrigger>
                         <DialogContent className="max-w-4xl p-0 border-0 bg-transparent">
@@ -55,13 +71,21 @@ export function PhotoGallery({ photos, venueId }: PhotoGalleryProps) {
                                     Venue Photo Preview
                                 </DialogTitle>
                             </VisuallyHidden>
-                            <Image
-                                src={photo.url}
-                                alt="Venue Photo Preview"
-                                width={1200}
-                                height={800}
-                                className="w-full h-auto object-contain"
-                            />
+                            {imageErrors[photo.id] ? (
+                                <div className="flex items-center justify-center w-full h-full min-h-[400px] bg-muted text-muted-foreground">
+                                    <ImageOff className="h-24 w-24 text-gray-400" />
+                                </div>
+                            ) : (
+                                <Image
+                                    src={photo.url}
+                                    alt="Venue Photo Preview"
+                                    width={1200}
+                                    height={800}
+                                    unoptimized={true}
+                                    className="w-full h-auto object-contain"
+                                    onError={() => handleImageError(photo.id)}
+                                />
+                            )}
                         </DialogContent>
                     </Dialog>
 
