@@ -57,6 +57,7 @@ export function FieldForm({
                     name="pricePerHour"
                     label="Price per Hour"
                     type="number"
+                    placeholder="100000"
                 />
                 <SelectField
                     control={form.control}
@@ -69,6 +70,7 @@ export function FieldForm({
                     control={form.control}
                     name="description"
                     label="Description (Optional)"
+                    placeholder="A brief description about the field"
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}
