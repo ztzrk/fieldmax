@@ -26,6 +26,24 @@ export class VenuesController {
         }
     };
 
+    public getList = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            let data;
+            if (req.user && req.user.role === "RENTER") {
+                data = await this.service.findAllListForRenter(req.user.id);
+            } else {
+                data = await this.service.findAllList();
+            }
+            res.status(200).json({ data });
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public getById = async (
         req: Request,
         res: Response,
