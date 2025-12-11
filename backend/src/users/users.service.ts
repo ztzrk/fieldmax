@@ -116,14 +116,6 @@ export class UserService {
                 `This email ${userData.email} already exists.`
             );
         }
-        const findPhone = await prisma.user.findUnique({
-            where: { phoneNumber: userData.phoneNumber },
-        });
-        if (findPhone) {
-            throw new ConflictError(
-                `This phone number ${userData.phoneNumber} already exists.`
-            );
-        }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const createdUser = await prisma.user.create({

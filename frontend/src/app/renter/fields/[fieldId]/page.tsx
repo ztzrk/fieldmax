@@ -8,12 +8,13 @@ import {
 } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
-import { FieldForm } from "../../venues/[venueId]/edit/components/FieldForm";
-import { PageHeader } from "../../components/PageHeader";
+import { PageHeader } from "@/app/admin/components/PageHeader";
 import { Field, FieldFormValues } from "@/lib/schema/field.schema";
-import { FieldStatusUpdater } from "./FieldStatusUpdater";
+import { FieldStatusUpdater } from "@/app/admin/fields/[fieldId]/FieldStatusUpdater";
+import { useAuth } from "@/context/AuthContext";
+import { FieldForm } from "@/app/admin/venues/[venueId]/edit/components/FieldForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldPhotoGallery } from "./FieldPhotoGallery";
+import { FieldPhotoGallery } from "@/app/admin/fields/[fieldId]/FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
 
 export default function EditFieldPage() {
@@ -24,14 +25,15 @@ export default function EditFieldPage() {
 
     const searchParams = useSearchParams();
     const fromVenueId = searchParams.get("fromVenue");
+    const { user } = useAuth();
 
     if (!fieldId) {
         return <FullScreenLoader />;
     }
 
     const backHref = fromVenueId
-        ? `/admin/venues/${fromVenueId}/edit`
-        : "/admin/venues";
+        ? `/renter/venues/${fromVenueId}`
+        : "/renter/venues";
     const {
         data: field,
         isLoading,
@@ -73,7 +75,10 @@ export default function EditFieldPage() {
                         <CardContent>
                             <FieldForm
                                 key={field.id}
-                                initialData={field}
+                                initialData={{
+                                    ...field,
+                                    description: field.description ?? "",
+                                }}
                                 onSubmit={handleFormSubmit}
                                 isPending={isPending}
                             />
@@ -92,7 +97,12 @@ export default function EditFieldPage() {
                     </Card>
                 </div>
                 <div className="space-y-6">
-                    <FieldStatusUpdater field={field as Field} role="ADMIN" />
+                    {user?.role === "RENTER" && (
+                        <FieldStatusUpdater
+                            field={field as Field}
+                            role="RENTER"
+                        />
+                    )}
                     <Card>
                         <CardHeader>
                             <CardTitle>Add New Photos</CardTitle>

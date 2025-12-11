@@ -18,7 +18,11 @@ export class UploadsController {
             }
 
             const venueService = new VenuesService();
-            const savedPhotos = await venueService.addPhotos(venueId, files);
+            const savedPhotos = await venueService.addPhotos(
+                venueId,
+                files,
+                req.user!
+            );
 
             res.status(201).json({
                 data: savedPhotos,
@@ -43,7 +47,11 @@ export class UploadsController {
             }
 
             const fieldService = new FieldsService();
-            const savedPhotos = await fieldService.addPhotos(fieldId, files);
+            const savedPhotos = await fieldService.addPhotos(
+                fieldId,
+                files,
+                req.user!
+            );
 
             res.status(201).json({
                 data: savedPhotos,

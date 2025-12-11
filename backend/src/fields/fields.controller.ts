@@ -17,7 +17,6 @@ export class FieldsController {
         }
     };
 
-
     public getById = async (
         req: Request,
         res: Response,
@@ -144,6 +143,51 @@ export class FieldsController {
             const query: GetAvailabilityDto = req.query as any;
             const data = await this.service.getAvailability(fieldId, query);
             res.status(200).json({ data });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public approve = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const { id } = req.params;
+            const data = await this.service.approve(id);
+            res.status(200).json({ data, message: "field approved" });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public reject = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+            const data = req.body;
+            const rejectedField = await this.service.reject(id, data);
+            res.status(200).json({
+                data: rejectedField,
+                message: "field rejected",
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public resubmit = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const { id } = req.params;
+            const data = await this.service.resubmit(id);
+            res.status(200).json({
+                data,
+                message: "Field resubmitted for review",
+            });
         } catch (error) {
             next(error);
         }

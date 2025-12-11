@@ -283,7 +283,11 @@ export class VenuesService {
         });
     }
 
-    public async addPhotos(venueId: string, files: Express.Multer.File[]) {
+    public async addPhotos(
+        venueId: string,
+        files: Express.Multer.File[],
+        user: User
+    ) {
         const timestamp = Date.now();
 
         const uploadPromises = files.map((file, index) => {
@@ -297,6 +301,7 @@ export class VenuesService {
                 .from("fieldmax-assets")
                 .upload(filePath, file.buffer, {
                     contentType: file.mimetype,
+                    upsert: true,
                 });
         });
 
@@ -304,9 +309,9 @@ export class VenuesService {
 
         const photoDataToSave = uploadResults.map((result, index) => {
             if (result.error) {
-                throw new CustomError(
-                    `Failed to upload file: ${files[index].originalname}`,
-                    500
+                console.error("Supabase upload error:", result.error);
+                throw new Error(
+                    `Failed to upload file: ${files[index].originalname}. Reason: ${result.error.message}`
                 );
             }
             const {
@@ -336,7 +341,14 @@ export class VenuesService {
 
         if (photo) {
             const filePath = photo.url.split("/fieldmax-assets/")[1];
-            await supabase.storage.from("fieldmax-assets").remove([filePath]);
+            const { error } = await supabase.storage
+                .from("fieldmax-assets")
+                .remove([filePath]);
+            if (error) {
+                throw new Error(
+                    `Failed to delete photo from storage: ${error.message}`
+                );
+            }
         }
 
         return prisma.venuePhoto.delete({ where: { id: photoId } });

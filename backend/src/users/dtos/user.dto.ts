@@ -11,10 +11,6 @@ export class UpdateUserDto {
     @IsOptional()
     email?: string;
 
-    @IsString()
-    @IsOptional()
-    phoneNumber?: string;
-
     @IsEnum(UserRole)
     @IsOptional()
     role?: UserRole;

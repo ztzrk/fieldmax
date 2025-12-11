@@ -18,13 +18,12 @@ export interface User {
     fullName: string;
     email: string;
     profilePictureUrl?: string;
-    phoneNumber?: string;
     role: "USER" | "RENTER" | "ADMIN";
 }
 
 interface AuthContextType {
     user: User | null;
-    login: (user: User) => void; // Perubahan: Sekarang hanya menerima User
+    login: (user: User) => void;
     logout: () => void;
     isLoading: boolean;
 }

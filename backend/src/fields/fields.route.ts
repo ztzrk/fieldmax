@@ -3,7 +3,11 @@ import { FieldsController } from "./fields.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
-import { CreateFieldDto, UpdateFieldDto } from "./dtos/field.dto";
+import {
+    CreateFieldDto,
+    RejectFieldDto,
+    UpdateFieldDto,
+} from "./dtos/field.dto";
 import { canManageField } from "../middleware/permission.middleware";
 import { ScheduleOverrideDto } from "./dtos/override.dto";
 import { GetAvailabilityDto } from "./dtos/availability.dtos";
@@ -50,6 +54,27 @@ export class FieldsRoute {
             authMiddleware,
             canManageField,
             this.controller.deleteMultiple
+        );
+        this.router.patch(
+            `${this.path}/:id/approve`,
+            authMiddleware,
+            adminOnlyMiddleware,
+            this.controller.approve
+        );
+
+        this.router.patch(
+            `${this.path}/:id/reject`,
+            authMiddleware,
+            adminOnlyMiddleware,
+            validationMiddleware(RejectFieldDto),
+            this.controller.reject
+        );
+
+        this.router.patch(
+            `${this.path}/:id/resubmit`,
+            authMiddleware,
+            canManageField,
+            this.controller.resubmit
         );
         this.router.get(
             `${this.path}/:fieldId/overrides`,

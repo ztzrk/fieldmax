@@ -5,7 +5,7 @@ import { CreateFieldDto, UpdateFieldDto } from "./dtos/field.dto";
 import { ScheduleOverrideDto } from "./dtos/override.dto";
 import { GetAvailabilityDto } from "./dtos/availability.dtos";
 import { PaginationDto } from "../dtos/pagination.dto";
-import { ValidationError } from "../utils/errors";
+import { NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
     public async findAll(query: PaginationDto) {
@@ -160,6 +160,65 @@ export class FieldsService {
         });
         return deletedFields;
     }
+
+    public async approve(id: string) {
+        const fieldWithPhotoCount = await prisma.field.findUnique({
+            where: { id },
+            include: {
+                _count: {
+                    select: { photos: true },
+                },
+            },
+        });
+
+        if (!fieldWithPhotoCount) {
+            throw new NotFoundError("Field not found.");
+        }
+
+        if (fieldWithPhotoCount._count.photos < 1) {
+            throw new ValidationError(
+                "Field must have at least 1 photo to be approved."
+            );
+        }
+
+        return prisma.field.update({
+            where: { id },
+            data: { status: "APPROVED" },
+        });
+    }
+
+    public async reject(id: string, data: { rejectionReason: string }) {
+        return prisma.field.update({
+            where: { id },
+            data: {
+                status: "REJECTED",
+                rejectionReason: data.rejectionReason,
+            },
+        });
+    }
+
+    public async resubmit(id: string) {
+        const fieldToUpdate = await prisma.field.findUnique({ where: { id } });
+
+        if (!fieldToUpdate) {
+            throw new NotFoundError("Field not found.");
+        }
+
+        if (fieldToUpdate.status !== "REJECTED") {
+            throw new ValidationError(
+                "Only rejected fields can be resubmitted."
+            );
+        }
+
+        return prisma.field.update({
+            where: { id },
+            data: {
+                status: "PENDING",
+                rejectionReason: null,
+            },
+        });
+    }
+
     public async getOverrides(fieldId: string) {
         const overrides = await prisma.scheduleOverride.findMany({
             where: { fieldId },
@@ -185,7 +244,11 @@ export class FieldsService {
         return deletedOverride;
     }
 
-    public async addPhotos(fieldId: string, files: Express.Multer.File[]) {
+    public async addPhotos(
+        fieldId: string,
+        files: Express.Multer.File[],
+        user: User
+    ) {
         const timestamp = Date.now();
         const uploadPromises = files.map((file, index) => {
             const cleanName = file.originalname.trim().replace(/\s+/g, "-");
@@ -195,16 +258,21 @@ export class FieldsService {
             const filePath = `field-photos/${fileName}`;
             return supabase.storage
                 .from("fieldmax-assets")
-                .upload(filePath, file.buffer, { contentType: file.mimetype });
+                .upload(filePath, file.buffer, {
+                    contentType: file.mimetype,
+                    upsert: true,
+                });
         });
 
         const uploadResults = await Promise.all(uploadPromises);
 
         const photoDataToSave = uploadResults.map((result, index) => {
-            if (result.error)
+            if (result.error) {
+                console.error("Supabase upload error:", result.error);
                 throw new Error(
-                    `Failed to upload file: ${files[index].originalname}`
+                    `Failed to upload file: ${files[index].originalname}. Reason: ${result.error.message}`
                 );
+            }
             const {
                 data: { publicUrl },
             } = supabase.storage

@@ -34,7 +34,7 @@ const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem asChild>
-                        <Link href={`/admin/venues/${venue.id}/edit`}>
+                        <Link href={`/renter/venues/${venue.id}`}>
                             View & Edit Details
                         </Link>
                     </DropdownMenuItem>

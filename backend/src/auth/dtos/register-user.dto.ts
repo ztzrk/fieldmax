@@ -22,10 +22,6 @@ export class RegisterUserDto {
     @MinLength(8, { message: "Password must be at least 8 characters long" })
     password!: string;
 
-    @IsString()
-    @IsNotEmpty()
-    phoneNumber!: string;
-
     @IsEnum(UserRole)
     @IsNotEmpty()
     role!: UserRole;

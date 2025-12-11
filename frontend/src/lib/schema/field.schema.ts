@@ -17,17 +17,25 @@ export const fieldFormSchema = z.object({
     name: z.string().min(1, "Field name is required."),
     pricePerHour: z.coerce.number().min(0, "Price must be a positive number."),
     sportTypeId: z.string().uuid("You must select a sport type."),
-    description: z.string().optional(),
+    description: z.string().nullable().optional(),
 });
 
 export const fieldDetailApiResponseSchema = z
     .object({
+        id: z.string().uuid(),
         name: z.string(),
         pricePerHour: z.number(),
         description: z.string().nullable(),
         sportTypeId: z.string().uuid(),
+        status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+        rejectionReason: z.string().nullable(),
+        photos: z
+            .array(z.object({ id: z.string(), url: z.string() }))
+            .optional(),
     })
     .passthrough();
+
+export type Field = z.infer<typeof fieldDetailApiResponseSchema>;
 
 export type FieldFormValues = z.infer<typeof fieldFormSchema>;
 

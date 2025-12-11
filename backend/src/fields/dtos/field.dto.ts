@@ -64,18 +64,13 @@ export class UpdateFieldDto {
     @IsOptional()
     sportTypeId?: string;
 
-    @IsNumber()
-    @Min(0)
-    @IsOptional()
-    pricePerHour?: number;
-
-    @IsString()
-    @IsOptional()
-    description?: string;
-
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => ScheduleDto)
     @IsOptional()
     schedules?: ScheduleDto[];
 }
+
+export class RejectFieldDto {
+    @IsString()
+    @IsNotEmpty()
+    rejectionReason!: string;
+}
+

@@ -33,7 +33,8 @@ export function useGetFieldById(fieldId: string) {
 export function useCreateField() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: FieldFormValues) => FieldService.create(data),
+        mutationFn: (data: FieldFormValues & { venueId: string }) =>
+            FieldService.create(data),
         onSuccess: () => {
             toast.success("Field created successfully!");
             queryClient.invalidateQueries({ queryKey: ["fields"] });
@@ -99,23 +100,349 @@ export function useDeleteField() {
 }
 
 export function useDeleteMultipleFields() {
+
     const queryClient = useQueryClient();
+
     return useMutation({
+
         mutationFn: (ids: string[]) => FieldService.deleteMultiple(ids),
+
         onSuccess: () => {
+
             toast.success("Fields deleted successfully.");
+
             queryClient.invalidateQueries({ queryKey: ["fields"] });
+
         },
+
         onError: (error: AxiosError<BackendErrorResponse>) => {
+
             let errorMessage = "Failed to delete fields.";
+
             if (error.response?.data?.message) {
+
                 errorMessage = error.response.data.message;
+
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+
+                errorMessage =
+
+                    "Cannot connect to server. Please check your connection.";
+
             } else {
+
                 errorMessage = error.message;
+
             }
+
             toast.error(errorMessage);
+
         },
+
     });
+
 }
+
+
+
+export function useApproveField(fieldId: string) {
+
+    const queryClient = useQueryClient();
+
+    return useMutation({
+
+        mutationFn: () => FieldService.approve(fieldId),
+
+        onSuccess: () => {
+
+            toast.success("Field approved successfully!");
+
+            queryClient.invalidateQueries({ queryKey: ["fields"] });
+
+            queryClient.invalidateQueries({ queryKey: ["field", fieldId] });
+
+        },
+
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+
+            let errorMessage = "Failed to approve field.";
+
+            if (error.response?.data?.message) {
+
+                errorMessage = error.response.data.message;
+
+            }
+
+            toast.error(errorMessage);
+
+        },
+
+    });
+
+}
+
+
+
+export function useRejectField(fieldId: string) {
+
+    const queryClient = useQueryClient();
+
+    return useMutation({
+
+        mutationFn: (rejectionReason: string) =>
+
+            FieldService.reject(fieldId, rejectionReason),
+
+        onSuccess: () => {
+
+            toast.success("Field rejected successfully!");
+
+            queryClient.invalidateQueries({ queryKey: ["fields"] });
+
+            queryClient.invalidateQueries({ queryKey: ["field", fieldId] });
+
+        },
+
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+
+            let errorMessage = "Failed to reject field.";
+
+            if (error.response?.data?.message) {
+
+                errorMessage = error.response.data.message;
+
+            }
+
+            toast.error(errorMessage);
+
+        },
+
+    });
+
+}
+
+
+
+export function useResubmitField(fieldId: string) {
+
+
+
+    const queryClient = useQueryClient();
+
+
+
+    return useMutation({
+
+
+
+        mutationFn: () => FieldService.resubmit(fieldId),
+
+
+
+        onSuccess: () => {
+
+
+
+            toast.success("Field resubmitted successfully!");
+
+
+
+            queryClient.invalidateQueries({ queryKey: ["fields"] });
+
+
+
+            queryClient.invalidateQueries({ queryKey: ["field", fieldId] });
+
+
+
+        },
+
+
+
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+
+
+
+            let errorMessage = "Failed to resubmit field.";
+
+
+
+            if (error.response?.data?.message) {
+
+
+
+                errorMessage = error.response.data.message;
+
+
+
+            }
+
+
+
+            toast.error(errorMessage);
+
+
+
+        },
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+export function useUploadFieldPhotos(fieldId: string) {
+
+
+
+    const queryClient = useQueryClient();
+
+
+
+    return useMutation({
+
+
+
+        mutationFn: (files: File[]) =>
+
+
+
+            FieldService.uploadPhotos(fieldId, files),
+
+
+
+        onSuccess: () => {
+
+
+
+            toast.success("Photos uploaded successfully!");
+
+
+
+            queryClient.invalidateQueries({ queryKey: ["field", fieldId] });
+
+
+
+        },
+
+
+
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+
+
+
+            let errorMessage = "Failed to upload photos.";
+
+
+
+            if (error.response?.data?.message) {
+
+
+
+                errorMessage = error.response.data.message;
+
+
+
+            }
+
+
+
+            toast.error(errorMessage);
+
+
+
+        },
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+export function useDeleteFieldPhoto(fieldId: string) {
+
+
+
+    const queryClient = useQueryClient();
+
+
+
+    return useMutation({
+
+
+
+        mutationFn: (photoId: string) => FieldService.deletePhoto(photoId),
+
+
+
+        onSuccess: () => {
+
+
+
+            toast.success("Photo deleted successfully.");
+
+
+
+            queryClient.invalidateQueries({ queryKey: ["field", fieldId] });
+
+
+
+        },
+
+
+
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+
+
+
+            let errorMessage = "Failed to delete photo.";
+
+
+
+            if (error.response?.data?.message) {
+
+
+
+                errorMessage = error.response.data.message;
+
+
+
+            }
+
+
+
+            toast.error(errorMessage);
+
+
+
+        },
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+

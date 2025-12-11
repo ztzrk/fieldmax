@@ -36,7 +36,7 @@ const ActionsCell = ({
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link
-                        href={`/admin/fields/${field.id}?fromVenue=${venueId}`}
+                        href={`/renter/fields/${field.id}?fromVenue=${venueId}`}
                     >
                         Edit Details
                     </Link>
