@@ -95,6 +95,13 @@ export class VenuesRoute {
             this.controller.resubmit
         );
 
+        this.router.patch(
+            `${this.path}/:id/submit`,
+            authMiddleware,
+            isVenueOwner,
+            this.controller.submit
+        );
+
         this.router.delete(
             `${this.path}/photos/:photoId`,
             authMiddleware,
