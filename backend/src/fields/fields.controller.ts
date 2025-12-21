@@ -10,8 +10,16 @@ export class FieldsController {
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const query = (req as any).validatedQuery || req.query;
-            const data = await this.service.findAll(query);
-            res.status(200).json(data);
+            if (req.user && req.user.role === "RENTER") {
+                const data = await this.service.findAllForRenter(
+                    req.user.id,
+                    query
+                );
+                res.status(200).json(data);
+            } else {
+                const data = await this.service.findAll(query);
+                res.status(200).json(data);
+            }
         } catch (error) {
             next(error);
         }
