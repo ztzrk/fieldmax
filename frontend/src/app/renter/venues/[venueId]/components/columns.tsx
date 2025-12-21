@@ -59,7 +59,7 @@ const ActionsCell = ({
     );
 };
 
-export const getFieldColumns = (
+export const getRenterFieldColumns = (
     venueId: string
 ): ColumnDef<fieldNestedApiResponse>[] => [
     {
