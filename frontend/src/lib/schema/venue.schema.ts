@@ -22,7 +22,8 @@ export const venueApiResponseSchema = z.object({
     name: z.string(),
     address: z.string(),
     description: z.string().nullable(),
-    status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+    status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
+    rejectionReason: z.string().nullable().optional(),
     createdAt: z.string().datetime(),
     renter: z.object({
         fullName: z.string(),
@@ -49,7 +50,7 @@ export const venueDetailApiResponseSchema = z.object({
     name: z.string(),
     address: z.string(),
     description: z.string().nullable(),
-    status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+    status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
     rejectionReason: z.string().nullable(),
     renterId: z.string().uuid(),
     renterName: z.string(),
