@@ -8,7 +8,7 @@ import {
 } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
-import { FieldForm } from "../../venues/[venueId]/edit/components/FieldForm";
+import { FieldForm } from "@/components/shared/fields/FieldForm";
 import { PageHeader } from "../../components/PageHeader";
 import { Field, FieldFormValues } from "@/lib/schema/field.schema";
 import { FieldStatusUpdater } from "./FieldStatusUpdater";
