@@ -8,6 +8,7 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
 import { SelectField } from "@/components/shared/form/SelectField";
+import { useAuth } from "@/context/AuthContext";
 
 interface VenueFormProps {
     initialData?: Partial<VenueFormValues>;
@@ -20,6 +21,9 @@ export function VenueForm({
     onSubmit,
     isPending,
 }: VenueFormProps) {
+    const { user } = useAuth();
+    const isRenter = user?.role === "RENTER";
+
     const { data: usersData } = useGetAllUsersWithoutPagination();
     const renters = usersData?.filter((user) => user.role === "RENTER") || [];
     const renterOptions = renters.map((renter) => ({
@@ -32,7 +36,7 @@ export function VenueForm({
         defaultValues: initialData || {
             name: "",
             address: "",
-            renterId: "",
+            renterId: isRenter && user ? user.id : "",
             description: "",
         },
     });
@@ -52,14 +56,16 @@ export function VenueForm({
                     label="Address"
                     placeholder="Kalibaru Street No. 10, Surabaya"
                 />
-                <SelectField
-                    control={form.control}
-                    name="renterId"
-                    label="Renter (Owner)"
-                    placeholder="Select a renter"
-                    options={renterOptions}
-                    disabled={!!initialData}
-                />
+                {!isRenter && (
+                    <SelectField
+                        control={form.control}
+                        name="renterId"
+                        label="Renter (Owner)"
+                        placeholder="Select a renter"
+                        options={renterOptions}
+                        disabled={!!initialData}
+                    />
+                )}
                 <InputField
                     control={form.control}
                     name="description"
