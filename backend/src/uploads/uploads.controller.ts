@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { supabase } from "../lib/supabase";
+
 import { VenuesService } from "../venues/venues.service";
 import { FieldsService } from "../fields/fields.service";
 
