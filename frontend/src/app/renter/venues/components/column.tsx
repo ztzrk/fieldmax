@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog } from "@/components/ui/dialog";
 import { useState } from "react";
-import { useDeleteVenue } from "@/hooks/useVenues";
+import { useDeleteVenue, useResubmitVenue } from "@/hooks/useVenues";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -22,6 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { mutate: deleteVenue } = useDeleteVenue();
+    const { mutate: resubmitVenue } = useResubmitVenue(venue.id);
 
     return (
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
@@ -38,6 +39,21 @@ const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
                             View & Edit Details
                         </Link>
                     </DropdownMenuItem>
+
+                    {venue.status === "REJECTED" && (
+                        <ConfirmationDialog
+                            trigger={
+                                <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                >
+                                    Reapply (Resubmit)
+                                </DropdownMenuItem>
+                            }
+                            title="Resubmit Venue?"
+                            description="This will change the status back to PENDING for admin review."
+                            onConfirm={() => resubmitVenue()}
+                        />
+                    )}
 
                     <ConfirmationDialog
                         trigger={
@@ -91,6 +107,9 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
         header: "Status",
         cell: ({ row }) => {
             const status = row.original.status;
+
+            const rejectionReason = row.original.rejectionReason;
+            
             return (
                 <Badge
                     variant={
@@ -99,6 +118,11 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
                             : status === "REJECTED"
                             ? "destructive"
                             : "secondary"
+                    }
+                    title={
+                        status === "REJECTED" && rejectionReason
+                            ? rejectionReason
+                            : undefined
                     }
                 >
                     {status}
