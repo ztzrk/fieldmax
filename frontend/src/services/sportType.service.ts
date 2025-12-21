@@ -15,7 +15,7 @@ const SportTypeService = {
             throw error as AxiosError<BackendErrorResponse>;
         }
     },
-    create: async (data: { name: string; iconName?: string }) => {
+    create: async (data: { name: string }) => {
         try {
             const response = await api.post("/sport-types", data);
             return response.data;
@@ -23,7 +23,7 @@ const SportTypeService = {
             throw error as AxiosError<BackendErrorResponse>;
         }
     },
-    update: async (id: string, data: { name: string; iconName?: string }) => {
+    update: async (id: string, data: { name: string }) => {
         try {
             const response = await api.put(`/sport-types/${id}`, data);
             return response.data;
