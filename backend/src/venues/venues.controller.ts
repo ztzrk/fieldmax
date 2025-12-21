@@ -146,6 +146,19 @@ export class VenuesController {
         }
     };
 
+    public submit = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+            const data = await this.service.submit(id);
+            res.status(200).json({
+                data,
+                message: "Venue submitted for review",
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public deletePhoto = async (
         req: Request,
         res: Response,
