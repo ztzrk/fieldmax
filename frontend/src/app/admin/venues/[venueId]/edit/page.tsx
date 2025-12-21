@@ -10,7 +10,7 @@ import { VenueForm } from "../../components/VenueForm";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
 import { PhotoGallery } from "./components/PhotoGallery";
 import { useParams } from "next/navigation";
-import { CreateFieldButton } from "./components/CreateFieldButton";
+import { CreateFieldButton } from "@/components/shared/fields/CreateFieldButton";
 import {
     Card,
     CardContent,
