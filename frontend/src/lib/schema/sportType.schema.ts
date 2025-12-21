@@ -3,7 +3,6 @@ import { z } from "zod";
 export const sportTypeApiResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
-    iconName: z.string().nullable(),
 });
 
 export const sportTypesApiResponseSchema = z.array(sportTypeApiResponseSchema);
