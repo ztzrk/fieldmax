@@ -1,21 +1,13 @@
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateSportTypeDto {
     @IsString()
     @IsNotEmpty()
     name!: string;
-
-    @IsString()
-    @IsNotEmpty()
-    iconName!: string;
 }
 
 export class UpdateSportTypeDto {
     @IsString()
-    @IsNotEmpty()
-    name!: string;
-
-    @IsString()
-    @IsNotEmpty()
-    iconName!: string;
+    @IsOptional()
+    name?: string;
 }
