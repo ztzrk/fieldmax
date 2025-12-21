@@ -1,4 +1,4 @@
-import { LayoutDashboard, Building, FileText } from "lucide-react";
+import { LayoutDashboard, Building, FileText, List } from "lucide-react";
 
 export type NavItem = {
     title: string;
@@ -18,8 +18,14 @@ export const renterNavItems: NavItem[] = [
         icon: Building,
     },
     {
+        title: "My Fields",
+        url: "/renter/fields",
+        icon: List,
+    },
+    {
         title: "Bookings",
         url: "/renter/bookings",
         icon: FileText,
     },
+    
 ];
