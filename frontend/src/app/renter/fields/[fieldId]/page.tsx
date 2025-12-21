@@ -12,7 +12,7 @@ import { PageHeader } from "@/app/admin/components/PageHeader";
 import { Field, FieldFormValues } from "@/lib/schema/field.schema";
 import { FieldStatusUpdater } from "@/app/admin/fields/[fieldId]/FieldStatusUpdater";
 import { useAuth } from "@/context/AuthContext";
-import { FieldForm } from "@/app/admin/venues/[venueId]/edit/components/FieldForm";
+import { FieldForm } from "@/components/shared/fields/FieldForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldPhotoGallery } from "@/app/admin/fields/[fieldId]/FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
