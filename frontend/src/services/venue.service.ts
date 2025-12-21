@@ -81,6 +81,24 @@ const VenueService = {
         }
     },
 
+    resubmit: async (id: string) => {
+        try {
+            const response = await api.patch(`/venues/${id}/resubmit`);
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
+    submit: async (id: string) => {
+        try {
+            const response = await api.patch(`/venues/${id}/submit`);
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
     uploadPhotos: async (venueId: string, photos: File[]) => {
         const formData = new FormData();
         photos.forEach((photo) => {
