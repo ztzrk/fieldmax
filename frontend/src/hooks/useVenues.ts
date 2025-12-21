@@ -175,6 +175,54 @@ export function useRejectVenue(venueId: string) {
     });
 }
 
+export function useResubmitVenue(venueId: string) {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => VenueService.resubmit(venueId),
+        onSuccess: () => {
+            toast.success("Venue resubmitted successfully!");
+            queryClient.invalidateQueries({ queryKey: ["venues"] });
+            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to resubmit venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
+        },
+    });
+}
+
+export function useSubmitVenue(venueId: string) {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => VenueService.submit(venueId),
+        onSuccess: () => {
+            toast.success("Venue submitted to admin successfully!");
+            queryClient.invalidateQueries({ queryKey: ["venues"] });
+            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to submit venue.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error(errorMessage);
+        },
+    });
+}
+
 export function useUploadVenuePhotos(venueId: string) {
     const queryClient = useQueryClient();
     return useMutation({
