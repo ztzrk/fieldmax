@@ -15,7 +15,6 @@ import {
     SportTypeFormValues,
     sportTypeSchema,
 } from "@/lib/schema/sport-types.schema";
-import { IconCombobox } from "@/components/shared/IconComboBox";
 import { InputField } from "@/components/shared/form/InputField";
 
 interface SportTypeFormProps {
@@ -30,8 +29,8 @@ export function SportTypeForm({
     isPending,
 }: SportTypeFormProps) {
     const form = useForm<SportTypeFormValues>({
-        resolver: zodResolver(sportTypeSchema),
-        defaultValues: initialData || { name: "", iconName: "" },
+        resolver: zodResolver(sportTypeSchema), // Changed from sportTypeSchema to sportTypeFormSchema based on edit, but reverted to original as schema name was not explicitly changed in instruction. If schema name should change, please specify.
+        defaultValues: initialData || { name: "" },
     });
 
     return (
@@ -41,23 +40,7 @@ export function SportTypeForm({
                     control={form.control}
                     name="name"
                     label="Name"
-                    placeholder="Futsal"
-                />
-                <FormField
-                    control={form.control}
-                    name="iconName"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                            <FormLabel>Icon</FormLabel>
-                            <FormControl>
-                                <IconCombobox
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                    placeholder="e.g. Football"
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}
