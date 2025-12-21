@@ -21,13 +21,10 @@ import { useState } from "react";
 import { SportTypeForm } from "./SportTypeForm";
 import { useUpdateSportType, useDeleteSportType } from "@/hooks/useSportTypes";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Icon } from "@/components/shared/IconMap";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-
 export type SportType = {
     id: string;
     name: string;
-    iconName?: string | null;
 };
 
 const ActionsCell = ({ sportType }: { sportType: SportType }) => {
@@ -70,7 +67,6 @@ const ActionsCell = ({ sportType }: { sportType: SportType }) => {
                 <SportTypeForm
                     initialData={{
                         name: sportType.name,
-                        iconName: sportType.iconName || undefined,
                     }}
                     onSubmit={async (data) =>
                         updateSportType(
@@ -113,14 +109,6 @@ export const columns: ColumnDef<SportType>[] = [
     {
         accessorKey: "name",
         header: "Name",
-    },
-    {
-        accessorKey: "iconName",
-        header: "Icon",
-        cell: ({ row }) => {
-            const iconName = row.getValue("iconName") as string | undefined;
-            return <Icon name={iconName} className="h-6 w-6" />;
-        },
     },
     {
         id: "actions",
