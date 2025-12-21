@@ -25,17 +25,19 @@ export function useGetAllSportTypesWithoutPagination() {
             const data = await SportTypeService.getAll();
             return sportTypesApiResponseSchema.parse(data.data);
         },
+        staleTime: Infinity,
     });
 }
 
 export function useCreateSportType() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: { name: string; iconName?: string }) =>
+        mutationFn: (data: { name: string }) =>
             SportTypeService.create(data),
         onSuccess: () => {
             toast.success("Sport Type created successfully!");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
+            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to create sport type.";
@@ -59,11 +61,12 @@ export function useUpdateSportType() {
             data,
         }: {
             id: string;
-            data: { name: string; iconName?: string };
+            data: { name: string };
         }) => SportTypeService.update(id, data),
         onSuccess: () => {
             toast.success("Sport Type updated successfully!");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
+            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to update sport type.";
@@ -86,6 +89,7 @@ export function useDeleteSportType() {
         onSuccess: () => {
             toast.success("Sport Type deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
+            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete sport type.";
@@ -108,6 +112,7 @@ export function useDeleteMultipleSportTypes() {
         onSuccess: () => {
             toast.success("Sport Types deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
+            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete sport types.";
