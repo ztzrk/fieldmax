@@ -107,6 +107,17 @@ export const columns: ColumnDef<User>[] = [
             />
         ),
         enableSorting: false,
+    },
+    {
+        id: "index",
+        header: () => <div className="text-center">#</div>,
+        size: 50,
+        cell: ({ row, table }) => {
+            const index = row.index;
+            const { pageIndex, pageSize } = table.getState().pagination;
+            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+        },
+        enableSorting: false,
         enableHiding: false,
     },
     {
@@ -145,6 +156,11 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         id: "actions",
-        cell: ({ row }) => <ActionsCell user={row.original} />,
+        header: () => <div className="text-center">Actions</div>,
+        cell: ({ row }) => (
+            <div className="flex justify-center">
+                <ActionsCell user={row.original} />
+            </div>
+        ),
     },
 ];
