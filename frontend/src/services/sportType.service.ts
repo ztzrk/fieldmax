@@ -3,12 +3,10 @@ import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
 const SportTypeService = {
-    getAll: async (page?: number, limit?: number) => {
+    getAll: async (page?: number, limit?: number, search?: string) => {
         try {
-            const params: { page?: number; limit?: number } = {};
-            if (page !== undefined) params.page = page;
-            if (limit !== undefined) params.limit = limit;
-
+            const params: Record<string, any> = { page, limit };
+            if (search) params.search = search;
             const response = await api.get("/sport-types", { params });
             return response.data;
         } catch (error) {
