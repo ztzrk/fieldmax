@@ -43,6 +43,8 @@ export class FieldsService {
                         name: "asc",
                     },
                 },
+                skip: skip,
+                take: limit,
             }),
             await prisma.field.count({ where: whereCondition }),
         ];
@@ -215,7 +217,23 @@ export class FieldsService {
         return prisma.field.delete({ where: { id: fieldId } });
     }
 
-    public async deleteMultiple(ids: string[]) {
+    public async deleteMultiple(ids: string[], user?: User) {
+        if (user && user.role === "RENTER") {
+            const fieldsToCheck = await prisma.field.findMany({
+                where: {
+                    id: { in: ids },
+                    venue: { renterId: user.id },
+                },
+                select: { id: true },
+            });
+
+            if (fieldsToCheck.length !== ids.length) {
+                throw new Error(
+                    "Forbidden: You do not own all the fields you are trying to delete."
+                );
+            }
+        }
+
         const deletedFields = await prisma.field.deleteMany({
             where: { id: { in: ids } },
         });
