@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetAllFields } from "@/hooks/useFields";
+import { useGetAllFields, useDeleteMultipleFields } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/app/admin/components/PageHeader";
@@ -17,8 +17,14 @@ export default function RenterFieldsPage() {
 
     // This hook will now return filtered fields because the backend is updated
     const { data, isLoading, isError } = useGetAllFields(pageIndex + 1, pageSize);
+    const { mutate: deleteMultiple, isPending: isDeleting } =
+        useDeleteMultipleFields();
 
-    if (isLoading) return <FullScreenLoader />;
+    const handleDeleteSelected = async (selectedIds: string[]) => {
+        deleteMultiple(selectedIds);
+    };
+
+    if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError || !data)
         return (
             <div className="flex items-center justify-center p-8 text-red-500">
@@ -32,20 +38,14 @@ export default function RenterFieldsPage() {
                 title="My Fields"
                 description="View and manage all your fields across all venues."
             />
-            <Card>
-                <CardHeader>
-                    <CardTitle>All Fields</CardTitle>
-                </CardHeader>
-                <CardContent>
                     <DataTable
                         columns={renterAllFieldColumns}
                         data={data.data}
+                        onDeleteSelected={handleDeleteSelected}
                         pageCount={data.meta.totalPages}
                         pagination={{ pageIndex, pageSize }}
                         onPaginationChange={setPagination}
                     />
-                </CardContent>
-            </Card>
         </div>
     );
 }
