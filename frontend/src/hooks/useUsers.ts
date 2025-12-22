@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import UserService from "@/services/user.service";
 import { toast } from "sonner";
 import {
@@ -9,13 +9,14 @@ import {
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
-export function useGetAllUsers(page: number, limit: number) {
+export function useGetAllUsers(page: number, limit: number, search?: string) {
     return useQuery({
-        queryKey: ["users", { page, limit }],
+        queryKey: ["users", { page, limit, search }],
         queryFn: async () => {
-            const data = await UserService.getAllUsers(page, limit);
+            const data = await UserService.getAllUsers(page, limit, search);
             return usersPaginatedApiResponseSchema.parse(data);
         },
+        placeholderData: keepPreviousData,
     });
 }
 
