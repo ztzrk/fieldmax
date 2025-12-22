@@ -36,6 +36,8 @@ import {
     ChevronsRight,
 } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -43,6 +45,8 @@ interface DataTableProps<TData, TValue> {
     pageCount: number;
     pagination: PaginationState;
     onPaginationChange: (pagination: PaginationState) => void;
+    onSearch?: (value: string) => void;
+    searchValue?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -52,6 +56,8 @@ export function DataTable<TData, TValue>({
     pageCount,
     pagination,
     onPaginationChange,
+    onSearch,
+    searchValue,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -66,10 +72,9 @@ export function DataTable<TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         pageCount,
         onPaginationChange: (updater) => {
-            if (typeof updater === "function") {
-                const newPagination = updater(pagination);
-                onPaginationChange(newPagination);
-            }
+            const newPagination =
+                typeof updater === "function" ? updater(pagination) : updater;
+            onPaginationChange(newPagination);
         },
         manualPagination: true,
         state: {
@@ -92,7 +97,15 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 justify-between">
+                {onSearch && (
+                    <Input
+                        placeholder="Search..."
+                        value={searchValue ?? ""}
+                        onChange={(event) => onSearch(event.target.value)}
+                        className="max-w-sm mr-4"
+                    />
+                )}
                 {onDeleteSelected && Object.keys(rowSelection).length > 0 && (
                     <ConfirmationDialog
                         trigger={
@@ -119,7 +132,15 @@ export function DataTable<TData, TValue>({
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id}>
+                                    <TableHead
+                                        key={header.id}
+                                        style={{
+                                            width:
+                                                header.getSize() !== 150
+                                                    ? header.getSize()
+                                                    : undefined,
+                                        }}
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -142,7 +163,16 @@ export function DataTable<TData, TValue>({
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell
+                                            key={cell.id}
+                                            style={{
+                                                width:
+                                                    cell.column.getSize() !==
+                                                    150
+                                                        ? cell.column.getSize()
+                                                        : undefined,
+                                            }}
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
