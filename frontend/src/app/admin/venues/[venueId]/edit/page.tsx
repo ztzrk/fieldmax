@@ -5,6 +5,7 @@ import {
     useUpdateVenue,
     useUploadVenuePhotos,
 } from "@/hooks/useVenues";
+import { useDeleteMultipleFields } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { VenueForm } from "../../components/VenueForm";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
@@ -49,7 +50,14 @@ export default function EditVenuePage() {
     const { mutateAsync: uploadPhotos, isPending: isUploading } =
         useUploadVenuePhotos(venueId as string);
 
-    if (isLoading) return <FullScreenLoader />;
+    const { mutate: deleteMultiple, isPending: isDeleting } =
+        useDeleteMultipleFields();
+
+    const handleDeleteSelected = async (selectedIds: string[]) => {
+        deleteMultiple(selectedIds);
+    };
+
+    if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError || !venue)
         return (
             <p className="text-center text-red-500 py-10">
@@ -140,6 +148,7 @@ export default function EditVenuePage() {
                     <DataTable
                         columns={getFieldColumns(venueId)}
                         data={venue.fields || []}
+                        onDeleteSelected={handleDeleteSelected}
                         pageCount={pageCount}
                         pagination={{ pageIndex, pageSize }}
                         onPaginationChange={setPagination}
