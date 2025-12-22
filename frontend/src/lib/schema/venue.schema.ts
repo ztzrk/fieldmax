@@ -7,9 +7,25 @@ export const venueSchema = z.object({
         .string()
         .uuid({ message: "Anda harus memilih seorang renter." }),
     description: z.string().optional().nullable(),
+    schedules: z
+        .array(
+            z.object({
+                dayOfWeek: z.number().int().min(0).max(6),
+                openTime: z.string(), // "HH:MM"
+                closeTime: z.string(), // "HH:MM"
+            })
+        )
+        .optional(),
 });
 
 export type VenueFormValues = z.infer<typeof venueSchema>;
+
+export const venueScheduleSchema = z.object({
+    id: z.string().uuid(),
+    dayOfWeek: z.number().int(),
+    openTime: z.string(),
+    closeTime: z.string(),
+});
 
 const venuePhotoSchema = z.object({
     id: z.string().uuid(),
@@ -55,6 +71,7 @@ export const venueDetailApiResponseSchema = z.object({
     renterId: z.string().uuid(),
     renterName: z.string(),
     photos: z.array(venuePhotoSchema),
+    schedules: z.array(venueScheduleSchema).optional(),
     fields: z.array(fieldNestedSchema),
 });
 
