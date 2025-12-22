@@ -141,6 +141,7 @@ export class VenuesService {
                     },
                 },
                 photos: true,
+                schedules: true,
                 fields: {
                     select: {
                         id: true,
@@ -193,8 +194,21 @@ export class VenuesService {
             );
         }
 
+        const { schedules, ...venueData } = data;
+
         const newVenue = await prisma.venue.create({
-            data,
+            data: {
+                ...venueData,
+                schedules: schedules
+                    ? {
+                          create: schedules.map((schedule) => ({
+                              dayOfWeek: schedule.dayOfWeek,
+                              openTime: new Date(`1970-01-01T${schedule.openTime}Z`), // Ensure ISO format for time
+                              closeTime: new Date(`1970-01-01T${schedule.closeTime}Z`),
+                          })),
+                      }
+                    : undefined,
+            },
             include: {
                 renter: {
                     select: {
@@ -205,6 +219,7 @@ export class VenuesService {
                 _count: {
                     select: { fields: true },
                 },
+                schedules: true,
             },
         });
 
@@ -212,10 +227,30 @@ export class VenuesService {
     }
 
     public async update(id: string, data: UpdateVenueDto) {
-        const updatedVenue = await prisma.venue.update({
-            where: { id },
-            data: data,
+        const { schedules, ...venueData } = data;
+
+        const updatedVenue = await prisma.$transaction(async (tx) => {
+            if (schedules) {
+                await tx.venueSchedule.deleteMany({
+                    where: { venueId: id },
+                });
+                await tx.venueSchedule.createMany({
+                    data: schedules.map((schedule) => ({
+                        venueId: id,
+                        dayOfWeek: schedule.dayOfWeek,
+                        openTime: new Date(`1970-01-01T${schedule.openTime}Z`),
+                        closeTime: new Date(`1970-01-01T${schedule.closeTime}Z`),
+                    })),
+                });
+            }
+
+            return tx.venue.update({
+                where: { id },
+                data: venueData,
+                include: { schedules: true },
+            });
         });
+
         return updatedVenue;
     }
 
@@ -224,7 +259,23 @@ export class VenuesService {
         return deletedVenue;
     }
 
-    public async deleteMultiple(ids: string[]) {
+    public async deleteMultiple(ids: string[], user?: User) {
+        if (user && user.role === "RENTER") {
+            const venues = await prisma.venue.findMany({
+                where: {
+                    id: { in: ids },
+                    renterId: user.id,
+                },
+                select: { id: true },
+            });
+
+            if (venues.length !== ids.length) {
+                throw new Error(
+                    "Forbidden: You do not own all the venues you are trying to delete."
+                );
+            }
+        }
+
         const deletedVenues = await prisma.venue.deleteMany({
             where: { id: { in: ids } },
         });
