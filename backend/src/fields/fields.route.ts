@@ -12,6 +12,7 @@ import { canManageField } from "../middleware/permission.middleware";
 import { ScheduleOverrideDto } from "./dtos/override.dto";
 import { GetAvailabilityDto } from "./dtos/availability.dtos";
 import { PaginationDto } from "../dtos/pagination.dto";
+import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware";
 
 export class FieldsRoute {
     public path = "/fields";
@@ -25,6 +26,7 @@ export class FieldsRoute {
     private initializeRoutes() {
         this.router.get(
             `${this.path}`,
+            optionalAuthMiddleware,
             validationMiddleware(PaginationDto, true, true),
             this.controller.getAll
         );
