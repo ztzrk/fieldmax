@@ -18,6 +18,7 @@ import { SportTypesRoute } from "./sport-types/sport-types.route";
 import { UploadsRoute } from "./uploads/uploads.route";
 import { UsersRoute } from "./users/users.route";
 import { VenuesRoute } from "./venues/venues.route";
+import { DashboardRoute } from "./dashboard/dashboard.route";
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
@@ -44,6 +45,7 @@ const chatRoute = new ChatRoute();
 const profileRoute = new ProfileRoute();
 const bookingsRoute = new BookingsRoute();
 const paymentsRoute = new PaymentsRoute();
+const dashboardRoute = new DashboardRoute();
 
 app.use("/api", authRoute.router);
 app.use("/api", usersRoute.router);
@@ -56,6 +58,7 @@ app.use("/api", chatRoute.router);
 app.use("/api", profileRoute.router);
 app.use("/api", bookingsRoute.router);
 app.use("/api", paymentsRoute.router);
+app.use("/api", dashboardRoute.router);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to FIELDMAX API! 🚀");
