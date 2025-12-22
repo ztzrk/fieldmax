@@ -19,7 +19,6 @@ export class SportTypesRoute {
         this.router.get(
             `${this.path}`,
             authMiddleware,
-            adminOnlyMiddleware,
             validationMiddleware(PaginationDto, true, true),
             this.controller.getAll
         );
