@@ -66,6 +66,7 @@ export function FieldForm({
                     control={form.control}
                     name="name"
                     label="Field Name"
+                    placeholder="Field A"
                 />
                 <InputField
                     control={form.control}
