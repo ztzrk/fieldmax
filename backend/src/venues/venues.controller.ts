@@ -96,7 +96,7 @@ export class VenuesController {
     ) => {
         try {
             const { ids } = req.body;
-            const data = await this.service.deleteMultiple(ids);
+            const data = await this.service.deleteMultiple(ids, req.user);
             res.status(200).json({ data, message: "deleted multiple" });
         } catch (error) {
             next(error);
