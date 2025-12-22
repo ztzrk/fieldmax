@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useGetAllVenues } from "@/hooks/useVenues";
+import { useGetAllVenues, useDeleteMultipleVenues } from "@/hooks/useVenues";
 import { CreateVenueWizard } from "./components/CreateVenueWizard";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
@@ -14,7 +14,14 @@ export default function RenterVenuesPage() {
     });
 
     const { data, isLoading } = useGetAllVenues(pageIndex + 1, pageSize);
-    if (isLoading) {
+    const { mutate: deleteMultiple, isPending: isDeleting } =
+        useDeleteMultipleVenues();
+
+    const handleDeleteSelected = async (selectedIds: string[]) => {
+        deleteMultiple(selectedIds);
+    };
+
+    if (isLoading || isDeleting) {
         return <FullScreenLoader />;
     }
     const pageCount = data?.meta?.totalPages ?? 0;
@@ -33,6 +40,7 @@ export default function RenterVenuesPage() {
             <DataTable
                 columns={columns}
                 data={data?.data || []}
+                onDeleteSelected={handleDeleteSelected}
                 pageCount={pageCount}
                 pagination={{ pageIndex, pageSize }}
                 onPaginationChange={setPagination}
