@@ -99,36 +99,59 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
         enableSorting: false,
         enableHiding: false,
     },
+    {
+        id: "index",
+        header: () => <div className="text-center">#</div>,
+        size: 50,
+        cell: ({ row, table }) => {
+            const index = row.index;
+            const { pageIndex, pageSize } = table.getState().pagination;
+            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+        },
+        enableSorting: false,
+        enableHiding: false,
+    },
     { accessorKey: "name", header: "Name" },
     { accessorKey: "address", header: "Address" },
     { accessorKey: "renter.fullName", header: "Renter" },
     {
         accessorKey: "status",
-        header: "Status",
+        header: () => <div className="text-center">Status</div>,
+        size: 80,
         cell: ({ row }) => {
             const status = row.original.status;
 
             const rejectionReason = row.original.rejectionReason;
             
             return (
-                <Badge
-                    variant={
-                        status === "APPROVED"
-                            ? "default"
-                            : status === "REJECTED"
-                            ? "destructive"
-                            : "secondary"
-                    }
-                    title={
-                        status === "REJECTED" && rejectionReason
-                            ? rejectionReason
-                            : undefined
-                    }
-                >
-                    {status}
-                </Badge>
+                <div className="flex justify-center">
+                    <Badge
+                        variant={
+                            status === "APPROVED"
+                                ? "default"
+                                : status === "REJECTED"
+                                ? "destructive"
+                                : "secondary"
+                        }
+                        title={
+                            status === "REJECTED" && rejectionReason
+                                ? rejectionReason
+                                : undefined
+                        }
+                    >
+                        {status}
+                    </Badge>
+                </div>
             );
         },
     },
-    { id: "actions", cell: ({ row }) => <ActionsCell venue={row.original} /> },
+    { 
+        id: "actions", 
+        header: () => <div className="text-center">Actions</div>,
+        cell: ({ row }) => (
+            <div className="flex justify-center">
+                <ActionsCell venue={row.original} />
+            </div>
+        )
+    },
 ];
