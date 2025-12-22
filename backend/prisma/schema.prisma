@@ -64,11 +64,23 @@ model Venue {
   status          VerificationStatus @default(DRAFT)
   rejectionReason String?            @map("rejection_reason")
   fields          Field[]
+  schedules       VenueSchedule[]
   photos          VenuePhoto[]
   renter          User               @relation(fields: [renterId], references: [id], onDelete: Cascade)
 
   @@index([renterId])
   @@map("venues")
+}
+
+model VenueSchedule {
+  id        String   @id @default(uuid())
+  venueId   String   @map("venue_id")
+  dayOfWeek Int      @map("day_of_week")
+  openTime  DateTime @map("open_time") @db.Time(6)
+  closeTime DateTime @map("close_time") @db.Time(6)
+  venue     Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@map("venue_schedules")
 }
 
 model VenuePhoto {
