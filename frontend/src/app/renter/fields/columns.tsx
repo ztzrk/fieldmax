@@ -51,7 +51,45 @@ const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
     );
 };
 
+import { Checkbox } from "@/components/ui/checkbox";
+
 export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        id: "index",
+        header: () => <div className="text-center">#</div>,
+        size: 50,
+        cell: ({ row, table }) => {
+            const index = row.index;
+            const { pageIndex, pageSize } = table.getState().pagination;
+            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+        },
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "name",
         header: "Field Name",
@@ -73,6 +111,7 @@ export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
                 style: "currency",
                 currency: "IDR",
                 minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             }).format(amount);
 
             return <div className="font-medium">{formatted}</div>;
@@ -80,20 +119,28 @@ export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: () => <div className="text-center">Status</div>,
+        size: 80,
         cell: ({ row }) => {
             const status = row.original.status;
             return (
-                <Badge
-                    variant={status === "APPROVED" ? "default" : "secondary"}
-                >
-                    {status}
-                </Badge>
+                <div className="flex justify-center">
+                    <Badge
+                        variant={status === "APPROVED" ? "default" : "secondary"}
+                    >
+                        {status}
+                    </Badge>
+                </div>
             );
         },
     },
     {
         id: "actions",
-        cell: ({ row }) => <ActionsCell field={row.original} />,
+        header: () => <div className="text-center">Actions</div>,
+        cell: ({ row }) => (
+            <div className="flex justify-center">
+                <ActionsCell field={row.original} />
+            </div>
+        ),
     },
 ];
