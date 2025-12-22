@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
 import { SelectField } from "@/components/shared/form/SelectField";
 import { useAuth } from "@/context/AuthContext";
+import { VenueScheduleForm } from "./VenueScheduleForm";
 
 interface VenueFormProps {
     initialData?: Partial<VenueFormValues>;
@@ -31,13 +32,33 @@ export function VenueForm({
         label: renter.fullName,
     }));
 
+    const formatTime = (isoString: string) => {
+        try {
+            if (!isoString.includes("T")) return isoString;
+            const date = new Date(isoString);
+            const hours = date.getUTCHours().toString().padStart(2, "0");
+            const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+            return `${hours}:${minutes}`;
+        } catch (e) {
+            return isoString;
+        }
+    };
+
+    const formattedSchedules =
+        initialData?.schedules?.map((s) => ({
+            ...s,
+            openTime: formatTime(s.openTime),
+            closeTime: formatTime(s.closeTime),
+        })) || [];
+
     const form = useForm<VenueFormValues>({
         resolver: zodResolver(venueSchema),
-        defaultValues: initialData || {
-            name: "",
-            address: "",
-            renterId: isRenter && user ? user.id : "",
-            description: "",
+        defaultValues: {
+            name: initialData?.name || "",
+            address: initialData?.address || "",
+            renterId: initialData?.renterId || (isRenter && user ? user.id : ""),
+            description: initialData?.description || "",
+            schedules: formattedSchedules,
         },
     });
 
@@ -72,6 +93,7 @@ export function VenueForm({
                     label="Description"
                     placeholder="A brief description about the venue"
                 />
+                <VenueScheduleForm />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}
                 </Button>
