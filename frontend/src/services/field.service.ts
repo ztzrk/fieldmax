@@ -5,11 +5,11 @@ import {
 import { AxiosError } from "axios";
 
 const FieldService = {
-    getAll: async (page: number, limit: number) => {
+    getAll: async (page?: number, limit?: number, search?: string) => {
         try {
-            const response = await api.get("/fields", {
-                params: { page, limit },
-            });
+            const params: Record<string, any> = { page, limit };
+            if (search) params.search = search;
+            const response = await api.get("/fields", { params });
             return response.data;
         } catch (error) {
             throw error as AxiosError;
