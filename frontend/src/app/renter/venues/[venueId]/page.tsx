@@ -5,6 +5,7 @@ import {
     useUpdateVenue,
     useUploadVenuePhotos,
 } from "@/hooks/useVenues";
+import { useDeleteMultipleFields } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { VenueForm } from "@/app/admin/venues/components/VenueForm";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
@@ -49,7 +50,14 @@ export default function EditVenuePage() {
     const { mutateAsync: uploadPhotos, isPending: isUploading } =
         useUploadVenuePhotos(venueId as string);
 
-    if (isLoading) return <FullScreenLoader />;
+    const { mutate: deleteMultiple, isPending: isDeleting } =
+        useDeleteMultipleFields();
+
+    const handleDeleteSelected = async (selectedIds: string[]) => {
+        deleteMultiple(selectedIds);
+    };
+
+    if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError || !venue)
         return (
             <p className="text-center text-red-500 py-10">
@@ -65,7 +73,12 @@ export default function EditVenuePage() {
         await uploadPhotos(Array.from(files));
     };
 
-    const pageCount = venue.fields.length;
+    const totalFields = venue.fields?.length || 0;
+    const pageCount = Math.ceil(totalFields / pageSize);
+    const paginatedFields = (venue.fields || []).slice(
+        pageIndex * pageSize,
+        (pageIndex + 1) * pageSize
+    );
 
     return (
         <div className="space-y-8">
@@ -139,7 +152,8 @@ export default function EditVenuePage() {
                 <CardContent>
                     <DataTable
                         columns={getRenterFieldColumns(venueId)}
-                        data={venue.fields || []}
+                        data={paginatedFields}
+                        onDeleteSelected={handleDeleteSelected}
                         pageCount={pageCount}
                         pagination={{ pageIndex, pageSize }}
                         onPaginationChange={setPagination}
