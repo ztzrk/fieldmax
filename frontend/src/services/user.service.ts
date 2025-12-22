@@ -4,11 +4,10 @@ import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
 const UserService = {
-    getAllUsers: async (page?: number, limit?: number) => {
+    getAllUsers: async (page?: number, limit?: number, search?: string) => {
         try {
-            const params: { page?: number; limit?: number } = {};
-            if (page !== undefined) params.page = page;
-            if (limit !== undefined) params.limit = limit;
+            const params: Record<string, any> = { page, limit };
+            if (search) params.search = search;
 
             const response = await api.get("/users", { params });
             return response.data;
