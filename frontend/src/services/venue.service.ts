@@ -5,15 +5,11 @@ import {
 import { AxiosError } from "axios";
 
 const VenueService = {
-    getAll: async (page: number, limit: number) => {
-        try {
-            const response = await api.get("/venues", {
-                params: { page, limit },
-            });
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+    getAll: async (page?: number, limit?: number, search?: string) => {
+        const params: Record<string, any> = { page, limit };
+        if (search) params.search = search;
+        const response = await api.get("/venues", { params });
+        return response.data;
     },
 
     getById: async (id: string) => {
