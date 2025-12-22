@@ -4,18 +4,19 @@ import {
     fieldsPaginatedApiResponseSchema,
 } from "@/lib/schema/field.schema";
 import FieldService from "@/services/field.service";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
-export function useGetAllFields(page: number, limit: number) {
+export function useGetAllFields(page: number, limit: number, search?: string) {
     return useQuery({
-        queryKey: ["fields", { page, limit }],
+        queryKey: ["fields", { page, limit, search }],
         queryFn: async () => {
-            const data = await FieldService.getAll(page, limit);
+            const data = await FieldService.getAll(page, limit, search);
             return fieldsPaginatedApiResponseSchema.parse(data);
         },
+        placeholderData: keepPreviousData,
     });
 }
 
