@@ -16,9 +16,11 @@ export default function AdminSportTypesPage() {
             pageIndex: 0,
             pageSize: 10,
         });
+    const [search, setSearch] = useState("");
     const { data, isLoading, isError } = useGetAllSportTypes(
         pageIndex + 1,
-        pageSize
+        pageSize,
+        search
     );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleSportTypes();
@@ -50,6 +52,8 @@ export default function AdminSportTypesPage() {
                 pageCount={pageCount}
                 pagination={{ pageIndex, pageSize }}
                 onPaginationChange={setPagination}
+                onSearch={setSearch}
+                searchValue={search}
             />
         </div>
     );
