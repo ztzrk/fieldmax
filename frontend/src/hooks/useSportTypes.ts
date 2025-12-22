@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import SportTypeService from "@/services/sportType.service";
 import { toast } from "sonner";
 import {
@@ -8,13 +8,14 @@ import {
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
-export function useGetAllSportTypes(page: number, limit: number) {
+export function useGetAllSportTypes(page: number, limit: number, search?: string) {
     return useQuery({
-        queryKey: ["sport-types", { page, limit }],
+        queryKey: ["sport-types", { page, limit, search }],
         queryFn: async () => {
-            const data = await SportTypeService.getAll(page, limit);
+            const data = await SportTypeService.getAll(page, limit, search);
             return sportTypesPaginatedApiResponseSchema.parse(data);
         },
+        placeholderData: keepPreviousData,
     });
 }
 
