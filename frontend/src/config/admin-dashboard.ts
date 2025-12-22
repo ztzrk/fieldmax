@@ -34,6 +34,11 @@ export const adminNavItems: NavItem[] = [
         icon: Building,
     },
     {
+        title: "Fields",
+        url: "/admin/fields",
+        icon: Swords,
+    },
+    {
         title: "Bookings",
         url: "/admin/bookings",
         icon: FileText,
