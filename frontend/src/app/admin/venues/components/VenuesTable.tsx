@@ -13,9 +13,12 @@ export function VenuesTable() {
             pageIndex: 0,
             pageSize: 10,
         });
+    const [search, setSearch] = useState("");
+
     const { data, isLoading, isError } = useGetAllVenues(
         pageIndex + 1,
-        pageSize
+        pageSize,
+        search
     );
     const { mutate: deleteMultiple } = useDeleteMultipleVenues();
 
@@ -41,6 +44,8 @@ export function VenuesTable() {
                 pageCount={pageCount}
                 pagination={{ pageIndex, pageSize }}
                 onPaginationChange={setPagination}
+                onSearch={setSearch}
+                searchValue={search}
             />
         </div>
     );
