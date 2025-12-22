@@ -107,11 +107,28 @@ export const columns: ColumnDef<SportType>[] = [
         enableHiding: false,
     },
     {
+        id: "index",
+        header: () => <div className="text-center">#</div>,
+        size: 50,
+        cell: ({ row, table }) => {
+            const index = row.index;
+            const { pageIndex, pageSize } = table.getState().pagination;
+            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+        },
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
         accessorKey: "name",
         header: "Name",
     },
     {
         id: "actions",
-        cell: ({ row }) => <ActionsCell sportType={row.original} />,
+        header: () => <div className="text-center">Actions</div>,
+        cell: ({ row }) => (
+            <div className="flex justify-center">
+                <ActionsCell sportType={row.original} />
+            </div>
+        ),
     },
 ];
