@@ -7,6 +7,7 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
 import { SelectField } from "@/components/shared/form/SelectField";
+import { SwitchField } from "@/components/shared/form/SwitchField";
 import { fieldFormSchema, FieldFormValues } from "@/lib/schema/field.schema";
 
 
@@ -37,6 +38,7 @@ export function FieldForm({
             pricePerHour: 0,
             sportTypeId: "",
             description: "",
+            isClosed: false,
         },
     });
 
@@ -87,6 +89,12 @@ export function FieldForm({
                     name="description"
                     label="Description (Optional)"
                     placeholder="A brief description about the field"
+                />
+                <SwitchField
+                    control={form.control}
+                    name="isClosed"
+                    label="Closed"
+                    description="Temporarily close this field. Renters won't be able to see or book it."
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}
