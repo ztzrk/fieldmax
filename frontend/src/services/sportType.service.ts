@@ -5,7 +5,9 @@ import { BackendErrorResponse } from "@/types/error";
 const SportTypeService = {
     getAll: async (page?: number, limit?: number, search?: string) => {
         try {
-            const params: Record<string, any> = { page, limit };
+            const params: Record<string, any> = {};
+            if (page) params.page = page;
+            if (limit) params.limit = limit;
             if (search) params.search = search;
             const response = await api.get("/sport-types", { params });
             return response.data;
