@@ -103,6 +103,7 @@ model Field {
   createdAt         DateTime           @default(now()) @map("created_at")
   status            VerificationStatus @default(PENDING)
   name              String
+  isClosed          Boolean            @default(false) @map("is_closed")
   rejectionReason   String?            @map("rejection_reason")
   bookings          Booking[]
   conversations     Conversation[]
