@@ -32,6 +32,7 @@ export function SelectField<T extends FieldValues>({
     placeholder,
     options,
     disabled,
+    
 }: SelectFieldProps<T>) {
     return (
         <FormField
@@ -43,6 +44,7 @@ export function SelectField<T extends FieldValues>({
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        value={field.value}
                         disabled={disabled}
                     >
                         <FormControl>
