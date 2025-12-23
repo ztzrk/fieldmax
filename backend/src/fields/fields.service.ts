@@ -25,6 +25,7 @@ export class FieldsService {
                 select: {
                     id: true,
                     name: true,
+                    isClosed: true,
                     pricePerHour: true,
                     status: true,
                     sportType: {
@@ -84,6 +85,7 @@ export class FieldsService {
                 select: {
                     id: true,
                     name: true,
+                    isClosed: true,
                     pricePerHour: true,
                     status: true,
                     sportType: {
@@ -364,6 +366,15 @@ export class FieldsService {
     }
 
     public async getAvailability(fieldId: string, query: GetAvailabilityDto) {
+        const field = await prisma.field.findUnique({
+            where: { id: fieldId },
+            select: { isClosed: true },
+        });
+
+        if (!field || field.isClosed) {
+            return [];
+        }
+
         const requestedDate = new Date(query.date);
         const dayOfWeek =
             requestedDate.getUTCDay() === 0 ? 7 : requestedDate.getUTCDay();
