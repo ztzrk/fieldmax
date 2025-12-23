@@ -4,6 +4,7 @@ export const fieldApiResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     pricePerHour: z.number().min(0),
+    isClosed: z.boolean(),
     sportType: z.object({
         name: z.string(),
     }),
@@ -18,6 +19,7 @@ export const fieldFormSchema = z.object({
     pricePerHour: z.coerce.number().min(0, "Price must be a positive number."),
     sportTypeId: z.string().uuid("You must select a sport type."),
     description: z.string().nullable().optional(),
+    isClosed: z.boolean().optional(),
 });
 
 export const fieldDetailApiResponseSchema = z
@@ -27,6 +29,7 @@ export const fieldDetailApiResponseSchema = z
         pricePerHour: z.number(),
         description: z.string().nullable(),
         sportTypeId: z.string().uuid(),
+        isClosed: z.boolean(),
         status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
         rejectionReason: z.string().nullable(),
         photos: z
