@@ -9,6 +9,7 @@ import {
     Max,
     ValidateNested,
     IsArray,
+    IsBoolean,
 } from "class-validator";
 
 class ScheduleDto {
@@ -47,6 +48,10 @@ export class CreateFieldDto {
     @IsOptional()
     description?: string;
 
+    @IsBoolean()
+    @IsOptional()
+    isClosed?: boolean;
+
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => ScheduleDto)
@@ -63,6 +68,10 @@ export class UpdateFieldDto {
     @IsUUID()
     @IsOptional()
     sportTypeId?: string;
+
+    @IsBoolean()
+    @IsOptional()
+    isClosed?: boolean;
 
     @IsOptional()
     schedules?: ScheduleDto[];
