@@ -78,7 +78,7 @@ const ActionsCell = ({ user }: { user: User }) => {
                 <DialogHeader>
                     <DialogTitle>Edit User</DialogTitle>
                 </DialogHeader>
-                <UserForm initialData={user} dialogClose={() => setIsOpen(false)} />
+                <UserForm key={user.id} initialData={user} dialogClose={() => setIsOpen(false)} />
             </DialogContent>
         </Dialog>
     );
