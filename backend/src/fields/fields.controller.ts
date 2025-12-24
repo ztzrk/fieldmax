@@ -200,4 +200,26 @@ export class FieldsController {
             next(error);
         }
     };
+
+    public toggleClosure = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const { id } = req.params;
+            const { isClosed } = req.body;
+            const data = await this.service.toggleClosure(
+                id,
+                isClosed,
+                req.user!
+            );
+            res.status(200).json({
+                data,
+                message: isClosed ? "Field closed" : "Field opened",
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
