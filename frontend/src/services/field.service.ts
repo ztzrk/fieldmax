@@ -116,6 +116,16 @@ const FieldService = {
             throw error as AxiosError;
         }
     },
+    toggleClosure: async (id: string, isClosed: boolean) => {
+        try {
+            const response = await api.patch(`/fields/${id}/closure`, {
+                isClosed,
+            });
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
 };
 
 export default FieldService;
