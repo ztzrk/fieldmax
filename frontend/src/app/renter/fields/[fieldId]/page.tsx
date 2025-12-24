@@ -16,6 +16,7 @@ import { FieldForm } from "@/components/shared/fields/FieldForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldPhotoGallery } from "@/app/admin/fields/[fieldId]/FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
+import FieldClosureSwitch from "@/components/shared/fields/FieldClosureSwitch";
 
 export default function EditFieldPage() {
     const params = useParams();
@@ -98,15 +99,29 @@ export default function EditFieldPage() {
                 </div>
                 <div className="space-y-6">
                     {user?.role === "RENTER" && (
-                        <FieldStatusUpdater
-                            field={field as Field}
-                            role="RENTER"
-                        />
+                        <div className="space-y-6">
+                            <FieldStatusUpdater
+                                field={field as Field}
+                                role="RENTER"
+                            />
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Field Status</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <FieldClosureSwitch
+                                        fieldId={field.id}
+                                        initialIsClosed={field.isClosed}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </div>
                     )}
                     <Card>
                         <CardHeader>
                             <CardTitle>Add New Photos</CardTitle>
                         </CardHeader>
+
                         <CardContent>
                             <ImageUploader
                                 onUpload={handleUpload}
