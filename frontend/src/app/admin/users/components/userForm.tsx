@@ -10,8 +10,8 @@ import { SelectField } from "@/components/shared/form/SelectField";
 import { useCreateUser, useUpdateUser } from "@/hooks/useUsers";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
 import { BackendErrorResponse } from "@/types/error";
+
 
 interface UserFormProps {
     initialData?: Partial<UserFormValues> & { id?: string; createdAt?: string };
@@ -33,14 +33,8 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
     const { mutate: createUser, isPending: isCreating } = useCreateUser();
     const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
 
-    useEffect(() => {
-        if (initialData) {
-            form.reset({
-                ...initialData,
-                password: "",
-            });
-        }
-    }, [initialData, form]);
+    // useEffect removed: Form reset is handled by mounting a new component instance with a unique 'key' prop.
+
 
     const isPending = isCreating || isUpdating;
 
