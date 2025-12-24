@@ -7,6 +7,7 @@ import {
     CreateFieldDto,
     RejectFieldDto,
     UpdateFieldDto,
+    ToggleFieldClosureDto,
 } from "./dtos/field.dto";
 import { canManageField } from "../middleware/permission.middleware";
 import { ScheduleOverrideDto } from "./dtos/override.dto";
@@ -78,6 +79,15 @@ export class FieldsRoute {
             canManageField,
             this.controller.resubmit
         );
+
+        this.router.patch(
+            `${this.path}/:id/closure`,
+            authMiddleware,
+            canManageField,
+            validationMiddleware(ToggleFieldClosureDto),
+            this.controller.toggleClosure
+        );
+
         this.router.get(
             `${this.path}/:fieldId/overrides`,
             authMiddleware,
