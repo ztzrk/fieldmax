@@ -77,9 +77,16 @@ export class UpdateFieldDto {
     schedules?: ScheduleDto[];
 }
 
+
 export class RejectFieldDto {
     @IsString()
     @IsNotEmpty()
     rejectionReason!: string;
+}
+
+export class ToggleFieldClosureDto {
+    @IsBoolean()
+    @IsNotEmpty()
+    isClosed!: boolean;
 }
 
