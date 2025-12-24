@@ -441,4 +441,22 @@ export class FieldsService {
 
         return availableSlots;
     }
+
+    public async toggleClosure(fieldId: string, isClosed: boolean, user: User) {
+        const field = await prisma.field.findUnique({
+            where: { id: fieldId },
+            include: { venue: true },
+        });
+
+        if (!field) throw new NotFoundError("Field not found.");
+
+        if (user.role === "RENTER" && field.venue.renterId !== user.id) {
+            throw new Error("Forbidden: You do not own this field.");
+        }
+
+        return prisma.field.update({
+            where: { id: fieldId },
+            data: { isClosed },
+        });
+    }
 }
