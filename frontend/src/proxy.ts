@@ -3,15 +3,14 @@ import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname;
-    const publicPaths = ["/login", "/register"];
-    const isPublicPath = publicPaths.includes(path);
+    const isProtectedRoute = path.startsWith("/admin") || path.startsWith("/renter");
     const token = request.cookies.get("sessionId")?.value || "";
 
-    if (isPublicPath && token) {
+    if (token && (path === "/login" || path === "/register")) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (!isPublicPath && !token) {
+    if (isProtectedRoute && !token) {
         return NextResponse.redirect(new URL("/login", request.url));
     }
 
