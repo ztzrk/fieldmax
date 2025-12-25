@@ -116,6 +116,20 @@ export const columns: ColumnDef<FieldApiResponse>[] = [
         },
     },
     {
+        accessorKey: "isClosed",
+        header: () => <div className="text-center">Availability</div>,
+        cell: ({ row }) => {
+            const isClosed = row.getValue("isClosed");
+            return (
+                <div className="flex justify-center">
+                    <Badge variant={isClosed ? "destructive" : "outline"}>
+                        {isClosed ? "Closed" : "Open"}
+                    </Badge>
+                </div>
+            );
+        },
+    },
+    {
         accessorKey: "status",
         header: () => <div className="text-center">Status</div>,
         size: 80,
