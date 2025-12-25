@@ -17,6 +17,9 @@ export class FieldsController {
                 );
                 res.status(200).json(data);
             } else {
+                if (!req.user) {
+                    query.status = "APPROVED";
+                }
                 const data = await this.service.findAll(query);
                 res.status(200).json(data);
             }
