@@ -9,16 +9,20 @@ import { NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
     public async findAll(query: PaginationDto) {
-        const { page = 1, limit = 10, search } = query;
+        const { page = 1, limit = 10, search, status, isClosed } = query;
         const skip = (page - 1) * limit;
-        const whereCondition: Prisma.FieldWhereInput = search
-            ? {
-                  name: {
-                      contains: search,
-                      mode: "insensitive",
-                  },
-              }
-            : {};
+        const whereCondition: Prisma.FieldWhereInput = {
+            ...(search
+                ? {
+                      name: {
+                          contains: search,
+                          mode: "insensitive",
+                      },
+                  }
+                : {}),
+            ...(status ? { status } : {}),
+            ...(typeof isClosed === "boolean" ? { isClosed } : {}),
+        };
         const [fields, total] = [
             await prisma.field.findMany({
                 where: whereCondition,
@@ -36,6 +40,12 @@ export class FieldsService {
                     venue: {
                         select: {
                             name: true,
+                        },
+                    },
+                    photos: {
+                        take: 1,
+                        select: {
+                            url: true,
                         },
                     },
                 },
@@ -96,6 +106,12 @@ export class FieldsService {
                     venue: {
                         select: {
                             name: true,
+                        },
+                    },
+                    photos: {
+                        take: 1,
+                        select: {
+                            url: true,
                         },
                     },
                 },
