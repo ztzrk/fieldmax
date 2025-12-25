@@ -10,7 +10,6 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import AuthService from "@/services/auth.service";
-import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { toast } from "sonner";
 
 export interface User {
@@ -19,6 +18,7 @@ export interface User {
     email: string;
     profilePictureUrl?: string;
     role: "USER" | "RENTER" | "ADMIN";
+    createdAt?: string;
 }
 
 interface AuthContextType {
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {isLoading ? <FullScreenLoader /> : children}
+            {children}
         </AuthContext.Provider>
     );
 };
