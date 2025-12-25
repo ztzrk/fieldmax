@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -88,6 +89,11 @@ export default function LoginPage() {
                         </form>
                     </Form>
                 </CardContent>
+                <div className="p-6 pt-0 flex justify-center">
+                    <Link href="/" className="text-sm text-muted-foreground hover:underline">
+                        Back to Home
+                    </Link>
+                </div>
             </Card>
         </div>
     );
