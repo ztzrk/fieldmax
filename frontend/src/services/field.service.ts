@@ -5,10 +5,18 @@ import {
 import { AxiosError } from "axios";
 
 const FieldService = {
-    getAll: async (page?: number, limit?: number, search?: string) => {
+    getAll: async (
+        page?: number,
+        limit?: number,
+        search?: string,
+        status?: "PENDING" | "APPROVED" | "REJECTED",
+        isClosed?: boolean
+    ) => {
         try {
             const params: Record<string, any> = { page, limit };
             if (search) params.search = search;
+            if (status) params.status = status;
+            if (isClosed !== undefined) params.isClosed = isClosed;
             const response = await api.get("/fields", { params });
             return response.data;
         } catch (error) {
