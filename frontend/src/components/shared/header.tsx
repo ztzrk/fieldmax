@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { UserNav } from "./userNav";
+import { UserNav } from "./UserNav";
 
 export function Header() {
     return (
