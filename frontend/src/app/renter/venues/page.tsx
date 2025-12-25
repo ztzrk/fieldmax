@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useGetAllVenues, useDeleteMultipleVenues } from "@/hooks/useVenues";
+import { useDebounce } from "@/hooks/useDebounce";
 import { CreateVenueWizard } from "./components/CreateVenueWizard";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
@@ -13,7 +14,14 @@ export default function RenterVenuesPage() {
         pageSize: 10,
     });
 
-    const { data, isLoading } = useGetAllVenues(pageIndex + 1, pageSize);
+    const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 500);
+
+    const { data, isLoading } = useGetAllVenues(
+        pageIndex + 1,
+        pageSize,
+        debouncedSearch
+    );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleVenues();
 
@@ -44,6 +52,8 @@ export default function RenterVenuesPage() {
                 pageCount={pageCount}
                 pagination={{ pageIndex, pageSize }}
                 onPaginationChange={setPagination}
+                onSearch={setSearch}
+                searchValue={search}
             />
         </div>
     );
