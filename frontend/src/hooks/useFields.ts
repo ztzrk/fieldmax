@@ -9,11 +9,23 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
-export function useGetAllFields(page: number, limit: number, search?: string) {
+export function useGetAllFields(
+    page: number,
+    limit: number,
+    search?: string,
+    status?: "PENDING" | "APPROVED" | "REJECTED",
+    isClosed?: boolean
+) {
     return useQuery({
-        queryKey: ["fields", { page, limit, search }],
+        queryKey: ["fields", { page, limit, search, status, isClosed }],
         queryFn: async () => {
-            const data = await FieldService.getAll(page, limit, search);
+            const data = await FieldService.getAll(
+                page,
+                limit,
+                search,
+                status,
+                isClosed
+            );
             return fieldsPaginatedApiResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
