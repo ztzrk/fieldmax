@@ -12,6 +12,7 @@ export const fieldApiResponseSchema = z.object({
     venue: z.object({
         name: z.string(),
     }),
+    photos: z.array(z.object({ url: z.string() })).optional(),
 });
 
 export const fieldFormSchema = z.object({
