@@ -9,6 +9,7 @@
     "backend"
   ],
   "devDependencies": {
-    "turbo": "^1.10.12"
-  }
+    "turbo": "^2.7.2"
+  },
+  "packageManager": "pnpm@10.12.4"
 }
