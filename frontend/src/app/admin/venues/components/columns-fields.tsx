@@ -100,6 +100,18 @@ export const columns: ColumnDef<FieldApiResponse>[] = [
         header: "Venue",
     },
     {
+        accessorKey: "isClosed",
+        header: "Availability",
+        cell: ({ row }) => {
+            const isClosed = row.getValue("isClosed");
+            return (
+                <Badge variant={isClosed ? "destructive" : "outline"}>
+                    {isClosed ? "Closed" : "Open"}
+                </Badge>
+            );
+        },
+    },
+    {
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {
