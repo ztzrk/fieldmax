@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetAllFields, useDeleteMultipleFields } from "@/hooks/useFields";
+import { useDebounce } from "@/hooks/useDebounce";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/app/admin/components/PageHeader";
@@ -15,8 +16,15 @@ export default function RenterFieldsPage() {
         pageSize: 10,
     });
 
+    const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 500);
+
     // This hook will now return filtered fields because the backend is updated
-    const { data, isLoading, isError } = useGetAllFields(pageIndex + 1, pageSize);
+    const {
+        data,
+        isLoading,
+        isError,
+    } = useGetAllFields(pageIndex + 1, pageSize, debouncedSearch);
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleFields();
 
@@ -38,14 +46,16 @@ export default function RenterFieldsPage() {
                 title="My Fields"
                 description="View and manage all your fields across all venues."
             />
-                    <DataTable
-                        columns={renterAllFieldColumns}
-                        data={data.data}
-                        onDeleteSelected={handleDeleteSelected}
-                        pageCount={data.meta.totalPages}
-                        pagination={{ pageIndex, pageSize }}
-                        onPaginationChange={setPagination}
-                    />
+            <DataTable
+                columns={renterAllFieldColumns}
+                data={data.data}
+                onDeleteSelected={handleDeleteSelected}
+                pageCount={data.meta.totalPages}
+                pagination={{ pageIndex, pageSize }}
+                onPaginationChange={setPagination}
+                onSearch={setSearch}
+                searchValue={search}
+            />
         </div>
     );
 }
