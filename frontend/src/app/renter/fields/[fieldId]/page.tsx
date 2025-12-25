@@ -34,7 +34,7 @@ export default function EditFieldPage() {
 
     const backHref = fromVenueId
         ? `/renter/venues/${fromVenueId}`
-        : "/renter/venues";
+        : "/renter/fields";
     const {
         data: field,
         isLoading,
