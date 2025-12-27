@@ -12,6 +12,24 @@ const VenueService = {
         return response.data;
     },
 
+    getAllPublic: async () => {
+        try {
+            const response = await api.get("/venues/public");
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
+    getByIdPublic: async (id: string) => {
+        try {
+            const response = await api.get(`/venues/public/${id}`);
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
     getById: async (id: string) => {
         try {
             const response = await api.get(`/venues/${id}`);
