@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/components/QueryClientProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/components/shared/ModeToggle";
+import { Footer } from "@/components/shared/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
                         <ModeToggle />
                     </div>
                     <Toaster />
+                    <Footer />
                 </ThemeProvider>
             </body>
         </html>
