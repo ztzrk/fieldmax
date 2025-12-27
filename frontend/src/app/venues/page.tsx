@@ -106,14 +106,14 @@ export default function VenuesPage() {
                 {isVenuesLoading ? (
                     <FullScreenLoader />
                 ) : (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                         {filteredVenues?.map((venue) => (
                             <Card 
                                 key={venue.id} 
-                                className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+                                className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group"
                                 onClick={() => router.push(`/venues/${venue.id}`)}
                             >
-                                <div className="aspect-video w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
+                                <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
                                      {venue.photos && venue.photos.length > 0 ? (
                                         <img 
                                             src={venue.photos[0].url} 
@@ -121,25 +121,25 @@ export default function VenuesPage() {
                                             className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                                         />
                                     ) : (
-                                        <Building2 className="h-12 w-12 opacity-20" />
+                                        <Building2 className="h-8 w-8 opacity-20" />
                                     )}
                                 </div>
-                                <CardHeader className="p-4">
-                                    <CardTitle className="text-lg font-semibold mb-1" title={venue.name}>
+                                <CardHeader className="p-3 pb-0">
+                                    <CardTitle className="line-clamp-1 text-sm font-semibold" title={venue.name}>
                                         {venue.name}
                                     </CardTitle>
-                                    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                                        <MapPin className="h-4 w-4 shrink-0" />
+                                </CardHeader>
+                                <CardContent className="p-3 pt-2">
+                                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                                        <MapPin className="h-3 w-3 shrink-0" />
                                         <span className="line-clamp-1">{venue.address || "No address"}</span>
                                     </div>
-                                </CardHeader>
-                                <CardContent className="p-4 pt-0">
-                                    <div className="flex items-center justify-between mt-2 pt-2 border-t">
-                                        <Badge variant="secondary">
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <Badge variant="secondary" className="text-[10px]">
                                             {venue._count?.fields || 0} Fields
                                         </Badge>
-                                        <Button variant="ghost" size="sm" className="gap-1 h-8">
-                                            Details <ArrowRight className="h-4 w-4" />
+                                        <Button variant="ghost" size="sm" className="h-7 px-2 text-xs gap-1 hover:bg-primary/10">
+                                            Details <ArrowRight className="h-2.5 w-2.5" />
                                         </Button>
                                     </div>
                                 </CardContent>
