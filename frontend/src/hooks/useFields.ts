@@ -14,17 +14,19 @@ export function useGetAllFields(
     limit: number,
     search?: string,
     status?: "PENDING" | "APPROVED" | "REJECTED",
-    isClosed?: boolean
+    isClosed?: boolean,
+    sportTypeId?: string
 ) {
     return useQuery({
-        queryKey: ["fields", { page, limit, search, status, isClosed }],
+        queryKey: ["fields", { page, limit, search, status, isClosed, sportTypeId }],
         queryFn: async () => {
             const data = await FieldService.getAll(
                 page,
                 limit,
                 search,
                 status,
-                isClosed
+                isClosed,
+                sportTypeId
             );
             return fieldsPaginatedApiResponseSchema.parse(data);
         },
