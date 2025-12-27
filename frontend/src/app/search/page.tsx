@@ -198,7 +198,7 @@ function SearchContent() {
                     </TabsContent>
 
                     <TabsContent value="fields">
-                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                             {fieldsData?.data?.map((field: any) => (
                                 <Card 
                                     key={field.id} 
@@ -241,7 +241,7 @@ function SearchContent() {
                     </TabsContent>
 
                     <TabsContent value="venues">
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                             {filteredVenues.map((venue) => (
                                 <Card 
                                     key={venue.id} 
