@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPrice } from "@/lib/utils";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useGetAllFields } from "@/hooks/useFields";
 import { Button } from "@/components/ui/button";
@@ -12,38 +13,47 @@ import { UserNav } from "@/components/shared/UserNav";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { Suspense } from "react";
+import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 
 function SearchContent() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams ? searchParams.get("q") || "" : "";
-    const [search, setSearch] = useState(initialQuery);
-    // Remove debounce here to search immediately on typing or keep it?
-    // User said "show all searched". The page is likely the result of a search.
-    // But allowing further searching on this page is good.
-    const { user, isLoading: isAuthLoading } = useAuth();
-    const router = useRouter();
-
-    // Update query url when search changes? Or just search locally?
-    // Usually search pages update URL on submit.
-    // For now, let's just use the 'search' state to trigger the query,
-    // and maybe update the URL?
+    const initialSportTypeId = searchParams ? searchParams.get("sportTypeId") || undefined : undefined;
     
-    // Actually, if we want "enter to go to search page", this page receives the query.
-    // If user types in THIS page, should it update immediately? 
-    // Let's implement immediate update for responsiveness here since we are already on the search page.
+    const [search, setSearch] = useState(initialQuery);
+    const [selectedSportType, setSelectedSportType] = useState<string | undefined>(initialSportTypeId);
+    
+    const { user, isLoading: isAuthLoading } = useAuth();
+    const { data: sportTypes } = useGetAllSportTypesWithoutPagination();
+    const router = useRouter();
 
     const { data: fieldsData, isLoading: isFieldsLoading } = useGetAllFields(
         1,
-        100, // Fetch more for search results
+        100, 
         search,
         "APPROVED",
-        false
+        false,
+        selectedSportType
     );
 
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
-             router.push(`/search?q=${search}`);
+             const newParams = new URLSearchParams(searchParams?.toString());
+             if (search) newParams.set("q", search);
+             else newParams.delete("q");
+             if (selectedSportType) newParams.set("sportTypeId", selectedSportType);
+             else newParams.delete("sportTypeId");
+             router.push(`/search?${newParams.toString()}`);
         }
+    }
+
+    const toggleSportType = (id: string | undefined) => {
+        setSelectedSportType(id);
+        const newParams = new URLSearchParams(searchParams?.toString());
+        if (id) newParams.set("sportTypeId", id);
+        else newParams.delete("sportTypeId");
+        if (search) newParams.set("q", search);
+        router.push(`/search?${newParams.toString()}`);
     }
 
     return (
@@ -100,14 +110,38 @@ function SearchContent() {
                 </div>
             </header>
 
-            <main className="flex-1 container mx-auto px-4 py-8">
-                <div className="flex justify-between items-center mb-6">
-                     <h1 className="text-2xl font-bold">
-                        {search ? `Search Results for "${search}"` : "All Fields"}
-                     </h1>
-                     <span className="text-muted-foreground">
-                        {fieldsData?.meta?.total || 0} results found
-                     </span>
+            <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-8">
+                <div className="flex flex-col gap-6 mb-8">
+                    <div className="flex justify-between items-center">
+                         <h1 className="text-2xl font-bold">
+                            {search ? `Search Results for "${search}"` : "All Fields"}
+                         </h1>
+                         <span className="text-muted-foreground text-sm">
+                            {fieldsData?.meta?.total || 0} fields found
+                         </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                        <Button
+                            variant={selectedSportType === undefined ? "default" : "outline"}
+                            size="sm"
+                            className="rounded-full"
+                            onClick={() => toggleSportType(undefined)}
+                        >
+                            All Sports
+                        </Button>
+                        {sportTypes?.map((type) => (
+                            <Button
+                                key={type.id}
+                                variant={selectedSportType === type.id ? "default" : "outline"}
+                                size="sm"
+                                className="rounded-full"
+                                onClick={() => toggleSportType(type.id)}
+                            >
+                                {type.name}
+                            </Button>
+                        ))}
+                    </div>
                 </div>
 
                 {isFieldsLoading ? (
@@ -115,50 +149,55 @@ function SearchContent() {
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                         {fieldsData?.data?.map((field: any) => (
-                            <Card key={field.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                                <div className="aspect-video w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
+                            <Card 
+                                key={field.id} 
+                                className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group"
+                                onClick={() => router.push(`/fields/${field.id}`)}
+                            >
+                                <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
                                     {field.photos && field.photos.length > 0 ? (
                                         <img 
                                             src={field.photos[0].url} 
                                             alt={field.name}
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                                         />
                                     ) : (
-                                        <Trophy className="h-12 w-12 opacity-20" />
+                                        <Trophy className="h-8 w-8 opacity-20" />
                                     )}
                                 </div>
-                                <CardHeader>
+                                <CardHeader className="p-3 pb-0">
                                     <div className="flex justify-between items-start">
-                                        <div>
-                                            <Badge variant="outline" className="mb-2">
+                                        <div className="w-full">
+                                            <Badge variant="outline" className="mb-1 text-[10px] px-1.5 py-0 h-4">
                                                 {field.sportType.name}
                                             </Badge>
-                                            <CardTitle className="line-clamp-1 text-lg">
+                                            <CardTitle className="line-clamp-1 text-sm font-semibold" title={field.name}>
                                                 {field.name}
                                             </CardTitle>
                                         </div>
                                     </div>
                                 </CardHeader>
-                                <CardContent>
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                                        <MapPin className="h-4 w-4" />
+                                <CardContent className="p-3 pt-2">
+                                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                                        <MapPin className="h-3 w-3 shrink-0" />
                                         <span className="line-clamp-1">{field.venue.name}</span>
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-xl font-bold">${field.pricePerHour}/hr</span>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <span className="text-sm font-bold">{formatPrice(field.pricePerHour)}/hr</span>
                                         <Button 
                                             size="sm" 
                                             variant="secondary" 
-                                            className="gap-1"
-                                            onClick={() => {
+                                            className="h-7 px-2 text-xs gap-1 hover:bg-primary hover:text-primary-foreground"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
                                                 if (!user) {
                                                     window.location.replace("/login");
                                                 }
                                             }}
                                         >
-                                            Book Now <ArrowRight className="h-3 w-3" />
+                                            Book <ArrowRight className="h-2.5 w-2.5" />
                                         </Button>
                                     </div>
                                 </CardContent>
