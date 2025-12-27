@@ -35,7 +35,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen relative">
             <Card className="w-[350px]">
                 <CardHeader>
                     <CardTitle>Login ke FIELDMAX</CardTitle>
