@@ -11,6 +11,15 @@ const AuthService = {
         }
     },
 
+    register: async (data: any) => {
+        try {
+            const response = await api.post("/auth/register", data);
+            return response.data.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
     getMe: async () => {
         try {
             const response = await api.get("/auth/me");
@@ -23,6 +32,24 @@ const AuthService = {
     logout: async () => {
         try {
             const response = await api.post("/auth/logout");
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
+    verifyEmail: async (data: { email: string; code: string }) => {
+        try {
+            const response = await api.post("/auth/verify", data);
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
+    resendCode: async (email: string) => {
+        try {
+            const response = await api.post("/auth/resend-code", { email });
             return response.data;
         } catch (error) {
             throw error as AxiosError;
