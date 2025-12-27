@@ -6,7 +6,9 @@ import {
     VenueFormValues,
     venueDetailApiResponseSchema,
     venuesPaginatedApiResponseSchema,
+    venuePublicSchema,
 } from "@/lib/schema/venue.schema";
+import { z } from "zod";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
@@ -18,6 +20,27 @@ export function useGetAllVenues(page: number, limit: number, search?: string) {
             return venuesPaginatedApiResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
+    });
+}
+
+export function useGetPublicVenues() {
+    return useQuery({
+        queryKey: ["public-venues"],
+        queryFn: async () => {
+            const data = await VenueService.getAllPublic();
+            return z.array(venuePublicSchema).parse(data);
+        },
+    });
+}
+
+export function useGetPublicVenueById(venueId: string) {
+    return useQuery({
+        queryKey: ["public-venue", venueId],
+        queryFn: async () => {
+            const response = await VenueService.getByIdPublic(venueId);
+            return venueDetailApiResponseSchema.parse(response.data);
+        },
+        enabled: !!venueId,
     });
 }
 
