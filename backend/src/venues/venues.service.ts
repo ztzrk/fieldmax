@@ -104,6 +104,15 @@ export class VenuesService {
                         email: true,
                     },
                 },
+                photos: {
+                    take: 1,
+                    select: {
+                        url: true,
+                    },
+                },
+                _count: {
+                    select: { fields: true },
+                },
             },
         });
         return venues;
