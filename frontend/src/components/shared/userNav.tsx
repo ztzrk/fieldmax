@@ -56,10 +56,16 @@ export function UserNav() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     {user.role === "USER" ? (
-                        <DropdownMenuItem onClick={() => router.push("/profile")}>
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
-                        </DropdownMenuItem>
+                        <>
+                            <DropdownMenuItem onClick={() => router.push("/profile")}>
+                                <User className="mr-2 h-4 w-4" />
+                                <span>Profile</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push("/venues")}>
+                                <MapPin className="mr-2 h-4 w-4" />
+                                <span>Browse Venues</span>
+                            </DropdownMenuItem>
+                        </>
                     ) : (
                         <>
                             <DropdownMenuItem onClick={() => router.push(dashboardLink)}>
