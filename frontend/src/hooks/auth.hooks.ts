@@ -52,3 +52,78 @@ export function useLogin() {
         isPending: mutation.isPending || isRedirecting,
     };
 }
+
+export function useRegister() {
+    const queryClient = useQueryClient();
+    const router = useRouter();
+
+    const mutation = useMutation({
+        mutationFn: (data: any) => AuthService.register(data),
+        onSuccess: (newUser: any, variables: any) => {
+            toast.success("Account created successfully!", {
+                description: "A verification code has been sent to your email.",
+            });
+            router.push(`/verify-email?email=${encodeURIComponent(variables.email)}`);
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Registration failed.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = "Cannot connect to server. Please check your connection.";
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error("Registration Error", { description: errorMessage });
+        },
+    });
+
+    return mutation;
+}
+
+export function useVerifyEmail() {
+    const router = useRouter();
+
+    const mutation = useMutation({
+        mutationFn: (data: { email: string; code: string }) => AuthService.verifyEmail(data),
+        onSuccess: () => {
+            toast.success("Email verified!", {
+                description: "You can now log in to your account.",
+            });
+            router.push("/login");
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Verification failed.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error("Verification Error", { description: errorMessage });
+        },
+    });
+
+    return mutation;
+}
+
+export function useResendCode() {
+    const mutation = useMutation({
+        mutationFn: (email: string) => AuthService.resendCode(email),
+        onSuccess: () => {
+            toast.success("New code sent!", {
+                description: "Please check your email for the verification code.",
+            });
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let errorMessage = "Failed to resend code.";
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
+            } else {
+                errorMessage = error.message;
+            }
+            toast.error("Error", { description: errorMessage });
+        },
+    });
+
+    return mutation;
+} // End
