@@ -27,9 +27,17 @@ export class ProfileService {
     }
 
     public async getProfile(userId: string) {
-        return prisma.userProfile.findUnique({
-            where: { userId },
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                profile: true,
+            },
         });
+
+        if (!user) return null;
+
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
     public async changePassword(userId: string, newPassword: string) {
