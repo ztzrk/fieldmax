@@ -18,7 +18,6 @@ export class SportTypesRoute {
     private initializeRoutes() {
         this.router.get(
             `${this.path}`,
-            authMiddleware,
             validationMiddleware(PaginationDto, true, true),
             this.controller.getAll
         );
