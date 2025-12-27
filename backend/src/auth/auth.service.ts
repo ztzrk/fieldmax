@@ -9,7 +9,9 @@ import {
     ForbiddenError,
     NotFoundError,
     UnauthorizedError,
+    ValidationError,
 } from "../utils/errors";
+import { sendVerificationEmail } from "../lib/mailer";
 
 export class AuthService {
     public async register(
@@ -31,13 +33,21 @@ export class AuthService {
         }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
 
         const createdUser = await prisma.user.create({
             data: {
                 ...userData,
                 password: hashedPassword,
+                isVerified: false,
+                verificationCode,
+                verificationCodeExpiresAt,
             },
         });
+
+        // Send email (non-blocking in a real queue, but awaiting here for simplicity)
+        await sendVerificationEmail(createdUser.email, verificationCode);
 
         const { password, ...userWithoutPassword } = createdUser;
         return userWithoutPassword;
@@ -48,6 +58,7 @@ export class AuthService {
     ): Promise<{ sessionId: string; user: Omit<User, "password"> }> {
         const findUser = await prisma.user.findUnique({
             where: { email: userData.email },
+            include: { profile: true },
         });
         if (!findUser) {
             throw new NotFoundError(`This email ${userData.email} was not found.`);
@@ -59,6 +70,10 @@ export class AuthService {
         );
         if (!isPasswordMatching) {
             throw new UnauthorizedError("Password not matching");
+        }
+
+        if (!findUser.isVerified) {
+            throw new ForbiddenError("Email not verified. Please verify your email.");
         }
 
         const sessionId = randomBytes(32).toString("hex");
@@ -74,6 +89,50 @@ export class AuthService {
 
         const { password, ...userWithoutPassword } = findUser;
         return { sessionId, user: userWithoutPassword };
+    }
+
+    public async verifyEmail(email: string, code: string): Promise<void> {
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) throw new NotFoundError("User not found.");
+
+        if (user.isVerified) return; // Already verified
+
+        if (
+            !user.verificationCode ||
+            user.verificationCode !== code ||
+            !user.verificationCodeExpiresAt ||
+            user.verificationCodeExpiresAt < new Date()
+        ) {
+            throw new ValidationError("Invalid or expired verification code.");
+        }
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                isVerified: true,
+                verificationCode: null,
+                verificationCodeExpiresAt: null,
+            },
+        });
+    }
+
+    public async resendCode(email: string): Promise<void> {
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) throw new NotFoundError("User not found.");
+        if (user.isVerified) throw new ConflictError("Email already verified.");
+
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                verificationCode,
+                verificationCodeExpiresAt,
+            },
+        });
+
+        await sendVerificationEmail(email, verificationCode);
     }
 
     public async logout(sessionId: string): Promise<void> {
