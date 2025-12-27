@@ -10,13 +10,15 @@ const FieldService = {
         limit?: number,
         search?: string,
         status?: "PENDING" | "APPROVED" | "REJECTED",
-        isClosed?: boolean
+        isClosed?: boolean,
+        sportTypeId?: string
     ) => {
         try {
             const params: Record<string, any> = { page, limit };
             if (search) params.search = search;
             if (status) params.status = status;
             if (isClosed !== undefined) params.isClosed = isClosed;
+            if (sportTypeId) params.sportTypeId = sportTypeId;
             const response = await api.get("/fields", { params });
             return response.data;
         } catch (error) {
