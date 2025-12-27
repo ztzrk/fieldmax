@@ -59,6 +59,7 @@ const fieldNestedSchema = z.object({
     pricePerHour: z.number(),
     status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
     sportTypeName: z.string(),
+    photos: z.array(z.object({ url: z.string() })).optional(),
 });
 
 export const venueDetailApiResponseSchema = z.object({
