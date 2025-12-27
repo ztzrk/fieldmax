@@ -30,4 +30,8 @@ export class PaginationDto {
         return value;
     })
     isClosed?: boolean;
+
+    @IsOptional()
+    @IsString()
+    sportTypeId?: string;
 }
