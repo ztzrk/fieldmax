@@ -33,5 +33,15 @@ export class AuthRoute {
             authMiddleware,
             this.authController.getMe
         );
+
+        this.router.post(
+            `${this.path}/verify`,
+            this.authController.verify
+        );
+
+        this.router.post(
+            `${this.path}/resend-code`,
+            this.authController.resendCode
+        );
     }
 }
