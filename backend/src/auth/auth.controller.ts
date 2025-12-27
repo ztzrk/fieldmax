@@ -39,8 +39,13 @@ export class AuthController {
                 `sessionId=${sessionId}; HttpOnly; Path=/; Max-Age=${expiresIn}; SameSite=Lax`,
             ]);
 
+            const responseUser = {
+                ...user,
+                profilePictureUrl: (user as any).profile?.profilePictureUrl,
+            };
+
             res.status(200).json({
-                data: { user },
+                data: { user: responseUser },
                 message: "Login successful",
             });
         } catch (error) {
@@ -93,10 +98,43 @@ export class AuthController {
 
             const { password, ...userWithoutPassword } = userFromMiddleware;
 
+            const responseUser = {
+                ...userWithoutPassword,
+                profilePictureUrl: (userFromMiddleware as any).profile?.profilePictureUrl,
+            };
+
             res.status(200).json({
-                data: userWithoutPassword,
+                data: responseUser,
                 message: "success",
             });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public verify = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> => {
+        try {
+            const { email, code } = req.body;
+            await this.authService.verifyEmail(email, code);
+            res.status(200).json({ message: "Email verified successfully" });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public resendCode = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> => {
+        try {
+            const { email } = req.body;
+            await this.authService.resendCode(email);
+            res.status(200).json({ message: "Verification code sent" });
         } catch (error) {
             next(error);
         }
