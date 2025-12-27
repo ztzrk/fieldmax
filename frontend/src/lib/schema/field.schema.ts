@@ -33,6 +33,14 @@ export const fieldDetailApiResponseSchema = z
         isClosed: z.boolean(),
         status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
         rejectionReason: z.string().nullable(),
+        sportType: z.object({
+            id: z.string(),
+            name: z.string(),
+        }),
+        venue: z.object({
+            id: z.string(),
+            name: z.string(),
+        }),
         photos: z
             .array(z.object({ id: z.string(), url: z.string() }))
             .optional(),
