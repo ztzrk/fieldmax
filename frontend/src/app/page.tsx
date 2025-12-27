@@ -2,12 +2,14 @@
 "use client";
 
 import { useState } from "react";
+import { formatPrice } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { useGetAllFields } from "@/hooks/useFields";
+import { useGetPublicVenues } from "@/hooks/useVenues";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
     LayoutDashboard,
@@ -15,34 +17,44 @@ import {
     MapPin,
     Trophy,
     ArrowRight,
-    Loader2
+    Loader2,
+    Building2
 } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { UserNav } from "@/components/shared/UserNav";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 
 export default function Home() {
     const { user, isLoading: isAuthLoading } = useAuth();
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 300);
+    const [selectedSportType, setSelectedSportType] = useState<string | undefined>(undefined);
     const router = useRouter();
+
+    const { data: sportTypes } = useGetAllSportTypesWithoutPagination();
 
     const { data: suggestions } = useGetAllFields(
         1,
         5,
-        debouncedSearch.length > 0 ? debouncedSearch : undefined, // Only search if there is text
+        debouncedSearch.length > 0 ? debouncedSearch : undefined,
         "APPROVED",
-        false
+        false,
+        selectedSportType
     );
 
     const { data, isLoading: isFieldsLoading } = useGetAllFields(
         1,
         12, 
-        "", // No search on home page, just featured/latest
+        "", 
         "APPROVED", 
-        false 
+        false,
+        selectedSportType
     );
+
+    const { data: venues, isLoading: isVenuesLoading } = useGetPublicVenues();
+    const [viewMode, setViewMode] = useState<"fields" | "venues">("fields");
 
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && search.trim()) {
@@ -148,77 +160,186 @@ export default function Home() {
                                     </div>
                                 )}
                             </div>
+
+                            {/* Sport Type Filters */}
+                            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+                                <Button
+                                    variant={selectedSportType === undefined ? "default" : "outline"}
+                                    size="sm"
+                                    className="rounded-full"
+                                    onClick={() => setSelectedSportType(undefined)}
+                                >
+                                    All
+                                </Button>
+                                {sportTypes?.map((type) => (
+                                    <Button
+                                        key={type.id}
+                                        variant={selectedSportType === type.id ? "default" : "outline"}
+                                        size="sm"
+                                        className="rounded-full"
+                                        onClick={() => setSelectedSportType(type.id)}
+                                    >
+                                        {type.name}
+                                    </Button>
+                                ))}
+                            </div>
+
+                            {/* View Mode Toggle */}
+                            <div className="flex items-center justify-center gap-2 mt-8 p-1 bg-muted/50 rounded-full w-fit mx-auto border">
+                                <Button
+                                    variant={viewMode === "fields" ? "secondary" : "ghost"}
+                                    size="sm"
+                                    onClick={() => setViewMode("fields")}
+                                    className="rounded-full px-6"
+                                >
+                                    Fields
+                                </Button>
+                                <Button
+                                    variant={viewMode === "venues" ? "secondary" : "ghost"}
+                                    size="sm"
+                                    onClick={() => setViewMode("venues")}
+                                    className="rounded-full px-6"
+                                >
+                                    Venues
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Marketplace Grid */}
                 <section className="w-full py-12 bg-background">
-                    <div className="w-full px-4 md:px-6">
+                    <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
                         <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-2xl font-bold tracking-tight">Available Fields</h2>
-                            <Link href="/search">
-                                <Button variant="ghost" className="gap-1">
-                                    See All <ArrowRight className="h-4 w-4" />
-                                </Button>
-                            </Link>
+                            <h2 className="text-2xl font-bold tracking-tight">Available {viewMode === "fields" ? "Fields" : "Venues"}</h2>
+                            {viewMode === "fields" && (
+                                <Link href="/search">
+                                    <Button variant="ghost" className="gap-1">
+                                        See All <ArrowRight className="h-4 w-4" />
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
 
-                        {isFieldsLoading ? (
-                            <FullScreenLoader/>
-                        ) : (
-                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                {data?.data?.map((field) => (
-                                    <Card key={field.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                                        <div className="aspect-video w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
-                                            {field.photos && field.photos.length > 0 ? (
-                                                <img 
-                                                    src={field.photos[0].url} 
-                                                    alt={field.name}
-                                                    className="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-300"
-                                                />
-                                            ) : (
-                                                <Trophy className="h-12 w-12 opacity-20" />
-                                            )}
-                                        </div>
-                                        <CardHeader>
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <Badge variant="outline" className="mb-2">
-                                                        {field.sportType.name}
-                                                    </Badge>
-                                                    <CardTitle className="line-clamp-1 text-lg">
-                                                        {field.name}
-                                                    </CardTitle>
+                        {viewMode === "venues" ? (
+                            isVenuesLoading ? (
+                                <FullScreenLoader />
+                            ) : (
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                                    {venues?.map((venue) => (
+                                        <Card 
+                                            key={venue.id} 
+                                            className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group"
+                                            onClick={() => router.push(`/venues/${venue.id}`)}
+                                        >
+                                            <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
+                                                {venue.photos && venue.photos.length > 0 ? (
+                                                    <img 
+                                                        src={venue.photos[0].url} 
+                                                        alt={venue.name}
+                                                        className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
+                                                    />
+                                                ) : (
+                                                    <Building2 className="h-8 w-8 opacity-20" />
+                                                )}
+                                            </div>
+                                            <CardHeader className="p-3 pb-0">
+                                                <CardTitle className="line-clamp-1 text-sm font-semibold" title={venue.name}>
+                                                    {venue.name}
+                                                </CardTitle>
+                                            </CardHeader>
+                                            <CardContent className="p-3 pt-2">
+                                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                                                    <MapPin className="h-3 w-3 shrink-0" />
+                                                    <span className="line-clamp-1">{venue.address || "No address provided"}</span>
                                                 </div>
-                                            </div>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                                                <MapPin className="h-4 w-4" />
-                                                <span className="line-clamp-1">{field.venue.name}</span>
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xl font-bold">Rp. {field.pricePerHour}/hr</span>
+                                                <div className="flex items-center justify-between mt-auto">
+                                                    <Badge variant="secondary" className="text-[10px]">
+                                                        {venue._count?.fields || 0} Fields
+                                                    </Badge>
                                                     <Button 
                                                         size="sm" 
-                                                        variant="secondary" 
-                                                        className="gap-1"
-                                                        onClick={() => {
-                                                            if (!user) {
-                                                                window.location.href = "/login";
-                                                            } 
-                                                        }}
+                                                        variant="ghost" 
+                                                        className="h-7 px-2 text-xs gap-1 hover:bg-primary/10"
                                                     >
-                                                        Book Now <ArrowRight className="h-3 w-3" />
+                                                        Details <ArrowRight className="h-2.5 w-2.5" />
                                                     </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            )
+                        ) : (
+                            isFieldsLoading ? (
+                                <FullScreenLoader/>
+                            ) : (
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                                    {data?.data?.map((field) => (
+                                        <Card 
+                                            key={field.id} 
+                                            className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group"
+                                            onClick={() => router.push(`/fields/${field.id}`)}
+                                        >
+                                            <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
+                                                {field.photos && field.photos.length > 0 ? (
+                                                    <img 
+                                                        src={field.photos[0].url} 
+                                                        alt={field.name}
+                                                        className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
+                                                    />
+                                                ) : (
+                                                    <Trophy className="h-8 w-8 opacity-20" />
+                                                )}
                                             </div>
-                                        </CardContent>
-                                    </Card>
-                                ))}
+                                            <CardHeader className="p-3 pb-0">
+                                                <div className="flex justify-between items-start">
+                                                    <div className="w-full">
+                                                        <Badge variant="outline" className="mb-1 text-[10px] px-1.5 py-0 h-4">
+                                                            {field.sportType.name}
+                                                        </Badge>
+                                                        <CardTitle className="line-clamp-1 text-sm font-semibold" title={field.name}>
+                                                            {field.name}
+                                                        </CardTitle>
+                                                    </div>
+                                                </div>
+                                            </CardHeader>
+                                            <CardContent className="p-3 pt-2">
+                                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                                                    <MapPin className="h-3 w-3 shrink-0" />
+                                                    <span className="line-clamp-1">{field.venue.name}</span>
+                                                </div>
+                                                <div className="flex items-center justify-between mt-auto">
+                                                    <span className="text-sm font-bold">{formatPrice(field.pricePerHour)}/hr</span>
+                                                        <Button 
+                                                            size="sm" 
+                                                            variant="secondary" 
+                                                            className="h-7 px-2 text-xs gap-1 hover:bg-primary hover:text-primary-foreground"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (!user) {
+                                                                    window.location.href = "/login";
+                                                                } else {
+                                                                    router.push(`/fields/${field.id}`);
+                                                                }
+                                                            }}
+                                                        >
+                                                            Book <ArrowRight className="h-2.5 w-2.5" />
+                                                        </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            )
+                        )}
+                        
+                        {viewMode === "venues" && !isVenuesLoading && venues?.length === 0 && (
+                            <div className="text-center py-20 text-muted-foreground">
+                                No venues found.
                             </div>
                         )}
-                        {!isFieldsLoading && data?.data?.length === 0 && (
+                        {viewMode === "fields" && !isFieldsLoading && data?.data?.length === 0 && (
                             <div className="text-center py-20 text-muted-foreground">
                                 No fields found matching your criteria.
                             </div>
