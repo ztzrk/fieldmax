@@ -162,6 +162,12 @@ export class VenuesService {
                                 name: true,
                             },
                         },
+                        photos: {
+                            take: 1,
+                            select: {
+                                url: true,
+                            },
+                        },
                     },
                 },
             },
