@@ -34,5 +34,12 @@ export class UploadsRoute {
             upload.array("photos", 5),
             this.controller.uploadFieldPhotos
         );
+
+        this.router.post(
+            `${this.path}/profile/photo`,
+            authMiddleware,
+            upload.single("photo"),
+            this.controller.uploadProfilePhoto
+        );
     }
 }
