@@ -97,3 +97,26 @@ export type VenueApiResponse = z.infer<typeof venueApiResponseSchema>;
 export type VenuesPaginatedApiResponse = z.infer<
     typeof venuesPaginatedApiResponseSchema
 >;
+const venuePublicPhotoSchema = z.object({
+    url: z.string().url(),
+    id: z.string().optional(),
+});
+
+export const venuePublicSchema = z.object({
+    id: z.string().uuid(),
+    name: z.string(),
+    address: z.string().optional(),
+    description: z.string().nullable().optional(),
+    renter: z.object({
+        fullName: z.string(),
+        email: z.string().email(),
+    }),
+    photos: z.array(venuePublicPhotoSchema).optional(),
+    _count: z
+        .object({
+            fields: z.number().int(),
+        })
+        .optional(),
+});
+
+export type VenuePublic = z.infer<typeof venuePublicSchema>;
