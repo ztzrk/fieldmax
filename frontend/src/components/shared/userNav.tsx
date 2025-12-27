@@ -27,7 +27,6 @@ export function UserNav() {
 
     const handleLogout = () => {
         logout();
-        // Force reload or redirect to ensure clean state if needed, though logout() usually handles context
     };
 
     const dashboardLink = user.role === "ADMIN" ? "/admin/dashboard" : "/renter/dashboard";
@@ -37,8 +36,11 @@ export function UserNav() {
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-8 w-8">
-                        {/* <AvatarImage src="/avatars/01.png" alt="@shadcn" /> */}
-                        <AvatarFallback>{initials}</AvatarFallback>
+                        {user.profilePictureUrl ? (
+                            <AvatarImage src={user.profilePictureUrl} />
+                        ) : (
+                            <AvatarFallback>{initials}</AvatarFallback>
+                        )}
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
@@ -60,10 +62,6 @@ export function UserNav() {
                             <DropdownMenuItem onClick={() => router.push("/profile")}>
                                 <User className="mr-2 h-4 w-4" />
                                 <span>Profile</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => router.push("/venues")}>
-                                <MapPin className="mr-2 h-4 w-4" />
-                                <span>Browse Venues</span>
                             </DropdownMenuItem>
                         </>
                     ) : (
