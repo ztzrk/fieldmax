@@ -6,6 +6,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/components/QueryClientProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ModeToggle } from "@/components/shared/ModeToggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,9 @@ export default function RootLayout({
                     <QueryProvider>
                         <AuthProvider> {children}</AuthProvider>
                     </QueryProvider>
+                    <div className="fixed bottom-4 right-4 z-50">
+                        <ModeToggle />
+                    </div>
                     <Toaster />
                 </ThemeProvider>
             </body>
