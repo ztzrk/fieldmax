@@ -9,7 +9,7 @@ import { NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
     public async findAll(query: PaginationDto) {
-        const { page = 1, limit = 10, search, status, isClosed } = query;
+        const { page = 1, limit = 10, search, status, isClosed, sportTypeId } = query;
         const skip = (page - 1) * limit;
         const whereCondition: Prisma.FieldWhereInput = {
             ...(search
@@ -22,6 +22,7 @@ export class FieldsService {
                 : {}),
             ...(status ? { status } : {}),
             ...(typeof isClosed === "boolean" ? { isClosed } : {}),
+            ...(sportTypeId ? { sportTypeId } : {}),
         };
         const [fields, total] = [
             await prisma.field.findMany({
@@ -72,7 +73,7 @@ export class FieldsService {
     }
 
     public async findAllForRenter(renterId: string, query: PaginationDto) {
-        const { page = 1, limit = 10, search } = query;
+        const { page = 1, limit = 10, search, sportTypeId } = query;
         const skip = (page - 1) * limit;
 
         const whereCondition: Prisma.FieldWhereInput = {
@@ -87,6 +88,7 @@ export class FieldsService {
                       },
                   }
                 : {}),
+            ...(sportTypeId ? { sportTypeId } : {}),
         };
 
         const [fields, total] = [
@@ -144,6 +146,7 @@ export class FieldsService {
             where: { id },
             include: {
                 sportType: true,
+                venue: true,
                 photos: true,
             },
         });
