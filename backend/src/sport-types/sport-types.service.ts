@@ -32,7 +32,7 @@ export class SportTypesService {
             const sportTypes = await prisma.sportType.findMany({
                 where: whereCondition,
             });
-            return { data: sportTypes }; // Return only data for non-paginated requests
+            return { data: sportTypes };
         }
     }
 
