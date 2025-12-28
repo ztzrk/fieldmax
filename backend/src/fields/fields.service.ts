@@ -35,6 +35,7 @@ export class FieldsService {
                     status: true,
                     sportType: {
                         select: {
+                            id: true,
                             name: true,
                         },
                     },
@@ -146,7 +147,11 @@ export class FieldsService {
             where: { id },
             include: {
                 sportType: true,
-                venue: true,
+                venue: {
+                    include: {
+                        schedules: true,
+                    },
+                },
                 photos: true,
             },
         });
@@ -170,20 +175,7 @@ export class FieldsService {
             throw new Error("Forbidden: You do not own this venue.");
         }
 
-        const { schedules, ...fieldData } = data;
-
-        return prisma.$transaction(async (tx) => {
-            const newField = await tx.field.create({ data: fieldData });
-            if (schedules && schedules.length > 0) {
-                await tx.fieldSchedule.createMany({
-                    data: schedules.map((s) => ({
-                        ...s,
-                        fieldId: newField.id,
-                    })),
-                });
-            }
-            return newField;
-        });
+        return prisma.field.create({ data: data });
     }
 
     public async update(fieldId: string, data: UpdateFieldDto, user: User) {
@@ -200,24 +192,9 @@ export class FieldsService {
             throw new Error("Forbidden: You do not own this field.");
         }
 
-        const { schedules, ...fieldData } = data;
-        return prisma.$transaction(async (tx) => {
-            const updatedField = await tx.field.update({
-                where: { id: fieldId },
-                data: fieldData,
-            });
-            if (schedules) {
-                await tx.fieldSchedule.deleteMany({
-                    where: { fieldId: fieldId },
-                });
-                await tx.fieldSchedule.createMany({
-                    data: schedules.map((s) => ({
-                        ...s,
-                        fieldId: updatedField.id,
-                    })),
-                });
-            }
-            return updatedField;
+        return prisma.field.update({
+            where: { id: fieldId },
+            data: data,
         });
     }
 
@@ -387,16 +364,15 @@ export class FieldsService {
     public async getAvailability(fieldId: string, query: GetAvailabilityDto) {
         const field = await prisma.field.findUnique({
             where: { id: fieldId },
-            select: { isClosed: true },
+            select: { isClosed: true, venueId: true },
         });
 
         if (!field || field.isClosed) {
             return [];
         }
 
-        const requestedDate = new Date(query.date);
-        const dayOfWeek =
-            requestedDate.getUTCDay() === 0 ? 7 : requestedDate.getUTCDay();
+        const requestedDate = this.parseDate(query.date);
+        const dayOfWeek = requestedDate.getUTCDay();
 
         const override = await prisma.scheduleOverride.findFirst({
             where: {
@@ -405,36 +381,34 @@ export class FieldsService {
             },
         });
 
-        let openTimeStr: Date | null = null;
-        let closeTimeStr: Date | null = null;
+        let openHour: number | null = null;
+        let closeHour: number | null = null;
         let isClosed = false;
 
         if (override) {
-            if (override.isClosed) {
+            if (override.isClosed || !override.openTime || !override.closeTime) {
                 isClosed = true;
             } else {
-                openTimeStr = override.openTime;
-                closeTimeStr = override.closeTime;
+                openHour = override.openTime.getUTCHours();
+                closeHour = override.closeTime.getUTCHours();
             }
         } else {
-            const regularSchedules = await prisma.fieldSchedule.findMany({
-                where: { fieldId: fieldId, dayOfWeek: dayOfWeek },
+            const regularSchedules = await prisma.venueSchedule.findMany({
+                where: { venueId: field.venueId, dayOfWeek: dayOfWeek },
             });
             if (regularSchedules.length > 0) {
-                openTimeStr = regularSchedules[0].openTime;
-                closeTimeStr = regularSchedules[0].closeTime;
+                openHour = regularSchedules[0].openTime.getUTCHours();
+                closeHour = regularSchedules[0].closeTime.getUTCHours();
             } else {
                 isClosed = true;
             }
         }
 
-        if (isClosed || !openTimeStr || !closeTimeStr) {
+        if (isClosed || openHour === null || closeHour === null) {
             return [];
         }
 
         const possibleSlots = [];
-        const openHour = openTimeStr.getUTCHours();
-        const closeHour = closeTimeStr.getUTCHours();
         for (let hour = openHour; hour < closeHour; hour++) {
             possibleSlots.push(`${hour.toString().padStart(2, "0")}:00`);
         }
@@ -477,5 +451,13 @@ export class FieldsService {
             where: { id: fieldId },
             data: { isClosed },
         });
+    }
+
+    private parseDate(dateString: string): Date {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            throw new ValidationError("Invalid date provided.");
+        }
+        return date;
     }
 }
