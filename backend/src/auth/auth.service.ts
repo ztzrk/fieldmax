@@ -34,11 +34,13 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000); 
+
+        const { confirmPassword, ...restUserData } = userData;
 
         const createdUser = await prisma.user.create({
             data: {
-                ...userData,
+                ...restUserData,
                 password: hashedPassword,
                 isVerified: false,
                 verificationCode,
@@ -46,7 +48,6 @@ export class AuthService {
             },
         });
 
-        // Send email (non-blocking in a real queue, but awaiting here for simplicity)
         await sendVerificationEmail(createdUser.email, verificationCode);
 
         const { password, ...userWithoutPassword } = createdUser;
@@ -95,7 +96,7 @@ export class AuthService {
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) throw new NotFoundError("User not found.");
 
-        if (user.isVerified) return; // Already verified
+        if (user.isVerified) return; 
 
         if (
             !user.verificationCode ||
