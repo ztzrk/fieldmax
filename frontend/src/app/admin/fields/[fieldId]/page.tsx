@@ -15,6 +15,7 @@ import { FieldStatusUpdater } from "./FieldStatusUpdater";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldPhotoGallery } from "./FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
+import { ScheduleDisplay } from "@/components/shared/fields/ScheduleDisplay";
 
 export default function EditFieldPage() {
     const params = useParams();
@@ -108,9 +109,11 @@ export default function EditFieldPage() {
                         <h2 className="text-lg font-semibold mb-4">
                             Weekly Schedule
                         </h2>
-                        <p className="text-sm text-muted-foreground">
-                            Coming soon...
-                        </p>
+                        <Card>
+                            <CardContent className="pt-6">
+                                <ScheduleDisplay schedules={field.venue.schedules || []} />
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </div>
