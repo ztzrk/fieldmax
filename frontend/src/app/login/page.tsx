@@ -89,7 +89,13 @@ export default function LoginPage() {
                         </form>
                     </Form>
                 </CardContent>
-                <div className="p-6 pt-0 flex justify-center">
+                <div className="p-6 pt-0 flex flex-col items-center gap-4">
+                    <div className="text-sm text-muted-foreground">
+                        Don't have an account?{" "}
+                        <Link href="/register" className="text-primary hover:underline font-medium">
+                            Register
+                        </Link>
+                    </div>
                     <Link href="/" className="text-sm text-muted-foreground hover:underline">
                         Back to Home
                     </Link>
