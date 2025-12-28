@@ -81,6 +81,13 @@ export class BookingsService {
                     totalPrice: totalPrice,
                     status: "PENDING",
                 },
+                include: {
+                    field: {
+                        include: {
+                            venue: true,
+                        },
+                    },
+                },
             });
 
             const transactionDetails = {
@@ -97,7 +104,7 @@ export class BookingsService {
                         id: field.id,
                         price: totalPrice,
                         quantity: 1,
-                        name: `${field.name} on ${data.bookingDate}`,
+                        name: `${field.name} @ ${newBooking.field.venue.name}`,
                     },
                 ],
             };
@@ -115,17 +122,25 @@ export class BookingsService {
         });
     }
 
-    public async confirmBooking(bookingId: string) {
+    public async updateStatus(
+        bookingId: string,
+        status: "CONFIRMED" | "CANCELLED" | "PENDING",
+        paymentStatus?: "PENDING" | "PAID" | "EXPIRED" | "FAILED"
+    ) {
         return prisma.booking.update({
             where: { id: bookingId },
-            data: { status: "CONFIRMED" },
+            data: { 
+                status,
+                ...(paymentStatus && { paymentStatus }),
+            },
         });
     }
 
+    public async confirmBooking(bookingId: string) {
+        return this.updateStatus(bookingId, "CONFIRMED", "PAID");
+    }
+
     public async cancelBooking(bookingId: string) {
-        return prisma.booking.update({
-            where: { id: bookingId },
-            data: { status: "CANCELLED" },
-        });
+        return this.updateStatus(bookingId, "CANCELLED", "FAILED");
     }
 }
