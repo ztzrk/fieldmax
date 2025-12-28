@@ -1,5 +1,6 @@
 import prisma from "../db";
 import midtransclient from "midtrans-client";
+import { BookingsService } from "../bookings/bookings.service";
 
 export class PaymentsService {
     private snap = new midtransclient.Snap({
@@ -7,6 +8,8 @@ export class PaymentsService {
         serverKey: process.env.MIDTRANS_SERVER_KEY,
         clientKey: process.env.MIDTRANS_CLIENT_KEY,
     });
+
+    private bookingsService = new BookingsService();
 
     public async handleMidtransNotification(notification: any) {
         const statusResponse = await this.snap.transaction.notification(
@@ -26,20 +29,16 @@ export class PaymentsService {
             transactionStatus == "settlement"
         ) {
             if (fraudStatus == "accept") {
-                await prisma.booking.update({
-                    where: { id: orderId },
-                    data: { status: "CONFIRMED" },
-                });
+                await this.bookingsService.updateStatus(orderId, "CONFIRMED", "PAID");
             }
         } else if (
             transactionStatus == "cancel" ||
             transactionStatus == "deny" ||
             transactionStatus == "expire"
         ) {
-            await prisma.booking.update({
-                where: { id: orderId },
-                data: { status: "CANCELLED" },
-            });
+            await this.bookingsService.updateStatus(orderId, "CANCELLED", "EXPIRED");
+        } else if (transactionStatus == "pending") {
+            await this.bookingsService.updateStatus(orderId, "PENDING", "PENDING");
         }
     }
 }
