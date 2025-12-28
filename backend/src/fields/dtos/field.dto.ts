@@ -12,21 +12,6 @@ import {
     IsBoolean,
 } from "class-validator";
 
-class ScheduleDto {
-    @IsNumber()
-    @Min(1)
-    @Max(7)
-    dayOfWeek!: number;
-
-    @IsString()
-    @IsNotEmpty()
-    openTime!: string;
-
-    @IsString()
-    @IsNotEmpty()
-    closeTime!: string;
-}
-
 export class CreateFieldDto {
     @IsString()
     @IsNotEmpty()
@@ -51,12 +36,6 @@ export class CreateFieldDto {
     @IsBoolean()
     @IsOptional()
     isClosed?: boolean;
-
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => ScheduleDto)
-    @IsOptional()
-    schedules?: ScheduleDto[];
 }
 
 export class UpdateFieldDto {
@@ -72,9 +51,6 @@ export class UpdateFieldDto {
     @IsBoolean()
     @IsOptional()
     isClosed?: boolean;
-
-    @IsOptional()
-    schedules?: ScheduleDto[];
 }
 
 
