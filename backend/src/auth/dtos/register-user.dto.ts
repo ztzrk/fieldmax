@@ -25,4 +25,8 @@ export class RegisterUserDto {
     @IsEnum(UserRole)
     @IsNotEmpty()
     role!: UserRole;
+
+    @IsString()
+    @IsNotEmpty()
+    confirmPassword!: string;
 }
