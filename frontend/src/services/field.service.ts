@@ -136,6 +136,16 @@ const FieldService = {
             throw error as AxiosError;
         }
     },
+    getAvailability: async (fieldId: string, date: string) => {
+        try {
+            const response = await api.get(`/fields/${fieldId}/availability`, {
+                params: { date },
+            });
+            return response.data.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
 };
 
 export default FieldService;
