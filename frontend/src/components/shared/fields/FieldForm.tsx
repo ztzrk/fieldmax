@@ -6,7 +6,7 @@ import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
-import { SelectField } from "@/components/shared/form/SelectField";
+import { ComboboxField } from "@/components/shared/form/ComboboxField";
 
 import { fieldFormSchema, FieldFormValues } from "@/lib/schema/field.schema";
 
@@ -77,7 +77,7 @@ export function FieldForm({
                     type="number"
                     placeholder="100000"
                 />
-                <SelectField
+                <ComboboxField
                     control={form.control}
                     name="sportTypeId"
                     label="Sport Type"
