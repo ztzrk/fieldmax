@@ -40,6 +40,16 @@ export const fieldDetailApiResponseSchema = z
         venue: z.object({
             id: z.string(),
             name: z.string(),
+            schedules: z
+                .array(
+                    z.object({
+                        id: z.string(),
+                        dayOfWeek: z.number(),
+                        openTime: z.string(),
+                        closeTime: z.string(),
+                    })
+                )
+                .optional(),
         }),
         photos: z
             .array(z.object({ id: z.string(), url: z.string() }))
