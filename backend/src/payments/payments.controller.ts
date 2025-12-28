@@ -19,4 +19,17 @@ export class PaymentsController {
             next(error);
         }
     };
+
+    public handleRedirect = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            // Redirect to frontend profile page
+            res.redirect("http://localhost:3001/profile");
+        } catch (error) {
+            next(error);
+        }
+    };
 }
