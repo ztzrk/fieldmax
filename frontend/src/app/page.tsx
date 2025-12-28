@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from "react";
-import { formatPrice } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,29 +11,19 @@ import { useGetAllFields } from "@/hooks/useFields";
 import { useGetPublicVenues } from "@/hooks/useVenues";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
-    LayoutDashboard,
     Search,
-    MapPin,
     Trophy,
     ArrowRight,
-    Loader2,
-    Building2,
     Zap,
     Shield,
     Users
 } from "lucide-react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { UserNav } from "@/components/shared/UserNav";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Navbar } from "@/components/layout/Navbar";
+import { VenueCard } from "@/components/venues/VenueCard";
+import { FieldCard } from "@/components/fields/FieldCard";
 
 export default function Home() {
     const { user, isLoading: isAuthLoading } = useAuth();
@@ -74,41 +63,7 @@ export default function Home() {
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-            {/* Navbar */}
-            <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center gap-8">
-                        <div className="flex gap-2 items-center font-bold text-xl">
-                            <Trophy className="h-6 w-6 text-primary" />
-                            <span>FieldMax</span>
-                        </div>
-                        <nav className="hidden md:flex items-center gap-6">
-                            <Link href="/fields" className="text-sm font-medium hover:text-primary transition-colors">
-                                Fields
-                            </Link>
-                            <Link href="/venues" className="text-sm font-medium hover:text-primary transition-colors">
-                                Venues
-                            </Link>
-                        </nav>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        {isAuthLoading ? (
-                            <div className="w-24 h-9 bg-muted animate-pulse rounded-md" />
-                        ) : user ? (
-                            <UserNav />
-                        ) : (
-                            <div className="flex gap-2">
-                                <Link href="/login">
-                                    <Button variant="ghost">Log In</Button>
-                                </Link>
-                                <Link href="/register">
-                                    <Button>Get Started</Button>
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </header>
+            <Navbar />
 
             <main className="flex-1">
                 {/* Hero Section */}
@@ -224,58 +179,7 @@ export default function Home() {
                                     <CarouselContent>
                                         {data?.data?.map((field) => (
                                             <CarouselItem key={field.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5 2xl:basis-1/6">
-                                                <Card 
-                                                    className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group h-full flex flex-col"
-                                                    onClick={() => router.push(`/fields/${field.id}`)}
-                                                >
-                                                    <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
-                                                        {field.photos && field.photos.length > 0 ? (
-                                                            <img 
-                                                                src={field.photos[0].url} 
-                                                                alt={field.name}
-                                                                className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
-                                                            />
-                                                        ) : (
-                                                            <Trophy className="h-8 w-8 opacity-20" />
-                                                        )}
-                                                    </div>
-                                                    <CardHeader className="p-3 pb-0">
-                                                        <div className="flex justify-between items-start">
-                                                            <div className="w-full">
-                                                                <Badge variant="outline" className="mb-1 text-[10px] px-1.5 py-0 h-4">
-                                                                    {field.sportType.name}
-                                                                </Badge>
-                                                                <CardTitle className="line-clamp-1 text-sm font-semibold" title={field.name}>
-                                                                    {field.name}
-                                                                </CardTitle>
-                                                            </div>
-                                                        </div>
-                                                    </CardHeader>
-                                                    <CardContent className="p-3 pt-2 flex-col flex flex-1">
-                                                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
-                                                            <MapPin className="h-3 w-3 shrink-0" />
-                                                            <span className="line-clamp-1">{field.venue.name}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between mt-auto">
-                                                            <span className="text-sm font-bold">{formatPrice(field.pricePerHour)}/hr</span>
-                                                                <Button 
-                                                                    size="sm" 
-                                                                    variant="secondary" 
-                                                                    className="h-7 px-2 text-xs gap-1 hover:bg-primary hover:text-primary-foreground"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        if (!user) {
-                                                                            window.location.href = "/login";
-                                                                        } else {
-                                                                            router.push(`/fields/${field.id}`);
-                                                                        }
-                                                                    }}
-                                                                >
-                                                                    Book <ArrowRight className="h-2.5 w-2.5" />
-                                                                </Button>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
+                                                <FieldCard field={field} />
                                             </CarouselItem>
                                         ))}
                                     </CarouselContent>
@@ -318,46 +222,7 @@ export default function Home() {
                                     <CarouselContent>
                                         {venues?.map((venue) => (
                                             <CarouselItem key={venue.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5 2xl:basis-1/6">
-                                                <Card 
-                                                    key={venue.id} 
-                                                    className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group h-full flex flex-col"
-                                                    onClick={() => router.push(`/venues/${venue.id}`)}
-                                                >
-                                                    <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
-                                                            {venue.photos && venue.photos.length > 0 ? (
-                                                            <img 
-                                                                src={venue.photos[0].url} 
-                                                                alt={venue.name}
-                                                                className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
-                                                            />
-                                                        ) : (
-                                                            <Building2 className="h-8 w-8 opacity-20" />
-                                                        )}
-                                                    </div>
-                                                    <CardHeader className="p-3 pb-0">
-                                                        <CardTitle className="line-clamp-1 text-sm font-semibold" title={venue.name}>
-                                                            {venue.name}
-                                                        </CardTitle>
-                                                    </CardHeader>
-                                                    <CardContent className="p-3 pt-2 flex-col flex flex-1">
-                                                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
-                                                            <MapPin className="h-3 w-3 shrink-0" />
-                                                            <span className="line-clamp-1">{venue.address || "No address provided"}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between mt-auto">
-                                                            <Badge variant="secondary" className="text-[10px]">
-                                                                {venue._count?.fields || 0} Fields
-                                                            </Badge>
-                                                            <Button 
-                                                                size="sm" 
-                                                                variant="ghost" 
-                                                                className="h-7 px-2 text-xs gap-1 hover:bg-primary/10"
-                                                            >
-                                                                Details <ArrowRight className="h-2.5 w-2.5" />
-                                                            </Button>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
+                                                <VenueCard venue={venue} />
                                             </CarouselItem>
                                         ))}
                                     </CarouselContent>
