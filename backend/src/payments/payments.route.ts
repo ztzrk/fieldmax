@@ -15,5 +15,10 @@ export class PaymentsRoute {
             `${this.path}/midtrans-notification`,
             this.controller.handleNotification
         );
+
+        // Redirect routes (GET)
+        this.router.get(`${this.path}/finish`, this.controller.handleRedirect);
+        this.router.get(`${this.path}/unfinish`, this.controller.handleRedirect);
+        this.router.get(`${this.path}/error`, this.controller.handleRedirect);
     }
 }
