@@ -11,12 +11,13 @@ async function main() {
     // Create Admin
     const admin = await prisma.user.upsert({
         where: { email: "admin@example.com" },
-        update: {},
+        update: { isVerified: true },
         create: {
             email: "admin@example.com",
             fullName: "Admin User",
             password: hashedPassword,
             role: "ADMIN",
+            isVerified: true,
         },
     });
     console.log({ admin });
@@ -24,12 +25,13 @@ async function main() {
     // Create Renter
     const renter = await prisma.user.upsert({
         where: { email: "renter@example.com" },
-        update: {},
+        update: { isVerified: true },
         create: {
             email: "renter@example.com",
             fullName: "Renter User",
             password: hashedPassword,
             role: "RENTER",
+            isVerified: true,
         },
     });
     console.log({ renter });
@@ -37,12 +39,13 @@ async function main() {
     // Create User
     const user = await prisma.user.upsert({
         where: { email: "user@example.com" },
-        update: {},
+        update: { isVerified: true },
         create: {
             email: "user@example.com",
             fullName: "Normal User",
             password: hashedPassword,
             role: "USER",
+            isVerified: true,
         },
     });
     console.log({ user });
