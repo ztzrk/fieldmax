@@ -4,6 +4,7 @@ export const createBookingSchema = z.object({
     fieldId: z.string().uuid(),
     bookingDate: z.string(), // YYYY-MM-DD
     startTime: z.string(), // HH:mm
+    duration: z.number().min(1).max(24).optional(),
 });
 
 export type CreateBookingValues = z.infer<typeof createBookingSchema>;
