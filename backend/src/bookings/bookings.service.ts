@@ -11,7 +11,7 @@ export class BookingsService {
         clientKey: process.env.MIDTRANS_CLIENT_KEY,
     });
 
-    public async findAllBookings(query: PaginationDto) {
+    public async findAllBookings(query: PaginationDto, user: User) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
 
@@ -25,11 +25,34 @@ export class BookingsService {
             }),
         };
 
+        // Role-based filtering
+        if (user.role === "USER") {
+            whereCondition.userId = user.id;
+        } else if (user.role === "RENTER") {
+            whereCondition.field = {
+                venue: {
+                    renterId: user.id,
+                },
+            };
+        }
+        // ADMIN sees all (no additional filter)
+
         const [bookings, total] = await prisma.$transaction([
             prisma.booking.findMany({
-                skip,
-                take: limit,
+                skip: Number(skip),
+                take: Number(limit),
                 where: whereCondition,
+                include: {
+                    field: {
+                        include: {
+                            venue: true,
+                        },
+                    },
+                    user: true, // Include user details for Admin/Renter views
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
             }),
             prisma.booking.count({
                 where: whereCondition,
@@ -43,6 +66,14 @@ export class BookingsService {
     public async findBookingById(bookingId: string) {
         return prisma.booking.findUnique({
             where: { id: bookingId },
+            include: {
+                field: {
+                    include: {
+                        venue: true,
+                    },
+                },
+                user: true,
+            },
         });
     }
 
@@ -52,23 +83,28 @@ export class BookingsService {
         });
         if (!field) throw new Error("Field not found");
 
+        const duration = data.duration || 1;
+        // Construct timestamp in WIB (UTC+7)
         const startTime = new Date(
-            `${data.bookingDate}T${data.startTime}:00.000Z`
+            `${data.bookingDate}T${data.startTime}:00.000+07:00`
         );
-        const endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
+        const endTime = new Date(startTime.getTime() + duration * 60 * 60 * 1000);
 
-        const existingBooking = await prisma.booking.findFirst({
+        // Check for overlaps: (StartA < EndB) and (EndA > StartB)
+        const overlappingBooking = await prisma.booking.findFirst({
             where: {
                 fieldId: data.fieldId,
                 bookingDate: new Date(data.bookingDate),
-                startTime: { gte: startTime, lt: endTime },
-                status: "CONFIRMED",
+                status: { in: ["CONFIRMED", "PENDING"] },
+                startTime: { lt: endTime },
+                endTime: { gt: startTime },
             },
         });
-        if (existingBooking)
-            throw new Error("This time slot is already booked.");
 
-        const totalPrice = field.pricePerHour;
+        if (overlappingBooking)
+            throw new Error("This time slot (or part of it) is already booked.");
+
+        const totalPrice = field.pricePerHour * duration;
 
         return prisma.$transaction(async (tx) => {
             const newBooking = await tx.booking.create({
@@ -107,6 +143,11 @@ export class BookingsService {
                         name: `${field.name} @ ${newBooking.field.venue.name}`,
                     },
                 ],
+                callbacks: {
+                    finish: `${process.env.BACKEND_URL || "http://localhost:3000"}/payments/finish`,
+                    unfinish: `${process.env.BACKEND_URL || "http://localhost:3000"}/payments/unfinish`,
+                    error: `${process.env.BACKEND_URL || "http://localhost:3000"}/payments/error`,
+                },
             };
 
             const transactionToken = await this.snap.createTransactionToken(
