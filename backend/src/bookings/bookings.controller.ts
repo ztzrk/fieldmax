@@ -12,7 +12,7 @@ export class BookingsController {
     ) => {
         try {
             const query = req.query;
-            const data = await this.service.findAllBookings(query);
+            const data = await this.service.findAllBookings(query, req.user!);
             res.status(200).json(data);
         } catch (error) {
             next(error);
