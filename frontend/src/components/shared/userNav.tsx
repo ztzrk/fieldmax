@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { User, LayoutDashboard, MapPin, Trophy } from "lucide-react";
+import { User, LayoutDashboard, MapPin, Trophy, CalendarDays } from "lucide-react";
 
 export function UserNav() {
     const { user, logout } = useAuth();
