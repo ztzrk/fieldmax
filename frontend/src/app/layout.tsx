@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/components/QueryClientProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/components/shared/ModeToggle";
-import { Navbar } from "@/components/layout/Navbar";
+import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
 import { Footer } from "@/components/shared/Footer";
 
 // const inter = Inter({ subsets: ["latin"] });
@@ -37,7 +37,7 @@ export default function RootLayout({
                 >
                     <QueryProvider>
                         <AuthProvider>
-                            <Navbar />
+                            <NavbarWrapper />
                             <main className="min-h-screen bg-background">
                                 {children}
                             </main>
