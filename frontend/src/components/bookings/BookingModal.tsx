@@ -10,15 +10,23 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { Calendar as CalendarIcon, Clock, Loader2 } from "lucide-react";
 import { useFieldAvailability, useCreateBooking } from "@/hooks/useBookings";
 import { useRouter } from "next/navigation";
+import { formatPrice } from "@/lib/utils";
 
 interface BookingModalProps {
     fieldId: string;
     fieldName: string;
     venueName: string;
+    pricePerHour: number;
     trigger?: React.ReactNode;
     isOpen?: boolean;
     onClose?: () => void;
@@ -28,6 +36,7 @@ export function BookingModal({
     fieldId,
     fieldName,
     venueName,
+    pricePerHour,
     trigger,
     isOpen: controlledIsOpen,
     onClose,
@@ -37,6 +46,7 @@ export function BookingModal({
         new Date().toISOString().split("T")[0]
     );
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const [duration, setDuration] = useState(1);
     const router = useRouter();
 
     const { data: availability, isLoading: isAvailabilityLoading, refetch } =
@@ -69,6 +79,7 @@ export function BookingModal({
                 fieldId,
                 bookingDate: selectedDate,
                 startTime: selectedTime,
+                duration: duration,
             },
             {
                 onSuccess: (response: any) => {
@@ -78,11 +89,11 @@ export function BookingModal({
                         window.snap.pay(snapToken, {
                             onSuccess: function (result: any) {
                                 console.log("Payment success:", result);
-                                router.push(`/profile/bookings`);
+                                router.push(`/bookings`);
                             },
                             onPending: function (result: any) {
                                 console.log("Payment pending:", result);
-                                router.push(`/profile/bookings`);
+                                router.push(`/bookings`);
                             },
                             onError: function (result: any) {
                                 console.log("Payment error:", result);
@@ -96,6 +107,8 @@ export function BookingModal({
             }
         );
     };
+
+    const totalPrice = pricePerHour * duration;
 
     return (
         <Dialog open={actualIsOpen} onOpenChange={handleOpenChange}>
@@ -124,14 +137,46 @@ export function BookingModal({
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Available Time Slots</label>
+                        <label className="text-sm font-medium">Duration (Hours)</label>
+                        <Select
+                            value={duration.toString()}
+                            onValueChange={(val) => setDuration(parseInt(val))}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select duration" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((h) => (
+                                    <SelectItem key={h} value={h.toString()}>
+                                        {h} Hour{h > 1 ? "s" : ""}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium">Available Start Time</label>
                         {isAvailabilityLoading ? (
                             <div className="flex items-center justify-center p-8">
                                 <Loader2 className="h-6 w-6 animate-spin text-primary" />
                             </div>
                         ) : availability && availability.length > 0 ? (
                             <div className="grid grid-cols-3 gap-2 max-h-[200px] overflow-y-auto pr-2">
-                                {availability.map((time: string) => (
+                                {availability
+                                    .filter((startTime: string) => {
+                                        // Filter logic: Check if we have 'duration' consecutive slots starting from this time
+                                        const startHour = parseInt(startTime.split(":")[0]);
+                                        for (let i = 0; i < duration; i++) {
+                                            const checkHour = startHour + i;
+                                            const checkTime = `${checkHour.toString().padStart(2, "0")}:00`;
+                                            if (!availability.includes(checkTime)) {
+                                                return false;
+                                            }
+                                        }
+                                        return true;
+                                    })
+                                    .map((time: string) => (
                                     <Button
                                         key={time}
                                         variant={selectedTime === time ? "default" : "outline"}
@@ -150,6 +195,23 @@ export function BookingModal({
                             </p>
                         )}
                     </div>
+
+                    {selectedTime && (
+                        <div className="p-4 bg-muted/50 rounded-lg space-y-2 border">
+                            <div className="flex justify-between items-center text-sm">
+                                <span className="text-muted-foreground">Price per hour</span>
+                                <span>{formatPrice(pricePerHour)}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                                <span className="text-muted-foreground">Duration</span>
+                                <span>{duration} Hour{duration > 1 ? "s" : ""}</span>
+                            </div>
+                            <div className="border-t pt-2 mt-2 flex justify-between items-center font-bold">
+                                <span>Total Price</span>
+                                <span className="text-primary text-lg">{formatPrice(totalPrice)}</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex justify-end gap-3 mt-4">
