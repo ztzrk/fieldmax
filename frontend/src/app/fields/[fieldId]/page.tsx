@@ -182,6 +182,7 @@ export default function FieldDetailPage() {
                 fieldId={fieldId}
                 fieldName={field.name}
                 venueName={field.venue.name}
+                pricePerHour={field.pricePerHour}
                 isOpen={isBookingModalOpen}
                 onClose={() => setIsBookingModalOpen(false)}
             />
