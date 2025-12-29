@@ -13,3 +13,20 @@ export function formatPrice(price: number): string {
         maximumFractionDigits: 0,
     }).format(price);
 }
+
+export function formatDate(date: string | Date, dateFormat: string = "PPP"): string {
+    if (!date) return "N/A";
+    return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
+export function formatTime(date: string | Date): string {
+    if (!date) return "N/A";
+    return new Date(date).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        hour12: true,
+    });
+}
