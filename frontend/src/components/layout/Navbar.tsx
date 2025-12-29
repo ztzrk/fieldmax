@@ -34,6 +34,11 @@ export function Navbar() {
                         <Link href="/venues" className="text-sm font-medium hover:text-primary transition-colors">
                             Venues
                         </Link>
+                        {user && (
+                            <Link href="/bookings" className="text-sm font-medium hover:text-primary transition-colors">
+                                Bookings
+                            </Link>
+                        )}
                     </nav>
                 </div>
                 <div className="flex items-center gap-4">
