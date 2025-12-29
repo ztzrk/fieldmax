@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { useGetPublicVenues } from "@/hooks/useVenues";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Navbar } from "@/components/layout/Navbar";
 import { Search } from "lucide-react";
 import { VenueCard } from "@/components/venues/VenueCard";
 
@@ -25,7 +24,6 @@ export default function VenuesPage() {
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-            <Navbar />
 
             <main className="flex-1 container py-8 px-4 md:px-6 max-w-[1400px] mx-auto">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
