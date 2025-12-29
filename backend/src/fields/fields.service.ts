@@ -417,16 +417,30 @@ export class FieldsService {
             where: {
                 fieldId: fieldId,
                 bookingDate: requestedDate,
-                status: "CONFIRMED",
+                status: {
+                    in: ["CONFIRMED", "PENDING"],
+                },
             },
             select: {
                 startTime: true,
+                endTime: true, // Need end time for range blocking
             },
         });
 
-        const bookedSlots = new Set(
-            bookings.map((b) => b.startTime.toISOString().substring(0, 5))
-        );
+        const bookedSlots = new Set<string>();
+
+        bookings.forEach((booking) => {
+            // Shift UTC to WIB (+7)
+            const start = (booking.startTime.getUTCHours() + 7) % 24;
+            // Calculate end hour. If end < start, it means it wrapped to next day (add 24)
+            let end = (booking.endTime.getUTCHours() + 7) % 24;
+            if (end <= start) end += 24;
+            
+            for (let h = start; h < end; h++) {
+                const hourString = `${(h % 24).toString().padStart(2, "0")}:00`;
+                bookedSlots.add(hourString);
+            }
+        });
 
         const availableSlots = possibleSlots.filter(
             (slot) => !bookedSlots.has(slot)
