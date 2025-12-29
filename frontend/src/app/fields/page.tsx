@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { useDebounce } from "@/hooks/useDebounce";
 
-import { Navbar } from "@/components/layout/Navbar";
 import { FieldCard } from "@/components/fields/FieldCard";
 
 export default function FieldsPage() {
@@ -33,7 +32,6 @@ export default function FieldsPage() {
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-             <Navbar />
 
             <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-8">
                 <div className="flex flex-col gap-6 mb-8">
