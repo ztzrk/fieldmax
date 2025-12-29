@@ -19,6 +19,8 @@ export class PaymentsService {
         const transactionStatus = statusResponse.transaction_status;
         const fraudStatus = statusResponse.fraud_status;
 
+        console.log(`Processing Order ID: ${orderId}, Status: ${transactionStatus}, Fraud: ${fraudStatus}`);
+
         const booking = await prisma.booking.findUnique({
             where: { id: orderId },
         });
@@ -33,9 +35,10 @@ export class PaymentsService {
             }
         } else if (
             transactionStatus == "cancel" ||
-            transactionStatus == "deny" ||
-            transactionStatus == "expire"
+            transactionStatus == "deny"
         ) {
+            await this.bookingsService.updateStatus(orderId, "CANCELLED", "FAILED");
+        } else if (transactionStatus == "expire") {
             await this.bookingsService.updateStatus(orderId, "CANCELLED", "EXPIRED");
         } else if (transactionStatus == "pending") {
             await this.bookingsService.updateStatus(orderId, "PENDING", "PENDING");
