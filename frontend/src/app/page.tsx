@@ -21,7 +21,6 @@ import {
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Navbar } from "@/components/layout/Navbar";
 import { VenueCard } from "@/components/venues/VenueCard";
 import { FieldCard } from "@/components/fields/FieldCard";
 
@@ -63,7 +62,6 @@ export default function Home() {
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-            <Navbar />
 
             <main className="flex-1">
                 {/* Hero Section */}
