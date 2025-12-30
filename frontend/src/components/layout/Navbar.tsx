@@ -7,6 +7,12 @@ import { Trophy, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 
+/**
+ * Navbar Component
+ * 
+ * Main navigation bar for the application. Handles responsive navigation,
+ * authentication state display (UserNav), and home page routing.
+ */
 export function Navbar() {
     const { user, isLoading: isAuthLoading } = useAuth();
     const router = useRouter();
@@ -22,7 +28,6 @@ export function Navbar() {
                         className="flex gap-2 items-center font-bold text-xl cursor-pointer" 
                         onClick={() => router.push("/")}
                     >
-                         {/* Show Back Arrow if not on Home Page */}
                         {!isHome && <ArrowLeft className="h-5 w-5 md:hidden" />}
                         <Trophy className="h-6 w-6 text-primary" />
                         <span>FieldMax</span>

@@ -10,6 +10,11 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import CreateSportTypeButton from "./components/CreateSportTypeButton";
 import { PaginationState } from "@tanstack/react-table";
 
+/**
+ * Admin Sport Types Page.
+ * Displays a list of available sport types.
+ * Allows creation and deletion of sport types.
+ */
 export default function AdminSportTypesPage() {
     const [{ pageIndex, pageSize }, setPagination] =
         useState<PaginationState>({

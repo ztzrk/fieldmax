@@ -20,6 +20,10 @@ import {
 } from "@/components/ui/dialog";
 import { AlertCircle } from "lucide-react";
 
+/**
+ * Component for venue action buttons (Approve, Reject).
+ * Displays tools based on venue status (e.g., Approve only if pending and has photos).
+ */
 export function VenueActions({
     venue,
 }: {

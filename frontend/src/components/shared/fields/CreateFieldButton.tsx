@@ -17,6 +17,12 @@ interface CreateFieldButtonProps {
     venueId: string;
 }
 
+/**
+ * CreateFieldButton Component
+ * 
+ * Button that triggers a modal dialog for creating a new field.
+ * Reuse FieldForm for the creation logic.
+ */
 export function CreateFieldButton({ venueId }: CreateFieldButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
     const { mutate: createField, isPending } = useCreateField();

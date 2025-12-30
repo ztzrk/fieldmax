@@ -16,6 +16,9 @@ import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { fieldNestedApiResponse } from "@/lib/schema/venue.schema";
 import Link from "next/link";
 
+/**
+ * Component for rendering action buttons (Edit, Delete) for a field row within a venue.
+ */
 const ActionsCell = ({
     field,
     venueId,
@@ -61,6 +64,10 @@ const ActionsCell = ({
 
 import { Checkbox } from "@/components/ui/checkbox";
 
+/**
+ * Column definitions for the "Fields in this Venue" table.
+ * Includes checkboxes, name, sport type, price, status, and actions.
+ */
 export const getRenterFieldColumns = (
     venueId: string
 ): ColumnDef<fieldNestedApiResponse>[] => [

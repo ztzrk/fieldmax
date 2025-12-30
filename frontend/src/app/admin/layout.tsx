@@ -5,6 +5,11 @@ import { Header } from "@/components/shared/header";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 
+/**
+ * Root layout for the Admin module.
+ * Protects routes with AuthGuard and RoleGuard (ADMIN role).
+ * Wraps content with the SidebarProvider and renders the header and main content area.
+ */
 export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <AuthGuard>

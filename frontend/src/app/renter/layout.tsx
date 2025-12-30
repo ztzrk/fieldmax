@@ -5,6 +5,11 @@ import { Header } from "@/components/shared/header";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 
+/**
+ * Root layout for the Renter module.
+ * Protects routes with AuthGuard and RoleGuard (RENTER role).
+ * Wraps content with the SidebarProvider and renders the header and main content area.
+ */
 export default function RenterLayout({ children }: { children: ReactNode }) {
     return (
         <AuthGuard>

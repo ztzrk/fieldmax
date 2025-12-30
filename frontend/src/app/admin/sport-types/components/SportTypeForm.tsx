@@ -23,6 +23,10 @@ interface SportTypeFormProps {
     isPending: boolean;
 }
 
+/**
+ * Form component for creating or editing a sport type.
+ * Handles validation using Zod and submission via callbacks.
+ */
 export function SportTypeForm({
     initialData,
     onSubmit,

@@ -22,6 +22,12 @@ const formSchema = z.object({
     password: z.string().min(1, { message: "Password tidak boleh kosong." }),
 });
 
+/**
+ * LoginPage Component
+ * 
+ * User login form with email and password validation.
+ * Uses React Hook Form and Zod for validation.
+ */
 export default function LoginPage() {
     const { mutate: login, isPending } = useLogin();
 

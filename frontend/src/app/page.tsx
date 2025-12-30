@@ -24,6 +24,12 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { VenueCard } from "@/components/venues/VenueCard";
 import { FieldCard } from "@/components/fields/FieldCard";
 
+/**
+ * Home Component
+ * 
+ * Landing page for the application. Displays hero section with search,
+ * featured fields and venues carousels, and value proposition sections.
+ */
 export default function Home() {
     const { user, isLoading: isAuthLoading } = useAuth();
     const [search, setSearch] = useState("");
@@ -64,7 +70,6 @@ export default function Home() {
         <div className="flex min-h-screen flex-col bg-background">
 
             <main className="flex-1">
-                {/* Hero Section */}
                 <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background via-muted/20 to-muted/50">
                     <div className="w-full px-4 md:px-6">
                         <div className="flex flex-col items-center space-y-4 text-center">
@@ -151,7 +156,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Fields Section */}
                 <section className="w-full py-12 bg-background">
                     <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
                         <div className="flex items-center justify-between mb-8">
@@ -194,7 +198,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Venues Section */}
                 <section className="w-full py-12 bg-muted/20">
                     <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
                         <div className="flex items-center justify-between mb-8">
@@ -237,7 +240,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Benefits Section */}
                 <section className="w-full py-16 bg-muted/30">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-12">
@@ -278,7 +280,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Stats Section */}
                 <section className="w-full py-20 bg-primary text-primary-foreground">
                      <div className="container mx-auto px-4 md:px-6">
                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
@@ -298,7 +299,6 @@ export default function Home() {
                      </div>
                 </section>
 
-                {/* CTA Section */}
                 <section className="w-full py-24 bg-background">
                     <div className="container mx-auto px-4 md:px-6 max-w-4xl">
                         <div className="rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden">

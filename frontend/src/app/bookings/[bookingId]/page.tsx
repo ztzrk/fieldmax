@@ -25,6 +25,12 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+/**
+ * BookingDetailPage Component
+ * 
+ * Displays detailed information about a specific booking, including status, 
+ * venue details, and payment options. Handles cancellation and payment flows.
+ */
 export default function BookingDetailPage({ params }: { params: Promise<{ bookingId: string }> }) {
     const { bookingId } = use(params);
     const { data: booking, isLoading, isError } = useGetBookingById(bookingId);
@@ -59,7 +65,6 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["booking", bookingId] });
-            // Optionally redirect or show a toast
         },
     });
 
@@ -142,7 +147,11 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                             <CardTitle className="text-2xl font-bold">{booking.field.name || "Field"}</CardTitle>
                             <CardDescription className="flex items-center gap-1 mt-1">
                                 <MapPin className="h-4 w-4" />
-                                {booking.field.venue.location}
+                                {booking.field.venue.address}
+                                {booking.field.venue.district && `, ${booking.field.venue.district}`}
+                                {booking.field.venue.city && `, ${booking.field.venue.city}`}
+                                {booking.field.venue.province && `, ${booking.field.venue.province}`}
+                                {booking.field.venue.postalCode && ` ${booking.field.venue.postalCode}`}
                             </CardDescription>
                         </div>
                         <div className="text-right">
@@ -217,7 +226,6 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                         </div>
 
                         <div className="flex justify-end gap-3 mt-4">
-                             {/* Cancel Button for Pending Bookings */}
                              {(booking.status === "PENDING" && booking.paymentStatus !== "PAID") && (
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
@@ -242,7 +250,6 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                                 </AlertDialog>
                             )}
 
-                            {/* Pay Button for Pending Bookings */}
                             {booking.status === "PENDING" && booking.paymentStatus === "PENDING" && (
                                 <Button onClick={handlePayment} disabled={isPaymentLoading} className="w-full sm:w-auto">
                                     {isPaymentLoading ? (

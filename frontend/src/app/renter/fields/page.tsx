@@ -10,6 +10,11 @@ import { renterAllFieldColumns } from "./columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 
+/**
+ * Renter Fields Page.
+ * Displays a paginated list of all fields owned by the renter.
+ * Allows filtering by name and bulk deletion.
+ */
 export default function RenterFieldsPage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,

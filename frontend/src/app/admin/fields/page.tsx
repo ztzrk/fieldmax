@@ -5,10 +5,15 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/app/admin/components/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { columns } from "./columns";
+import { columns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 
+/**
+ * Admin Fields Page.
+ * Displays a list of all fields in the system.
+ * Allows filtering, bulk deletion, and detailed view.
+ */
 export default function AdminFieldsPage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,

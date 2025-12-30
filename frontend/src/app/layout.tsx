@@ -1,10 +1,8 @@
-// src/app/layout.tsx
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
-import "@fontsource/inter"; // Defaults to weight 400
-import "@fontsource/inter/400.css"; // Specify weight
-import "@fontsource/inter/600.css"; // Specify weight
-import "@fontsource/inter/700.css"; // Specify weight
+import "@fontsource/inter";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
@@ -21,6 +19,12 @@ export const metadata: Metadata = {
     description: "Sewa Lapangan Olahraga",
 };
 
+/**
+ * RootLayout Component
+ * 
+ * Global application layout. Sets up providers (Theme, Auth, Query), 
+ * fonts, and global UI elements like Navbar, Footer, and Toaster.
+ */
 export default function RootLayout({
     children,
 }: Readonly<{

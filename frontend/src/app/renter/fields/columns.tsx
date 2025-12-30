@@ -16,6 +16,9 @@ import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { FieldApiResponse } from "@/lib/schema/field.schema";
 import Link from "next/link";
 
+/**
+ * Component for rendering action buttons (Edit, Delete) for a field row.
+ */
 const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
     const { mutate: deleteField } = useDeleteField();
 
@@ -53,6 +56,10 @@ const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
 
 import { Checkbox } from "@/components/ui/checkbox";
 
+/**
+ * Column definitions for the Renter's "My Fields" table.
+ * Includes checkboxes, index, status, price formatting, and actions.
+ */
 export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
     {
         id: "select",

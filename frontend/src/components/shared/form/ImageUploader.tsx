@@ -20,6 +20,12 @@ const formatFileSize = (bytes: number): string => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
 
+/**
+ * ImageUploader Component
+ * 
+ * Drag-and-drop file uploader with image preview.
+ * Supports multiple file selection and displays upload progress state.
+ */
 export function ImageUploader({ onUpload, isUploading }: ImageUploaderProps) {
     const [files, setFiles] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);

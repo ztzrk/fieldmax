@@ -27,6 +27,10 @@ import { getRenterFieldColumns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 
+/**
+ * Renter Venue Detail Page.
+ * Allows editing of venue details, managing photos, and viewing/managing its fields.
+ */
 export default function EditVenuePage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,

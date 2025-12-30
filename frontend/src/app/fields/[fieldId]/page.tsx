@@ -24,6 +24,12 @@ import { ScheduleDisplay } from "@/components/shared/fields/ScheduleDisplay";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays } from "lucide-react";
 
+/**
+ * FieldDetailPage Component
+ * 
+ * Detailed view of a specific field. Displays photos, description, schedule,
+ * and allows authenticated users to book the field.
+ */
 export default function FieldDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -71,7 +77,6 @@ export default function FieldDetailPage() {
             </Link>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                {/* Left Column: Image Gallery */}
                 <div className="space-y-4">
                     <div className="overflow-hidden rounded-xl border bg-muted aspect-video relative">
                         {field.photos && field.photos.length > 0 ? (
@@ -106,7 +111,6 @@ export default function FieldDetailPage() {
                     </div>
                 </div>
 
-                {/* Right Column: Details */}
                 <div className="flex flex-col gap-6">
                     <div>
                         <div className="flex items-center gap-2 mb-3">

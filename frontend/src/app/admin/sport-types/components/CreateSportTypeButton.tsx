@@ -12,6 +12,9 @@ import { toast } from "sonner";
 import { SportTypeForm } from "./SportTypeForm";
 import { SportTypeFormValues } from "@/lib/schema/sport-types.schema";
 
+/**
+ * Button component to trigger the "Create Sport Type" dialog.
+ */
 function CreateSportTypeButton() {
     const [isOpen, setIsOpen] = React.useState(false);
 

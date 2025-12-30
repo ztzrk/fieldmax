@@ -3,19 +3,30 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VenueFormValues, venueSchema } from "@/lib/schema/venue.schema";
-import { useGetAllUsersWithoutPagination } from "@/hooks/useUsers";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
-import { SelectField } from "@/components/shared/form/SelectField";
 import { useAuth } from "@/context/AuthContext";
 import { VenueScheduleForm } from "./VenueScheduleForm";
+import { formatTime } from "@/lib/utils";
 
 interface VenueFormProps {
     initialData?: Partial<VenueFormValues>;
     onSubmit: (values: VenueFormValues) => void;
     isPending: boolean;
 }
+
+/**
+ * Form component for creating or editing a venue.
+ * Handles validation, schedule formatting, and submission.
+ */
+const formatToHHMM = (dateStr: string | Date) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+};
 
 export function VenueForm({
     initialData,
@@ -25,30 +36,11 @@ export function VenueForm({
     const { user } = useAuth();
     const isRenter = user?.role === "RENTER";
 
-    const { data: usersData } = useGetAllUsersWithoutPagination();
-    const renters = usersData?.filter((user) => user.role === "RENTER") || [];
-    const renterOptions = renters.map((renter) => ({
-        value: renter.id,
-        label: renter.fullName,
-    }));
-
-    const formatTime = (isoString: string) => {
-        try {
-            if (!isoString.includes("T")) return isoString;
-            const date = new Date(isoString);
-            const hours = date.getUTCHours().toString().padStart(2, "0");
-            const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-            return `${hours}:${minutes}`;
-        } catch (e) {
-            return isoString;
-        }
-    };
-
     const formattedSchedules =
         initialData?.schedules?.map((s) => ({
             ...s,
-            openTime: formatTime(s.openTime),
-            closeTime: formatTime(s.closeTime),
+            openTime: formatToHHMM(s.openTime),
+            closeTime: formatToHHMM(s.closeTime),
         })) || [];
 
     const form = useForm<VenueFormValues>({
@@ -56,6 +48,10 @@ export function VenueForm({
         defaultValues: {
             name: initialData?.name || "",
             address: initialData?.address || "",
+            city: initialData?.city || "",
+            district: initialData?.district || "",
+            province: initialData?.province || "",
+            postalCode: initialData?.postalCode || "",
             renterId: initialData?.renterId || (isRenter && user ? user.id : ""),
             description: initialData?.description || "",
             schedules: formattedSchedules,
@@ -75,18 +71,37 @@ export function VenueForm({
                     control={form.control}
                     name="address"
                     label="Address"
-                    placeholder="Kalibaru Street No. 10, Surabaya"
+                    placeholder="Kalibaru Street No. 10"
                 />
-                {!isRenter && (
-                    <SelectField
+                <div className="grid grid-cols-2 gap-4">
+                    <InputField
                         control={form.control}
-                        name="renterId"
-                        label="Renter (Owner)"
-                        placeholder="Select a renter"
-                        options={renterOptions}
-                        disabled={!!initialData}
+                        name="city"
+                        label="City"
+                        placeholder="Surabaya"
                     />
-                )}
+                    <InputField
+                        control={form.control}
+                        name="district"
+                        label="District"
+                        placeholder="Rungkut"
+                    />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <InputField
+                        control={form.control}
+                        name="province"
+                        label="Province"
+                        placeholder="East Java"
+                    />
+                    <InputField
+                        control={form.control}
+                        name="postalCode"
+                        label="Postal Code"
+                        placeholder="60293"
+                    />
+                </div>
+                
                 <InputField
                     control={form.control}
                     name="description"

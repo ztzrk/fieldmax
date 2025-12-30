@@ -10,6 +10,10 @@ interface PageHeaderProps {
     children?: ReactNode;
 }
 
+/**
+ * Reusable header component for admin pages.
+ * Displays a title, optional description, and an optional back button.
+ */
 export function PageHeader({
     title,
     description,

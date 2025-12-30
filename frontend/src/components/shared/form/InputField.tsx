@@ -18,6 +18,12 @@ interface InputFieldProps<T extends FieldValues> {
     type?: string;
 }
 
+/**
+ * InputField Component
+ * 
+ * Standard text input wrapper integrated with React Hook Form.
+ * Handles label, error message, and description rendering.
+ */
 export function InputField<T extends FieldValues>({
     control,
     name,

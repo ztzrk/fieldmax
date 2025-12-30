@@ -140,6 +140,10 @@ export class VenuesService {
                 id: true,
                 name: true,
                 address: true,
+                district: true,
+                city: true,
+                province: true,
+                postalCode: true,
                 description: true,
                 status: true,
                 rejectionReason: true,
@@ -177,7 +181,6 @@ export class VenuesService {
 
         const transformedVenue = {
             ...venue,
-            renterName: venue.renter.fullName,
             fields: venue.fields.map((field) => ({
                 ...field,
                 sportTypeName: field.sportType.name,

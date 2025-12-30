@@ -18,6 +18,10 @@ interface UserFormProps {
     dialogClose: () => void;
 }
 
+/**
+ * Form component for creating or editing a user.
+ * Handles validation using Zod and submission via React Query mutations.
+ */
 export function UserForm({ initialData, dialogClose }: UserFormProps) {
     const form = useForm<UserFormValues>({
         resolver: zodResolver(userSchema),

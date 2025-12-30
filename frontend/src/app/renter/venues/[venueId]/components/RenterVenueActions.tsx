@@ -19,6 +19,10 @@ import {
 } from "@/components/ui/tooltip";
 import { AlertCircle } from "lucide-react";
 
+/**
+ * Component for venue actions (Submit, View Rejection, Resubmit).
+ * Displays appropriate buttons based on the venue status.
+ */
 export function RenterVenueActions({
     venue,
 }: {

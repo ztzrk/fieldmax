@@ -8,6 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, MapPin, Trophy, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+/**
+ * Admin Dashboard page.
+ * Displays key statistics about the application (Users, Venues, Fields, etc.).
+ * Includes a logout confirmation.
+ */
 export default function AdminDashboard() {
     const { user, logout } = useAuth();
     const { data: stats, isLoading, error } = useAdminStats();
@@ -99,6 +104,9 @@ export default function AdminDashboard() {
     );
 }
 
+/**
+ * Loading skeleton for the Admin Dashboard.
+ */
 function DashboardSkeleton() {
     return (
         <div className="space-y-8">

@@ -31,6 +31,10 @@ const rejectionSchema = z.object({
         .min(10, { message: "Reason must be at least 10 characters." }),
 });
 
+/**
+ * Dialog component for rejecting a venue.
+ * Requires the admin to provide a rejection reason.
+ */
 export function RejectDialog({ venueId }: { venueId: string }) {
     const [isOpen, setIsOpen] = useState(false);
     const { mutate: rejectVenue, isPending } = useRejectVenue(venueId);

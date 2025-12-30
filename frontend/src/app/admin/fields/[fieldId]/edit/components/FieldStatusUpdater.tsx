@@ -47,6 +47,10 @@ function StatusBadge({
     return <Badge variant={statusVariantMap[status]}>{status}</Badge>;
 }
 
+/**
+ * Component for updating the status of a field (Approve, Reject, Resubmit).
+ * Displays current status and rejection reason if applicable.
+ */
 export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
     const [rejectionReason, setRejectionReason] = useState("");
     const { mutate: approveField, isPending: isApproving } = useApproveField(

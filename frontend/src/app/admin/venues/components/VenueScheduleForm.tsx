@@ -6,7 +6,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useEffect } from "react";
 
 const DAYS = [
     "Sunday",
@@ -18,6 +17,10 @@ const DAYS = [
     "Saturday",
 ];
 
+/**
+ * Sub-form component for managing venue operating hours.
+ * Uses useFieldArray to handle weekly schedules dynamically.
+ */
 export function VenueScheduleForm() {
     const { control, watch, setValue } = useFormContext<VenueFormValues>();
     const { fields, append, remove } = useFieldArray({

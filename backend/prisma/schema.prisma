@@ -62,6 +62,10 @@ model Venue {
   renterId        String             @map("renter_id")
   name            String
   address         String
+  city            String?
+  district        String?
+  province        String?
+  postalCode      String?  @map("postal_code")
   description     String?
   createdAt       DateTime           @default(now()) @map("created_at")
   status          VerificationStatus @default(DRAFT)

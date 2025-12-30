@@ -1,17 +1,7 @@
 "use client";
 
-import { formatPrice, formatDate, formatTime } from "@/lib/utils";
 import { useGetBookings } from "@/hooks/useBookings";
-import { Loader2, AlertCircle, Eye } from "lucide-react";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -21,11 +11,24 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
+import { DataTable } from "@/components/shared/DataTable";
+import { columns, Booking } from "./components/columns";
+import { PaginationState } from "@tanstack/react-table";
 
+/**
+ * Admin Bookings Page.
+ * Displays a list of all bookings across all venues.
+ * Included details: User, Venue/Field, Date & Time, Status, and Payment info.
+ */
 export default function AdminBookingsPage() {
-    const [page, setPage] = useState(1);
-    const limit = 10;
-    const { data: bookingsData, isLoading, isError } = useGetBookings(page, limit);
+    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+    const [search, setSearch] = useState("");
+
+    // API uses 1-based page index
+    const { data: bookingsData, isLoading, isError } = useGetBookings(pageIndex + 1, pageSize, search);
 
     if (isLoading) {
         return (
@@ -45,25 +48,9 @@ export default function AdminBookingsPage() {
         );
     }
 
-    const bookings = bookingsData?.data || [];
+    const bookings = (bookingsData?.data || []) as Booking[];
     const meta = bookingsData?.meta;
-
-    const getStatusVariant = (status: string) => {
-        switch (status) {
-            case "CONFIRMED":
-            case "PAID":
-                return "default"; // or a generic success variant if you have one, default is usually black/primary
-            case "PENDING":
-                return "secondary";
-            case "CANCELLED":
-            case "FAILED":
-                return "destructive";
-            case "COMPLETED":
-                return "outline";
-            default:
-                return "secondary";
-        }
-    };
+    const pageCount = meta?.totalPages ?? 0;
 
     return (
         <div className="space-y-6">
@@ -84,112 +71,15 @@ export default function AdminBookingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="rounded-md border">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Booking ID</TableHead>
-                                    <TableHead>User</TableHead>
-                                    <TableHead>Venue / Field</TableHead>
-                                    <TableHead>Date & Time</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Payment</TableHead>
-                                    <TableHead>Amount</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {bookings.length === 0 ? (
-                                    <TableRow>
-                                        <TableCell colSpan={8} className="h-24 text-center">
-                                            No bookings found.
-                                        </TableCell>
-                                    </TableRow>
-                                ) : (
-                                    bookings.map((booking: any) => (
-                                        <TableRow key={booking.id}>
-                                            <TableCell className="font-medium">
-                                                {booking.id.substring(0, 8)}...
-                                            </TableCell>
-                                            <TableCell>
-                                                <div className="flex flex-col">
-                                                    <span className="font-medium">
-                                                        {booking.user?.fullName || "N/A"}
-                                                    </span>
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {booking.user?.email || "N/A"}
-                                                    </span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <div className="flex flex-col">
-                                                    <span className="font-medium">
-                                                        {booking.field?.venue?.name || "Unknown"}
-                                                    </span>
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {booking.field?.name || "Field"}
-                                                    </span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <div className="flex flex-col">
-                                                    <span>
-                                                        {formatDate(booking.bookingDate)}
-                                                    </span>
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
-                                                    </span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant={getStatusVariant(booking.status)}>
-                                                    {booking.status}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant={getStatusVariant(booking.paymentStatus)}>
-                                                    {booking.paymentStatus}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                Rp {booking.totalPrice.toLocaleString("id-ID")}
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                <Button variant="ghost" size="icon">
-                                                    <Eye className="h-4 w-4" />
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-
-                    {/* Pagination Controls */}
-                    {meta && meta.totalPages > 1 && (
-                        <div className="flex items-center justify-end space-x-2 py-4">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                                disabled={page === 1}
-                            >
-                                Previous
-                            </Button>
-                            <span className="text-sm text-muted-foreground">
-                                Page {page} of {meta.totalPages}
-                            </span>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setPage((p) => Math.min(meta.totalPages, p + 1))}
-                                disabled={page === meta.totalPages}
-                            >
-                                Next
-                            </Button>
-                        </div>
-                    )}
+                    <DataTable
+                        columns={columns}
+                        data={bookings}
+                        pageCount={pageCount}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
+                        onSearch={setSearch}
+                        searchValue={search}
+                    />
                 </CardContent>
             </Card>
         </div>

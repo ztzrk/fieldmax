@@ -14,6 +14,10 @@ import { VenueForm } from "@/app/admin/venues/components/VenueForm";
 import { useRouter } from "next/navigation";
 import { VenueFormValues } from "@/lib/schema/venue.schema";
 
+/**
+ * Wizard dialog for creating a new venue.
+ * Wraps the VenueForm in a dialog component.
+ */
 export function CreateVenueWizard() {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();

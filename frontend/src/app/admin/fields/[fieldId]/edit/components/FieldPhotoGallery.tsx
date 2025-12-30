@@ -21,6 +21,10 @@ interface PhotoGalleryProps {
     fieldId: string;
 }
 
+/**
+ * Component for displaying and managing field photos.
+ * Allows deleting individual photos.
+ */
 export function FieldPhotoGallery({ photos, fieldId }: PhotoGalleryProps) {
     const { mutate: deletePhoto } = useDeleteFieldPhoto(fieldId);
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});

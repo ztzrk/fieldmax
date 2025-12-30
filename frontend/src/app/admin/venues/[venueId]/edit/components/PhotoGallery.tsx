@@ -21,6 +21,10 @@ interface PhotoGalleryProps {
     venueId: string;
 }
 
+/**
+ * Component for displaying and managing venue photos.
+ * Allows admins to delete individual photos.
+ */
 export function PhotoGallery({ photos, venueId }: PhotoGalleryProps) {
     const { mutate: deletePhoto } = useDeleteVenuePhoto(venueId);
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});

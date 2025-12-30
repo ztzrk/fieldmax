@@ -11,8 +11,14 @@ import { ArrowLeft } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+/**
+ * BookingHistoryPage Component
+ * 
+ * Displays a list of user bookings, separated into active tickets and order history.
+ * Provides booking status, details, and navigation.
+ */
 export default function BookingHistoryPage() {
-    const { data: bookingsData, isLoading, isError } = useGetBookings(1, 100); // Fetch up to 100 bookings
+    const { data: bookingsData, isLoading, isError } = useGetBookings(1, 100);
 
     if (isLoading) {
         return (
@@ -37,18 +43,30 @@ export default function BookingHistoryPage() {
     const now = new Date();
 
     const activeBookings = bookings.filter((booking: any) => {
-        const endTime = new Date(booking.endTime);
-        const isFuture = endTime > now;
+        const datePart = booking.bookingDate.toString().split('T')[0];
+        let timePart = booking.endTime;
+        if (booking.endTime.toString().includes('T')) {
+            timePart = booking.endTime.toString().split('T')[1];
+        }
+        const dateTimeString = `${datePart}T${timePart}`;
+        const endDateTime = new Date(dateTimeString);
+
+        const isFuture = endDateTime > now;
         const isPending = booking.status === "PENDING" || booking.paymentStatus === "PENDING";
-        // Show as active if it's in the future OR it's pending payment (regardless of time, usually)
         return isFuture || isPending;
     });
 
     const historyBookings = bookings.filter((booking: any) => {
-        const endTime = new Date(booking.endTime);
-        const isPast = endTime <= now;
+        const datePart = booking.bookingDate.toString().split('T')[0];
+        let timePart = booking.endTime;
+        if (booking.endTime.toString().includes('T')) {
+            timePart = booking.endTime.toString().split('T')[1];
+        }
+        const dateTimeString = `${datePart}T${timePart}`;
+        const endDateTime = new Date(dateTimeString);
+
+        const isPast = endDateTime <= now;
         const isNotPending = booking.status !== "PENDING" && booking.paymentStatus !== "PENDING";
-        // Show in history if it's past AND not pending
         return isPast && isNotPending;
     });
 
@@ -98,7 +116,11 @@ export default function BookingHistoryPage() {
                                     </CardTitle>
                                     <CardDescription className="flex items-center gap-1 mt-1">
                                         <MapPin className="h-3.5 w-3.5" />
-                                        {booking.field?.venue?.location || "Location not available"}
+                                        {booking.field?.venue?.address || "Address not available"}
+                                        {booking.field?.venue?.district && `, ${booking.field.venue.district}`}
+                                        {booking.field?.venue?.city && `, ${booking.field.venue.city}`}
+                                        {booking.field?.venue?.province && `, ${booking.field.venue.province}`}
+                                        {booking.field?.venue?.postalCode && ` ${booking.field.venue.postalCode}`}
                                     </CardDescription>
                                 </div>
                                 <Badge variant="secondary" className={getStatusColor(booking.paymentStatus || booking.status)}>
@@ -124,7 +146,6 @@ export default function BookingHistoryPage() {
                                     Rp {booking.totalPrice.toLocaleString('id-ID')}
                                 </span>
                             </div>
-                            {/* Add Link to Details Page */}
                             <div className="sm:col-span-3 flex justify-end mt-2">
                                 <Link href={`/bookings/${booking.id}`}>
                                     <Button variant="outline" size="sm">View Details</Button>
@@ -140,7 +161,6 @@ export default function BookingHistoryPage() {
     return (
         <div className="container py-10 max-w-4xl mx-auto px-4 sm:px-6">
             <div className="flex items-center gap-4 mb-8">
-                {/* Updated back link to Home instead of Profile since it's a top-level route now */}
                 <Link href="/">
                     <Button variant="ghost" size="icon">
                         <ArrowLeft className="h-5 w-5" />

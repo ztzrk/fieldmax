@@ -15,6 +15,12 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { User, LayoutDashboard, MapPin, Trophy, CalendarDays } from "lucide-react";
 
+/**
+ * UserNav Component
+ * 
+ * User profile dropdown menu. Displays avatar/initials and provides links
+ * to Profile, Dashboard (based on role), and Logout.
+ */
 export function UserNav() {
     const { user, logout } = useAuth();
     const router = useRouter();

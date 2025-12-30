@@ -17,6 +17,12 @@ interface FieldFormProps {
     isPending: boolean;
 }
 
+/**
+ * FieldForm Component
+ * 
+ * Form for creating and editing sports fields. Handles validation using Zod schema,
+ * sport type selection, and submission logic.
+ */
 export function FieldForm({
     initialData,
     onSubmit,
@@ -38,7 +44,6 @@ export function FieldForm({
             pricePerHour: 0,
             sportTypeId: "",
             description: "",
-            // isClosed is now handled separately
         },
     });
 

@@ -21,6 +21,12 @@ interface FieldClosureSwitchProps {
     initialIsClosed: boolean;
 }
 
+/**
+ * FieldClosureSwitch Component
+ * 
+ * Toggle switch to open/close a field manually.
+ * Includes a confirmation dialog to prevent accidental closure.
+ */
 export default function FieldClosureSwitch({
     fieldId,
     initialIsClosed,

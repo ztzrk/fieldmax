@@ -9,14 +9,18 @@ import {
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
 import { FieldForm } from "@/components/shared/fields/FieldForm";
-import { PageHeader } from "../../components/PageHeader";
+import { PageHeader } from "../../../components/PageHeader";
 import { Field, FieldFormValues } from "@/lib/schema/field.schema";
-import { FieldStatusUpdater } from "./FieldStatusUpdater";
+import { FieldStatusUpdater } from "./components/FieldStatusUpdater";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldPhotoGallery } from "./FieldPhotoGallery";
+import { FieldPhotoGallery } from "./components/FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
 import { ScheduleDisplay } from "@/components/shared/fields/ScheduleDisplay";
 
+/**
+ * Admin Field Detail Page.
+ * Allows viewing and editing field details, photos, and status (approve/reject).
+ */
 export default function EditFieldPage() {
     const params = useParams();
     const fieldId = Array.isArray(params.fieldId)

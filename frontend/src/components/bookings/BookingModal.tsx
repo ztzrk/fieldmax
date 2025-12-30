@@ -167,6 +167,17 @@ export function BookingModal({
                                     .filter((startTime: string) => {
                                         // Filter logic: Check if we have 'duration' consecutive slots starting from this time
                                         const startHour = parseInt(startTime.split(":")[0]);
+
+                                        // 2-hour buffer logic for "Today"
+                                        const now = new Date();
+                                        const isToday = selectedDate === now.toISOString().split("T")[0];
+                                        if (isToday) {
+                                            const currentHour = now.getHours();
+                                            if (startHour < currentHour + 2) {
+                                                return false;
+                                            }
+                                        }
+
                                         for (let i = 0; i < duration; i++) {
                                             const checkHour = startHour + i;
                                             const checkTime = `${checkHour.toString().padStart(2, "0")}:00`;

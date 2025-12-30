@@ -27,6 +27,12 @@ const formSchema = z.object({
     path: ["confirmPassword"],
 });
 
+/**
+ * UserRegisterPage Component
+ * 
+ * Registration form for new users (players).
+ * Handles account creation with automatic 'USER' role assignment.
+ */
 export default function UserRegisterPage() {
     const { mutate: register, isPending } = useRegister();
 
@@ -36,7 +42,6 @@ export default function UserRegisterPage() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Automatically assign USER role
         register({ ...values, role: "USER" });
     }
 

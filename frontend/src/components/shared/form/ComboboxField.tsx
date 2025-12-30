@@ -36,6 +36,12 @@ interface ComboboxFieldProps<T extends FieldValues> {
     disabled?: boolean;
 }
 
+/**
+ * ComboboxField Component
+ * 
+ * Searchable select (combobox) component integrated with React Hook Form.
+ * Built using Shadcn Command and Popover primitives.
+ */
 export function ComboboxField<T extends FieldValues>({
     control,
     name,

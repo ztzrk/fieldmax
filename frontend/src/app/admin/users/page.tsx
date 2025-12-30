@@ -8,6 +8,11 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { CreateUserButton } from "./components/createUserButton";
 import { PaginationState } from "@tanstack/react-table";
 
+/**
+ * Admin Users Page.
+ * Displays a paginated list of all registered users.
+ * Allows filtering by name/email and bulk deletion.
+ */
 export default function AdminUsersPage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,

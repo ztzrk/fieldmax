@@ -17,6 +17,9 @@ import { FieldApiResponse } from "@/lib/schema/field.schema";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 
+/**
+ * Component for rendering action buttons (Edit, Delete) for a field row.
+ */
 const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
     const { mutate: deleteField } = useDeleteField();
 
@@ -30,7 +33,7 @@ const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
-                    <Link href={`/admin/fields/${field.id}`}>
+                    <Link href={`/admin/fields/${field.id}/edit`}>
                         Edit Details
                     </Link>
                 </DropdownMenuItem>
@@ -52,6 +55,10 @@ const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
     );
 };
 
+/**
+ * Column definitions for the Fields table.
+ * Includes checkboxes, venue info, sport type, price, status, and actions.
+ */
 export const columns: ColumnDef<FieldApiResponse>[] = [
     {
         id: "select",

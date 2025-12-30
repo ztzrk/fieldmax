@@ -4,10 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Trophy, Facebook, Twitter, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
+/**
+ * Footer Component
+ * 
+ * Site-wide footer containing brand info, quick links, and contact details.
+ * Automatically hidden on admin/renter dashboards and auth pages.
+ */
 export function Footer() {
     const pathname = usePathname();
 
-    // Do not show footer on admin or renter routes
     if (pathname?.startsWith("/admin") || pathname?.startsWith("/renter") || pathname?.startsWith("/login") || pathname?.startsWith("/register")) {
         return null;
     }
@@ -16,7 +21,6 @@ export function Footer() {
         <footer className="w-full bg-slate-950 text-slate-200 py-12 border-t border-slate-800">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                    {/* Brand Column */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 font-bold text-xl text-white">
                             <Trophy className="h-6 w-6 text-primary" />
@@ -27,7 +31,6 @@ export function Footer() {
                         </p>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <h3 className="font-semibold text-white mb-4">Quick Links</h3>
                         <ul className="space-y-2 text-sm text-slate-400">
@@ -38,7 +41,6 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Support */}
                     <div>
                         <h3 className="font-semibold text-white mb-4">Support</h3>
                         <ul className="space-y-2 text-sm text-slate-400">
@@ -49,7 +51,6 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Contact */}
                     <div>
                         <h3 className="font-semibold text-white mb-4">Contact</h3>
                         <ul className="space-y-2 text-sm text-slate-400">

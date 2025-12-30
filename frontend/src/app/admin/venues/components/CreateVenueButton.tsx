@@ -14,6 +14,10 @@ import { VenueForm } from "./VenueForm";
 import { useCreateVenue } from "@/hooks/useVenues";
 import { VenueFormValues } from "@/lib/schema/venue.schema";
 
+/**
+ * Button component to trigger the "Create Venue" dialog.
+ * Redirects to the edit page upon successful creation.
+ */
 export function CreateVenueButton() {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();

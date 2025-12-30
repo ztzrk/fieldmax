@@ -20,6 +20,10 @@ import {
 } from "@/components/ui/sidebar";
 import { adminNavItems } from "@/config/admin-dashboard";
 
+/**
+ * Sidebar navigation component for the Admin dashboard.
+ * Displays navigation links defined in the admin configuration.
+ */
 export function AdminSidebar() {
     const pathname = usePathname();
 

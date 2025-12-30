@@ -19,6 +19,11 @@ interface SwitchFieldProps<T extends FieldValues> {
     disabled?: boolean;
 }
 
+/**
+ * SwitchField Component
+ * 
+ * Boolean toggle switch integrated with React Hook Form.
+ */
 export function SwitchField<T extends FieldValues>({
     control,
     name,

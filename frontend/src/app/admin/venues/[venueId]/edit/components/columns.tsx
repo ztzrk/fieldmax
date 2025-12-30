@@ -16,12 +16,13 @@ import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { fieldNestedApiResponse } from "@/lib/schema/venue.schema";
 import Link from "next/link";
 
+/**
+ * Component for rendering action buttons for a field within a venue.
+ */
 const ActionsCell = ({
     field,
-    venueId,
 }: {
     field: fieldNestedApiResponse;
-    venueId: string;
 }) => {
     const { mutate: deleteField } = useDeleteField();
 
@@ -36,7 +37,7 @@ const ActionsCell = ({
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link
-                        href={`/admin/fields/${field.id}?fromVenue=${venueId}`}
+                        href={`/admin/fields/${field.id}`}
                     >
                         Edit Details
                     </Link>
@@ -61,9 +62,10 @@ const ActionsCell = ({
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-export const getFieldColumns = (
-    venueId: string
-): ColumnDef<fieldNestedApiResponse>[] => [
+/**
+ * Column definitions for the Fields table within a Venue Edit page.
+ */
+export const columns: ColumnDef<fieldNestedApiResponse>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -144,7 +146,7 @@ export const getFieldColumns = (
         header: () => <div className="text-center">Actions</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
-                <ActionsCell field={row.original} venueId={venueId} />
+                <ActionsCell field={row.original} />
             </div>
         ),
     },

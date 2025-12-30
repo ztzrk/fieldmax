@@ -29,6 +29,22 @@ export class CreateVenueDto {
 
     @IsString()
     @IsOptional()
+    city?: string;
+
+    @IsString()
+    @IsOptional()
+    district?: string;
+
+    @IsString()
+    @IsOptional()
+    province?: string;
+
+    @IsString()
+    @IsOptional()
+    postalCode?: string;
+
+    @IsString()
+    @IsOptional()
     description?: string;
 
     @IsUUID()
@@ -50,6 +66,22 @@ export class UpdateVenueDto {
     @IsString()
     @IsOptional()
     address?: string;
+
+    @IsString()
+    @IsOptional()
+    city?: string;
+
+    @IsString()
+    @IsOptional()
+    district?: string;
+
+    @IsString()
+    @IsOptional()
+    province?: string;
+
+    @IsString()
+    @IsOptional()
+    postalCode?: string;
 
     @IsString()
     @IsOptional()

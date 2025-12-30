@@ -9,6 +9,12 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
 import { VenueCard } from "@/components/venues/VenueCard";
 
+/**
+ * VenuesPage Component
+ * 
+ * Public listing of all venues. Supports searching by name/address.
+ * Displays results in a responsive grid of VenueCards.
+ */
 export default function VenuesPage() {
     const { user, isLoading: isAuthLoading } = useAuth();
     const [search, setSearch] = useState("");

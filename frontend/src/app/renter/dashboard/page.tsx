@@ -8,6 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Trophy, Clock, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+/**
+ * Renter Dashboard page.
+ * Displays statistics about the renter's venues, fields, and bookings.
+ * Includes a logout confirmation.
+ */
 export default function RenterDashboard() {
     const { user, logout } = useAuth();
     const { data: stats, isLoading, error } = useRenterStats();
@@ -99,6 +104,9 @@ export default function RenterDashboard() {
     );
 }
 
+/**
+ * Loading skeleton for the Renter Dashboard.
+ */
 function DashboardSkeleton() {
     return (
         <div className="space-y-8">

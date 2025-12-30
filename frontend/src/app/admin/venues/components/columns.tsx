@@ -19,6 +19,9 @@ import Link from "next/link";
 import { VenueApiResponse } from "@/lib/schema/venue.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 
+/**
+ * Component for rendering action buttons (View/Edit Details, Delete) for a venue row.
+ */
 const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { mutate: deleteVenue } = useDeleteVenue();
@@ -58,6 +61,10 @@ const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
     );
 };
 
+/**
+ * Column definitions for the Venues table.
+ * Includes checkboxes, index, name, address, renter, status, and actions.
+ */
 export const columns: ColumnDef<VenueApiResponse>[] = [
     {
         id: "select",
@@ -82,6 +89,7 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
+        size: 40,
     },
     {
         id: "index",
@@ -97,6 +105,8 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
     },
     { accessorKey: "name", header: "Name" },
     { accessorKey: "address", header: "Address" },
+    { accessorKey: "district", header: "District" },
+    { accessorKey: "city", header: "City" },
     { accessorKey: "renter.fullName", header: "Renter" },
     {
         accessorKey: "status",
@@ -124,6 +134,7 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
     {
         id: "actions",
         header: () => <div className="text-center">Actions</div>,
+        size: 80,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell venue={row.original} />

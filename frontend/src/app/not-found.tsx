@@ -3,6 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
+/**
+ * NotFound Component
+ * 
+ * Custom 404 page displayed when a requested route does not exist.
+ */
 export default function NotFound() {
     const router = useRouter();
 

@@ -10,14 +10,18 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
 import { PageHeader } from "@/app/admin/components/PageHeader";
 import { Field, FieldFormValues } from "@/lib/schema/field.schema";
-import { FieldStatusUpdater } from "@/app/admin/fields/[fieldId]/FieldStatusUpdater";
+import { FieldStatusUpdater } from "@/app/admin/fields/[fieldId]/edit/components/FieldStatusUpdater";
 import { useAuth } from "@/context/AuthContext";
 import { FieldForm } from "@/components/shared/fields/FieldForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldPhotoGallery } from "@/app/admin/fields/[fieldId]/FieldPhotoGallery";
+import { FieldPhotoGallery } from "@/app/admin/fields/[fieldId]/edit/components/FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
 import FieldClosureSwitch from "@/components/shared/fields/FieldClosureSwitch";
 
+/**
+ * Renter Field Detail Page.
+ * Allows editing of field details, managing photos, and toggling closure status.
+ */
 export default function EditFieldPage() {
     const params = useParams();
     const fieldId = Array.isArray(params.fieldId)

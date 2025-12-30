@@ -24,6 +24,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { UserForm } from "./userForm";
 
+/**
+ * User type definition matching the backend response.
+ */
 export type User = {
     id: string;
     fullName: string;
@@ -32,6 +35,9 @@ export type User = {
     createdAt: string;
 };
 
+/**
+ * Component for rendering action buttons (Copy ID, Edit, Delete) for a user row.
+ */
 const ActionsCell = ({ user }: { user: User }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { mutate: deleteUser } = useDeleteUser();
@@ -84,6 +90,10 @@ const ActionsCell = ({ user }: { user: User }) => {
     );
 };
 
+/**
+ * Column definitions for the Users table.
+ * Includes formatting for roles and dates, and sorting options.
+ */
 export const columns: ColumnDef<User>[] = [
     {
         id: "select",

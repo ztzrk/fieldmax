@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { UserForm } from "./userForm";
 
+/**
+ * Button component to trigger the "Create User" dialog.
+ */
 export function CreateUserButton() {
     const [isOpen, setIsOpen] = useState(false);
 

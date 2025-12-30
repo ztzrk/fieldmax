@@ -20,8 +20,28 @@ const addresses = [
 
 const fieldNames = ["Field A", "Field B", "Field C"];
 
+const staticVenueIds = [
+    "11111111-1111-4111-8111-111111111111",
+    "22222222-2222-4222-8222-222222222222",
+    "33333333-3333-4333-8333-333333333333",
+    "44444444-4444-4444-8444-444444444444",
+    "55555555-5555-4555-8555-555555555555"
+];
+
 async function main() {
     console.log("Seeding venues and fields...");
+
+    // CLEANUP: Delete existing data to avoid duplicates and ensure fresh data
+    try {
+        await prisma.booking.deleteMany({}); // Delete bookings first to avoid FK constraints
+        await prisma.scheduleOverride.deleteMany({}); // Delete overrides
+        await prisma.review.deleteMany({}); // Delete reviews
+        await prisma.field.deleteMany({});   // Fields might not cascade automatically depending on DB setup, safer to explicit
+        await prisma.venue.deleteMany({});   // Delete venues
+        console.log("Deleted existing bookings, reviews, fields, and venues.");
+    } catch (error) {
+        console.warn("Warning: Could not clean up some existing data (maybe tables don't exist yet). Continuing...", error.message);
+    }
 
     // 1. Get Renter
     const renter = await prisma.user.findUnique({
@@ -57,11 +77,27 @@ async function main() {
         // Create Venue with Fields using nested writes
         const venue = await prisma.venue.create({
             data: {
+                id: staticVenueIds[i],
                 name: venueName,
                 address: address,
+                city: "Jakarta",
+                district: "Senayan",
+                province: "DKI Jakarta",
+                postalCode: "10270",
                 description: `A premium sports venue located in ${address}.`,
                 renterId: renter.id,
                 status: "APPROVED", // Approved as requested
+                schedules: {
+                    create: [
+                        { dayOfWeek: 1, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T22:00:00.000Z") },
+                        { dayOfWeek: 2, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T22:00:00.000Z") },
+                        { dayOfWeek: 3, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T22:00:00.000Z") },
+                        { dayOfWeek: 4, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T22:00:00.000Z") },
+                        { dayOfWeek: 5, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T22:00:00.000Z") },
+                        { dayOfWeek: 6, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T23:00:00.000Z") },
+                        { dayOfWeek: 0, openTime: new Date("2024-01-01T08:00:00.000Z"), closeTime: new Date("2024-01-01T23:00:00.000Z") },
+                    ]
+                },
                 fields: {
                     create: venueSports.map((sport, index) => ({
                         name: `${venueName} - ${fieldNames[index]} (${sport.name})`,

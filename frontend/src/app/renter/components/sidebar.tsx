@@ -13,6 +13,10 @@ import {
 } from "@/components/ui/sidebar";
 import { renterNavItems } from "@/config/renter-dashboard";
 
+/**
+ * Sidebar navigation component for the Renter dashboard.
+ * Displays navigation links defined in the renter configuration.
+ */
 export function RenterSidebar() {
     const pathname = usePathname();
 

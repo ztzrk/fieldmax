@@ -3,6 +3,11 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { UserNav } from "./UserNav";
 
+/**
+ * Header Component
+ * 
+ * Dashboard header containing sidebar trigger and user navigation.
+ */
 export function Header() {
     return (
         <header className="sticky top-0 z-10 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

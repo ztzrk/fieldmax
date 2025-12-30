@@ -27,6 +27,9 @@ export type SportType = {
     name: string;
 };
 
+/**
+ * Component for rendering action buttons (Edit, Delete) for a sport type row.
+ */
 const ActionsCell = ({ sportType }: { sportType: SportType }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { mutate: deleteSportType } = useDeleteSportType();
@@ -81,6 +84,10 @@ const ActionsCell = ({ sportType }: { sportType: SportType }) => {
     );
 };
 
+/**
+ * Column definitions for the Sport Types table.
+ * Includes checkboxes, name, and actions.
+ */
 export const columns: ColumnDef<SportType>[] = [
     {
         id: "select",
@@ -105,6 +112,7 @@ export const columns: ColumnDef<SportType>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
+        size: 40,
     },
     {
         id: "index",
@@ -120,11 +128,21 @@ export const columns: ColumnDef<SportType>[] = [
     },
     {
         accessorKey: "name",
-        header: "Name",
+        header: ({ column }) => {
+            return (
+                <div className="text-left font-semibold">Name</div>
+            )
+        },
+        cell: ({ row }) => {
+             return (
+                 <div className="font-medium capitalize pl-0">{row.getValue("name")}</div>
+             )
+        }
     },
     {
         id: "actions",
         header: () => <div className="text-center">Actions</div>,
+        size: 80,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell sportType={row.original} />

@@ -22,6 +22,12 @@ const DAYS = [
     { name: "Sunday", value: 0 },
 ];
 
+/**
+ * ScheduleDisplay Component
+ * 
+ * Displays the weekly operating hours for a field or venue.
+ * Formats time from ISO strings to readable hours.
+ */
 export function ScheduleDisplay({ schedules }: ScheduleDisplayProps) {
     const formatTime = (isoString: string) => {
         try {

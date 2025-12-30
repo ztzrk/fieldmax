@@ -12,6 +12,12 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 import { FieldCard } from "@/components/fields/FieldCard";
 
+/**
+ * FieldsPage Component
+ * 
+ * Public listing of all fields. Supports searching by name and filtering by sport type.
+ * Displays results in a responsive grid of FieldCards.
+ */
 export default function FieldsPage() {
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 300);

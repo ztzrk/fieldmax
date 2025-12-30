@@ -25,6 +25,12 @@ interface SelectFieldProps<T extends FieldValues> {
     disabled?: boolean;
 }
 
+/**
+ * SelectField Component
+ * 
+ * Dropdown select component integrated with React Hook Form.
+ * Uses Shadcn Select primitive.
+ */
 export function SelectField<T extends FieldValues>({
     control,
     name,

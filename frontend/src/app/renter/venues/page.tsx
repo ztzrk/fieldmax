@@ -8,6 +8,11 @@ import { DataTable } from "@/components/shared/DataTable";
 import { columns } from "./components/column";
 import { PaginationState } from "@tanstack/react-table";
 
+/**
+ * Renter Venues Page.
+ * Displays a list of venues owned by the renter.
+ * Includes a wizard for creating new venues and bulk deletion support.
+ */
 export default function RenterVenuesPage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,

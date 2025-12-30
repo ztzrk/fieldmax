@@ -12,6 +12,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 
+/**
+ * VenueDetailPage Component
+ * 
+ * Detailed view of a specific venue. Displays detailed info, location,
+ * photo gallery, and a list of available fields within the venue.
+ */
 export default function VenueDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -38,7 +44,6 @@ export default function VenueDetailPage() {
             </Link>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
-                {/* Left Column: Image Gallery */}
                 <div className="space-y-4">
                     <div className="overflow-hidden rounded-xl border bg-muted aspect-video relative">
                         {venue.photos && venue.photos.length > 0 ? (
@@ -71,7 +76,6 @@ export default function VenueDetailPage() {
                     </div>
                 </div>
 
-                {/* Right Column: Details */}
                 <div className="flex flex-col gap-6">
                     <div>
                         <div className="flex items-center gap-2 mb-3">
@@ -96,7 +100,7 @@ export default function VenueDetailPage() {
                         </p>
                     </div>
 
-                    {/* Operating Hours (if available in future) */}
+
                     {/* 
                     <div className="flex items-center gap-2 text-muted-foreground mt-2">
                         <CalendarClock className="h-4 w-4" />
@@ -105,7 +109,6 @@ export default function VenueDetailPage() {
                 </div>
             </div>
 
-            {/* Fields List */}
             <section className="space-y-6">
                 <h2 className="text-2xl font-bold tracking-tight">Available Fields in {venue.name}</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

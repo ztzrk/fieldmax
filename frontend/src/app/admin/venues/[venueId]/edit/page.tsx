@@ -23,10 +23,14 @@ import { VenueActions } from "./components/VenueActions";
 import { PageHeader } from "@/app/admin/components/PageHeader";
 import { VenueFormValues } from "@/lib/schema/venue.schema";
 import { DataTable } from "@/components/shared/DataTable";
-import { getFieldColumns } from "./components/columns";
+import { columns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 
+/**
+ * Admin Venue Edit Page.
+ * Allows admins to view details, update fields, and approve/reject venues.
+ */
 export default function EditVenuePage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -146,7 +150,7 @@ export default function EditVenuePage() {
                 </CardHeader>
                 <CardContent>
                     <DataTable
-                        columns={getFieldColumns(venueId)}
+                        columns={columns}
                         data={venue.fields || []}
                         onDeleteSelected={handleDeleteSelected}
                         pageCount={pageCount}

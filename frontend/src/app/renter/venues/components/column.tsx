@@ -19,6 +19,9 @@ import Link from "next/link";
 import { VenueApiResponse } from "@/lib/schema/venue.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 
+/**
+ * Component for rendering action buttons (View, Delete, Resubmit) for a venue row.
+ */
 const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { mutate: deleteVenue } = useDeleteVenue();
@@ -74,6 +77,10 @@ const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
     );
 };
 
+/**
+ * Column definitions for the Renter's "My Venues" table.
+ * Includes checkboxes, name, address, status, and actions.
+ */
 export const columns: ColumnDef<VenueApiResponse>[] = [
     {
         id: "select",
