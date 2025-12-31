@@ -47,14 +47,27 @@ export function useGetAllFields(
     });
 }
 
-export function useGetFieldById(fieldId: string) {
+export function useGetFieldById(
+    fieldId: string,
+    page: number = 1,
+    limit: number = 10,
+    ratings?: number[]
+) {
     return useQuery({
-        queryKey: queryKeys.fields.detail(fieldId),
+        queryKey: queryKeys.fields.detail(fieldId, page, limit, ratings),
         queryFn: async () => {
-            const response = await FieldService.getById(fieldId);
+            const params = new URLSearchParams();
+            params.append("page", page.toString());
+            params.append("limit", limit.toString());
+            if (ratings && ratings.length > 0) {
+                ratings.forEach((r) => params.append("ratings", r.toString()));
+            }
+
+            const response = await FieldService.getById(fieldId, params);
             return fieldDetailResponseSchema.parse(response.data);
         },
         enabled: !!fieldId,
+        placeholderData: keepPreviousData,
     });
 }
 
