@@ -7,9 +7,10 @@ import {
 import SportTypeService from "@/services/sportType.service";
 import { toast } from "sonner";
 import {
-    sportTypesPaginatedApiResponseSchema,
-    sportTypesApiResponseSchema,
-    SportTypeFormValues,
+    sportTypesPaginatedResponseSchema,
+    sportTypesResponseSchema,
+    sportTypeFormSchema,
+    SportTypeFormSchema,
 } from "@/lib/schema/sportType.schema";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
@@ -24,7 +25,7 @@ export function useGetAllSportTypes(
         queryKey: queryKeys.sportTypes.list({ page, limit, search }),
         queryFn: async () => {
             const data = await SportTypeService.getAll({ page, limit, search });
-            return sportTypesPaginatedApiResponseSchema.parse(data);
+            return sportTypesPaginatedResponseSchema.parse(data.data);
         },
         placeholderData: keepPreviousData,
     });
@@ -35,7 +36,7 @@ export function useGetAllSportTypesWithoutPagination() {
         queryKey: queryKeys.sportTypes.all(),
         queryFn: async () => {
             const data = await SportTypeService.getAll();
-            return sportTypesApiResponseSchema.parse(data.data);
+            return sportTypesResponseSchema.parse(data.data);
         },
         staleTime: Infinity,
     });
@@ -44,7 +45,7 @@ export function useGetAllSportTypesWithoutPagination() {
 export function useCreateSportType() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: SportTypeFormValues) =>
+        mutationFn: (data: SportTypeFormSchema) =>
             SportTypeService.create(data),
         onSuccess: () => {
             toast.success("Sport Type created successfully!");

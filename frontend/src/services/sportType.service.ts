@@ -2,12 +2,12 @@ import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import {
-    SportTypeFormValues,
-    SportTypeQueryParams,
+    SportTypeFormSchema,
+    SportTypeQuerySchema,
 } from "@/lib/schema/sportType.schema";
 
 const SportTypeService = {
-    getAll: async (params?: SportTypeQueryParams) => {
+    getAll: async (params?: SportTypeQuerySchema) => {
         try {
             const response = await api.get("/sport-types", { params });
             return response.data;
@@ -15,7 +15,7 @@ const SportTypeService = {
             throw error as AxiosError<BackendErrorResponse>;
         }
     },
-    create: async (data: SportTypeFormValues) => {
+    create: async (data: SportTypeFormSchema) => {
         try {
             const response = await api.post("/sport-types", data);
             return response.data;

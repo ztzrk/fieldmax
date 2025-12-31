@@ -13,13 +13,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { fieldNestedApiResponse } from "@/lib/schema/venue.schema";
+import { FieldNestedResponseSchema } from "@/lib/schema/venue.schema";
 import Link from "next/link";
 
 /**
  * Component for rendering action buttons for a field within a venue.
  */
-const ActionsCell = ({ field }: { field: fieldNestedApiResponse }) => {
+const ActionsCell = ({ field }: { field: FieldNestedResponseSchema }) => {
     const { mutate: deleteField } = useDeleteField();
 
     return (
@@ -57,7 +57,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 /**
  * Column definitions for the Fields table within a Venue Edit page.
  */
-export const columns: ColumnDef<fieldNestedApiResponse>[] = [
+export const columns: ColumnDef<FieldNestedResponseSchema>[] = [
     {
         id: "select",
         header: ({ table }) => (

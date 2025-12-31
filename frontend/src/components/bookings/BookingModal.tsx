@@ -80,8 +80,6 @@ export function BookingModal({
 
     const { user } = useAuth();
 
-    // ... existing hooks
-
     const handleBooking = () => {
         if (!selectedTime) return;
 
@@ -104,18 +102,16 @@ export function BookingModal({
                         // @ts-ignore
                         window.snap.pay(snapToken, {
                             onSuccess: function (result: unknown) {
-                                console.log("Payment success:", result);
                                 router.push(`/bookings`);
                             },
                             onPending: function (result: unknown) {
-                                console.log("Payment pending:", result);
                                 router.push(`/bookings`);
                             },
                             onError: function (result: unknown) {
-                                console.log("Payment error:", result);
+                                toast.error("Payment failed");
                             },
                             onClose: function () {
-                                console.log("Payment popup closed");
+                                toast.error("Payment closed");
                             },
                         });
                     }
@@ -190,7 +186,6 @@ export function BookingModal({
                             <div className="grid grid-cols-3 gap-2 max-h-[200px] overflow-y-auto pr-2">
                                 {availability
                                     .filter((startTime: string) => {
-                                        // Filter logic: Check if we have 'duration' consecutive slots starting from this time
                                         const startHour = parseInt(
                                             startTime.split(":")[0]
                                         );

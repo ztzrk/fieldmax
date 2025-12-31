@@ -88,7 +88,9 @@ export class BookingsService {
         const startTime = new Date(
             `${data.bookingDate}T${data.startTime}:00.000+07:00`
         );
-        const endTime = new Date(startTime.getTime() + duration * 60 * 60 * 1000);
+        const endTime = new Date(
+            startTime.getTime() + duration * 60 * 60 * 1000
+        );
 
         // Check for overlaps: (StartA < EndB) and (EndA > StartB)
         const overlappingBooking = await prisma.booking.findFirst({
@@ -102,7 +104,9 @@ export class BookingsService {
         });
 
         if (overlappingBooking)
-            throw new Error("This time slot (or part of it) is already booked.");
+            throw new Error(
+                "This time slot (or part of it) is already booked."
+            );
 
         const totalPrice = field.pricePerHour * duration;
 
@@ -126,10 +130,16 @@ export class BookingsService {
                 },
             });
 
+            // Midtrans constraints: name max 50 chars, price must be integer
+            const rawName = `${field.name} @ ${newBooking.field.venue.name}`;
+            const safeName =
+                rawName.length > 50 ? rawName.substring(0, 50) : rawName;
+            const safePrice = Math.round(totalPrice);
+
             const transactionDetails = {
                 transaction_details: {
                     order_id: newBooking.id,
-                    gross_amount: totalPrice,
+                    gross_amount: safePrice,
                 },
                 customer_details: {
                     first_name: user.fullName,
@@ -138,15 +148,21 @@ export class BookingsService {
                 item_details: [
                     {
                         id: field.id,
-                        price: totalPrice,
+                        price: safePrice,
                         quantity: 1,
-                        name: `${field.name} @ ${newBooking.field.venue.name}`,
+                        name: safeName,
                     },
                 ],
                 callbacks: {
-                    finish: `${process.env.BACKEND_URL || "http://localhost:3000"}/payments/finish`,
-                    unfinish: `${process.env.BACKEND_URL || "http://localhost:3000"}/payments/unfinish`,
-                    error: `${process.env.BACKEND_URL || "http://localhost:3000"}/payments/error`,
+                    finish: `${
+                        process.env.BACKEND_URL || "http://localhost:3000"
+                    }/payments/finish`,
+                    unfinish: `${
+                        process.env.BACKEND_URL || "http://localhost:3000"
+                    }/payments/unfinish`,
+                    error: `${
+                        process.env.BACKEND_URL || "http://localhost:3000"
+                    }/payments/error`,
                 },
             };
 
@@ -170,7 +186,7 @@ export class BookingsService {
     ) {
         return prisma.booking.update({
             where: { id: bookingId },
-            data: { 
+            data: {
                 status,
                 ...(paymentStatus && { paymentStatus }),
             },

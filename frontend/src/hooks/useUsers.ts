@@ -7,9 +7,9 @@ import {
 import UserService from "@/services/user.service";
 import { toast } from "sonner";
 import {
-    UserFormValues,
-    usersPaginatedApiResponseSchema,
-    usersApiResponseSchema,
+    UserFormSchema,
+    usersPaginatedResponseSchema,
+    usersResponseSchema,
 } from "@/lib/schema/user.schema";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
@@ -20,7 +20,7 @@ export function useGetAllUsers(page: number, limit: number, search?: string) {
         queryKey: queryKeys.users.list({ page, limit, search }),
         queryFn: async () => {
             const data = await UserService.getAllUsers({ page, limit, search });
-            return usersPaginatedApiResponseSchema.parse(data);
+            return usersPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
     });
@@ -31,7 +31,7 @@ export function useGetAllUsersWithoutPagination() {
         queryKey: queryKeys.users.all(),
         queryFn: async () => {
             const data = await UserService.getAllUsers();
-            return usersApiResponseSchema.parse(data.data);
+            return usersResponseSchema.parse(data.data);
         },
     });
 }
@@ -39,7 +39,7 @@ export function useGetAllUsersWithoutPagination() {
 export function useCreateUser() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (userData: UserFormValues) =>
+        mutationFn: (userData: UserFormSchema) =>
             UserService.createUser(userData),
         onSuccess: () => {
             toast.success("User created successfully!");
@@ -68,7 +68,7 @@ export function useUpdateUser() {
             userData,
         }: {
             userId: string;
-            userData: UserFormValues;
+            userData: UserFormSchema;
         }) => UserService.updateUser(userId, userData),
         onSuccess: () => {
             toast.success("User updated successfully!");

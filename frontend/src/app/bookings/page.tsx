@@ -16,7 +16,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Booking } from "@/lib/schema/booking.schema";
+import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 /**
@@ -48,7 +48,7 @@ export default function BookingHistoryPage() {
     const bookings = bookingsData?.data || [];
     const now = new Date();
 
-    const activeBookings = bookings.filter((booking: Booking) => {
+    const activeBookings = bookings.filter((booking: BookingResponseSchema) => {
         const datePart = booking.bookingDate.toString().split("T")[0];
         let timePart = booking.endTime;
         if (booking.endTime.toString().includes("T")) {
@@ -63,20 +63,23 @@ export default function BookingHistoryPage() {
         return isFuture || isPending;
     });
 
-    const historyBookings = bookings.filter((booking: Booking) => {
-        const datePart = booking.bookingDate.toString().split("T")[0];
-        let timePart = booking.endTime;
-        if (booking.endTime.toString().includes("T")) {
-            timePart = booking.endTime.toString().split("T")[1];
-        }
-        const dateTimeString = `${datePart}T${timePart}`;
-        const endDateTime = new Date(dateTimeString);
+    const historyBookings = bookings.filter(
+        (booking: BookingResponseSchema) => {
+            const datePart = booking.bookingDate.toString().split("T")[0];
+            let timePart = booking.endTime;
+            if (booking.endTime.toString().includes("T")) {
+                timePart = booking.endTime.toString().split("T")[1];
+            }
+            const dateTimeString = `${datePart}T${timePart}`;
+            const endDateTime = new Date(dateTimeString);
 
-        const isPast = endDateTime <= now;
-        const isNotPending =
-            booking.status !== "PENDING" && booking.paymentStatus !== "PENDING";
-        return isPast && isNotPending;
-    });
+            const isPast = endDateTime <= now;
+            const isNotPending =
+                booking.status !== "PENDING" &&
+                booking.paymentStatus !== "PENDING";
+            return isPast && isNotPending;
+        }
+    );
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -95,7 +98,7 @@ export default function BookingHistoryPage() {
         }
     };
 
-    const BookingList = ({ list }: { list: Booking[] }) => {
+    const BookingList = ({ list }: { list: BookingResponseSchema[] }) => {
         if (list.length === 0) {
             return (
                 <Card className="text-center py-10">
@@ -113,7 +116,7 @@ export default function BookingHistoryPage() {
         }
         return (
             <div className="space-y-4">
-                {list.map((booking: Booking) => (
+                {list.map((booking: BookingResponseSchema) => (
                     <Card
                         key={booking.id}
                         className="overflow-hidden hover:shadow-md transition-shadow"
@@ -133,13 +136,13 @@ export default function BookingHistoryPage() {
                                         {booking.field?.venue?.address ||
                                             "Address not available"}
                                         {booking.field?.venue?.district &&
-                                            `, ${booking.field.venue.district}`}
+                                            `, ${booking.field?.venue?.district}`}
                                         {booking.field?.venue?.city &&
-                                            `, ${booking.field.venue.city}`}
+                                            `, ${booking.field?.venue?.city}`}
                                         {booking.field?.venue?.province &&
-                                            `, ${booking.field.venue.province}`}
+                                            `, ${booking.field?.venue?.province}`}
                                         {booking.field?.venue?.postalCode &&
-                                            ` ${booking.field.venue.postalCode}`}
+                                            ` ${booking.field?.venue?.postalCode}`}
                                     </CardDescription>
                                 </div>
                                 <Badge

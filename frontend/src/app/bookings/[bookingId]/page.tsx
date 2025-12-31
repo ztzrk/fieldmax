@@ -47,7 +47,6 @@ export default function BookingDetailPage({
     const [snapToken, setSnapToken] = useState<string | null>(null);
     const [isPaymentLoading, setIsPaymentLoading] = useState(false);
     const queryClient = useQueryClient();
-    const router = useRouter();
 
     useEffect(() => {
         if (booking?.snapToken) {
@@ -82,22 +81,15 @@ export default function BookingDetailPage({
         if (snapToken && window.snap) {
             window.snap.pay(snapToken, {
                 onSuccess: function (result: unknown) {
-                    console.log("payment success!", result);
                     window.location.reload();
                 },
                 onPending: function (result: unknown) {
-                    console.log("waiting for payment!", result);
                     window.location.reload();
                 },
                 onError: function (result: unknown) {
-                    console.log("payment failed!", result);
                     window.location.reload();
                 },
-                onClose: function () {
-                    console.log(
-                        "customer closed the popup without finishing the payment"
-                    );
-                },
+                onClose: function () {},
             });
         }
     };

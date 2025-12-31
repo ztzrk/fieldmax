@@ -57,7 +57,7 @@ export default function VenuesPage() {
                 </div>
 
                 {isVenuesLoading ? (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
                         {[...Array(8)].map((_, i) => (
                             <div key={i} className="flex flex-col space-y-3">
                                 <div className="h-[200px] w-full rounded-xl bg-muted animate-pulse" />
@@ -69,7 +69,7 @@ export default function VenuesPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
                         {filteredVenues?.map((venue) => (
                             <VenueCard key={venue.id} venue={venue} />
                         ))}

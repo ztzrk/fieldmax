@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-export const sportTypeApiResponseSchema = z.object({
+export const sportTypeResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
 });
 
-export const sportTypesApiResponseSchema = z.array(sportTypeApiResponseSchema);
+export const sportTypesResponseSchema = z.array(sportTypeResponseSchema);
 
-export const sportTypesPaginatedApiResponseSchema = z.object({
-    data: sportTypesApiResponseSchema,
+export const sportTypesPaginatedResponseSchema = z.object({
+    data: sportTypesResponseSchema,
     meta: z.object({
         total: z.number(),
         page: z.number(),
@@ -27,11 +27,10 @@ export const sportTypeQuerySchema = z.object({
     search: z.string().optional(),
 });
 
-export type SportTypeApiResponseSchema = z.infer<
-    typeof sportTypeApiResponseSchema
->;
-export type SportTypesPaginatedApiResponseSchema = z.infer<
-    typeof sportTypesPaginatedApiResponseSchema
+export type SportTypeResponseSchema = z.infer<typeof sportTypeResponseSchema>;
+export type SportTypesResponseSchema = z.infer<typeof sportTypesResponseSchema>;
+export type SportTypesPaginatedResponseSchema = z.infer<
+    typeof sportTypesPaginatedResponseSchema
 >;
 export type SportTypeFormSchema = z.infer<typeof sportTypeFormSchema>;
 export type SportTypeQuerySchema = z.infer<typeof sportTypeQuerySchema>;

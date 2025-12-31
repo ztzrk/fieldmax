@@ -1,10 +1,10 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 
-import { LoginFormValues, RegisterFormValues } from "@/lib/schema/auth.schema";
+import { LoginFormSchema, RegisterFormSchema } from "@/lib/schema/auth.schema";
 
 const AuthService = {
-    login: async (credentials: LoginFormValues) => {
+    login: async (credentials: LoginFormSchema) => {
         try {
             const response = await api.post("/auth/login", credentials);
             return response.data.data.user;
@@ -13,7 +13,7 @@ const AuthService = {
         }
     },
 
-    register: async (data: RegisterFormValues) => {
+    register: async (data: RegisterFormSchema) => {
         try {
             const response = await api.post("/auth/register", data);
             return response.data.data;

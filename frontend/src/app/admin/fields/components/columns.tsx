@@ -13,14 +13,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { FieldApiResponse } from "@/lib/schema/field.schema";
+import { FieldResponseSchema } from "@/lib/schema/field.schema";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Component for rendering action buttons (Edit, Delete) for a field row.
  */
-const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
+const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
     const { mutate: deleteField } = useDeleteField();
 
     return (
@@ -59,7 +59,7 @@ const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
  * Column definitions for the Fields table.
  * Includes checkboxes, venue info, sport type, price, status, and actions.
  */
-export const columns: ColumnDef<FieldApiResponse>[] = [
+export const columns: ColumnDef<FieldResponseSchema>[] = [
     {
         id: "select",
         header: ({ table }) => (

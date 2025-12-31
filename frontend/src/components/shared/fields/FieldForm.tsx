@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
 import { ComboboxField } from "@/components/shared/form/ComboboxField";
 
-import { fieldFormSchema, FieldFormValues } from "@/lib/schema/field.schema";
+import { fieldFormSchema, FieldFormSchema } from "@/lib/schema/field.schema";
 
 interface FieldFormProps {
-    initialData?: Partial<FieldFormValues>;
-    onSubmit: (values: FieldFormValues) => void;
+    initialData?: Partial<FieldFormSchema>;
+    onSubmit: (values: FieldFormSchema) => void;
     isPending: boolean;
 }
 
@@ -36,7 +36,7 @@ export function FieldForm({
             label: st.name,
         })) || [];
 
-    const form = useForm<FieldFormValues>({
+    const form = useForm<FieldFormSchema>({
         resolver: zodResolver(fieldFormSchema),
         defaultValues: initialData || {
             name: "",

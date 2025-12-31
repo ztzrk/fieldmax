@@ -3,23 +3,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import {
-    SportTypeFormValues,
-    sportTypeSchema,
+    SportTypeResponseSchema,
+    SportTypeFormSchema,
+    sportTypeFormSchema,
 } from "@/lib/schema/sportType.schema";
 import { InputField } from "@/components/shared/form/InputField";
 
 interface SportTypeFormProps {
-    initialData?: Partial<SportTypeFormValues>;
-    onSubmit: (values: SportTypeFormValues) => void;
+    initialData?: Partial<SportTypeResponseSchema>;
+    onSubmit: (values: SportTypeFormSchema) => void;
     isPending: boolean;
 }
 
@@ -32,8 +26,8 @@ export function SportTypeForm({
     onSubmit,
     isPending,
 }: SportTypeFormProps) {
-    const form = useForm<SportTypeFormValues>({
-        resolver: zodResolver(sportTypeSchema), // Changed from sportTypeSchema to sportTypeFormSchema based on edit, but reverted to original as schema name was not explicitly changed in instruction. If schema name should change, please specify.
+    const form = useForm<SportTypeFormSchema>({
+        resolver: zodResolver(sportTypeFormSchema),
         defaultValues: initialData || { name: "" },
     });
 

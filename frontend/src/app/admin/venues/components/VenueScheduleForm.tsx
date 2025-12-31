@@ -1,11 +1,16 @@
 "use client";
 
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { VenueFormValues } from "@/lib/schema/venue.schema";
+import { VenueFormSchema } from "@/lib/schema/venue.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
 
 const DAYS = [
     "Sunday",
@@ -22,7 +27,7 @@ const DAYS = [
  * Uses useFieldArray to handle weekly schedules dynamically.
  */
 export function VenueScheduleForm() {
-    const { control, watch, setValue } = useFormContext<VenueFormValues>();
+    const { control, watch, setValue } = useFormContext<VenueFormSchema>();
     const { fields, append, remove } = useFieldArray({
         control,
         name: "schedules",
@@ -33,7 +38,9 @@ export function VenueScheduleForm() {
     const handleDayToggle = (dayIndex: number, isChecked: boolean) => {
         if (isChecked) {
             // Add default schedule for this day
-            const existingIndex = schedules.findIndex((s) => s.dayOfWeek === dayIndex);
+            const existingIndex = schedules.findIndex(
+                (s) => s.dayOfWeek === dayIndex
+            );
             if (existingIndex === -1) {
                 append({
                     dayOfWeek: dayIndex,
@@ -43,7 +50,9 @@ export function VenueScheduleForm() {
             }
         } else {
             // Remove schedule for this day
-            const indexToRemove = schedules.findIndex((s) => s.dayOfWeek === dayIndex);
+            const indexToRemove = schedules.findIndex(
+                (s) => s.dayOfWeek === dayIndex
+            );
             if (indexToRemove !== -1) {
                 remove(indexToRemove);
             }
@@ -61,16 +70,24 @@ export function VenueScheduleForm() {
                     const isOpen = scheduleIndex !== -1;
 
                     return (
-                        <div key={dayIndex} className="flex items-center space-x-4">
+                        <div
+                            key={dayIndex}
+                            className="flex items-center space-x-4"
+                        >
                             <div className="w-32 flex items-center space-x-2">
                                 <Checkbox
                                     checked={isOpen}
                                     onCheckedChange={(checked) =>
-                                        handleDayToggle(dayIndex, checked as boolean)
+                                        handleDayToggle(
+                                            dayIndex,
+                                            checked as boolean
+                                        )
                                     }
                                     id={`day-${dayIndex}`}
                                 />
-                                <Label htmlFor={`day-${dayIndex}`}>{dayName}</Label>
+                                <Label htmlFor={`day-${dayIndex}`}>
+                                    {dayName}
+                                </Label>
                             </div>
 
                             {isOpen && (
@@ -81,7 +98,10 @@ export function VenueScheduleForm() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <Input type="time" {...field} />
+                                                    <Input
+                                                        type="time"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -94,7 +114,10 @@ export function VenueScheduleForm() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <Input type="time" {...field} />
+                                                    <Input
+                                                        type="time"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -102,7 +125,11 @@ export function VenueScheduleForm() {
                                     />
                                 </div>
                             )}
-                            {!isOpen && <span className="text-muted-foreground text-sm">Closed</span>}
+                            {!isOpen && (
+                                <span className="text-muted-foreground text-sm">
+                                    Closed
+                                </span>
+                            )}
                         </div>
                     );
                 })}

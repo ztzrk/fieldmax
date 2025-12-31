@@ -9,7 +9,14 @@ import { NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
     public async findAll(query: PaginationDto) {
-        const { page = 1, limit = 10, search, status, isClosed, sportTypeId } = query;
+        const {
+            page = 1,
+            limit = 10,
+            search,
+            status,
+            isClosed,
+            sportTypeId,
+        } = query;
         const skip = (page - 1) * limit;
         const whereCondition: Prisma.FieldWhereInput = {
             ...(search
@@ -143,20 +150,33 @@ export class FieldsService {
     }
 
     public async findById(id: string) {
-        const field = await prisma.field.findUnique({
-            where: { id },
-            include: {
-                sportType: true,
-                venue: {
-                    include: {
-                        schedules: true,
+        const [field, rating] = await prisma.$transaction([
+            prisma.field.findUnique({
+                where: { id },
+                include: {
+                    sportType: true,
+                    venue: {
+                        include: {
+                            schedules: true,
+                        },
                     },
+                    photos: true,
                 },
-                photos: true,
-            },
-        });
+            }),
+            prisma.review.aggregate({
+                _avg: { rating: true },
+                _count: { rating: true },
+                where: { fieldId: id },
+            }),
+        ]);
+
         if (!field) throw new Error("Field not found");
-        return field;
+
+        return {
+            ...field,
+            rating: rating._avg.rating || 0,
+            reviewCount: rating._count.rating || 0,
+        };
     }
 
     public async create(data: CreateFieldDto, user: User) {
@@ -329,7 +349,7 @@ export class FieldsService {
         const uploadPromises = files.map((file) => {
             const cleanName = file.originalname.trim().replace(/\s+/g, "-");
             const fileName = `${fieldId}-${Date.now()}-${cleanName}`;
-            
+
             return imagekit.upload({
                 file: file.buffer,
                 fileName: fileName,
@@ -386,7 +406,11 @@ export class FieldsService {
         let isClosed = false;
 
         if (override) {
-            if (override.isClosed || !override.openTime || !override.closeTime) {
+            if (
+                override.isClosed ||
+                !override.openTime ||
+                !override.closeTime
+            ) {
                 isClosed = true;
             } else {
                 openHour = override.openTime.getUTCHours();
@@ -435,7 +459,7 @@ export class FieldsService {
             // Calculate end hour. If end < start, it means it wrapped to next day (add 24)
             let end = (booking.endTime.getUTCHours() + 7) % 24;
             if (end <= start) end += 24;
-            
+
             for (let h = start; h < end; h++) {
                 const hourString = `${(h % 24).toString().padStart(2, "0")}:00`;
                 bookedSlots.add(hourString);

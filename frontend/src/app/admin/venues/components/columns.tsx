@@ -16,13 +16,13 @@ import { useDeleteVenue } from "@/hooks/useVenues";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { VenueApiResponse } from "@/lib/schema/venue.schema";
+import { VenueResponseSchema } from "@/lib/schema/venue.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Component for rendering action buttons (View/Edit Details, Delete) for a venue row.
  */
-const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
+const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { mutate: deleteVenue } = useDeleteVenue();
 
@@ -65,7 +65,7 @@ const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
  * Column definitions for the Venues table.
  * Includes checkboxes, index, name, address, renter, status, and actions.
  */
-export const columns: ColumnDef<VenueApiResponse>[] = [
+export const columns: ColumnDef<VenueResponseSchema>[] = [
     {
         id: "select",
         header: ({ table }) => (

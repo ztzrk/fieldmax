@@ -1,15 +1,13 @@
 import { z } from "zod";
 
 export const venueFormSchema = z.object({
-    name: z.string().min(1, { message: "Nama venue tidak boleh kosong." }),
-    address: z.string().min(1, { message: "Alamat tidak boleh kosong." }),
-    city: z.string().min(1, { message: "Kota tidak boleh kosong." }),
-    district: z.string().min(1, { message: "Kecamatan tidak boleh kosong." }),
-    province: z.string().min(1, { message: "Provinsi tidak boleh kosong." }),
-    postalCode: z.string().min(1, { message: "Kode Pos tidak boleh kosong." }),
-    renterId: z
-        .string()
-        .uuid({ message: "Anda harus memilih seorang renter." }),
+    name: z.string().min(1, { message: "Venue name is required." }),
+    address: z.string().min(1, { message: "Address is required." }),
+    city: z.string().min(1, { message: "City is required." }),
+    district: z.string().min(1, { message: "District is required." }),
+    province: z.string().min(1, { message: "Province is required." }),
+    postalCode: z.string().min(1, { message: "Postal code is required." }),
+    renterId: z.string().uuid({ message: "Renter is required." }),
     description: z.string().optional().nullable(),
     schedules: z
         .array(
@@ -47,7 +45,7 @@ const venuePhotoSchema = z.object({
     isFeatured: z.boolean(),
 });
 
-export const venueApiResponseSchema = z.object({
+export const venueResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     address: z.string(),
@@ -80,7 +78,7 @@ const fieldNestedResponseSchema = z.object({
     photos: z.array(z.object({ url: z.string() })).optional(),
 });
 
-export const venueDetailApiResponseSchema = z.object({
+export const venueDetailResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     address: z.string(),
@@ -96,18 +94,18 @@ export const venueDetailApiResponseSchema = z.object({
     fields: z.array(fieldNestedResponseSchema),
 });
 
-export type FieldNestedApiResponseSchema = z.infer<
+export type FieldNestedResponseSchema = z.infer<
     typeof fieldNestedResponseSchema
 >;
 
-export type VenueDetailApiResponseSchema = z.infer<
-    typeof venueDetailApiResponseSchema
+export type VenueDetailResponseSchema = z.infer<
+    typeof venueDetailResponseSchema
 >;
 
-export const venuesListApiResponseSchema = z.array(venueApiResponseSchema);
+export const venuesListResponseSchema = z.array(venueResponseSchema);
 
-export const venuesPaginatedApiResponseSchema = z.object({
-    data: venuesListApiResponseSchema,
+export const venuesPaginatedResponseSchema = z.object({
+    data: venuesListResponseSchema,
     meta: z.object({
         total: z.number(),
         page: z.number(),
@@ -116,9 +114,9 @@ export const venuesPaginatedApiResponseSchema = z.object({
     }),
 });
 
-export type VenueApiResponseSchema = z.infer<typeof venueApiResponseSchema>;
-export type VenuesPaginatedApiResponse = z.infer<
-    typeof venuesPaginatedApiResponseSchema
+export type VenueResponseSchema = z.infer<typeof venueResponseSchema>;
+export type VenuesPaginatedResponse = z.infer<
+    typeof venuesPaginatedResponseSchema
 >;
 const venuePublicPhotoSchema = z.object({
     url: z.string().url(),

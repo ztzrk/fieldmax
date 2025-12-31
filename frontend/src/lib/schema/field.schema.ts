@@ -22,7 +22,7 @@ export const fieldQuerySchema = z.object({
 
 export type FieldQuerySchema = z.infer<typeof fieldQuerySchema>;
 
-export const fieldApiResponseSchema = z.object({
+export const fieldResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     pricePerHour: z.number().min(0),
@@ -33,16 +33,21 @@ export const fieldApiResponseSchema = z.object({
     status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
     venue: z.object({
         name: z.string(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        district: z.string().optional(),
+        province: z.string().optional(),
+        postalCode: z.string().optional(),
     }),
     photos: z.array(z.object({ url: z.string() })).optional(),
 });
 
-export type FieldApiResponseSchema = z.infer<typeof fieldApiResponseSchema>;
+export type FieldResponseSchema = z.infer<typeof fieldResponseSchema>;
 
-export const fieldsListApiResponseSchema = z.array(fieldApiResponseSchema);
+export const fieldsListResponseSchema = z.array(fieldResponseSchema);
 
-export const fieldsPaginatedApiResponseSchema = z.object({
-    data: fieldsListApiResponseSchema,
+export const fieldsPaginatedResponseSchema = z.object({
+    data: fieldsListResponseSchema,
     meta: z.object({
         total: z.number(),
         page: z.number(),
@@ -51,11 +56,11 @@ export const fieldsPaginatedApiResponseSchema = z.object({
     }),
 });
 
-export type FieldsPaginatedApiResponseSchema = z.infer<
-    typeof fieldsPaginatedApiResponseSchema
+export type FieldsPaginatedResponseSchema = z.infer<
+    typeof fieldsPaginatedResponseSchema
 >;
 
-export const fieldDetailApiResponseSchema = z.object({
+export const fieldDetailResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     pricePerHour: z.number(),
@@ -85,6 +90,6 @@ export const fieldDetailApiResponseSchema = z.object({
     photos: z.array(z.object({ id: z.string(), url: z.string() })).optional(),
 });
 
-export type FieldDetailApiResponseSchema = z.infer<
-    typeof fieldDetailApiResponseSchema
+export type FieldDetailResponseSchema = z.infer<
+    typeof fieldDetailResponseSchema
 >;

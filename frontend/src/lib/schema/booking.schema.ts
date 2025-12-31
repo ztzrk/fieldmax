@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { fieldResponseSchema } from "./field.schema";
 
 export const bookingFormSchema = z.object({
     fieldId: z.string().uuid("Invalid Field ID"),
@@ -21,7 +22,7 @@ export type BookingQuerySchema = z.infer<typeof bookingQuerySchema>;
 
 export type BookingFormSchema = z.infer<typeof bookingFormSchema>;
 
-export const bookingSchema = z.object({
+export const bookingResponseSchema = z.object({
     id: z.string().uuid(),
     userId: z.string().uuid(),
     fieldId: z.string().uuid(),
@@ -33,29 +34,18 @@ export const bookingSchema = z.object({
     snapToken: z.string().nullable().optional(),
     paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]),
     createdAt: z.string(),
+    field: fieldResponseSchema,
 });
 
-export type BookingApiResponseSchema = z.infer<typeof bookingSchema> & {
-    field?: {
-        name: string;
-        venue?: {
-            name: string;
-            address: string;
-            city?: string;
-            district?: string;
-            province?: string;
-            postalCode?: string;
-        };
-    };
-};
+export type BookingResponseSchema = z.infer<typeof bookingResponseSchema>;
 
-export const bookingApiResponseSchema = z.object({
-    data: bookingSchema,
+export const bookingsResponseSchema = z.object({
+    data: z.array(bookingResponseSchema),
     message: z.string().optional(),
 });
 
-export const bookingsPaginatedApiResponseSchema = z.object({
-    data: z.array(bookingSchema),
+export const bookingsPaginatedResponseSchema = z.object({
+    data: z.array(bookingResponseSchema),
     meta: z.object({
         total: z.number(),
         page: z.number(),
@@ -63,3 +53,7 @@ export const bookingsPaginatedApiResponseSchema = z.object({
         totalPages: z.number(),
     }),
 });
+
+export type BookingsPaginatedResponseSchema = z.infer<
+    typeof bookingsPaginatedResponseSchema
+>;

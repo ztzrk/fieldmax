@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/card";
 import { VenueActions } from "./components/VenueActions";
 import { PageHeader } from "@/app/admin/components/PageHeader";
-import { VenueFormValues } from "@/lib/schema/venue.schema";
+import { VenueFormSchema } from "@/lib/schema/venue.schema";
 import { DataTable } from "@/components/shared/DataTable";
 import { columns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
@@ -69,7 +69,7 @@ export default function EditVenuePage() {
             </p>
         );
 
-    const handleFormSubmit = (values: VenueFormValues) => {
+    const handleFormSubmit = (values: VenueFormSchema) => {
         updateVenue(values);
     };
 

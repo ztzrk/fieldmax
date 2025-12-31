@@ -8,7 +8,7 @@ import { BackendErrorResponse } from "@/types/error";
 
 import { useState } from "react";
 
-import { LoginFormValues, RegisterFormValues } from "@/lib/schema/auth.schema";
+import { LoginFormSchema, RegisterFormSchema } from "@/lib/schema/auth.schema";
 
 export function useLogin() {
     const router = useRouter();
@@ -16,7 +16,7 @@ export function useLogin() {
     const [isRedirecting, setIsRedirecting] = useState(false);
 
     const mutation = useMutation({
-        mutationFn: (credentials: LoginFormValues) =>
+        mutationFn: (credentials: LoginFormSchema) =>
             AuthService.login(credentials),
         onSuccess: (user: User) => {
             setIsRedirecting(true);
@@ -60,7 +60,7 @@ export function useRegister() {
     const router = useRouter();
 
     const mutation = useMutation({
-        mutationFn: (data: RegisterFormValues) => AuthService.register(data),
+        mutationFn: (data: RegisterFormSchema) => AuthService.register(data),
         onSuccess: (variables) => {
             toast.success("Account created successfully!", {
                 description: "A verification code has been sent to your email.",

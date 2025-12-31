@@ -13,7 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { fieldNestedApiResponse } from "@/lib/schema/venue.schema";
+import { FieldNestedResponseSchema } from "@/lib/schema/venue.schema";
 import Link from "next/link";
 
 /**
@@ -23,7 +23,7 @@ const ActionsCell = ({
     field,
     venueId,
 }: {
-    field: fieldNestedApiResponse;
+    field: FieldNestedResponseSchema;
     venueId: string;
 }) => {
     const { mutate: deleteField } = useDeleteField();
@@ -70,7 +70,7 @@ import { Checkbox } from "@/components/ui/checkbox";
  */
 export const getRenterFieldColumns = (
     venueId: string
-): ColumnDef<fieldNestedApiResponse>[] => [
+): ColumnDef<FieldNestedResponseSchema>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -102,7 +102,11 @@ export const getRenterFieldColumns = (
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,
@@ -139,7 +143,9 @@ export const getRenterFieldColumns = (
             return (
                 <div className="flex justify-center">
                     <Badge
-                        variant={status === "APPROVED" ? "default" : "secondary"}
+                        variant={
+                            status === "APPROVED" ? "default" : "secondary"
+                        }
                     >
                         {status}
                     </Badge>

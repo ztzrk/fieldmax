@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/card";
 import { RenterVenueActions } from "./components/RenterVenueActions";
 import { PageHeader } from "@/app/admin/components/PageHeader";
-import { VenueFormValues } from "@/lib/schema/venue.schema";
+import { VenueFormSchema } from "@/lib/schema/venue.schema";
 import { DataTable } from "@/components/shared/DataTable";
 import { getRenterFieldColumns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
@@ -69,7 +69,7 @@ export default function EditVenuePage() {
             </p>
         );
 
-    const handleFormSubmit = (values: VenueFormValues) => {
+    const handleFormSubmit = (values: VenueFormSchema) => {
         updateVenue(values);
     };
 
@@ -148,7 +148,8 @@ export default function EditVenuePage() {
                             <CreateFieldButton venueId={venueId} />
                         ) : (
                             <p className="text-sm text-muted-foreground">
-                                This venue must be approved before you can add fields.
+                                This venue must be approved before you can add
+                                fields.
                             </p>
                         )}
                     </div>

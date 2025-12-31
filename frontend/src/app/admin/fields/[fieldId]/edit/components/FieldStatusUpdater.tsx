@@ -21,10 +21,10 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Field } from "@/lib/schema/field.schema";
+import { FieldDetailResponseSchema } from "@/lib/schema/field.schema";
 
 interface FieldStatusUpdaterProps {
-    field: Field;
+    field: FieldDetailResponseSchema;
     role: "ADMIN" | "RENTER";
 }
 

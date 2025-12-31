@@ -21,7 +21,7 @@ export const profileResponseSchema = z.object({
     profile: userProfileSchema.nullable().optional(),
 });
 
-export type ProfileApiResponseSchema = z.infer<typeof profileResponseSchema>;
+export type ProfileResponseSchema = z.infer<typeof profileResponseSchema>;
 
 export const profileFormSchema = z.object({
     fullName: z.string().optional(),

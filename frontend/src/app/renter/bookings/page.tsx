@@ -13,10 +13,9 @@ import {
 import { useState } from "react";
 import { DataTable } from "@/components/shared/DataTable";
 import { columns } from "./components/columns";
-import { Booking } from "@/lib/schema/booking.schema";
+import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 import { PaginationState } from "@tanstack/react-table";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
-import { Input } from "@/components/ui/input";
 
 /**
  * Renter Bookings Page.
@@ -52,7 +51,7 @@ export default function RenterBookingsPage() {
         );
     }
 
-    const bookings = (bookingsData?.data || []) as Booking[];
+    const bookings = (bookingsData?.data || []) as BookingResponseSchema[];
     const meta = bookingsData?.meta;
     const pageCount = meta?.totalPages ?? 0;
 

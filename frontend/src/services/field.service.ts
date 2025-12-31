@@ -1,9 +1,9 @@
 import { api } from "@/lib/api";
-import { FieldFormValues, FieldQueryParams } from "@/lib/schema/field.schema";
+import { FieldFormSchema, FieldQuerySchema } from "@/lib/schema/field.schema";
 import { AxiosError } from "axios";
 
 const FieldService = {
-    getAll: async (params?: FieldQueryParams) => {
+    getAll: async (params?: FieldQuerySchema) => {
         try {
             const response = await api.get("/fields", { params });
             return response.data;
@@ -19,7 +19,7 @@ const FieldService = {
             throw error as AxiosError;
         }
     },
-    create: async (data: FieldFormValues) => {
+    create: async (data: FieldFormSchema) => {
         try {
             const response = await api.post("/fields", {
                 ...data,
@@ -31,7 +31,7 @@ const FieldService = {
         }
     },
 
-    update: async (id: string, data: FieldFormValues) => {
+    update: async (id: string, data: FieldFormSchema) => {
         try {
             const response = await api.put(`/fields/${id}`, data);
             return response.data;

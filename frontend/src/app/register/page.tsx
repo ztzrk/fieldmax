@@ -15,22 +15,10 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import { useRegister } from "@/hooks/auth.hooks";
-
-const formSchema = z
-    .object({
-        fullName: z.string().min(1, { message: "Name is required." }),
-        email: z.string().email({ message: "Invalid email address." }),
-        password: z
-            .string()
-            .min(8, { message: "Password must be at least 8 characters." }),
-        confirmPassword: z.string().min(8, {
-            message: "Confirm Password must be at least 8 characters.",
-        }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-    });
+import {
+    registerFormSchema,
+    RegisterFormSchema,
+} from "@/lib/schema/auth.schema";
 
 /**
  * UserRegisterPage Component
@@ -41,8 +29,8 @@ const formSchema = z
 export default function UserRegisterPage() {
     const { mutate: register, isPending } = useRegister();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<RegisterFormSchema>({
+        resolver: zodResolver(registerFormSchema),
         defaultValues: {
             fullName: "",
             email: "",
@@ -51,7 +39,7 @@ export default function UserRegisterPage() {
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: RegisterFormSchema) {
         register({ ...values, role: "USER" });
     }
 

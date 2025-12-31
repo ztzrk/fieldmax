@@ -1,10 +1,10 @@
 import { api } from "@/lib/api";
-import { UserFormValues, UserQueryParams } from "@/lib/schema/user.schema";
+import { UserFormSchema, UserQuerySchema } from "@/lib/schema/user.schema";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
 const UserService = {
-    getAllUsers: async (params?: UserQueryParams) => {
+    getAllUsers: async (params?: UserQuerySchema) => {
         try {
             const response = await api.get("/users", { params });
             return response.data;
@@ -12,7 +12,7 @@ const UserService = {
             throw error as AxiosError<BackendErrorResponse>;
         }
     },
-    createUser: async (userData: UserFormValues) => {
+    createUser: async (userData: UserFormSchema) => {
         try {
             const response = await api.post("/users", userData);
             return response.data;
@@ -21,7 +21,7 @@ const UserService = {
         }
     },
 
-    updateUser: async (userId: string, userData: UserFormValues) => {
+    updateUser: async (userId: string, userData: UserFormSchema) => {
         try {
             const response = await api.put(`/users/${userId}`, userData);
             return response.data;

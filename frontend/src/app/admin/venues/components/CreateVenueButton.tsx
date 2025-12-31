@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { VenueForm } from "./VenueForm";
 import { useCreateVenue } from "@/hooks/useVenues";
-import { VenueFormValues } from "@/lib/schema/venue.schema";
+import { VenueFormSchema } from "@/lib/schema/venue.schema";
 
 /**
  * Button component to trigger the "Create Venue" dialog.
@@ -23,7 +23,7 @@ export function CreateVenueButton() {
     const router = useRouter();
     const { mutateAsync: createVenue, isPending } = useCreateVenue();
 
-    const handleSubmit = async (values: VenueFormValues) => {
+    const handleSubmit = async (values: VenueFormSchema) => {
         try {
             const newVenue = await createVenue(values);
             if (newVenue) {

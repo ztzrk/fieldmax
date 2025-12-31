@@ -6,11 +6,9 @@ import { useGetAllFields } from "@/hooks/useFields";
 import { useGetPublicVenues } from "@/hooks/useVenues";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Search, ArrowLeft, Trophy, Search as SearchIcon } from "lucide-react";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
+import { ArrowLeft, Trophy, Search as SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FieldApiResponse } from "@/lib/schema/field.schema";
+import { FieldResponseSchema } from "@/lib/schema/field.schema";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { FieldCard } from "@/components/fields/FieldCard";
 import { VenueCard } from "@/components/venues/VenueCard";
@@ -176,7 +174,7 @@ function SearchContent() {
                             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                                 {fieldsData?.data
                                     ?.slice(0, 4)
-                                    .map((field: FieldApiResponse) => (
+                                    .map((field: FieldResponseSchema) => (
                                         <FieldCard
                                             key={field.id}
                                             field={field}
@@ -220,7 +218,7 @@ function SearchContent() {
                     <TabsContent value="fields">
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                             {fieldsData?.data?.map(
-                                (field: FieldApiResponse) => (
+                                (field: FieldResponseSchema) => (
                                     <FieldCard key={field.id} field={field} />
                                 )
                             )}

@@ -1,9 +1,9 @@
 import { api } from "@/lib/api";
-import { VenueFormValues, VenueQueryParams } from "@/lib/schema/venue.schema";
+import { VenueFormSchema, VenueQuerySchema } from "@/lib/schema/venue.schema";
 import { AxiosError } from "axios";
 
 const VenueService = {
-    getAll: async (params?: VenueQueryParams) => {
+    getAll: async (params?: VenueQuerySchema) => {
         const response = await api.get("/venues", { params });
         return response.data;
     },
@@ -35,7 +35,7 @@ const VenueService = {
         }
     },
 
-    create: async (data: VenueFormValues) => {
+    create: async (data: VenueFormSchema) => {
         try {
             const response = await api.post("/venues", data);
             return response.data;
@@ -44,7 +44,7 @@ const VenueService = {
         }
     },
 
-    update: async (id: string, data: VenueFormValues) => {
+    update: async (id: string, data: VenueFormSchema) => {
         try {
             const response = await api.put(`/venues/${id}`, data);
             return response.data;

@@ -9,7 +9,10 @@ import {
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
 import { PageHeader } from "@/app/admin/components/PageHeader";
-import { Field, FieldFormValues } from "@/lib/schema/field.schema";
+import {
+    FieldDetailResponseSchema,
+    FieldFormSchema,
+} from "@/lib/schema/field.schema";
 import { FieldStatusUpdater } from "@/app/admin/fields/[fieldId]/edit/components/FieldStatusUpdater";
 import { useAuth } from "@/context/AuthContext";
 import { FieldForm } from "@/components/shared/fields/FieldForm";
@@ -50,7 +53,7 @@ export default function EditFieldPage() {
     const { mutateAsync: uploadPhotos, isPending: isUploading } =
         useUploadFieldPhotos(fieldId as string);
 
-    const handleFormSubmit = (data: FieldFormValues) => {
+    const handleFormSubmit = (data: FieldFormSchema) => {
         updateField(data);
     };
 
@@ -105,7 +108,7 @@ export default function EditFieldPage() {
                     {user?.role === "RENTER" && (
                         <div className="space-y-6">
                             <FieldStatusUpdater
-                                field={field as Field}
+                                field={field as FieldDetailResponseSchema}
                                 role="RENTER"
                             />
                             <Card>

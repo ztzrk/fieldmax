@@ -10,7 +10,10 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
 import { FieldForm } from "@/components/shared/fields/FieldForm";
 import { PageHeader } from "../../../components/PageHeader";
-import { Field, FieldFormValues } from "@/lib/schema/field.schema";
+import {
+    FieldDetailResponseSchema,
+    FieldFormSchema,
+} from "@/lib/schema/field.schema";
 import { FieldStatusUpdater } from "./components/FieldStatusUpdater";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldPhotoGallery } from "./components/FieldPhotoGallery";
@@ -48,7 +51,7 @@ export default function EditFieldPage() {
     const { mutateAsync: uploadPhotos, isPending: isUploading } =
         useUploadFieldPhotos(fieldId as string);
 
-    const handleFormSubmit = (data: FieldFormValues) => {
+    const handleFormSubmit = (data: FieldFormSchema) => {
         updateField(data);
     };
 
@@ -97,7 +100,10 @@ export default function EditFieldPage() {
                     </Card>
                 </div>
                 <div className="space-y-6">
-                    <FieldStatusUpdater field={field as Field} role="ADMIN" />
+                    <FieldStatusUpdater
+                        field={field as FieldDetailResponseSchema}
+                        role="ADMIN"
+                    />
                     <Card>
                         <CardHeader>
                             <CardTitle>Add New Photos</CardTitle>

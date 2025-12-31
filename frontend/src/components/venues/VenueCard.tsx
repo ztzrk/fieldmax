@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Building2, ArrowRight } from "lucide-react";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { useRouter } from "next/navigation";
-import { VenuePublic } from "@/lib/schema/venue.schema";
+import { VenuePublicSchema } from "@/lib/schema/venue.schema";
 
 interface VenueCardProps {
-    venue: VenuePublic;
+    venue: VenuePublicSchema;
 }
 
 export function VenueCard({ venue }: VenueCardProps) {

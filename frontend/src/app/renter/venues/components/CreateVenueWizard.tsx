@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { VenueForm } from "@/app/admin/venues/components/VenueForm";
 import { useRouter } from "next/navigation";
-import { VenueFormValues } from "@/lib/schema/venue.schema";
+import { VenueFormSchema } from "@/lib/schema/venue.schema";
 
 /**
  * Wizard dialog for creating a new venue.
@@ -25,11 +25,10 @@ export function CreateVenueWizard() {
     const { mutateAsync: createVenue, isPending: isCreating } =
         useCreateVenue();
 
-    const handleVenueSubmit = async(values: VenueFormValues) => {
+    const handleVenueSubmit = async (values: VenueFormSchema) => {
         await createVenue(values);
         setIsOpen(false);
     };
-    
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>

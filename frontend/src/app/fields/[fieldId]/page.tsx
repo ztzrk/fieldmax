@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useGetFieldById } from "@/hooks/useFields";
 import { useAuth } from "@/context/AuthContext";

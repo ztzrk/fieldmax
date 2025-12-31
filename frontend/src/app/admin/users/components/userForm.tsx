@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { UserFormValues, userSchema } from "@/lib/schema/user.schema";
+import { UserFormSchema, userSchema } from "@/lib/schema/user.schema";
 import { InputField } from "@/components/shared/form/InputField";
 import { SelectField } from "@/components/shared/form/SelectField";
 import { useCreateUser, useUpdateUser } from "@/hooks/useUsers";
@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
 interface UserFormProps {
-    initialData?: Partial<UserFormValues> & { id?: string; createdAt?: string };
+    initialData?: Partial<UserFormSchema> & { id?: string; createdAt?: string };
     dialogClose: () => void;
 }
 
@@ -22,7 +22,7 @@ interface UserFormProps {
  * Handles validation using Zod and submission via React Query mutations.
  */
 export function UserForm({ initialData, dialogClose }: UserFormProps) {
-    const form = useForm<UserFormValues>({
+    const form = useForm<UserFormSchema>({
         resolver: zodResolver(userSchema),
         defaultValues: {
             fullName: "",
@@ -36,11 +36,9 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
     const { mutate: createUser, isPending: isCreating } = useCreateUser();
     const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
 
-    // useEffect removed: Form reset is handled by mounting a new component instance with a unique 'key' prop.
-
     const isPending = isCreating || isUpdating;
 
-    const handleSubmit = async (data: UserFormValues) => {
+    const handleSubmit = async (data: UserFormSchema) => {
         const mutationOptions = {
             onSuccess: () => {
                 toast.success(
@@ -59,7 +57,7 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                                 fieldName
                             )
                         ) {
-                            form.setError(fieldName as keyof UserFormValues, {
+                            form.setError(fieldName as keyof UserFormSchema, {
                                 message: error.response.data.errors[fieldName],
                             });
                         }

@@ -11,7 +11,7 @@ import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { useDebounce } from "@/hooks/useDebounce";
 
 import { FieldCard } from "@/components/fields/FieldCard";
-import { FieldApiResponse } from "@/lib/schema/field.schema";
+import { FieldResponseSchema } from "@/lib/schema/field.schema";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 /**
@@ -102,7 +102,7 @@ export default function FieldsPage() {
                     <FullScreenLoader />
                 ) : (
                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                        {fieldsData?.data?.map((field: FieldApiResponse) => (
+                        {fieldsData?.data?.map((field: FieldResponseSchema) => (
                             <FieldCard key={field.id} field={field} />
                         ))}
                     </div>

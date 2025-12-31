@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(
     cors({
-        origin: "http://localhost:3001", 
+        origin: "http://localhost:3001",
         credentials: true,
     })
 );
@@ -34,6 +34,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+import { ReviewsRoute } from "./reviews/reviews.route";
+
 const authRoute = new AuthRoute();
 const usersRoute = new UsersRoute();
 const sportTypesRoute = new SportTypesRoute();
@@ -46,6 +48,7 @@ const profileRoute = new ProfileRoute();
 const bookingsRoute = new BookingsRoute();
 const paymentsRoute = new PaymentsRoute();
 const dashboardRoute = new DashboardRoute();
+const reviewsRoute = new ReviewsRoute();
 
 app.use("/api", authRoute.router);
 app.use("/api", usersRoute.router);
@@ -59,6 +62,7 @@ app.use("/api", profileRoute.router);
 app.use("/api", bookingsRoute.router);
 app.use("/api", paymentsRoute.router);
 app.use("/api", dashboardRoute.router);
+app.use("/api", reviewsRoute.router);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to FIELDMAX API! 🚀");

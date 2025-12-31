@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VenueFormValues, venueSchema } from "@/lib/schema/venue.schema";
+import { VenueFormSchema, venueSchema } from "@/lib/schema/venue.schema";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
@@ -11,8 +11,8 @@ import { VenueScheduleForm } from "./VenueScheduleForm";
 import { formatTime } from "@/lib/utils";
 
 interface VenueFormProps {
-    initialData?: Partial<VenueFormValues>;
-    onSubmit: (values: VenueFormValues) => void;
+    initialData?: Partial<VenueFormSchema>;
+    onSubmit: (values: VenueFormSchema) => void;
     isPending: boolean;
 }
 
@@ -43,7 +43,7 @@ export function VenueForm({
             closeTime: formatToHHMM(s.closeTime),
         })) || [];
 
-    const form = useForm<VenueFormValues>({
+    const form = useForm<VenueFormSchema>({
         resolver: zodResolver(venueSchema),
         defaultValues: {
             name: initialData?.name || "",

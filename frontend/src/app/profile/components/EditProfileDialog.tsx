@@ -18,30 +18,22 @@ import { TextareaField } from "@/components/shared/form/TextareaField";
 import { Form } from "@/components/ui/form";
 import { useUpdateProfile } from "@/hooks/useProfile";
 import { Pencil } from "lucide-react";
-import { ProfileResponse } from "@/lib/schema/profile.schema";
-import z from "zod";
+import {
+    ProfileFormSchema,
+    profileFormSchema,
+    ProfileResponseSchema,
+} from "@/lib/schema/profile.schema";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 
-const profileFormSchema = z.object({
-    fullName: z.string().min(2, {
-        message: "Full name must be at least 2 characters.",
-    }),
-    phoneNumber: z.string().optional().or(z.literal("")),
-    bio: z.string().optional().or(z.literal("")),
-    address: z.string().optional().or(z.literal("")),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
 interface EditProfileDialogProps {
-    user: ProfileResponse;
+    user: ProfileResponseSchema;
 }
 
 export function EditProfileDialog({ user }: EditProfileDialogProps) {
     const [open, setOpen] = useState(false);
     const { mutate: updateProfile, isPending } = useUpdateProfile();
 
-    const form = useForm<ProfileFormValues>({
+    const form = useForm<ProfileFormSchema>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
             fullName: user.fullName,
@@ -51,7 +43,7 @@ export function EditProfileDialog({ user }: EditProfileDialogProps) {
         },
     });
 
-    function onSubmit(data: ProfileFormValues) {
+    function onSubmit(data: ProfileFormSchema) {
         // Clean up empty strings to undefined or null if backend prefers,
         // but current backend handles strings fine.
         // We'll pass them as is.

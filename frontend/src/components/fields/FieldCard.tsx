@@ -8,11 +8,11 @@ import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/utils";
-import { FieldApiResponse } from "@/lib/schema/field.schema";
+import { FieldResponseSchema } from "@/lib/schema/field.schema";
 import { useAuth } from "@/context/AuthContext";
 
 interface FieldCardProps {
-    field: FieldApiResponse;
+    field: FieldResponseSchema;
 }
 
 export function FieldCard({ field }: FieldCardProps) {

@@ -1,13 +1,11 @@
 import { z } from "zod";
 
 export const userFormSchema = z.object({
-    fullName: z
-        .string()
-        .min(1, { message: "Nama lengkap tidak boleh kosong." }),
-    email: z.string().email({ message: "Format email tidak valid." }),
+    fullName: z.string().min(1, { message: "Full name is required." }),
+    email: z.string().email({ message: "Email is required." }),
     password: z
         .string()
-        .min(8, { message: "Password minimal 8 karakter." })
+        .min(8, { message: "Password must be at least 8 characters." })
         .optional()
         .or(z.literal("")),
     role: z.enum(["USER", "RENTER", "ADMIN"]),
@@ -17,7 +15,7 @@ export const userSchema = userFormSchema;
 
 export type UserFormSchema = z.infer<typeof userFormSchema>;
 
-export const userApiResponseSchema = z.object({
+export const userResponseSchema = z.object({
     id: z.string().uuid(),
     fullName: z.string(),
     email: z.string().email(),
@@ -25,10 +23,10 @@ export const userApiResponseSchema = z.object({
     createdAt: z.string().datetime(),
 });
 
-export const usersApiResponseSchema = z.array(userApiResponseSchema);
+export const usersResponseSchema = z.array(userResponseSchema);
 
-export const usersPaginatedApiResponseSchema = z.object({
-    data: usersApiResponseSchema,
+export const usersPaginatedResponseSchema = z.object({
+    data: usersResponseSchema,
     meta: z.object({
         total: z.number(),
         page: z.number(),
@@ -37,9 +35,9 @@ export const usersPaginatedApiResponseSchema = z.object({
     }),
 });
 
-export type UserApiResponseSchema = z.infer<typeof userApiResponseSchema>;
-export type UsersPaginatedApiResponseSchema = z.infer<
-    typeof usersPaginatedApiResponseSchema
+export type UserResponseSchema = z.infer<typeof userResponseSchema>;
+export type UsersPaginatedResponseSchema = z.infer<
+    typeof usersPaginatedResponseSchema
 >;
 
 export const userQuerySchema = z.object({

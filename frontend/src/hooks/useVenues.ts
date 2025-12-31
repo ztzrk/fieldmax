@@ -7,10 +7,10 @@ import {
 import VenueService from "@/services/venue.service";
 import { toast } from "sonner";
 import {
-    VenueApiResponse,
-    VenueFormValues,
-    venueDetailApiResponseSchema,
-    venuesPaginatedApiResponseSchema,
+    VenueResponseSchema,
+    VenueFormSchema,
+    venueDetailResponseSchema,
+    venuesPaginatedResponseSchema,
     venuePublicSchema,
 } from "@/lib/schema/venue.schema";
 import { z } from "zod";
@@ -23,7 +23,7 @@ export function useGetAllVenues(page: number, limit: number, search?: string) {
         queryKey: queryKeys.venues.list({ page, limit, search }),
         queryFn: async () => {
             const data = await VenueService.getAll({ page, limit, search });
-            return venuesPaginatedApiResponseSchema.parse(data);
+            return venuesPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
     });
@@ -44,7 +44,7 @@ export function useGetPublicVenueById(venueId: string) {
         queryKey: queryKeys.venues.publicDetail(venueId),
         queryFn: async () => {
             const response = await VenueService.getByIdPublic(venueId);
-            return venueDetailApiResponseSchema.parse(response.data);
+            return venueDetailResponseSchema.parse(response.data);
         },
         enabled: !!venueId,
     });
@@ -55,7 +55,7 @@ export function useGetVenueById(venueId: string) {
         queryKey: queryKeys.venues.detail(venueId),
         queryFn: async () => {
             const response = await VenueService.getById(venueId);
-            return venueDetailApiResponseSchema.parse(response.data);
+            return venueDetailResponseSchema.parse(response.data);
         },
         enabled: !!venueId,
     });
@@ -64,8 +64,8 @@ export function useGetVenueById(venueId: string) {
 export function useCreateVenue() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: VenueFormValues) => VenueService.create(data),
-        onSuccess: (newVenue: VenueApiResponse) => {
+        mutationFn: (data: VenueFormSchema) => VenueService.create(data),
+        onSuccess: (newVenue: VenueResponseSchema) => {
             toast.success("Venue created successfully!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             return newVenue;
@@ -88,7 +88,7 @@ export function useCreateVenue() {
 export function useUpdateVenue(venueId: string) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: VenueFormValues) =>
+        mutationFn: (data: VenueFormSchema) =>
             VenueService.update(venueId, data),
         onSuccess: () => {
             toast.success("Venue updated successfully!");

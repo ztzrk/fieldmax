@@ -11,9 +11,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/utils";
-import { Booking } from "@/lib/schema/booking.schema";
+import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 
 const getStatusVariant = (status: string) => {
     switch (status) {
@@ -32,7 +31,7 @@ const getStatusVariant = (status: string) => {
     }
 };
 
-const ActionsCell = ({ booking }: { booking: Booking }) => {
+const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -65,7 +64,7 @@ const ActionsCell = ({ booking }: { booking: Booking }) => {
     );
 };
 
-export const columns: ColumnDef<Booking>[] = [
+export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "id",
         header: "Booking ID",

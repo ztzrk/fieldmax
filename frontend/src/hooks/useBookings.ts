@@ -9,7 +9,7 @@ import FieldService from "@/services/field.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
-import { BookingFormValues } from "@/lib/schema/booking.schema";
+import { BookingFormSchema } from "@/lib/schema/booking.schema";
 import { queryKeys } from "@/lib/queryKeys";
 
 export function useFieldAvailability(fieldId: string, date: string) {
@@ -25,7 +25,7 @@ export function useFieldAvailability(fieldId: string, date: string) {
 export function useCreateBooking() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: BookingFormValues) => BookingService.create(data),
+        mutationFn: (data: BookingFormSchema) => BookingService.create(data),
         onSuccess: () => {
             toast.success("Booking created. Please complete payment.");
             queryClient.invalidateQueries({

@@ -13,13 +13,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { FieldApiResponse } from "@/lib/schema/field.schema";
+import { FieldResponseSchema } from "@/lib/schema/field.schema";
 import Link from "next/link";
 
 /**
  * Component for rendering action buttons (Edit, Delete) for a field row.
  */
-const ActionsCell = ({ field }: { field: FieldApiResponse }) => {
+const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
     const { mutate: deleteField } = useDeleteField();
 
     return (
@@ -60,7 +60,7 @@ import { Checkbox } from "@/components/ui/checkbox";
  * Column definitions for the Renter's "My Fields" table.
  * Includes checkboxes, index, status, price formatting, and actions.
  */
-export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
+export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     {
         id: "select",
         header: ({ table }) => (

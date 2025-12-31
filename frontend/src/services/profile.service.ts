@@ -1,7 +1,7 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
-import { ProfileFormValues } from "@/lib/schema/profile.schema";
+import { ProfileFormSchema } from "@/lib/schema/profile.schema";
 
 const ProfileService = {
     getMe: async () => {
@@ -13,7 +13,7 @@ const ProfileService = {
         }
     },
 
-    updateProfile: async (data: ProfileFormValues) => {
+    updateProfile: async (data: ProfileFormSchema) => {
         try {
             const response = await api.patch("/profile/me", data);
             return response.data;

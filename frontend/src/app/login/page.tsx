@@ -2,25 +2,13 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLogin } from "@/hooks/auth.hooks";
-
-const formSchema = z.object({
-    email: z.string().email({ message: "Alamat email tidak valid." }),
-    password: z.string().min(1, { message: "Password tidak boleh kosong." }),
-});
+import { LoginFormSchema, loginFormSchema } from "@/lib/schema/auth.schema";
 
 /**
  * LoginPage Component
@@ -31,12 +19,12 @@ const formSchema = z.object({
 export default function LoginPage() {
     const { mutate: login, isPending } = useLogin();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<LoginFormSchema>({
+        resolver: zodResolver(loginFormSchema),
         defaultValues: { email: "", password: "" },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: LoginFormSchema) {
         login(values);
     }
 
@@ -72,7 +60,7 @@ export default function LoginPage() {
                                 className="w-full"
                                 disabled={isPending}
                             >
-                                {isPending ? "Memproses..." : "Login"}
+                                {isPending ? "Processing..." : "Login"}
                             </Button>
                         </form>
                     </Form>

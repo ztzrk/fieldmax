@@ -16,13 +16,13 @@ import { useDeleteVenue, useResubmitVenue } from "@/hooks/useVenues";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { VenueApiResponse } from "@/lib/schema/venue.schema";
+import { VenueResponseSchema } from "@/lib/schema/venue.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Component for rendering action buttons (View, Delete, Resubmit) for a venue row.
  */
-const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
+const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { mutate: deleteVenue } = useDeleteVenue();
     const { mutate: resubmitVenue } = useResubmitVenue(venue.id);
@@ -81,7 +81,7 @@ const ActionsCell = ({ venue }: { venue: VenueApiResponse }) => {
  * Column definitions for the Renter's "My Venues" table.
  * Includes checkboxes, name, address, status, and actions.
  */
-export const columns: ColumnDef<VenueApiResponse>[] = [
+export const columns: ColumnDef<VenueResponseSchema>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -113,7 +113,11 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,
@@ -129,7 +133,7 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
             const status = row.original.status;
 
             const rejectionReason = row.original.rejectionReason;
-            
+
             return (
                 <div className="flex justify-center">
                     <Badge
@@ -152,13 +156,13 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
             );
         },
     },
-    { 
-        id: "actions", 
+    {
+        id: "actions",
         header: () => <div className="text-center">Actions</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell venue={row.original} />
             </div>
-        )
+        ),
     },
 ];

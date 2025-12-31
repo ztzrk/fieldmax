@@ -1,7 +1,7 @@
 import {
-    FieldFormValues,
-    fieldDetailApiResponseSchema,
-    fieldsPaginatedApiResponseSchema,
+    FieldFormSchema,
+    fieldDetailResponseSchema,
+    fieldsPaginatedResponseSchema,
 } from "@/lib/schema/field.schema";
 import FieldService from "@/services/field.service";
 import {
@@ -41,7 +41,7 @@ export function useGetAllFields(
                 isClosed,
                 sportTypeId,
             });
-            return fieldsPaginatedApiResponseSchema.parse(data);
+            return fieldsPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
     });
@@ -52,7 +52,7 @@ export function useGetFieldById(fieldId: string) {
         queryKey: queryKeys.fields.detail(fieldId),
         queryFn: async () => {
             const response = await FieldService.getById(fieldId);
-            return fieldDetailApiResponseSchema.parse(response.data);
+            return fieldDetailResponseSchema.parse(response.data);
         },
         enabled: !!fieldId,
     });
@@ -61,7 +61,7 @@ export function useGetFieldById(fieldId: string) {
 export function useCreateField() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: FieldFormValues) => FieldService.create(data),
+        mutationFn: (data: FieldFormSchema) => FieldService.create(data),
         onSuccess: () => {
             toast.success("Field created successfully!");
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
@@ -84,7 +84,7 @@ export function useCreateField() {
 export function useUpdateField(fieldId: string) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: FieldFormValues) =>
+        mutationFn: (data: FieldFormSchema) =>
             FieldService.update(fieldId, data),
         onSuccess: () => {
             toast.success("Field updated successfully!");

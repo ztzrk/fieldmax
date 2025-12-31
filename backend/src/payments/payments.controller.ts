@@ -11,7 +11,6 @@ export class PaymentsController {
     ) => {
         try {
             const notificationJson = req.body;
-            console.log("Received Midtrans Notification:", JSON.stringify(notificationJson, null, 2));
             await this.service.handleMidtransNotification(notificationJson);
             res.status(200).json({
                 message: "Notification received successfully.",
@@ -28,7 +27,9 @@ export class PaymentsController {
     ) => {
         try {
             // Redirect to frontend profile page
-            const redirectUrl = `${process.env.FRONTEND_URL || "http://localhost:3001"}/bookings`;
+            const redirectUrl = `${
+                process.env.FRONTEND_URL || "http://localhost:3001"
+            }/bookings`;
             res.redirect(redirectUrl);
         } catch (error) {
             next(error);
