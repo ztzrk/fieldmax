@@ -1,6 +1,6 @@
 import prisma from "../db";
 import { CreateReviewDto } from "./dtos/create-review.dto";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { PaginationDto, ReviewFilterDto } from "../dtos/pagination.dto";
 
 export class ReviewsService {
     public async create(userId: string, data: CreateReviewDto) {
@@ -46,13 +46,18 @@ export class ReviewsService {
         });
     }
 
-    public async getByFieldId(fieldId: string, query: PaginationDto) {
-        const { page = 1, limit = 10 } = query;
+    public async getByFieldId(fieldId: string, query: ReviewFilterDto) {
+        const { page = 1, limit = 10, ratings } = query;
         const skip = (page - 1) * limit;
+
+        const where: any = { fieldId };
+        if (ratings && ratings.length > 0) {
+            where.rating = { in: ratings };
+        }
 
         const [reviews, total] = await prisma.$transaction([
             prisma.review.findMany({
-                where: { fieldId },
+                where,
                 include: {
                     user: {
                         select: {
@@ -69,7 +74,7 @@ export class ReviewsService {
                 skip: Number(skip),
                 take: Number(limit),
             }),
-            prisma.review.count({ where: { fieldId } }),
+            prisma.review.count({ where }),
         ]);
 
         const totalPages = Math.ceil(total / limit);
