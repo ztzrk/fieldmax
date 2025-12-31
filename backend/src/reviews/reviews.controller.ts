@@ -28,9 +28,20 @@ export class ReviewsController {
             const { fieldId } = req.params;
             const page = Number(req.query.page) || 1;
             const limit = Number(req.query.limit) || 10;
+            // Parse ratings if they exist
+            let ratings: number[] | undefined;
+            if (req.query.ratings) {
+                if (Array.isArray(req.query.ratings)) {
+                    ratings = (req.query.ratings as string[]).map(Number);
+                } else {
+                    ratings = [Number(req.query.ratings)];
+                }
+            }
+
             const result = await this.service.getByFieldId(fieldId, {
                 page,
                 limit,
+                ratings,
             });
             res.status(200).json(result);
         } catch (error) {
