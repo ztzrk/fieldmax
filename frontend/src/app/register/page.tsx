@@ -36,11 +36,12 @@ export default function UserRegisterPage() {
             email: "",
             password: "",
             confirmPassword: "",
+            role: "USER",
         },
     });
 
     function onSubmit(values: RegisterFormSchema) {
-        register({ ...values, role: "USER" });
+        register({ ...values });
     }
 
     return (
