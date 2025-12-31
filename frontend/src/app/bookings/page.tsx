@@ -18,6 +18,8 @@ import { ArrowLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { ReviewDialog } from "@/components/reviews/ReviewDialog";
+import { useState } from "react";
 
 /**
  * BookingHistoryPage Component
@@ -27,6 +29,8 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
  */
 export default function BookingHistoryPage() {
     const { data: bookingsData, isLoading, isError } = useGetBookings(1, 100);
+
+    const [reviewBookingId, setReviewBookingId] = useState<string | null>(null);
 
     if (isLoading) {
         return <FullScreenLoader />;
@@ -116,75 +120,105 @@ export default function BookingHistoryPage() {
         }
         return (
             <div className="space-y-4">
-                {list.map((booking: BookingResponseSchema) => (
-                    <Card
-                        key={booking.id}
-                        className="overflow-hidden hover:shadow-md transition-shadow"
-                    >
-                        <CardHeader className="pb-3 bg-muted/20">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <CardTitle className="text-lg flex items-center gap-2">
-                                        {booking.field?.venue?.name ||
-                                            "Unknown Venue"}
-                                        <span className="text-muted-foreground text-sm font-normal">
-                                            - {booking.field?.name || "Field"}
-                                        </span>
-                                    </CardTitle>
-                                    <CardDescription className="flex items-center gap-1 mt-1">
-                                        <MapPin className="h-3.5 w-3.5" />
-                                        {booking.field?.venue?.address ||
-                                            "Address not available"}
-                                        {booking.field?.venue?.district &&
-                                            `, ${booking.field?.venue?.district}`}
-                                        {booking.field?.venue?.city &&
-                                            `, ${booking.field?.venue?.city}`}
-                                        {booking.field?.venue?.province &&
-                                            `, ${booking.field?.venue?.province}`}
-                                        {booking.field?.venue?.postalCode &&
-                                            ` ${booking.field?.venue?.postalCode}`}
-                                    </CardDescription>
+                {list.map((booking: BookingResponseSchema) => {
+                    // Logic to check if reviewable:
+                    // 1. Status is COMPLETED (or similar logic handled by backend, but UI hint is good)
+                    // 2. No review exists (we need to know if review exists. Let's assume booking object has 'review' prop)
+                    // Since 'review' might not be in the type yet, we need to update schema type on frontend first or assume it's there.
+                    // The backend `Booking` model has `review Review?`.
+                    // The frontend BookingResponseSchema needs to be updated to include 'review'.
+
+                    const canReview =
+                        (booking.status === "COMPLETED" ||
+                            booking.status === "CONFIRMED") &&
+                        !booking.review;
+
+                    return (
+                        <Card
+                            key={booking.id}
+                            className="overflow-hidden hover:shadow-md transition-shadow"
+                        >
+                            <CardHeader className="pb-3 bg-muted/20">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <CardTitle className="text-lg flex items-center gap-2">
+                                            {booking.field?.venue?.name ||
+                                                "Unknown Venue"}
+                                            <span className="text-muted-foreground text-sm font-normal">
+                                                -{" "}
+                                                {booking.field?.name || "Field"}
+                                            </span>
+                                        </CardTitle>
+                                        <CardDescription className="flex items-center gap-1 mt-1">
+                                            <MapPin className="h-3.5 w-3.5" />
+                                            {booking.field?.venue?.address ||
+                                                "Address not available"}
+                                            {booking.field?.venue?.district &&
+                                                `, ${booking.field?.venue?.district}`}
+                                            {booking.field?.venue?.city &&
+                                                `, ${booking.field?.venue?.city}`}
+                                            {booking.field?.venue?.province &&
+                                                `, ${booking.field?.venue?.province}`}
+                                            {booking.field?.venue?.postalCode &&
+                                                ` ${booking.field?.venue?.postalCode}`}
+                                        </CardDescription>
+                                    </div>
+                                    <Badge
+                                        variant="secondary"
+                                        className={getStatusColor(
+                                            booking.paymentStatus ||
+                                                booking.status
+                                        )}
+                                    >
+                                        {booking.paymentStatus ||
+                                            booking.status}
+                                    </Badge>
                                 </div>
-                                <Badge
-                                    variant="secondary"
-                                    className={getStatusColor(
-                                        booking.paymentStatus || booking.status
+                            </CardHeader>
+                            <CardContent className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div className="flex items-center gap-2">
+                                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-sm font-medium">
+                                        {formatDate(booking.bookingDate)}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-sm font-medium">
+                                        {formatTime(booking.startTime)} -{" "}
+                                        {formatTime(booking.endTime)}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2 sm:justify-end">
+                                    <span className="text-sm font-bold text-primary">
+                                        Rp{" "}
+                                        {booking.totalPrice.toLocaleString(
+                                            "id-ID"
+                                        )}
+                                    </span>
+                                </div>
+                                <div className="sm:col-span-3 flex justify-end mt-2 gap-2">
+                                    {canReview && (
+                                        <Button
+                                            size="sm"
+                                            variant="secondary"
+                                            onClick={() =>
+                                                setReviewBookingId(booking.id)
+                                            }
+                                        >
+                                            Write Review
+                                        </Button>
                                     )}
-                                >
-                                    {booking.paymentStatus || booking.status}
-                                </Badge>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4 text-muted-foreground" />
-                                <span className="text-sm font-medium">
-                                    {formatDate(booking.bookingDate)}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Clock className="h-4 w-4 text-muted-foreground" />
-                                <span className="text-sm font-medium">
-                                    {formatTime(booking.startTime)} -{" "}
-                                    {formatTime(booking.endTime)}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-2 sm:justify-end">
-                                <span className="text-sm font-bold text-primary">
-                                    Rp{" "}
-                                    {booking.totalPrice.toLocaleString("id-ID")}
-                                </span>
-                            </div>
-                            <div className="sm:col-span-3 flex justify-end mt-2">
-                                <Link href={`/bookings/${booking.id}`}>
-                                    <Button variant="outline" size="sm">
-                                        View Details
-                                    </Button>
-                                </Link>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                                    <Link href={`/bookings/${booking.id}`}>
+                                        <Button variant="outline" size="sm">
+                                            View Details
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    );
+                })}
             </div>
         );
     };
@@ -217,6 +251,14 @@ export default function BookingHistoryPage() {
                     <BookingList list={historyBookings} />
                 </TabsContent>
             </Tabs>
+
+            {reviewBookingId && (
+                <ReviewDialog
+                    bookingId={reviewBookingId}
+                    isOpen={!!reviewBookingId}
+                    onClose={() => setReviewBookingId(null)}
+                />
+            )}
         </div>
     );
 }
