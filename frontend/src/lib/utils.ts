@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs));
 }
 
 export function formatPrice(price: number): string {
@@ -14,7 +14,10 @@ export function formatPrice(price: number): string {
     }).format(price);
 }
 
-export function formatDate(date: string | Date, dateFormat: string = "PPP"): string {
+export function formatDate(
+    date: string | Date,
+    dateFormat: string = "PPP"
+): string {
     if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-US", {
         year: "numeric",

@@ -1,14 +1,11 @@
 import { api } from "@/lib/api";
-import { UserFormValues } from "@/lib/schema/user.schema";
+import { UserFormValues, UserQueryParams } from "@/lib/schema/user.schema";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
 const UserService = {
-    getAllUsers: async (page?: number, limit?: number, search?: string) => {
+    getAllUsers: async (params?: UserQueryParams) => {
         try {
-            const params: Record<string, any> = { page, limit };
-            if (search) params.search = search;
-
             const response = await api.get("/users", { params });
             return response.data;
         } catch (error) {

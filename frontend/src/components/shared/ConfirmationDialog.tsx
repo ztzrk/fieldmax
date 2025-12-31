@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 
 /**
  * ConfirmationDialog Component
- * 
+ *
  * A reusable alert dialog for confirming destructive actions.
  * Can wrap a custom trigger or render a default destructive button.
  */

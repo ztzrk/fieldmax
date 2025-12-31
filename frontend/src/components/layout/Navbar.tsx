@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 /**
  * Navbar Component
- * 
+ *
  * Main navigation bar for the application. Handles responsive navigation,
  * authentication state display (UserNav), and home page routing.
  */
@@ -24,8 +24,8 @@ export function Navbar() {
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center gap-8">
-                    <div 
-                        className="flex gap-2 items-center font-bold text-xl cursor-pointer" 
+                    <div
+                        className="flex gap-2 items-center font-bold text-xl cursor-pointer"
                         onClick={() => router.push("/")}
                     >
                         {!isHome && <ArrowLeft className="h-5 w-5 md:hidden" />}
@@ -33,14 +33,23 @@ export function Navbar() {
                         <span>FieldMax</span>
                     </div>
                     <nav className="hidden md:flex items-center gap-6">
-                        <Link href="/fields" className="text-sm font-medium hover:text-primary transition-colors">
+                        <Link
+                            href="/fields"
+                            className="text-sm font-medium hover:text-primary transition-colors"
+                        >
                             Fields
                         </Link>
-                        <Link href="/venues" className="text-sm font-medium hover:text-primary transition-colors">
+                        <Link
+                            href="/venues"
+                            className="text-sm font-medium hover:text-primary transition-colors"
+                        >
                             Venues
                         </Link>
                         {user && (
-                            <Link href="/bookings" className="text-sm font-medium hover:text-primary transition-colors">
+                            <Link
+                                href="/bookings"
+                                className="text-sm font-medium hover:text-primary transition-colors"
+                            >
                                 Bookings
                             </Link>
                         )}
@@ -59,9 +68,7 @@ export function Navbar() {
                                 </Button>
                             </Link>
                             <Link href="/register">
-                                <Button size="sm">
-                                    Register
-                                </Button>
+                                <Button size="sm">Register</Button>
                             </Link>
                         </div>
                     )}

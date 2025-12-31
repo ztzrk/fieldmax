@@ -3,7 +3,7 @@ import { User, Prisma } from "@prisma/client";
 import { UpdateUserDto } from "./dtos/user.dto";
 import { RegisterUserDto } from "../auth/dtos/register-user.dto";
 import prisma from "../db";
-import * as bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { PaginationDto } from "../dtos/pagination.dto";
 import { ConflictError, NotFoundError } from "../utils/errors";
 

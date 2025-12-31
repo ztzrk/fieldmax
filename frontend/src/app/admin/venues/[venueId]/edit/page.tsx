@@ -143,7 +143,8 @@ export default function EditVenuePage() {
                             <CreateFieldButton venueId={venueId} />
                         ) : (
                             <p className="text-sm text-muted-foreground">
-                                This venue must be approved before you can add fields.
+                                This venue must be approved before you can add
+                                fields.
                             </p>
                         )}
                     </div>

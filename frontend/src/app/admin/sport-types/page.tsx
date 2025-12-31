@@ -16,11 +16,10 @@ import { PaginationState } from "@tanstack/react-table";
  * Allows creation and deletion of sport types.
  */
 export default function AdminSportTypesPage() {
-    const [{ pageIndex, pageSize }, setPagination] =
-        useState<PaginationState>({
-            pageIndex: 0,
-            pageSize: 10,
-        });
+    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
     const [search, setSearch] = useState("");
     const { data, isLoading, isError } = useGetAllSportTypes(
         pageIndex + 1,

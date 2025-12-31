@@ -14,7 +14,7 @@ import {
 import {
     SportTypeFormValues,
     sportTypeSchema,
-} from "@/lib/schema/sport-types.schema";
+} from "@/lib/schema/sportType.schema";
 import { InputField } from "@/components/shared/form/InputField";
 
 interface SportTypeFormProps {
@@ -45,6 +45,7 @@ export function SportTypeForm({
                     name="name"
                     label="Name"
                     placeholder="e.g. Football"
+                    required
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const venueSchema = z.object({
+export const venueFormSchema = z.object({
     name: z.string().min(1, { message: "Nama venue tidak boleh kosong." }),
     address: z.string().min(1, { message: "Alamat tidak boleh kosong." }),
     city: z.string().min(1, { message: "Kota tidak boleh kosong." }),
@@ -22,7 +22,17 @@ export const venueSchema = z.object({
         .optional(),
 });
 
-export type VenueFormValues = z.infer<typeof venueSchema>;
+export const venueSchema = venueFormSchema;
+
+export const venueQuerySchema = z.object({
+    page: z.number().optional(),
+    limit: z.number().optional(),
+    search: z.string().optional(),
+});
+
+export type VenueQuerySchema = z.infer<typeof venueQuerySchema>;
+
+export type VenueFormSchema = z.infer<typeof venueFormSchema>;
 
 export const venueScheduleSchema = z.object({
     id: z.string().uuid(),
@@ -61,7 +71,7 @@ export const venueApiResponseSchema = z.object({
         .optional(),
 });
 
-const fieldNestedSchema = z.object({
+const fieldNestedResponseSchema = z.object({
     id: z.string(),
     name: z.string(),
     pricePerHour: z.number(),
@@ -83,12 +93,14 @@ export const venueDetailApiResponseSchema = z.object({
     rejectionReason: z.string().nullable(),
     photos: z.array(venuePhotoSchema),
     schedules: z.array(venueScheduleSchema).optional(),
-    fields: z.array(fieldNestedSchema),
+    fields: z.array(fieldNestedResponseSchema),
 });
 
-export type fieldNestedApiResponse = z.infer<typeof fieldNestedSchema>;
+export type FieldNestedApiResponseSchema = z.infer<
+    typeof fieldNestedResponseSchema
+>;
 
-export type VenueDetailApiResponse = z.infer<
+export type VenueDetailApiResponseSchema = z.infer<
     typeof venueDetailApiResponseSchema
 >;
 
@@ -104,7 +116,7 @@ export const venuesPaginatedApiResponseSchema = z.object({
     }),
 });
 
-export type VenueApiResponse = z.infer<typeof venueApiResponseSchema>;
+export type VenueApiResponseSchema = z.infer<typeof venueApiResponseSchema>;
 export type VenuesPaginatedApiResponse = z.infer<
     typeof venuesPaginatedApiResponseSchema
 >;
@@ -132,4 +144,4 @@ export const venuePublicSchema = z.object({
         .optional(),
 });
 
-export type VenuePublic = z.infer<typeof venuePublicSchema>;
+export type VenuePublicSchema = z.infer<typeof venuePublicSchema>;

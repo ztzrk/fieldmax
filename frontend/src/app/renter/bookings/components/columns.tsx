@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -13,29 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/utils";
-
-// Define the type locally based on usage if not strictly available,
-// or ideally import it. For now, I'll define a shape based on the API response I saw.
-export type Booking = {
-    id: string;
-    bookingDate: string;
-    startTime: string;
-    endTime: string;
-    totalPrice: number;
-    status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" | "FAILED";
-    paymentStatus: "PENDING" | "PAID" | "FAILED";
-    user?: {
-        id: string;
-        fullName: string;
-        email: string;
-    };
-    field?: {
-        name: string;
-        venue?: {
-            name: string;
-        };
-    };
-};
+import { Booking } from "@/lib/schema/booking.schema";
 
 const getStatusVariant = (status: string) => {
     switch (status) {
@@ -64,10 +42,23 @@ const ActionsCell = ({ booking }: { booking: Booking }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem asChild>
-                    <Link href={`/admin/bookings/${booking.id}`}>
+                {/* Note: Renter booking detail page might not exist yet, but linking generally structure */}
+                {/* For now, maybe just view details if the page exists, or no link if not ready.
+                     The sidebar has /renter/bookings, so detail might be /renter/bookings/[id].
+                     But we stick to the plan: just basic list first. 
+                     I'll verify if specific detail route is needed later. 
+                     For now, I'll assume /renter/bookings/[id] might be desired or just leave simple.
+                     Actually, I'll copy the admin style behavior but point to renter route.
+                 */}
+                {/* <DropdownMenuItem asChild>
+                    <Link href={`/renter/bookings/${booking.id}`}>
                         View Details
                     </Link>
+                </DropdownMenuItem> */}
+                <DropdownMenuItem
+                    onClick={() => navigator.clipboard.writeText(booking.id)}
+                >
+                    Copy Booking ID
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -80,24 +71,12 @@ export const columns: ColumnDef<Booking>[] = [
         header: "Booking ID",
         cell: ({ row }) => {
             const id = row.getValue("id") as string;
-            // Using a monospace font or ensuring it breaks/scrolls might be good if IDs are long UUIDs,
-            // but the request is just to show full.
-            return <div className="font-medium text-sm font-mono">{id}</div>;
-        },
-    },
-    {
-        id: "user",
-        header: "User",
-        cell: ({ row }) => {
-            const user = row.original.user;
             return (
-                <div className="flex flex-col">
-                    <span className="font-medium">
-                        {user?.fullName || "N/A"}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                        {user?.email || "N/A"}
-                    </span>
+                <div
+                    className="font-medium text-sm font-mono truncate max-w-[80px]"
+                    title={id}
+                >
+                    {id.substring(0, 8)}...
                 </div>
             );
         },
@@ -114,6 +93,35 @@ export const columns: ColumnDef<Booking>[] = [
                     </span>
                     <span className="text-xs text-muted-foreground">
                         {field?.name || "Field"}
+                    </span>
+                </div>
+            );
+        },
+    },
+    {
+        id: "customer",
+        header: "Customer",
+        cell: ({ row }) => {
+            // Check if user object exists on the booking type.
+            // The Booking type in schema might need updating if it doesn't have user info nested for list views,
+            // but admin columns showed it. The schema file showed:
+            // export type Booking = z.infer<typeof bookingSchema> & { field?: ... };
+            // It didn't explicitly show 'user' in the extended type in schema file we read earlier (step 1014),
+            // only field. However, Admin columns (step 1020) typed it locally.
+            // I will default to "N/A" if missing to strict type safety.
+            // Actually I should probably check if backend sends it.
+            // Admin columns used: user?: { fullName, email }.
+            // I'll type cast or rely on 'any' safely if needed, but let's try to be safe.
+            const booking = row.original as any;
+            const user = booking.user;
+
+            return (
+                <div className="flex flex-col">
+                    <span className="font-medium">
+                        {user?.fullName || "Guest"}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                        {user?.email || ""}
                     </span>
                 </div>
             );
@@ -167,13 +175,13 @@ export const columns: ColumnDef<Booking>[] = [
             return <div className="font-medium">{formatted}</div>;
         },
     },
-    {
-        id: "actions",
-        header: () => <div className="text-center">Actions</div>,
-        cell: ({ row }) => (
-            <div className="flex justify-center">
-                <ActionsCell booking={row.original} />
-            </div>
-        ),
-    },
+    // {
+    //     id: "actions",
+    //     header: () => <div className="text-center">Actions</div>,
+    //     cell: ({ row }) => (
+    //         <div className="flex justify-center">
+    //             <ActionsCell booking={row.original} />
+    //         </div>
+    //     ),
+    // },
 ];

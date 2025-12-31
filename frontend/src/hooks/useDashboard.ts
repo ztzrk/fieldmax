@@ -1,17 +1,17 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { DashboardService } from "@/services/dashboard.service";
+import { queryKeys } from "@/lib/queryKeys";
 
 export const useAdminStats = () => {
     return useQuery({
-        queryKey: ["admin-stats"],
+        queryKey: queryKeys.dashboard.adminStats(),
         queryFn: DashboardService.getAdminStats,
     });
 };
 
 export const useRenterStats = () => {
     return useQuery({
-        queryKey: ["renter-stats"],
+        queryKey: queryKeys.dashboard.renterStats(),
         queryFn: DashboardService.getRenterStats,
     });
 };

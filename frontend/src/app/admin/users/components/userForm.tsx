@@ -12,7 +12,6 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 
-
 interface UserFormProps {
     initialData?: Partial<UserFormValues> & { id?: string; createdAt?: string };
     dialogClose: () => void;
@@ -38,7 +37,6 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
     const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
 
     // useEffect removed: Form reset is handled by mounting a new component instance with a unique 'key' prop.
-
 
     const isPending = isCreating || isUpdating;
 
@@ -99,6 +97,7 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                     name="fullName"
                     label="Full Name"
                     placeholder="Budi Setiawan"
+                    required
                 />
                 <InputField
                     control={form.control}
@@ -106,6 +105,7 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                     label="Email"
                     placeholder="budi@example.com"
                     type="email"
+                    required
                 />
                 <InputField
                     control={form.control}
@@ -123,6 +123,7 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                         { value: "RENTER", label: "Renter" },
                         { value: "ADMIN", label: "Admin" },
                     ]}
+                    required
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save Changes"}

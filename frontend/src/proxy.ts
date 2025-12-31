@@ -3,7 +3,8 @@ import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname;
-    const isProtectedRoute = path.startsWith("/admin") || path.startsWith("/renter");
+    const isProtectedRoute =
+        path.startsWith("/admin") || path.startsWith("/renter");
     const token = request.cookies.get("sessionId")?.value || "";
 
     if (token && (path === "/login" || path === "/register")) {

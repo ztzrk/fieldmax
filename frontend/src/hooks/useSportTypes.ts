@@ -1,18 +1,29 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    keepPreviousData,
+} from "@tanstack/react-query";
 import SportTypeService from "@/services/sportType.service";
 import { toast } from "sonner";
 import {
     sportTypesPaginatedApiResponseSchema,
     sportTypesApiResponseSchema,
+    SportTypeFormValues,
 } from "@/lib/schema/sportType.schema";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
+import { queryKeys } from "@/lib/queryKeys";
 
-export function useGetAllSportTypes(page: number, limit: number, search?: string) {
+export function useGetAllSportTypes(
+    page: number,
+    limit: number,
+    search?: string
+) {
     return useQuery({
-        queryKey: ["sport-types", { page, limit, search }],
+        queryKey: queryKeys.sportTypes.list({ page, limit, search }),
         queryFn: async () => {
-            const data = await SportTypeService.getAll(page, limit, search);
+            const data = await SportTypeService.getAll({ page, limit, search });
             return sportTypesPaginatedApiResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
@@ -21,7 +32,7 @@ export function useGetAllSportTypes(page: number, limit: number, search?: string
 
 export function useGetAllSportTypesWithoutPagination() {
     return useQuery({
-        queryKey: ["sport-types-all"],
+        queryKey: queryKeys.sportTypes.all(),
         queryFn: async () => {
             const data = await SportTypeService.getAll();
             return sportTypesApiResponseSchema.parse(data.data);
@@ -33,19 +44,26 @@ export function useGetAllSportTypesWithoutPagination() {
 export function useCreateSportType() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: { name: string }) =>
+        mutationFn: (data: SportTypeFormValues) =>
             SportTypeService.create(data),
         onSuccess: () => {
             toast.success("Sport Type created successfully!");
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.sportTypes._def,
+            });
+
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
-            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.sportTypes.all(),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to create sport type.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -57,24 +75,22 @@ export function useCreateSportType() {
 export function useUpdateSportType() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({
-            id,
-            data,
-        }: {
-            id: string;
-            data: { name: string };
-        }) => SportTypeService.update(id, data),
+        mutationFn: ({ id, data }: { id: string; data: { name: string } }) =>
+            SportTypeService.update(id, data),
         onSuccess: () => {
             toast.success("Sport Type updated successfully!");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
-            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.sportTypes.all(),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to update sport type.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -90,14 +106,17 @@ export function useDeleteSportType() {
         onSuccess: () => {
             toast.success("Sport Type deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
-            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.sportTypes.all(),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete sport type.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -113,14 +132,17 @@ export function useDeleteMultipleSportTypes() {
         onSuccess: () => {
             toast.success("Sport Types deleted successfully.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
-            queryClient.invalidateQueries({ queryKey: ["sport-types-all"] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.sportTypes.all(),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete sport types.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }

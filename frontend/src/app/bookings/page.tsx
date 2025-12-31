@@ -2,18 +2,26 @@
 
 import { useGetBookings } from "@/hooks/useBookings";
 import { formatDate, formatTime } from "@/lib/utils";
-import { Loader2, Calendar, Clock, MapPin, AlertCircle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Calendar, Clock, MapPin, AlertCircle } from "lucide-react";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Booking } from "@/lib/schema/booking.schema";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 /**
  * BookingHistoryPage Component
- * 
+ *
  * Displays a list of user bookings, separated into active tickets and order history.
  * Provides booking status, details, and navigation.
  */
@@ -21,18 +29,16 @@ export default function BookingHistoryPage() {
     const { data: bookingsData, isLoading, isError } = useGetBookings(1, 100);
 
     if (isLoading) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <FullScreenLoader />;
     }
 
     if (isError) {
         return (
             <div className="container py-10 flex flex-col items-center justify-center gap-4">
                 <AlertCircle className="h-10 w-10 text-destructive" />
-                <h2 className="text-xl font-semibold">Failed to load bookings</h2>
+                <h2 className="text-xl font-semibold">
+                    Failed to load bookings
+                </h2>
                 <p className="text-muted-foreground">Please try again later.</p>
                 <Button onClick={() => window.location.reload()}>Retry</Button>
             </div>
@@ -42,31 +48,33 @@ export default function BookingHistoryPage() {
     const bookings = bookingsData?.data || [];
     const now = new Date();
 
-    const activeBookings = bookings.filter((booking: any) => {
-        const datePart = booking.bookingDate.toString().split('T')[0];
+    const activeBookings = bookings.filter((booking: Booking) => {
+        const datePart = booking.bookingDate.toString().split("T")[0];
         let timePart = booking.endTime;
-        if (booking.endTime.toString().includes('T')) {
-            timePart = booking.endTime.toString().split('T')[1];
+        if (booking.endTime.toString().includes("T")) {
+            timePart = booking.endTime.toString().split("T")[1];
         }
         const dateTimeString = `${datePart}T${timePart}`;
         const endDateTime = new Date(dateTimeString);
 
         const isFuture = endDateTime > now;
-        const isPending = booking.status === "PENDING" || booking.paymentStatus === "PENDING";
+        const isPending =
+            booking.status === "PENDING" || booking.paymentStatus === "PENDING";
         return isFuture || isPending;
     });
 
-    const historyBookings = bookings.filter((booking: any) => {
-        const datePart = booking.bookingDate.toString().split('T')[0];
+    const historyBookings = bookings.filter((booking: Booking) => {
+        const datePart = booking.bookingDate.toString().split("T")[0];
         let timePart = booking.endTime;
-        if (booking.endTime.toString().includes('T')) {
-            timePart = booking.endTime.toString().split('T')[1];
+        if (booking.endTime.toString().includes("T")) {
+            timePart = booking.endTime.toString().split("T")[1];
         }
         const dateTimeString = `${datePart}T${timePart}`;
         const endDateTime = new Date(dateTimeString);
 
         const isPast = endDateTime <= now;
-        const isNotPending = booking.status !== "PENDING" && booking.paymentStatus !== "PENDING";
+        const isNotPending =
+            booking.status !== "PENDING" && booking.paymentStatus !== "PENDING";
         return isPast && isNotPending;
     });
 
@@ -87,13 +95,15 @@ export default function BookingHistoryPage() {
         }
     };
 
-    const BookingList = ({ list }: { list: any[] }) => {
+    const BookingList = ({ list }: { list: Booking[] }) => {
         if (list.length === 0) {
             return (
                 <Card className="text-center py-10">
                     <CardContent className="flex flex-col items-center gap-4">
                         <Calendar className="h-12 w-12 text-muted-foreground/30" />
-                        <p className="text-lg font-medium text-muted-foreground">No bookings found</p>
+                        <p className="text-lg font-medium text-muted-foreground">
+                            No bookings found
+                        </p>
                         <Link href="/">
                             <Button>Book a Field</Button>
                         </Link>
@@ -103,27 +113,41 @@ export default function BookingHistoryPage() {
         }
         return (
             <div className="space-y-4">
-                {list.map((booking: any) => (
-                    <Card key={booking.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                {list.map((booking: Booking) => (
+                    <Card
+                        key={booking.id}
+                        className="overflow-hidden hover:shadow-md transition-shadow"
+                    >
                         <CardHeader className="pb-3 bg-muted/20">
                             <div className="flex justify-between items-start">
                                 <div>
                                     <CardTitle className="text-lg flex items-center gap-2">
-                                        {booking.field?.venue?.name || "Unknown Venue"}
+                                        {booking.field?.venue?.name ||
+                                            "Unknown Venue"}
                                         <span className="text-muted-foreground text-sm font-normal">
                                             - {booking.field?.name || "Field"}
                                         </span>
                                     </CardTitle>
                                     <CardDescription className="flex items-center gap-1 mt-1">
                                         <MapPin className="h-3.5 w-3.5" />
-                                        {booking.field?.venue?.address || "Address not available"}
-                                        {booking.field?.venue?.district && `, ${booking.field.venue.district}`}
-                                        {booking.field?.venue?.city && `, ${booking.field.venue.city}`}
-                                        {booking.field?.venue?.province && `, ${booking.field.venue.province}`}
-                                        {booking.field?.venue?.postalCode && ` ${booking.field.venue.postalCode}`}
+                                        {booking.field?.venue?.address ||
+                                            "Address not available"}
+                                        {booking.field?.venue?.district &&
+                                            `, ${booking.field.venue.district}`}
+                                        {booking.field?.venue?.city &&
+                                            `, ${booking.field.venue.city}`}
+                                        {booking.field?.venue?.province &&
+                                            `, ${booking.field.venue.province}`}
+                                        {booking.field?.venue?.postalCode &&
+                                            ` ${booking.field.venue.postalCode}`}
                                     </CardDescription>
                                 </div>
-                                <Badge variant="secondary" className={getStatusColor(booking.paymentStatus || booking.status)}>
+                                <Badge
+                                    variant="secondary"
+                                    className={getStatusColor(
+                                        booking.paymentStatus || booking.status
+                                    )}
+                                >
                                     {booking.paymentStatus || booking.status}
                                 </Badge>
                             </div>
@@ -138,17 +162,21 @@ export default function BookingHistoryPage() {
                             <div className="flex items-center gap-2">
                                 <Clock className="h-4 w-4 text-muted-foreground" />
                                 <span className="text-sm font-medium">
-                                    {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
+                                    {formatTime(booking.startTime)} -{" "}
+                                    {formatTime(booking.endTime)}
                                 </span>
                             </div>
                             <div className="flex items-center gap-2 sm:justify-end">
                                 <span className="text-sm font-bold text-primary">
-                                    Rp {booking.totalPrice.toLocaleString('id-ID')}
+                                    Rp{" "}
+                                    {booking.totalPrice.toLocaleString("id-ID")}
                                 </span>
                             </div>
                             <div className="sm:col-span-3 flex justify-end mt-2">
                                 <Link href={`/bookings/${booking.id}`}>
-                                    <Button variant="outline" size="sm">View Details</Button>
+                                    <Button variant="outline" size="sm">
+                                        View Details
+                                    </Button>
                                 </Link>
                             </div>
                         </CardContent>
@@ -168,7 +196,9 @@ export default function BookingHistoryPage() {
                 </Link>
                 <div>
                     <h1 className="text-3xl font-bold">My Bookings</h1>
-                    <p className="text-muted-foreground">View your past and upcoming bookings.</p>
+                    <p className="text-muted-foreground">
+                        View your past and upcoming bookings.
+                    </p>
                 </div>
             </div>
 

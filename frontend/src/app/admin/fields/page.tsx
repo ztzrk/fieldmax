@@ -21,7 +21,11 @@ export default function AdminFieldsPage() {
     });
     const [search, setSearch] = useState("");
 
-    const { data, isLoading, isError } = useGetAllFields(pageIndex + 1, pageSize, search);
+    const { data, isLoading, isError } = useGetAllFields(
+        pageIndex + 1,
+        pageSize,
+        search
+    );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleFields();
 
@@ -43,16 +47,16 @@ export default function AdminFieldsPage() {
                 title="Manage Fields"
                 description="View and manage all fields in the system."
             />
-                <DataTable
-                    columns={columns}
-                    data={data.data}
-                    onDeleteSelected={handleDeleteSelected}
-                    pageCount={data.meta.totalPages}
-                    pagination={{ pageIndex, pageSize }}
-                    onPaginationChange={setPagination}
-                    onSearch={setSearch}
-                    searchValue={search}
-                />
+            <DataTable
+                columns={columns}
+                data={data.data}
+                onDeleteSelected={handleDeleteSelected}
+                pageCount={data.meta.totalPages}
+                pagination={{ pageIndex, pageSize }}
+                onPaginationChange={setPagination}
+                onSearch={setSearch}
+                searchValue={search}
+            />
         </div>
     );
 }

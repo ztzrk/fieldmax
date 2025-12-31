@@ -10,6 +10,8 @@ import { MapPin, Trophy, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
+import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import {
     Carousel,
@@ -26,7 +28,7 @@ import { CalendarDays } from "lucide-react";
 
 /**
  * FieldDetailPage Component
- * 
+ *
  * Detailed view of a specific field. Displays photos, description, schedule,
  * and allows authenticated users to book the field.
  */
@@ -53,12 +55,17 @@ export default function FieldDetailPage() {
     const handleBook = () => {
         if (!user) {
             router.push(
-                "/login?callbackUrl=" +
-                    encodeURIComponent(`/fields/${fieldId}`)
+                "/login?callbackUrl=" + encodeURIComponent(`/fields/${fieldId}`)
             );
-        } else {
-            setIsBookingModalOpen(true);
+            return;
         }
+
+        if (user.role !== "USER") {
+            toast.error("Booking is restricted to Users only.");
+            return;
+        }
+
+        setIsBookingModalOpen(true);
     };
 
     return (
@@ -83,7 +90,10 @@ export default function FieldDetailPage() {
                             <Carousel className="w-full h-full">
                                 <CarouselContent>
                                     {field.photos.map(
-                                        (photo: { url: string; id: string }) => (
+                                        (photo: {
+                                            url: string;
+                                            id: string;
+                                        }) => (
                                             <CarouselItem key={photo.id}>
                                                 <div className="aspect-video w-full relative">
                                                     <img
@@ -104,9 +114,13 @@ export default function FieldDetailPage() {
                                 )}
                             </Carousel>
                         ) : (
-                            <div className="flex h-full items-center justify-center bg-muted/50">
-                                <Trophy className="h-24 w-24 text-muted-foreground/20" />
-                            </div>
+                            <ImagePlaceholder
+                                variant="pattern"
+                                icon={
+                                    <Trophy className="h-24 w-24 text-muted-foreground/20" />
+                                }
+                                className="h-full w-full"
+                            />
                         )}
                     </div>
                 </div>
@@ -158,11 +172,15 @@ export default function FieldDetailPage() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
                             <CalendarDays className="h-5 w-5 text-primary" />
-                            <h3 className="text-xl font-semibold">Weekly Schedule</h3>
+                            <h3 className="text-xl font-semibold">
+                                Weekly Schedule
+                            </h3>
                         </div>
                         <Card className="bg-muted/30">
                             <CardContent className="pt-6">
-                                <ScheduleDisplay schedules={field.venue.schedules || []} />
+                                <ScheduleDisplay
+                                    schedules={field.venue.schedules || []}
+                                />
                             </CardContent>
                         </Card>
                     </div>

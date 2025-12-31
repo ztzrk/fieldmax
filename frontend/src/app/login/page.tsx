@@ -13,7 +13,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { InputField } from "@/components/shared/form/InputField";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLogin } from "@/hooks/auth.hooks";
 
@@ -24,7 +24,7 @@ const formSchema = z.object({
 
 /**
  * LoginPage Component
- * 
+ *
  * User login form with email and password validation.
  * Uses React Hook Form and Zod for validation.
  */
@@ -52,38 +52,20 @@ export default function LoginPage() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-8"
                         >
-                            <FormField
+                            <InputField
                                 control={form.control}
                                 name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="admin@fieldmax.com"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Email"
+                                placeholder="admin@fieldmax.com"
+                                required
                             />
-                            <FormField
+                            <InputField
                                 control={form.control}
                                 name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="password"
-                                                placeholder="••••••••"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Password"
+                                placeholder="••••••••"
+                                type="password"
+                                required
                             />
                             <Button
                                 type="submit"
@@ -98,11 +80,17 @@ export default function LoginPage() {
                 <div className="p-6 pt-0 flex flex-col items-center gap-4">
                     <div className="text-sm text-muted-foreground">
                         Don't have an account?{" "}
-                        <Link href="/register" className="text-primary hover:underline font-medium">
+                        <Link
+                            href="/register"
+                            className="text-primary hover:underline font-medium"
+                        >
                             Register
                         </Link>
                     </div>
-                    <Link href="/" className="text-sm text-muted-foreground hover:underline">
+                    <Link
+                        href="/"
+                        className="text-sm text-muted-foreground hover:underline"
+                    >
                         Back to Home
                     </Link>
                 </div>

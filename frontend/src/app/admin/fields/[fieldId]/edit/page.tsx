@@ -115,7 +115,9 @@ export default function EditFieldPage() {
                         </h2>
                         <Card>
                             <CardContent className="pt-6">
-                                <ScheduleDisplay schedules={field.venue.schedules || []} />
+                                <ScheduleDisplay
+                                    schedules={field.venue.schedules || []}
+                                />
                             </CardContent>
                         </Card>
                     </div>

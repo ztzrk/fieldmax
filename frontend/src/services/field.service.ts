@@ -1,24 +1,10 @@
 import { api } from "@/lib/api";
-import {
-    FieldFormValues,
-} from "@/lib/schema/field.schema";
+import { FieldFormValues, FieldQueryParams } from "@/lib/schema/field.schema";
 import { AxiosError } from "axios";
 
 const FieldService = {
-    getAll: async (
-        page?: number,
-        limit?: number,
-        search?: string,
-        status?: "PENDING" | "APPROVED" | "REJECTED",
-        isClosed?: boolean,
-        sportTypeId?: string
-    ) => {
+    getAll: async (params?: FieldQueryParams) => {
         try {
-            const params: Record<string, any> = { page, limit };
-            if (search) params.search = search;
-            if (status) params.status = status;
-            if (isClosed !== undefined) params.isClosed = isClosed;
-            if (sportTypeId) params.sportTypeId = sportTypeId;
             const response = await api.get("/fields", { params });
             return response.data;
         } catch (error) {
@@ -33,9 +19,12 @@ const FieldService = {
             throw error as AxiosError;
         }
     },
-    create: async (data: FieldFormValues & { venueId: string }) => {
+    create: async (data: FieldFormValues) => {
         try {
-            const response = await api.post("/fields", { ...data, schedules: [] });
+            const response = await api.post("/fields", {
+                ...data,
+                schedules: [],
+            });
             return response.data;
         } catch (error) {
             throw error as AxiosError;

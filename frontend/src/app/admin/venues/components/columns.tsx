@@ -98,7 +98,11 @@ export const columns: ColumnDef<VenueApiResponse>[] = [
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,

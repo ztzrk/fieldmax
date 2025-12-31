@@ -12,16 +12,17 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import { DataTable } from "@/components/shared/DataTable";
-import { columns, Booking } from "./components/columns";
+import { columns } from "./components/columns";
+import { Booking } from "@/lib/schema/booking.schema";
 import { PaginationState } from "@tanstack/react-table";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { Input } from "@/components/ui/input";
 
 /**
- * Admin Bookings Page.
- * Displays a list of all bookings across all venues.
- * Included details: User, Venue/Field, Date & Time, Status, and Payment info.
+ * Renter Bookings Page.
+ * Displays a list of bookings for the renter's filtered view (handled by backend usually).
  */
-export default function AdminBookingsPage() {
+export default function RenterBookingsPage() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
@@ -60,19 +61,19 @@ export default function AdminBookingsPage() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">
-                        Bookings
+                        Bookings Management
                     </h2>
                     <p className="text-muted-foreground">
-                        Manage all venue reservations
+                        View and manage bookings for your venues
                     </p>
                 </div>
             </div>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>All Bookings</CardTitle>
+                    <CardTitle>Booking List</CardTitle>
                     <CardDescription>
-                        A list of all bookings across all venues.
+                        All bookings related to your registered venues.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

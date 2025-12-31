@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -14,19 +13,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { InputField } from "@/components/shared/form/InputField";
+import { TextareaField } from "@/components/shared/form/TextareaField";
+import { Form } from "@/components/ui/form";
 import { useUpdateProfile } from "@/hooks/useProfile";
-import { Loader2, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { ProfileResponse } from "@/lib/schema/profile.schema";
+import z from "zod";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 const profileFormSchema = z.object({
     fullName: z.string().min(2, {
@@ -58,8 +52,8 @@ export function EditProfileDialog({ user }: EditProfileDialogProps) {
     });
 
     function onSubmit(data: ProfileFormValues) {
-        // Clean up empty strings to undefined or null if backend prefers, 
-        // but current backend handles strings fine. 
+        // Clean up empty strings to undefined or null if backend prefers,
+        // but current backend handles strings fine.
         // We'll pass them as is.
         updateProfile(data, {
             onSuccess: () => {
@@ -80,70 +74,43 @@ export function EditProfileDialog({ user }: EditProfileDialogProps) {
                 <DialogHeader>
                     <DialogTitle>Edit Profile</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you're done.
+                        Make changes to your profile here. Click save when
+                        you're done.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
+                        <InputField
                             control={form.control}
                             name="fullName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Full Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="John Doe" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Full Name"
+                            placeholder="John Doe"
+                            required
                         />
-                        <FormField
+                        <InputField
                             control={form.control}
                             name="phoneNumber"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Phone Number</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="+1 234 567 890" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Phone Number"
+                            placeholder="+1 234 567 890"
                         />
-                        <FormField
+                        <TextareaField
                             control={form.control}
                             name="bio"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Bio</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Tell us a little bit about yourself"
-                                            className="resize-none"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Bio"
+                            placeholder="Tell us a little bit about yourself"
                         />
-                        <FormField
+                        <InputField
                             control={form.control}
                             name="address"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Address</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="123 Main St, City, Country" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Address"
+                            placeholder="123 Main St, City, Country"
                         />
                         <DialogFooter>
                             <Button type="submit" disabled={isPending}>
-                                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                {isPending && <FullScreenLoader />}
                                 Save changes
                             </Button>
                         </DialogFooter>

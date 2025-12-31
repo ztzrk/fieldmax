@@ -10,7 +10,7 @@ import { useCreateSportType } from "@/hooks/useSportTypes";
 import React from "react";
 import { toast } from "sonner";
 import { SportTypeForm } from "./SportTypeForm";
-import { SportTypeFormValues } from "@/lib/schema/sport-types.schema";
+import { SportTypeFormValues } from "@/lib/schema/sportType.schema";
 
 /**
  * Button component to trigger the "Create Sport Type" dialog.

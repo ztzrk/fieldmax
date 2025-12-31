@@ -121,7 +121,11 @@ export const columns: ColumnDef<SportType>[] = [
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,
@@ -129,15 +133,15 @@ export const columns: ColumnDef<SportType>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => {
-            return (
-                <div className="text-left font-semibold">Name</div>
-            )
+            return <div className="text-left font-semibold">Name</div>;
         },
         cell: ({ row }) => {
-             return (
-                 <div className="font-medium capitalize pl-0">{row.getValue("name")}</div>
-             )
-        }
+            return (
+                <div className="font-medium capitalize pl-0">
+                    {row.getValue("name")}
+                </div>
+            );
+        },
     },
     {
         id: "actions",

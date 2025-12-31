@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Control, FieldValues, Path } from "react-hook-form";
 
@@ -34,11 +33,12 @@ interface ComboboxFieldProps<T extends FieldValues> {
     placeholder?: string;
     options: { value: string; label: string }[];
     disabled?: boolean;
+    required?: boolean;
 }
 
 /**
  * ComboboxField Component
- * 
+ *
  * Searchable select (combobox) component integrated with React Hook Form.
  * Built using Shadcn Command and Popover primitives.
  */
@@ -49,6 +49,7 @@ export function ComboboxField<T extends FieldValues>({
     placeholder,
     options,
     disabled,
+    required,
 }: ComboboxFieldProps<T>) {
     return (
         <FormField
@@ -56,7 +57,12 @@ export function ComboboxField<T extends FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem className="flex flex-col">
-                    <FormLabel>{label}</FormLabel>
+                    <FormLabel>
+                        {label}{" "}
+                        {required && (
+                            <span className="text-destructive">*</span>
+                        )}
+                    </FormLabel>
                     <Popover>
                         <PopoverTrigger asChild>
                             <FormControl>
@@ -79,24 +85,34 @@ export function ComboboxField<T extends FieldValues>({
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                        <PopoverContent
+                            className="w-[--radix-popover-trigger-width] p-0"
+                            align="start"
+                        >
                             <Command>
-                                <CommandInput placeholder={`Search ${label.toLowerCase()}...`} />
+                                <CommandInput
+                                    placeholder={`Search ${label.toLowerCase()}...`}
+                                />
                                 <CommandList>
-                                    <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
+                                    <CommandEmpty>
+                                        No {label.toLowerCase()} found.
+                                    </CommandEmpty>
                                     <CommandGroup>
                                         {options.map((option) => (
                                             <CommandItem
                                                 value={option.label}
                                                 key={option.value}
                                                 onSelect={() => {
-                                                    field.onChange(option.value);
+                                                    field.onChange(
+                                                        option.value
+                                                    );
                                                 }}
                                             >
                                                 <Check
                                                     className={cn(
                                                         "mr-2 h-4 w-4",
-                                                        option.value === field.value
+                                                        option.value ===
+                                                            field.value
                                                             ? "opacity-100"
                                                             : "opacity-0"
                                                     )}

@@ -1,14 +1,20 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    keepPreviousData,
+} from "@tanstack/react-query";
 import BookingService from "@/services/booking.service";
 import FieldService from "@/services/field.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
-import { CreateBookingValues } from "@/lib/schema/booking.schema";
+import { BookingFormValues } from "@/lib/schema/booking.schema";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function useFieldAvailability(fieldId: string, date: string) {
     return useQuery({
-        queryKey: ["field-availability", fieldId, date],
+        queryKey: queryKeys.bookings.availability(fieldId, date),
         queryFn: async () => {
             return FieldService.getAvailability(fieldId, date);
         },
@@ -19,17 +25,20 @@ export function useFieldAvailability(fieldId: string, date: string) {
 export function useCreateBooking() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: CreateBookingValues) => BookingService.create(data),
-        onSuccess: (data) => {
+        mutationFn: (data: BookingFormValues) => BookingService.create(data),
+        onSuccess: () => {
             toast.success("Booking created. Please complete payment.");
-            queryClient.invalidateQueries({ queryKey: ["bookings"] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.bookings._def,
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to create booking.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
-                errorMessage = "Cannot connect to server. Please check your connection.";
+                errorMessage =
+                    "Cannot connect to server. Please check your connection.";
             } else {
                 errorMessage = error.message;
             }
@@ -40,7 +49,7 @@ export function useCreateBooking() {
 
 export function useGetBookings(page: number, limit: number, search?: string) {
     return useQuery({
-        queryKey: ["bookings", { page, limit, search }],
+        queryKey: queryKeys.bookings.list({ page, limit, search }),
         queryFn: async () => {
             return BookingService.getAll({ page, limit, search });
         },
@@ -50,7 +59,7 @@ export function useGetBookings(page: number, limit: number, search?: string) {
 
 export function useGetBookingById(id: string) {
     return useQuery({
-        queryKey: ["booking", id],
+        queryKey: queryKeys.bookings.detail(id),
         queryFn: async () => {
             return BookingService.getById(id);
         },

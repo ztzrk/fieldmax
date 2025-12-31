@@ -24,7 +24,7 @@ const DAYS = [
 
 /**
  * ScheduleDisplay Component
- * 
+ *
  * Displays the weekly operating hours for a field or venue.
  * Formats time from ISO strings to readable hours.
  */
@@ -52,19 +52,27 @@ export function ScheduleDisplay({ schedules }: ScheduleDisplayProps) {
     return (
         <div className="space-y-2">
             {DAYS.map((day) => {
-                const schedule = schedules.find((s) => s.dayOfWeek === day.value);
+                const schedule = schedules.find(
+                    (s) => s.dayOfWeek === day.value
+                );
                 return (
-                    <div key={day.value} className="flex items-center justify-between text-sm py-1 border-b border-muted last:border-0">
+                    <div
+                        key={day.value}
+                        className="flex items-center justify-between text-sm py-1 border-b border-muted last:border-0"
+                    >
                         <span className="font-medium">{day.name}</span>
                         {schedule ? (
                             <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <Clock className="h-3.5 w-3.5" />
                                 <span>
-                                    {formatTime(schedule.openTime)} - {formatTime(schedule.closeTime)}
+                                    {formatTime(schedule.openTime)} -{" "}
+                                    {formatTime(schedule.closeTime)}
                                 </span>
                             </div>
                         ) : (
-                            <span className="text-destructive font-medium uppercase text-[10px] tracking-wider">Closed</span>
+                            <span className="text-destructive font-medium uppercase text-[10px] tracking-wider">
+                                Closed
+                            </span>
                         )}
                     </div>
                 );

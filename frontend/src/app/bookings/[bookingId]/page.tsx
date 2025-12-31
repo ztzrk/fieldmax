@@ -1,15 +1,20 @@
-
 "use client";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useGetBookingById } from "@/hooks/useBookings";
-import {  formatDate, formatPrice, formatTime } from "@/lib/utils";
+import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import BookingService from "@/services/booking.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AlertCircle, Calendar, Clock, Loader2, MapPin } from "lucide-react";
+import { AlertCircle, Calendar, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -24,14 +29,19 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 /**
  * BookingDetailPage Component
- * 
- * Displays detailed information about a specific booking, including status, 
+ *
+ * Displays detailed information about a specific booking, including status,
  * venue details, and payment options. Handles cancellation and payment flows.
  */
-export default function BookingDetailPage({ params }: { params: Promise<{ bookingId: string }> }) {
+export default function BookingDetailPage({
+    params,
+}: {
+    params: Promise<{ bookingId: string }>;
+}) {
     const { bookingId } = use(params);
     const { data: booking, isLoading, isError } = useGetBookingById(bookingId);
     const [snapToken, setSnapToken] = useState<string | null>(null);
@@ -71,31 +81,29 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
     const handlePayment = () => {
         if (snapToken && window.snap) {
             window.snap.pay(snapToken, {
-                onSuccess: function (result: any) {
+                onSuccess: function (result: unknown) {
                     console.log("payment success!", result);
                     window.location.reload();
                 },
-                onPending: function (result: any) {
+                onPending: function (result: unknown) {
                     console.log("waiting for payment!", result);
                     window.location.reload();
                 },
-                onError: function (result: any) {
+                onError: function (result: unknown) {
                     console.log("payment failed!", result);
                     window.location.reload();
                 },
                 onClose: function () {
-                    console.log("customer closed the popup without finishing the payment");
+                    console.log(
+                        "customer closed the popup without finishing the payment"
+                    );
                 },
             });
         }
     };
 
     if (isLoading) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <FullScreenLoader />;
     }
 
     if (isError || !booking) {
@@ -131,7 +139,10 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
         <div className="container py-10 max-w-2xl mx-auto px-4 sm:px-6">
             <div className="mb-6">
                 <Link href="/bookings">
-                    <Button variant="ghost" className="pl-0 hover:pl-2 transition-all">
+                    <Button
+                        variant="ghost"
+                        className="pl-0 hover:pl-2 transition-all"
+                    >
                         ← Back to Bookings
                     </Button>
                 </Link>
@@ -144,18 +155,26 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                             <Badge variant="outline" className="mb-2">
                                 Booking #{booking.id.slice(0, 8)}...
                             </Badge>
-                            <CardTitle className="text-2xl font-bold">{booking.field.name || "Field"}</CardTitle>
+                            <CardTitle className="text-2xl font-bold">
+                                {booking.field.name || "Field"}
+                            </CardTitle>
                             <CardDescription className="flex items-center gap-1 mt-1">
                                 <MapPin className="h-4 w-4" />
                                 {booking.field.venue.address}
-                                {booking.field.venue.district && `, ${booking.field.venue.district}`}
-                                {booking.field.venue.city && `, ${booking.field.venue.city}`}
-                                {booking.field.venue.province && `, ${booking.field.venue.province}`}
-                                {booking.field.venue.postalCode && ` ${booking.field.venue.postalCode}`}
+                                {booking.field.venue.district &&
+                                    `, ${booking.field.venue.district}`}
+                                {booking.field.venue.city &&
+                                    `, ${booking.field.venue.city}`}
+                                {booking.field.venue.province &&
+                                    `, ${booking.field.venue.province}`}
+                                {booking.field.venue.postalCode &&
+                                    ` ${booking.field.venue.postalCode}`}
                             </CardDescription>
                         </div>
                         <div className="text-right">
-                            <p className="text-sm text-muted-foreground mb-1">Total Amount</p>
+                            <p className="text-sm text-muted-foreground mb-1">
+                                Total Amount
+                            </p>
                             <p className="text-2xl font-bold text-primary">
                                 {formatPrice(booking.totalPrice)}
                             </p>
@@ -166,21 +185,35 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                     <div className="grid gap-6">
                         <div className="flex items-center justify-between p-4 bg-muted/10 rounded-lg border">
                             <div className="flex items-center gap-3">
-                                <div className={`p-2 rounded-full ${
-                                    booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-600' :
-                                    booking.status === 'PENDING' ? 'bg-yellow-100 text-yellow-600' :
-                                    'bg-red-100 text-red-600'
-                                }`}>
-                                    {booking.status === 'CONFIRMED' ? <Calendar className="h-5 w-5" /> : 
-                                     booking.status === 'PENDING' ? <Clock className="h-5 w-5" /> : 
-                                     <AlertCircle className="h-5 w-5" />}
+                                <div
+                                    className={`p-2 rounded-full ${
+                                        booking.status === "CONFIRMED"
+                                            ? "bg-green-100 text-green-600"
+                                            : booking.status === "PENDING"
+                                            ? "bg-yellow-100 text-yellow-600"
+                                            : "bg-red-100 text-red-600"
+                                    }`}
+                                >
+                                    {booking.status === "CONFIRMED" ? (
+                                        <Calendar className="h-5 w-5" />
+                                    ) : booking.status === "PENDING" ? (
+                                        <Clock className="h-5 w-5" />
+                                    ) : (
+                                        <AlertCircle className="h-5 w-5" />
+                                    )}
                                 </div>
                                 <div>
                                     <p className="font-medium">Status</p>
-                                    <p className="text-sm text-muted-foreground capitalize">{booking.status.toLowerCase()}</p>
+                                    <p className="text-sm text-muted-foreground capitalize">
+                                        {booking.status.toLowerCase()}
+                                    </p>
                                 </div>
                             </div>
-                            <Badge className={getStatusColor(booking.paymentStatus || booking.status)}>
+                            <Badge
+                                className={getStatusColor(
+                                    booking.paymentStatus || booking.status
+                                )}
+                            >
                                 {booking.paymentStatus || booking.status}
                             </Badge>
                         </div>
@@ -194,11 +227,17 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-sm">
                                 <div className="space-y-1">
-                                    <p className="text-muted-foreground">Venue</p>
-                                    <p className="font-medium">{booking.field.venue.name}</p>
+                                    <p className="text-muted-foreground">
+                                        Venue
+                                    </p>
+                                    <p className="font-medium">
+                                        {booking.field.venue.name}
+                                    </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-muted-foreground">Field</p>
+                                    <p className="text-muted-foreground">
+                                        Field
+                                    </p>
                                     <p className="font-medium">
                                         {booking.field.name}
                                         <span className="text-muted-foreground ml-1">
@@ -207,61 +246,94 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
                                     </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-muted-foreground">Date</p>
-                                    <p className="font-medium">{formatDate(booking.bookingDate)}</p>
-                                </div>
-                                <div className="space-y-1">
-                                    <p className="text-muted-foreground">Payment Method</p>
+                                    <p className="text-muted-foreground">
+                                        Date
+                                    </p>
                                     <p className="font-medium">
-                                        {booking.paymentStatus === "PENDING" ? "Waiting for payment" : "QRIS"}
+                                        {formatDate(booking.bookingDate)}
                                     </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-muted-foreground">Time</p>
+                                    <p className="text-muted-foreground">
+                                        Payment Method
+                                    </p>
                                     <p className="font-medium">
-                                        {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
+                                        {booking.paymentStatus === "PENDING"
+                                            ? "Waiting for payment"
+                                            : "QRIS"}
+                                    </p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-muted-foreground">
+                                        Time
+                                    </p>
+                                    <p className="font-medium">
+                                        {formatTime(booking.startTime)} -{" "}
+                                        {formatTime(booking.endTime)}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex justify-end gap-3 mt-4">
-                             {(booking.status === "PENDING" && booking.paymentStatus !== "PAID") && (
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <Button variant="destructive" disabled={cancelMutation.isPending}>
-                                            {cancelMutation.isPending ? "Cancelling..." : "Cancel Booking"}
-                                        </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                This will cancel your booking immediately. This action cannot be undone.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Dismiss</AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => cancelMutation.mutate()} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                                                Yes, Cancel
-                                            </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            )}
+                            {booking.status === "PENDING" &&
+                                booking.paymentStatus !== "PAID" && (
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button
+                                                variant="destructive"
+                                                disabled={
+                                                    cancelMutation.isPending
+                                                }
+                                            >
+                                                {cancelMutation.isPending
+                                                    ? "Cancelling..."
+                                                    : "Cancel Booking"}
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Are you sure?
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This will cancel your
+                                                    booking immediately. This
+                                                    action cannot be undone.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>
+                                                    Dismiss
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction
+                                                    onClick={() =>
+                                                        cancelMutation.mutate()
+                                                    }
+                                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                                >
+                                                    Yes, Cancel
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                )}
 
-                            {booking.status === "PENDING" && booking.paymentStatus === "PENDING" && (
-                                <Button onClick={handlePayment} disabled={isPaymentLoading} className="w-full sm:w-auto">
-                                    {isPaymentLoading ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Processing...
-                                        </>
-                                    ) : (
-                                        "Pay Now " + formatPrice(booking.totalPrice)
-                                    )}
-                                </Button>
-                            )}
+                            {booking.status === "PENDING" &&
+                                booking.paymentStatus === "PENDING" && (
+                                    <Button
+                                        onClick={handlePayment}
+                                        disabled={isPaymentLoading}
+                                        className="w-full sm:w-auto"
+                                    >
+                                        {isPaymentLoading ? (
+                                            <FullScreenLoader />
+                                        ) : (
+                                            "Pay Now " +
+                                            formatPrice(booking.totalPrice)
+                                        )}
+                                    </Button>
+                                )}
                         </div>
                     </div>
                 </CardContent>
@@ -270,7 +342,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ bookin
     );
 }
 
-function ShieldCheck(props: any) {
+function ShieldCheck(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}
@@ -287,5 +359,5 @@ function ShieldCheck(props: any) {
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
             <path d="m9 12 2 2 4-4" />
         </svg>
-    )
+    );
 }

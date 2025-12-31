@@ -52,7 +52,8 @@ export function VenueForm({
             district: initialData?.district || "",
             province: initialData?.province || "",
             postalCode: initialData?.postalCode || "",
-            renterId: initialData?.renterId || (isRenter && user ? user.id : ""),
+            renterId:
+                initialData?.renterId || (isRenter && user ? user.id : ""),
             description: initialData?.description || "",
             schedules: formattedSchedules,
         },
@@ -66,12 +67,14 @@ export function VenueForm({
                     name="name"
                     label="Venue Name"
                     placeholder="Bintang Futsal"
+                    required
                 />
                 <InputField
                     control={form.control}
                     name="address"
                     label="Address"
                     placeholder="Kalibaru Street No. 10"
+                    required
                 />
                 <div className="grid grid-cols-2 gap-4">
                     <InputField
@@ -79,12 +82,14 @@ export function VenueForm({
                         name="city"
                         label="City"
                         placeholder="Surabaya"
+                        required
                     />
                     <InputField
                         control={form.control}
                         name="district"
                         label="District"
                         placeholder="Rungkut"
+                        required
                     />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -93,15 +98,17 @@ export function VenueForm({
                         name="province"
                         label="Province"
                         placeholder="East Java"
+                        required
                     />
                     <InputField
                         control={form.control}
                         name="postalCode"
                         label="Postal Code"
                         placeholder="60293"
+                        required
                     />
                 </div>
-                
+
                 <InputField
                     control={form.control}
                     name="description"

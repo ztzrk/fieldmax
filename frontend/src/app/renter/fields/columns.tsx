@@ -92,7 +92,11 @@ export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,
@@ -147,7 +151,9 @@ export const renterAllFieldColumns: ColumnDef<FieldApiResponse>[] = [
             return (
                 <div className="flex justify-center">
                     <Badge
-                        variant={status === "APPROVED" ? "default" : "secondary"}
+                        variant={
+                            status === "APPROVED" ? "default" : "secondary"
+                        }
                     >
                         {status}
                     </Badge>

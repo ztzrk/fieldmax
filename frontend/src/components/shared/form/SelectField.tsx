@@ -23,11 +23,12 @@ interface SelectFieldProps<T extends FieldValues> {
     placeholder?: string;
     options: { value: string; label: string }[];
     disabled?: boolean;
+    required?: boolean;
 }
 
 /**
  * SelectField Component
- * 
+ *
  * Dropdown select component integrated with React Hook Form.
  * Uses Shadcn Select primitive.
  */
@@ -38,7 +39,7 @@ export function SelectField<T extends FieldValues>({
     placeholder,
     options,
     disabled,
-    
+    required,
 }: SelectFieldProps<T>) {
     return (
         <FormField
@@ -46,7 +47,12 @@ export function SelectField<T extends FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>{label}</FormLabel>
+                    <FormLabel>
+                        {label}{" "}
+                        {required && (
+                            <span className="text-destructive">*</span>
+                        )}
+                    </FormLabel>
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}

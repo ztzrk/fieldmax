@@ -51,7 +51,7 @@ interface DataTableProps<TData, TValue> {
 
 /**
  * DataTable Component
- * 
+ *
  * Reusable table component built on Tanstack Table.
  * Supports sorting, pagination, row selection, and bulk deletion.
  */

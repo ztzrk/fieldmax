@@ -21,4 +21,20 @@ export const profileResponseSchema = z.object({
     profile: userProfileSchema.nullable().optional(),
 });
 
-export type ProfileResponse = z.infer<typeof profileResponseSchema>;
+export type ProfileApiResponseSchema = z.infer<typeof profileResponseSchema>;
+
+export const profileFormSchema = z.object({
+    fullName: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    bio: z.string().optional(),
+    address: z.string().optional(),
+    companyName: z.string().optional(),
+    companyDescription: z.string().optional(),
+    companyWebsite: z
+        .string()
+        .url({ message: "Invalid URL" })
+        .optional()
+        .or(z.literal("")),
+});
+
+export type ProfileFormSchema = z.infer<typeof profileFormSchema>;

@@ -1,31 +1,38 @@
 "use client";
 
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useGetBookingById } from "@/hooks/useBookings";
-import {  formatDate, formatPrice, formatTime } from "@/lib/utils";
-import { AlertCircle, Calendar, Clock, Loader2, MapPin, ArrowLeft } from "lucide-react";
+import { formatDate, formatPrice, formatTime } from "@/lib/utils";
+import { AlertCircle, Calendar, Clock, MapPin, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
 /**
  * AdminBookingDetailPage Component
- * 
+ *
  * Displays detailed information about a specific booking for admins.
  * similar to the public view but without payment actions.
  */
-export default function AdminBookingDetailPage({ params }: { params: Promise<{ bookingId: string }> }) {
+export default function AdminBookingDetailPage({
+    params,
+}: {
+    params: Promise<{ bookingId: string }>;
+}) {
     const { bookingId } = use(params);
     const { data: booking, isLoading, isError } = useGetBookingById(bookingId);
 
     if (isLoading) {
-        return (
-            <div className="flex h-[50vh] items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <FullScreenLoader />;
     }
 
     if (isError || !booking) {
@@ -66,7 +73,9 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
                     </Button>
                 </Link>
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Booking Details</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">
+                        Booking Details
+                    </h2>
                     <p className="text-muted-foreground">
                         View details for booking #{booking.id.slice(0, 8)}
                     </p>
@@ -80,14 +89,18 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
                             <Badge variant="outline" className="mb-2">
                                 Booking #{booking.id.slice(0, 8)}...
                             </Badge>
-                            <CardTitle className="text-2xl font-bold">{booking.field.name || "Field"}</CardTitle>
+                            <CardTitle className="text-2xl font-bold">
+                                {booking.field.name || "Field"}
+                            </CardTitle>
                             <CardDescription className="flex items-center gap-1 mt-1">
                                 <MapPin className="h-4 w-4" />
                                 {booking.field.venue.location}
                             </CardDescription>
                         </div>
                         <div className="text-right">
-                            <p className="text-sm text-muted-foreground mb-1">Total Amount</p>
+                            <p className="text-sm text-muted-foreground mb-1">
+                                Total Amount
+                            </p>
                             <p className="text-2xl font-bold text-primary">
                                 {formatPrice(booking.totalPrice)}
                             </p>
@@ -98,21 +111,35 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
                     <div className="grid gap-6">
                         <div className="flex items-center justify-between p-4 bg-muted/10 rounded-lg border">
                             <div className="flex items-center gap-3">
-                                <div className={`p-2 rounded-full ${
-                                    booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-600' :
-                                    booking.status === 'PENDING' ? 'bg-yellow-100 text-yellow-600' :
-                                    'bg-red-100 text-red-600'
-                                }`}>
-                                    {booking.status === 'CONFIRMED' ? <Calendar className="h-5 w-5" /> : 
-                                     booking.status === 'PENDING' ? <Clock className="h-5 w-5" /> : 
-                                     <AlertCircle className="h-5 w-5" />}
+                                <div
+                                    className={`p-2 rounded-full ${
+                                        booking.status === "CONFIRMED"
+                                            ? "bg-green-100 text-green-600"
+                                            : booking.status === "PENDING"
+                                            ? "bg-yellow-100 text-yellow-600"
+                                            : "bg-red-100 text-red-600"
+                                    }`}
+                                >
+                                    {booking.status === "CONFIRMED" ? (
+                                        <Calendar className="h-5 w-5" />
+                                    ) : booking.status === "PENDING" ? (
+                                        <Clock className="h-5 w-5" />
+                                    ) : (
+                                        <AlertCircle className="h-5 w-5" />
+                                    )}
                                 </div>
                                 <div>
                                     <p className="font-medium">Status</p>
-                                    <p className="text-sm text-muted-foreground capitalize">{booking.status.toLowerCase()}</p>
+                                    <p className="text-sm text-muted-foreground capitalize">
+                                        {booking.status.toLowerCase()}
+                                    </p>
                                 </div>
                             </div>
-                            <Badge className={getStatusColor(booking.paymentStatus || booking.status)}>
+                            <Badge
+                                className={getStatusColor(
+                                    booking.paymentStatus || booking.status
+                                )}
+                            >
                                 {booking.paymentStatus || booking.status}
                             </Badge>
                         </div>
@@ -127,11 +154,17 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
                                 </h3>
                                 <div className="space-y-4 text-sm">
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">Venue</p>
-                                        <p className="font-medium">{booking.field.venue.name}</p>
+                                        <p className="text-muted-foreground">
+                                            Venue
+                                        </p>
+                                        <p className="font-medium">
+                                            {booking.field.venue.name}
+                                        </p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">Field</p>
+                                        <p className="text-muted-foreground">
+                                            Field
+                                        </p>
                                         <p className="font-medium">
                                             {booking.field.name}
                                             <span className="text-muted-foreground ml-1">
@@ -140,19 +173,30 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
                                         </p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">Date</p>
-                                        <p className="font-medium">{formatDate(booking.bookingDate)}</p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <p className="text-muted-foreground">Time</p>
+                                        <p className="text-muted-foreground">
+                                            Date
+                                        </p>
                                         <p className="font-medium">
-                                            {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
+                                            {formatDate(booking.bookingDate)}
                                         </p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">Payment Method</p>
+                                        <p className="text-muted-foreground">
+                                            Time
+                                        </p>
                                         <p className="font-medium">
-                                            {booking.paymentStatus === "PENDING" ? "Waiting for payment" : "QRIS"}
+                                            {formatTime(booking.startTime)} -{" "}
+                                            {formatTime(booking.endTime)}
+                                        </p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-muted-foreground">
+                                            Payment Method
+                                        </p>
+                                        <p className="font-medium">
+                                            {booking.paymentStatus === "PENDING"
+                                                ? "Waiting for payment"
+                                                : "QRIS"}
                                         </p>
                                     </div>
                                 </div>
@@ -165,16 +209,28 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
                                 </h3>
                                 <div className="space-y-4 text-sm">
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">Full Name</p>
-                                        <p className="font-medium">{booking.user?.fullName || "N/A"}</p>
+                                        <p className="text-muted-foreground">
+                                            Full Name
+                                        </p>
+                                        <p className="font-medium">
+                                            {booking.user?.fullName || "N/A"}
+                                        </p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">Email</p>
-                                        <p className="font-medium">{booking.user?.email || "N/A"}</p>
+                                        <p className="text-muted-foreground">
+                                            Email
+                                        </p>
+                                        <p className="font-medium">
+                                            {booking.user?.email || "N/A"}
+                                        </p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-muted-foreground">User ID</p>
-                                        <p className="font-medium text-xs font-mono">{booking.userId}</p>
+                                        <p className="text-muted-foreground">
+                                            User ID
+                                        </p>
+                                        <p className="font-medium text-xs font-mono">
+                                            {booking.userId}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +242,7 @@ export default function AdminBookingDetailPage({ params }: { params: Promise<{ b
     );
 }
 
-function ShieldCheck(props: any) {
+function ShieldCheck(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}
@@ -203,11 +259,11 @@ function ShieldCheck(props: any) {
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
             <path d="m9 12 2 2 4-4" />
         </svg>
-    )
+    );
 }
 
-function UserIcon(props: any) {
-     return (
+function UserIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
         <svg
             {...props}
             xmlns="http://www.w3.org/2000/svg"
@@ -223,5 +279,5 @@ function UserIcon(props: any) {
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
         </svg>
-    )
+    );
 }

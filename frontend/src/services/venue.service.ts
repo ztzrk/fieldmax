@@ -1,13 +1,9 @@
 import { api } from "@/lib/api";
-import {
-    VenueFormValues,
-} from "@/lib/schema/venue.schema";
+import { VenueFormValues, VenueQueryParams } from "@/lib/schema/venue.schema";
 import { AxiosError } from "axios";
 
 const VenueService = {
-    getAll: async (page?: number, limit?: number, search?: string) => {
-        const params: Record<string, any> = { page, limit };
-        if (search) params.search = search;
+    getAll: async (params?: VenueQueryParams) => {
         const response = await api.get("/venues", { params });
         return response.data;
     },

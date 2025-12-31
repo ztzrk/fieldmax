@@ -26,7 +26,10 @@ export function CreateUserButton() {
                 <DialogHeader>
                     <DialogTitle>Create New User</DialogTitle>
                 </DialogHeader>
-                <UserForm key={isOpen ? "open" : "closed"} dialogClose={() => setIsOpen(false)} />
+                <UserForm
+                    key={isOpen ? "open" : "closed"}
+                    dialogClose={() => setIsOpen(false)}
+                />
             </DialogContent>
         </Dialog>
     );

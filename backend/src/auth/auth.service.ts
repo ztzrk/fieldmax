@@ -1,6 +1,5 @@
 import { User } from "@prisma/client";
 import { RegisterUserDto } from "./dtos/register-user.dto";
-import * as bcrypt from "bcryptjs";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { randomBytes } from "crypto";
 import prisma from "../db";
@@ -12,6 +11,7 @@ import {
     ValidationError,
 } from "../utils/errors";
 import { sendVerificationEmail } from "../lib/mailer";
+import bcrypt from "bcryptjs";
 
 export class AuthService {
     public async register(
@@ -33,8 +33,10 @@ export class AuthService {
         }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000); 
+        const verificationCode = Math.floor(
+            100000 + Math.random() * 900000
+        ).toString();
+        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
         const { confirmPassword, ...restUserData } = userData;
 
@@ -62,7 +64,9 @@ export class AuthService {
             include: { profile: true },
         });
         if (!findUser) {
-            throw new NotFoundError(`This email ${userData.email} was not found.`);
+            throw new NotFoundError(
+                `This email ${userData.email} was not found.`
+            );
         }
 
         const isPasswordMatching = await bcrypt.compare(
@@ -74,7 +78,9 @@ export class AuthService {
         }
 
         if (!findUser.isVerified) {
-            throw new ForbiddenError("Email not verified. Please verify your email.");
+            throw new ForbiddenError(
+                "Email not verified. Please verify your email."
+            );
         }
 
         const sessionId = randomBytes(32).toString("hex");
@@ -96,7 +102,7 @@ export class AuthService {
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) throw new NotFoundError("User not found.");
 
-        if (user.isVerified) return; 
+        if (user.isVerified) return;
 
         if (
             !user.verificationCode ||
@@ -122,7 +128,9 @@ export class AuthService {
         if (!user) throw new NotFoundError("User not found.");
         if (user.isVerified) throw new ConflictError("Email already verified.");
 
-        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const verificationCode = Math.floor(
+            100000 + Math.random() * 900000
+        ).toString();
         const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
         await prisma.user.update({

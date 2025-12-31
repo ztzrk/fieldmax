@@ -8,31 +8,34 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
-interface InputFieldProps<T extends FieldValues> {
+interface TextareaFieldProps<T extends FieldValues> {
     control: Control<T>;
     name: Path<T>;
     label: string;
     placeholder?: string;
-    type?: string;
+    description?: string;
+    className?: string;
     required?: boolean;
 }
 
 /**
- * InputField Component
+ * TextareaField Component
  *
- * Standard text input wrapper integrated with React Hook Form.
+ * Textarea input wrapper integrated with React Hook Form.
  * Handles label, error message, and description rendering.
  */
-export function InputField<T extends FieldValues>({
+export function TextareaField<T extends FieldValues>({
     control,
     name,
     label,
     placeholder,
-    type = "text",
+    description,
+    className,
     required,
-}: InputFieldProps<T>) {
+}: TextareaFieldProps<T>) {
     return (
         <FormField
             control={control}
@@ -46,18 +49,18 @@ export function InputField<T extends FieldValues>({
                         )}
                     </FormLabel>
                     <FormControl>
-                        <Input
-                            type={type}
+                        <Textarea
                             placeholder={placeholder}
+                            className={cn("resize-none", className)}
                             {...field}
-                            value={
-                                typeof field.value === "number" &&
-                                field.value === 0
-                                    ? ""
-                                    : field.value ?? ""
-                            }
+                            value={field.value ?? ""}
                         />
                     </FormControl>
+                    {description && (
+                        <p className="text-sm text-muted-foreground">
+                            {description}
+                        </p>
+                    )}
                     <FormMessage />
                 </FormItem>
             )}

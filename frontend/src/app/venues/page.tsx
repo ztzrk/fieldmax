@@ -11,7 +11,7 @@ import { VenueCard } from "@/components/venues/VenueCard";
 
 /**
  * VenuesPage Component
- * 
+ *
  * Public listing of all venues. Supports searching by name/address.
  * Displays results in a responsive grid of VenueCards.
  */
@@ -23,25 +23,27 @@ export default function VenuesPage() {
 
     const { data: venues, isLoading: isVenuesLoading } = useGetPublicVenues();
 
-    const filteredVenues = venues?.filter(venue => 
-        venue.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        venue.address?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    const filteredVenues = venues?.filter(
+        (venue) =>
+            venue.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+            venue.address?.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-
             <main className="flex-1 container py-8 px-4 md:px-6 max-w-[1400px] mx-auto">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Browse Venues</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            Browse Venues
+                        </h1>
                         <p className="text-muted-foreground mt-1">
                             Discover top-rated sports venues for your next game.
                         </p>
                     </div>
-                    
+
                     <div className="flex-1 max-w-sm">
-                         <div className="relative">
+                        <div className="relative">
                             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 type="search"
@@ -55,7 +57,7 @@ export default function VenuesPage() {
                 </div>
 
                 {isVenuesLoading ? (
-                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {[...Array(8)].map((_, i) => (
                             <div key={i} className="flex flex-col space-y-3">
                                 <div className="h-[200px] w-full rounded-xl bg-muted animate-pulse" />
@@ -76,9 +78,12 @@ export default function VenuesPage() {
                                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-4">
                                     <Search className="h-8 w-8 text-muted-foreground" />
                                 </div>
-                                <h3 className="text-lg font-semibold">No venues found</h3>
+                                <h3 className="text-lg font-semibold">
+                                    No venues found
+                                </h3>
                                 <p className="text-muted-foreground mt-1">
-                                    Try adjusting your search terms or browse all venues.
+                                    Try adjusting your search terms or browse
+                                    all venues.
                                 </p>
                             </div>
                         )}
@@ -88,4 +93,3 @@ export default function VenuesPage() {
         </div>
     );
 }
-

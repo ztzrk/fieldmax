@@ -84,7 +84,11 @@ const ActionsCell = ({ user }: { user: User }) => {
                 <DialogHeader>
                     <DialogTitle>Edit User</DialogTitle>
                 </DialogHeader>
-                <UserForm key={user.id} initialData={user} dialogClose={() => setIsOpen(false)} />
+                <UserForm
+                    key={user.id}
+                    initialData={user}
+                    dialogClose={() => setIsOpen(false)}
+                />
             </DialogContent>
         </Dialog>
     );
@@ -125,7 +129,11 @@ export const columns: ColumnDef<User>[] = [
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,

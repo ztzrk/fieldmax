@@ -23,7 +23,7 @@ interface FieldClosureSwitchProps {
 
 /**
  * FieldClosureSwitch Component
- * 
+ *
  * Toggle switch to open/close a field manually.
  * Includes a confirmation dialog to prevent accidental closure.
  */

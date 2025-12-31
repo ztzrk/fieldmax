@@ -1,9 +1,12 @@
 import { api } from "@/lib/api";
-import { CreateBookingValues } from "@/lib/schema/booking.schema";
+import {
+    BookingFormValues,
+    BookingQueryParams,
+} from "@/lib/schema/booking.schema";
 import { AxiosError } from "axios";
 
 const BookingService = {
-    create: async (data: CreateBookingValues) => {
+    create: async (data: BookingFormValues) => {
         try {
             const response = await api.post("/bookings", data);
             return response.data;
@@ -19,7 +22,7 @@ const BookingService = {
             throw error as AxiosError;
         }
     },
-    getAll: async (params?: any) => {
+    getAll: async (params?: BookingQueryParams) => {
         try {
             const response = await api.get("/bookings", { params });
             return response.data;

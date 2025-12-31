@@ -10,7 +10,6 @@ import { ComboboxField } from "@/components/shared/form/ComboboxField";
 
 import { fieldFormSchema, FieldFormValues } from "@/lib/schema/field.schema";
 
-
 interface FieldFormProps {
     initialData?: Partial<FieldFormValues>;
     onSubmit: (values: FieldFormValues) => void;
@@ -19,7 +18,7 @@ interface FieldFormProps {
 
 /**
  * FieldForm Component
- * 
+ *
  * Form for creating and editing sports fields. Handles validation using Zod schema,
  * sport type selection, and submission logic.
  */
@@ -74,6 +73,7 @@ export function FieldForm({
                     name="name"
                     label="Field Name"
                     placeholder="Field A"
+                    required
                 />
                 <InputField
                     control={form.control}
@@ -81,6 +81,7 @@ export function FieldForm({
                     label="Price per Hour"
                     type="number"
                     placeholder="100000"
+                    required
                 />
                 <ComboboxField
                     control={form.control}
@@ -88,10 +89,11 @@ export function FieldForm({
                     label="Sport Type"
                     placeholder="Select a sport type"
                     options={sportTypeOptions}
+                    required
                 />
                 <InputField
                     control={form.control}
-                    name = "description"
+                    name="description"
                     label="Description (Optional)"
                     placeholder="A brief description about the field"
                 />

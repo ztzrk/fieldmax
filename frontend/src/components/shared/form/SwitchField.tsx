@@ -6,7 +6,6 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
     FormDescription,
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
@@ -21,7 +20,7 @@ interface SwitchFieldProps<T extends FieldValues> {
 
 /**
  * SwitchField Component
- * 
+ *
  * Boolean toggle switch integrated with React Hook Form.
  */
 export function SwitchField<T extends FieldValues>({

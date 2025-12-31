@@ -22,7 +22,7 @@ const formatFileSize = (bytes: number): string => {
 
 /**
  * ImageUploader Component
- * 
+ *
  * Drag-and-drop file uploader with image preview.
  * Supports multiple file selection and displays upload progress state.
  */

@@ -19,11 +19,7 @@ import Link from "next/link";
 /**
  * Component for rendering action buttons for a field within a venue.
  */
-const ActionsCell = ({
-    field,
-}: {
-    field: fieldNestedApiResponse;
-}) => {
+const ActionsCell = ({ field }: { field: fieldNestedApiResponse }) => {
     const { mutate: deleteField } = useDeleteField();
 
     return (
@@ -36,11 +32,7 @@ const ActionsCell = ({
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
-                    <Link
-                        href={`/admin/fields/${field.id}`}
-                    >
-                        Edit Details
-                    </Link>
+                    <Link href={`/admin/fields/${field.id}`}>Edit Details</Link>
                 </DropdownMenuItem>
                 <ConfirmationDialog
                     trigger={
@@ -97,7 +89,11 @@ export const columns: ColumnDef<fieldNestedApiResponse>[] = [
         cell: ({ row, table }) => {
             const index = row.index;
             const { pageIndex, pageSize } = table.getState().pagination;
-            return <div className="text-center">{pageIndex * pageSize + index + 1}</div>;
+            return (
+                <div className="text-center">
+                    {pageIndex * pageSize + index + 1}
+                </div>
+            );
         },
         enableSorting: false,
         enableHiding: false,
@@ -133,7 +129,9 @@ export const columns: ColumnDef<fieldNestedApiResponse>[] = [
             return (
                 <div className="flex justify-center">
                     <Badge
-                        variant={status === "APPROVED" ? "default" : "secondary"}
+                        variant={
+                            status === "APPROVED" ? "default" : "secondary"
+                        }
                     >
                         {status}
                     </Badge>

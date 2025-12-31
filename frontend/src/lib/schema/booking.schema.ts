@@ -1,13 +1,25 @@
 import { z } from "zod";
 
-export const createBookingSchema = z.object({
-    fieldId: z.string().uuid(),
-    bookingDate: z.string(), // YYYY-MM-DD
-    startTime: z.string(), // HH:mm
-    duration: z.number().min(1).max(24).optional(),
+export const bookingFormSchema = z.object({
+    fieldId: z.string().uuid("Invalid Field ID"),
+    bookingDate: z.string().min(1, "Booking date is required"), // YYYY-MM-DD
+    startTime: z.string().min(1, "Start time is required"), // HH:mm
+    duration: z
+        .number()
+        .min(1, "Duration must be at least 1 hour")
+        .max(24, "Duration cannot exceed 24 hours")
+        .optional(),
 });
 
-export type CreateBookingValues = z.infer<typeof createBookingSchema>;
+export const bookingQuerySchema = z.object({
+    page: z.number().optional(),
+    limit: z.number().optional(),
+    search: z.string().optional(),
+});
+
+export type BookingQuerySchema = z.infer<typeof bookingQuerySchema>;
+
+export type BookingFormSchema = z.infer<typeof bookingFormSchema>;
 
 export const bookingSchema = z.object({
     id: z.string().uuid(),
@@ -23,7 +35,19 @@ export const bookingSchema = z.object({
     createdAt: z.string(),
 });
 
-export type Booking = z.infer<typeof bookingSchema>;
+export type BookingApiResponseSchema = z.infer<typeof bookingSchema> & {
+    field?: {
+        name: string;
+        venue?: {
+            name: string;
+            address: string;
+            city?: string;
+            district?: string;
+            province?: string;
+            postalCode?: string;
+        };
+    };
+};
 
 export const bookingApiResponseSchema = z.object({
     data: bookingSchema,

@@ -5,7 +5,6 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/app/admin/components/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { renterAllFieldColumns } from "./columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
@@ -25,11 +24,11 @@ export default function RenterFieldsPage() {
     const debouncedSearch = useDebounce(search, 500);
 
     // This hook will now return filtered fields because the backend is updated
-    const {
-        data,
-        isLoading,
-        isError,
-    } = useGetAllFields(pageIndex + 1, pageSize, debouncedSearch);
+    const { data, isLoading, isError } = useGetAllFields(
+        pageIndex + 1,
+        pageSize,
+        debouncedSearch
+    );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleFields();
 

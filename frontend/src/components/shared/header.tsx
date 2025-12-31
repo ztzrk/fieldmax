@@ -5,7 +5,7 @@ import { UserNav } from "./UserNav";
 
 /**
  * Header Component
- * 
+ *
  * Dashboard header containing sidebar trigger and user navigation.
  */
 export function Header() {

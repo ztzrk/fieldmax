@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { User, LayoutDashboard, MapPin, Trophy, CalendarDays } from "lucide-react";
+import { User, LayoutDashboard, MapPin, Trophy } from "lucide-react";
 
 /**
  * UserNav Component
- * 
+ *
  * User profile dropdown menu. Displays avatar/initials and provides links
  * to Profile, Dashboard (based on role), and Logout.
  */
@@ -27,20 +27,22 @@ export function UserNav() {
 
     if (!user) return null;
 
-    const initials = user.email
-        .substring(0, 2)
-        .toUpperCase();
+    const initials = user.email.substring(0, 2).toUpperCase();
 
     const handleLogout = () => {
         logout();
     };
 
-    const dashboardLink = user.role === "ADMIN" ? "/admin/dashboard" : "/renter/dashboard";
+    const dashboardLink =
+        user.role === "ADMIN" ? "/admin/dashboard" : "/renter/dashboard";
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                >
                     <Avatar className="h-8 w-8">
                         {user.profilePictureUrl ? (
                             <AvatarImage src={user.profilePictureUrl} />
@@ -65,22 +67,42 @@ export function UserNav() {
                 <DropdownMenuGroup>
                     {user.role === "USER" ? (
                         <>
-                            <DropdownMenuItem onClick={() => router.push("/profile")}>
+                            <DropdownMenuItem
+                                onClick={() => router.push("/profile")}
+                            >
                                 <User className="mr-2 h-4 w-4" />
                                 <span>Profile</span>
                             </DropdownMenuItem>
                         </>
                     ) : (
                         <>
-                            <DropdownMenuItem onClick={() => router.push(dashboardLink)}>
+                            <DropdownMenuItem
+                                onClick={() => router.push(dashboardLink)}
+                            >
                                 <LayoutDashboard className="mr-2 h-4 w-4" />
                                 <span>Dashboard</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => router.push(user.role === "ADMIN" ? "/admin/venues" : "/renter/venues")}>
+                            <DropdownMenuItem
+                                onClick={() =>
+                                    router.push(
+                                        user.role === "ADMIN"
+                                            ? "/admin/venues"
+                                            : "/renter/venues"
+                                    )
+                                }
+                            >
                                 <MapPin className="mr-2 h-4 w-4" />
                                 <span>Venues</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => router.push(user.role === "ADMIN" ? "/admin/fields" : "/renter/fields")}>
+                            <DropdownMenuItem
+                                onClick={() =>
+                                    router.push(
+                                        user.role === "ADMIN"
+                                            ? "/admin/fields"
+                                            : "/renter/fields"
+                                    )
+                                }
+                            >
                                 <Trophy className="mr-2 h-4 w-4" />
                                 <span>Fields</span>
                             </DropdownMenuItem>

@@ -27,5 +27,4 @@ export const renterNavItems: NavItem[] = [
         url: "/renter/bookings",
         icon: FileText,
     },
-    
 ];

@@ -15,12 +15,20 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
 import { useVerifyEmail, useResendCode } from "@/hooks/auth.hooks";
-import { Loader2 } from "lucide-react";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 const formSchema = z.object({
-    code: z.string().length(6, { message: "Verification code must be 6 digits." }),
+    code: z
+        .string()
+        .length(6, { message: "Verification code must be 6 digits." }),
 });
 
 function VerifyEmailContent() {
@@ -56,7 +64,11 @@ function VerifyEmailContent() {
                 <CardHeader>
                     <CardTitle>Verify Your Email</CardTitle>
                     <CardDescription>
-                        We've sent a 6-digit verification code to <span className="font-semibold text-foreground">{email}</span>.
+                        We've sent a 6-digit verification code to{" "}
+                        <span className="font-semibold text-foreground">
+                            {email}
+                        </span>
+                        .
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -90,10 +102,12 @@ function VerifyEmailContent() {
                             >
                                 {isVerifying ? (
                                     <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        <FullScreenLoader />
                                         Verifying...
                                     </>
-                                ) : "Verify Email"}
+                                ) : (
+                                    "Verify Email"
+                                )}
                             </Button>
                         </form>
                     </Form>
@@ -119,11 +133,7 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
     return (
-        <Suspense fallback={
-            <div className="flex items-center justify-center min-h-screen">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        }>
+        <Suspense fallback={<FullScreenLoader />}>
             <VerifyEmailContent />
         </Suspense>
     );

@@ -22,16 +22,26 @@ export default function RenterDashboard() {
     }
 
     if (error) {
-        return <div className="text-red-500">Failed to load dashboard statistics.</div>;
+        return (
+            <div className="text-red-500">
+                Failed to load dashboard statistics.
+            </div>
+        );
     }
 
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Renter Dashboard</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">
+                        Renter Dashboard
+                    </h1>
                     <p className="text-muted-foreground mt-2">
-                        Welcome back, <span className="font-semibold">{user?.fullName || "Renter"}</span>!
+                        Welcome back,{" "}
+                        <span className="font-semibold">
+                            {user?.fullName || "Renter"}
+                        </span>
+                        !
                     </p>
                 </div>
                 <ConfirmationDialog
@@ -51,7 +61,9 @@ export default function RenterDashboard() {
                         <MapPin className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.totalVenues || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.totalVenues || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Venues you own
                         </p>
@@ -65,7 +77,9 @@ export default function RenterDashboard() {
                         <Trophy className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.totalFields || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.totalFields || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Fields across your venues
                         </p>
@@ -79,7 +93,9 @@ export default function RenterDashboard() {
                         <Clock className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.pendingVenues || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.pendingVenues || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Waiting for admin approval
                         </p>
@@ -93,7 +109,9 @@ export default function RenterDashboard() {
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.totalBookings || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.totalBookings || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             All time bookings
                         </p>

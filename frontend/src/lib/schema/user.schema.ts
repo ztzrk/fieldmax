@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const userSchema = z.object({
+export const userFormSchema = z.object({
     fullName: z
         .string()
         .min(1, { message: "Nama lengkap tidak boleh kosong." }),
@@ -13,7 +13,9 @@ export const userSchema = z.object({
     role: z.enum(["USER", "RENTER", "ADMIN"]),
 });
 
-export type UserFormValues = z.infer<typeof userSchema>;
+export const userSchema = userFormSchema;
+
+export type UserFormSchema = z.infer<typeof userFormSchema>;
 
 export const userApiResponseSchema = z.object({
     id: z.string().uuid(),
@@ -35,7 +37,15 @@ export const usersPaginatedApiResponseSchema = z.object({
     }),
 });
 
-export type UserApiResponse = z.infer<typeof userApiResponseSchema>;
-export type UsersPaginatedApiResponse = z.infer<
+export type UserApiResponseSchema = z.infer<typeof userApiResponseSchema>;
+export type UsersPaginatedApiResponseSchema = z.infer<
     typeof usersPaginatedApiResponseSchema
 >;
+
+export const userQuerySchema = z.object({
+    page: z.number().optional(),
+    limit: z.number().optional(),
+    search: z.string().optional(),
+});
+
+export type UserQuerySchema = z.infer<typeof userQuerySchema>;

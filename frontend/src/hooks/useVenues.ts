@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    keepPreviousData,
+} from "@tanstack/react-query";
 import VenueService from "@/services/venue.service";
 import { toast } from "sonner";
 import {
@@ -11,12 +16,13 @@ import {
 import { z } from "zod";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function useGetAllVenues(page: number, limit: number, search?: string) {
     return useQuery({
-        queryKey: ["venues", { page, limit, search }],
+        queryKey: queryKeys.venues.list({ page, limit, search }),
         queryFn: async () => {
-            const data = await VenueService.getAll(page, limit, search);
+            const data = await VenueService.getAll({ page, limit, search });
             return venuesPaginatedApiResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
@@ -25,7 +31,7 @@ export function useGetAllVenues(page: number, limit: number, search?: string) {
 
 export function useGetPublicVenues() {
     return useQuery({
-        queryKey: ["public-venues"],
+        queryKey: queryKeys.venues.publicList(),
         queryFn: async () => {
             const data = await VenueService.getAllPublic();
             return z.array(venuePublicSchema).parse(data);
@@ -35,7 +41,7 @@ export function useGetPublicVenues() {
 
 export function useGetPublicVenueById(venueId: string) {
     return useQuery({
-        queryKey: ["public-venue", venueId],
+        queryKey: queryKeys.venues.publicDetail(venueId),
         queryFn: async () => {
             const response = await VenueService.getByIdPublic(venueId);
             return venueDetailApiResponseSchema.parse(response.data);
@@ -46,7 +52,7 @@ export function useGetPublicVenueById(venueId: string) {
 
 export function useGetVenueById(venueId: string) {
     return useQuery({
-        queryKey: ["venue", venueId],
+        queryKey: queryKeys.venues.detail(venueId),
         queryFn: async () => {
             const response = await VenueService.getById(venueId);
             return venueDetailApiResponseSchema.parse(response.data);
@@ -61,7 +67,7 @@ export function useCreateVenue() {
         mutationFn: (data: VenueFormValues) => VenueService.create(data),
         onSuccess: (newVenue: VenueApiResponse) => {
             toast.success("Venue created successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             return newVenue;
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
@@ -86,8 +92,10 @@ export function useUpdateVenue(venueId: string) {
             VenueService.update(venueId, data),
         onSuccess: () => {
             toast.success("Venue updated successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to update venue.";
@@ -110,7 +118,7 @@ export function useDeleteVenue() {
         mutationFn: (id: string) => VenueService.delete(id),
         onSuccess: () => {
             toast.success("Venue deleted successfully.");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete venue.";
@@ -133,7 +141,7 @@ export function useDeleteMultipleVenues() {
         mutationFn: (ids: string[]) => VenueService.deleteMultiple(ids),
         onSuccess: (data, variables) => {
             toast.success(`${variables.length} venue(s) deleted successfully.`);
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete venues.";
@@ -156,8 +164,10 @@ export function useApproveVenue(venueId: string) {
         mutationFn: () => VenueService.approve(venueId),
         onSuccess: () => {
             toast.success("Venue approved successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to approve venue.";
@@ -181,8 +191,10 @@ export function useRejectVenue(venueId: string) {
             VenueService.reject(venueId, data),
         onSuccess: () => {
             toast.success("Venue rejected successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to reject venue.";
@@ -205,8 +217,10 @@ export function useResubmitVenue(venueId: string) {
         mutationFn: () => VenueService.resubmit(venueId),
         onSuccess: () => {
             toast.success("Venue resubmitted successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to resubmit venue.";
@@ -229,8 +243,10 @@ export function useSubmitVenue(venueId: string) {
         mutationFn: () => VenueService.submit(venueId),
         onSuccess: () => {
             toast.success("Venue submitted to admin successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venues"] });
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to submit venue.";
@@ -254,7 +270,9 @@ export function useUploadVenuePhotos(venueId: string) {
             VenueService.uploadPhotos(venueId, photos),
         onSuccess: () => {
             toast.success("Photos uploaded successfully!");
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to upload photos.";
@@ -277,7 +295,9 @@ export function useDeleteVenuePhoto(venueId: string) {
         mutationFn: (photoId: string) => VenueService.deletePhoto(photoId),
         onSuccess: () => {
             toast.success("Photo deleted successfully.");
-            queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.venues.detail(venueId),
+            });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to delete photo.";

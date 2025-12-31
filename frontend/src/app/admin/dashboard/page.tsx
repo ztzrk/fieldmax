@@ -22,16 +22,26 @@ export default function AdminDashboard() {
     }
 
     if (error) {
-        return <div className="text-red-500">Failed to load dashboard statistics.</div>;
+        return (
+            <div className="text-red-500">
+                Failed to load dashboard statistics.
+            </div>
+        );
     }
 
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">
+                        Dashboard
+                    </h1>
                     <p className="text-muted-foreground mt-2">
-                        Welcome back, <span className="font-semibold">{user?.fullName || "Admin"}</span>!
+                        Welcome back,{" "}
+                        <span className="font-semibold">
+                            {user?.fullName || "Admin"}
+                        </span>
+                        !
                     </p>
                 </div>
                 <ConfirmationDialog
@@ -51,7 +61,9 @@ export default function AdminDashboard() {
                         <Users className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.totalUsers || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.totalUsers || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Registered accounts
                         </p>
@@ -65,7 +77,9 @@ export default function AdminDashboard() {
                         <MapPin className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.totalVenues || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.totalVenues || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             All venues registered
                         </p>
@@ -79,7 +93,9 @@ export default function AdminDashboard() {
                         <Trophy className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.totalFields || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.totalFields || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Total fields available
                         </p>
@@ -93,7 +109,9 @@ export default function AdminDashboard() {
                         <Clock className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{stats?.pendingVenues || 0}</div>
+                        <div className="text-2xl font-bold">
+                            {stats?.pendingVenues || 0}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Awaiting approval
                         </p>

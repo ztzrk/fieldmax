@@ -5,31 +5,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { InputField } from "@/components/shared/form/InputField";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
 import { useRegister } from "@/hooks/auth.hooks";
 
-const formSchema = z.object({
-    fullName: z.string().min(1, { message: "Name is required." }),
-    email: z.string().email({ message: "Invalid email address." }),
-    password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-    confirmPassword: z.string().min(8, { message: "Confirm Password must be at least 8 characters." }),
-}).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-});
+const formSchema = z
+    .object({
+        fullName: z.string().min(1, { message: "Name is required." }),
+        email: z.string().email({ message: "Invalid email address." }),
+        password: z
+            .string()
+            .min(8, { message: "Password must be at least 8 characters." }),
+        confirmPassword: z.string().min(8, {
+            message: "Confirm Password must be at least 8 characters.",
+        }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });
 
 /**
  * UserRegisterPage Component
- * 
+ *
  * Registration form for new users (players).
  * Handles account creation with automatic 'USER' role assignment.
  */
@@ -38,7 +43,12 @@ export default function UserRegisterPage() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: { fullName: "", email: "", password: "", confirmPassword: "" },
+        defaultValues: {
+            fullName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        },
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
@@ -60,71 +70,35 @@ export default function UserRegisterPage() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-4"
                         >
-                             <FormField
+                            <InputField
                                 control={form.control}
                                 name="fullName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Full Name</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="John Doe"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Full Name"
+                                placeholder="John Doe"
+                                required
                             />
-                            <FormField
+                            <InputField
                                 control={form.control}
                                 name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="john@example.com"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Email"
+                                placeholder="john@example.com"
+                                required
                             />
-                            <FormField
+                            <InputField
                                 control={form.control}
                                 name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="password"
-                                                placeholder="••••••••"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Password"
+                                placeholder="••••••••"
+                                type="password"
+                                required
                             />
-                            <FormField
+                            <InputField
                                 control={form.control}
                                 name="confirmPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Confirm Password</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="password"
-                                                placeholder="••••••••"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Confirm Password"
+                                placeholder="••••••••"
+                                type="password"
+                                required
                             />
                             <Button
                                 type="submit"
@@ -138,12 +112,27 @@ export default function UserRegisterPage() {
                 </CardContent>
                 <div className="p-6 pt-0 flex flex-col items-center gap-2">
                     <span className="text-sm text-muted-foreground">
-                        Already have an account? <Link href="/login" className="text-primary hover:underline">Log in</Link>
+                        Already have an account?{" "}
+                        <Link
+                            href="/login"
+                            className="text-primary hover:underline"
+                        >
+                            Log in
+                        </Link>
                     </span>
-                     <span className="text-xs text-muted-foreground">
-                        Want to list your venue? <Link href="/register/renter" className="text-primary hover:underline">Register as Venue Owner</Link>
+                    <span className="text-xs text-muted-foreground">
+                        Want to list your venue?{" "}
+                        <Link
+                            href="/register/renter"
+                            className="text-primary hover:underline"
+                        >
+                            Register as Venue Owner
+                        </Link>
                     </span>
-                    <Link href="/" className="text-sm text-muted-foreground hover:underline mt-2">
+                    <Link
+                        href="/"
+                        className="text-sm text-muted-foreground hover:underline mt-2"
+                    >
                         Back to Home
                     </Link>
                 </div>
