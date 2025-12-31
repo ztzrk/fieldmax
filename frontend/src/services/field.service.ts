@@ -11,9 +11,13 @@ const FieldService = {
             throw error as AxiosError;
         }
     },
-    getById: async (id: string) => {
+    getById: async (
+        id: string,
+        params?: URLSearchParams | Record<string, any>
+    ) => {
         try {
-            const response = await api.get(`/fields/${id}`);
+            const queryString = params ? `?${params.toString()}` : "";
+            const response = await api.get(`/fields/${id}${queryString}`);
             return response.data;
         } catch (error) {
             throw error as AxiosError;
