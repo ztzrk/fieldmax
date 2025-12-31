@@ -35,7 +35,23 @@ export class FieldsController {
     ) => {
         try {
             const { id } = req.params;
-            const data = await this.service.findById(id);
+            const page = Number(req.query.page) || 1;
+            const limit = Number(req.query.limit) || 10;
+            // Parse ratings if they exist
+            let ratings: number[] | undefined;
+            if (req.query.ratings) {
+                if (Array.isArray(req.query.ratings)) {
+                    ratings = (req.query.ratings as string[]).map(Number);
+                } else {
+                    ratings = [Number(req.query.ratings)];
+                }
+            }
+
+            const data = await this.service.findById(id, {
+                page,
+                limit,
+                ratings,
+            });
             res.status(200).json({ data, message: "findOne" });
         } catch (error) {
             next(error);
