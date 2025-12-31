@@ -25,7 +25,12 @@ export const queryKeys = {
             isClosed?: boolean;
             sportTypeId?: string;
         }) => ["fields", params] as const,
-        detail: (id: string) => ["field", id] as const,
+        detail: (
+            id: string,
+            page?: number,
+            limit?: number,
+            ratings?: number[] | undefined
+        ) => ["field", id] as const,
         _def: ["fields"] as const,
     },
     users: {
@@ -45,5 +50,14 @@ export const queryKeys = {
     dashboard: {
         adminStats: () => ["admin-stats"] as const,
         renterStats: () => ["renter-stats"] as const,
+    },
+    reviews: {
+        byField: (
+            fieldId: string,
+            page: number,
+            limit: number,
+            ratings?: number[]
+        ) => ["reviews", fieldId, { page, limit, ratings }] as const,
+        _def: ["reviews"] as const,
     },
 };
