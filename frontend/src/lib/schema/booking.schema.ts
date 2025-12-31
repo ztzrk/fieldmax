@@ -35,6 +35,13 @@ export const bookingResponseSchema = z.object({
     paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]),
     createdAt: z.string(),
     field: fieldResponseSchema,
+    review: z
+        .object({
+            id: z.string(),
+            rating: z.number(),
+        })
+        .optional()
+        .nullable(),
 });
 
 export type BookingResponseSchema = z.infer<typeof bookingResponseSchema>;
