@@ -149,33 +149,72 @@ export class FieldsService {
         };
     }
 
-    public async findById(id: string) {
-        const [field, rating] = await prisma.$transaction([
-            prisma.field.findUnique({
-                where: { id },
-                include: {
-                    sportType: true,
-                    venue: {
-                        include: {
-                            schedules: true,
+    public async findById(id: string, reviewQuery?: any) {
+        const { page = 1, limit = 10, ratings } = reviewQuery || {};
+        const skip = (page - 1) * limit;
+
+        const reviewWhere: any = { fieldId: id };
+        if (ratings && ratings.length > 0) {
+            reviewWhere.rating = { in: ratings };
+        }
+
+        const [field, rating, reviews, totalReviews] =
+            await prisma.$transaction([
+                prisma.field.findUnique({
+                    where: { id },
+                    include: {
+                        sportType: true,
+                        venue: {
+                            include: {
+                                schedules: true,
+                            },
+                        },
+                        photos: true,
+                    },
+                }),
+                prisma.review.aggregate({
+                    _avg: { rating: true },
+                    _count: { rating: true },
+                    where: { fieldId: id },
+                }),
+                prisma.review.findMany({
+                    where: reviewWhere,
+                    include: {
+                        user: {
+                            select: {
+                                fullName: true,
+                                profile: {
+                                    select: {
+                                        profilePictureUrl: true,
+                                    },
+                                },
+                            },
                         },
                     },
-                    photos: true,
-                },
-            }),
-            prisma.review.aggregate({
-                _avg: { rating: true },
-                _count: { rating: true },
-                where: { fieldId: id },
-            }),
-        ]);
+                    orderBy: { createdAt: "desc" },
+                    skip: Number(skip),
+                    take: Number(limit),
+                }),
+                prisma.review.count({ where: reviewWhere }),
+            ]);
 
         if (!field) throw new Error("Field not found");
+
+        const totalPages = Math.ceil(totalReviews / limit);
 
         return {
             ...field,
             rating: rating._avg.rating || 0,
             reviewCount: rating._count.rating || 0,
+            reviews: {
+                data: reviews,
+                meta: {
+                    total: totalReviews,
+                    page: Number(page),
+                    limit: Number(limit),
+                    totalPages,
+                },
+            },
         };
     }
 
