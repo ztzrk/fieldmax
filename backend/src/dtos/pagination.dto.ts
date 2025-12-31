@@ -1,11 +1,14 @@
 import { Type, Transform } from "class-transformer";
-import { IsInt, IsOptional, IsString, Max, Min } from "class-validator";
+import {
+    IsInt,
+    IsOptional,
+    IsString,
+    Max,
+    Min,
+    IsArray,
+} from "class-validator";
 
 export class PaginationDto {
-    @IsOptional()
-    @Type(() => Number)
-    @IsInt()
-    @Min(1)
     @IsOptional()
     @Type(() => Number)
     @IsInt()
@@ -38,4 +41,16 @@ export class PaginationDto {
     @IsOptional()
     @IsString()
     sportTypeId?: string;
+}
+
+export class ReviewFilterDto extends PaginationDto {
+    @IsOptional()
+    @Transform(({ value }) => {
+        if (Array.isArray(value)) return value.map(Number);
+        if (typeof value === "string") return [Number(value)];
+        return value;
+    })
+    @IsArray()
+    @IsInt({ each: true })
+    ratings?: number[];
 }
