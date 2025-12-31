@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { reviewResponseSchema } from "@/lib/schema/review.schema";
 
 export const fieldFormSchema = z.object({
     name: z.string().min(1, "Field name is required."),
@@ -88,6 +89,19 @@ export const fieldDetailResponseSchema = z.object({
             .optional(),
     }),
     photos: z.array(z.object({ id: z.string(), url: z.string() })).optional(),
+    rating: z.number().optional(),
+    reviewCount: z.number().optional(),
+    reviews: z
+        .object({
+            data: z.array(reviewResponseSchema),
+            meta: z.object({
+                total: z.number(),
+                page: z.number(),
+                limit: z.number(),
+                totalPages: z.number(),
+            }),
+        })
+        .optional(),
 });
 
 export type FieldDetailResponseSchema = z.infer<
