@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import {
     sportTypesPaginatedResponseSchema,
     sportTypesResponseSchema,
-    sportTypeFormSchema,
     SportTypeFormSchema,
 } from "@/lib/schema/sportType.schema";
 import { AxiosError } from "axios";
@@ -25,7 +24,7 @@ export function useGetAllSportTypes(
         queryKey: queryKeys.sportTypes.list({ page, limit, search }),
         queryFn: async () => {
             const data = await SportTypeService.getAll({ page, limit, search });
-            return sportTypesPaginatedResponseSchema.parse(data.data);
+            return sportTypesPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,
     });
