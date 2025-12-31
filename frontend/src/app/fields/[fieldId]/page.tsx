@@ -24,7 +24,9 @@ import { BookingModal } from "@/components/bookings/BookingModal";
 import Script from "next/script";
 import { ScheduleDisplay } from "@/components/shared/fields/ScheduleDisplay";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Star } from "lucide-react"; // Import Star
+import { StarRating } from "@/components/reviews/StarRating";
+import { ReviewList } from "@/components/reviews/ReviewList";
 
 /**
  * FieldDetailPage Component
@@ -39,7 +41,15 @@ export default function FieldDetailPage() {
     const fieldId = params.fieldId as string;
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-    const { data: field, isLoading, isError } = useGetFieldById(fieldId);
+    // Config for reviews
+    const [page, setPage] = useState(1);
+    const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
+
+    const {
+        data: field,
+        isLoading,
+        isError,
+    } = useGetFieldById(fieldId, page, 10, selectedRatings);
 
     if (isLoading) return <FullScreenLoader />;
     if (isError || !field)
@@ -169,6 +179,8 @@ export default function FieldDetailPage() {
                         </p>
                     </div>
 
+                    {/* Review Section Removed from here */}
+
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
                             <CalendarDays className="h-5 w-5 text-primary" />
@@ -198,6 +210,35 @@ export default function FieldDetailPage() {
                         </p>
                     </div>
                 </div>
+            </div>
+
+            {/* Reviews Section at Bottom */}
+            <div className="mt-12 max-w-2xl">
+                <div className="flex items-center gap-2 mb-6">
+                    <h3 className="text-2xl font-semibold">Reviews</h3>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="font-medium text-foreground">
+                            {field.rating?.toFixed(1) || "0.0"}
+                        </span>
+                        <span>({field.reviewCount || 0})</span>
+                    </div>
+                </div>
+                <ReviewList
+                    reviews={field.reviews?.data || []}
+                    meta={field.reviews?.meta}
+                    onPageChange={setPage}
+                    onRatingChange={(rating) => {
+                        setPage(1);
+                        setSelectedRatings((prev) =>
+                            prev.includes(rating)
+                                ? prev.filter((r) => r !== rating)
+                                : [...prev, rating]
+                        );
+                    }}
+                    onClearFilter={() => setSelectedRatings([])}
+                    selectedRatings={selectedRatings}
+                />
             </div>
 
             <BookingModal
