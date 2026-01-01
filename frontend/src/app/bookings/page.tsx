@@ -20,6 +20,7 @@ import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { ReviewDialog } from "@/components/reviews/ReviewDialog";
 import { useState } from "react";
+import { StarRating } from "@/components/reviews/StarRating";
 
 /**
  * BookingHistoryPage Component
@@ -121,17 +122,22 @@ export default function BookingHistoryPage() {
         return (
             <div className="space-y-4">
                 {list.map((booking: BookingResponseSchema) => {
-                    // Logic to check if reviewable:
-                    // 1. Status is COMPLETED (or similar logic handled by backend, but UI hint is good)
-                    // 2. No review exists (we need to know if review exists. Let's assume booking object has 'review' prop)
-                    // Since 'review' might not be in the type yet, we need to update schema type on frontend first or assume it's there.
-                    // The backend `Booking` model has `review Review?`.
-                    // The frontend BookingResponseSchema needs to be updated to include 'review'.
+                    const datePart = booking.bookingDate
+                        .toString()
+                        .split("T")[0];
+                    let timePart = booking.endTime;
+                    if (booking.endTime.toString().includes("T")) {
+                        timePart = booking.endTime.toString().split("T")[1];
+                    }
+                    const dateTimeString = `${datePart}T${timePart}`;
+                    const endDateTime = new Date(dateTimeString);
+                    const isPast = endDateTime <= now;
 
                     const canReview =
                         (booking.status === "COMPLETED" ||
                             booking.status === "CONFIRMED") &&
-                        !booking.review;
+                        !booking.review &&
+                        isPast;
 
                     return (
                         <Card
@@ -208,6 +214,17 @@ export default function BookingHistoryPage() {
                                         >
                                             Write Review
                                         </Button>
+                                    )}
+                                    {booking.review && (
+                                        <div className="flex items-center gap-2 bg-secondary/20 px-3 py-1.5 rounded-md">
+                                            <span className="text-sm font-medium">
+                                                Your Review:
+                                            </span>
+                                            <StarRating
+                                                rating={booking.review.rating}
+                                                size={16}
+                                            />
+                                        </div>
                                     )}
                                     <Link href={`/bookings/${booking.id}`}>
                                         <Button variant="outline" size="sm">

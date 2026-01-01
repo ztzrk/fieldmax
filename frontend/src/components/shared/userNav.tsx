@@ -12,8 +12,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import { User, LayoutDashboard, MapPin, Trophy } from "lucide-react";
+import Link from "next/link";
+import { User, LayoutDashboard, MapPin, Trophy, Calendar } from "lucide-react";
 
 /**
  * UserNav Component
@@ -23,7 +23,6 @@ import { User, LayoutDashboard, MapPin, Trophy } from "lucide-react";
  */
 export function UserNav() {
     const { user, logout } = useAuth();
-    const router = useRouter();
 
     if (!user) return null;
 
@@ -67,44 +66,50 @@ export function UserNav() {
                 <DropdownMenuGroup>
                     {user.role === "USER" ? (
                         <>
-                            <DropdownMenuItem
-                                onClick={() => router.push("/profile")}
-                            >
-                                <User className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
+                            <DropdownMenuItem asChild>
+                                <Link href="/profile">
+                                    <User className="mr-2 h-4 w-4" />
+                                    <span>Profile</span>
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/bookings">
+                                    <Calendar className="mr-2 h-4 w-4" />
+                                    <span>Bookings</span>
+                                </Link>
                             </DropdownMenuItem>
                         </>
                     ) : (
                         <>
-                            <DropdownMenuItem
-                                onClick={() => router.push(dashboardLink)}
-                            >
-                                <LayoutDashboard className="mr-2 h-4 w-4" />
-                                <span>Dashboard</span>
+                            <DropdownMenuItem asChild>
+                                <Link href={dashboardLink}>
+                                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                                    <span>Dashboard</span>
+                                </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                                onClick={() =>
-                                    router.push(
+                            <DropdownMenuItem asChild>
+                                <Link
+                                    href={
                                         user.role === "ADMIN"
                                             ? "/admin/venues"
                                             : "/renter/venues"
-                                    )
-                                }
-                            >
-                                <MapPin className="mr-2 h-4 w-4" />
-                                <span>Venues</span>
+                                    }
+                                >
+                                    <MapPin className="mr-2 h-4 w-4" />
+                                    <span>Venues</span>
+                                </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                                onClick={() =>
-                                    router.push(
+                            <DropdownMenuItem asChild>
+                                <Link
+                                    href={
                                         user.role === "ADMIN"
                                             ? "/admin/fields"
                                             : "/renter/fields"
-                                    )
-                                }
-                            >
-                                <Trophy className="mr-2 h-4 w-4" />
-                                <span>Fields</span>
+                                    }
+                                >
+                                    <Trophy className="mr-2 h-4 w-4" />
+                                    <span>Fields</span>
+                                </Link>
                             </DropdownMenuItem>
                         </>
                     )}

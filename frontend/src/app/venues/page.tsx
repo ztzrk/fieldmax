@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/AuthContext";
 import { useGetPublicVenues } from "@/hooks/useVenues";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
@@ -16,10 +14,8 @@ import { VenueCard } from "@/components/venues/VenueCard";
  * Displays results in a responsive grid of VenueCards.
  */
 export default function VenuesPage() {
-    const { user, isLoading: isAuthLoading } = useAuth();
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 300);
-    const router = useRouter();
 
     const { data: venues, isLoading: isVenuesLoading } = useGetPublicVenues();
 

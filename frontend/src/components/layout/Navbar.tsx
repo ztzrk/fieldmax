@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { UserNav } from "@/components/shared/UserNav";
 import { Trophy, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 /**
  * Navbar Component
@@ -15,7 +15,6 @@ import { usePathname, useRouter } from "next/navigation";
  */
 export function Navbar() {
     const { user, isLoading: isAuthLoading } = useAuth();
-    const router = useRouter();
     const pathname = usePathname();
 
     const isHome = pathname === "/";
@@ -24,14 +23,14 @@ export function Navbar() {
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center gap-8">
-                    <div
-                        className="flex gap-2 items-center font-bold text-xl cursor-pointer"
-                        onClick={() => router.push("/")}
+                    <Link
+                        href="/"
+                        className="flex gap-2 items-center font-bold text-xl"
                     >
                         {!isHome && <ArrowLeft className="h-5 w-5 md:hidden" />}
                         <Trophy className="h-6 w-6 text-primary" />
                         <span>FieldMax</span>
-                    </div>
+                    </Link>
                     <nav className="hidden md:flex items-center gap-6">
                         <Link
                             href="/fields"

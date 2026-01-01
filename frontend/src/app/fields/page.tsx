@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useGetAllFields } from "@/hooks/useFields";
 import { Button } from "@/components/ui/button";
 import { Search as SearchIcon } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
@@ -21,24 +20,38 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
  * Displays results in a responsive grid of FieldCards.
  */
 export default function FieldsPage() {
+    const searchParams = useSearchParams();
+    const initialSportType = searchParams.get("sport");
+
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 300);
     const [selectedSportType, setSelectedSportType] = useState<
         string | undefined
-    >(undefined);
+    >(initialSportType || undefined);
+    const [page, setPage] = useState(1);
+    const pageSize = 24;
 
-    const { user, isLoading: isAuthLoading } = useAuth();
     const { data: sportTypes } = useGetAllSportTypesWithoutPagination();
     const router = useRouter();
 
+    // Reset page when filters change
+    // Removed useEffect as per request
+
     const { data: fieldsData, isLoading: isFieldsLoading } = useGetAllFields(
-        1,
-        100,
+        page,
+        pageSize,
         debouncedSearch.length > 0 ? debouncedSearch : "",
         "APPROVED",
         false,
         selectedSportType
     );
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const totalPages = fieldsData?.meta?.totalPages || 1;
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
@@ -62,7 +75,10 @@ export default function FieldsPage() {
                                 placeholder="Filter fields..."
                                 className="pl-8 w-full"
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setPage(1);
+                                }}
                             />
                         </div>
                     </div>
@@ -76,7 +92,11 @@ export default function FieldsPage() {
                             }
                             size="sm"
                             className="rounded-full"
-                            onClick={() => setSelectedSportType(undefined)}
+                            onClick={() => {
+                                setSelectedSportType(undefined);
+                                setPage(1);
+                                router.push(`/fields`);
+                            }}
                         >
                             All Sports
                         </Button>
@@ -90,7 +110,11 @@ export default function FieldsPage() {
                                 }
                                 size="sm"
                                 className="rounded-full"
-                                onClick={() => setSelectedSportType(type.id)}
+                                onClick={() => {
+                                    setSelectedSportType(type.id);
+                                    setPage(1);
+                                    router.push(`/fields?sport=${type.id}`);
+                                }}
                             >
                                 {type.name}
                             </Button>
@@ -101,20 +125,55 @@ export default function FieldsPage() {
                 {isFieldsLoading ? (
                     <FullScreenLoader />
                 ) : (
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                        {fieldsData?.data?.map((field: FieldResponseSchema) => (
-                            <FieldCard key={field.id} field={field} />
-                        ))}
-                    </div>
-                )}
+                    <>
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+                            {fieldsData?.data?.map(
+                                (field: FieldResponseSchema) => (
+                                    <FieldCard key={field.id} field={field} />
+                                )
+                            )}
+                        </div>
 
-                {!isFieldsLoading && fieldsData?.data?.length === 0 && (
-                    <div className="text-center py-20 text-muted-foreground bg-muted/20 rounded-lg">
-                        <p className="text-xl">No fields found.</p>
-                        <p className="text-sm mt-2">
-                            Try adjusting your filters.
-                        </p>
-                    </div>
+                        {!isFieldsLoading && fieldsData?.data?.length === 0 && (
+                            <div className="text-center py-20 text-muted-foreground bg-muted/20 rounded-lg">
+                                <p className="text-xl">No fields found.</p>
+                                <p className="text-sm mt-2">
+                                    Try adjusting your filters.
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Pagination */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-center gap-2 mt-12">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                        handlePageChange(Math.max(1, page - 1))
+                                    }
+                                    disabled={page === 1}
+                                >
+                                    Previous
+                                </Button>
+                                <span className="text-sm text-muted-foreground mx-2">
+                                    Page {page} of {totalPages}
+                                </span>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                        handlePageChange(
+                                            Math.min(totalPages, page + 1)
+                                        )
+                                    }
+                                    disabled={page === totalPages}
+                                >
+                                    Next
+                                </Button>
+                            </div>
+                        )}
+                    </>
                 )}
             </main>
         </div>

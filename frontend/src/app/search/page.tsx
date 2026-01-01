@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useGetAllFields } from "@/hooks/useFields";
 import { useGetPublicVenues } from "@/hooks/useVenues";
@@ -34,7 +34,7 @@ function SearchContent() {
     const router = useRouter();
 
     // Fetch Fields
-    const { data: fieldsData, isLoading: isFieldsLoading } = useGetAllFields(
+    const { data: fieldsData } = useGetAllFields(
         1,
         50, // Limit for search results
         search,
@@ -43,8 +43,7 @@ function SearchContent() {
     );
 
     // Fetch Venues
-    const { data: venuesData, isLoading: isVenuesLoading } =
-        useGetPublicVenues();
+    const { data: venuesData } = useGetPublicVenues();
 
     // Filter Venues Client-side
     const filteredVenues =
@@ -78,14 +77,14 @@ function SearchContent() {
             <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-6">
-                        <div
-                            className="flex gap-2 items-center font-bold text-xl cursor-pointer"
-                            onClick={() => router.push("/")}
+                        <Link
+                            href="/"
+                            className="flex gap-2 items-center font-bold text-xl"
                         >
                             <ArrowLeft className="h-5 w-5" />
                             <Trophy className="h-6 w-6 text-primary" />
                             <span>FieldMax</span>
-                        </div>
+                        </Link>
                         <nav className="hidden lg:flex items-center gap-4">
                             <Link
                                 href="/fields"
@@ -164,22 +163,16 @@ function SearchContent() {
                                 <h2 className="text-xl font-semibold">
                                     Fields
                                 </h2>
-                                <Button
-                                    variant="link"
-                                    onClick={() => setActiveTab("fields")}
-                                >
-                                    View All Fields
-                                </Button>
                             </div>
-                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                {fieldsData?.data
-                                    ?.slice(0, 4)
-                                    .map((field: FieldResponseSchema) => (
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+                                {fieldsData?.data?.map(
+                                    (field: FieldResponseSchema) => (
                                         <FieldCard
                                             key={field.id}
                                             field={field}
                                         />
-                                    ))}
+                                    )
+                                )}
                                 {(!fieldsData?.data ||
                                     fieldsData.data.length === 0) && (
                                     <p className="text-muted-foreground italic">
@@ -195,15 +188,9 @@ function SearchContent() {
                                 <h2 className="text-xl font-semibold">
                                     Venues
                                 </h2>
-                                <Button
-                                    variant="link"
-                                    onClick={() => setActiveTab("venues")}
-                                >
-                                    View All Venues
-                                </Button>
                             </div>
-                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                {filteredVenues.slice(0, 4).map((venue) => (
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+                                {filteredVenues.map((venue) => (
                                     <VenueCard key={venue.id} venue={venue} />
                                 ))}
                                 {filteredVenues.length === 0 && (

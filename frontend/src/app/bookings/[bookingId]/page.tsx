@@ -13,10 +13,10 @@ import { Separator } from "@/components/ui/separator";
 import { useGetBookingById } from "@/hooks/useBookings";
 import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import BookingService from "@/services/booking.service";
+import { StarRating } from "@/components/reviews/StarRating";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Calendar, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import {
     AlertDialog,
@@ -256,14 +256,33 @@ export default function BookingDetailPage({
                                     </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-muted-foreground">
-                                        Time
-                                    </p>
                                     <p className="font-medium">
                                         {formatTime(booking.startTime)} -{" "}
                                         {formatTime(booking.endTime)}
                                     </p>
                                 </div>
+                                {booking.review && (
+                                    <>
+                                        <div className="space-y-1 sm:col-span-2 mt-4 pt-4 border-t">
+                                            <h4 className="font-semibold flex items-center gap-2 mb-2">
+                                                <StarRating
+                                                    rating={
+                                                        booking.review.rating
+                                                    }
+                                                    size={16}
+                                                />
+                                                <span className="text-sm font-normal text-muted-foreground">
+                                                    Your Review
+                                                </span>
+                                            </h4>
+                                            {booking.review.comment && (
+                                                <p className="text-muted-foreground italic">
+                                                    "{booking.review.comment}"
+                                                </p>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 

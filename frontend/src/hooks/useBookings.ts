@@ -54,6 +54,7 @@ export function useGetBookings(page: number, limit: number, search?: string) {
             return BookingService.getAll({ page, limit, search });
         },
         placeholderData: keepPreviousData,
+        refetchInterval: 60000, // Refetch every minute to update status
     });
 }
 

@@ -12,7 +12,13 @@ import { Navbar } from "./Navbar";
 export function NavbarWrapper() {
     const pathname = usePathname();
 
-    const hideNavbarRoutes = ["/login", "/register", "/admin", "/renter"];
+    const hideNavbarRoutes = [
+        "/login",
+        "/register",
+        "/admin",
+        "/renter",
+        "/search",
+    ];
     const shouldHideNavbar = hideNavbarRoutes.some((route) =>
         pathname.startsWith(route)
     );

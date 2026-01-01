@@ -30,7 +30,7 @@ export const queryKeys = {
             page?: number,
             limit?: number,
             ratings?: number[] | undefined
-        ) => ["field", id] as const,
+        ) => ["field", id, { page, limit, ratings }] as const,
         _def: ["fields"] as const,
     },
     users: {

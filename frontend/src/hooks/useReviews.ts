@@ -34,7 +34,6 @@ export function useCreateReview() {
         mutationFn: (data: ReviewFormSchema) => ReviewService.create(data),
         onSuccess: () => {
             toast.success("Review submitted successfully!");
-            // Invalidate specific field reviews and potentially bookings (to hide the button)
             queryClient.invalidateQueries({
                 queryKey: queryKeys.reviews._def,
             });
@@ -42,7 +41,7 @@ export function useCreateReview() {
                 queryKey: queryKeys.bookings._def,
             });
             queryClient.invalidateQueries({
-                queryKey: queryKeys.fields._def, // to update rating stats if they are cached
+                queryKey: queryKeys.fields._def,
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {

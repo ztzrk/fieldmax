@@ -1,12 +1,11 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
 
 interface PageHeaderProps {
     title: string;
     description?: string;
-    backHref?: string;
     children?: ReactNode;
 }
 
@@ -14,22 +13,18 @@ interface PageHeaderProps {
  * Reusable header component for admin pages.
  * Displays a title, optional description, and an optional back button.
  */
-export function PageHeader({
-    title,
-    description,
-    backHref,
-    children,
-}: PageHeaderProps) {
+export function PageHeader({ title, description, children }: PageHeaderProps) {
+    const router = useRouter();
     return (
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-                {backHref && (
-                    <Button variant="outline" size="icon" asChild>
-                        <Link href={backHref}>
-                            <ArrowLeft className="h-4 w-4" />
-                        </Link>
-                    </Button>
-                )}
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => router.back()}
+                >
+                    <ArrowLeft className="h-4 w-4" />
+                </Button>
                 <div>
                     <h1 className="text-2xl font-bold">{title}</h1>
                     {description && (

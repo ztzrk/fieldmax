@@ -49,6 +49,7 @@ export class BookingsService {
                         },
                     },
                     user: true, // Include user details for Admin/Renter views
+                    review: true,
                 },
                 orderBy: {
                     createdAt: "desc",
@@ -73,6 +74,7 @@ export class BookingsService {
                     },
                 },
                 user: true,
+                review: true,
             },
         });
     }

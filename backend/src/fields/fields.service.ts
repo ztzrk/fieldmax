@@ -158,7 +158,7 @@ export class FieldsService {
             reviewWhere.rating = { in: ratings };
         }
 
-        const [field, rating, reviews, totalReviews] =
+        const [field, rating, reviews, totalReviews, ratingGroup] =
             await prisma.$transaction([
                 prisma.field.findUnique({
                     where: { id },
@@ -196,6 +196,14 @@ export class FieldsService {
                     take: Number(limit),
                 }),
                 prisma.review.count({ where: reviewWhere }),
+                prisma.review.groupBy({
+                    by: ["rating"],
+                    _count: {
+                        rating: true,
+                    },
+                    where: { fieldId: id },
+                    orderBy: { rating: "desc" },
+                }),
             ]);
 
         if (!field) throw new Error("Field not found");

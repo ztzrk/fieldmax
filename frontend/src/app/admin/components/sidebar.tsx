@@ -2,13 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import {
-    Building,
-    FileText,
-    LayoutDashboard,
-    Swords,
-    Users,
-} from "lucide-react";
-import {
     Sidebar,
     SidebarContent,
     SidebarGroup,
@@ -19,6 +12,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { adminNavItems } from "@/config/admin-dashboard";
+import Link from "next/link";
 
 /**
  * Sidebar navigation component for the Admin dashboard.
@@ -42,10 +36,10 @@ export function AdminSidebar() {
                                             asChild
                                             isActive={isActive}
                                         >
-                                            <a href={item.url}>
+                                            <Link href={item.url}>
                                                 <item.icon />
                                                 <span>{item.title}</span>
-                                            </a>
+                                            </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 );

@@ -19,6 +19,9 @@ import { UploadsRoute } from "./uploads/uploads.route";
 import { UsersRoute } from "./users/users.route";
 import { VenuesRoute } from "./venues/venues.route";
 import { DashboardRoute } from "./dashboard/dashboard.route";
+import { CronService } from "./services/cron.service";
+
+CronService.init();
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
@@ -62,7 +65,12 @@ app.use("/api", profileRoute.router);
 app.use("/api", bookingsRoute.router);
 app.use("/api", paymentsRoute.router);
 app.use("/api", dashboardRoute.router);
+app.use("/api", dashboardRoute.router);
 app.use("/api", reviewsRoute.router);
+
+import { HomeRoute } from "./home/home.route";
+const homeRoute = new HomeRoute();
+app.use("/api", homeRoute.router);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to FIELDMAX API! 🚀");

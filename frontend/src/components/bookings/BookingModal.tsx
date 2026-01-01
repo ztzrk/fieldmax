@@ -78,6 +78,37 @@ export function BookingModal({
         }
     }, [actualIsOpen, selectedDate, refetch]);
 
+    // Calculate max duration based on selected time
+    const maxDuration =
+        selectedTime && availability
+            ? (() => {
+                  const startHour = parseInt(selectedTime.split(":")[0]);
+                  let count = 0;
+                  // Check consecutive hours availability
+                  for (let i = 0; i < 24; i++) {
+                      const checkHour = startHour + i;
+                      if (checkHour >= 24) break; // End of day constraint logic if needed, but standard is availability check
+                      const checkTime = `${checkHour
+                          .toString()
+                          .padStart(2, "0")}:00`;
+                      if (availability.includes(checkTime)) {
+                          count++;
+                      } else {
+                          break;
+                      }
+                  }
+                  // Cap at 12 hours max per booking if desired, or let it be flexible
+                  return Math.min(count, 12);
+              })()
+            : 12;
+
+    // Adjust duration if it exceeds maxDuration
+    useEffect(() => {
+        if (duration > maxDuration) {
+            setDuration(maxDuration);
+        }
+    }, [maxDuration, duration]);
+
     const { user } = useAuth();
 
     const handleBooking = () => {
@@ -162,16 +193,14 @@ export function BookingModal({
                                 <SelectValue placeholder="Select duration" />
                             </SelectTrigger>
                             <SelectContent>
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
-                                    (h) => (
-                                        <SelectItem
-                                            key={h}
-                                            value={h.toString()}
-                                        >
-                                            {h} Hour{h > 1 ? "s" : ""}
-                                        </SelectItem>
-                                    )
-                                )}
+                                {Array.from(
+                                    { length: maxDuration },
+                                    (_, i) => i + 1
+                                ).map((h) => (
+                                    <SelectItem key={h} value={h.toString()}>
+                                        {h} Hour{h > 1 ? "s" : ""}
+                                    </SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
                     </div>

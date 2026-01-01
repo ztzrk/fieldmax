@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -11,8 +11,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/utils";
+import Link from "next/link";
 
 // Define the type locally based on usage if not strictly available,
 // or ideally import it. For now, I'll define a shape based on the API response I saw.

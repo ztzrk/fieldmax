@@ -6,7 +6,15 @@ import { useGetFieldById } from "@/hooks/useFields";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Trophy, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+    MapPin,
+    Trophy,
+    ArrowLeft,
+    ArrowRight,
+    CalendarDays,
+    Star,
+    ShieldCheck,
+} from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
@@ -23,9 +31,7 @@ import {
 import { BookingModal } from "@/components/bookings/BookingModal";
 import Script from "next/script";
 import { ScheduleDisplay } from "@/components/shared/fields/ScheduleDisplay";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarDays, Star } from "lucide-react"; // Import Star
-import { StarRating } from "@/components/reviews/StarRating";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ReviewList } from "@/components/reviews/ReviewList";
 
 /**
@@ -79,23 +85,59 @@ export default function FieldDetailPage() {
     };
 
     return (
-        <div className="container max-w-[1400px] mx-auto py-8 px-4 md:px-6">
+        <div className="container max-w-[1400px] mx-auto py-8 px-4 md:px-6 min-h-screen bg-background pb-20">
             <Script
                 src="https://app.sandbox.midtrans.com/snap/snap.js"
                 data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
             />
 
-            <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
-            >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Home
-            </Link>
+            {/* Breadcrumb / Back Navigation */}
+            <div className="mb-6">
+                <Button
+                    variant="link"
+                    onClick={() => router.back()}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                >
+                    <ArrowLeft className="h-4 w-4" />
+                    Back
+                </Button>
+            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                <div className="space-y-4">
-                    <div className="overflow-hidden rounded-xl border bg-muted aspect-video relative">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+                {/* Left Column: Media & Content (span 2) */}
+                <div className="lg:col-span-2 space-y-8">
+                    {/* Header Section (Mobile Only - usually shown above image on mobile) */}
+                    <div className="block lg:hidden space-y-2">
+                        <div className="flex items-center gap-2">
+                            <Badge
+                                variant="secondary"
+                                className="text-primary bg-primary/10"
+                            >
+                                {field.sportType.name}
+                            </Badge>
+                            {field.isClosed && (
+                                <Badge variant="destructive">Closed</Badge>
+                            )}
+                        </div>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            {field.name}
+                        </h1>
+                        <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                            <MapPin className="h-4 w-4 shrink-0" />
+                            <Button
+                                variant="link"
+                                onClick={() => {
+                                    router.push(`/venues/${field.venue.id}`);
+                                }}
+                                className="hover:underline hover:text-primary transition-colors"
+                            >
+                                {field.venue.name}
+                            </Button>
+                        </div>
+                    </div>
+
+                    {/* Image Carousel */}
+                    <div className="overflow-hidden rounded-2xl border bg-muted aspect-video relative shadow-sm">
                         {field.photos && field.photos.length > 0 ? (
                             <Carousel className="w-full h-full">
                                 <CarouselContent>
@@ -118,8 +160,8 @@ export default function FieldDetailPage() {
                                 </CarouselContent>
                                 {field.photos.length > 1 && (
                                     <>
-                                        <CarouselPrevious className="left-4" />
-                                        <CarouselNext className="right-4" />
+                                        <CarouselPrevious className="left-4 bg-background/80 hover:bg-background" />
+                                        <CarouselNext className="right-4 bg-background/80 hover:bg-background" />
                                     </>
                                 )}
                             </Carousel>
@@ -133,112 +175,168 @@ export default function FieldDetailPage() {
                             />
                         )}
                     </div>
+
+                    {/* Content Section */}
+                    <div className="space-y-8">
+                        {/* Header Section (Desktop Only) */}
+                        <div className="hidden lg:block space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <Badge
+                                            variant="secondary"
+                                            className="text-primary bg-primary/10 hover:bg-primary/20 px-3 py-1 text-sm font-medium rounded-full"
+                                        >
+                                            {field.sportType.name}
+                                        </Badge>
+                                        {field.isClosed && (
+                                            <Badge
+                                                variant="destructive"
+                                                className="rounded-full px-3 py-1"
+                                            >
+                                                Closed
+                                            </Badge>
+                                        )}
+                                        <div className="flex items-center gap-1 text-sm text-foreground font-medium ml-2">
+                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                            <span>
+                                                {field.rating?.toFixed(1) ||
+                                                    "0.0"}
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                ({field.reviewCount || 0}{" "}
+                                                reviews)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
+                                        {field.name}
+                                    </h1>
+                                    <div className="flex items-center gap-2 text-muted-foreground text-base">
+                                        <MapPin className="h-5 w-5 shrink-0 text-primary" />
+                                        <Button
+                                            variant="link"
+                                            onClick={() => {
+                                                router.push(
+                                                    `/venues/${field.venue.id}`
+                                                );
+                                            }}
+                                            className="hover:underline hover:text-primary transition-colors"
+                                        >
+                                            {field.venue.name}
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="space-y-4">
+                            <h3 className="text-xl font-semibold border-b pb-2">
+                                About this Field
+                            </h3>
+                            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                                {field.description ||
+                                    "No description available for this field."}
+                            </p>
+                        </div>
+
+                        {/* Schedule */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-2">
+                                <CalendarDays className="h-5 w-5 text-primary" />
+                                <h3 className="text-xl font-semibold">
+                                    Weekly Schedule
+                                </h3>
+                            </div>
+                            <Card className="bg-muted/30 border-none shadow-none">
+                                <CardContent className="pt-6">
+                                    <ScheduleDisplay
+                                        schedules={field.venue.schedules || []}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </div>
+
+                        {/* Reviews */}
+                        <div className="space-y-6 pt-6 border-t">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-2xl font-semibold">
+                                    Reviews & Ratings
+                                </h3>
+                            </div>
+                            <ReviewList
+                                reviews={field.reviews?.data || []}
+                                meta={field.reviews?.meta}
+                                onPageChange={setPage}
+                                onRatingChange={(rating) => {
+                                    setPage(1);
+                                    setSelectedRatings((prev) =>
+                                        prev.includes(rating)
+                                            ? prev.filter((r) => r !== rating)
+                                            : [...prev, rating]
+                                    );
+                                }}
+                                onClearFilter={() => setSelectedRatings([])}
+                                selectedRatings={selectedRatings}
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex flex-col gap-6">
-                    <div>
-                        <div className="flex items-center gap-2 mb-3">
-                            <Badge
-                                variant="secondary"
-                                className="text-primary bg-primary/10 hover:bg-primary/20"
-                            >
-                                {field.sportType.name}
-                            </Badge>
-                            {field.isClosed && (
-                                <Badge variant="destructive">Closed</Badge>
-                            )}
-                        </div>
-                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
-                            {field.name}
-                        </h1>
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                            <MapPin className="h-4 w-4 shrink-0" />
-                            <span className="text-lg">{field.venue.name}</span>
-                        </div>
-                    </div>
+                {/* Right Column: Sticky Booking Card */}
+                <div className="lg:col-span-1">
+                    <div className="sticky top-24 space-y-6">
+                        <Card className="border-border shadow-lg overflow-hidden rounded-xl">
+                            <CardHeader className="bg-muted/40 pb-6 border-b">
+                                <div className="space-y-1">
+                                    <p className="text-sm font-medium text-muted-foreground">
+                                        Price per hour
+                                    </p>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-3xl font-bold text-primary">
+                                            {formatPrice(field.pricePerHour)}
+                                        </span>
+                                    </div>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="pt-6 space-y-6">
+                                <div className="space-y-2">
+                                    {field.isClosed ? (
+                                        <div className="p-3 bg-destructive/10 text-destructive rounded-md text-sm font-medium text-center border border-destructive/20">
+                                            This field is currently closed.
+                                        </div>
+                                    ) : (
+                                        <div className="p-3 bg-green-500/10 text-green-600 dark:text-green-400 rounded-md text-sm font-medium text-center border border-green-500/20">
+                                            Available for booking
+                                        </div>
+                                    )}
+                                </div>
 
-                    <div className="flex flex-col gap-1 p-6 bg-muted/30 rounded-lg border">
-                        <span className="text-sm text-muted-foreground font-medium uppercase tracking-wider">
-                            Price
-                        </span>
-                        <div className="flex items-baseline gap-1">
-                            <span className="text-3xl font-bold text-primary">
-                                {formatPrice(field.pricePerHour)}
-                            </span>
-                            <span className="text-muted-foreground">
-                                / hour
-                            </span>
-                        </div>
-                    </div>
+                                <Button
+                                    size="lg"
+                                    className="w-full text-lg h-14 font-semibold shadow-md transition-all hover:shadow-lg"
+                                    onClick={handleBook}
+                                    disabled={field.isClosed}
+                                >
+                                    {field.isClosed
+                                        ? "Unavailable"
+                                        : "Book Now"}
+                                    {!field.isClosed && (
+                                        <ArrowRight className="ml-2 h-5 w-5" />
+                                    )}
+                                </Button>
 
-                    <div className="space-y-4">
-                        <h3 className="text-xl font-semibold">Description</h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                            {field.description ||
-                                "No description available for this field."}
-                        </p>
-                    </div>
-
-                    {/* Review Section Removed from here */}
-
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                            <CalendarDays className="h-5 w-5 text-primary" />
-                            <h3 className="text-xl font-semibold">
-                                Weekly Schedule
-                            </h3>
-                        </div>
-                        <Card className="bg-muted/30">
-                            <CardContent className="pt-6">
-                                <ScheduleDisplay
-                                    schedules={field.venue.schedules || []}
-                                />
+                                <div className="pt-2 flex flex-col items-center gap-2">
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        <ShieldCheck className="h-4 w-4 text-green-600" />
+                                        <span>Secure Booking & Payment</span>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
-
-                    <div className="pt-6 mt-auto">
-                        <Button
-                            size="lg"
-                            className="w-full text-lg h-12 gap-2"
-                            onClick={handleBook}
-                        >
-                            Book Now <ArrowRight className="h-5 w-5" />
-                        </Button>
-                        <p className="text-xs text-muted-foreground text-center mt-3">
-                            Instant confirmation • Secure payment
-                        </p>
-                    </div>
                 </div>
-            </div>
-
-            {/* Reviews Section at Bottom */}
-            <div className="mt-12 max-w-2xl">
-                <div className="flex items-center gap-2 mb-6">
-                    <h3 className="text-2xl font-semibold">Reviews</h3>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium text-foreground">
-                            {field.rating?.toFixed(1) || "0.0"}
-                        </span>
-                        <span>({field.reviewCount || 0})</span>
-                    </div>
-                </div>
-                <ReviewList
-                    reviews={field.reviews?.data || []}
-                    meta={field.reviews?.meta}
-                    onPageChange={setPage}
-                    onRatingChange={(rating) => {
-                        setPage(1);
-                        setSelectedRatings((prev) =>
-                            prev.includes(rating)
-                                ? prev.filter((r) => r !== rating)
-                                : [...prev, rating]
-                        );
-                    }}
-                    onClearFilter={() => setSelectedRatings([])}
-                    selectedRatings={selectedRatings}
-                />
             </div>
 
             <BookingModal

@@ -1,14 +1,14 @@
+import { api } from "@/lib/api";
 import {
     ReviewFormSchema,
     ReviewResponseSchema,
     reviewsPaginatedResponseSchema,
     ReviewsPaginatedResponseSchema,
 } from "@/lib/schema/review.schema";
-import axios from "axios";
 
 class ReviewService {
     async create(data: ReviewFormSchema): Promise<ReviewResponseSchema> {
-        const response = await axios.post<{
+        const response = await api.post<{
             message: string;
             data: ReviewResponseSchema;
         }>("/reviews", data);
@@ -28,7 +28,7 @@ class ReviewService {
             ratings.forEach((r) => params.append("ratings", r.toString()));
         }
 
-        const response = await axios.get(
+        const response = await api.get(
             `/reviews/fields/${fieldId}?${params.toString()}`
         );
         return reviewsPaginatedResponseSchema.parse(response.data);

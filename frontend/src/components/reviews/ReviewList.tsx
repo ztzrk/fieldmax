@@ -44,7 +44,8 @@ export function ReviewList({
                         onClick={() => onRatingChange(rating)}
                         className="gap-1 h-8"
                     >
-                        {rating} <Star className="h-3 w-3 fill-current" />
+                        {rating}{" "}
+                        <Star className="h-3 w-3 fill-current text-yellow-500" />
                     </Button>
                 ))}
                 {selectedRatings.length > 0 && (

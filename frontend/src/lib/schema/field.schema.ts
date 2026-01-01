@@ -91,6 +91,7 @@ export const fieldDetailResponseSchema = z.object({
     photos: z.array(z.object({ id: z.string(), url: z.string() })).optional(),
     rating: z.number().optional(),
     reviewCount: z.number().optional(),
+    ratingCounts: z.record(z.number(), z.number()).optional(),
     reviews: z
         .object({
             data: z.array(reviewResponseSchema),
