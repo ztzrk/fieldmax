@@ -5,16 +5,10 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useGetAllFields } from "@/hooks/useFields";
 import { useGetPublicVenues } from "@/hooks/useVenues";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, Trophy, Search as SearchIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { FieldResponseSchema } from "@/lib/schema/field.schema";
-import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { FieldCard } from "@/components/fields/FieldCard";
 import { VenueCard } from "@/components/venues/VenueCard";
-import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
-import { UserNav } from "@/components/shared/UserNav";
+import { SearchHeader } from "./components/SearchHeader";
 
 function SearchContent() {
     const searchParams = useSearchParams();
@@ -29,14 +23,12 @@ function SearchContent() {
             ? "fields"
             : "all"
     );
-
-    const { user, isLoading: isAuthLoading } = useAuth();
     const router = useRouter();
 
     // Fetch Fields
     const { data: fieldsData } = useGetAllFields(
         1,
-        50, // Limit for search results
+        50,
         search,
         "APPROVED",
         false
@@ -59,80 +51,27 @@ function SearchContent() {
             const newParams = new URLSearchParams(searchParams?.toString());
             if (search) newParams.set("q", search);
             else newParams.delete("q");
-
-            // Maintain type if necessary, or default to current tab
             router.push(`/search?${newParams.toString()}`);
         }
     };
 
-    // Effect to update browser URL when tab changes (optional but good for sharing)
-    const onTabChange = (value: string) => {
-        setActiveTab(value);
-        // Note: We don't necessarily need to push URL on tab change unless we want deep linking
-    };
+    const ResultsGrid = ({ children }: { children: React.ReactNode }) => (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+            {children}
+        </div>
+    );
+
+    const EmptyState = ({ message }: { message: string }) => (
+        <p className="text-muted-foreground italic">{message}</p>
+    );
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-            {/* Navbar */}
-            <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center gap-6">
-                        <Link
-                            href="/"
-                            className="flex gap-2 items-center font-bold text-xl"
-                        >
-                            <ArrowLeft className="h-5 w-5" />
-                            <Trophy className="h-6 w-6 text-primary" />
-                            <span>FieldMax</span>
-                        </Link>
-                        <nav className="hidden lg:flex items-center gap-4">
-                            <Link
-                                href="/fields"
-                                className="text-sm font-medium hover:text-primary transition-colors"
-                            >
-                                Fields
-                            </Link>
-                            <Link
-                                href="/venues"
-                                className="text-sm font-medium hover:text-primary transition-colors"
-                            >
-                                Venues
-                            </Link>
-                        </nav>
-                    </div>
-
-                    <div className="flex-1 max-w-xl mx-4">
-                        <div className="relative">
-                            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                type="search"
-                                placeholder="Search fields max..."
-                                className="pl-8 w-full"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                onKeyDown={handleSearch}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        {isAuthLoading ? (
-                            <div className="w-24 h-9 bg-muted animate-pulse rounded-md" />
-                        ) : user ? (
-                            <UserNav />
-                        ) : (
-                            <div className="flex gap-2">
-                                <Link href="/login">
-                                    <Button variant="ghost">Log In</Button>
-                                </Link>
-                                <Link href="/register">
-                                    <Button>Get Started</Button>
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </header>
+            <SearchHeader
+                search={search}
+                onSearchChange={setSearch}
+                onSearchSubmit={handleSearch}
+            />
 
             <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-8">
                 <div className="flex flex-col gap-6 mb-8">
@@ -143,7 +82,7 @@ function SearchContent() {
 
                 <Tabs
                     defaultValue={activeTab}
-                    onValueChange={onTabChange}
+                    onValueChange={setActiveTab}
                     className="w-full"
                 >
                     <TabsList className="mb-8">
@@ -157,14 +96,10 @@ function SearchContent() {
                     </TabsList>
 
                     <TabsContent value="all" className="space-y-8">
-                        {/* Fields Section in All */}
+                        {/* Fields Section */}
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold">
-                                    Fields
-                                </h2>
-                            </div>
-                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+                            <h2 className="text-xl font-semibold">Fields</h2>
+                            <ResultsGrid>
                                 {fieldsData?.data?.map(
                                     (field: FieldResponseSchema) => (
                                         <FieldCard
@@ -175,60 +110,48 @@ function SearchContent() {
                                 )}
                                 {(!fieldsData?.data ||
                                     fieldsData.data.length === 0) && (
-                                    <p className="text-muted-foreground italic">
-                                        No fields found.
-                                    </p>
+                                    <EmptyState message="No fields found." />
                                 )}
-                            </div>
+                            </ResultsGrid>
                         </div>
 
-                        {/* Venues Section in All */}
+                        {/* Venues Section */}
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold">
-                                    Venues
-                                </h2>
-                            </div>
-                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+                            <h2 className="text-xl font-semibold">Venues</h2>
+                            <ResultsGrid>
                                 {filteredVenues.map((venue) => (
                                     <VenueCard key={venue.id} venue={venue} />
                                 ))}
                                 {filteredVenues.length === 0 && (
-                                    <p className="text-muted-foreground italic">
-                                        No venues found.
-                                    </p>
+                                    <EmptyState message="No venues found." />
                                 )}
-                            </div>
+                            </ResultsGrid>
                         </div>
                     </TabsContent>
 
                     <TabsContent value="fields">
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                        <ResultsGrid>
                             {fieldsData?.data?.map(
                                 (field: FieldResponseSchema) => (
                                     <FieldCard key={field.id} field={field} />
                                 )
                             )}
-                        </div>
-                        {(!fieldsData?.data ||
-                            fieldsData.data.length === 0) && (
-                            <div className="text-center py-20 text-muted-foreground">
-                                No fields found.
-                            </div>
-                        )}
+                            {(!fieldsData?.data ||
+                                fieldsData.data.length === 0) && (
+                                <EmptyState message="No fields found." />
+                            )}
+                        </ResultsGrid>
                     </TabsContent>
 
                     <TabsContent value="venues">
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                        <ResultsGrid>
                             {filteredVenues.map((venue) => (
                                 <VenueCard key={venue.id} venue={venue} />
                             ))}
-                        </div>
-                        {filteredVenues.length === 0 && (
-                            <div className="text-center py-20 text-muted-foreground">
-                                No venues found.
-                            </div>
-                        )}
+                            {filteredVenues.length === 0 && (
+                                <EmptyState message="No venues found." />
+                            )}
+                        </ResultsGrid>
                     </TabsContent>
                 </Tabs>
             </main>
@@ -238,7 +161,7 @@ function SearchContent() {
 
 export default function SearchPage() {
     return (
-        <Suspense fallback={<FullScreenLoader />}>
+        <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
             <SearchContent />
         </Suspense>
     );

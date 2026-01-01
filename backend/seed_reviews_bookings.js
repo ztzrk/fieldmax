@@ -5,10 +5,6 @@ async function main() {
     console.log("Starting Booking & Review Seeding...");
 
     // 1. Clean up existing reviews
-    // We strictly need to delete reviews first because of FK constraints if we were deleting users/fields, 
-    // but here we are just clearing reviews to start fresh as requested.
-    // Note: If we don't delete bookings, we can reuse them if they don't have reviews, 
-    // but it's easier to create new paired Booking+Review to ensure consistency.
     try {
         await prisma.review.deleteMany({});
         console.log("Cleared existing reviews.");

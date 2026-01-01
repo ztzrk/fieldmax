@@ -3,31 +3,16 @@
 import { useGetPublicVenueById } from "@/hooks/useVenues";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-    MapPin,
-    Trophy,
-    ArrowLeft,
-    ArrowRight,
-    Building2,
-    ShieldCheck,
-    Share2,
-} from "lucide-react";
+import { Trophy, ArrowLeft, Building2, Share2, MapPin } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
-import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { MediaCarousel } from "@/components/shared/MediaCarousel";
 import { toast } from "sonner";
 
 import { FieldCard } from "@/components/fields/FieldCard";
+import { VenueInfoSidebar } from "./components/VenueInfoSidebar";
 
 /**
  * VenueDetailPage Component
@@ -76,40 +61,15 @@ export default function VenueDetailPage() {
                 {/* Main Content - Left Column */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Image Gallery */}
-                    <div className="rounded-2xl overflow-hidden border bg-muted aspect-video relative shadow-sm group">
-                        {venue.photos && venue.photos.length > 0 ? (
-                            <Carousel className="w-full h-full">
-                                <CarouselContent>
-                                    {venue.photos.map((photo, index) => (
-                                        <CarouselItem key={photo.id || index}>
-                                            <div className="aspect-video w-full relative">
-                                                <img
-                                                    src={photo.url}
-                                                    alt={venue.name}
-                                                    className="absolute inset-0 w-full h-full object-cover"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                                            </div>
-                                        </CarouselItem>
-                                    ))}
-                                </CarouselContent>
-                                {venue.photos.length > 1 && (
-                                    <>
-                                        <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                        <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </>
-                                )}
-                            </Carousel>
-                        ) : (
-                            <ImagePlaceholder
-                                variant="pattern"
-                                icon={
-                                    <Building2 className="h-24 w-24 text-muted-foreground/20" />
-                                }
-                                className="h-full w-full"
-                            />
-                        )}
-                    </div>
+                    <MediaCarousel
+                        photos={venue.photos || []}
+                        alt={venue.name}
+                        placeholderIcon={
+                            <Building2 className="h-24 w-24 text-muted-foreground/20" />
+                        }
+                        showGradient
+                        hoverControls
+                    />
 
                     {/* Venue Header & Description */}
                     <div>
@@ -209,68 +169,13 @@ export default function VenueDetailPage() {
 
                 {/* Sidebar - Right Column */}
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 space-y-6">
-                        <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm ring-1 ring-border/50">
-                            <CardHeader className="uppercase text-xs font-bold text-muted-foreground tracking-wider pb-2">
-                                Venue Information
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="space-y-4">
-                                    <div className="flex items-start gap-3">
-                                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
-                                            <MapPin className="h-4 w-4" />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <span className="font-medium text-sm block">
-                                                Address
-                                            </span>
-                                            <p className="text-sm text-muted-foreground leading-snug">
-                                                {venue.address}
-                                                <br />
-                                                {venue.city}, {venue.province}{" "}
-                                                {venue.postalCode}
-                                            </p>
-                                            <a
-                                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                                                    `${venue.name} ${venue.address}`
-                                                )}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-1"
-                                            >
-                                                Get Directions{" "}
-                                                <ArrowRight className="h-3 w-3" />
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-start gap-3">
-                                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
-                                            <ShieldCheck className="h-4 w-4" />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <span className="font-medium text-sm block">
-                                                Verified Venue
-                                            </span>
-                                            <p className="text-sm text-muted-foreground leading-snug">
-                                                FieldMax has verified this venue
-                                                listing for accuracy.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <Separator />
-
-                                <div className="pt-2">
-                                    <p className="text-xs text-center text-muted-foreground/80 leading-relaxed">
-                                        Have questions? Contact the venue
-                                        directly upon booking confirmation.
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    <VenueInfoSidebar
+                        name={venue.name}
+                        address={venue.address}
+                        city={venue.city}
+                        province={venue.province}
+                        postalCode={venue.postalCode}
+                    />
                 </div>
             </div>
         </div>

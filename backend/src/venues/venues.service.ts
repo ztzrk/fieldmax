@@ -1,15 +1,9 @@
 import { User, Prisma } from "@prisma/client";
 import prisma from "../db";
 import { CreateVenueDto, UpdateVenueDto } from "./dtos/venue.dto";
-import e from "express";
 import imagekit from "../lib/imagekit";
 import { PaginationDto } from "../dtos/pagination.dto";
-import {
-    ConflictError,
-    NotFoundError,
-    ValidationError,
-    CustomError,
-} from "../utils/errors";
+import { ConflictError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class VenuesService {
     public async findAllAdmin(query: PaginationDto) {
@@ -221,8 +215,12 @@ export class VenuesService {
                     ? {
                           create: schedules.map((schedule) => ({
                               dayOfWeek: schedule.dayOfWeek,
-                              openTime: new Date(`1970-01-01T${schedule.openTime}Z`), // Ensure ISO format for time
-                              closeTime: new Date(`1970-01-01T${schedule.closeTime}Z`),
+                              openTime: new Date(
+                                  `1970-01-01T${schedule.openTime}Z`
+                              ), // Ensure ISO format for time
+                              closeTime: new Date(
+                                  `1970-01-01T${schedule.closeTime}Z`
+                              ),
                           })),
                       }
                     : undefined,
@@ -257,7 +255,9 @@ export class VenuesService {
                         venueId: id,
                         dayOfWeek: schedule.dayOfWeek,
                         openTime: new Date(`1970-01-01T${schedule.openTime}Z`),
-                        closeTime: new Date(`1970-01-01T${schedule.closeTime}Z`),
+                        closeTime: new Date(
+                            `1970-01-01T${schedule.closeTime}Z`
+                        ),
                     })),
                 });
             }

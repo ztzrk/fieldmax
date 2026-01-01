@@ -6,33 +6,18 @@ import { useGetFieldById } from "@/hooks/useFields";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-    MapPin,
-    Trophy,
-    ArrowLeft,
-    ArrowRight,
-    CalendarDays,
-    Star,
-    ShieldCheck,
-} from "lucide-react";
+import { MapPin, Trophy, ArrowLeft, CalendarDays, Star } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
-import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { toast } from "sonner";
-import { formatPrice } from "@/lib/utils";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
+import { MediaCarousel } from "@/components/shared/MediaCarousel";
 import { BookingModal } from "@/components/bookings/BookingModal";
 import Script from "next/script";
 import { ScheduleDisplay } from "@/components/shared/fields/ScheduleDisplay";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ReviewList } from "@/components/reviews/ReviewList";
+import { FieldBookingSidebar } from "./components/FieldBookingSidebar";
 
 /**
  * FieldDetailPage Component
@@ -137,44 +122,13 @@ export default function FieldDetailPage() {
                     </div>
 
                     {/* Image Carousel */}
-                    <div className="overflow-hidden rounded-2xl border bg-muted aspect-video relative shadow-sm">
-                        {field.photos && field.photos.length > 0 ? (
-                            <Carousel className="w-full h-full">
-                                <CarouselContent>
-                                    {field.photos.map(
-                                        (photo: {
-                                            url: string;
-                                            id: string;
-                                        }) => (
-                                            <CarouselItem key={photo.id}>
-                                                <div className="aspect-video w-full relative">
-                                                    <img
-                                                        src={photo.url}
-                                                        alt={field.name}
-                                                        className="absolute inset-0 w-full h-full object-cover"
-                                                    />
-                                                </div>
-                                            </CarouselItem>
-                                        )
-                                    )}
-                                </CarouselContent>
-                                {field.photos.length > 1 && (
-                                    <>
-                                        <CarouselPrevious className="left-4 bg-background/80 hover:bg-background" />
-                                        <CarouselNext className="right-4 bg-background/80 hover:bg-background" />
-                                    </>
-                                )}
-                            </Carousel>
-                        ) : (
-                            <ImagePlaceholder
-                                variant="pattern"
-                                icon={
-                                    <Trophy className="h-24 w-24 text-muted-foreground/20" />
-                                }
-                                className="h-full w-full"
-                            />
-                        )}
-                    </div>
+                    <MediaCarousel
+                        photos={field.photos || []}
+                        alt={field.name}
+                        placeholderIcon={
+                            <Trophy className="h-24 w-24 text-muted-foreground/20" />
+                        }
+                    />
 
                     {/* Content Section */}
                     <div className="space-y-8">
@@ -286,56 +240,11 @@ export default function FieldDetailPage() {
 
                 {/* Right Column: Sticky Booking Card */}
                 <div className="lg:col-span-1">
-                    <div className="sticky top-24 space-y-6">
-                        <Card className="border-border shadow-lg overflow-hidden rounded-xl">
-                            <CardHeader className="bg-muted/40 pb-6 border-b">
-                                <div className="space-y-1">
-                                    <p className="text-sm font-medium text-muted-foreground">
-                                        Price per hour
-                                    </p>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-3xl font-bold text-primary">
-                                            {formatPrice(field.pricePerHour)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="pt-6 space-y-6">
-                                <div className="space-y-2">
-                                    {field.isClosed ? (
-                                        <div className="p-3 bg-destructive/10 text-destructive rounded-md text-sm font-medium text-center border border-destructive/20">
-                                            This field is currently closed.
-                                        </div>
-                                    ) : (
-                                        <div className="p-3 bg-green-500/10 text-green-600 dark:text-green-400 rounded-md text-sm font-medium text-center border border-green-500/20">
-                                            Available for booking
-                                        </div>
-                                    )}
-                                </div>
-
-                                <Button
-                                    size="lg"
-                                    className="w-full text-lg h-14 font-semibold shadow-md transition-all hover:shadow-lg"
-                                    onClick={handleBook}
-                                    disabled={field.isClosed}
-                                >
-                                    {field.isClosed
-                                        ? "Unavailable"
-                                        : "Book Now"}
-                                    {!field.isClosed && (
-                                        <ArrowRight className="ml-2 h-5 w-5" />
-                                    )}
-                                </Button>
-
-                                <div className="pt-2 flex flex-col items-center gap-2">
-                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                        <ShieldCheck className="h-4 w-4 text-green-600" />
-                                        <span>Secure Booking & Payment</span>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    <FieldBookingSidebar
+                        pricePerHour={field.pricePerHour}
+                        isClosed={field.isClosed}
+                        onBook={handleBook}
+                    />
                 </div>
             </div>
 
