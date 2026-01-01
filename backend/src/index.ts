@@ -3,8 +3,10 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
+import helmet from "helmet";
 import express, { Express, Request, Response } from "express";
 import { errorMiddleware } from "./middleware/error.middleware";
+import { globalLimiter } from "./middleware/rateLimit.middleware";
 import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 import { AuthRoute } from "./auth/auth.route";
@@ -27,6 +29,8 @@ const app: Express = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(helmet());
+app.use(globalLimiter);
 app.use(
     cors({
         origin: "http://localhost:3001",

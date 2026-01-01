@@ -1,15 +1,40 @@
-import { NextFunction, Request, Response } from 'express';
-import { CustomError } from '../utils/errors';
-import { logger } from '../utils/logger';
+import { NextFunction, Request, Response } from "express";
+import { CustomError } from "../utils/errors";
+import { logger } from "../utils/logger";
 
-export const errorMiddleware = (err: CustomError, req: Request, res: Response, next: NextFunction) => {
-  try {
-    const status: number = err.statusCode || 500;
-    const message: string = err.message || 'Something went wrong';
+export const errorMiddleware = (
+    err: CustomError | Error,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const status: number =
+            err instanceof CustomError ? err.statusCode : 500;
+        const message: string = err.message || "Something went wrong";
+        const code: string =
+            err instanceof CustomError ? err.code : "INTERNAL_SERVER_ERROR";
+        const details: any = err instanceof CustomError ? err.details : null;
 
-    logger.error(`[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}`);
-    res.status(status).json({ message });
-  } catch (error) {
-    next(error);
-  }
+        if (status === 500) {
+            logger.error(
+                `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}, Stack:: ${err.stack}`
+            );
+        } else {
+            logger.warn(
+                `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}`
+            );
+        }
+
+        res.status(status).json({
+            success: false,
+            error: {
+                code,
+                message,
+                details,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
 };

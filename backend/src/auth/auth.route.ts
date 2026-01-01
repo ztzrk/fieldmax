@@ -5,6 +5,7 @@ import { validationMiddleware } from "../middleware/validation.middleware";
 import { RegisterUserDto } from "./dtos/register-user.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { authLimiter } from "../middleware/rateLimit.middleware";
 
 export class AuthRoute {
     public path = "/auth";
@@ -18,12 +19,14 @@ export class AuthRoute {
     private initializeRoutes() {
         this.router.post(
             `${this.path}/register`,
+            authLimiter,
             validationMiddleware(RegisterUserDto),
             this.authController.register
         );
 
         this.router.post(
             `${this.path}/login`,
+            authLimiter,
             validationMiddleware(LoginUserDto),
             this.authController.login
         );
@@ -36,11 +39,13 @@ export class AuthRoute {
 
         this.router.post(
             `${this.path}/verify`,
+            authLimiter,
             this.authController.verify
         );
 
         this.router.post(
             `${this.path}/resend-code`,
+            authLimiter,
             this.authController.resendCode
         );
     }
