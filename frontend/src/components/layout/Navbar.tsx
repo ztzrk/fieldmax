@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { UserNav } from "@/components/shared/UserNav";
-import { Trophy, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 /**
@@ -28,7 +29,14 @@ export function Navbar() {
                         className="flex gap-2 items-center font-bold text-xl"
                     >
                         {!isHome && <ArrowLeft className="h-5 w-5 md:hidden" />}
-                        <Trophy className="h-6 w-6 text-primary" />
+                        <div className="relative h-10 w-10">
+                            <Image
+                                src="/logo.svg"
+                                alt="FieldMax Logo"
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
                         <span>FieldMax</span>
                     </Link>
                     <nav className="hidden md:flex items-center gap-6">

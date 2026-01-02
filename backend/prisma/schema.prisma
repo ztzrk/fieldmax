@@ -9,26 +9,23 @@ datasource db {
 }
 
 model User {
-  id                     String         @id @default(uuid())
-  fullName               String         @map("full_name")
-  email                  String         @unique
-  password               String
-  phoneNumber            String?        @unique @map("phone_number")
-  role                   UserRole       @default(USER)
-  isVerified             Boolean        @default(false) @map("is_verified")
-  verificationCode       String?        @map("verification_code")
-  verificationCodeExpiresAt DateTime?   @map("verification_code_expires_at")
-  resetToken             String?        @map("reset_token")
-  resetTokenExpiry       DateTime?      @map("reset_token_expiry")
-  createdAt              DateTime       @default(now()) @map("created_at")
-  bookings               Booking[]
-  receivedConversations  Conversation[] @relation("RenterConversations")
-  initiatedConversations Conversation[] @relation("UserConversations")
-  sentMessages           Message[]
-  reviews                Review[]
-  sessions               Session[]
-  profile                UserProfile?
-  venues                 Venue[]
+  id                        String       @id @default(uuid())
+  fullName                  String       @map("full_name")
+  email                     String       @unique
+  password                  String
+  phoneNumber               String?      @unique @map("phone_number")
+  role                      UserRole     @default(USER)
+  isVerified                Boolean      @default(false) @map("is_verified")
+  verificationCode          String?      @map("verification_code")
+  verificationCodeExpiresAt DateTime?    @map("verification_code_expires_at")
+  resetToken                String?      @map("reset_token")
+  resetTokenExpiry          DateTime?    @map("reset_token_expiry")
+  createdAt                 DateTime     @default(now()) @map("created_at")
+  bookings                  Booking[]
+  reviews                   Review[]
+  sessions                  Session[]
+  profile                   UserProfile?
+  venues                    Venue[]
 
   @@index([fullName])
   @@index([id])
@@ -52,9 +49,9 @@ model UserProfile {
 }
 
 model SportType {
-  id       String  @id @default(uuid())
-  name     String  @unique
-  fields   Field[]
+  id     String  @id @default(uuid())
+  name   String  @unique
+  fields Field[]
 
   @@map("sport_types")
 }
@@ -67,7 +64,7 @@ model Venue {
   city            String?
   district        String?
   province        String?
-  postalCode      String?  @map("postal_code")
+  postalCode      String?            @map("postal_code")
   description     String?
   createdAt       DateTime           @default(now()) @map("created_at")
   status          VerificationStatus @default(DRAFT)
@@ -115,7 +112,6 @@ model Field {
   isClosed          Boolean            @default(false) @map("is_closed")
   rejectionReason   String?            @map("rejection_reason")
   bookings          Booking[]
-  conversations     Conversation[]
   photos            FieldPhoto[]
   sportType         SportType          @relation(fields: [sportTypeId], references: [id])
   venue             Venue              @relation(fields: [venueId], references: [id], onDelete: Cascade)
@@ -195,38 +191,6 @@ model Session {
 
   @@index([userId])
   @@map("sessions")
-}
-
-model Conversation {
-  id        String    @id @default(uuid())
-  userId    String    @map("user_id")
-  renterId  String    @map("renter_id")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  fieldId   String    @map("field_id")
-  venueId   String?
-  field     Field     @relation(fields: [fieldId], references: [id], onDelete: Cascade)
-  renter    User      @relation("RenterConversations", fields: [renterId], references: [id], onDelete: Cascade)
-  user      User      @relation("UserConversations", fields: [userId], references: [id], onDelete: Cascade)
-  messages  Message[]
-
-  @@unique([userId, fieldId])
-  @@index([userId, renterId])
-  @@map("conversations")
-}
-
-model Message {
-  id             String       @id @default(uuid())
-  conversationId String       @map("conversation_id")
-  senderId       String       @map("sender_id")
-  content        String
-  isRead         Boolean      @default(false) @map("is_read")
-  createdAt      DateTime     @default(now()) @map("created_at")
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
-
-  @@index([senderId])
-  @@map("messages")
 }
 
 enum UserRole {

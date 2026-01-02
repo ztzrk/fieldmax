@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import {
-    Trophy,
     Facebook,
     Twitter,
     Instagram,
@@ -36,7 +36,14 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 font-bold text-xl text-white">
-                            <Trophy className="h-6 w-6 text-primary" />
+                            <div className="relative h-10 w-10">
+                                <Image
+                                    src="/logo.svg"
+                                    alt="FieldMax Logo"
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
                             <span>FieldMax</span>
                         </div>
                         <p className="text-sm text-slate-400">

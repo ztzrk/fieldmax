@@ -1,6 +1,10 @@
 "use client";
 
-import { useGetProfile, useUploadProfilePicture } from "@/hooks/useProfile";
+import {
+    useGetProfile,
+    useUploadProfilePicture,
+    useUpdateProfile,
+} from "@/hooks/useProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -9,19 +13,55 @@ import {
     User as UserIcon,
     Phone,
     Camera,
+    Pencil,
+    X,
+    Save,
+    Check,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { EditProfileDialog } from "./components/EditProfileDialog";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    ProfileFormSchema,
+    profileFormSchema,
+} from "@/lib/schema/profile.schema";
+import { Form } from "@/components/ui/form";
+import { InputField } from "@/components/shared/form/InputField";
+import { TextareaField } from "@/components/shared/form/TextareaField";
 
 export default function ProfilePage() {
     const { data: user, isLoading, isError } = useGetProfile();
     const { mutate: uploadPhoto, isPending: isUploading } =
         useUploadProfilePicture();
+    const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
+
+    const [isEditing, setIsEditing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const form = useForm<ProfileFormSchema>({
+        resolver: zodResolver(profileFormSchema),
+        defaultValues: {
+            fullName: "",
+            phoneNumber: "",
+            bio: "",
+            address: "",
+        },
+    });
+
+    useEffect(() => {
+        if (user) {
+            form.reset({
+                fullName: user.fullName || "",
+                phoneNumber: user.phoneNumber || "",
+                bio: user.profile?.bio || "",
+                address: user.profile?.address || "",
+            });
+        }
+    }, [user, form]);
 
     const handleAvatarClick = () => {
         fileInputRef.current?.click();
@@ -32,6 +72,29 @@ export default function ProfilePage() {
         if (file) {
             uploadPhoto(file);
         }
+    };
+
+    const onSubmit = (data: ProfileFormSchema) => {
+        updateProfile(data, {
+            onSuccess: () => {
+                setIsEditing(false);
+            },
+        });
+    };
+
+    const toggleEdit = () => {
+        if (isEditing) {
+            // Cancel edit: reset form to current user values
+            if (user) {
+                form.reset({
+                    fullName: user.fullName || "",
+                    phoneNumber: user.phoneNumber || "",
+                    bio: user.profile?.bio || "",
+                    address: user.profile?.address || "",
+                });
+            }
+        }
+        setIsEditing(!isEditing);
     };
 
     if (isLoading) {
@@ -61,150 +124,241 @@ export default function ProfilePage() {
         : user.email.substring(0, 2).toUpperCase();
 
     return (
-        <div className="container py-10 w-full max-w-3xl mx-auto relative px-4 sm:px-6">
-            <div className="flex items-center gap-4 mb-8 -ml-4 sm:-ml-12">
-                <Link href="/">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-10 w-10 rounded-full hover:bg-accent"
-                        title="Back to Home"
-                    >
-                        <ArrowLeft className="h-6 w-6" />
-                    </Button>
-                </Link>
-                <h1 className="text-3xl font-bold">My Profile</h1>
-            </div>
+        <div className="container py-10 w-full max-w-4xl mx-auto relative px-4 sm:px-6">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-4">
+                            <Link href="/">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-10 w-10 rounded-full hover:bg-accent"
+                                    title="Back to Home"
+                                    type="button"
+                                >
+                                    <ArrowLeft className="h-6 w-6" />
+                                </Button>
+                            </Link>
+                            <h1 className="text-3xl font-bold">My Profile</h1>
+                        </div>
 
-            <Card className="border-none shadow-md overflow-hidden bg-card/50 backdrop-blur-sm">
-                <CardHeader className="flex flex-col sm:flex-row items-center gap-6 pb-8 bg-gradient-to-br from-primary/5 to-transparent relative">
-                    <div className="absolute top-4 right-4">
-                        <EditProfileDialog user={user} />
-                    </div>
-
-                    <div
-                        className="relative group cursor-pointer"
-                        onClick={handleAvatarClick}
-                    >
-                        <Avatar className="h-24 w-24 border-4 border-background shadow-lg transition-opacity group-hover:opacity-80">
-                            {user.profile?.profilePictureUrl && (
-                                <AvatarImage
-                                    src={user.profile.profilePictureUrl}
-                                    alt={user.fullName}
-                                    className="object-cover"
-                                />
-                            )}
-                            <AvatarFallback className="text-2xl bg-primary text-primary-foreground font-bold">
-                                {initials}
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                            {isUploading ? (
-                                <FullScreenLoader />
+                        <div className="flex gap-2">
+                            {isEditing ? (
+                                <>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={toggleEdit}
+                                        disabled={isUpdating}
+                                    >
+                                        <X className="w-4 h-4 mr-2" /> Cancel
+                                    </Button>
+                                    <Button type="submit" disabled={isUpdating}>
+                                        {isUpdating ? (
+                                            <FullScreenLoader />
+                                        ) : (
+                                            <Save className="w-4 h-4 mr-2" />
+                                        )}
+                                        Save Changes
+                                    </Button>
+                                </>
                             ) : (
-                                <Camera className="h-6 w-6 text-white" />
+                                <Button
+                                    type="button"
+                                    onClick={toggleEdit}
+                                    variant="outline"
+                                    className="group"
+                                >
+                                    <Pencil className="w-4 h-4 mr-2 group-hover:text-primary transition-colors" />
+                                    Edit Profile
+                                </Button>
                             )}
                         </div>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            className="hidden"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                        />
                     </div>
 
-                    <div className="text-center sm:text-left space-y-2">
-                        <CardTitle className="text-3xl font-extrabold tracking-tight">
-                            {user.fullName}
-                        </CardTitle>
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center sm:justify-start text-muted-foreground text-sm">
-                            <span className="flex items-center gap-1.5 justify-center sm:justify-start">
-                                <UserIcon className="h-3.5 w-3.5" />
-                                {user.role}
-                            </span>
-                            <span className="hidden sm:inline text-muted-foreground/30">
-                                •
-                            </span>
-                            <span>{user.email}</span>
+                    <Card className="border-none pt-0 shadow-lg overflow-hidden bg-card/80 backdrop-blur-sm">
+                        <div className="relative h-32 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
+                            {/* Cover area purely decorative for now */}
                         </div>
-                    </div>
-                </CardHeader>
-                <Separator />
-                <CardContent className="pt-8 space-y-8">
-                    {/* Bio Section */}
-                    {user.profile?.bio && (
-                        <div className="space-y-3">
-                            <h3 className="text-lg font-semibold flex items-center gap-2">
-                                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                                About Me
-                            </h3>
-                            <p className="text-muted-foreground leading-relaxed pl-3.5 border-l-2 border-muted italic">
-                                "{user.profile.bio}"
-                            </p>
-                        </div>
-                    )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Contact & Location Info */}
-                        <div className="space-y-6">
-                            <div className="space-y-4">
-                                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                                    Information
-                                </h3>
-                                <div className="space-y-3">
-                                    {user.phoneNumber && (
-                                        <div className="flex items-center gap-3 text-sm">
-                                            <div className="p-2 rounded-md bg-primary/10 text-primary">
-                                                <Phone className="h-4 w-4" />
-                                            </div>
-                                            <div>
-                                                <p className="font-medium">
-                                                    Phone Number
-                                                </p>
-                                                <p className="text-muted-foreground">
-                                                    {user.phoneNumber}
-                                                </p>
-                                            </div>
+                        <div className="px-8 pb-8">
+                            <div className="flex flex-col sm:flex-row items-end -mt-12 mb-6 gap-6">
+                                <div className="relative group">
+                                    <div
+                                        className="relative cursor-pointer rounded-full p-1 bg-background shadow-xl"
+                                        onClick={handleAvatarClick}
+                                    >
+                                        <Avatar className="h-32 w-32 border-4 border-background">
+                                            {user.profile
+                                                ?.profilePictureUrl && (
+                                                <AvatarImage
+                                                    src={
+                                                        user.profile
+                                                            .profilePictureUrl
+                                                    }
+                                                    alt={user.fullName}
+                                                    className="object-cover"
+                                                />
+                                            )}
+                                            <AvatarFallback className="text-3xl bg-primary text-primary-foreground font-bold">
+                                                {initials}
+                                            </AvatarFallback>
+                                        </Avatar>
+
+                                        {/* Edit Badge */}
+                                        <div className="absolute bottom-1 right-1 bg-primary text-primary-foreground p-2 rounded-full shadow-lg cursor-pointer hover:bg-primary/90 transition-colors border-2 border-background">
+                                            {isUploading ? (
+                                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                            ) : (
+                                                <Camera className="h-4 w-4" />
+                                            )}
                                         </div>
-                                    )}
-                                    {user.profile?.address && (
-                                        <div className="flex items-center gap-3 text-sm">
-                                            <div className="p-2 rounded-md bg-primary/10 text-primary">
-                                                <MapPin className="h-4 w-4" />
-                                            </div>
-                                            <div>
-                                                <p className="font-medium">
-                                                    Address
-                                                </p>
-                                                <p className="text-muted-foreground">
-                                                    {user.profile.address}
-                                                </p>
-                                            </div>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handleFileChange}
+                                    />
+                                </div>
+
+                                <div className="flex-1 space-y-1 mb-2">
+                                    {isEditing ? (
+                                        <div className="max-w-md">
+                                            <InputField
+                                                control={form.control}
+                                                name="fullName"
+                                                label=""
+                                                placeholder="Your Full Name"
+                                            />
                                         </div>
+                                    ) : (
+                                        <h2 className="text-3xl font-bold">
+                                            {user.fullName}
+                                        </h2>
                                     )}
+
+                                    <div className="flex flex-wrap items-center gap-4 text-muted-foreground text-sm">
+                                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary/50">
+                                            <UserIcon className="h-3.5 w-3.5" />
+                                            <span className="capitalize">
+                                                {user.role?.toLowerCase()}
+                                            </span>
+                                        </div>
+                                        <span>{user.email}</span>
+                                        <span className="flex items-center gap-1.5 text-green-600 dark:text-green-400">
+                                            <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+                                            Active
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Account Details */}
-                        <div className="space-y-6">
-                            <div className="space-y-4">
-                                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                                    Account Details
-                                </h3>
-                                <div className="p-4 rounded-lg bg-muted/30 border border-muted-foreground/10">
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-muted-foreground">
-                                                Status
-                                            </span>
-                                            <span className="font-semibold text-green-600 dark:text-green-400 flex items-center gap-1.5">
-                                                <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                                                Active
-                                            </span>
+                            <Separator className="my-6" />
+
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                {/* Left Column: Bio */}
+                                <div className="lg:col-span-2 space-y-6">
+                                    <div className="space-y-4">
+                                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                                            About Me
+                                        </h3>
+
+                                        {isEditing ? (
+                                            <TextareaField
+                                                control={form.control}
+                                                name="bio"
+                                                label=""
+                                                placeholder="Tell us a little bit about yourself..."
+                                                className="min-h-[150px] resize-none"
+                                            />
+                                        ) : (
+                                            <div className="bg-muted/30 rounded-lg p-6 border border-muted/50">
+                                                {user.profile?.bio ? (
+                                                    <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                                                        {user.profile.bio}
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-muted-foreground/50 italic">
+                                                        No bio yet. Click edit
+                                                        to add one.
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Right Column: Details */}
+                                <div className="space-y-6">
+                                    <div className="space-y-4">
+                                        <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                                            Contact Information
+                                        </h3>
+
+                                        <div className="space-y-4">
+                                            <div className="flex gap-3">
+                                                <div className="mt-1 p-2 rounded-md bg-primary/10 text-primary h-fit">
+                                                    <Phone className="h-4 w-4" />
+                                                </div>
+                                                <div className="flex-1 space-y-1">
+                                                    <p className="font-medium text-sm">
+                                                        Phone Number
+                                                    </p>
+                                                    {isEditing ? (
+                                                        <InputField
+                                                            control={
+                                                                form.control
+                                                            }
+                                                            name="phoneNumber"
+                                                            label=""
+                                                            placeholder="+1 234 567 890"
+                                                        />
+                                                    ) : (
+                                                        <p className="text-muted-foreground text-sm">
+                                                            {user.phoneNumber ||
+                                                                "-"}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-3">
+                                                <div className="mt-1 p-2 rounded-md bg-primary/10 text-primary h-fit">
+                                                    <MapPin className="h-4 w-4" />
+                                                </div>
+                                                <div className="flex-1 space-y-1">
+                                                    <p className="font-medium text-sm">
+                                                        Address
+                                                    </p>
+                                                    {isEditing ? (
+                                                        <InputField
+                                                            control={
+                                                                form.control
+                                                            }
+                                                            name="address"
+                                                            label=""
+                                                            placeholder="123 Main St, City, Country"
+                                                        />
+                                                    ) : (
+                                                        <p className="text-muted-foreground text-sm">
+                                                            {user.profile
+                                                                ?.address ||
+                                                                "-"}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex justify-between text-sm">
+                                    </div>
+
+                                    <div className="space-y-4 pt-4 border-t">
+                                        <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                                            Account Info
+                                        </h3>
+                                        <div className="flex justify-between text-sm py-2">
                                             <span className="text-muted-foreground">
                                                 Member Since
                                             </span>
@@ -225,9 +379,9 @@ export default function ProfilePage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </Card>
+                </form>
+            </Form>
         </div>
     );
 }
