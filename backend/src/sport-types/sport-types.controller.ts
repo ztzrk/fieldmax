@@ -8,8 +8,7 @@ export class SportTypesController {
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const query: PaginationDto =
-                (req as any).validatedQuery || req.query;
+            const query: PaginationDto = req.validatedQuery || req.query;
             const result = await this.service.findAll(query);
             res.status(200).json(result);
         } catch (error) {

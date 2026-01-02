@@ -57,6 +57,24 @@ const AuthService = {
             throw error as AxiosError;
         }
     },
+
+    forgotPassword: async (email: string) => {
+        try {
+            const response = await api.post("/auth/forgot-password", { email });
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
+
+    resetPassword: async (data: any) => {
+        try {
+            const response = await api.post("/auth/reset-password", data);
+            return response.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
 };
 
 export default AuthService;

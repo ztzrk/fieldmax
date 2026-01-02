@@ -1,15 +1,23 @@
 import { NextFunction, Request, Response } from "express";
 import { FieldsService } from "./fields.service";
-import { CreateFieldDto, UpdateFieldDto } from "./dtos/field.dto";
+import {
+    CreateFieldDto,
+    UpdateFieldDto,
+    RejectFieldDto,
+    ToggleFieldClosureDto,
+    DeleteMultipleFieldsDto,
+} from "./dtos/field.dto";
 import { ScheduleOverrideDto } from "./dtos/override.dto";
 import { GetAvailabilityDto } from "./dtos/availability.dtos";
+import { PaginationDto } from "../dtos/pagination.dto";
 
 export class FieldsController {
     public service = new FieldsService();
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const query = (req as any).validatedQuery || req.query;
+            const query =
+                req.validatedQuery || (req.query as unknown as PaginationDto);
             if (req.user && req.user.role === "RENTER") {
                 const data = await this.service.findAllForRenter(
                     req.user.id,
@@ -60,7 +68,7 @@ export class FieldsController {
 
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const fieldData = req.body;
+            const fieldData: CreateFieldDto = req.body;
             const data = await this.service.create(fieldData, req.user!);
             res.status(201).json({ data, message: "created" });
         } catch (error) {
@@ -95,7 +103,7 @@ export class FieldsController {
         next: NextFunction
     ) => {
         try {
-            const { ids } = req.body;
+            const { ids }: DeleteMultipleFieldsDto = req.body;
             const data = await this.service.deleteMultiple(ids, req.user);
             res.status(200).json({ data, message: "deleted multiple" });
         } catch (error) {
@@ -167,7 +175,7 @@ export class FieldsController {
     ) => {
         try {
             const { fieldId } = req.params;
-            const query: GetAvailabilityDto = req.query as any;
+            const query = req.query as unknown as GetAvailabilityDto;
             const data = await this.service.getAvailability(fieldId, query);
             res.status(200).json({ data });
         } catch (error) {
@@ -192,7 +200,7 @@ export class FieldsController {
     public reject = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { id } = req.params;
-            const data = req.body;
+            const data: RejectFieldDto = req.body;
             const rejectedField = await this.service.reject(id, data);
             res.status(200).json({
                 data: rejectedField,
@@ -227,7 +235,7 @@ export class FieldsController {
     ) => {
         try {
             const { id } = req.params;
-            const { isClosed } = req.body;
+            const { isClosed }: ToggleFieldClosureDto = req.body;
             const data = await this.service.toggleClosure(
                 id,
                 isClosed,

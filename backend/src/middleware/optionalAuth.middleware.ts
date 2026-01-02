@@ -15,7 +15,11 @@ export const optionalAuthMiddleware = async (
 
         const session = await prisma.session.findUnique({
             where: { id: sessionId },
-            include: { user: true },
+            include: {
+                user: {
+                    include: { profile: true },
+                },
+            },
         });
 
         if (!session || session.expiresAt < new Date()) {

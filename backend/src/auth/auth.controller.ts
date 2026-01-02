@@ -41,7 +41,7 @@ export class AuthController {
 
             const responseUser = {
                 ...user,
-                profilePictureUrl: (user as any).profile?.profilePictureUrl,
+                profilePictureUrl: user.profile?.profilePictureUrl,
             };
 
             res.status(200).json({
@@ -51,7 +51,7 @@ export class AuthController {
         } catch (error) {
             if (
                 error instanceof Error &&
-                error.message === "Password not matching"
+                error.message === "Invalid credentials, please try again."
             ) {
                 res.status(401).json({ message: error.message });
             } else {
@@ -100,7 +100,8 @@ export class AuthController {
 
             const responseUser = {
                 ...userWithoutPassword,
-                profilePictureUrl: (userFromMiddleware as any).profile?.profilePictureUrl,
+                profilePictureUrl:
+                    userFromMiddleware.profile?.profilePictureUrl,
             };
 
             res.status(200).json({
@@ -135,6 +136,34 @@ export class AuthController {
             const { email } = req.body;
             await this.authService.resendCode(email);
             res.status(200).json({ message: "Verification code sent" });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public forgotPassword = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> => {
+        try {
+            const { email } = req.body;
+            await this.authService.forgotPassword(email);
+            res.status(200).json({ message: "Password reset email sent" });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public resetPassword = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> => {
+        try {
+            const resetData = req.body;
+            await this.authService.resetPassword(resetData);
+            res.status(200).json({ message: "Password reset successfully" });
         } catch (error) {
             next(error);
         }

@@ -53,7 +53,6 @@ export class UpdateFieldDto {
     isClosed?: boolean;
 }
 
-
 export class RejectFieldDto {
     @IsString()
     @IsNotEmpty()
@@ -66,3 +65,9 @@ export class ToggleFieldClosureDto {
     isClosed!: boolean;
 }
 
+export class DeleteMultipleFieldsDto {
+    @IsArray()
+    @IsUUID("4", { each: true })
+    @IsNotEmpty()
+    ids!: string[];
+}

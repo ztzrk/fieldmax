@@ -32,7 +32,7 @@ export const validationMiddleware = (
             next(new ValidationError("Validation failed", details));
         } else {
             if (validateQuery) {
-                (req as any).validatedQuery = dto;
+                req.validatedQuery = dto;
             } else {
                 req.body = dto;
             }

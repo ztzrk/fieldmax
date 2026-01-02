@@ -42,6 +42,13 @@ export const bookingResponseSchema = z.object({
         })
         .optional()
         .nullable(),
+    user: z
+        .object({
+            id: z.string(),
+            fullName: z.string(),
+            email: z.string(),
+        })
+        .optional(),
 });
 
 export type BookingResponseSchema = z.infer<typeof bookingResponseSchema>;

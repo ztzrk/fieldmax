@@ -13,6 +13,7 @@ import { toast } from "sonner";
 
 import { FieldCard } from "@/components/fields/FieldCard";
 import { VenueInfoSidebar } from "./components/VenueInfoSidebar";
+import { FieldResponseSchema } from "@/lib/schema/field.schema";
 
 /**
  * VenueDetailPage Component
@@ -151,7 +152,7 @@ export default function VenueDetailPage() {
                                             updatedAt: new Date(),
                                             sportTypeId: "",
                                             venueId: venue.id,
-                                        } as any
+                                        } as FieldResponseSchema
                                     }
                                 />
                             ))}

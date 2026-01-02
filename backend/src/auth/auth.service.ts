@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User, UserProfile } from "@prisma/client";
 import { RegisterUserDto } from "./dtos/register-user.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { randomBytes } from "crypto";
@@ -10,7 +10,7 @@ import {
     UnauthorizedError,
     ValidationError,
 } from "../utils/errors";
-import { sendVerificationEmail } from "../lib/mailer";
+import { sendVerificationEmail, sendPasswordResetEmail } from "../lib/mailer";
 import bcrypt from "bcryptjs";
 
 export class AuthService {
@@ -56,9 +56,10 @@ export class AuthService {
         return userWithoutPassword;
     }
 
-    public async login(
-        userData: LoginUserDto
-    ): Promise<{ sessionId: string; user: Omit<User, "password"> }> {
+    public async login(userData: LoginUserDto): Promise<{
+        sessionId: string;
+        user: Omit<User, "password"> & { profile: UserProfile | null };
+    }> {
         const findUser = await prisma.user.findUnique({
             where: { email: userData.email },
             include: { profile: true },
@@ -74,7 +75,9 @@ export class AuthService {
             findUser.password
         );
         if (!isPasswordMatching) {
-            throw new UnauthorizedError("Password not matching");
+            throw new UnauthorizedError(
+                "Invalid credentials, please try again."
+            );
         }
 
         if (!findUser.isVerified) {
@@ -150,5 +153,55 @@ export class AuthService {
                 where: { id: sessionId },
             })
             .catch(() => {});
+    }
+
+    public async forgotPassword(email: string): Promise<void> {
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) throw new NotFoundError("User not found.");
+
+        const resetToken = randomBytes(32).toString("hex");
+        const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                resetToken,
+                resetTokenExpiry,
+            },
+        });
+
+        await sendPasswordResetEmail(email, resetToken);
+    }
+
+    public async resetPassword(
+        resetData: import("./dtos/reset-password.dto").ResetPasswordDto
+    ): Promise<void> {
+        const { token, password, confirmPassword } = resetData;
+
+        if (password !== confirmPassword) {
+            throw new ValidationError("Passwords do not match.");
+        }
+
+        const user = await prisma.user.findFirst({
+            where: {
+                resetToken: token,
+                resetTokenExpiry: { gt: new Date() },
+            },
+        });
+
+        if (!user) {
+            throw new ValidationError("Invalid or expired reset token.");
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                resetToken: null,
+                resetTokenExpiry: null,
+            },
+        });
     }
 }

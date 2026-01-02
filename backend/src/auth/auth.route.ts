@@ -4,6 +4,8 @@ import { AuthController } from "./auth.controller";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import { RegisterUserDto } from "./dtos/register-user.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
+import { ForgotPasswordDto } from "./dtos/forgot-password.dto";
+import { ResetPasswordDto } from "./dtos/reset-password.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { authLimiter } from "../middleware/rateLimit.middleware";
 
@@ -47,6 +49,20 @@ export class AuthRoute {
             `${this.path}/resend-code`,
             authLimiter,
             this.authController.resendCode
+        );
+
+        this.router.post(
+            `${this.path}/forgot-password`,
+            authLimiter,
+            validationMiddleware(ForgotPasswordDto),
+            this.authController.forgotPassword
+        );
+
+        this.router.post(
+            `${this.path}/reset-password`,
+            authLimiter,
+            validationMiddleware(ResetPasswordDto),
+            this.authController.resetPassword
         );
     }
 }

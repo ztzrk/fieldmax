@@ -18,6 +18,8 @@ model User {
   isVerified             Boolean        @default(false) @map("is_verified")
   verificationCode       String?        @map("verification_code")
   verificationCodeExpiresAt DateTime?   @map("verification_code_expires_at")
+  resetToken             String?        @map("reset_token")
+  resetTokenExpiry       DateTime?      @map("reset_token_expiry")
   createdAt              DateTime       @default(now()) @map("created_at")
   bookings               Booking[]
   receivedConversations  Conversation[] @relation("RenterConversations")

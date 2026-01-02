@@ -7,7 +7,7 @@ export class VenuesController {
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const query = (req as any).validatedQuery || req.query;
+            const query = req.validatedQuery || req.query;
             if (req.user && req.user.role === "ADMIN") {
                 const data = await this.service.findAllAdmin(query);
                 res.status(200).json(data);

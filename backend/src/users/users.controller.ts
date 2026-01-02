@@ -28,8 +28,7 @@ export class UsersController {
         next: NextFunction
     ) => {
         try {
-            const query: PaginationDto =
-                (req as any).validatedQuery || req.query;
+            const query: PaginationDto = req.validatedQuery || req.query;
             const result = await this.userService.findAllUsers(query);
             res.status(200).json(result);
         } catch (error) {

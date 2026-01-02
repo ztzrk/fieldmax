@@ -21,7 +21,7 @@ export const globalLimiter = rateLimit({
 
 export const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // Limit each IP to 5 login/register requests per window
+    max: 50, // Limit each IP to 50 login/register requests per window
     standardHeaders: true,
     legacyHeaders: false,
     message: {

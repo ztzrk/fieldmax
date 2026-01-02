@@ -22,8 +22,8 @@ export function useLogin() {
             setIsRedirecting(true);
             login(user);
 
-            toast.success("Login berhasil!", {
-                description: `Selamat datang kembali, ${user.fullName}.`,
+            toast.success("Login Success", {
+                description: `Welcome back, ${user.fullName}.`,
             });
 
             let targetDashboard = "/";
@@ -35,10 +35,32 @@ export function useLogin() {
 
             router.push(targetDashboard);
         },
-        onError: (error: AxiosError<BackendErrorResponse>) => {
+        onError: (
+            error: AxiosError<BackendErrorResponse>,
+            variables: LoginFormSchema
+        ) => {
             setIsRedirecting(false);
             let errorMessage = "Login failed.";
-            if (error.response?.data?.message) {
+
+            if (
+                error.response?.status === 403 &&
+                error.response?.data?.error?.message ===
+                    "Email not verified. Please verify your email."
+            ) {
+                toast.error("Account not verified", {
+                    description: "Redirecting to verification page...",
+                });
+                router.push(
+                    `/verify-email?email=${encodeURIComponent(variables.email)}`
+                );
+                return;
+            }
+
+            if (error.response?.data?.error?.message) {
+                errorMessage = error.response.data.error.message;
+            } else if (typeof error.response?.data?.error === "string") {
+                errorMessage = error.response.data.error;
+            } else if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
@@ -71,8 +93,8 @@ export function useRegister() {
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Registration failed.";
-            if (error.response?.data?.message) {
-                errorMessage = error.response.data.message;
+            if (error.response?.data?.error?.message) {
+                errorMessage = error.response.data.error.message;
             } else if (error.request) {
                 errorMessage =
                     "Cannot connect to server. Please check your connection.";
@@ -100,8 +122,8 @@ export function useVerifyEmail() {
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Verification failed.";
-            if (error.response?.data?.message) {
-                errorMessage = error.response.data.message;
+            if (error.response?.data?.error?.message) {
+                errorMessage = error.response.data.error.message;
             } else {
                 errorMessage = error.message;
             }
@@ -123,8 +145,8 @@ export function useResendCode() {
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Failed to resend code.";
-            if (error.response?.data?.message) {
-                errorMessage = error.response.data.message;
+            if (error.response?.data?.error?.message) {
+                errorMessage = error.response.data.error.message;
             } else {
                 errorMessage = error.message;
             }

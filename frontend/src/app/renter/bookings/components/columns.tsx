@@ -111,8 +111,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
             // Actually I should probably check if backend sends it.
             // Admin columns used: user?: { fullName, email }.
             // I'll type cast or rely on 'any' safely if needed, but let's try to be safe.
-            const booking = row.original as any;
-            const user = booking.user;
+            const user = row.original.user;
 
             return (
                 <div className="flex flex-col">
