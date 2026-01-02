@@ -1,12 +1,12 @@
 import { User, Prisma } from "@prisma/client";
 import prisma from "../db";
-import { CreateVenueDto, UpdateVenueDto } from "./dtos/venue.dto";
+import { CreateVenue, UpdateVenue } from "../schemas/venues.schema";
 import imagekit from "../lib/imagekit";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { Pagination } from "../schemas/pagination.schema";
 import { ConflictError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class VenuesService {
-    public async findAllAdmin(query: PaginationDto) {
+    public async findAllAdmin(query: Pagination) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
 
@@ -45,7 +45,7 @@ export class VenuesService {
         return { data: venues, meta: { total, page, limit, totalPages } };
     }
 
-    public async findAllForRenter(renterId: string, query: PaginationDto) {
+    public async findAllForRenter(renterId: string, query: Pagination) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
 
@@ -184,7 +184,7 @@ export class VenuesService {
         return transformedVenue;
     }
 
-    public async create(data: CreateVenueDto, creatingUser: User) {
+    public async create(data: CreateVenue, creatingUser: User) {
         if (creatingUser.role === "RENTER") {
             data.renterId = creatingUser.id;
         }
@@ -242,7 +242,7 @@ export class VenuesService {
         return newVenue;
     }
 
-    public async update(id: string, data: UpdateVenueDto) {
+    public async update(id: string, data: UpdateVenue) {
         const { schedules, ...venueData } = data;
 
         const updatedVenue = await prisma.$transaction(async (tx) => {

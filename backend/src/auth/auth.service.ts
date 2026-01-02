@@ -1,6 +1,5 @@
 import { User, UserProfile } from "@prisma/client";
-import { RegisterUserDto } from "./dtos/register-user.dto";
-import { LoginUserDto } from "./dtos/login-user.dto";
+import { RegisterUser, LoginUser } from "../schemas/auth.schema";
 import { randomBytes } from "crypto";
 import prisma from "../db";
 import {
@@ -15,7 +14,7 @@ import bcrypt from "bcryptjs";
 
 export class AuthService {
     public async register(
-        userData: RegisterUserDto
+        userData: RegisterUser
     ): Promise<Omit<User, "password">> {
         if (userData.role === "ADMIN") {
             throw new ForbiddenError(
@@ -56,7 +55,7 @@ export class AuthService {
         return userWithoutPassword;
     }
 
-    public async login(userData: LoginUserDto): Promise<{
+    public async login(userData: LoginUser): Promise<{
         sessionId: string;
         user: Omit<User, "password"> & { profile: UserProfile | null };
     }> {
@@ -174,7 +173,7 @@ export class AuthService {
     }
 
     public async resetPassword(
-        resetData: import("./dtos/reset-password.dto").ResetPasswordDto
+        resetData: import("../schemas/auth.schema").ResetPassword
     ): Promise<void> {
         const { token, password, confirmPassword } = resetData;
 

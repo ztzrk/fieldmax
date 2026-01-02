@@ -1,9 +1,9 @@
 import prisma from "../db";
-import { CreateReviewDto } from "./dtos/create-review.dto";
-import { PaginationDto, ReviewFilterDto } from "../dtos/pagination.dto";
+import { CreateReview } from "../schemas/reviews.schema";
+import { ReviewFilter } from "../schemas/pagination.schema";
 
 export class ReviewsService {
-    public async create(userId: string, data: CreateReviewDto) {
+    public async create(userId: string, data: CreateReview) {
         // 1. Verify booking exists and belongs to user
         const booking = await prisma.booking.findUnique({
             where: { id: data.bookingId },
@@ -46,7 +46,7 @@ export class ReviewsService {
         });
     }
 
-    public async getByFieldId(fieldId: string, query: ReviewFilterDto) {
+    public async getByFieldId(fieldId: string, query: ReviewFilter) {
         const { page = 1, limit = 10, ratings } = query;
         const skip = (page - 1) * limit;
 

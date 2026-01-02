@@ -1,10 +1,10 @@
 // src/users/users.service.ts
 import { User, Prisma } from "@prisma/client";
-import { UpdateUserDto } from "./dtos/user.dto";
-import { RegisterUserDto } from "../auth/dtos/register-user.dto";
+import { UpdateUser } from "../schemas/users.schema";
+import { RegisterUser } from "../schemas/auth.schema";
 import prisma from "../db";
 import bcrypt from "bcryptjs";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { Pagination } from "../schemas/pagination.schema";
 import { ConflictError, NotFoundError } from "../utils/errors";
 
 function exclude<User, Key extends keyof User>(
@@ -18,7 +18,7 @@ function exclude<User, Key extends keyof User>(
 }
 
 export class UserService {
-    public async findAllUsers(query: Partial<PaginationDto>) {
+    public async findAllUsers(query: Partial<Pagination>) {
         const { page, limit, search } = query;
         const isPaginated = page !== undefined && limit !== undefined;
         const skip = isPaginated ? (page! - 1) * limit! : 0;
@@ -89,7 +89,7 @@ export class UserService {
 
     public async updateUser(
         userId: string,
-        userData: UpdateUserDto
+        userData: UpdateUser
     ): Promise<Omit<User, "password">> {
         const updatedUser = await prisma.user.update({
             where: { id: userId },
@@ -106,7 +106,7 @@ export class UserService {
     }
 
     public async createUser(
-        userData: RegisterUserDto
+        userData: RegisterUser
     ): Promise<Omit<User, "password">> {
         const findEmail = await prisma.user.findUnique({
             where: { email: userData.email },

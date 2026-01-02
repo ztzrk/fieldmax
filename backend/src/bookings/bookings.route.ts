@@ -1,8 +1,9 @@
+// src/bookings/bookings.route.ts
 import { Router } from "express";
 import { BookingsController } from "./bookings.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
-import { CreateBookingDto } from "./dtos/create-booking.dto";
+import { createBookingSchema } from "../schemas/bookings.schema";
 
 export class BookingsRoute {
     public path = "/bookings";
@@ -27,7 +28,7 @@ export class BookingsRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            validationMiddleware(CreateBookingDto),
+            validationMiddleware(createBookingSchema),
             this.controller.create
         );
         this.router.post(

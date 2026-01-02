@@ -1,8 +1,8 @@
 import prisma from "../db";
-import { CreateBookingDto } from "./dtos/create-booking.dto";
+import { CreateBooking } from "../schemas/bookings.schema";
 import midtransclient from "midtrans-client";
 import { Prisma, User } from "@prisma/client";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { Pagination } from "../schemas/pagination.schema";
 
 export class BookingsService {
     private snap = new midtransclient.Snap({
@@ -11,7 +11,7 @@ export class BookingsService {
         clientKey: process.env.MIDTRANS_CLIENT_KEY,
     });
 
-    public async findAllBookings(query: PaginationDto, user: User) {
+    public async findAllBookings(query: Pagination, user: User) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
 
@@ -79,7 +79,7 @@ export class BookingsService {
         });
     }
 
-    public async createBooking(data: CreateBookingDto, user: User) {
+    public async createBooking(data: CreateBooking, user: User) {
         const field = await prisma.field.findUnique({
             where: { id: data.fieldId },
         });

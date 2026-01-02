@@ -1,9 +1,9 @@
 // src/users/users.controller.ts
 import { NextFunction, Request, Response } from "express";
 import { UserService } from "./users.service";
-import { UpdateUserDto } from "./dtos/user.dto";
-import { RegisterUserDto } from "../auth/dtos/register-user.dto";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { UpdateUser } from "../schemas/users.schema";
+import { RegisterUser } from "../schemas/auth.schema";
+import { Pagination } from "../schemas/pagination.schema";
 
 export class UsersController {
     public userService = new UserService();
@@ -14,7 +14,7 @@ export class UsersController {
         next: NextFunction
     ): Promise<void> => {
         try {
-            const userData: RegisterUserDto = req.body;
+            const userData: RegisterUser = req.body;
             const newUser = await this.userService.createUser(userData);
             res.status(201).json({ data: newUser, message: "created" });
         } catch (error) {
@@ -28,7 +28,7 @@ export class UsersController {
         next: NextFunction
     ) => {
         try {
-            const query: PaginationDto = req.validatedQuery || req.query;
+            const query: Pagination = req.validatedQuery || req.query;
             const result = await this.userService.findAllUsers(query);
             res.status(200).json(result);
         } catch (error) {
@@ -57,7 +57,7 @@ export class UsersController {
     ): Promise<void> => {
         try {
             const userId = req.params.id;
-            const userData: UpdateUserDto = req.body;
+            const userData: UpdateUser = req.body;
             const updatedUser = await this.userService.updateUser(
                 userId,
                 userData

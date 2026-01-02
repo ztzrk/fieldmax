@@ -2,10 +2,12 @@
 import { Router } from "express";
 import { AuthController } from "./auth.controller";
 import { validationMiddleware } from "../middleware/validation.middleware";
-import { RegisterUserDto } from "./dtos/register-user.dto";
-import { LoginUserDto } from "./dtos/login-user.dto";
-import { ForgotPasswordDto } from "./dtos/forgot-password.dto";
-import { ResetPasswordDto } from "./dtos/reset-password.dto";
+import {
+    registerUserSchema,
+    loginUserSchema,
+    forgotPasswordSchema,
+    resetPasswordSchema,
+} from "../schemas/auth.schema";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { authLimiter } from "../middleware/rateLimit.middleware";
 
@@ -22,14 +24,14 @@ export class AuthRoute {
         this.router.post(
             `${this.path}/register`,
             authLimiter,
-            validationMiddleware(RegisterUserDto),
+            validationMiddleware(registerUserSchema),
             this.authController.register
         );
 
         this.router.post(
             `${this.path}/login`,
             authLimiter,
-            validationMiddleware(LoginUserDto),
+            validationMiddleware(loginUserSchema),
             this.authController.login
         );
         this.router.post(`${this.path}/logout`, this.authController.logout);
@@ -54,14 +56,14 @@ export class AuthRoute {
         this.router.post(
             `${this.path}/forgot-password`,
             authLimiter,
-            validationMiddleware(ForgotPasswordDto),
+            validationMiddleware(forgotPasswordSchema),
             this.authController.forgotPassword
         );
 
         this.router.post(
             `${this.path}/reset-password`,
             authLimiter,
-            validationMiddleware(ResetPasswordDto),
+            validationMiddleware(resetPasswordSchema),
             this.authController.resetPassword
         );
     }

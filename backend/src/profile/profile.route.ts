@@ -1,8 +1,9 @@
+// src/profile/profile.route.ts
 import { Router } from "express";
 import { ProfileController } from "./profile.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
-import { UpdateProfileDto } from "./dtos/update-profile.dto";
+import { updateProfileSchema } from "../schemas/profile.schema";
 
 export class ProfileRoute {
     public path = "/profile";
@@ -17,7 +18,7 @@ export class ProfileRoute {
         this.router.patch(
             `${this.path}/me`,
             authMiddleware,
-            validationMiddleware(UpdateProfileDto, true),
+            validationMiddleware(updateProfileSchema),
             this.controller.updateProfile
         );
         this.router.get(

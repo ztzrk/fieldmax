@@ -4,15 +4,15 @@ import { authMiddleware } from "../middleware/auth.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import {
-    CreateFieldDto,
-    RejectFieldDto,
-    UpdateFieldDto,
-    ToggleFieldClosureDto,
-} from "./dtos/field.dto";
+    createFieldSchema,
+    rejectFieldSchema,
+    updateFieldSchema,
+    toggleFieldClosureSchema,
+    scheduleOverrideSchema,
+    getAvailabilitySchema,
+} from "../schemas/fields.schema";
 import { canManageField } from "../middleware/permission.middleware";
-import { ScheduleOverrideDto } from "./dtos/override.dto";
-import { GetAvailabilityDto } from "./dtos/availability.dtos";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { paginationSchema } from "../schemas/pagination.schema";
 import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware";
 
 export class FieldsRoute {
@@ -28,7 +28,7 @@ export class FieldsRoute {
         this.router.get(
             `${this.path}`,
             optionalAuthMiddleware,
-            validationMiddleware(PaginationDto, true, true),
+            validationMiddleware(paginationSchema, true),
             this.controller.getAll
         );
         this.router.get(`${this.path}/:id`, this.controller.getById);
@@ -36,14 +36,14 @@ export class FieldsRoute {
             `${this.path}`,
             authMiddleware,
             canManageField,
-            validationMiddleware(CreateFieldDto),
+            validationMiddleware(createFieldSchema),
             this.controller.create
         );
         this.router.put(
             `${this.path}/:id`,
             authMiddleware,
             canManageField,
-            validationMiddleware(UpdateFieldDto, true),
+            validationMiddleware(updateFieldSchema, true),
             this.controller.update
         );
         this.router.delete(
@@ -69,7 +69,7 @@ export class FieldsRoute {
             `${this.path}/:id/reject`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(RejectFieldDto),
+            validationMiddleware(rejectFieldSchema),
             this.controller.reject
         );
 
@@ -84,7 +84,7 @@ export class FieldsRoute {
             `${this.path}/:id/closure`,
             authMiddleware,
             canManageField,
-            validationMiddleware(ToggleFieldClosureDto),
+            validationMiddleware(toggleFieldClosureSchema),
             this.controller.toggleClosure
         );
 
@@ -99,7 +99,7 @@ export class FieldsRoute {
             `${this.path}/:fieldId/overrides`,
             authMiddleware,
             canManageField,
-            validationMiddleware(ScheduleOverrideDto),
+            validationMiddleware(scheduleOverrideSchema),
             this.controller.createOverride
         );
 
@@ -118,7 +118,7 @@ export class FieldsRoute {
         );
         this.router.get(
             `${this.path}/:fieldId/availability`,
-            validationMiddleware(GetAvailabilityDto, true, true),
+            validationMiddleware(getAvailabilitySchema, true),
             this.controller.getAvailability
         );
     }

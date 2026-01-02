@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ReviewsService } from "./reviews.service";
-import { CreateReviewDto } from "./dtos/create-review.dto";
+import { CreateReview } from "../schemas/reviews.schema";
 
 export class ReviewsController {
     private service = new ReviewsService();
@@ -8,7 +8,7 @@ export class ReviewsController {
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.user!.id;
-            const data: CreateReviewDto = req.body;
+            const data: CreateReview = req.body;
             const review = await this.service.create(userId, data);
             res.status(201).json({
                 message: "Review submitted successfully",

@@ -1,11 +1,14 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../db";
-import { PaginationDto } from "../dtos/pagination.dto";
-import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
+import { Pagination } from "../schemas/pagination.schema";
+import {
+    CreateSportType,
+    UpdateSportType,
+} from "../schemas/sport-types.schema";
 import { ConflictError, NotFoundError } from "../utils/errors";
 
 export class SportTypesService {
-    public async findAll(query: Partial<PaginationDto>) {
+    public async findAll(query: Partial<Pagination>) {
         const { page, limit, search } = query;
         const isPaginated = page !== undefined && limit !== undefined;
         const skip = isPaginated ? (page! - 1) * limit! : 0;
@@ -27,7 +30,10 @@ export class SportTypesService {
             ]);
 
             const totalPages = Math.ceil(total / limit!);
-            return { data: sportTypes, meta: { total, page, limit, totalPages } };
+            return {
+                data: sportTypes,
+                meta: { total, page, limit, totalPages },
+            };
         } else {
             const sportTypes = await prisma.sportType.findMany({
                 where: whereCondition,
@@ -42,7 +48,7 @@ export class SportTypesService {
         return sportType;
     }
 
-    public async create(data: CreateSportTypeDto) {
+    public async create(data: CreateSportType) {
         const findSportType = await prisma.sportType.findUnique({
             where: { name: data.name },
         });
@@ -53,7 +59,7 @@ export class SportTypesService {
         return newSportType;
     }
 
-    public async update(id: string, data: UpdateSportTypeDto) {
+    public async update(id: string, data: UpdateSportType) {
         const updatedSportType = await prisma.sportType.update({
             where: { id },
             data,

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BookingsService } from "./bookings.service";
-import { CreateBookingDto } from "./dtos/create-booking.dto";
+import { CreateBooking } from "../schemas/bookings.schema";
 
 export class BookingsController {
     public service = new BookingsService();
@@ -35,7 +35,7 @@ export class BookingsController {
 
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const bookingData: CreateBookingDto = req.body;
+            const bookingData: CreateBooking = req.body;
             const user = req.user!;
             const data = await this.service.createBooking(bookingData, user);
             res.status(201).json({

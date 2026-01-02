@@ -1,8 +1,8 @@
 import prisma from "../db";
-import { UpdateProfileDto } from "./dtos/update-profile.dto";
+import { UpdateProfile } from "../schemas/profile.schema";
 
 export class ProfileService {
-    public async updateProfile(userId: string, data: UpdateProfileDto) {
+    public async updateProfile(userId: string, data: UpdateProfile) {
         const { fullName, phoneNumber, ...profileData } = data;
 
         return prisma.$transaction(async (tx) => {

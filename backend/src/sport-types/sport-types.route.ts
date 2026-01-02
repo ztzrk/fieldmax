@@ -2,9 +2,12 @@ import { Router, Response, NextFunction, Request } from "express";
 import { SportTypesController } from "./sport-types.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
-import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
+import {
+    createSportTypeSchema,
+    updateSportTypeSchema,
+} from "../schemas/sport-types.schema";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { paginationSchema } from "../schemas/pagination.schema";
 
 export class SportTypesRoute {
     public path = "/sport-types";
@@ -18,7 +21,7 @@ export class SportTypesRoute {
     private initializeRoutes() {
         this.router.get(
             `${this.path}`,
-            validationMiddleware(PaginationDto, true, true),
+            validationMiddleware(paginationSchema, true),
             this.controller.getAll
         );
 
@@ -26,7 +29,7 @@ export class SportTypesRoute {
             `${this.path}`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(CreateSportTypeDto),
+            validationMiddleware(createSportTypeSchema),
             this.controller.create
         );
 
@@ -34,7 +37,7 @@ export class SportTypesRoute {
             `${this.path}/:id`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(UpdateSportTypeDto, true),
+            validationMiddleware(updateSportTypeSchema),
             this.controller.update
         );
 

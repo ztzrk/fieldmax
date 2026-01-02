@@ -1,18 +1,19 @@
+// src/venues/venues.route.ts
 import { Router } from "express";
 import { VenuesController } from "./venues.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import {
-    CreateVenueDto,
-    RejectVenueDto,
-    UpdateVenueDto,
-} from "./dtos/venue.dto";
+    createVenueSchema,
+    rejectVenueSchema,
+    updateVenueSchema,
+} from "../schemas/venues.schema";
 import {
     canManageVenue,
     isVenueOwner,
 } from "../middleware/permission.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { paginationSchema } from "../schemas/pagination.schema";
 
 export class VenuesRoute {
     public path = "/venues";
@@ -24,20 +25,14 @@ export class VenuesRoute {
     }
 
     private initializeRoutes() {
-        this.router.get(
-            `${this.path}/public`,
-            this.controller.getAll
-        );
+        this.router.get(`${this.path}/public`, this.controller.getAll);
 
-        this.router.get(
-            `${this.path}/public/:id`,
-            this.controller.getById
-        );
+        this.router.get(`${this.path}/public/:id`, this.controller.getById);
 
         this.router.get(
             `${this.path}`,
             authMiddleware,
-            validationMiddleware(PaginationDto, true, true),
+            validationMiddleware(paginationSchema, true),
             this.controller.getAll
         );
 
@@ -57,7 +52,7 @@ export class VenuesRoute {
             `${this.path}`,
             authMiddleware,
             canManageVenue,
-            validationMiddleware(CreateVenueDto),
+            validationMiddleware(createVenueSchema),
             this.controller.create
         );
 
@@ -65,7 +60,7 @@ export class VenuesRoute {
             `${this.path}/:id`,
             authMiddleware,
             canManageVenue,
-            validationMiddleware(UpdateVenueDto, true),
+            validationMiddleware(updateVenueSchema, true),
             this.controller.update
         );
 
@@ -94,7 +89,7 @@ export class VenuesRoute {
             `${this.path}/:id/reject`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(RejectVenueDto),
+            validationMiddleware(rejectVenueSchema),
             this.controller.reject
         );
 

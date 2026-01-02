@@ -1,14 +1,17 @@
 import { Prisma, User } from "@prisma/client";
 import imagekit from "../lib/imagekit";
 import prisma from "../db";
-import { CreateFieldDto, UpdateFieldDto } from "./dtos/field.dto";
-import { ScheduleOverrideDto } from "./dtos/override.dto";
-import { GetAvailabilityDto } from "./dtos/availability.dtos";
-import { PaginationDto } from "../dtos/pagination.dto";
+import {
+    CreateField,
+    UpdateField,
+    ScheduleOverride,
+    GetAvailability,
+} from "../schemas/fields.schema";
+import { Pagination } from "../schemas/pagination.schema";
 import { NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
-    public async findAll(query: PaginationDto) {
+    public async findAll(query: Pagination) {
         const {
             page = 1,
             limit = 10,
@@ -80,7 +83,7 @@ export class FieldsService {
         };
     }
 
-    public async findAllForRenter(renterId: string, query: PaginationDto) {
+    public async findAllForRenter(renterId: string, query: Pagination) {
         const { page = 1, limit = 10, search, sportTypeId } = query;
         const skip = (page - 1) * limit;
 
@@ -226,7 +229,7 @@ export class FieldsService {
         };
     }
 
-    public async create(data: CreateFieldDto, user: User) {
+    public async create(data: CreateField, user: User) {
         const venue = await prisma.venue.findUnique({
             where: { id: data.venueId },
         });
@@ -245,7 +248,7 @@ export class FieldsService {
         return prisma.field.create({ data: data });
     }
 
-    public async update(fieldId: string, data: UpdateFieldDto, user: User) {
+    public async update(fieldId: string, data: UpdateField, user: User) {
         const fieldToUpdate = await prisma.field.findUnique({
             where: { id: fieldId },
             select: { venue: { select: { renterId: true } } },
@@ -371,7 +374,7 @@ export class FieldsService {
         return overrides;
     }
 
-    public async createOverride(fieldId: string, data: ScheduleOverrideDto) {
+    public async createOverride(fieldId: string, data: ScheduleOverride) {
         const newOverride = await prisma.scheduleOverride.create({
             data: {
                 fieldId,
@@ -428,7 +431,7 @@ export class FieldsService {
         });
     }
 
-    public async getAvailability(fieldId: string, query: GetAvailabilityDto) {
+    public async getAvailability(fieldId: string, query: GetAvailability) {
         const field = await prisma.field.findUnique({
             where: { id: fieldId },
             select: { isClosed: true, venueId: true },

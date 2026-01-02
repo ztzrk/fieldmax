@@ -3,10 +3,10 @@ import { Router, Response, NextFunction, Request } from "express";
 import { UsersController } from "./users.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
-import { UpdateUserDto } from "./dtos/user.dto";
-import { RegisterUserDto } from "../auth/dtos/register-user.dto";
+import { updateUserSchema } from "../schemas/users.schema";
+import { registerUserSchema } from "../schemas/auth.schema";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { paginationSchema } from "../schemas/pagination.schema";
 
 export class UsersRoute {
     public path = "/users";
@@ -22,7 +22,7 @@ export class UsersRoute {
 
         this.router.post(
             `${this.path}`,
-            validationMiddleware(RegisterUserDto),
+            validationMiddleware(registerUserSchema),
             this.usersController.createUser
         );
 
@@ -30,7 +30,7 @@ export class UsersRoute {
             `${this.path}`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(PaginationDto, true, true),
+            validationMiddleware(paginationSchema, true),
             this.usersController.getUsers
         );
 
@@ -38,7 +38,7 @@ export class UsersRoute {
 
         this.router.put(
             `${this.path}/:id`,
-            validationMiddleware(UpdateUserDto),
+            validationMiddleware(updateUserSchema),
             this.usersController.updateUser
         );
 

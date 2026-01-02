@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../db";
-import { PaginationDto } from "../dtos/pagination.dto";
+import { Pagination } from "../schemas/pagination.schema";
 
 export class RenterService {
     public async findMyVenues(renterId: string) {
@@ -151,7 +151,7 @@ export class RenterService {
 
     public async findMyVenuesWithPagination(
         renterId: string,
-        query: PaginationDto
+        query: Pagination
     ) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
@@ -201,7 +201,7 @@ export class RenterService {
 
     public async findMyBookingsWithPagination(
         renterId: string,
-        query: PaginationDto
+        query: Pagination
     ) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;
@@ -250,7 +250,7 @@ export class RenterService {
 
     public async findMyFieldsWithPagination(
         renterId: string,
-        query: PaginationDto
+        query: Pagination
     ) {
         const { page = 1, limit = 10, search } = query;
         const skip = (page - 1) * limit;

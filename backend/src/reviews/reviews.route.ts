@@ -1,6 +1,9 @@
+// src/reviews/reviews.route.ts
 import { Router } from "express";
 import { ReviewsController } from "./reviews.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { validationMiddleware } from "../middleware/validation.middleware";
+import { createReviewSchema } from "../schemas/reviews.schema";
 
 export class ReviewsRoute {
     public path = "/reviews";
@@ -15,6 +18,7 @@ export class ReviewsRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
+            validationMiddleware(createReviewSchema),
             this.controller.create
         );
         this.router.get(

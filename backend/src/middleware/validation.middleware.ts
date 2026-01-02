@@ -1,42 +1,36 @@
 // src/middleware/validation.middleware.ts
 import { Request, Response, NextFunction, RequestHandler } from "express";
-import { plainToInstance } from "class-transformer";
-import {
-    validate,
-    ValidationError as ClassValidatorError,
-} from "class-validator";
+import { ZodSchema, ZodError } from "zod";
 import { ValidationError } from "../utils/errors";
 
 export const validationMiddleware = (
-    type: any,
-    skipMissingProperties = false,
+    schema: ZodSchema,
     validateQuery = false
 ): RequestHandler => {
     return async (req: Request, res: Response, next: NextFunction) => {
-        const source = validateQuery ? req.query : req.body;
-        const dto = plainToInstance(type, source);
+        try {
+            const source = validateQuery ? req.query : req.body;
+            const validatedData = await schema.parseAsync(source);
 
-        const errors = await validate(dto, { skipMissingProperties });
-
-        if (errors.length > 0) {
-            const details = errors.map((error: ClassValidatorError) => {
-                const constraints = error.constraints || {};
-                const firstConstraint =
-                    Object.values(constraints)[0] || "Invalid value";
-                return {
-                    field: error.property,
-                    message: firstConstraint,
-                };
-            });
-
-            next(new ValidationError("Validation failed", details));
-        } else {
             if (validateQuery) {
-                req.validatedQuery = dto;
+                // @ts-ignore: validatedQuery might not be defined in Request type yet
+                req.validatedQuery = validatedData;
             } else {
-                req.body = dto;
+                req.body = validatedData;
             }
             next();
+        } catch (error) {
+            if (error instanceof ZodError) {
+                const details = error.errors.map((err) => {
+                    return {
+                        field: err.path.join("."),
+                        message: err.message,
+                    };
+                });
+                next(new ValidationError("Validation failed", details));
+            } else {
+                next(error);
+            }
         }
     };
 };

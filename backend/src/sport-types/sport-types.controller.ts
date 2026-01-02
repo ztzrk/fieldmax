@@ -1,14 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { SportTypesService } from "./sport-types.service";
-import { CreateSportTypeDto, UpdateSportTypeDto } from "./dtos/sport-type.dto";
-import { PaginationDto } from "../dtos/pagination.dto";
+import {
+    CreateSportType,
+    UpdateSportType,
+} from "../schemas/sport-types.schema";
+import { Pagination } from "../schemas/pagination.schema";
 
 export class SportTypesController {
     public service = new SportTypesService();
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const query: PaginationDto = req.validatedQuery || req.query;
+            const query: Pagination = req.validatedQuery || req.query;
             const result = await this.service.findAll(query);
             res.status(200).json(result);
         } catch (error) {
@@ -18,7 +21,7 @@ export class SportTypesController {
 
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const sportTypeData: CreateSportTypeDto = req.body;
+            const sportTypeData: CreateSportType = req.body;
             const data = await this.service.create(sportTypeData);
             res.status(201).json({ data, message: "created" });
         } catch (error) {
@@ -29,7 +32,7 @@ export class SportTypesController {
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { id } = req.params;
-            const sportTypeData: UpdateSportTypeDto = req.body;
+            const sportTypeData: UpdateSportType = req.body;
             const data = await this.service.update(id, sportTypeData);
             res.status(200).json({ data, message: "updated" });
         } catch (error) {

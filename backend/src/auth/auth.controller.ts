@@ -1,8 +1,12 @@
 // src/auth/auth.controller.ts
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "./auth.service";
-import { RegisterUserDto } from "./dtos/register-user.dto";
-import { LoginUserDto } from "./dtos/login-user.dto";
+import {
+    RegisterUser,
+    LoginUser,
+    ForgotPassword,
+    ResetPassword,
+} from "../schemas/auth.schema";
 
 export class AuthController {
     public authService = new AuthService();
@@ -13,7 +17,7 @@ export class AuthController {
         next: NextFunction
     ): Promise<void> => {
         try {
-            const userData: RegisterUserDto = req.body;
+            const userData: RegisterUser = req.body;
             const newUser = await this.authService.register(userData);
 
             res.status(201).json({
@@ -31,7 +35,7 @@ export class AuthController {
         next: NextFunction
     ): Promise<void> => {
         try {
-            const userData: LoginUserDto = req.body;
+            const userData: LoginUser = req.body;
             const { sessionId, user } = await this.authService.login(userData);
 
             const expiresIn = 24 * 60 * 60;
