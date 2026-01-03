@@ -7,52 +7,64 @@ import { Zap, Shield, Users } from "lucide-react";
  */
 export function ValueProposition() {
     return (
-        <section className="w-full py-16 bg-muted/30">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-tight mb-4">
+        <section className="w-full py-24 bg-background relative overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl opacity-50 pointer-events-none">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+            </div>
+
+            <div className="container relative z-10 mx-auto px-4 md:px-6">
+                <div className="text-center mb-16 space-y-4">
+                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
                         Why Book with FieldMax
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        We make sports booking seamless, secure, and simple.
+                        We make sports booking seamless, secure, and simple so
+                        you can focus on the game.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <div className="flex flex-col items-center text-center p-6 bg-background rounded-xl shadow-sm border">
-                        <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary">
-                            <Zap className="h-6 w-6" />
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    {[
+                        {
+                            icon: Zap,
+                            title: "Instant Booking",
+                            desc: "Real-time availability and immediate confirmation. No more phone calls or waiting.",
+                            color: "text-amber-500",
+                            bg: "bg-amber-500/10",
+                        },
+                        {
+                            icon: Shield,
+                            title: "Secure Payments",
+                            desc: "Your transactions are protected with top-tier security standards and encryption.",
+                            color: "text-blue-500",
+                            bg: "bg-blue-500/10",
+                        },
+                        {
+                            icon: Users,
+                            title: "Trusted Community",
+                            desc: "Join thousands of active players and verified venue owners across the country.",
+                            color: "text-emerald-500",
+                            bg: "bg-emerald-500/10",
+                        },
+                    ].map((feature, i) => (
+                        <div
+                            key={i}
+                            className="group flex flex-col items-center text-center p-8 bg-card hover:bg-card/50 rounded-2xl border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                        >
+                            <div
+                                className={`h-16 w-16 ${feature.bg} rounded-2xl flex items-center justify-center mb-6 ${feature.color} group-hover:scale-110 transition-transform duration-300`}
+                            >
+                                <feature.icon className="h-8 w-8" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-3">
+                                {feature.title}
+                            </h3>
+                            <p className="text-muted-foreground leading-relaxed">
+                                {feature.desc}
+                            </p>
                         </div>
-                        <h3 className="text-xl font-semibold mb-2">
-                            Instant Booking
-                        </h3>
-                        <p className="text-muted-foreground">
-                            Real-time availability and immediate confirmation.
-                            No more phone calls.
-                        </p>
-                    </div>
-                    <div className="flex flex-col items-center text-center p-6 bg-background rounded-xl shadow-sm border">
-                        <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary">
-                            <Shield className="h-6 w-6" />
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">
-                            Secure Payments
-                        </h3>
-                        <p className="text-muted-foreground">
-                            Your transactions are protected with top-tier
-                            security standards.
-                        </p>
-                    </div>
-                    <div className="flex flex-col items-center text-center p-6 bg-background rounded-xl shadow-sm border">
-                        <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary">
-                            <Users className="h-6 w-6" />
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">
-                            Trusted Community
-                        </h3>
-                        <p className="text-muted-foreground">
-                            Join thousands of players and trusted venue owners.
-                        </p>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>

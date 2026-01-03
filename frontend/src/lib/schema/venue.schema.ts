@@ -67,6 +67,7 @@ export const venueResponseSchema = z.object({
             fields: z.number().int(),
         })
         .optional(),
+    bookingCount: z.number().optional(),
 });
 
 const fieldNestedResponseSchema = z.object({
@@ -127,8 +128,8 @@ export const venuePublicSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     address: z.string().optional(),
-    city: z.string().optional(),
-    district: z.string().optional(),
+    city: z.string().nullable().optional(),
+    district: z.string().nullable().optional(),
     description: z.string().nullable().optional(),
     renter: z.object({
         fullName: z.string(),
@@ -140,6 +141,7 @@ export const venuePublicSchema = z.object({
             fields: z.number().int(),
         })
         .optional(),
+    bookingCount: z.number().optional(),
 });
 
 export type VenuePublicSchema = z.infer<typeof venuePublicSchema>;

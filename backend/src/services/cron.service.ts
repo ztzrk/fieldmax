@@ -3,8 +3,8 @@ import prisma from "../db";
 
 export class CronService {
     public static init() {
-        // Run every minute
-        cron.schedule("* * * * *", async () => {
+        // Run every hour
+        cron.schedule("0 * * * *", async () => {
             console.log("Running booking completion check...");
             try {
                 const now = new Date();

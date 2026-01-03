@@ -24,15 +24,22 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
     if (!venues || venues.length === 0) return null;
 
     return (
-        <section className="w-full py-12 bg-muted/20">
+        <section className="w-full py-24 bg-muted/30">
             <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
-                <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Popular Venues
-                    </h2>
+                <div className="flex items-center justify-between mb-12">
+                    <div className="space-y-1">
+                        <h2 className="text-3xl font-bold tracking-tight">
+                            Most Booked Venues
+                        </h2>
+                        <p className="text-muted-foreground">
+                            Popular venues with a track record of great
+                            experiences.
+                        </p>
+                    </div>
                     <Link href="/venues">
-                        <Button variant="ghost" className="gap-1">
-                            See All <ArrowRight className="h-4 w-4" />
+                        <Button variant="ghost" className="gap-2 group">
+                            See All{" "}
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </Link>
                 </div>
@@ -51,7 +58,16 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
                                     key={venue.id}
                                     className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5 2xl:basis-1/6"
                                 >
-                                    <VenueCard venue={venue} />
+                                    <div className="relative h-full">
+                                        <VenueCard venue={venue} />
+                                        {venue.bookingCount !== undefined &&
+                                            venue.bookingCount > 0 && (
+                                                <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm z-10">
+                                                    {venue.bookingCount}{" "}
+                                                    Bookings
+                                                </div>
+                                            )}
+                                    </div>
                                 </CarouselItem>
                             ))}
                         </CarouselContent>

@@ -71,9 +71,27 @@ export class FieldsService {
             }),
             await prisma.field.count({ where: whereCondition }),
         ];
+        const fieldIds = fields.map((f) => f.id);
+
+        const aggregations = await prisma.review.groupBy({
+            by: ["fieldId"],
+            _avg: { rating: true },
+            _count: { rating: true },
+            where: { fieldId: { in: fieldIds } },
+        });
+
+        const fieldsWithRating = fields.map((field) => {
+            const stats = aggregations.find((a) => a.fieldId === field.id);
+            return {
+                ...field,
+                rating: stats?._avg?.rating || 0,
+                reviewCount: stats?._count?.rating || 0,
+            };
+        });
+
         const totalPages = Math.ceil(total / limit);
         return {
-            data: fields,
+            data: fieldsWithRating,
             meta: {
                 total,
                 page,

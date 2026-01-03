@@ -41,6 +41,8 @@ export const fieldResponseSchema = z.object({
         postalCode: z.string().optional(),
     }),
     photos: z.array(z.object({ url: z.string() })).optional(),
+    rating: z.number().optional(),
+    reviewCount: z.number().optional(),
 });
 
 export type FieldResponseSchema = z.infer<typeof fieldResponseSchema>;

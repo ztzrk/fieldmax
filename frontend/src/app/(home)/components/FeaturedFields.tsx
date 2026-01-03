@@ -24,15 +24,22 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
     if (!fields || fields.length === 0) return null;
 
     return (
-        <section className="w-full py-12 bg-background">
+        <section className="w-full py-24 bg-background">
             <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
-                <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Featured Fields
-                    </h2>
+                <div className="flex items-center justify-between mb-12">
+                    <div className="space-y-1">
+                        <h2 className="text-3xl font-bold tracking-tight">
+                            Top Rated Fields
+                        </h2>
+                        <p className="text-muted-foreground">
+                            Book the highest-rated pitches recommended by
+                            players like you.
+                        </p>
+                    </div>
                     <Link href="/fields">
-                        <Button variant="ghost" className="gap-1">
-                            See All <ArrowRight className="h-4 w-4" />
+                        <Button variant="ghost" className="gap-2 group">
+                            See All{" "}
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </Link>
                 </div>
