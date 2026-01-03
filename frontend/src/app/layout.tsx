@@ -21,8 +21,8 @@ export const metadata: Metadata = {
 
 /**
  * RootLayout Component
- * 
- * Global application layout. Sets up providers (Theme, Auth, Query), 
+ *
+ * Global application layout. Sets up providers (Theme, Auth, Query),
  * fonts, and global UI elements like Navbar, Footer, and Toaster.
  */
 export default function RootLayout({

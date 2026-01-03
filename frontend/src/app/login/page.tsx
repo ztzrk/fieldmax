@@ -6,9 +6,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLogin } from "@/hooks/auth.hooks";
 import { LoginFormSchema, loginFormSchema } from "@/lib/schema/auth.schema";
+import { AuthLayout } from "@/components/auth/AuthLayout";
 
 /**
  * LoginPage Component
@@ -29,60 +29,62 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen relative">
-            <Card className="w-[350px]">
-                <CardHeader>
-                    <CardTitle>Login ke FIELDMAX</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8"
-                        >
-                            <InputField
-                                control={form.control}
-                                name="email"
-                                label="Email"
-                                placeholder="admin@fieldmax.com"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="password"
-                                label="Password"
-                                placeholder="••••••••"
-                                type="password"
-                                required
-                            />
-                            <Button
-                                type="submit"
-                                className="w-full"
-                                disabled={isPending}
-                            >
-                                {isPending ? "Processing..." : "Login"}
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>
-                <div className="p-6 pt-0 flex flex-col items-center gap-4">
-                    <div className="text-sm text-muted-foreground">
-                        Don't have an account?{" "}
-                        <Link
-                            href="/register"
-                            className="text-primary hover:underline font-medium"
-                        >
-                            Register
-                        </Link>
-                    </div>
-                    <Link
-                        href="/"
-                        className="text-sm text-muted-foreground hover:underline"
+        <AuthLayout
+            title="Welcome back"
+            description="Enter your email to sign in to your account"
+            quote="Talent wins games, but teamwork and intelligence win championships."
+            author="Michael Jordan"
+            imageSrc="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop"
+        >
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6"
+                >
+                    <InputField
+                        control={form.control}
+                        name="email"
+                        label="Email"
+                        placeholder="name@example.com"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="password"
+                        label="Password"
+                        placeholder="••••••••"
+                        type="password"
+                        required
+                    />
+                    <Button
+                        type="submit"
+                        className="w-full h-11"
+                        disabled={isPending}
                     >
-                        Back to Home
-                    </Link>
+                        {isPending ? "Signing in..." : "Sign In with Email"}
+                    </Button>
+                </form>
+            </Form>
+
+            <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
                 </div>
-            </Card>
-        </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                        Or continue with
+                    </span>
+                </div>
+            </div>
+
+            <p className="px-8 text-center text-sm text-muted-foreground">
+                <Link
+                    href="/register"
+                    className="hover:text-brand underline underline-offset-4"
+                >
+                    Don&apos;t have an account? Sign Up
+                </Link>
+            </p>
+        </AuthLayout>
     );
 }

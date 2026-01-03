@@ -6,18 +6,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-} from "@/components/ui/card";
 import { useRegister } from "@/hooks/auth.hooks";
 import {
     RegisterFormSchema,
     registerFormSchema,
 } from "@/lib/schema/auth.schema";
+import { AuthLayout } from "@/components/auth/AuthLayout";
 
 export default function RenterRegisterPage() {
     const { mutate: register, isPending } = useRegister();
@@ -38,92 +32,78 @@ export default function RenterRegisterPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen relative bg-muted/20">
-            <Card className="w-[400px] border-primary/20 shadow-md">
-                <CardHeader className="bg-primary/5 rounded-t-lg">
-                    <CardTitle className="text-primary">
-                        Partner with FieldMax
-                    </CardTitle>
-                    <CardDescription>
-                        Create a Venue Owner account to manage your fields and
-                        bookings.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-6">
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-4"
-                        >
-                            <InputField
-                                control={form.control}
-                                name="fullName"
-                                label="Full Name / Business Name"
-                                placeholder="Venue Owner Name"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="email"
-                                label="Business Email"
-                                placeholder="owner@venue.com"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="password"
-                                label="Password"
-                                placeholder="••••••••"
-                                type="password"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="confirmPassword"
-                                label="Confirm Password"
-                                placeholder="••••••••"
-                                type="password"
-                                required
-                            />
-                            <Button
-                                type="submit"
-                                className="w-full mt-4"
-                                disabled={isPending}
-                            >
-                                {isPending
-                                    ? "Creating Account..."
-                                    : "Register as Venue Owner"}
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>
-                <div className="p-6 pt-0 flex flex-col items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                        Already have an account?{" "}
-                        <Link
-                            href="/login"
-                            className="text-primary hover:underline"
-                        >
-                            Log in
-                        </Link>
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                        Not a venue owner?{" "}
-                        <Link
-                            href="/register"
-                            className="text-primary hover:underline"
-                        >
-                            Register as Player
-                        </Link>
-                    </span>
-                    <Link
-                        href="/"
-                        className="text-sm text-muted-foreground hover:underline mt-2"
+        <AuthLayout
+            title="Partner with FieldMax"
+            description="Create a Venue Owner account to manage your fields and bookings."
+            imageSrc="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop"
+            quote="Great things in business are never done by one person."
+            author="Steve Jobs"
+        >
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4"
+                >
+                    <InputField
+                        control={form.control}
+                        name="fullName"
+                        label="Full Name / Business Name"
+                        placeholder="Venue Owner Name"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="email"
+                        label="Business Email"
+                        placeholder="owner@venue.com"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="password"
+                        label="Password"
+                        placeholder="••••••••"
+                        type="password"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        placeholder="••••••••"
+                        type="password"
+                        required
+                    />
+                    <Button
+                        type="submit"
+                        className="w-full h-11 mt-4"
+                        disabled={isPending}
                     >
-                        Back to Home
-                    </Link>
-                </div>
-            </Card>
-        </div>
+                        {isPending
+                            ? "Creating Account..."
+                            : "Register as Venue Owner"}
+                    </Button>
+                </form>
+            </Form>
+
+            <p className="px-8 text-center text-sm text-muted-foreground mt-4">
+                <Link
+                    href="/login"
+                    className="hover:text-brand underline underline-offset-4"
+                >
+                    Already have an account? Log in
+                </Link>
+            </p>
+
+            <div className="text-center text-xs text-muted-foreground mt-4">
+                Not a venue owner?{" "}
+                <Link
+                    href="/register"
+                    className="hover:text-primary font-medium underline underline-offset-4"
+                >
+                    Register as Player
+                </Link>
+            </div>
+        </AuthLayout>
     );
 }

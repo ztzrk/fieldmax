@@ -2,23 +2,16 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-} from "@/components/ui/card";
 import { useRegister } from "@/hooks/auth.hooks";
 import {
     registerFormSchema,
     RegisterFormSchema,
 } from "@/lib/schema/auth.schema";
+import { AuthLayout } from "@/components/auth/AuthLayout";
 
 /**
  * UserRegisterPage Component
@@ -45,87 +38,76 @@ export default function UserRegisterPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen relative bg-muted/20">
-            <Card className="w-[400px]">
-                <CardHeader>
-                    <CardTitle>Create an Account</CardTitle>
-                    <CardDescription>
-                        Join FieldMax to book your favorite sports venues.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-4"
-                        >
-                            <InputField
-                                control={form.control}
-                                name="fullName"
-                                label="Full Name"
-                                placeholder="John Doe"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="email"
-                                label="Email"
-                                placeholder="john@example.com"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="password"
-                                label="Password"
-                                placeholder="••••••••"
-                                type="password"
-                                required
-                            />
-                            <InputField
-                                control={form.control}
-                                name="confirmPassword"
-                                label="Confirm Password"
-                                placeholder="••••••••"
-                                type="password"
-                                required
-                            />
-                            <Button
-                                type="submit"
-                                className="w-full mt-4"
-                                disabled={isPending}
-                            >
-                                {isPending ? "Creating Account..." : "Register"}
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>
-                <div className="p-6 pt-0 flex flex-col items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                        Already have an account?{" "}
-                        <Link
-                            href="/login"
-                            className="text-primary hover:underline"
-                        >
-                            Log in
-                        </Link>
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                        Want to list your venue?{" "}
-                        <Link
-                            href="/register/renter"
-                            className="text-primary hover:underline"
-                        >
-                            Register as Venue Owner
-                        </Link>
-                    </span>
-                    <Link
-                        href="/"
-                        className="text-sm text-muted-foreground hover:underline mt-2"
+        <AuthLayout
+            title="Create an account"
+            description="Enter your details to get started"
+            quote="You miss 100% of the shots you don't take."
+            author="Wayne Gretzky"
+            imageSrc="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop"
+        >
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4"
+                >
+                    <InputField
+                        control={form.control}
+                        name="fullName"
+                        label="Full Name"
+                        placeholder="John Doe"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="email"
+                        label="Email"
+                        placeholder="name@example.com"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="password"
+                        label="Password"
+                        placeholder="••••••••"
+                        type="password"
+                        required
+                    />
+                    <InputField
+                        control={form.control}
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        placeholder="••••••••"
+                        type="password"
+                        required
+                    />
+                    <Button
+                        type="submit"
+                        className="w-full h-11 mt-2"
+                        disabled={isPending}
                     >
-                        Back to Home
-                    </Link>
-                </div>
-            </Card>
-        </div>
+                        {isPending ? "Creating Account..." : "Create Account"}
+                    </Button>
+                </form>
+            </Form>
+
+            <p className="px-8 text-center text-sm text-muted-foreground">
+                <Link
+                    href="/login"
+                    className="hover:text-brand underline underline-offset-4"
+                >
+                    Already have an account? Sign In
+                </Link>
+            </p>
+
+            <div className="text-center text-xs text-muted-foreground mt-4">
+                Own a sports venue?{" "}
+                <Link
+                    href="/register/renter"
+                    className="hover:text-primary font-medium underline underline-offset-4"
+                >
+                    Register as Partner
+                </Link>
+            </div>
+        </AuthLayout>
     );
 }
