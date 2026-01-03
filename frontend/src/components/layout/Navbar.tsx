@@ -29,7 +29,7 @@ export function Navbar() {
                         className="flex gap-2 items-center font-bold text-xl"
                     >
                         {!isHome && <ArrowLeft className="h-5 w-5 md:hidden" />}
-                        <div className="relative h-10 w-10">
+                        <div className="relative h-20 w-20">
                             <Image
                                 src="/logo.svg"
                                 alt="FieldMax Logo"
@@ -37,7 +37,6 @@ export function Navbar() {
                                 className="object-contain"
                             />
                         </div>
-                        <span>FieldMax</span>
                     </Link>
                     <nav className="hidden md:flex items-center gap-6">
                         <Link

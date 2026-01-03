@@ -8,7 +8,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 interface Photo {
     id?: string;
@@ -38,6 +38,7 @@ export function MediaCarousel({
 }: MediaCarouselProps) {
     const hasPhotos = photos && photos.length > 0;
     const hasMultiplePhotos = photos && photos.length > 1;
+    const [isError, setIsError] = useState(false);
 
     return (
         <div
@@ -51,11 +52,22 @@ export function MediaCarousel({
                         {photos.map((photo, index) => (
                             <CarouselItem key={photo.id || index}>
                                 <div className="aspect-video w-full relative">
-                                    <img
-                                        src={photo.url}
-                                        alt={alt}
-                                        className="absolute inset-0 w-full h-full object-cover"
-                                    />
+                                    {isError ? (
+                                        <ImagePlaceholder
+                                            variant="pattern"
+                                            icon={placeholderIcon}
+                                            className="h-full w-full"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={photo.url}
+                                            alt={alt}
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                            onError={(e) => {
+                                                setIsError(true);
+                                            }}
+                                        />
+                                    )}
                                     {showGradient && (
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                     )}

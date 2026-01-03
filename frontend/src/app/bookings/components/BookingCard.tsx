@@ -40,7 +40,7 @@ export function BookingCard({ booking, onReview, isPast }: BookingCardProps) {
     };
 
     return (
-        <Card className="group overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+        <Card className="group overflow-hidden py-0 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
             <div className="flex flex-col sm:flex-row">
                 {/* Left Side: Date & Time Highlight */}
                 <div className="sm:w-32 bg-muted/30 border-b sm:border-b-0 sm:border-r flex sm:flex-col items-center justify-center p-4 gap-2 sm:gap-1 text-center group-hover:bg-primary/5 transition-colors">

@@ -24,6 +24,14 @@ import { formatPrice } from "@/lib/utils";
 import { FullScreenLoader } from "../FullScreenLoader";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
+import { Calendar } from "@/components/ui/calendar";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface BookingModalProps {
     fieldId: string;
@@ -156,162 +164,234 @@ export function BookingModal({
     return (
         <Dialog open={actualIsOpen} onOpenChange={handleOpenChange}>
             {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Book {fieldName}</DialogTitle>
-                    <DialogDescription>
-                        Select date and time for your booking at {venueName}.
-                    </DialogDescription>
-                </DialogHeader>
+            <DialogContent className="sm:max-w-[500px] p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-xl transition-all duration-300 border-none shadow-2xl">
+                {/* Header */}
+                <div className="p-6 border-b border-border/10 bg-muted/20">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-light tracking-tight">
+                            Book{" "}
+                            <span className="font-semibold text-primary">
+                                {fieldName}
+                            </span>
+                        </DialogTitle>
+                        <DialogDescription className="text-muted-foreground/80">
+                            {venueName}
+                        </DialogDescription>
+                    </DialogHeader>
+                </div>
 
-                <div className="grid gap-4 py-4">
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">
-                            Select Date
-                        </label>
-                        <input
-                            type="date"
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            value={selectedDate}
-                            min={new Date().toISOString().split("T")[0]}
-                            onChange={(e) => {
-                                setSelectedDate(e.target.value);
-                                setSelectedTime(null);
-                            }}
-                        />
+                <div className="p-6 space-y-8">
+                    {/* Controls Row */}
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
+                                Date
+                            </label>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full h-11 justify-start text-left font-normal rounded-xl border-border/50 bg-background/50 hover:bg-muted/30",
+                                            !selectedDate &&
+                                                "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {selectedDate ? (
+                                            format(
+                                                new Date(selectedDate),
+                                                "PPP"
+                                            )
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                >
+                                    <Calendar
+                                        mode="single"
+                                        selected={
+                                            selectedDate
+                                                ? new Date(selectedDate)
+                                                : undefined
+                                        }
+                                        onSelect={(date) => {
+                                            if (date) {
+                                                setSelectedDate(
+                                                    format(date, "yyyy-MM-dd")
+                                                );
+                                                setSelectedTime(null);
+                                            }
+                                        }}
+                                        disabled={(date) =>
+                                            date <
+                                            new Date(
+                                                new Date().setHours(0, 0, 0, 0)
+                                            )
+                                        }
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
+                                Duration
+                            </label>
+                            <Select
+                                value={duration.toString()}
+                                onValueChange={(val) =>
+                                    setDuration(parseInt(val))
+                                }
+                            >
+                                <SelectTrigger className="h-11 rounded-xl border-border/50 bg-background/50 hover:bg-muted/30 transition-all">
+                                    <SelectValue placeholder="Duration" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {Array.from(
+                                        { length: maxDuration },
+                                        (_, i) => i + 1
+                                    ).map((h) => (
+                                        <SelectItem
+                                            key={h}
+                                            value={h.toString()}
+                                        >
+                                            {h} Hour{h > 1 ? "s" : ""}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
 
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">
-                            Duration (Hours)
+                    {/* Time Selection */}
+                    <div className="space-y-3">
+                        <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground flex justify-between">
+                            <span>Available Slots</span>
+                            {selectedTime && (
+                                <span className="text-primary font-bold">
+                                    {selectedTime}
+                                </span>
+                            )}
                         </label>
-                        <Select
-                            value={duration.toString()}
-                            onValueChange={(val) => setDuration(parseInt(val))}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select duration" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {Array.from(
-                                    { length: maxDuration },
-                                    (_, i) => i + 1
-                                ).map((h) => (
-                                    <SelectItem key={h} value={h.toString()}>
-                                        {h} Hour{h > 1 ? "s" : ""}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
 
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">
-                            Available Start Time
-                        </label>
                         {isAvailabilityLoading ? (
-                            <FullScreenLoader />
+                            <div className="h-32 flex items-center justify-center border rounded-xl border-dashed">
+                                <FullScreenLoader />
+                            </div>
                         ) : availability && availability.length > 0 ? (
-                            <div className="grid grid-cols-3 gap-2 max-h-[200px] overflow-y-auto pr-2">
+                            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[200px] overflow-y-auto p-1 custom-scrollbar">
                                 {availability
                                     .filter((startTime: string) => {
                                         const startHour = parseInt(
                                             startTime.split(":")[0]
                                         );
-
-                                        // 2-hour buffer logic for "Today"
+                                        // 2-hour buffer for today
                                         const now = new Date();
                                         const isToday =
                                             selectedDate ===
                                             now.toISOString().split("T")[0];
-                                        if (isToday) {
-                                            const currentHour = now.getHours();
-                                            if (startHour < currentHour + 2) {
-                                                return false;
-                                            }
-                                        }
+                                        if (
+                                            isToday &&
+                                            startHour < now.getHours() + 2
+                                        )
+                                            return false;
 
+                                        // Consecutive slots check
                                         for (let i = 0; i < duration; i++) {
-                                            const checkHour = startHour + i;
-                                            const checkTime = `${checkHour
+                                            const checkTime = `${(startHour + i)
                                                 .toString()
                                                 .padStart(2, "0")}:00`;
                                             if (
                                                 !availability.includes(
                                                     checkTime
                                                 )
-                                            ) {
+                                            )
                                                 return false;
-                                            }
                                         }
                                         return true;
                                     })
                                     .map((time: string) => (
-                                        <Button
+                                        <button
                                             key={time}
-                                            variant={
-                                                selectedTime === time
-                                                    ? "default"
-                                                    : "outline"
-                                            }
-                                            size="sm"
-                                            className="text-xs"
                                             onClick={() =>
                                                 setSelectedTime(time)
                                             }
+                                            className={`
+                                                relative group flex items-center justify-center py-2.5 text-sm rounded-lg transition-all duration-200 border
+                                                ${
+                                                    selectedTime === time
+                                                        ? "bg-primary text-primary-foreground border-primary shadow-md scale-105 font-medium"
+                                                        : "bg-background hover:bg-muted border-border/40 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+                                                }
+                                            `}
                                         >
-                                            <Clock className="mr-1 h-3 w-3" />
                                             {time}
-                                        </Button>
+                                        </button>
                                     ))}
                             </div>
                         ) : (
-                            <p className="text-sm text-muted-foreground text-center py-4">
-                                No available slots for this date.
-                            </p>
+                            <div className="flex flex-col items-center justify-center p-8 border border-dashed rounded-xl text-muted-foreground/50 bg-muted/5">
+                                <Clock className="h-8 w-8 mb-2 opacity-20" />
+                                <p className="text-sm">No slots available</p>
+                            </div>
                         )}
                     </div>
 
-                    {selectedTime && (
-                        <div className="p-4 bg-muted/50 rounded-lg space-y-2 border">
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">
-                                    Price per hour
-                                </span>
-                                <span>{formatPrice(pricePerHour)}</span>
+                    {/* Summary & Action */}
+                    <div className="space-y-6 pt-2">
+                        {selectedTime ? (
+                            <div className="flex items-end justify-between p-4 bg-muted/20 border border-primary/10 rounded-2xl relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none" />
+                                <div className="space-y-1 relative">
+                                    <p className="text-xs text-muted-foreground uppercase tracking-wide">
+                                        Total
+                                    </p>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-3xl font-bold text-foreground tracking-tight">
+                                            {formatPrice(totalPrice)}
+                                        </span>
+                                        <span className="text-sm text-muted-foreground/80 font-medium">
+                                            / {duration}h
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="text-right relative">
+                                    <p className="text-xs text-muted-foreground mb-1">
+                                        {pricePerHour.toLocaleString()} / hr
+                                    </p>
+                                </div>
                             </div>
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">
-                                    Duration
-                                </span>
-                                <span>
-                                    {duration} Hour{duration > 1 ? "s" : ""}
-                                </span>
+                        ) : (
+                            <div className="h-[88px] flex items-center justify-center text-muted-foreground/40 text-sm italic">
+                                Select a time to calculate price
                             </div>
-                            <div className="border-t pt-2 mt-2 flex justify-between items-center font-bold">
-                                <span>Total Price</span>
-                                <span className="text-primary text-lg">
-                                    {formatPrice(totalPrice)}
-                                </span>
-                            </div>
-                        </div>
-                    )}
-                </div>
+                        )}
 
-                <div className="flex justify-end gap-3 mt-4">
-                    <Button
-                        variant="outline"
-                        onClick={() => handleOpenChange(false)}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        disabled={!selectedTime || isCreatingBooking}
-                        onClick={handleBooking}
-                    >
-                        {isCreatingBooking && <FullScreenLoader />}
-                        Confirm Booking
-                    </Button>
+                        <div className="grid grid-cols-2 gap-3">
+                            <Button
+                                variant="ghost"
+                                onClick={() => handleOpenChange(false)}
+                                className="h-12 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                disabled={!selectedTime || isCreatingBooking}
+                                onClick={handleBooking}
+                                className="h-12 rounded-xl text-base font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all"
+                            >
+                                {isCreatingBooking
+                                    ? "Processing..."
+                                    : "Confirm Booking"}
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>

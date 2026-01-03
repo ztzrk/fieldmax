@@ -35,8 +35,8 @@ export function Footer() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-2 font-bold text-xl text-white">
-                            <div className="relative h-10 w-10">
+                        <div className="flex items-center justify-center gap-2 font-bold text-xl text-white">
+                            <div className="relative h-24 w-24">
                                 <Image
                                     src="/logo.svg"
                                     alt="FieldMax Logo"
@@ -44,7 +44,6 @@ export function Footer() {
                                     className="object-contain"
                                 />
                             </div>
-                            <span>FieldMax</span>
                         </div>
                         <p className="text-sm text-slate-400">
                             The easiest way to find and book sports venues. Play
