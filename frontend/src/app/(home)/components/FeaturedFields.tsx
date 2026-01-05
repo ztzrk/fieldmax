@@ -58,7 +58,9 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                                     key={field.id}
                                     className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5 2xl:basis-1/6"
                                 >
-                                    <FieldCard field={field} />
+                                    <div className="h-full transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl rounded-xl">
+                                        <FieldCard field={field} />
+                                    </div>
                                 </CarouselItem>
                             ))}
                         </CarouselContent>

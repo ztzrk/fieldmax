@@ -9,4 +9,8 @@ export const DashboardService = {
         const response = await api.get("/dashboard/renter-stats");
         return response.data;
     },
+    async getChartData(range: string) {
+        const response = await api.get(`/dashboard/chart-data?range=${range}`);
+        return response.data;
+    },
 };

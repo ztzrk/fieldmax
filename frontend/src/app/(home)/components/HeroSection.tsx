@@ -32,24 +32,25 @@ export function HeroSection({ sportTypes, suggestions }: HeroSectionProps) {
         <section className="relative w-full py-20 md:py-32 lg:py-48 overflow-hidden">
             {/* Background enhancement */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background" />
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] opacity-30 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px] opacity-30 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-600 to-amber-600 opacity-95" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-black/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
             </div>
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center space-y-8 text-center animate-in fade-in slide-in-from-bottom-8 duration-700">
                     <div className="space-y-4 max-w-3xl">
-                        <div className="inline-block px-3 py-1 mb-2 text-sm font-medium text-primary bg-primary/10 rounded-full">
-                            #1 Sports Booking Platform
+                        <div className="inline-block px-4 py-1.5 mb-2 text-sm font-semibold tracking-wide text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-lg">
+                            ✨ #1 Sports Booking Platform
                         </div>
-                        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                        <h1 className="text-4xl font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white drop-shadow-sm">
                             Find Your Perfect{" "}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-600">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400">
                                 Field
                             </span>
                         </h1>
-                        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl lg:text-2xl leading-relaxed">
+                        <p className="mx-auto max-w-[700px] text-blue-50 md:text-xl lg:text-2xl leading-relaxed font-medium">
                             Discover top-rated venues, check real-time
                             availability, and book your next game in seconds.
                         </p>

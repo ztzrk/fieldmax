@@ -79,9 +79,9 @@ export function StatisticsBanner({
     playerCount = 0,
 }: StatisticsBannerProps) {
     return (
-        <section className="w-full py-20 bg-primary relative overflow-hidden">
+        <section className="w-full py-20 bg-gradient-to-r from-primary to-orange-700 relative overflow-hidden text-white shadow-2xl">
             {/* Pattern overlay */}
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 text-center divide-y sm:divide-y-0 sm:divide-x divide-primary-foreground/20">

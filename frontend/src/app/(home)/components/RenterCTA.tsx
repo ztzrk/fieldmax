@@ -10,11 +10,11 @@ export function RenterCTA() {
     return (
         <section className="w-full py-24 bg-background px-4 md:px-6">
             <div className="container mx-auto max-w-5xl">
-                <div className="relative rounded-3xl overflow-hidden bg-slate-900 shadow-2xl">
+                <div className="relative rounded-3xl overflow-hidden bg-primary shadow-2xl">
                     {/* Background effects */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950" />
-                    <div className="absolute -top-24 -left-24 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px]" />
-                    <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-rose-500/20 rounded-full blur-[80px]" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-700 to-amber-800" />
+                    <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-full blur-[80px]" />
+                    <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-black/20 rounded-full blur-[80px]" />
 
                     <div className="relative z-10 flex flex-col items-center text-center p-12 md:p-16 space-y-8">
                         <div className="space-y-4 max-w-2xl mx-auto">

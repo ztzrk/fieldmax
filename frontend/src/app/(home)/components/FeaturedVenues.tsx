@@ -58,7 +58,7 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
                                     key={venue.id}
                                     className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5 2xl:basis-1/6"
                                 >
-                                    <div className="relative h-full">
+                                    <div className="relative h-full transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl rounded-xl">
                                         <VenueCard venue={venue} />
                                         {venue.bookingCount !== undefined &&
                                             venue.bookingCount > 0 && (

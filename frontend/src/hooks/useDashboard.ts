@@ -15,3 +15,9 @@ export const useRenterStats = () => {
         queryFn: DashboardService.getRenterStats,
     });
 };
+export const useChartData = (range: string) => {
+    return useQuery({
+        queryKey: ["dashboard-chart", range],
+        queryFn: () => DashboardService.getChartData(range),
+    });
+};

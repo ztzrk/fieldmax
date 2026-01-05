@@ -32,28 +32,31 @@ export function ValueProposition() {
                             desc: "Real-time availability and immediate confirmation. No more phone calls or waiting.",
                             color: "text-amber-500",
                             bg: "bg-amber-500/10",
+                            border: "hover:border-amber-500/50",
                         },
                         {
                             icon: Shield,
                             title: "Secure Payments",
                             desc: "Your transactions are protected with top-tier security standards and encryption.",
-                            color: "text-blue-500",
-                            bg: "bg-blue-500/10",
+                            color: "text-violet-500",
+                            bg: "bg-violet-500/10",
+                            border: "hover:border-violet-500/50",
                         },
                         {
                             icon: Users,
                             title: "Trusted Community",
                             desc: "Join thousands of active players and verified venue owners across the country.",
-                            color: "text-emerald-500",
-                            bg: "bg-emerald-500/10",
+                            color: "text-pink-500",
+                            bg: "bg-pink-500/10",
+                            border: "hover:border-pink-500/50",
                         },
                     ].map((feature, i) => (
                         <div
                             key={i}
-                            className="group flex flex-col items-center text-center p-8 bg-card hover:bg-card/50 rounded-2xl border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                            className={`group flex flex-col items-center text-center p-8 bg-card hover:bg-card/50 rounded-2xl border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${feature.border}`}
                         >
                             <div
-                                className={`h-16 w-16 ${feature.bg} rounded-2xl flex items-center justify-center mb-6 ${feature.color} group-hover:scale-110 transition-transform duration-300`}
+                                className={`h-16 w-16 ${feature.bg} rounded-2xl flex items-center justify-center mb-6 ${feature.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}
                             >
                                 <feature.icon className="h-8 w-8" />
                             </div>
