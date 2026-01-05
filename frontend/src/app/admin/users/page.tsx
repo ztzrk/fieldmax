@@ -7,6 +7,7 @@ import { useGetAllUsers, useDeleteMultipleUsers } from "@/hooks/useUsers";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { CreateUserButton } from "./components/createUserButton";
 import { PaginationState } from "@tanstack/react-table";
+import { Card, CardContent } from "@/components/ui/card";
 
 /**
  * Admin Users Page.
@@ -42,7 +43,7 @@ export default function AdminUsersPage() {
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <div>
                     <h1 className="text-2xl font-bold">Users</h1>
                     <p className="text-muted-foreground">
@@ -51,16 +52,20 @@ export default function AdminUsersPage() {
                 </div>
                 <CreateUserButton />
             </div>
-            <DataTable
-                columns={columns}
-                data={data?.data || []}
-                onDeleteSelected={handleDeleteUsers}
-                pageCount={pageCount}
-                pagination={{ pageIndex, pageSize }}
-                onPaginationChange={setPagination}
-                onSearch={setSearch}
-                searchValue={search}
-            />
+            <Card className="rounded-xl border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                    <DataTable
+                        columns={columns}
+                        data={data?.data || []}
+                        onDeleteSelected={handleDeleteUsers}
+                        pageCount={pageCount}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
+                        onSearch={setSearch}
+                        searchValue={search}
+                    />
+                </CardContent>
+            </Card>
         </div>
     );
 }

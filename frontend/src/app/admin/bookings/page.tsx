@@ -68,7 +68,7 @@ export default function AdminBookingsPage() {
                 </div>
             </div>
 
-            <Card>
+            <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardHeader>
                     <CardTitle>All Bookings</CardTitle>
                     <CardDescription>

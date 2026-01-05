@@ -6,17 +6,17 @@ import { useDeleteMultipleVenues, useGetAllVenues } from "@/hooks/useVenues";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { CreateVenueButton } from "./CreateVenueButton";
 import { PaginationState } from "@tanstack/react-table";
+import { Card, CardContent } from "@/components/ui/card";
 
 /**
  * Component for displaying the table of venues.
  * Handles pagination, search, and deletion logic using separate hooks.
  */
 export function VenuesTable() {
-    const [{ pageIndex, pageSize }, setPagination] =
-        useState<PaginationState>({
-            pageIndex: 0,
-            pageSize: 10,
-        });
+    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
     const [search, setSearch] = useState("");
 
     const { data, isLoading, isError } = useGetAllVenues(
@@ -41,16 +41,20 @@ export function VenuesTable() {
             <div className="flex justify-end mb-4">
                 <CreateVenueButton />
             </div>
-            <DataTable
-                columns={columns}
-                data={data?.data || []}
-                onDeleteSelected={handleDeleteVenues}
-                pageCount={pageCount}
-                pagination={{ pageIndex, pageSize }}
-                onPaginationChange={setPagination}
-                onSearch={setSearch}
-                searchValue={search}
-            />
+            <Card className="rounded-xl border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                    <DataTable
+                        columns={columns}
+                        data={data?.data || []}
+                        onDeleteSelected={handleDeleteVenues}
+                        pageCount={pageCount}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
+                        onSearch={setSearch}
+                        searchValue={search}
+                    />
+                </CardContent>
+            </Card>
         </div>
     );
 }

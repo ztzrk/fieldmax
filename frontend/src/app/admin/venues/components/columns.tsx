@@ -108,7 +108,18 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
         enableHiding: false,
     },
     { accessorKey: "name", header: "Name" },
-    { accessorKey: "address", header: "Address" },
+    {
+        accessorKey: "address",
+        header: "Address",
+        cell: ({ row }) => (
+            <div
+                className="max-w-[300px] truncate"
+                title={row.getValue("address")}
+            >
+                {row.getValue("address")}
+            </div>
+        ),
+    },
     { accessorKey: "district", header: "District" },
     { accessorKey: "city", header: "City" },
     { accessorKey: "renter.fullName", header: "Renter" },

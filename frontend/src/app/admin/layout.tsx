@@ -16,9 +16,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <RoleGuard role="ADMIN">
                 <SidebarProvider>
                     <AdminSidebar />
-                    <div className="flex flex-1 flex-col sm:border-l">
+                    <div className="flex flex-1 flex-col min-w-0 w-full overflow-x-hidden transition-all duration-300 ease-in-out">
                         <Header />
-                        <main className="flex-1 p-4 pt-6 md:p-8">
+                        <main className="flex-1 space-y-4 p-4 pt-6 md:p-8">
                             {children}
                         </main>
                     </div>

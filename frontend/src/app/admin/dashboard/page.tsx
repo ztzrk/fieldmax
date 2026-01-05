@@ -36,24 +36,11 @@ export default function AdminDashboard() {
                     <h1 className="text-3xl font-bold tracking-tight">
                         Dashboard
                     </h1>
-                    <p className="text-muted-foreground mt-2">
-                        Welcome back,{" "}
-                        <span className="font-semibold">
-                            {user?.fullName || "Admin"}
-                        </span>
-                        !
-                    </p>
                 </div>
-                <ConfirmationDialog
-                    trigger={<Button variant="destructive">Logout</Button>}
-                    title="Logout Confirmation"
-                    description="You are about to log out. Are you sure you want to proceed?"
-                    onConfirm={logout}
-                />
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="rounded-xl border-border/50 shadow-sm transition-all hover:bg-sidebar-accent/5">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
                             Total Users
@@ -69,7 +56,7 @@ export default function AdminDashboard() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="rounded-xl border-border/50 shadow-sm transition-all hover:bg-sidebar-accent/5">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
                             Total Venues
@@ -85,7 +72,7 @@ export default function AdminDashboard() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="rounded-xl border-border/50 shadow-sm transition-all hover:bg-sidebar-accent/5">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
                             Active Fields
@@ -101,7 +88,7 @@ export default function AdminDashboard() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="rounded-xl border-border/50 shadow-sm transition-all hover:bg-sidebar-accent/5">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
                             Pending Venues

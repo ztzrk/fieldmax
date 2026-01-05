@@ -7,8 +7,11 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
 import { useAuth } from "@/context/AuthContext";
-import { VenueScheduleForm } from "./VenueScheduleForm";
 import { formatTime } from "@/lib/utils";
+import { VenueScheduleForm } from "./VenueScheduleForm";
+import { ComboboxField } from "@/components/shared/form/ComboboxField";
+import { useState } from "react";
+import { useGetRenters } from "@/hooks/useUsers";
 
 interface VenueFormProps {
     initialData?: Partial<VenueFormSchema>;
@@ -34,7 +37,18 @@ export function VenueForm({
     isPending,
 }: VenueFormProps) {
     const { user } = useAuth();
+    const isAdmin = user?.role === "ADMIN";
     const isRenter = user?.role === "RENTER";
+
+    // Search state for renters combobox
+    const [renterSearch, setRenterSearch] = useState("");
+    const { data: rentersData } = useGetRenters(renterSearch);
+
+    const renters =
+        rentersData?.map((renter: any) => ({
+            label: `${renter.fullName} (${renter.email})`,
+            value: renter.id,
+        })) || [];
 
     const formattedSchedules =
         initialData?.schedules?.map((s) => ({
@@ -76,7 +90,7 @@ export function VenueForm({
                     placeholder="Kalibaru Street No. 10"
                     required
                 />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         control={form.control}
                         name="city"
@@ -92,7 +106,7 @@ export function VenueForm({
                         required
                     />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         control={form.control}
                         name="province"
@@ -115,6 +129,16 @@ export function VenueForm({
                     label="Description"
                     placeholder="A brief description about the venue"
                 />
+                {isAdmin && (
+                    <ComboboxField
+                        control={form.control}
+                        name="renterId"
+                        label="Renter"
+                        placeholder="Select a renter"
+                        options={renters}
+                        onSearchChange={setRenterSearch}
+                    />
+                )}
                 <VenueScheduleForm />
                 <Button type="submit" disabled={isPending} className="w-full">
                     {isPending ? "Saving..." : "Save"}

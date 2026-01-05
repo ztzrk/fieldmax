@@ -13,6 +13,7 @@ export const paginationSchema = z.object({
         return val;
     }, z.boolean().optional()),
     sportTypeId: z.string().optional(),
+    role: z.enum(["ADMIN", "USER", "RENTER"]).optional(),
 });
 
 export type Pagination = z.infer<typeof paginationSchema>;

@@ -134,3 +134,20 @@ export function useDeleteMultipleUsers() {
         },
     });
 }
+
+export function useGetRenters(search?: string) {
+    return useQuery({
+        queryKey: ["renters", search],
+        queryFn: async () => {
+            const params = {
+                page: 1,
+                limit: 10,
+                role: "RENTER",
+                ...(search && { search }),
+            };
+            // We cast params to any because getAllUsers expects validated query params but we are building it manually
+            const data = await UserService.getAllUsers(params as any);
+            return data.data;
+        },
+    });
+}

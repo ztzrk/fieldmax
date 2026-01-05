@@ -19,18 +19,26 @@ function exclude<User, Key extends keyof User>(
 
 export class UserService {
     public async findAllUsers(query: Partial<Pagination>) {
-        const { page, limit, search } = query;
+        const { page, limit, search, role } = query;
         const isPaginated = page !== undefined && limit !== undefined;
         const skip = isPaginated ? (page! - 1) * limit! : 0;
 
-        const whereCondition: Prisma.UserWhereInput = search
-            ? {
-                  OR: [
-                      { fullName: { contains: search, mode: "insensitive" } },
-                      { email: { contains: search, mode: "insensitive" } },
-                  ],
-              }
-            : {};
+        const whereCondition: Prisma.UserWhereInput = {
+            ...(search
+                ? {
+                      OR: [
+                          {
+                              fullName: {
+                                  contains: search,
+                                  mode: "insensitive",
+                              },
+                          },
+                          { email: { contains: search, mode: "insensitive" } },
+                      ],
+                  }
+                : {}),
+            ...(role ? { role: role } : {}),
+        };
 
         if (isPaginated) {
             const [users, total] = await prisma.$transaction([

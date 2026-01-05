@@ -102,14 +102,14 @@ export function DataTable<TData, TValue>({
     };
 
     return (
-        <div>
-            <div className="flex items-center py-4 justify-between">
+        <div className="w-full min-w-0">
+            <div className="flex items-center py-4 justify-between flex-wrap gap-2">
                 {onSearch && (
                     <Input
                         placeholder="Search..."
                         value={searchValue ?? ""}
                         onChange={(event) => onSearch(event.target.value)}
-                        className="max-w-sm mr-4"
+                        className="max-w-sm mr-4 w-full md:w-auto"
                     />
                 )}
                 {onDeleteSelected && Object.keys(rowSelection).length > 0 && (
@@ -132,7 +132,7 @@ export function DataTable<TData, TValue>({
                     />
                 )}
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border overflow-x-auto w-full max-w-[calc(100vw-4rem)] md:max-w-full">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -200,12 +200,12 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-between px-2 mt-4">
-                <div className="flex-1 text-sm text-muted-foreground">
+            <div className="flex flex-col md:flex-row items-center justify-between px-2 mt-4 gap-4">
+                <div className="flex-1 text-sm text-muted-foreground text-center md:text-left">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
-                <div className="flex items-center space-x-6 lg:space-x-8">
+                <div className="flex items-center space-x-4 lg:space-x-8">
                     <div className="flex items-center space-x-2">
                         <p className="text-sm font-medium">Rows per page</p>
                         <Select

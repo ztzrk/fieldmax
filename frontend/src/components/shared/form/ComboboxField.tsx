@@ -34,6 +34,7 @@ interface ComboboxFieldProps<T extends FieldValues> {
     options: { value: string; label: string }[];
     disabled?: boolean;
     required?: boolean;
+    onSearchChange?: (value: string) => void;
 }
 
 /**
@@ -50,6 +51,7 @@ export function ComboboxField<T extends FieldValues>({
     options,
     disabled,
     required,
+    onSearchChange,
 }: ComboboxFieldProps<T>) {
     return (
         <FormField
@@ -92,6 +94,7 @@ export function ComboboxField<T extends FieldValues>({
                             <Command>
                                 <CommandInput
                                     placeholder={`Search ${label.toLowerCase()}...`}
+                                    onValueChange={onSearchChange}
                                 />
                                 <CommandList>
                                     <CommandEmpty>

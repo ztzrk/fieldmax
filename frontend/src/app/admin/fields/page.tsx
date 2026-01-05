@@ -47,16 +47,20 @@ export default function AdminFieldsPage() {
                 title="Manage Fields"
                 description="View and manage all fields in the system."
             />
-            <DataTable
-                columns={columns}
-                data={data.data}
-                onDeleteSelected={handleDeleteSelected}
-                pageCount={data.meta.totalPages}
-                pagination={{ pageIndex, pageSize }}
-                onPaginationChange={setPagination}
-                onSearch={setSearch}
-                searchValue={search}
-            />
+            <Card className="rounded-xl border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                    <DataTable
+                        columns={columns}
+                        data={data.data}
+                        onDeleteSelected={handleDeleteSelected}
+                        pageCount={data.meta.totalPages}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
+                        onSearch={setSearch}
+                        searchValue={search}
+                    />
+                </CardContent>
+            </Card>
         </div>
     );
 }

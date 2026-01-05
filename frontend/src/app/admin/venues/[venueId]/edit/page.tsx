@@ -84,7 +84,6 @@ export default function EditVenuePage() {
             <PageHeader
                 title={venue.name}
                 description="Update venue details, photos, and fields."
-                backHref="/admin/venues"
             >
                 <VenueActions venue={venue} />
             </PageHeader>

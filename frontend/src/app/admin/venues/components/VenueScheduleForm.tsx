@@ -72,7 +72,7 @@ export function VenueScheduleForm() {
                     return (
                         <div
                             key={dayIndex}
-                            className="flex items-center space-x-4"
+                            className="flex flex-col space-y-2 md:flex-row md:items-center md:space-y-0 md:space-x-4"
                         >
                             <div className="w-32 flex items-center space-x-2">
                                 <Checkbox

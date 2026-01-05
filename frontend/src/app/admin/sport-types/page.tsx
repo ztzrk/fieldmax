@@ -9,6 +9,7 @@ import {
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import CreateSportTypeButton from "./components/CreateSportTypeButton";
 import { PaginationState } from "@tanstack/react-table";
+import { Card, CardContent } from "@/components/ui/card";
 
 /**
  * Admin Sport Types Page.
@@ -49,16 +50,20 @@ export default function AdminSportTypesPage() {
                 </div>
                 <CreateSportTypeButton />
             </div>
-            <DataTable
-                columns={columns}
-                data={data?.data || []}
-                onDeleteSelected={handleDeleteSelected}
-                pageCount={pageCount}
-                pagination={{ pageIndex, pageSize }}
-                onPaginationChange={setPagination}
-                onSearch={setSearch}
-                searchValue={search}
-            />
+            <Card className="rounded-xl border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                    <DataTable
+                        columns={columns}
+                        data={data?.data || []}
+                        onDeleteSelected={handleDeleteSelected}
+                        pageCount={pageCount}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
+                        onSearch={setSearch}
+                        searchValue={search}
+                    />
+                </CardContent>
+            </Card>
         </div>
     );
 }

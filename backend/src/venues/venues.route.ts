@@ -51,7 +51,6 @@ export class VenuesRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            canManageVenue,
             validationMiddleware(createVenueSchema),
             this.controller.create
         );
