@@ -14,14 +14,18 @@ interface VenueCardProps {
 
 export function VenueCard({ venue }: VenueCardProps) {
     return (
-        <Link href={`/venues/${venue.id}`} className="block h-full">
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow p-0 gap-0 cursor-pointer group h-full flex flex-col">
-                <div className="aspect-[4/3] w-full bg-muted flex items-center justify-center text-muted-foreground relative overflow-hidden">
+        <Link
+            href={`/venues/${venue.id}`}
+            className="block h-full cursor-pointer group"
+        >
+            <Card className="h-full flex flex-col p-0 overflow-hidden border-border/50 bg-card hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+                {/* Image Section */}
+                <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
                     {venue.photos && venue.photos.length > 0 ? (
                         <img
                             src={venue.photos[0].url}
                             alt={venue.name}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                     ) : (
                         <ImagePlaceholder
@@ -29,33 +33,70 @@ export function VenueCard({ venue }: VenueCardProps) {
                             icon={<Building2 className="h-8 w-8 opacity-20" />}
                         />
                     )}
+
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    {/* Badge Overlay */}
+                    <div className="absolute top-3 right-3 z-10">
+                        <Badge
+                            variant="secondary"
+                            className="backdrop-blur-md bg-background/80 shadow-sm border-white/20"
+                        >
+                            {venue._count?.fields || 0} Fields
+                        </Badge>
+                    </div>
+
+                    {/* Hover Action */}
+                    <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-75">
+                        <Button
+                            size="sm"
+                            className="bg-white text-black hover:bg-white/90 shadow-lg font-medium"
+                        >
+                            View Venue
+                        </Button>
+                    </div>
                 </div>
-                <CardHeader className="p-3 pb-0">
+
+                {/* Content Section */}
+                <CardHeader className="p-4 pb-2 space-y-1">
                     <CardTitle
-                        className="line-clamp-1 text-sm font-semibold"
+                        className="line-clamp-1 text-base font-bold group-hover:text-primary transition-colors"
                         title={venue.name}
                     >
                         {venue.name}
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="p-3 pt-2 flex-col flex flex-1">
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
-                        <MapPin className="h-3 w-3 shrink-0" />
-                        <span className="line-clamp-1">
-                            {venue.address || "No address provided"}
-                        </span>
+
+                <CardContent className="p-4 pt-0 flex-col flex flex-1">
+                    {/* Location: Swaps between simple address and city/district on hover if available */}
+                    {/* Location: Swaps between simple address and city/district on hover if available */}
+                    <div className="flex items-start gap-2 text-sm text-muted-foreground mb-4">
+                        <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-primary/70" />
+                        <div className="relative flex-1 h-9">
+                            <span className="line-clamp-2 transition-all duration-300 group-hover:opacity-0 absolute inset-0">
+                                {venue.address || "No address provided"}
+                            </span>
+                            <span className="line-clamp-2 transition-all duration-300 opacity-0 group-hover:opacity-100 absolute inset-0">
+                                {[venue.district, venue.city]
+                                    .filter(Boolean)
+                                    .join(", ") || venue.address}
+                            </span>
+                        </div>
                     </div>
-                    <div className="flex items-center justify-between mt-auto">
-                        <Badge variant="secondary" className="text-[10px]">
-                            {venue._count?.fields || 0} Fields
-                        </Badge>
-                        <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-7 px-2 text-xs gap-1 hover:bg-primary/10"
-                        >
-                            Details <ArrowRight className="h-2.5 w-2.5" />
-                        </Button>
+
+                    <div className="mt-auto pt-3 border-t border-border/50 flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground font-medium">
+                            {venue.bookingCount !== undefined
+                                ? `${venue.bookingCount} Bookings`
+                                : "New Venue"}
+                        </span>
+                        <div className="flex items-center text-xs font-semibold text-primary overflow-hidden">
+                            <span className="translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
+                                Details
+                            </span>
+                            <ArrowRight className="h-3.5 w-3.5 ml-1 -translate-x-4 group-hover:translate-x-0 transition-transform duration-300" />
+                        </div>
                     </div>
                 </CardContent>
             </Card>

@@ -60,66 +60,66 @@ export default function RenterDashboard() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="border-none shadow-lg bg-gradient-to-br from-violet-500 to-purple-600 text-white hover:shadow-xl transition-all">
+                <Card className="hover:shadow-md transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-violet-100">
+                        <CardTitle className="text-sm font-medium">
                             My Venues
                         </CardTitle>
-                        <MapPin className="h-4 w-4 text-violet-100" />
+                        <MapPin className="h-4 w-4 text-violet-500" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
                             {stats?.totalVenues || 0}
                         </div>
-                        <p className="text-xs text-violet-100/80">
+                        <p className="text-xs text-muted-foreground">
                             Venues you own
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="border-none shadow-lg bg-gradient-to-br from-emerald-500 to-green-600 text-white hover:shadow-xl transition-all">
+                <Card className="hover:shadow-md transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-emerald-100">
+                        <CardTitle className="text-sm font-medium">
                             My Fields
                         </CardTitle>
-                        <Trophy className="h-4 w-4 text-emerald-100" />
+                        <Trophy className="h-4 w-4 text-emerald-500" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
                             {stats?.totalFields || 0}
                         </div>
-                        <p className="text-xs text-emerald-100/80">
+                        <p className="text-xs text-muted-foreground">
                             Fields across your venues
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="border-none shadow-lg bg-gradient-to-br from-pink-500 to-rose-500 text-white hover:shadow-xl transition-all">
+                <Card className="hover:shadow-md transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-pink-100">
+                        <CardTitle className="text-sm font-medium">
                             Pending Venues
                         </CardTitle>
-                        <Clock className="h-4 w-4 text-pink-100" />
+                        <Clock className="h-4 w-4 text-pink-500" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
                             {stats?.pendingVenues || 0}
                         </div>
-                        <p className="text-xs text-pink-100/80">
+                        <p className="text-xs text-muted-foreground">
                             Waiting for admin approval
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="border-none shadow-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white hover:shadow-xl transition-all">
+                <Card className="hover:shadow-md transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-amber-100">
+                        <CardTitle className="text-sm font-medium">
                             Total Revenue
                         </CardTitle>
-                        <span className="text-amber-100 font-bold">Rp</span>
+                        <span className="text-amber-500 font-bold">Rp</span>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
                             {formatCurrency(stats?.totalRevenue || 0)}
                         </div>
-                        <p className="text-xs text-amber-100/80">
+                        <p className="text-xs text-muted-foreground">
                             Lifetime revenue
                         </p>
                     </CardContent>

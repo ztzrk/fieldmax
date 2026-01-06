@@ -123,7 +123,19 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
         enableHiding: false,
     },
     { accessorKey: "name", header: "Name" },
-    { accessorKey: "address", header: "Address" },
+    {
+        accessorKey: "address",
+        header: "Address",
+        size: 250,
+        cell: ({ row }) => {
+            const address = row.original.address;
+            return (
+                <div className="truncate max-w-[250px]" title={address}>
+                    {address}
+                </div>
+            );
+        },
+    },
     { accessorKey: "renter.fullName", header: "Renter" },
     {
         accessorKey: "status",

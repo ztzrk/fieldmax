@@ -14,28 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate, formatTime } from "@/lib/utils";
 import Link from "next/link";
 
-// Define the type locally based on usage if not strictly available,
-// or ideally import it. For now, I'll define a shape based on the API response I saw.
-export type Booking = {
-    id: string;
-    bookingDate: string;
-    startTime: string;
-    endTime: string;
-    totalPrice: number;
-    status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" | "FAILED";
-    paymentStatus: "PENDING" | "PAID" | "FAILED";
-    user?: {
-        id: string;
-        fullName: string;
-        email: string;
-    };
-    field?: {
-        name: string;
-        venue?: {
-            name: string;
-        };
-    };
-};
+import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 
 const getStatusVariant = (status: string) => {
     switch (status) {
@@ -54,7 +33,7 @@ const getStatusVariant = (status: string) => {
     }
 };
 
-const ActionsCell = ({ booking }: { booking: Booking }) => {
+const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -74,7 +53,7 @@ const ActionsCell = ({ booking }: { booking: Booking }) => {
     );
 };
 
-export const columns: ColumnDef<Booking>[] = [
+export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "id",
         header: "Booking ID",

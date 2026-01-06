@@ -1,20 +1,21 @@
-import { VenuesTable } from "./components/VenuesTable";
+"use client";
+
+import { VenuesList } from "@/components/shared/pages/VenuesList";
+import { columns } from "./components/columns";
+import { CreateVenueButton } from "./components/CreateVenueButton";
+import { VenueResponseSchema } from "@/lib/schema/venue.schema";
 
 /**
- * Admin Venues and Fields Page.
+ * Admin Venues Page.
  * Displays a list of all venues.
- * Note: The component name implies Fields as well, but the current UI only shows VenuesTable.
  */
 export default function VenuesAndFieldsPage() {
     return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold">Venues</h1>
-                <p className="text-muted-foreground">
-                    Manage all venues in the system.
-                </p>
-            </div>
-            <VenuesTable />
-        </div>
+        <VenuesList<VenueResponseSchema>
+            title="Venues"
+            description="Manage all venues in the system."
+            columns={columns}
+            renderHeaderActions={<CreateVenueButton />}
+        />
     );
 }

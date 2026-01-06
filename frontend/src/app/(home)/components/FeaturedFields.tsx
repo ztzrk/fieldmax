@@ -25,7 +25,7 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
 
     return (
         <section className="w-full py-24 bg-background">
-            <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
+            <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6 py-6">
                 <div className="flex items-center justify-between mb-12">
                     <div className="space-y-1">
                         <h2 className="text-3xl font-bold tracking-tight">
@@ -44,7 +44,7 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                     </Link>
                 </div>
 
-                <div className="px-10">
+                <div className="px-10 py-6">
                     <Carousel
                         opts={{
                             align: "start",
@@ -56,9 +56,9 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                             {fields.map((field) => (
                                 <CarouselItem
                                     key={field.id}
-                                    className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5 2xl:basis-1/6"
+                                    className="md:basis-1/2 2xl:basis-1/4"
                                 >
-                                    <div className="h-full transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl rounded-xl">
+                                    <div className="h-full p-2">
                                         <FieldCard field={field} />
                                     </div>
                                 </CarouselItem>
