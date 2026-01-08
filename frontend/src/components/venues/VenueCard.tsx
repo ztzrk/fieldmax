@@ -7,12 +7,14 @@ import { MapPin, Building2, ArrowRight } from "lucide-react";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { VenuePublicSchema } from "@/lib/schema/venue.schema";
 import Link from "next/link";
+import { useState } from "react";
 
 interface VenueCardProps {
     venue: VenuePublicSchema;
 }
 
 export function VenueCard({ venue }: VenueCardProps) {
+    const [imageError, setImageError] = useState(false);
     return (
         <Link
             href={`/venues/${venue.id}`}
@@ -21,10 +23,13 @@ export function VenueCard({ venue }: VenueCardProps) {
             <Card className="h-full flex flex-col p-0 overflow-hidden border-border/50 bg-card hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
                 {/* Image Section */}
                 <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
-                    {venue.photos && venue.photos.length > 0 ? (
+                    {!imageError ? (
                         <img
-                            src={venue.photos[0].url}
+                            src={venue.photos?.[0].url}
                             alt={venue.name}
+                            onError={() => {
+                                setImageError(true);
+                            }}
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                     ) : (

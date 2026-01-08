@@ -7,6 +7,7 @@ export class RenterService {
         return prisma.venue.findMany({
             where: { renterId },
             include: {
+                photos: true,
                 _count: {
                     select: { fields: true },
                 },
@@ -19,6 +20,7 @@ export class RenterService {
         return prisma.venue.findFirst({
             where: { id: venueId, renterId },
             include: {
+                photos: true,
                 _count: {
                     select: { fields: true },
                 },
@@ -178,6 +180,7 @@ export class RenterService {
                             email: true,
                         },
                     },
+                    photos: true,
                     _count: {
                         select: { fields: true },
                     },
@@ -290,5 +293,77 @@ export class RenterService {
         const totalPages = Math.ceil(total / limit);
 
         return { data: fields, meta: { total, page, limit, totalPages } };
+    }
+
+    public async getRevenueStats(renterId: string) {
+        // 1. Total Revenue
+        const totalRevenueResult = await prisma.booking.aggregate({
+            _sum: {
+                totalPrice: true,
+            },
+            where: {
+                paymentStatus: "PAID",
+                field: {
+                    venue: {
+                        renterId,
+                    },
+                },
+            },
+        });
+
+        // 2. Revenue Breakdown
+        const venues = await prisma.venue.findMany({
+            where: { renterId },
+            include: {
+                fields: {
+                    include: {
+                        bookings: {
+                            where: { paymentStatus: "PAID" },
+                            select: { totalPrice: true },
+                        },
+                    },
+                },
+            },
+        });
+
+        const revenueByVenue = venues
+            .map((venue) => {
+                const venueRevenue = venue.fields.reduce((acc, field) => {
+                    const fieldRevenue = field.bookings.reduce(
+                        (sum, booking) => sum + booking.totalPrice,
+                        0
+                    );
+                    return acc + fieldRevenue;
+                }, 0);
+
+                return {
+                    venueId: venue.id,
+                    venueName: venue.name,
+                    totalRevenue: venueRevenue,
+                };
+            })
+            .filter((v) => v.totalRevenue > 0)
+            .sort((a, b) => b.totalRevenue - a.totalRevenue);
+
+        const revenueByField = venues
+            .flatMap((venue) =>
+                venue.fields.map((field) => ({
+                    fieldId: field.id,
+                    fieldName: field.name,
+                    venueName: venue.name,
+                    totalRevenue: field.bookings.reduce(
+                        (sum, booking) => sum + booking.totalPrice,
+                        0
+                    ),
+                }))
+            )
+            .filter((f) => f.totalRevenue > 0)
+            .sort((a, b) => b.totalRevenue - a.totalRevenue);
+
+        return {
+            totalRevenue: totalRevenueResult._sum.totalPrice || 0,
+            revenueByVenue,
+            revenueByField,
+        };
     }
 }

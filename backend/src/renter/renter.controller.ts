@@ -237,4 +237,18 @@ export class RenterController {
             next(error);
         }
     };
+
+    public getRevenueStats = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const renterId = req.user!.id;
+            const data = await this.service.getRevenueStats(renterId);
+            res.status(200).json({ data });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
