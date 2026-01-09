@@ -27,13 +27,18 @@ export default function Home() {
     const { data: homeData, isLoading: isHomeLoading } = useGetHomeData();
 
     // Specialized hook for search suggestions only (triggered by user input)
-    const { data: suggestions } = useGetAllFields(
-        1,
-        5,
-        debouncedSearch.length > 0 ? debouncedSearch : undefined,
-        "APPROVED",
-        false
-    );
+    const { data: suggestions, isLoading: isSuggestionsLoading } =
+        useGetAllFields(
+            1,
+            5,
+            debouncedSearch.length > 0 ? debouncedSearch : undefined,
+            "APPROVED",
+            false
+        );
+
+    const isSearching =
+        isSuggestionsLoading ||
+        (search !== debouncedSearch && search.length > 0);
 
     if (isHomeLoading) return <FullScreenLoader />;
 
@@ -43,6 +48,9 @@ export default function Home() {
                 <HeroSection
                     sportTypes={homeData?.sportTypes}
                     suggestions={suggestions?.data}
+                    searchValue={search}
+                    onSearchChange={setSearch}
+                    isSearching={isSearching}
                 />
 
                 <FeaturedFields fields={homeData?.featuredFields || []} />

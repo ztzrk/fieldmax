@@ -11,6 +11,9 @@ import { FieldResponseSchema } from "@/lib/schema/field.schema";
 interface HeroSectionProps {
     sportTypes?: { id: string; name: string }[];
     suggestions?: FieldResponseSchema[];
+    searchValue: string;
+    onSearchChange: (value: string) => void;
+    isSearching: boolean;
 }
 
 /**
@@ -18,20 +21,25 @@ interface HeroSectionProps {
  *
  * Displays the main hero banner with search box and sport type filters.
  */
-export function HeroSection({ sportTypes, suggestions }: HeroSectionProps) {
-    const [search, setSearch] = useState("");
+export function HeroSection({
+    sportTypes,
+    suggestions,
+    searchValue,
+    onSearchChange,
+    isSearching,
+}: HeroSectionProps) {
     const router = useRouter();
 
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && search.trim()) {
-            router.push(`/search?q=${encodeURIComponent(search)}`);
+        if (e.key === "Enter" && searchValue.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchValue)}`);
         }
     };
 
     return (
-        <section className="relative w-full py-20 md:py-32 lg:py-48 overflow-hidden">
+        <section className="relative w-full py-20 md:py-32 lg:py-48">
             {/* Background enhancement */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-600 to-amber-600 opacity-95" />
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-black/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
@@ -64,58 +72,90 @@ export function HeroSection({ sportTypes, suggestions }: HeroSectionProps) {
                                 type="search"
                                 placeholder="Search fields, venues, or sports..."
                                 className="pl-12 h-12 text-lg shadow-lg border-primary/20 hover:border-primary/50 transition-colors bg-background/80 backdrop-blur-sm"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                value={searchValue}
+                                onChange={(e) => onSearchChange(e.target.value)}
                                 onKeyDown={handleSearch}
                             />
-                        </div>
-
-                        {search.length > 0 &&
-                            suggestions &&
-                            suggestions.length > 0 && (
+                            {searchValue.length > 0 && (
                                 <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-background/95 backdrop-blur-md text-foreground rounded-xl border shadow-2xl animate-in fade-in-0 zoom-in-95 overflow-hidden ring-1 ring-black/5">
-                                    <div className="p-2 space-y-1">
-                                        {suggestions.map((field) => (
+                                    {isSearching ? (
+                                        <div className="p-4 flex items-center justify-center gap-2 text-muted-foreground">
+                                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                            <span>Searching...</span>
+                                        </div>
+                                    ) : suggestions &&
+                                      suggestions.length > 0 ? (
+                                        <div className="p-2 space-y-1">
+                                            {suggestions.map((field) => (
+                                                <div
+                                                    key={field.id}
+                                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group"
+                                                    onClick={() =>
+                                                        router.push(
+                                                            `/search?q=${encodeURIComponent(
+                                                                field.name
+                                                            )}`
+                                                        )
+                                                    }
+                                                >
+                                                    <div className="h-12 w-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center shrink-0 shadow-sm border group-hover:border-primary/50 transition-colors">
+                                                        {field.photos &&
+                                                        field.photos[0] ? (
+                                                            <img
+                                                                src={
+                                                                    field
+                                                                        .photos[0]
+                                                                        .url
+                                                                }
+                                                                alt={field.name}
+                                                                className="h-full w-full object-cover"
+                                                            />
+                                                        ) : (
+                                                            <Trophy className="h-5 w-5 text-muted-foreground" />
+                                                        )}
+                                                    </div>
+                                                    <div className="flex flex-col items-start text-left">
+                                                        <span className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+                                                            {field.name}
+                                                        </span>
+                                                        <span className="text-sm text-muted-foreground">
+                                                            {field.venue?.name}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))}
                                             <div
-                                                key={field.id}
-                                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group"
+                                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group border-t mt-1"
                                                 onClick={() =>
                                                     router.push(
                                                         `/search?q=${encodeURIComponent(
-                                                            field.name
+                                                            searchValue
                                                         )}`
                                                     )
                                                 }
                                             >
-                                                <div className="h-12 w-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center shrink-0 shadow-sm border group-hover:border-primary/50 transition-colors">
-                                                    {field.photos &&
-                                                    field.photos[0] ? (
-                                                        <img
-                                                            src={
-                                                                field.photos[0]
-                                                                    .url
-                                                            }
-                                                            alt={field.name}
-                                                            className="h-full w-full object-cover"
-                                                        />
-                                                    ) : (
-                                                        <Trophy className="h-5 w-5 text-muted-foreground" />
-                                                    )}
+                                                <div className="h-12 w-12 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
+                                                    <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                                                 </div>
                                                 <div className="flex flex-col items-start text-left">
-                                                    <span className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
-                                                        {field.name}
-                                                    </span>
-                                                    <span className="text-sm text-muted-foreground">
-                                                        {field.venue?.name}
+                                                    <span className="text-base font-medium text-foreground group-hover:text-primary transition-colors">
+                                                        See all results for "
+                                                        {searchValue}"
                                                     </span>
                                                 </div>
                                             </div>
-                                        ))}
-                                    </div>
+                                        </div>
+                                    ) : (
+                                        <div className="p-8 text-center text-muted-foreground">
+                                            <p>
+                                                No results found for "
+                                                {searchValue}"
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             )}
-
+                        </div>
                         {/* Sport Type Filters */}
                         <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
                             <Link href="/fields">

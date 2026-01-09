@@ -106,10 +106,10 @@ export function Footer() {
                         <ul className="space-y-2 text-sm text-slate-400">
                             <li>
                                 <Link
-                                    href="/contact"
+                                    href="/reports"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Contact Us
+                                    Report Issue
                                 </Link>
                             </li>
                             <li>

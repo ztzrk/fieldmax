@@ -4,6 +4,7 @@ import {
     FileText,
     Users,
     Swords,
+    MessageSquareWarning,
 } from "lucide-react";
 
 export type NavItem = {
@@ -42,5 +43,10 @@ export const adminNavItems: NavItem[] = [
         title: "Bookings",
         url: "/admin/bookings",
         icon: FileText,
+    },
+    {
+        title: "Reports",
+        url: "/admin/reports",
+        icon: MessageSquareWarning,
     },
 ];

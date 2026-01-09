@@ -22,6 +22,10 @@ import { VenuesRoute } from "./venues/venues.route";
 import { DashboardRoute } from "./dashboard/dashboard.route";
 import { CronService } from "./services/cron.service";
 
+import { ReviewsRoute } from "./reviews/reviews.route";
+import { ReportsRoute } from "./reports/reports.route";
+import { HomeRoute } from "./home/home.route";
+
 CronService.init();
 
 const app: Express = express();
@@ -40,9 +44,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-import { ReviewsRoute } from "./reviews/reviews.route";
 
 const authRoute = new AuthRoute();
+
+const homeRoute = new HomeRoute();
 const usersRoute = new UsersRoute();
 const sportTypesRoute = new SportTypesRoute();
 const venuesRoute = new VenuesRoute();
@@ -55,6 +60,7 @@ const bookingsRoute = new BookingsRoute();
 const paymentsRoute = new PaymentsRoute();
 const dashboardRoute = new DashboardRoute();
 const reviewsRoute = new ReviewsRoute();
+const reportsRoute = new ReportsRoute();
 
 app.use("/api", authRoute.router);
 app.use("/api", usersRoute.router);
@@ -68,11 +74,8 @@ app.use("/api", profileRoute.router);
 app.use("/api", bookingsRoute.router);
 app.use("/api", paymentsRoute.router);
 app.use("/api", dashboardRoute.router);
-app.use("/api", dashboardRoute.router);
 app.use("/api", reviewsRoute.router);
-
-import { HomeRoute } from "./home/home.route";
-const homeRoute = new HomeRoute();
+app.use("/api", reportsRoute.router);
 app.use("/api", homeRoute.router);
 
 app.get("/", (req: Request, res: Response) => {

@@ -44,8 +44,14 @@ export class AuthService {
                 ...restUserData,
                 password: hashedPassword,
                 isVerified: false,
-                verificationCode,
-                verificationCodeExpiresAt,
+            },
+        });
+
+        await prisma.verificationToken.create({
+            data: {
+                identifier: createdUser.email,
+                token: verificationCode,
+                expires: verificationCodeExpiresAt,
             },
         });
 
@@ -106,21 +112,28 @@ export class AuthService {
 
         if (user.isVerified) return;
 
-        if (
-            !user.verificationCode ||
-            user.verificationCode !== code ||
-            !user.verificationCodeExpiresAt ||
-            user.verificationCodeExpiresAt < new Date()
-        ) {
+        const verificationToken = await prisma.verificationToken.findFirst({
+            where: {
+                identifier: email,
+                token: code,
+            },
+        });
+
+        if (!verificationToken || verificationToken.expires < new Date()) {
             throw new ValidationError("Invalid or expired verification code.");
         }
 
         await prisma.user.update({
             where: { id: user.id },
-            data: {
-                isVerified: true,
-                verificationCode: null,
-                verificationCodeExpiresAt: null,
+            data: { isVerified: true },
+        });
+
+        await prisma.verificationToken.delete({
+            where: {
+                identifier_token: {
+                    identifier: email,
+                    token: code,
+                },
             },
         });
     }
@@ -135,11 +148,16 @@ export class AuthService {
         ).toString();
         const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
-        await prisma.user.update({
-            where: { id: user.id },
+        // Delete existing tokens for this user to avoid duplicates if any (though identifier is part of composite unique)
+        await prisma.verificationToken.deleteMany({
+            where: { identifier: email },
+        });
+
+        await prisma.verificationToken.create({
             data: {
-                verificationCode,
-                verificationCodeExpiresAt,
+                identifier: email,
+                token: verificationCode,
+                expires: verificationCodeExpiresAt,
             },
         });
 
@@ -161,11 +179,16 @@ export class AuthService {
         const resetToken = randomBytes(32).toString("hex");
         const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
-        await prisma.user.update({
-            where: { id: user.id },
+        // Invalidate old tokens
+        await prisma.resetToken.deleteMany({
+            where: { userId: user.id },
+        });
+
+        await prisma.resetToken.create({
             data: {
-                resetToken,
-                resetTokenExpiry,
+                token: resetToken,
+                expires: resetTokenExpiry,
+                userId: user.id,
             },
         });
 
@@ -181,26 +204,25 @@ export class AuthService {
             throw new ValidationError("Passwords do not match.");
         }
 
-        const user = await prisma.user.findFirst({
-            where: {
-                resetToken: token,
-                resetTokenExpiry: { gt: new Date() },
-            },
+        const existingToken = await prisma.resetToken.findUnique({
+            where: { token },
         });
 
-        if (!user) {
+        if (!existingToken || existingToken.expires < new Date()) {
             throw new ValidationError("Invalid or expired reset token.");
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await prisma.user.update({
-            where: { id: user.id },
+            where: { id: existingToken.userId },
             data: {
                 password: hashedPassword,
-                resetToken: null,
-                resetTokenExpiry: null,
             },
+        });
+
+        await prisma.resetToken.delete({
+            where: { id: existingToken.id },
         });
     }
 }
