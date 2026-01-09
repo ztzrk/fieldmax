@@ -25,7 +25,11 @@ export class VenuesRoute {
     }
 
     private initializeRoutes() {
-        this.router.get(`${this.path}/public`, this.controller.getAll);
+        this.router.get(
+            `${this.path}/public`,
+            validationMiddleware(paginationSchema, true),
+            this.controller.getAll
+        );
 
         this.router.get(`${this.path}/public/:id`, this.controller.getById);
 

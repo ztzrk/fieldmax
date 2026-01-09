@@ -24,7 +24,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Send } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -32,6 +31,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { Send } from "lucide-react";
 
 const createReportSchema = z.object({
     subject: z.string().min(1, "Subject is required").max(100),
@@ -159,7 +160,7 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
                             className="w-full"
                         >
                             {isLoading ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                <FullScreenLoader />
                             ) : (
                                 <Send className="mr-2 h-4 w-4" />
                             )}

@@ -4,86 +4,118 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useGetPublicVenues } from "@/hooks/useVenues";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Search } from "lucide-react";
+import { Search as SearchIcon } from "lucide-react";
 import { VenueCard } from "@/components/venues/VenueCard";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 /**
  * VenuesPage Component
  *
  * Public listing of all venues. Supports searching by name/address.
- * Displays results in a responsive grid of VenueCards.
+ * Displays results in a responsive grid of VenueCards with pagination.
  */
 export default function VenuesPage() {
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 300);
+    const [page, setPage] = useState(1);
+    const pageSize = 30;
 
-    const { data: venues, isLoading: isVenuesLoading } = useGetPublicVenues();
-
-    const filteredVenues = venues?.filter(
-        (venue) =>
-            venue.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-            venue.address?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    const { data: venuesData, isLoading: isVenuesLoading } = useGetPublicVenues(
+        page,
+        pageSize,
+        debouncedSearch
     );
+
+    const totalPages = venuesData?.meta?.totalPages || 1;
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
-            <main className="flex-1 container py-8 px-4 md:px-6 max-w-[1400px] mx-auto">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            Browse Venues
-                        </h1>
-                        <p className="text-muted-foreground mt-1">
-                            Discover top-rated sports venues for your next game.
-                        </p>
-                    </div>
-
-                    <div className="flex-1 max-w-sm">
-                        <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-8">
+                <div className="flex flex-col gap-6 mb-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h1 className="text-2xl font-bold">
+                                {search
+                                    ? `Venues matching "${search}"`
+                                    : "All Venues"}
+                            </h1>
+                            <span className="text-muted-foreground text-sm">
+                                {venuesData?.meta?.total || 0} venues found
+                            </span>
+                        </div>
+                        <div className="relative w-full md:w-72">
+                            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 type="search"
                                 placeholder="Search venues..."
                                 className="pl-8 w-full"
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setPage(1); // Reset to page 1 on search
+                                }}
                             />
                         </div>
                     </div>
                 </div>
 
                 {isVenuesLoading ? (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
-                        {[...Array(8)].map((_, i) => (
-                            <div key={i} className="flex flex-col space-y-3">
-                                <div className="h-[200px] w-full rounded-xl bg-muted animate-pulse" />
-                                <div className="space-y-2">
-                                    <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
-                                    <div className="h-4 w-1/2 bg-muted animate-pulse rounded" />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    <FullScreenLoader />
                 ) : (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
-                        {filteredVenues?.map((venue) => (
-                            <VenueCard key={venue.id} venue={venue} />
-                        ))}
-                        {filteredVenues?.length === 0 && (
-                            <div className="col-span-full text-center py-20">
-                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-4">
-                                    <Search className="h-8 w-8 text-muted-foreground" />
-                                </div>
-                                <h3 className="text-lg font-semibold">
-                                    No venues found
-                                </h3>
-                                <p className="text-muted-foreground mt-1">
-                                    Try adjusting your search terms or browse
-                                    all venues.
+                    <>
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+                            {venuesData?.data?.map((venue) => (
+                                <VenueCard key={venue.id} venue={venue} />
+                            ))}
+                        </div>
+
+                        {!isVenuesLoading && venuesData?.data?.length === 0 && (
+                            <div className="text-center py-20 text-muted-foreground bg-muted/20 rounded-lg">
+                                <p className="text-xl">No venues found.</p>
+                                <p className="text-sm mt-2">
+                                    Try adjusting your search terms.
                                 </p>
                             </div>
                         )}
-                    </div>
+
+                        {/* Pagination */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-center gap-2 mt-12">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                        handlePageChange(Math.max(1, page - 1))
+                                    }
+                                    disabled={page === 1}
+                                >
+                                    Previous
+                                </Button>
+                                <span className="text-sm text-muted-foreground mx-2">
+                                    Page {page} of {totalPages}
+                                </span>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                        handlePageChange(
+                                            Math.min(totalPages, page + 1)
+                                        )
+                                    }
+                                    disabled={page === totalPages}
+                                >
+                                    Next
+                                </Button>
+                            </div>
+                        )}
+                    </>
                 )}
             </main>
         </div>

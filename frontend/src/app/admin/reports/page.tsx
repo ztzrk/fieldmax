@@ -13,8 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 export default function AdminReportsPage() {
     const [reports, setReports] = useState<Report[]>([]);
@@ -42,9 +42,7 @@ export default function AdminReportsPage() {
             <h1 className="text-3xl font-bold">Manage Reports</h1>
 
             {isLoading ? (
-                <div className="flex justify-center py-20">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                </div>
+                <FullScreenLoader />
             ) : (
                 <div className="border rounded-lg overflow-hidden bg-background">
                     <Table>

@@ -7,11 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
-import { Navbar } from "@/components/layout/Navbar";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 export default function ReportDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -47,7 +47,7 @@ export default function ReportDetailPage() {
             setIsReplying(true);
             await reportsService.replyToReport(id, { message: replyMessage });
             setReplyMessage("");
-            fetchReport(); // Refresh to see new reply
+            fetchReport();
             toast.success("Reply sent");
         } catch (error) {
             toast.error("Failed to send reply");
@@ -57,11 +57,7 @@ export default function ReportDetailPage() {
     };
 
     if (isLoading) {
-        return (
-            <div className="min-h-screen bg-background flex items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <FullScreenLoader />;
     }
 
     if (!report) {
@@ -187,7 +183,7 @@ export default function ReportDetailPage() {
                                         }
                                     >
                                         {isReplying ? (
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            <FullScreenLoader />
                                         ) : (
                                             <Send className="mr-2 h-4 w-4" />
                                         )}

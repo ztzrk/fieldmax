@@ -11,9 +11,8 @@ import {
     VenueFormSchema,
     venueDetailResponseSchema,
     venuesPaginatedResponseSchema,
-    venuePublicSchema,
+    venuesPublicPaginatedResponseSchema,
 } from "@/lib/schema/venue.schema";
-import { z } from "zod";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
@@ -29,13 +28,22 @@ export function useGetAllVenues(page: number, limit: number, search?: string) {
     });
 }
 
-export function useGetPublicVenues() {
+export function useGetPublicVenues(
+    page: number = 1,
+    limit: number = 30,
+    search?: string
+) {
     return useQuery({
-        queryKey: queryKeys.venues.publicList(),
+        queryKey: queryKeys.venues.list({ page, limit, search }),
         queryFn: async () => {
-            const data = await VenueService.getAllPublic();
-            return z.array(venuePublicSchema).parse(data);
+            const data = await VenueService.getAllPublic({
+                page,
+                limit,
+                search,
+            });
+            return venuesPublicPaginatedResponseSchema.parse(data);
         },
+        placeholderData: keepPreviousData,
     });
 }
 

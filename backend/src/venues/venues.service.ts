@@ -88,28 +88,63 @@ export class VenuesService {
         return { data: venues, meta: { total, page, limit, totalPages } };
     }
 
-    public async findAllPublic() {
-        const venues = await prisma.venue.findMany({
-            where: { status: "APPROVED" },
-            include: {
-                renter: {
-                    select: {
-                        fullName: true,
-                        email: true,
+    public async findAllPublic(query: Pagination) {
+        const { page = 1, limit = 10, search } = query;
+        const skip = (page - 1) * limit;
+
+        const whereCondition: Prisma.VenueWhereInput = {
+            status: "APPROVED",
+            AND: search
+                ? [
+                      {
+                          OR: [
+                              {
+                                  name: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                              {
+                                  address: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                          ],
+                      },
+                  ]
+                : [],
+        };
+
+        const [venues, total] = [
+            await prisma.venue.findMany({
+                where: whereCondition,
+                include: {
+                    renter: {
+                        select: {
+                            fullName: true,
+                            email: true,
+                        },
+                    },
+                    photos: {
+                        take: 1,
+                        select: {
+                            url: true,
+                        },
+                    },
+                    _count: {
+                        select: { fields: true },
                     },
                 },
-                photos: {
-                    take: 1,
-                    select: {
-                        url: true,
-                    },
-                },
-                _count: {
-                    select: { fields: true },
-                },
-            },
-        });
-        return venues;
+                skip: skip,
+                take: limit,
+                orderBy: { createdAt: "desc" },
+            }),
+            await prisma.venue.count({ where: whereCondition }),
+        ];
+
+        const totalPages = Math.ceil(total / limit);
+        return { data: venues, meta: { total, page, limit, totalPages } };
     }
 
     public async findAllList() {

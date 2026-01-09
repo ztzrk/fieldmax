@@ -26,8 +26,8 @@ import {
     YAxis,
     Tooltip,
 } from "recharts";
-import { Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 export default function RevenuePage() {
     const {
@@ -40,11 +40,7 @@ export default function RevenuePage() {
     });
 
     if (isLoading) {
-        return (
-            <div className="flex h-[50vh] items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
-        );
+        return <FullScreenLoader />;
     }
 
     if (error) {

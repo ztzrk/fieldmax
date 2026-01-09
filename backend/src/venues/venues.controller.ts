@@ -18,7 +18,7 @@ export class VenuesController {
                 );
                 res.status(200).json(data);
             } else {
-                const data = await this.service.findAllPublic();
+                const data = await this.service.findAllPublic(query);
                 res.status(200).json(data);
             }
         } catch (error) {

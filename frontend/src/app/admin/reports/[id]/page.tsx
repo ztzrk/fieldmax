@@ -13,10 +13,11 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card";
-import { Loader2, ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 export default function AdminReportDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -62,11 +63,7 @@ export default function AdminReportDetailPage() {
     };
 
     if (isLoading) {
-        return (
-            <div className="flex items-center justify-center py-20">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <FullScreenLoader />;
     }
 
     if (!report) {
@@ -219,7 +216,7 @@ export default function AdminReportDetailPage() {
                                     }
                                 >
                                     {isReplying ? (
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        <FullScreenLoader />
                                     ) : (
                                         <Send className="mr-2 h-4 w-4" />
                                     )}

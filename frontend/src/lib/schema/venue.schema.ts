@@ -119,7 +119,7 @@ export type VenueResponseSchema = z.infer<typeof venueResponseSchema>;
 export type VenuesPaginatedResponse = z.infer<
     typeof venuesPaginatedResponseSchema
 >;
-const venuePublicPhotoSchema = z.object({
+export const venuePublicPhotoSchema = z.object({
     url: z.string().url(),
     id: z.string().optional(),
 });
@@ -142,6 +142,18 @@ export const venuePublicSchema = z.object({
         })
         .optional(),
     bookingCount: z.number().optional(),
+});
+
+export const venuesPublicListResponseSchema = z.array(venuePublicSchema);
+
+export const venuesPublicPaginatedResponseSchema = z.object({
+    data: venuesPublicListResponseSchema,
+    meta: z.object({
+        total: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        totalPages: z.number(),
+    }),
 });
 
 export type VenuePublicSchema = z.infer<typeof venuePublicSchema>;

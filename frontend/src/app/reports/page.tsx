@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
-    Loader2,
     MessageSquare,
     Clock,
     CheckCircle2,
@@ -26,6 +25,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 export default function ReportsPage() {
     const [reports, setReports] = useState<Report[]>([]);
@@ -119,12 +119,7 @@ export default function ReportsPage() {
 
                         {/* Content */}
                         {isLoading ? (
-                            <div className="flex flex-col items-center justify-center py-20">
-                                <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
-                                <p className="text-muted-foreground">
-                                    Loading your reports...
-                                </p>
-                            </div>
+                            <FullScreenLoader />
                         ) : filteredReports.length === 0 ? (
                             <div className="text-center py-20 px-4 border-2 border-dashed rounded-xl bg-white/50 dark:bg-zinc-800/50">
                                 <div className="mx-auto bg-gray-100 dark:bg-zinc-700 h-16 w-16 rounded-full flex items-center justify-center mb-4">

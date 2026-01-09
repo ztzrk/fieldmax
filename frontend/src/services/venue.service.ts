@@ -8,9 +8,9 @@ const VenueService = {
         return response.data;
     },
 
-    getAllPublic: async () => {
+    getAllPublic: async (params?: VenueQuerySchema) => {
         try {
-            const response = await api.get("/venues/public");
+            const response = await api.get("/venues/public", { params });
             return response.data;
         } catch (error) {
             throw error as AxiosError;
