@@ -51,6 +51,7 @@ export class BookingsService {
                     },
                     user: true, // Include user details for Admin/Renter views
                     review: true,
+                    payment: true,
                 },
                 orderBy: {
                     createdAt: "desc",
@@ -76,6 +77,7 @@ export class BookingsService {
                 },
                 user: true,
                 review: true,
+                payment: true,
             },
         });
     }
@@ -133,7 +135,7 @@ export class BookingsService {
                 },
             });
 
-            // Midtrans constraints: name max 50 chars, price must be integer
+            // Midtrans constraints
             const rawName = `${field.name} @ ${newBooking.field.venue.name}`;
             const safeName =
                 rawName.length > 50 ? rawName.substring(0, 50) : rawName;
@@ -141,7 +143,7 @@ export class BookingsService {
 
             const transactionDetails = {
                 transaction_details: {
-                    order_id: newBooking.id,
+                    order_id: newBooking.id, // Booking ID is still the Order ID
                     gross_amount: safePrice,
                 },
                 customer_details: {
@@ -167,9 +169,14 @@ export class BookingsService {
                 transactionDetails
             );
 
-            await tx.booking.update({
-                where: { id: newBooking.id },
-                data: { snapToken: transactionToken },
+            // Create Payment Record
+            await tx.payment.create({
+                data: {
+                    bookingId: newBooking.id,
+                    amount: totalPrice,
+                    status: "PENDING",
+                    snapToken: transactionToken,
+                },
             });
 
             return { booking: newBooking, snapToken: transactionToken };
@@ -181,12 +188,20 @@ export class BookingsService {
         status: "CONFIRMED" | "CANCELLED" | "PENDING",
         paymentStatus?: "PENDING" | "PAID" | "EXPIRED" | "FAILED"
     ) {
-        return prisma.booking.update({
-            where: { id: bookingId },
-            data: {
-                status,
-                ...(paymentStatus && { paymentStatus }),
-            },
+        return prisma.$transaction(async (tx) => {
+            const booking = await tx.booking.update({
+                where: { id: bookingId },
+                data: { status },
+            });
+
+            if (paymentStatus) {
+                await tx.payment.update({
+                    where: { bookingId },
+                    data: { status: paymentStatus },
+                });
+            }
+
+            return booking;
         });
     }
 

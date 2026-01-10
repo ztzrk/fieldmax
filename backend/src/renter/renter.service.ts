@@ -302,7 +302,9 @@ export class RenterService {
                 totalPrice: true,
             },
             where: {
-                paymentStatus: "PAID",
+                payment: {
+                    status: "PAID",
+                },
                 field: {
                     venue: {
                         renterId,
@@ -318,7 +320,11 @@ export class RenterService {
                 fields: {
                     include: {
                         bookings: {
-                            where: { paymentStatus: "PAID" },
+                            where: {
+                                payment: {
+                                    status: "PAID",
+                                },
+                            },
                             select: { totalPrice: true },
                         },
                     },

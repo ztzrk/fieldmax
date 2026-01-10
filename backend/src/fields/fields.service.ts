@@ -1,6 +1,8 @@
 import { Prisma, User } from "@prisma/client";
 import imagekit from "../lib/imagekit";
 import prisma from "../db";
+import { format, addHours, areIntervalsOverlapping } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 import {
     CreateField,
     UpdateField,
@@ -450,6 +452,7 @@ export class FieldsService {
     }
 
     public async getAvailability(fieldId: string, query: GetAvailability) {
+        const TIMEZONE = "Asia/Jakarta"; // TODO: Make this dynamic from Venue
         const field = await prisma.field.findUnique({
             where: { id: fieldId },
             select: { isClosed: true, venueId: true },
@@ -459,86 +462,120 @@ export class FieldsService {
             return [];
         }
 
-        const requestedDate = this.parseDate(query.date);
-        const dayOfWeek = requestedDate.getUTCDay();
+        // 1. Parse requested date in Venue Timezone
+        const requestDate = toZonedTime(query.date, TIMEZONE);
+        const dayOfWeek = requestDate.getDay(); // 0 = Sunday
 
+        // 2. Check for Overrides or Regular Schedule
         const override = await prisma.scheduleOverride.findFirst({
             where: {
                 fieldId: fieldId,
-                overrideDate: requestedDate,
+                overrideDate: requestDate,
             },
         });
 
-        let openHour: number | null = null;
-        let closeHour: number | null = null;
-        let isClosed = false;
+        let openTime: Date | null = null;
+        let closeTime: Date | null = null;
 
         if (override) {
-            if (
-                override.isClosed ||
-                !override.openTime ||
-                !override.closeTime
-            ) {
-                isClosed = true;
-            } else {
-                openHour = override.openTime.getUTCHours();
-                closeHour = override.closeTime.getUTCHours();
+            if (override.isClosed) return [];
+            if (override.openTime && override.closeTime) {
+                // Determine the dates for open/close on the REQUESTED day
+                // The overrides in DB are stored as 1970-01-01 + Time
+                // We need to combine the Time part with the Request Date
+                openTime = this.combineDateAndTime(
+                    requestDate,
+                    override.openTime,
+                    TIMEZONE
+                );
+                closeTime = this.combineDateAndTime(
+                    requestDate,
+                    override.closeTime,
+                    TIMEZONE
+                );
             }
         } else {
-            const regularSchedules = await prisma.venueSchedule.findMany({
+            const regularSchedule = await prisma.venueSchedule.findFirst({
                 where: { venueId: field.venueId, dayOfWeek: dayOfWeek },
             });
-            if (regularSchedules.length > 0) {
-                openHour = regularSchedules[0].openTime.getUTCHours();
-                closeHour = regularSchedules[0].closeTime.getUTCHours();
-            } else {
-                isClosed = true;
+            if (regularSchedule) {
+                openTime = this.combineDateAndTime(
+                    requestDate,
+                    regularSchedule.openTime,
+                    TIMEZONE
+                );
+                closeTime = this.combineDateAndTime(
+                    requestDate,
+                    regularSchedule.closeTime,
+                    TIMEZONE
+                );
             }
         }
 
-        if (isClosed || openHour === null || closeHour === null) {
-            return [];
-        }
+        if (!openTime || !closeTime) return [];
 
-        const possibleSlots = [];
-        for (let hour = openHour; hour < closeHour; hour++) {
-            possibleSlots.push(`${hour.toString().padStart(2, "0")}:00`);
-        }
-
+        // 3. Get Bookings for this Range
+        // We look for bookings that overlap with our operating window
         const bookings = await prisma.booking.findMany({
             where: {
                 fieldId: fieldId,
-                bookingDate: requestedDate,
-                status: {
-                    in: ["CONFIRMED", "PENDING"],
-                },
+                status: { in: ["CONFIRMED", "PENDING"] },
+                // Overlap formula: StartA < EndB AND EndA > StartB
+                startTime: { lt: closeTime },
+                endTime: { gt: openTime },
             },
-            select: {
-                startTime: true,
-                endTime: true, // Need end time for range blocking
-            },
+            select: { startTime: true, endTime: true },
         });
 
-        const bookedSlots = new Set<string>();
+        // 4. Generate Slots (Hourly for now)
+        const slots: string[] = [];
+        let currentSlot = openTime;
 
-        bookings.forEach((booking) => {
-            // Shift UTC to WIB (+7)
-            const start = (booking.startTime.getUTCHours() + 7) % 24;
-            // Calculate end hour. If end < start, it means it wrapped to next day (add 24)
-            let end = (booking.endTime.getUTCHours() + 7) % 24;
-            if (end <= start) end += 24;
+        // Loop until we reach closeTime.
+        // Assuming 1 hour slots.
+        while (addHours(currentSlot, 1) <= closeTime) {
+            const slotEnd = addHours(currentSlot, 1);
+            const slotInterval = { start: currentSlot, end: slotEnd };
 
-            for (let h = start; h < end; h++) {
-                const hourString = `${(h % 24).toString().padStart(2, "0")}:00`;
-                bookedSlots.add(hourString);
+            // Check if this slot overlaps with ANY booking
+            const isBooked = bookings.some((booking) =>
+                areIntervalsOverlapping(slotInterval, {
+                    start: booking.startTime,
+                    end: booking.endTime,
+                })
+            );
+
+            if (!isBooked) {
+                // Format output as HH:mm
+                slots.push(format(currentSlot, "HH:mm"));
             }
-        });
 
-        const availableSlots = possibleSlots.filter(
-            (slot) => !bookedSlots.has(slot)
-        );
+            currentSlot = addHours(currentSlot, 1);
+        }
 
-        return availableSlots;
+        return slots;
+    }
+
+    private combineDateAndTime(
+        baseDate: Date,
+        timeDate: Date,
+        timezone: string
+    ): Date {
+        // Extract hour/minute from the database Time object (which is UTC-ish 1970)
+        // Note: Prisma stores @db.Time as a Date object on 1970-01-01.
+        // When we read it, it comes as a JS Date.
+        // We want to apply ITS hours/minutes to OUR baseDate in the target Timezone.
+
+        // Get HH:mm from the source time (in UTC, since that's how Prisma typically gives it back for Time columns)
+        // OR better: use format to extract the string "HH:mm" from the time object
+        const timeString = format(timeDate, "HH:mm"); // e.g. "16:00"
+
+        // Create a string "YYYY-MM-DD HH:mm"
+        const dateString = format(baseDate, "yyyy-MM-dd");
+        const combinedString = `${dateString} ${timeString}`;
+
+        // Parse this string BACK into a Date object in the target timezone
+        return toZonedTime(combinedString, timezone);
     }
 
     public async toggleClosure(fieldId: string, isClosed: boolean, user: User) {

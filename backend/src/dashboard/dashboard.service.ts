@@ -29,7 +29,7 @@ export class DashboardService {
             }),
             prisma.booking.aggregate({
                 _sum: { totalPrice: true },
-                where: { paymentStatus: "PAID" },
+                where: { payment: { status: "PAID" } },
             }),
         ]);
 
@@ -74,7 +74,7 @@ export class DashboardService {
                 _sum: { totalPrice: true },
                 where: {
                     field: { venue: { renterId } },
-                    paymentStatus: "PAID",
+                    payment: { status: "PAID" },
                 },
             }),
         ]);
