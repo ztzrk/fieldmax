@@ -1,9 +1,10 @@
 import rateLimit from "express-rate-limit";
 import { logger } from "../utils/logger";
+import { config } from "../config/env";
 
 // Middleware to bypass rate limiting in development
 const limiterOrNext = (limiter: any) => {
-    return process.env.NODE_ENV === "production"
+    return config.NODE_ENV === "production"
         ? limiter
         : (req: any, res: any, next: any) => next();
 };

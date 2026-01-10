@@ -1,14 +1,13 @@
 import nodemailer from "nodemailer";
-
-const { SMTP_USER, SMTP_PASS } = process.env;
+import { config } from "../config/env";
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
     port: 587,
     secure: true,
     auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
+        user: config.SMTP_USER,
+        pass: config.SMTP_PASS,
     },
 });
 
@@ -28,7 +27,7 @@ export const sendVerificationEmail = async (email: string, code: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-    const resetLink = `http://localhost:3000/reset-password?token=${token}`;
+    const resetLink = `${config.FRONTEND_URL}/reset-password?token=${token}`;
 
     const message = {
         from: '"FieldMax" <no-reply@fieldmax.com>',

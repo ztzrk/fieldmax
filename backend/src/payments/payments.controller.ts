@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { PaymentsService } from "./payments.service";
+import { config } from "../config/env";
 
 export class PaymentsController {
     constructor(private service: PaymentsService) {}
@@ -27,9 +28,7 @@ export class PaymentsController {
     ) => {
         try {
             // Redirect to frontend profile page
-            const redirectUrl = `${
-                process.env.FRONTEND_URL || "http://localhost:3001"
-            }/bookings`;
+            const redirectUrl = `${config.FRONTEND_URL}/bookings`;
             res.redirect(redirectUrl);
         } catch (error) {
             next(error);

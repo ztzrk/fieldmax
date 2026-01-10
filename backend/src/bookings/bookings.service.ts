@@ -3,6 +3,7 @@ import { CreateBooking } from "../schemas/bookings.schema";
 const midtransClient = require("midtrans-client");
 import { Prisma, User } from "@prisma/client";
 import { Pagination } from "../schemas/pagination.schema";
+import { config } from "../config/env";
 
 export class BookingsService {
     private snap: any;
@@ -12,8 +13,8 @@ export class BookingsService {
             snap ||
             new midtransClient.Snap({
                 isProduction: false,
-                serverKey: process.env.MIDTRANS_SERVER_KEY,
-                clientKey: process.env.MIDTRANS_CLIENT_KEY,
+                serverKey: config.MIDTRANS_SERVER_KEY,
+                clientKey: config.MIDTRANS_CLIENT_KEY,
             });
     }
 
@@ -162,15 +163,9 @@ export class BookingsService {
                     },
                 ],
                 callbacks: {
-                    finish: `${
-                        process.env.BACKEND_URL || "http://localhost:3000"
-                    }/payments/finish`,
-                    unfinish: `${
-                        process.env.BACKEND_URL || "http://localhost:3000"
-                    }/payments/unfinish`,
-                    error: `${
-                        process.env.BACKEND_URL || "http://localhost:3000"
-                    }/payments/error`,
+                    finish: `${config.BACKEND_URL}/payments/finish`,
+                    unfinish: `${config.BACKEND_URL}/payments/unfinish`,
+                    error: `${config.BACKEND_URL}/payments/error`,
                 },
             };
 

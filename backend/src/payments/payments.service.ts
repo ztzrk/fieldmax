@@ -1,12 +1,13 @@
 import prisma from "../db";
 import midtransclient from "midtrans-client";
 import { BookingsService } from "../bookings/bookings.service";
+import { config } from "../config/env";
 
 export class PaymentsService {
     private snap = new midtransclient.Snap({
         isProduction: false,
-        serverKey: process.env.MIDTRANS_SERVER_KEY,
-        clientKey: process.env.MIDTRANS_CLIENT_KEY,
+        serverKey: config.MIDTRANS_SERVER_KEY,
+        clientKey: config.MIDTRANS_CLIENT_KEY,
     });
 
     private bookingsService = new BookingsService();

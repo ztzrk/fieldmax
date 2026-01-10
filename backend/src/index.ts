@@ -1,7 +1,5 @@
 // src/index.ts
 import "reflect-metadata";
-import dotenv from "dotenv";
-dotenv.config();
 import cors from "cors";
 import helmet from "helmet";
 import express, { Express, Request, Response } from "express";
@@ -58,10 +56,12 @@ import { ReviewsRoute } from "./reviews/reviews.route";
 import { ReportsRoute } from "./reports/reports.route";
 import { HomeRoute } from "./home/home.route";
 
+import { config } from "./config/env";
+
 CronService.init();
 
 const app: Express = express();
-const PORT = process.env.PORT || 3000;
+const PORT = config.PORT;
 
 // Middleware
 app.use(helmet());
