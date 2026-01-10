@@ -2,7 +2,8 @@
 import { Router } from "express";
 import { VenuesController } from "./venues.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validationMiddleware } from "../middleware/validation.middleware";
+import { validateRequest } from "../middleware/validate.middleware";
+import { z } from "zod";
 import {
     createVenueSchema,
     rejectVenueSchema,
@@ -26,7 +27,7 @@ export class VenuesRoute {
     private initializeRoutes() {
         this.router.get(
             `${this.path}/public`,
-            validationMiddleware(paginationSchema, true),
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.getAll
         );
 
@@ -35,7 +36,7 @@ export class VenuesRoute {
         this.router.get(
             `${this.path}`,
             authMiddleware,
-            validationMiddleware(paginationSchema, true),
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.getAll
         );
 
@@ -54,7 +55,7 @@ export class VenuesRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            validationMiddleware(createVenueSchema),
+            validateRequest(z.object({ body: createVenueSchema })),
             this.controller.create
         );
 
@@ -62,7 +63,7 @@ export class VenuesRoute {
             `${this.path}/:id`,
             authMiddleware,
             canManageVenue,
-            validationMiddleware(updateVenueSchema, true),
+            validateRequest(z.object({ body: updateVenueSchema })),
             this.controller.update
         );
 
@@ -91,7 +92,7 @@ export class VenuesRoute {
             `${this.path}/:id/reject`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(rejectVenueSchema),
+            validateRequest(z.object({ body: rejectVenueSchema })),
             this.controller.reject
         );
 

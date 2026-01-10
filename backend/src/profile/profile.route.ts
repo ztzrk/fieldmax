@@ -1,9 +1,11 @@
-// src/profile/profile.route.ts
 import { Router } from "express";
 import { ProfileController } from "./profile.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validationMiddleware } from "../middleware/validation.middleware";
-import { updateProfileSchema } from "../schemas/profile.schema";
+import { validateRequest } from "../middleware/validate.middleware";
+import {
+    updateProfileSchema,
+    changePasswordSchema,
+} from "../schemas/profile.schema";
 
 export class ProfileRoute {
     public path = "/profile";
@@ -17,7 +19,7 @@ export class ProfileRoute {
         this.router.patch(
             `${this.path}/me`,
             authMiddleware,
-            validationMiddleware(updateProfileSchema),
+            validateRequest(updateProfileSchema),
             this.controller.updateProfile
         );
         this.router.get(
@@ -28,6 +30,7 @@ export class ProfileRoute {
         this.router.patch(
             `${this.path}/change-password`,
             authMiddleware,
+            validateRequest(changePasswordSchema),
             this.controller.changePassword
         );
         this.router.delete(

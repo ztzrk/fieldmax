@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { HomeService } from "./home.service";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class HomeController {
     constructor(private homeService: HomeService) {}
@@ -8,7 +9,7 @@ export class HomeController {
     public getLandingPageData = asyncHandler(
         async (req: Request, res: Response) => {
             const data = await this.homeService.getLandingPageData();
-            res.status(200).json({ data });
+            sendSuccess(res, data, "Landing page data retrieved");
         }
     );
 }

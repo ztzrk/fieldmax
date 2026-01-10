@@ -2,24 +2,25 @@ import { Request, Response } from "express";
 import { VenuesService } from "./venues.service";
 import { CreateVenue, UpdateVenue } from "../schemas/venues.schema";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class VenuesController {
     constructor(private service: VenuesService) {}
 
     public getAll = asyncHandler(async (req: Request, res: Response) => {
-        const query = req.validatedQuery || req.query;
+        const query = req.query; // Middleware validation
         if (req.user && req.user.role === "ADMIN") {
-            const data = await this.service.findAllAdmin(query);
-            res.status(200).json(data);
+            const result = await this.service.findAllAdmin(query);
+            sendSuccess(res, result.data, "Venues retrieved", 200, result.meta);
         } else if (req.user && req.user.role === "RENTER") {
-            const data = await this.service.findAllForRenter(
+            const result = await this.service.findAllForRenter(
                 req.user.id,
                 query
             );
-            res.status(200).json(data);
+            sendSuccess(res, result.data, "Venues retrieved", 200, result.meta);
         } else {
-            const data = await this.service.findAllPublic(query);
-            res.status(200).json(data);
+            const result = await this.service.findAllPublic(query);
+            sendSuccess(res, result.data, "Venues retrieved", 200, result.meta);
         }
     });
 
@@ -30,79 +31,70 @@ export class VenuesController {
         } else {
             data = await this.service.findAllList();
         }
-        res.status(200).json({ data });
+        sendSuccess(res, data, "Venue list retrieved");
     });
 
     public getById = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.findById(id);
-        res.status(200).json({ data, message: "findOne" });
+        sendSuccess(res, data, "Venue details retrieved");
     });
 
     public create = asyncHandler(async (req: Request, res: Response) => {
         const venueData: CreateVenue = req.body;
         const data = await this.service.create(venueData, req.user!);
-        res.status(201).json({ data, message: "created" });
+        sendSuccess(res, data, "Venue created successfully", 201);
     });
 
     public update = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const venueData: UpdateVenue = req.body;
         const data = await this.service.update(id, venueData);
-        res.status(200).json({ data, message: "updated" });
+        sendSuccess(res, data, "Venue updated successfully");
     });
 
     public delete = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.delete(id);
-        res.status(200).json({ data, message: "deleted" });
+        sendSuccess(res, data, "Venue deleted successfully");
     });
 
     public deleteMultiple = asyncHandler(
         async (req: Request, res: Response) => {
             const { ids } = req.body;
             const data = await this.service.deleteMultiple(ids, req.user);
-            res.status(200).json({ data, message: "deleted multiple" });
+            sendSuccess(res, data, "Venues deleted successfully");
         }
     );
 
     public approve = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.approve(id);
-        res.status(200).json({ data, message: "venue approved" });
+        sendSuccess(res, data, "Venue approved successfully");
     });
 
     public reject = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = req.body;
         const rejectedVenue = await this.service.reject(id, data);
-        res.status(200).json({
-            data: rejectedVenue,
-            message: "venue rejected",
-        });
+        sendSuccess(res, rejectedVenue, "Venue rejected successfully");
     });
 
     public resubmit = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.resubmit(id);
-        res.status(200).json({
-            data,
-            message: "Venue resubmitted for review",
-        });
+        sendSuccess(res, data, "Venue resubmitted for review");
     });
 
     public submit = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.submit(id);
-        res.status(200).json({
-            data,
-            message: "Venue submitted for review",
-        });
+        sendSuccess(res, data, "Venue submitted for review");
     });
 
     public deletePhoto = asyncHandler(async (req: Request, res: Response) => {
         const { photoId } = req.params;
         await this.service.deletePhoto(photoId);
-        res.status(200).json({ message: "Photo deleted" });
+        sendSuccess(res, null, "Photo deleted successfully");
     });
 }

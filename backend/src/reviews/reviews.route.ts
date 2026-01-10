@@ -1,9 +1,12 @@
-// src/reviews/reviews.route.ts
 import { Router } from "express";
 import { ReviewsController } from "./reviews.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validationMiddleware } from "../middleware/validation.middleware";
-import { createReviewSchema } from "../schemas/reviews.schema";
+import { validateRequest } from "../middleware/validate.middleware";
+import {
+    createReviewSchema,
+    getReviewsQuerySchema,
+} from "../schemas/reviews.schema";
+import { z } from "zod";
 
 export class ReviewsRoute {
     public path = "/reviews";
@@ -17,11 +20,12 @@ export class ReviewsRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            validationMiddleware(createReviewSchema),
+            validateRequest(createReviewSchema),
             this.controller.create
         );
         this.router.get(
             `${this.path}/fields/:fieldId`,
+            validateRequest(z.object({ query: getReviewsQuerySchema })),
             this.controller.getByFieldId
         );
     }

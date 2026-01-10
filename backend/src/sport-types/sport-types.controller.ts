@@ -6,40 +6,47 @@ import {
 } from "../schemas/sport-types.schema";
 import { Pagination } from "../schemas/pagination.schema";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class SportTypesController {
     constructor(private service: SportTypesService) {}
 
     public getAll = asyncHandler(async (req: Request, res: Response) => {
-        const query: Pagination = req.validatedQuery || req.query;
+        const query = req.query as unknown as Pagination;
         const result = await this.service.findAll(query);
-        res.status(200).json(result);
+        sendSuccess(
+            res,
+            result.data,
+            "Sport types retrieved",
+            200,
+            result.meta
+        );
     });
 
     public create = asyncHandler(async (req: Request, res: Response) => {
         const sportTypeData: CreateSportType = req.body;
         const data = await this.service.create(sportTypeData);
-        res.status(201).json({ data, message: "created" });
+        sendSuccess(res, data, "Sport type created", 201);
     });
 
     public update = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const sportTypeData: UpdateSportType = req.body;
         const data = await this.service.update(id, sportTypeData);
-        res.status(200).json({ data, message: "updated" });
+        sendSuccess(res, data, "Sport type updated");
     });
 
     public delete = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.delete(id);
-        res.status(200).json({ data, message: "deleted" });
+        sendSuccess(res, data, "Sport type deleted");
     });
 
     public deleteMultiple = asyncHandler(
         async (req: Request, res: Response) => {
             const { ids } = req.body;
             const data = await this.service.deleteMultiple(ids);
-            res.status(200).json({ data, message: "deleted multiple" });
+            sendSuccess(res, data, "Sport types deleted");
         }
     );
 }

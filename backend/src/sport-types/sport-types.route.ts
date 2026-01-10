@@ -1,13 +1,15 @@
-import { Router, Response, NextFunction, Request } from "express";
+import { Router } from "express";
 import { SportTypesController } from "./sport-types.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validationMiddleware } from "../middleware/validation.middleware";
+import { validateRequest } from "../middleware/validate.middleware";
 import {
     createSportTypeSchema,
     updateSportTypeSchema,
+    deleteMultipleSportTypesSchema,
 } from "../schemas/sport-types.schema";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { paginationSchema } from "../schemas/pagination.schema";
+import { z } from "zod";
 
 export class SportTypesRoute {
     public path = "/sport-types";
@@ -20,7 +22,7 @@ export class SportTypesRoute {
     private initializeRoutes() {
         this.router.get(
             `${this.path}`,
-            validationMiddleware(paginationSchema, true),
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.getAll
         );
 
@@ -28,7 +30,7 @@ export class SportTypesRoute {
             `${this.path}`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(createSportTypeSchema),
+            validateRequest(createSportTypeSchema),
             this.controller.create
         );
 
@@ -36,7 +38,7 @@ export class SportTypesRoute {
             `${this.path}/:id`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(updateSportTypeSchema),
+            validateRequest(updateSportTypeSchema),
             this.controller.update
         );
 
@@ -50,6 +52,7 @@ export class SportTypesRoute {
             `${this.path}/multiple`,
             authMiddleware,
             adminOnlyMiddleware,
+            validateRequest(deleteMultipleSportTypesSchema),
             this.controller.deleteMultiple
         );
     }

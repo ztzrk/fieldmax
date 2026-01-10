@@ -4,6 +4,7 @@ import { VenuesService } from "../venues/venues.service";
 import { FieldsService } from "../fields/fields.service";
 import { ProfileService } from "../profile/profile.service";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess, sendError } from "../utils/response";
 
 export class UploadsController {
     constructor(
@@ -18,7 +19,7 @@ export class UploadsController {
             const files = req.files as Express.Multer.File[];
 
             if (!files || files.length === 0) {
-                throw new Error("No files uploaded.");
+                return sendError(res, "No files uploaded.", "BAD_REQUEST", 400);
             }
 
             const savedPhotos = await this.venuesService.addPhotos(
@@ -26,11 +27,7 @@ export class UploadsController {
                 files,
                 req.user!
             );
-
-            res.status(201).json({
-                data: savedPhotos,
-                message: "Photos uploaded successfully",
-            });
+            sendSuccess(res, savedPhotos, "Photos uploaded successfully", 201);
         }
     );
 
@@ -40,7 +37,7 @@ export class UploadsController {
             const files = req.files as Express.Multer.File[];
 
             if (!files || files.length === 0) {
-                throw new Error("No files uploaded.");
+                return sendError(res, "No files uploaded.", "BAD_REQUEST", 400);
             }
 
             const savedPhotos = await this.fieldsService.addPhotos(
@@ -48,11 +45,7 @@ export class UploadsController {
                 files,
                 req.user!
             );
-
-            res.status(201).json({
-                data: savedPhotos,
-                message: "Photos uploaded successfully",
-            });
+            sendSuccess(res, savedPhotos, "Photos uploaded successfully", 201);
         }
     );
 
@@ -62,7 +55,7 @@ export class UploadsController {
             const file = req.file;
 
             if (!file) {
-                throw new Error("No file uploaded.");
+                return sendError(res, "No file uploaded.", "BAD_REQUEST", 400);
             }
 
             const imagekit = require("../lib/imagekit").default;
@@ -78,14 +71,18 @@ export class UploadsController {
                 folder: "user-profiles",
             });
 
-            const updatedProfile = this.profileService.updateProfile(userId, {
-                profilePictureUrl: uploadResult.url,
-            });
+            const updatedProfile = await this.profileService.updateProfile(
+                userId,
+                {
+                    profilePictureUrl: uploadResult.url,
+                }
+            );
 
-            res.status(200).json({
-                data: updatedProfile,
-                message: "Profile photo updated successfully",
-            });
+            sendSuccess(
+                res,
+                updatedProfile,
+                "Profile photo updated successfully"
+            );
         }
     );
 }

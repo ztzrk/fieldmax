@@ -11,25 +11,25 @@ import {
 } from "../schemas/fields.schema";
 import { Pagination } from "../schemas/pagination.schema";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class FieldsController {
     constructor(private service: FieldsService) {}
 
     public getAll = asyncHandler(async (req: Request, res: Response) => {
-        const query =
-            req.validatedQuery || (req.query as unknown as Pagination);
+        const query = req.query as unknown as Pagination;
         if (req.user && req.user.role === "RENTER") {
             const data = await this.service.findAllForRenter(
                 req.user.id,
                 query
             );
-            res.status(200).json(data);
+            sendSuccess(res, data.data, "Fields retrieved", 200, data.meta);
         } else {
             if (!req.user) {
                 query.status = "APPROVED";
             }
             const data = await this.service.findAll(query);
-            res.status(200).json(data);
+            sendSuccess(res, data.data, "Fields retrieved", 200, data.meta);
         }
     });
 
@@ -52,40 +52,40 @@ export class FieldsController {
             limit,
             ratings,
         });
-        res.status(200).json({ data, message: "findOne" });
+        sendSuccess(res, data, "Field details retrieved");
     });
 
     public create = asyncHandler(async (req: Request, res: Response) => {
         const fieldData: CreateField = req.body;
         const data = await this.service.create(fieldData, req.user!);
-        res.status(201).json({ data, message: "created" });
+        sendSuccess(res, data, "Field created successfully", 201);
     });
 
     public update = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const fieldData: UpdateField = req.body;
         const data = await this.service.update(id, fieldData, req.user!);
-        res.status(200).json({ data, message: "updated" });
+        sendSuccess(res, data, "Field updated successfully");
     });
 
     public delete = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.delete(id, req.user!);
-        res.status(200).json({ data, message: "deleted" });
+        sendSuccess(res, data, "Field deleted successfully");
     });
 
     public deleteMultiple = asyncHandler(
         async (req: Request, res: Response) => {
             const { ids }: DeleteMultipleFields = req.body;
             const data = await this.service.deleteMultiple(ids, req.user);
-            res.status(200).json({ data, message: "deleted multiple" });
+            sendSuccess(res, data, "Fields deleted successfully");
         }
     );
 
     public getOverrides = asyncHandler(async (req: Request, res: Response) => {
         const { fieldId } = req.params;
         const data = await this.service.getOverrides(fieldId);
-        res.status(200).json({ data });
+        sendSuccess(res, data, "Schedule overrides retrieved");
     });
 
     public createOverride = asyncHandler(
@@ -96,7 +96,7 @@ export class FieldsController {
                 fieldId,
                 overrideData
             );
-            res.status(201).json({ data, message: "created" });
+            sendSuccess(res, data, "Override created successfully", 201);
         }
     );
 
@@ -104,14 +104,14 @@ export class FieldsController {
         async (req: Request, res: Response) => {
             const { overrideId } = req.params;
             const data = await this.service.deleteOverride(overrideId);
-            res.status(200).json({ data, message: "deleted" });
+            sendSuccess(res, data, "Override deleted successfully");
         }
     );
 
     public deletePhoto = asyncHandler(async (req: Request, res: Response) => {
         const { photoId } = req.params;
         const data = await this.service.deletePhoto(photoId);
-        res.status(200).json({ data, message: "deleted photo" });
+        sendSuccess(res, data, "Photo deleted successfully");
     });
 
     public getAvailability = asyncHandler(
@@ -119,42 +119,33 @@ export class FieldsController {
             const { fieldId } = req.params;
             const query = req.query as unknown as GetAvailability;
             const data = await this.service.getAvailability(fieldId, query);
-            res.status(200).json({ data });
+            sendSuccess(res, data, "Availability retrieved");
         }
     );
 
     public approve = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.approve(id);
-        res.status(200).json({ data, message: "field approved" });
+        sendSuccess(res, data, "Field approved successfully");
     });
 
     public reject = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data: RejectField = req.body;
         const rejectedField = await this.service.reject(id, data);
-        res.status(200).json({
-            data: rejectedField,
-            message: "field rejected",
-        });
+        sendSuccess(res, rejectedField, "Field rejected successfully");
     });
 
     public resubmit = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const data = await this.service.resubmit(id);
-        res.status(200).json({
-            data,
-            message: "Field resubmitted for review",
-        });
+        sendSuccess(res, data, "Field resubmitted for review");
     });
 
     public toggleClosure = asyncHandler(async (req: Request, res: Response) => {
         const { id } = req.params;
         const { isClosed }: ToggleFieldClosure = req.body;
         const data = await this.service.toggleClosure(id, isClosed, req.user!);
-        res.status(200).json({
-            data,
-            message: isClosed ? "Field closed" : "Field opened",
-        });
+        sendSuccess(res, data, isClosed ? "Field closed" : "Field opened");
     });
 }

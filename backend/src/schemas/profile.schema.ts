@@ -9,3 +9,7 @@ export const updateProfileSchema = z.object({
 });
 
 export type UpdateProfile = z.infer<typeof updateProfileSchema>;
+
+export const changePasswordSchema = z.object({
+    newPassword: z.string().min(6),
+});

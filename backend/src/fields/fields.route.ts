@@ -2,7 +2,8 @@ import { Router } from "express";
 import { FieldsController } from "./fields.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
-import { validationMiddleware } from "../middleware/validation.middleware";
+import { validateRequest } from "../middleware/validate.middleware";
+import { z } from "zod";
 import {
     createFieldSchema,
     rejectFieldSchema,
@@ -27,7 +28,7 @@ export class FieldsRoute {
         this.router.get(
             `${this.path}`,
             optionalAuthMiddleware,
-            validationMiddleware(paginationSchema, true),
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.getAll
         );
         this.router.get(`${this.path}/:id`, this.controller.getById);
@@ -35,14 +36,14 @@ export class FieldsRoute {
             `${this.path}`,
             authMiddleware,
             canManageField,
-            validationMiddleware(createFieldSchema),
+            validateRequest(z.object({ body: createFieldSchema })),
             this.controller.create
         );
         this.router.put(
             `${this.path}/:id`,
             authMiddleware,
             canManageField,
-            validationMiddleware(updateFieldSchema, true),
+            validateRequest(z.object({ body: updateFieldSchema })),
             this.controller.update
         );
         this.router.delete(
@@ -55,6 +56,7 @@ export class FieldsRoute {
             `${this.path}/multiple`,
             authMiddleware,
             canManageField,
+            // Manual validation often ok here or add schema
             this.controller.deleteMultiple
         );
         this.router.patch(
@@ -68,7 +70,7 @@ export class FieldsRoute {
             `${this.path}/:id/reject`,
             authMiddleware,
             adminOnlyMiddleware,
-            validationMiddleware(rejectFieldSchema),
+            validateRequest(z.object({ body: rejectFieldSchema })),
             this.controller.reject
         );
 
@@ -83,7 +85,7 @@ export class FieldsRoute {
             `${this.path}/:id/closure`,
             authMiddleware,
             canManageField,
-            validationMiddleware(toggleFieldClosureSchema),
+            validateRequest(z.object({ body: toggleFieldClosureSchema })),
             this.controller.toggleClosure
         );
 
@@ -98,7 +100,7 @@ export class FieldsRoute {
             `${this.path}/:fieldId/overrides`,
             authMiddleware,
             canManageField,
-            validationMiddleware(scheduleOverrideSchema),
+            validateRequest(z.object({ body: scheduleOverrideSchema })),
             this.controller.createOverride
         );
 
@@ -117,7 +119,7 @@ export class FieldsRoute {
         );
         this.router.get(
             `${this.path}/:fieldId/availability`,
-            validationMiddleware(getAvailabilitySchema, true),
+            validateRequest(z.object({ query: getAvailabilitySchema })),
             this.controller.getAvailability
         );
     }

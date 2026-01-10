@@ -2,8 +2,10 @@
 import { Router } from "express";
 import { BookingsController } from "./bookings.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validationMiddleware } from "../middleware/validation.middleware";
+import { validateRequest } from "../middleware/validate.middleware";
+import { z } from "zod";
 import { createBookingSchema } from "../schemas/bookings.schema";
+import { paginationSchema } from "../schemas/pagination.schema";
 
 export class BookingsRoute {
     public path = "/bookings";
@@ -17,6 +19,7 @@ export class BookingsRoute {
         this.router.get(
             `${this.path}`,
             authMiddleware,
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.findAll
         );
         this.router.get(
@@ -27,7 +30,7 @@ export class BookingsRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            validationMiddleware(createBookingSchema),
+            validateRequest(z.object({ body: createBookingSchema })),
             this.controller.create
         );
         this.router.post(

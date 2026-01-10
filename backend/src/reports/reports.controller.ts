@@ -2,35 +2,32 @@ import { NextFunction, Request, Response } from "express";
 import { CreateReport, CreateReply } from "./reports.schema";
 import { ReportsService } from "./reports.service";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class ReportsController {
     constructor(private reportsService: ReportsService) {}
     public createReport = asyncHandler(async (req: Request, res: Response) => {
         const data: CreateReport = req.body;
-        // @ts-ignore - Assuming authMiddleware attaches user to req
-        const userId = req.user.id;
+        const userId = req.user!.id;
         const report = await this.reportsService.createReport(userId, data);
-        res.status(201).json(report);
+        sendSuccess(res, report, "Report created", 201);
     });
 
     public getMyReports = asyncHandler(async (req: Request, res: Response) => {
-        // @ts-ignore
-        const userId = req.user.id;
+        const userId = req.user!.id;
         const reports = await this.reportsService.getUserReports(userId);
-        res.status(200).json(reports);
+        sendSuccess(res, reports, "My reports retrieved");
     });
 
     public getAllReports = asyncHandler(async (req: Request, res: Response) => {
         const reports = await this.reportsService.getAllReports();
-        res.status(200).json(reports);
+        sendSuccess(res, reports, "All reports retrieved");
     });
 
     public getReportById = asyncHandler(async (req: Request, res: Response) => {
         const reportId = req.params.id;
-        // @ts-ignore
-        const userId = req.user.id;
-        // @ts-ignore
-        const role = req.user.role;
+        const userId = req.user!.id;
+        const role = req.user!.role;
         const isAdmin = role === "ADMIN";
 
         const report = await this.reportsService.getReportById(
@@ -38,16 +35,14 @@ export class ReportsController {
             userId,
             isAdmin
         );
-        res.status(200).json(report);
+        sendSuccess(res, report, "Report details retrieved");
     });
 
     public replyToReport = asyncHandler(async (req: Request, res: Response) => {
         const reportId = req.params.id;
         const data: CreateReply = req.body;
-        // @ts-ignore
-        const userId = req.user.id;
-        // @ts-ignore
-        const role = req.user.role;
+        const userId = req.user!.id;
+        const role = req.user!.role;
         const isAdmin = role === "ADMIN";
 
         const reply = await this.reportsService.replyToReport(
@@ -56,6 +51,6 @@ export class ReportsController {
             data,
             isAdmin
         );
-        res.status(201).json(reply);
+        sendSuccess(res, reply, "Reply created", 201);
     });
 }

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ProfileService } from "./profile.service";
 import { UpdateProfile } from "../schemas/profile.schema";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class ProfileController {
     constructor(private service: ProfileService) {}
@@ -10,13 +11,13 @@ export class ProfileController {
         const userId = req.user!.id;
         const profileData: UpdateProfile = req.body;
         const data = await this.service.updateProfile(userId, profileData);
-        res.status(200).json({ data, message: "Profile updated" });
+        sendSuccess(res, data, "Profile updated");
     });
 
     public getProfile = asyncHandler(async (req: Request, res: Response) => {
         const userId = req.user!.id;
         const data = await this.service.getProfile(userId);
-        res.status(200).json({ data, message: "Profile fetched" });
+        sendSuccess(res, data, "Profile fetched");
     });
 
     public changePassword = asyncHandler(
@@ -24,13 +25,13 @@ export class ProfileController {
             const userId = req.user!.id;
             const { newPassword } = req.body;
             await this.service.changePassword(userId, newPassword);
-            res.status(200).json({ message: "Password changed" });
+            sendSuccess(res, null, "Password changed");
         }
     );
 
     public deleteAccount = asyncHandler(async (req: Request, res: Response) => {
         const userId = req.user!.id;
         await this.service.deleteAccount(userId);
-        res.status(200).json({ message: "Account deleted" });
+        sendSuccess(res, null, "Account deleted");
     });
 }

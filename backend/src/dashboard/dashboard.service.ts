@@ -101,7 +101,7 @@ export class DashboardService {
         if (range === "12m") startDate.setMonth(now.getMonth() - 12);
 
         const where: any = {
-            paymentStatus: "PAID",
+            payment: { status: "PAID" },
             bookingDate: { gte: startDate },
         };
 

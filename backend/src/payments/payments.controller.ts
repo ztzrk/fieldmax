@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PaymentsService } from "./payments.service";
 import { config } from "../config/env";
 import { asyncHandler } from "../utils/asyncHandler";
+import { sendSuccess } from "../utils/response";
 
 export class PaymentsController {
     constructor(private service: PaymentsService) {}
@@ -10,9 +11,7 @@ export class PaymentsController {
         async (req: Request, res: Response) => {
             const notificationJson = req.body;
             await this.service.handleMidtransNotification(notificationJson);
-            res.status(200).json({
-                message: "Notification received successfully.",
-            });
+            sendSuccess(res, null, "Notification received successfully.");
         }
     );
 

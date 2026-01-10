@@ -2,6 +2,9 @@ import { Router } from "express";
 import { RenterController } from "./renter.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { renterOnlyMiddleware } from "../middleware/permission.middleware";
+import { validateRequest } from "../middleware/validate.middleware";
+import { paginationSchema } from "../schemas/pagination.schema";
+import { z } from "zod";
 
 export class RenterRoute {
     public path = "/renter";
@@ -100,6 +103,7 @@ export class RenterRoute {
             `${this.path}/venues/pagination`,
             authMiddleware,
             renterOnlyMiddleware,
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.getMyVenuesWithPagination
         );
 
@@ -107,6 +111,7 @@ export class RenterRoute {
             `${this.path}/bookings/pagination`,
             authMiddleware,
             renterOnlyMiddleware,
+            validateRequest(z.object({ query: paginationSchema })),
             this.controller.getMyBookingsWithPagination
         );
 
