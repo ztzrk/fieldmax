@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
 import { VenuesService } from "../venues/venues.service";
 import { FieldsService } from "../fields/fields.service";
 import { ProfileService } from "../profile/profile.service";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class UploadsController {
     constructor(
@@ -11,12 +12,8 @@ export class UploadsController {
         private profileService: ProfileService
     ) {}
 
-    public uploadVenuePhotos = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    public uploadVenuePhotos = asyncHandler(
+        async (req: Request, res: Response) => {
             const { venueId } = req.params;
             const files = req.files as Express.Multer.File[];
 
@@ -34,17 +31,11 @@ export class UploadsController {
                 data: savedPhotos,
                 message: "Photos uploaded successfully",
             });
-        } catch (error) {
-            next(error);
         }
-    };
+    );
 
-    public uploadFieldPhotos = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    public uploadFieldPhotos = asyncHandler(
+        async (req: Request, res: Response) => {
             const { fieldId } = req.params;
             const files = req.files as Express.Multer.File[];
 
@@ -62,17 +53,11 @@ export class UploadsController {
                 data: savedPhotos,
                 message: "Photos uploaded successfully",
             });
-        } catch (error) {
-            next(error);
         }
-    };
+    );
 
-    public uploadProfilePhoto = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    public uploadProfilePhoto = asyncHandler(
+        async (req: Request, res: Response) => {
             const userId = req.user!.id;
             const file = req.file;
 
@@ -101,8 +86,6 @@ export class UploadsController {
                 data: updatedProfile,
                 message: "Profile photo updated successfully",
             });
-        } catch (error) {
-            next(error);
         }
-    };
+    );
 }

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { FieldsService } from "./fields.service";
 import {
     CreateField,
@@ -10,126 +10,86 @@ import {
     GetAvailability,
 } from "../schemas/fields.schema";
 import { Pagination } from "../schemas/pagination.schema";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class FieldsController {
     constructor(private service: FieldsService) {}
 
-    public getAll = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const query =
-                req.validatedQuery || (req.query as unknown as Pagination);
-            if (req.user && req.user.role === "RENTER") {
-                const data = await this.service.findAllForRenter(
-                    req.user.id,
-                    query
-                );
-                res.status(200).json(data);
+    public getAll = asyncHandler(async (req: Request, res: Response) => {
+        const query =
+            req.validatedQuery || (req.query as unknown as Pagination);
+        if (req.user && req.user.role === "RENTER") {
+            const data = await this.service.findAllForRenter(
+                req.user.id,
+                query
+            );
+            res.status(200).json(data);
+        } else {
+            if (!req.user) {
+                query.status = "APPROVED";
+            }
+            const data = await this.service.findAll(query);
+            res.status(200).json(data);
+        }
+    });
+
+    public getById = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        // Parse ratings if they exist
+        let ratings: number[] | undefined;
+        if (req.query.ratings) {
+            if (Array.isArray(req.query.ratings)) {
+                ratings = (req.query.ratings as string[]).map(Number);
             } else {
-                if (!req.user) {
-                    query.status = "APPROVED";
-                }
-                const data = await this.service.findAll(query);
-                res.status(200).json(data);
+                ratings = [Number(req.query.ratings)];
             }
-        } catch (error) {
-            next(error);
         }
-    };
 
-    public getById = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { id } = req.params;
-            const page = Number(req.query.page) || 1;
-            const limit = Number(req.query.limit) || 10;
-            // Parse ratings if they exist
-            let ratings: number[] | undefined;
-            if (req.query.ratings) {
-                if (Array.isArray(req.query.ratings)) {
-                    ratings = (req.query.ratings as string[]).map(Number);
-                } else {
-                    ratings = [Number(req.query.ratings)];
-                }
-            }
+        const data = await this.service.findById(id, {
+            page,
+            limit,
+            ratings,
+        });
+        res.status(200).json({ data, message: "findOne" });
+    });
 
-            const data = await this.service.findById(id, {
-                page,
-                limit,
-                ratings,
-            });
-            res.status(200).json({ data, message: "findOne" });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public create = asyncHandler(async (req: Request, res: Response) => {
+        const fieldData: CreateField = req.body;
+        const data = await this.service.create(fieldData, req.user!);
+        res.status(201).json({ data, message: "created" });
+    });
 
-    public create = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const fieldData: CreateField = req.body;
-            const data = await this.service.create(fieldData, req.user!);
-            res.status(201).json({ data, message: "created" });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public update = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const fieldData: UpdateField = req.body;
+        const data = await this.service.update(id, fieldData, req.user!);
+        res.status(200).json({ data, message: "updated" });
+    });
 
-    public update = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { id } = req.params;
-            const fieldData: UpdateField = req.body;
-            const data = await this.service.update(id, fieldData, req.user!);
-            res.status(200).json({ data, message: "updated" });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public delete = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const data = await this.service.delete(id, req.user!);
+        res.status(200).json({ data, message: "deleted" });
+    });
 
-    public delete = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { id } = req.params;
-            const data = await this.service.delete(id, req.user!);
-            res.status(200).json({ data, message: "deleted" });
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    public deleteMultiple = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    public deleteMultiple = asyncHandler(
+        async (req: Request, res: Response) => {
             const { ids }: DeleteMultipleFields = req.body;
             const data = await this.service.deleteMultiple(ids, req.user);
             res.status(200).json({ data, message: "deleted multiple" });
-        } catch (error) {
-            next(error);
         }
-    };
-    public getOverrides = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { fieldId } = req.params;
-            const data = await this.service.getOverrides(fieldId);
-            res.status(200).json({ data });
-        } catch (error) {
-            next(error);
-        }
-    };
+    );
 
-    public createOverride = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    public getOverrides = asyncHandler(async (req: Request, res: Response) => {
+        const { fieldId } = req.params;
+        const data = await this.service.getOverrides(fieldId);
+        res.status(200).json({ data });
+    });
+
+    public createOverride = asyncHandler(
+        async (req: Request, res: Response) => {
             const { fieldId } = req.params;
             const overrideData: ScheduleOverride = req.body;
             const data = await this.service.createOverride(
@@ -137,116 +97,64 @@ export class FieldsController {
                 overrideData
             );
             res.status(201).json({ data, message: "created" });
-        } catch (error) {
-            next(error);
         }
-    };
+    );
 
-    public deleteOverride = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    public deleteOverride = asyncHandler(
+        async (req: Request, res: Response) => {
             const { overrideId } = req.params;
             const data = await this.service.deleteOverride(overrideId);
             res.status(200).json({ data, message: "deleted" });
-        } catch (error) {
-            next(error);
         }
-    };
-    public deletePhoto = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { photoId } = req.params;
-            const data = await this.service.deletePhoto(photoId);
-            res.status(200).json({ data, message: "deleted photo" });
-        } catch (error) {
-            next(error);
-        }
-    };
-    public getAvailability = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
+    );
+
+    public deletePhoto = asyncHandler(async (req: Request, res: Response) => {
+        const { photoId } = req.params;
+        const data = await this.service.deletePhoto(photoId);
+        res.status(200).json({ data, message: "deleted photo" });
+    });
+
+    public getAvailability = asyncHandler(
+        async (req: Request, res: Response) => {
             const { fieldId } = req.params;
             const query = req.query as unknown as GetAvailability;
             const data = await this.service.getAvailability(fieldId, query);
             res.status(200).json({ data });
-        } catch (error) {
-            next(error);
         }
-    };
+    );
 
-    public approve = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { id } = req.params;
-            const data = await this.service.approve(id);
-            res.status(200).json({ data, message: "field approved" });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public approve = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const data = await this.service.approve(id);
+        res.status(200).json({ data, message: "field approved" });
+    });
 
-    public reject = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { id } = req.params;
-            const data: RejectField = req.body;
-            const rejectedField = await this.service.reject(id, data);
-            res.status(200).json({
-                data: rejectedField,
-                message: "field rejected",
-            });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public reject = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const data: RejectField = req.body;
+        const rejectedField = await this.service.reject(id, data);
+        res.status(200).json({
+            data: rejectedField,
+            message: "field rejected",
+        });
+    });
 
-    public resubmit = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { id } = req.params;
-            const data = await this.service.resubmit(id);
-            res.status(200).json({
-                data,
-                message: "Field resubmitted for review",
-            });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public resubmit = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const data = await this.service.resubmit(id);
+        res.status(200).json({
+            data,
+            message: "Field resubmitted for review",
+        });
+    });
 
-    public toggleClosure = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const { id } = req.params;
-            const { isClosed }: ToggleFieldClosure = req.body;
-            const data = await this.service.toggleClosure(
-                id,
-                isClosed,
-                req.user!
-            );
-            res.status(200).json({
-                data,
-                message: isClosed ? "Field closed" : "Field opened",
-            });
-        } catch (error) {
-            next(error);
-        }
-    };
+    public toggleClosure = asyncHandler(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const { isClosed }: ToggleFieldClosure = req.body;
+        const data = await this.service.toggleClosure(id, isClosed, req.user!);
+        res.status(200).json({
+            data,
+            message: isClosed ? "Field closed" : "Field opened",
+        });
+    });
 }
