@@ -31,7 +31,7 @@ export const registerSchema = z
             .min(1, "Email is required"),
         password: z.string().min(8, "Password must be at least 8 characters"),
         confirmPassword: z.string().min(1, "Confirm Password is required"),
-        role: z.enum(["USER", "RENTER"], {
+        role: z.enum(["USER", "RENTER", "ADMIN"], {
             errorMap: () => ({ message: "Please select a valid role" }),
         }),
     })

@@ -26,14 +26,16 @@ export const errorMiddleware = (
             );
         }
 
-        res.status(status).json({
+        const response: import("@fieldmax/shared").ApiResponse = {
             success: false,
             error: {
                 code,
                 message,
                 details,
             },
-        });
+        };
+
+        res.status(status).json(response);
     } catch (error) {
         next(error);
     }

@@ -5,7 +5,7 @@ const zod_1 = require("zod");
 exports.UserRole = {
     USER: "USER",
     RENTER: "RENTER",
-    ADMIN: "ADMIN", // Included for backend usage, though frontend register might restricts it
+    ADMIN: "ADMIN",
 };
 exports.userRoleSchema = zod_1.z.nativeEnum(exports.UserRole);
 // Login
@@ -26,7 +26,7 @@ exports.registerSchema = zod_1.z
         .min(1, "Email is required"),
     password: zod_1.z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: zod_1.z.string().min(1, "Confirm Password is required"),
-    role: zod_1.z.enum(["USER", "RENTER"], {
+    role: zod_1.z.enum(["USER", "RENTER", "ADMIN"], {
         errorMap: () => ({ message: "Please select a valid role" }),
     }),
 })
@@ -42,20 +42,19 @@ exports.forgotPasswordSchema = zod_1.z.object({
         .min(1, "Email is required"),
 });
 // Reset Password
-exports.resetPasswordSchema = zod_1.z
-    .object({
+// Reset Password
+const resetPasswordBase = zod_1.z.object({
     token: zod_1.z.string().min(1, "Token is required"),
     password: zod_1.z.string().min(8, "Password must be at least 8 characters"), // Standardized to 8
     confirmPassword: zod_1.z.string().min(1, "Confirm Password is required"),
-})
-    .refine((data) => data.password === data.confirmPassword, {
+});
+exports.resetPasswordSchema = resetPasswordBase.refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
 });
 // For Frontend Form (omitting token)
-exports.resetPasswordFormSchema = exports.resetPasswordSchema
-    .omit({ token: true })
-    .refine((data) => data.password === data.confirmPassword, {
+const resetPasswordFormBase = resetPasswordBase.omit({ token: true });
+exports.resetPasswordFormSchema = resetPasswordFormBase.refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
 });

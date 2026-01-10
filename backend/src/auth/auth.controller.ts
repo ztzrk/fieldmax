@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import {
     RegisterInput as RegisterUser,
@@ -7,6 +7,9 @@ import {
 import { config } from "../config/env";
 import { asyncHandler } from "../utils/asyncHandler";
 
+// ... imports
+import { sendSuccess } from "../utils/response";
+
 export class AuthController {
     constructor(private authService: AuthService) {}
 
@@ -14,10 +17,7 @@ export class AuthController {
         const userData: RegisterUser = req.body;
         const newUser = await this.authService.register(userData);
 
-        res.status(201).json({
-            data: newUser,
-            message: "User created successfully",
-        });
+        sendSuccess(res, newUser, "User created successfully", 201);
     });
 
     public login = asyncHandler(async (req: Request, res: Response) => {
@@ -34,10 +34,7 @@ export class AuthController {
             profilePictureUrl: user.profile?.profilePictureUrl,
         };
 
-        res.status(200).json({
-            data: { user: responseUser },
-            message: "Login successful",
-        });
+        sendSuccess(res, { user: responseUser }, "Login successful");
     });
 
     public logout = asyncHandler(async (req: Request, res: Response) => {
@@ -47,7 +44,7 @@ export class AuthController {
         }
 
         res.setHeader("Set-Cookie", "sessionId=; HttpOnly; Path=/; Max-Age=0");
-        res.status(200).json({ message: "Logout successful" });
+        sendSuccess(res, null, "Logout successful");
     });
 
     public getMe = asyncHandler(async (req: Request, res: Response) => {
@@ -55,7 +52,11 @@ export class AuthController {
 
         if (!userFromMiddleware) {
             res.status(401).json({
-                message: "Not authenticated or user not found",
+                success: false,
+                error: {
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated or user not found",
+                },
             });
             return;
         }
@@ -67,35 +68,32 @@ export class AuthController {
             profilePictureUrl: userFromMiddleware.profile?.profilePictureUrl,
         };
 
-        res.status(200).json({
-            data: responseUser,
-            message: "success",
-        });
+        sendSuccess(res, responseUser, "success");
     });
 
     public verify = asyncHandler(async (req: Request, res: Response) => {
         const { email, code } = req.body;
         await this.authService.verifyEmail(email, code);
-        res.status(200).json({ message: "Email verified successfully" });
+        sendSuccess(res, null, "Email verified successfully");
     });
 
     public resendCode = asyncHandler(async (req: Request, res: Response) => {
         const { email } = req.body;
         await this.authService.resendCode(email);
-        res.status(200).json({ message: "Verification code sent" });
+        sendSuccess(res, null, "Verification code sent");
     });
 
     public forgotPassword = asyncHandler(
         async (req: Request, res: Response) => {
             const { email } = req.body;
             await this.authService.forgotPassword(email);
-            res.status(200).json({ message: "Password reset email sent" });
+            sendSuccess(res, null, "Password reset email sent");
         }
     );
 
     public resetPassword = asyncHandler(async (req: Request, res: Response) => {
         const resetData = req.body;
         await this.authService.resetPassword(resetData);
-        res.status(200).json({ message: "Password reset successfully" });
+        sendSuccess(res, null, "Password reset successfully");
     });
 }
