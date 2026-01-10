@@ -11,8 +11,8 @@ const limiterOrNext = (limiter: any) => {
 
 export const globalLimiter = limiterOrNext(
     rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+        windowMs: config.RATE_LIMIT_WINDOW_MS,
+        max: config.RATE_LIMIT_MAX_REQUESTS,
         standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
         legacyHeaders: false, // Disable the `X-RateLimit-*` headers
         message: {
@@ -31,8 +31,8 @@ export const globalLimiter = limiterOrNext(
 
 export const authLimiter = limiterOrNext(
     rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 50, // Limit each IP to 50 login/register requests per window
+        windowMs: config.RATE_LIMIT_WINDOW_MS,
+        max: config.AUTH_RATE_LIMIT_MAX_REQUESTS,
         standardHeaders: true,
         legacyHeaders: false,
         message: {

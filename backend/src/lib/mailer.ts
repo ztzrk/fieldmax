@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendVerificationEmail = async (email: string, code: string) => {
     const message = {
-        from: '"FieldMax" <no-reply@fieldmax.com>',
+        from: config.SMTP_FROM,
         to: email,
         subject: "Verify your email address",
         text: `Your verification code is: ${code}`,
@@ -30,7 +30,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     const resetLink = `${config.FRONTEND_URL}/reset-password?token=${token}`;
 
     const message = {
-        from: '"FieldMax" <no-reply@fieldmax.com>',
+        from: config.SMTP_FROM,
         to: email,
         subject: "Reset your password",
         text: `You requested a password reset. Click the link to reset your password: ${resetLink}`,

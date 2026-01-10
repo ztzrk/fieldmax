@@ -11,6 +11,7 @@ import {
 } from "../utils/errors";
 import { sendVerificationEmail, sendPasswordResetEmail } from "../lib/mailer";
 import bcrypt from "bcryptjs";
+import { config } from "../config/env";
 
 export class AuthService {
     public async register(
@@ -35,7 +36,9 @@ export class AuthService {
         const verificationCode = Math.floor(
             100000 + Math.random() * 900000
         ).toString();
-        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+        const verificationCodeExpiresAt = new Date(
+            Date.now() + config.VERIFICATION_CODE_EXPIRES_IN_MS
+        );
 
         const { confirmPassword, ...restUserData } = userData;
 
@@ -92,7 +95,7 @@ export class AuthService {
         }
 
         const sessionId = randomBytes(32).toString("hex");
-        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        const expiresAt = new Date(Date.now() + config.SESSION_EXPIRES_IN_MS);
 
         await prisma.session.create({
             data: {
@@ -146,7 +149,9 @@ export class AuthService {
         const verificationCode = Math.floor(
             100000 + Math.random() * 900000
         ).toString();
-        const verificationCodeExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+        const verificationCodeExpiresAt = new Date(
+            Date.now() + config.VERIFICATION_CODE_EXPIRES_IN_MS
+        );
 
         // Delete existing tokens for this user to avoid duplicates if any (though identifier is part of composite unique)
         await prisma.verificationToken.deleteMany({
@@ -177,7 +182,9 @@ export class AuthService {
         if (!user) throw new NotFoundError("User not found.");
 
         const resetToken = randomBytes(32).toString("hex");
-        const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+        const resetTokenExpiry = new Date(
+            Date.now() + config.RESET_TOKEN_EXPIRES_IN_MS
+        );
 
         // Invalidate old tokens
         await prisma.resetToken.deleteMany({

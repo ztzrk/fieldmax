@@ -1,12 +1,9 @@
 // src/auth/auth.controller.ts
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "./auth.service";
-import {
-    RegisterUser,
-    LoginUser,
-    ForgotPassword,
-    ResetPassword,
-} from "../schemas/auth.schema";
+import { RegisterUser, LoginUser } from "../schemas/auth.schema";
+
+import { config } from "../config/env";
 
 export class AuthController {
     constructor(private authService: AuthService) {}
@@ -38,7 +35,7 @@ export class AuthController {
             const userData: LoginUser = req.body;
             const { sessionId, user } = await this.authService.login(userData);
 
-            const expiresIn = 24 * 60 * 60;
+            const expiresIn = config.SESSION_EXPIRES_IN_MS / 1000;
             res.setHeader("Set-Cookie", [
                 `sessionId=${sessionId}; HttpOnly; Path=/; Max-Age=${expiresIn}; SameSite=Lax`,
             ]);
