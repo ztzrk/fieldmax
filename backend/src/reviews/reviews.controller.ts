@@ -3,7 +3,7 @@ import { ReviewsService } from "./reviews.service";
 import { CreateReview } from "../schemas/reviews.schema";
 
 export class ReviewsController {
-    private service = new ReviewsService();
+    constructor(private service: ReviewsService) {}
 
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {

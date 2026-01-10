@@ -12,9 +12,8 @@ import { paginationSchema } from "../schemas/pagination.schema";
 export class SportTypesRoute {
     public path = "/sport-types";
     public router = Router();
-    public controller = new SportTypesController();
 
-    constructor() {
+    constructor(private controller: SportTypesController) {
         this.initializeRoutes();
     }
 

@@ -2,8 +2,15 @@ import { Request, Response, NextFunction } from "express";
 
 import { VenuesService } from "../venues/venues.service";
 import { FieldsService } from "../fields/fields.service";
+import { ProfileService } from "../profile/profile.service";
 
 export class UploadsController {
+    constructor(
+        private venuesService: VenuesService,
+        private fieldsService: FieldsService,
+        private profileService: ProfileService
+    ) {}
+
     public uploadVenuePhotos = async (
         req: Request,
         res: Response,
@@ -17,8 +24,7 @@ export class UploadsController {
                 throw new Error("No files uploaded.");
             }
 
-            const venueService = new VenuesService();
-            const savedPhotos = await venueService.addPhotos(
+            const savedPhotos = await this.venuesService.addPhotos(
                 venueId,
                 files,
                 req.user!
@@ -46,8 +52,7 @@ export class UploadsController {
                 throw new Error("No files uploaded.");
             }
 
-            const fieldService = new FieldsService();
-            const savedPhotos = await fieldService.addPhotos(
+            const savedPhotos = await this.fieldsService.addPhotos(
                 fieldId,
                 files,
                 req.user!
@@ -68,19 +73,18 @@ export class UploadsController {
         next: NextFunction
     ) => {
         try {
-            const userId = req.user!.id; // Auth middleware guarantees user
+            const userId = req.user!.id;
             const file = req.file;
 
             if (!file) {
                 throw new Error("No file uploaded.");
             }
 
-            // We need to import ProfileService here to avoid circular dependency issues at top level if possible, 
-            // or just instantiate it.
-            const profileService = new (require("../profile/profile.service").ProfileService)();
             const imagekit = require("../lib/imagekit").default;
 
-            const cleanOriginalName = file.originalname.trim().replace(/\s+/g, "-");
+            const cleanOriginalName = file.originalname
+                .trim()
+                .replace(/\s+/g, "-");
             const fileName = `profile-${userId}-${Date.now()}-${cleanOriginalName}`;
 
             const uploadResult = await imagekit.upload({
@@ -89,7 +93,7 @@ export class UploadsController {
                 folder: "user-profiles",
             });
 
-            const updatedProfile = await profileService.updateProfile(userId, {
+            const updatedProfile = this.profileService.updateProfile(userId, {
                 profilePictureUrl: uploadResult.url,
             });
 

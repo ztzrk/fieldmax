@@ -9,6 +9,40 @@ import { errorMiddleware } from "./middleware/error.middleware";
 import { globalLimiter } from "./middleware/rateLimit.middleware";
 import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
+// Services
+// Services
+import { AuthService } from "./auth/auth.service";
+import { BookingsService } from "./bookings/bookings.service";
+import { FieldsService } from "./fields/fields.service";
+import { PaymentsService } from "./payments/payments.service";
+import { ProfileService } from "./profile/profile.service";
+import { RenterService } from "./renter/renter.service";
+import { SportTypesService } from "./sport-types/sport-types.service";
+import { UserService } from "./users/users.service";
+import { VenuesService } from "./venues/venues.service";
+import { DashboardService } from "./dashboard/dashboard.service";
+import { ReviewsService } from "./reviews/reviews.service";
+import { ReportsService } from "./reports/reports.service";
+import { HomeService } from "./home/home.service";
+import { CronService } from "./services/cron.service";
+
+// Controllers
+import { AuthController } from "./auth/auth.controller";
+import { BookingsController } from "./bookings/bookings.controller";
+import { FieldsController } from "./fields/fields.controller";
+import { PaymentsController } from "./payments/payments.controller";
+import { ProfileController } from "./profile/profile.controller";
+import { RenterController } from "./renter/renter.controller";
+import { SportTypesController } from "./sport-types/sport-types.controller";
+import { UploadsController } from "./uploads/uploads.controller";
+import { UsersController } from "./users/users.controller";
+import { VenuesController } from "./venues/venues.controller";
+import { DashboardController } from "./dashboard/dashboard.controller";
+import { ReviewsController } from "./reviews/reviews.controller";
+import { ReportsController } from "./reports/reports.controller";
+import { HomeController } from "./home/home.controller";
+
+// Routes
 import { AuthRoute } from "./auth/auth.route";
 import { BookingsRoute } from "./bookings/bookings.route";
 import { FieldsRoute } from "./fields/fields.route";
@@ -20,8 +54,6 @@ import { UploadsRoute } from "./uploads/uploads.route";
 import { UsersRoute } from "./users/users.route";
 import { VenuesRoute } from "./venues/venues.route";
 import { DashboardRoute } from "./dashboard/dashboard.route";
-import { CronService } from "./services/cron.service";
-
 import { ReviewsRoute } from "./reviews/reviews.route";
 import { ReportsRoute } from "./reports/reports.route";
 import { HomeRoute } from "./home/home.route";
@@ -43,24 +75,57 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// Routes
+// Composition Root
+// 1. Services
+const authService = new AuthService();
+const bookingsService = new BookingsService();
+const fieldsService = new FieldsService();
+const paymentsService = new PaymentsService();
+const profileService = new ProfileService();
+const renterService = new RenterService();
+const sportTypesService = new SportTypesService();
+const userService = new UserService();
+const venuesService = new VenuesService();
+const dashboardService = new DashboardService();
+const reviewsService = new ReviewsService();
+const reportsService = new ReportsService();
+const homeService = new HomeService();
 
-const authRoute = new AuthRoute();
+// 2. Controllers
+const authController = new AuthController(authService);
+const bookingsController = new BookingsController(bookingsService);
+const fieldsController = new FieldsController(fieldsService);
+const paymentsController = new PaymentsController(paymentsService);
+const profileController = new ProfileController(profileService);
+const renterController = new RenterController(renterService);
+const sportTypesController = new SportTypesController(sportTypesService);
+const usersController = new UsersController(userService);
+const venuesController = new VenuesController(venuesService);
+const dashboardController = new DashboardController(dashboardService);
+const reviewsController = new ReviewsController(reviewsService);
+const reportsController = new ReportsController(reportsService);
+const homeController = new HomeController(homeService);
+const uploadsController = new UploadsController(
+    venuesService,
+    fieldsService,
+    profileService
+);
 
-const homeRoute = new HomeRoute();
-const usersRoute = new UsersRoute();
-const sportTypesRoute = new SportTypesRoute();
-const venuesRoute = new VenuesRoute();
-const fieldsRoute = new FieldsRoute();
-const uploadsRoute = new UploadsRoute();
-const renterRoute = new RenterRoute();
-
-const profileRoute = new ProfileRoute();
-const bookingsRoute = new BookingsRoute();
-const paymentsRoute = new PaymentsRoute();
-const dashboardRoute = new DashboardRoute();
-const reviewsRoute = new ReviewsRoute();
-const reportsRoute = new ReportsRoute();
+// 3. Routes
+const authRoute = new AuthRoute(authController);
+const bookingsRoute = new BookingsRoute(bookingsController);
+const fieldsRoute = new FieldsRoute(fieldsController);
+const paymentsRoute = new PaymentsRoute(paymentsController);
+const profileRoute = new ProfileRoute(profileController);
+const renterRoute = new RenterRoute(renterController);
+const sportTypesRoute = new SportTypesRoute(sportTypesController);
+const usersRoute = new UsersRoute(usersController);
+const venuesRoute = new VenuesRoute(venuesController);
+const dashboardRoute = new DashboardRoute(dashboardController);
+const reviewsRoute = new ReviewsRoute(reviewsController);
+const reportsRoute = new ReportsRoute(reportsController);
+const homeRoute = new HomeRoute(homeController);
+const uploadsRoute = new UploadsRoute(uploadsController);
 
 app.use("/api", authRoute.router);
 app.use("/api", usersRoute.router);

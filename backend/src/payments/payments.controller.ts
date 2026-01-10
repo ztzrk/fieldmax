@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { PaymentsService } from "./payments.service";
 
 export class PaymentsController {
-    public service = new PaymentsService();
+    constructor(private service: PaymentsService) {}
 
     public handleNotification = async (
         req: Request,

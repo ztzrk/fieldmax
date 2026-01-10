@@ -18,9 +18,8 @@ import { paginationSchema } from "../schemas/pagination.schema";
 export class VenuesRoute {
     public path = "/venues";
     public router = Router();
-    public controller = new VenuesController();
 
-    constructor() {
+    constructor(private controller: VenuesController) {
         this.initializeRoutes();
     }
 

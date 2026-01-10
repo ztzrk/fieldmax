@@ -7,7 +7,7 @@ import {
 import { Pagination } from "../schemas/pagination.schema";
 
 export class SportTypesController {
-    public service = new SportTypesService();
+    constructor(private service: SportTypesService) {}
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {

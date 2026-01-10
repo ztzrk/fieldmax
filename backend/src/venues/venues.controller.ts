@@ -3,7 +3,7 @@ import { VenuesService } from "./venues.service";
 import { CreateVenue, UpdateVenue } from "../schemas/venues.schema";
 
 export class VenuesController {
-    public service = new VenuesService();
+    constructor(private service: VenuesService) {}
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {

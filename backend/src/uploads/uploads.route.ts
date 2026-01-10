@@ -12,9 +12,8 @@ const upload = multer({ storage: multer.memoryStorage() });
 export class UploadsRoute {
     public path = "/uploads";
     public router = Router();
-    public controller = new UploadsController();
 
-    constructor() {
+    constructor(private controller: UploadsController) {
         this.initializeRoutes();
     }
 

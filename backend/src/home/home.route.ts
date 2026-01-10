@@ -3,9 +3,8 @@ import { HomeController } from "./home.controller";
 
 export class HomeRoute {
     public router = Router();
-    public homeController = new HomeController();
 
-    constructor() {
+    constructor(private homeController: HomeController) {
         this.initializeRoutes();
     }
 

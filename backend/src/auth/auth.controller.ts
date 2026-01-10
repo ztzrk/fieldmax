@@ -9,7 +9,7 @@ import {
 } from "../schemas/auth.schema";
 
 export class AuthController {
-    public authService = new AuthService();
+    constructor(private authService: AuthService) {}
 
     public register = async (
         req: Request,

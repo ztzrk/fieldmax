@@ -18,9 +18,8 @@ import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware";
 export class FieldsRoute {
     public path = "/fields";
     public router = Router();
-    public controller = new FieldsController();
 
-    constructor() {
+    constructor(private controller: FieldsController) {
         this.initializeRoutes();
     }
 

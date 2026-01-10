@@ -5,11 +5,9 @@ import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 
 export class DashboardRoute {
     public router: Router;
-    private controller: DashboardController;
 
-    constructor() {
+    constructor(private controller: DashboardController) {
         this.router = Router();
-        this.controller = new DashboardController();
         this.initializeRoutes();
     }
 

@@ -8,9 +8,8 @@ import { createBookingSchema } from "../schemas/bookings.schema";
 export class BookingsRoute {
     public path = "/bookings";
     public router = Router();
-    public controller = new BookingsController();
 
-    constructor() {
+    constructor(private controller: BookingsController) {
         this.initializeRoutes();
     }
 

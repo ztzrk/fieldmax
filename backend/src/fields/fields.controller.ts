@@ -12,7 +12,7 @@ import {
 import { Pagination } from "../schemas/pagination.schema";
 
 export class FieldsController {
-    public service = new FieldsService();
+    constructor(private service: FieldsService) {}
 
     public getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {

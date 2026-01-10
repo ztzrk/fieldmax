@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { RenterService } from "./renter.service";
 
 export class RenterController {
-    public service = new RenterService();
+    constructor(private service: RenterService) {}
 
     public getMyVenues = async (
         req: Request,

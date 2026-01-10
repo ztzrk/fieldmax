@@ -11,9 +11,8 @@ import { paginationSchema } from "../schemas/pagination.schema";
 export class UsersRoute {
     public path = "/users";
     public router = Router();
-    public usersController = new UsersController();
 
-    constructor() {
+    constructor(private usersController: UsersController) {
         this.initializeRoutes();
     }
 

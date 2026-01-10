@@ -6,9 +6,8 @@ import { renterOnlyMiddleware } from "../middleware/permission.middleware";
 export class RenterRoute {
     public path = "/renter";
     public router = Router();
-    public controller = new RenterController();
 
-    constructor() {
+    constructor(private controller: RenterController) {
         this.initializeRoutes();
     }
 

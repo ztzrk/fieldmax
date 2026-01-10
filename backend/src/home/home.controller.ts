@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { HomeService } from "./home.service";
 
 export class HomeController {
-    private homeService = new HomeService();
+    constructor(private homeService: HomeService) {}
 
     public getLandingPageData = async (
         req: Request,

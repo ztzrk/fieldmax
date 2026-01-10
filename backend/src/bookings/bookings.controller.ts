@@ -3,7 +3,7 @@ import { BookingsService } from "./bookings.service";
 import { CreateBooking } from "../schemas/bookings.schema";
 
 export class BookingsController {
-    public service = new BookingsService();
+    constructor(private service: BookingsService) {}
 
     public findAll = async (
         req: Request,

@@ -8,9 +8,8 @@ import { updateProfileSchema } from "../schemas/profile.schema";
 export class ProfileRoute {
     public path = "/profile";
     public router = Router();
-    public controller = new ProfileController();
 
-    constructor() {
+    constructor(private controller: ProfileController) {
         this.initializeRoutes();
     }
 

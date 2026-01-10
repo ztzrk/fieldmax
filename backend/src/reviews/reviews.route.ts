@@ -8,9 +8,8 @@ import { createReviewSchema } from "../schemas/reviews.schema";
 export class ReviewsRoute {
     public path = "/reviews";
     public router = Router();
-    public controller = new ReviewsController();
 
-    constructor() {
+    constructor(private controller: ReviewsController) {
         this.initializeRoutes();
     }
 

@@ -6,7 +6,7 @@ import { RegisterUser } from "../schemas/auth.schema";
 import { Pagination } from "../schemas/pagination.schema";
 
 export class UsersController {
-    public userService = new UserService();
+    constructor(private userService: UserService) {}
 
     public createUser = async (
         req: Request,

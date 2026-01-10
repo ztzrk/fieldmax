@@ -3,7 +3,7 @@ import { ProfileService } from "./profile.service";
 import { UpdateProfile } from "../schemas/profile.schema";
 
 export class ProfileController {
-    public service = new ProfileService();
+    constructor(private service: ProfileService) {}
 
     public updateProfile = async (
         req: Request,

@@ -4,9 +4,8 @@ import { PaymentsController } from "./payments.controller";
 export class PaymentsRoute {
     public path = "/payments";
     public router = Router();
-    public controller = new PaymentsController();
 
-    constructor() {
+    constructor(private controller: PaymentsController) {
         this.initializeRoutes();
     }
 
@@ -18,7 +17,10 @@ export class PaymentsRoute {
 
         // Redirect routes (GET)
         this.router.get(`${this.path}/finish`, this.controller.handleRedirect);
-        this.router.get(`${this.path}/unfinish`, this.controller.handleRedirect);
+        this.router.get(
+            `${this.path}/unfinish`,
+            this.controller.handleRedirect
+        );
         this.router.get(`${this.path}/error`, this.controller.handleRedirect);
     }
 }

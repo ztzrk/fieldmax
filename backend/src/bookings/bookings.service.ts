@@ -1,15 +1,21 @@
 import prisma from "../db";
 import { CreateBooking } from "../schemas/bookings.schema";
-import midtransclient from "midtrans-client";
+const midtransClient = require("midtrans-client");
 import { Prisma, User } from "@prisma/client";
 import { Pagination } from "../schemas/pagination.schema";
 
 export class BookingsService {
-    private snap = new midtransclient.Snap({
-        isProduction: false,
-        serverKey: process.env.MIDTRANS_SERVER_KEY,
-        clientKey: process.env.MIDTRANS_CLIENT_KEY,
-    });
+    private snap: any;
+
+    constructor(snap?: any) {
+        this.snap =
+            snap ||
+            new midtransClient.Snap({
+                isProduction: false,
+                serverKey: process.env.MIDTRANS_SERVER_KEY,
+                clientKey: process.env.MIDTRANS_CLIENT_KEY,
+            });
+    }
 
     public async findAllBookings(query: Pagination, user: User) {
         const { page = 1, limit = 10, search } = query;

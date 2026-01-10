@@ -14,9 +14,8 @@ import { authLimiter } from "../middleware/rateLimit.middleware";
 export class AuthRoute {
     public path = "/auth";
     public router = Router();
-    public authController = new AuthController();
 
-    constructor() {
+    constructor(private authController: AuthController) {
         this.initializeRoutes();
     }
 
