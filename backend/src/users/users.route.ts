@@ -4,7 +4,7 @@ import { UsersController } from "./users.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import { updateUserSchema } from "../schemas/users.schema";
-import { registerUserSchema } from "../schemas/auth.schema";
+import { registerSchema as registerUserSchema } from "@fieldmax/shared";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { paginationSchema } from "../schemas/pagination.schema";
 

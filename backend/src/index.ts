@@ -57,6 +57,7 @@ import { ReportsRoute } from "./reports/reports.route";
 import { HomeRoute } from "./home/home.route";
 
 import { config } from "./config/env";
+import { midtransSnap } from "./config/midtrans";
 
 CronService.init();
 
@@ -77,10 +78,11 @@ app.use(cookieParser());
 
 // Composition Root
 // 1. Services
+
 const authService = new AuthService();
-const bookingsService = new BookingsService();
+const bookingsService = new BookingsService(midtransSnap);
 const fieldsService = new FieldsService();
-const paymentsService = new PaymentsService();
+const paymentsService = new PaymentsService(midtransSnap, bookingsService);
 const profileService = new ProfileService();
 const renterService = new RenterService();
 const sportTypesService = new SportTypesService();

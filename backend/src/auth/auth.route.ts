@@ -3,11 +3,11 @@ import { Router } from "express";
 import { AuthController } from "./auth.controller";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import {
-    registerUserSchema,
-    loginUserSchema,
+    registerSchema as registerUserSchema,
+    loginSchema as loginUserSchema,
     forgotPasswordSchema,
     resetPasswordSchema,
-} from "../schemas/auth.schema";
+} from "@fieldmax/shared";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { authLimiter } from "../middleware/rateLimit.middleware";
 

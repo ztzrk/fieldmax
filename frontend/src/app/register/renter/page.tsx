@@ -8,9 +8,9 @@ import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
 import { useRegister } from "@/hooks/auth.hooks";
 import {
-    RegisterFormSchema,
-    registerFormSchema,
-} from "@/lib/schema/auth.schema";
+    RegisterInput as RegisterFormSchema,
+    registerSchema as registerFormSchema,
+} from "@fieldmax/shared";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 
 export default function RenterRegisterPage() {

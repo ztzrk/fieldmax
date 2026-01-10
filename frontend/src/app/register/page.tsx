@@ -8,9 +8,9 @@ import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
 import { useRegister } from "@/hooks/auth.hooks";
 import {
-    registerFormSchema,
-    RegisterFormSchema,
-} from "@/lib/schema/auth.schema";
+    registerSchema as registerFormSchema,
+    RegisterInput as RegisterFormSchema,
+} from "@fieldmax/shared";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 
 /**

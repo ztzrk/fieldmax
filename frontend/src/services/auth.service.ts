@@ -1,7 +1,11 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 
-import { LoginFormSchema, RegisterFormSchema } from "@/lib/schema/auth.schema";
+import {
+    LoginInput as LoginFormSchema,
+    RegisterInput as RegisterFormSchema,
+    ResetPasswordInput,
+} from "@fieldmax/shared";
 
 const AuthService = {
     login: async (credentials: LoginFormSchema) => {
@@ -67,7 +71,7 @@ const AuthService = {
         }
     },
 
-    resetPassword: async (data: any) => {
+    resetPassword: async (data: ResetPasswordInput) => {
         try {
             const response = await api.post("/auth/reset-password", data);
             return response.data;

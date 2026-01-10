@@ -1,7 +1,7 @@
 // src/users/users.service.ts
 import { User, Prisma } from "@prisma/client";
 import { UpdateUser } from "../schemas/users.schema";
-import { RegisterUser } from "../schemas/auth.schema";
+import { RegisterInput as RegisterUser } from "@fieldmax/shared";
 import prisma from "../db";
 import bcrypt from "bcryptjs";
 import { Pagination } from "../schemas/pagination.schema";

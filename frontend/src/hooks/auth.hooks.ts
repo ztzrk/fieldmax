@@ -8,7 +8,10 @@ import { BackendErrorResponse } from "@/types/error";
 
 import { useState } from "react";
 
-import { LoginFormSchema, RegisterFormSchema } from "@/lib/schema/auth.schema";
+import {
+    LoginInput as LoginFormSchema,
+    RegisterInput as RegisterFormSchema,
+} from "@fieldmax/shared";
 
 export function useLogin() {
     const router = useRouter();

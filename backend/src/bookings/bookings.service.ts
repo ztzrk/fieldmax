@@ -8,14 +8,8 @@ import { config } from "../config/env";
 export class BookingsService {
     private snap: any;
 
-    constructor(snap?: any) {
-        this.snap =
-            snap ||
-            new midtransClient.Snap({
-                isProduction: false,
-                serverKey: config.MIDTRANS_SERVER_KEY,
-                clientKey: config.MIDTRANS_CLIENT_KEY,
-            });
+    constructor(snap: any) {
+        this.snap = snap;
     }
 
     public async findAllBookings(query: Pagination, user: User) {

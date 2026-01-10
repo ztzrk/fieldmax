@@ -8,9 +8,9 @@ import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-    ForgotPasswordSchema,
+    ForgotPasswordInput as ForgotPasswordSchema,
     forgotPasswordSchema,
-} from "@/lib/schema/auth.schema";
+} from "@fieldmax/shared";
 import AuthService from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";

@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/shared/form/InputField";
 import { useLogin } from "@/hooks/auth.hooks";
-import { LoginFormSchema, loginFormSchema } from "@/lib/schema/auth.schema";
+import {
+    LoginInput as LoginFormSchema,
+    loginSchema as loginFormSchema,
+} from "@fieldmax/shared";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 
 /**

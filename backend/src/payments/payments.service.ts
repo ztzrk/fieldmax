@@ -4,13 +4,13 @@ import { BookingsService } from "../bookings/bookings.service";
 import { config } from "../config/env";
 
 export class PaymentsService {
-    private snap = new midtransclient.Snap({
-        isProduction: false,
-        serverKey: config.MIDTRANS_SERVER_KEY,
-        clientKey: config.MIDTRANS_CLIENT_KEY,
-    });
+    private snap: any;
+    private bookingsService: BookingsService;
 
-    private bookingsService = new BookingsService();
+    constructor(snap: any, bookingsService: BookingsService) {
+        this.snap = snap;
+        this.bookingsService = bookingsService;
+    }
 
     public async handleMidtransNotification(notification: any) {
         const statusResponse = await this.snap.transaction.notification(

@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "./auth.service";
-import { RegisterUser, LoginUser } from "../schemas/auth.schema";
+import {
+    RegisterInput as RegisterUser,
+    LoginInput as LoginUser,
+} from "@fieldmax/shared";
 import { config } from "../config/env";
 import { asyncHandler } from "../utils/asyncHandler";
 

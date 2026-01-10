@@ -1,5 +1,8 @@
 import { User, UserProfile } from "@prisma/client";
-import { RegisterUser, LoginUser } from "../schemas/auth.schema";
+import {
+    RegisterInput as RegisterUser,
+    LoginInput as LoginUser,
+} from "@fieldmax/shared";
 import { randomBytes } from "crypto";
 import prisma from "../db";
 import {
@@ -203,7 +206,7 @@ export class AuthService {
     }
 
     public async resetPassword(
-        resetData: import("../schemas/auth.schema").ResetPassword
+        resetData: import("@fieldmax/shared").ResetPasswordInput
     ): Promise<void> {
         const { token, password, confirmPassword } = resetData;
 

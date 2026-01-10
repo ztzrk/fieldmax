@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "./users.service";
 import { UpdateUser } from "../schemas/users.schema";
-import { RegisterUser } from "../schemas/auth.schema";
+import { RegisterInput as RegisterUser } from "@fieldmax/shared";
 import { Pagination } from "../schemas/pagination.schema";
 import { asyncHandler } from "../utils/asyncHandler";
 
