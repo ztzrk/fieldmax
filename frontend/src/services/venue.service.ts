@@ -20,7 +20,7 @@ const VenueService = {
     getByIdPublic: async (id: string) => {
         try {
             const response = await api.get(`/venues/public/${id}`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -29,7 +29,7 @@ const VenueService = {
     getById: async (id: string) => {
         try {
             const response = await api.get(`/venues/${id}`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -38,7 +38,7 @@ const VenueService = {
     create: async (data: VenueFormSchema) => {
         try {
             const response = await api.post("/venues", data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -47,7 +47,7 @@ const VenueService = {
     update: async (id: string, data: VenueFormSchema) => {
         try {
             const response = await api.put(`/venues/${id}`, data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -76,7 +76,7 @@ const VenueService = {
     approve: async (id: string) => {
         try {
             const response = await api.patch(`/venues/${id}/approve`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -85,7 +85,7 @@ const VenueService = {
     reject: async (id: string, data: { rejectionReason: string }) => {
         try {
             const response = await api.patch(`/venues/${id}/reject`, data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -94,7 +94,7 @@ const VenueService = {
     resubmit: async (id: string) => {
         try {
             const response = await api.patch(`/venues/${id}/resubmit`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -103,7 +103,7 @@ const VenueService = {
     submit: async (id: string) => {
         try {
             const response = await api.patch(`/venues/${id}/submit`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -123,7 +123,7 @@ const VenueService = {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }

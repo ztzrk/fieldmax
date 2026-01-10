@@ -4,6 +4,7 @@ import { authMiddleware } from "../middleware/auth.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { validateRequest } from "../middleware/validate.middleware";
 import { CreateReportSchema, CreateReplySchema } from "./reports.schema";
+import { z } from "zod";
 
 export class ReportsRoute {
     public router = Router();
@@ -16,7 +17,7 @@ export class ReportsRoute {
         this.router.post(
             "/reports",
             authMiddleware,
-            validateRequest(CreateReportSchema),
+            validateRequest(z.object({ body: CreateReportSchema })),
             this.reportsController.createReport
         );
 
@@ -35,7 +36,7 @@ export class ReportsRoute {
         this.router.post(
             "/reports/:id/reply",
             authMiddleware,
-            validateRequest(CreateReplySchema),
+            validateRequest(z.object({ body: CreateReplySchema })),
             this.reportsController.replyToReport
         );
 

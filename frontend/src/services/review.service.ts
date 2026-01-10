@@ -8,10 +8,7 @@ import {
 
 class ReviewService {
     async create(data: ReviewFormSchema): Promise<ReviewResponseSchema> {
-        const response = await api.post<{
-            message: string;
-            data: ReviewResponseSchema;
-        }>("/reviews", data);
+        const response = await api.post("/reviews", data);
         return response.data.data;
     }
 

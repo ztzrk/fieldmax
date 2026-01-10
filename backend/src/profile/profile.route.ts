@@ -6,6 +6,7 @@ import {
     updateProfileSchema,
     changePasswordSchema,
 } from "../schemas/profile.schema";
+import { z } from "zod";
 
 export class ProfileRoute {
     public path = "/profile";
@@ -19,7 +20,7 @@ export class ProfileRoute {
         this.router.patch(
             `${this.path}/me`,
             authMiddleware,
-            validateRequest(updateProfileSchema),
+            validateRequest(z.object({ body: updateProfileSchema })),
             this.controller.updateProfile
         );
         this.router.get(
@@ -30,7 +31,7 @@ export class ProfileRoute {
         this.router.patch(
             `${this.path}/change-password`,
             authMiddleware,
-            validateRequest(changePasswordSchema),
+            validateRequest(z.object({ body: changePasswordSchema })),
             this.controller.changePassword
         );
         this.router.delete(

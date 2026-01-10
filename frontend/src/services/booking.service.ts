@@ -9,7 +9,7 @@ const BookingService = {
     create: async (data: BookingFormSchema) => {
         try {
             const response = await api.post("/bookings", data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -17,7 +17,7 @@ const BookingService = {
     getById: async (id: string) => {
         try {
             const response = await api.get(`/bookings/${id}`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -33,7 +33,7 @@ const BookingService = {
     confirm: async (id: string) => {
         try {
             const response = await api.post(`/bookings/${id}/confirm`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -41,7 +41,7 @@ const BookingService = {
     cancel: async (id: string) => {
         try {
             const response = await api.post(`/bookings/${id}/cancel`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError;
         }

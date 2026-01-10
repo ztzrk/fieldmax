@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { ApiResponse } from "@fieldmax/shared";
 
 export interface CreateReportData {
     subject: string;
@@ -43,27 +44,27 @@ export interface Report {
 class ReportsService {
     async createReport(data: CreateReportData) {
         const response = await api.post("/reports", data);
-        return response.data;
+        return response.data.data;
     }
 
     async getMyReports() {
-        const response = await api.get<Report[]>("/reports/my");
-        return response.data;
+        const response = await api.get<ApiResponse<Report[]>>("/reports/my");
+        return response.data.data;
     }
 
     async getReportById(id: string) {
-        const response = await api.get<Report>(`/reports/${id}`);
-        return response.data;
+        const response = await api.get<ApiResponse<Report>>(`/reports/${id}`);
+        return response.data.data;
     }
 
     async replyToReport(id: string, data: CreateReplyData) {
         const response = await api.post(`/reports/${id}/reply`, data);
-        return response.data;
+        return response.data.data;
     }
 
     async getAllReports() {
-        const response = await api.get<Report[]>("/admin/reports");
-        return response.data;
+        const response = await api.get<ApiResponse<Report[]>>("/admin/reports");
+        return response.data.data;
     }
 }
 

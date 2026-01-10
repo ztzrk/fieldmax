@@ -30,7 +30,7 @@ export class SportTypesRoute {
             `${this.path}`,
             authMiddleware,
             adminOnlyMiddleware,
-            validateRequest(createSportTypeSchema),
+            validateRequest(z.object({ body: createSportTypeSchema })),
             this.controller.create
         );
 
@@ -38,7 +38,7 @@ export class SportTypesRoute {
             `${this.path}/:id`,
             authMiddleware,
             adminOnlyMiddleware,
-            validateRequest(updateSportTypeSchema),
+            validateRequest(z.object({ body: updateSportTypeSchema })),
             this.controller.update
         );
 
@@ -52,7 +52,7 @@ export class SportTypesRoute {
             `${this.path}/multiple`,
             authMiddleware,
             adminOnlyMiddleware,
-            validateRequest(deleteMultipleSportTypesSchema),
+            validateRequest(z.object({ body: deleteMultipleSportTypesSchema })),
             this.controller.deleteMultiple
         );
     }

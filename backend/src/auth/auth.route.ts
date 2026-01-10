@@ -1,13 +1,14 @@
 // src/auth/auth.route.ts
 import { Router } from "express";
 import { AuthController } from "./auth.controller";
-import { validationMiddleware } from "../middleware/validation.middleware";
+import { validateRequest } from "../middleware/validate.middleware";
 import {
     registerSchema as registerUserSchema,
     loginSchema as loginUserSchema,
     forgotPasswordSchema,
     resetPasswordSchema,
 } from "@fieldmax/shared";
+import { z } from "zod";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { authLimiter } from "../middleware/rateLimit.middleware";
 
@@ -23,14 +24,14 @@ export class AuthRoute {
         this.router.post(
             `${this.path}/register`,
             authLimiter,
-            validationMiddleware(registerUserSchema),
+            validateRequest(z.object({ body: registerUserSchema })),
             this.authController.register
         );
 
         this.router.post(
             `${this.path}/login`,
             authLimiter,
-            validationMiddleware(loginUserSchema),
+            validateRequest(z.object({ body: loginUserSchema })),
             this.authController.login
         );
         this.router.post(`${this.path}/logout`, this.authController.logout);
@@ -55,14 +56,14 @@ export class AuthRoute {
         this.router.post(
             `${this.path}/forgot-password`,
             authLimiter,
-            validationMiddleware(forgotPasswordSchema),
+            validateRequest(z.object({ body: forgotPasswordSchema })),
             this.authController.forgotPassword
         );
 
         this.router.post(
             `${this.path}/reset-password`,
             authLimiter,
-            validationMiddleware(resetPasswordSchema),
+            validateRequest(z.object({ body: resetPasswordSchema })),
             this.authController.resetPassword
         );
     }

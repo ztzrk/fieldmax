@@ -21,10 +21,13 @@ export class DashboardController {
     });
 
     getChartData = asyncHandler(async (req: Request, res: Response) => {
+        console.log("[DEBUG] getChartData called");
         const user = req.user;
         const { range } = req.query;
+        console.log("[DEBUG] range:", range);
 
         if (!user) {
+            console.log("[DEBUG] User not found in req");
             return sendError(res, "Unauthorized", "UNAUTHORIZED", 401);
         }
 
@@ -33,11 +36,17 @@ export class DashboardController {
 
         // Admin sees all, Renter sees own
         const role = user.role;
+        console.log("[DEBUG] calling service with:", {
+            role,
+            userId: user.id,
+            selectedRange,
+        });
         const data = await this.service.getChartData(
             role,
             user.id,
             selectedRange
         );
+        console.log("[DEBUG] service returned:", data.length, "items");
         sendSuccess(res, data, "Chart data retrieved");
     });
 }

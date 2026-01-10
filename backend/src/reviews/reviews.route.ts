@@ -20,7 +20,7 @@ export class ReviewsRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            validateRequest(createReviewSchema),
+            validateRequest(z.object({ body: createReviewSchema })),
             this.controller.create
         );
         this.router.get(

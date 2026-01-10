@@ -51,7 +51,7 @@ export class RenterRoute {
         );
 
         this.router.put(
-            `${this.path}/bookinsg/:id/cancel`,
+            `${this.path}/bookings/:id/cancel`,
             authMiddleware,
             renterOnlyMiddleware,
             this.controller.cancelBooking

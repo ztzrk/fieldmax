@@ -15,7 +15,7 @@ const UserService = {
     createUser: async (userData: UserFormSchema) => {
         try {
             const response = await api.post("/users", userData);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
@@ -24,7 +24,7 @@ const UserService = {
     updateUser: async (userId: string, userData: UserFormSchema) => {
         try {
             const response = await api.put(`/users/${userId}`, userData);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
@@ -33,7 +33,7 @@ const UserService = {
     deleteUser: async (userId: string) => {
         try {
             const response = await api.delete(`/users/${userId}`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
@@ -43,7 +43,7 @@ const UserService = {
             const response = await api.post("/users/multiple", {
                 ids: userIds,
             });
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }

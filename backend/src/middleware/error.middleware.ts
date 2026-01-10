@@ -17,6 +17,7 @@ export const errorMiddleware = (
         const details: any = err instanceof CustomError ? err.details : null;
 
         if (status === 500) {
+            console.error(`[ERROR 500]`, message, err.stack);
             logger.error(
                 `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}, Stack:: ${err.stack}`
             );

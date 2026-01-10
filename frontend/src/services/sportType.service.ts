@@ -18,7 +18,7 @@ const SportTypeService = {
     create: async (data: SportTypeFormSchema) => {
         try {
             const response = await api.post("/sport-types", data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
@@ -26,7 +26,7 @@ const SportTypeService = {
     update: async (id: string, data: { name: string }) => {
         try {
             const response = await api.put(`/sport-types/${id}`, data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
@@ -34,7 +34,7 @@ const SportTypeService = {
     delete: async (id: string) => {
         try {
             const response = await api.delete(`/sport-types/${id}`);
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
@@ -42,7 +42,7 @@ const SportTypeService = {
     deleteMultiple: async (ids: string[]) => {
         try {
             const response = await api.post("/sport-types/multiple", { ids });
-            return response.data;
+            return response.data.data;
         } catch (error) {
             throw error as AxiosError<BackendErrorResponse>;
         }
