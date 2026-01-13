@@ -16,7 +16,8 @@ export function useFieldAvailability(fieldId: string, date: string) {
     return useQuery({
         queryKey: queryKeys.bookings.availability(fieldId, date),
         queryFn: async () => {
-            return FieldService.getAvailability(fieldId, date);
+            const response = await FieldService.getAvailability(fieldId, date);
+            return response.data;
         },
         enabled: !!fieldId && !!date,
     });
@@ -25,7 +26,10 @@ export function useFieldAvailability(fieldId: string, date: string) {
 export function useCreateBooking() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: BookingFormSchema) => BookingService.create(data),
+        mutationFn: async (data: BookingFormSchema) => {
+            const response = await BookingService.create(data);
+            return response.data;
+        },
         onSuccess: () => {
             toast.success("Booking created. Please complete payment.");
             queryClient.invalidateQueries({
@@ -62,7 +66,8 @@ export function useGetBookingById(id: string) {
     return useQuery({
         queryKey: queryKeys.bookings.detail(id),
         queryFn: async () => {
-            return BookingService.getById(id);
+            const response = await BookingService.getById(id);
+            return response.data;
         },
         enabled: !!id,
     });

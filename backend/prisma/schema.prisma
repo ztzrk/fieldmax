@@ -121,22 +121,21 @@ model VenuePhoto {
 }
 
 model Field {
-  id                String             @id @default(uuid())
-  venueId           String             @map("venue_id")
-  sportTypeId       String             @map("sport_type_id")
-  description       String?
-  pricePerHour      Float              @map("price_per_hour")
-  createdAt         DateTime           @default(now()) @map("created_at")
-  status            VerificationStatus @default(PENDING)
-  name              String
-  isClosed          Boolean            @default(false) @map("is_closed")
-  rejectionReason   String?            @map("rejection_reason")
-  bookings          Booking[]
-  photos            FieldPhoto[]
-  sportType         SportType          @relation(fields: [sportTypeId], references: [id])
-  venue             Venue              @relation(fields: [venueId], references: [id], onDelete: Cascade)
-  reviews           Review[]
-  scheduleOverrides ScheduleOverride[]
+  id              String             @id @default(uuid())
+  venueId         String             @map("venue_id")
+  sportTypeId     String             @map("sport_type_id")
+  description     String?
+  pricePerHour    Float              @map("price_per_hour")
+  createdAt       DateTime           @default(now()) @map("created_at")
+  status          VerificationStatus @default(PENDING)
+  name            String
+  isClosed        Boolean            @default(false) @map("is_closed")
+  rejectionReason String?            @map("rejection_reason")
+  bookings        Booking[]
+  photos          FieldPhoto[]
+  sportType       SportType          @relation(fields: [sportTypeId], references: [id])
+  venue           Venue              @relation(fields: [venueId], references: [id], onDelete: Cascade)
+  reviews         Review[]
 
   @@index([venueId])
   @@map("fields")
@@ -151,18 +150,6 @@ model FieldPhoto {
   field      Field    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
 
   @@map("field_photos")
-}
-
-model ScheduleOverride {
-  id           String    @id @default(uuid())
-  fieldId      String    @map("field_id")
-  overrideDate DateTime  @map("override_date") @db.Date
-  isClosed     Boolean   @default(false) @map("is_closed")
-  openTime     DateTime? @map("open_time") @db.Time(6)
-  closeTime    DateTime? @map("close_time") @db.Time(6)
-  field        Field     @relation(fields: [fieldId], references: [id], onDelete: Cascade)
-
-  @@map("schedule_overrides")
 }
 
 model Booking {

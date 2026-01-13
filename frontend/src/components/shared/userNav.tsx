@@ -26,8 +26,6 @@ export function UserNav() {
 
     if (!user) return null;
 
-    const initials = user.email.substring(0, 2).toUpperCase();
-
     const handleLogout = () => {
         logout();
     };
@@ -46,7 +44,14 @@ export function UserNav() {
                         {user.profilePictureUrl ? (
                             <AvatarImage src={user.profilePictureUrl} />
                         ) : (
-                            <AvatarFallback>{initials}</AvatarFallback>
+                            <AvatarFallback>
+                                {user.fullName
+                                    .split(" ")
+                                    .map((name) => name.charAt(0))
+                                    .join("")
+                                    .toUpperCase()
+                                    .substring(0, 2)}
+                            </AvatarFallback>
                         )}
                     </Avatar>
                 </Button>

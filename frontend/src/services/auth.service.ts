@@ -11,7 +11,7 @@ const AuthService = {
     login: async (credentials: LoginFormSchema) => {
         try {
             const response = await api.post("/auth/login", credentials);
-            return response.data.data.user;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -20,7 +20,7 @@ const AuthService = {
     register: async (data: RegisterFormSchema) => {
         try {
             const response = await api.post("/auth/register", data);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -29,7 +29,7 @@ const AuthService = {
     getMe: async () => {
         try {
             const response = await api.get("/auth/me");
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }

@@ -54,7 +54,6 @@ export function RenterCTA() {
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" />
 
                     {/* Grid Pattern Overlay */}
-                    <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
 
                     <div className="relative z-10 flex flex-col items-center text-center p-12 md:p-16 space-y-8 transform transition-transform duration-500 group-hover:scale-105">
                         <div className="space-y-4 max-w-2xl mx-auto">

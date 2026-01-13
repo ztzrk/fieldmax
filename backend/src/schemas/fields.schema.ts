@@ -42,33 +42,6 @@ export const deleteMultipleFieldsSchema = z.object({
 
 export type DeleteMultipleFields = z.infer<typeof deleteMultipleFieldsSchema>;
 
-// Schedule Override
-export const scheduleOverrideSchema = z
-    .object({
-        overrideDate: z
-            .string()
-            .date()
-            .or(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
-        isClosed: z.boolean(),
-        openTime: z.string().optional(),
-        closeTime: z.string().optional(),
-    })
-    .refine(
-        (data) => {
-            if (!data.isClosed) {
-                return !!data.openTime && !!data.closeTime;
-            }
-            return true;
-        },
-        {
-            message:
-                "openTime and closeTime are required when isClosed is false",
-            path: ["openTime"],
-        }
-    );
-
-export type ScheduleOverride = z.infer<typeof scheduleOverrideSchema>;
-
 // Authenticated Availability
 export const getAvailabilitySchema = z.object({
     date: z

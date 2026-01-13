@@ -8,6 +8,7 @@ export class CustomError extends Error {
         public details: any = null
     ) {
         super(message);
+        Object.setPrototypeOf(this, new.target.prototype);
         this.name = this.constructor.name;
         Error.captureStackTrace(this, this.constructor);
     }

@@ -20,8 +20,11 @@ import { DateRangeFilter } from "@/components/dashboard/DateRangeFilter";
 export default function AdminDashboard() {
     const { user, logout } = useAuth();
     const [range, setRange] = useState("7d");
-    const { data: stats, isLoading, error } = useAdminStats();
-    const { data: chartData, isLoading: chartLoading } = useChartData(range);
+    const { data, isLoading, error } = useAdminStats();
+
+    // Safely access nested data only when loaded
+    const stats = data?.stats;
+    const chartData = data?.chartData ? (data.chartData as any)[range] : [];
 
     if (isLoading) {
         return <DashboardSkeleton />;
@@ -124,7 +127,7 @@ export default function AdminDashboard() {
                         </h2>
                         <DateRangeFilter value={range} onChange={setRange} />
                     </div>
-                    {chartLoading ? (
+                    {isLoading ? (
                         <Skeleton className="h-[300px] w-full rounded-xl" />
                     ) : (
                         <RevenueChart data={chartData || []} />

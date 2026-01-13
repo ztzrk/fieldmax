@@ -6,7 +6,6 @@ import { toZonedTime } from "date-fns-tz";
 import {
     CreateField,
     UpdateField,
-    ScheduleOverride,
     GetAvailability,
 } from "../schemas/fields.schema";
 import { Pagination } from "../schemas/pagination.schema";
@@ -233,7 +232,7 @@ export class FieldsService {
 
         const totalPages = Math.ceil(totalReviews / limit);
 
-        return {
+        const response = {
             ...field,
             rating: rating._avg.rating || 0,
             reviewCount: rating._count.rating || 0,
@@ -247,6 +246,7 @@ export class FieldsService {
                 },
             },
         };
+        return response;
     }
 
     public async create(data: CreateField, user: User) {
@@ -386,31 +386,6 @@ export class FieldsService {
         });
     }
 
-    public async getOverrides(fieldId: string) {
-        const overrides = await prisma.scheduleOverride.findMany({
-            where: { fieldId },
-            orderBy: { overrideDate: "asc" },
-        });
-        return overrides;
-    }
-
-    public async createOverride(fieldId: string, data: ScheduleOverride) {
-        const newOverride = await prisma.scheduleOverride.create({
-            data: {
-                fieldId,
-                ...data,
-            },
-        });
-        return newOverride;
-    }
-
-    public async deleteOverride(overrideId: string) {
-        const deletedOverride = await prisma.scheduleOverride.delete({
-            where: { id: overrideId },
-        });
-        return deletedOverride;
-    }
-
     public async addPhotos(
         fieldId: string,
         files: Express.Multer.File[],
@@ -466,50 +441,24 @@ export class FieldsService {
         const requestDate = toZonedTime(query.date, TIMEZONE);
         const dayOfWeek = requestDate.getDay(); // 0 = Sunday
 
-        // 2. Check for Overrides or Regular Schedule
-        const override = await prisma.scheduleOverride.findFirst({
-            where: {
-                fieldId: fieldId,
-                overrideDate: requestDate,
-            },
-        });
-
+        // 2. Check for Regular Schedule
         let openTime: Date | null = null;
         let closeTime: Date | null = null;
 
-        if (override) {
-            if (override.isClosed) return [];
-            if (override.openTime && override.closeTime) {
-                // Determine the dates for open/close on the REQUESTED day
-                // The overrides in DB are stored as 1970-01-01 + Time
-                // We need to combine the Time part with the Request Date
-                openTime = this.combineDateAndTime(
-                    requestDate,
-                    override.openTime,
-                    TIMEZONE
-                );
-                closeTime = this.combineDateAndTime(
-                    requestDate,
-                    override.closeTime,
-                    TIMEZONE
-                );
-            }
-        } else {
-            const regularSchedule = await prisma.venueSchedule.findFirst({
-                where: { venueId: field.venueId, dayOfWeek: dayOfWeek },
-            });
-            if (regularSchedule) {
-                openTime = this.combineDateAndTime(
-                    requestDate,
-                    regularSchedule.openTime,
-                    TIMEZONE
-                );
-                closeTime = this.combineDateAndTime(
-                    requestDate,
-                    regularSchedule.closeTime,
-                    TIMEZONE
-                );
-            }
+        const regularSchedule = await prisma.venueSchedule.findFirst({
+            where: { venueId: field.venueId, dayOfWeek: dayOfWeek },
+        });
+        if (regularSchedule) {
+            openTime = this.combineDateAndTime(
+                requestDate,
+                regularSchedule.openTime,
+                TIMEZONE
+            );
+            closeTime = this.combineDateAndTime(
+                requestDate,
+                regularSchedule.closeTime,
+                TIMEZONE
+            );
         }
 
         if (!openTime || !closeTime) return [];

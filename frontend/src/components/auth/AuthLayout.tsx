@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
 
 interface AuthLayoutProps {
     children: React.ReactNode;
@@ -42,9 +41,12 @@ export function AuthLayout({
 
                 <div className="relative z-20 flex items-center gap-2 text-2xl font-bold tracking-tight">
                     <div className="relative h-10 w-10">
-                        <img
+                        <Image
                             src="/logo.svg"
                             alt="Logo"
+                            loading="eager"
+                            width={40}
+                            height={40}
                             className="object-contain w-full h-full drop-shadow-md"
                         />
                     </div>

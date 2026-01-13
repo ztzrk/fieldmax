@@ -9,6 +9,9 @@ export class DashboardService {
             pendingVenues,
             recentBookings,
             totalRevenue,
+            chartData7d,
+            chartData30d,
+            chartData12m,
         ] = await Promise.all([
             prisma.user.count(),
             prisma.venue.count(),
@@ -31,15 +34,25 @@ export class DashboardService {
                 _sum: { totalPrice: true },
                 where: { payment: { status: "PAID" } },
             }),
+            this.getChartData("ADMIN", "", "7d"),
+            this.getChartData("ADMIN", "", "30d"),
+            this.getChartData("ADMIN", "", "12m"),
         ]);
 
         return {
-            totalUsers,
-            totalVenues,
-            totalFields,
-            pendingVenues,
-            recentBookings,
-            totalRevenue: totalRevenue._sum.totalPrice || 0,
+            stats: {
+                totalUsers,
+                totalVenues,
+                totalFields,
+                pendingVenues,
+                recentBookings,
+                totalRevenue: totalRevenue._sum.totalPrice || 0,
+            },
+            chartData: {
+                "7d": chartData7d,
+                "30d": chartData30d,
+                "12m": chartData12m,
+            },
         };
     }
 

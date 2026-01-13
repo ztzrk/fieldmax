@@ -6,7 +6,6 @@ import {
     RejectField,
     ToggleFieldClosure,
     DeleteMultipleFields,
-    ScheduleOverride,
     GetAvailability,
 } from "../schemas/fields.schema";
 import { Pagination } from "../schemas/pagination.schema";
@@ -79,32 +78,6 @@ export class FieldsController {
             const { ids }: DeleteMultipleFields = req.body;
             const data = await this.service.deleteMultiple(ids, req.user);
             sendSuccess(res, data, "Fields deleted successfully");
-        }
-    );
-
-    public getOverrides = asyncHandler(async (req: Request, res: Response) => {
-        const { fieldId } = req.params;
-        const data = await this.service.getOverrides(fieldId);
-        sendSuccess(res, data, "Schedule overrides retrieved");
-    });
-
-    public createOverride = asyncHandler(
-        async (req: Request, res: Response) => {
-            const { fieldId } = req.params;
-            const overrideData: ScheduleOverride = req.body;
-            const data = await this.service.createOverride(
-                fieldId,
-                overrideData
-            );
-            sendSuccess(res, data, "Override created successfully", 201);
-        }
-    );
-
-    public deleteOverride = asyncHandler(
-        async (req: Request, res: Response) => {
-            const { overrideId } = req.params;
-            const data = await this.service.deleteOverride(overrideId);
-            sendSuccess(res, data, "Override deleted successfully");
         }
     );
 

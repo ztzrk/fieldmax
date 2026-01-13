@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const initializeAuth = async () => {
             try {
-                const userData = await AuthService.getMe();
-                setUser(userData);
+                const response = await AuthService.getMe();
+                setUser(response.data);
             } catch {
                 setUser(null);
             }

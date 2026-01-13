@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
 
 const comments = [
     "Great field! The grass was well maintained.",
@@ -26,26 +25,26 @@ const comments = [
     "Average field, good price.",
     "Amazing sunset view from the field.",
     "Water fountain didn't work.",
-    "Top notch equipment available for rent."
+    "Top notch equipment available for rent.",
 ];
 
-async function main() {
+export async function seedReviews(prisma: PrismaClient) {
     console.log("Seeding reviews...");
 
     // 1. Get all fields and users
     const fields = await prisma.field.findMany({
-        where: { status: "APPROVED" }
+        where: { status: "APPROVED" },
     });
     const users = await prisma.user.findMany({
-        where: { role: "USER" }
+        where: { role: "USER" },
     });
 
     if (fields.length === 0) {
-        console.log("No approved fields found. Run seed_venues.js first.");
+        console.log("No approved fields found. Run seed_venues.ts first.");
         return;
     }
     if (users.length === 0) {
-        console.log("No users found. Run seed_users.js first.");
+        console.log("No users found. Run seed_users.ts first.");
         return;
     }
 
@@ -57,11 +56,11 @@ async function main() {
     for (let i = 0; i < 30; i++) {
         const field = fields[Math.floor(Math.random() * fields.length)];
         const user = users[Math.floor(Math.random() * users.length)];
-        
+
         // Random rating 1-5, weighted slightly towards positive
         // Math.random() < 0.2 ? 1-3 : 4-5
-        let rating;
-         const r = Math.random();
+        let rating: number;
+        const r = Math.random();
         if (r < 0.1) rating = 1;
         else if (r < 0.25) rating = 2;
         else if (r < 0.45) rating = 3;
@@ -72,8 +71,10 @@ async function main() {
 
         // Create a past booking
         const bookingDate = new Date();
-        bookingDate.setDate(bookingDate.getDate() - Math.floor(Math.random() * 60) - 1); // 1-60 days ago
-        
+        bookingDate.setDate(
+            bookingDate.getDate() - Math.floor(Math.random() * 60) - 1
+        ); // 1-60 days ago
+
         // Create booking first
         const booking = await prisma.booking.create({
             data: {
@@ -84,7 +85,7 @@ async function main() {
                 endTime: new Date(bookingDate.setHours(19, 0, 0, 0)), // 7 PM
                 totalPrice: field.pricePerHour,
                 status: "CONFIRMED",
-            }
+            },
         });
 
         // Create review
@@ -95,8 +96,10 @@ async function main() {
                 bookingId: booking.id,
                 rating: rating,
                 comment: comment,
-                createdAt: new Date(bookingDate.getTime() + 1000 * 60 * 60 * 24) // 1 day after booking
-            }
+                createdAt: new Date(
+                    bookingDate.getTime() + 1000 * 60 * 60 * 24
+                ), // 1 day after booking
+            },
         });
 
         reviewsCreated++;
@@ -104,12 +107,3 @@ async function main() {
 
     console.log(`Successfully created ${reviewsCreated} reviews.`);
 }
-
-main()
-    .catch((e) => {
-        console.error(e);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });

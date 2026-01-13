@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -8,27 +8,34 @@ async function main() {
     try {
         await prisma.review.deleteMany({});
         console.log("Cleared existing reviews.");
-    } catch (e) {
-        console.log("No reviews to delete or error clearing reviews:", e.message);
+    } catch (e: any) {
+        console.log(
+            "No reviews to delete or error clearing reviews:",
+            e.message
+        );
     }
 
     // 2. Fetch necessary data
     const users = await prisma.user.findMany({
         where: { role: "USER" },
-        take: 50 // Use a subset of users to be faster
+        take: 50, // Use a subset of users to be faster
     });
 
     const fields = await prisma.field.findMany({
         where: { status: "APPROVED" },
-        take: 50 // Use a subset of fields
+        take: 50, // Use a subset of fields
     });
 
     if (users.length === 0 || fields.length === 0) {
-        console.error("Not enough users or fields to seed reviews. Run seed_large_dataset.js first.");
+        console.error(
+            "Not enough users or fields to seed reviews. Run seed_large_dataset.ts first."
+        );
         return;
     }
 
-    console.log(`Found ${users.length} users and ${fields.length} fields to use for seeding.`);
+    console.log(
+        `Found ${users.length} users and ${fields.length} fields to use for seeding.`
+    );
 
     // 3. Generate Bookings and Reviews
     const reviewsToCreate = 200; // Target number of reviews
@@ -49,7 +56,7 @@ async function main() {
         "Easy to access and good parking.",
         "Game was intense! Pitch held up well.",
         "Standard field, nothing special.",
-        "Love playing here every week."
+        "Love playing here every week.",
     ];
 
     console.log("Creating bookings and reviews...");
@@ -59,7 +66,7 @@ async function main() {
         const field = fields[Math.floor(Math.random() * fields.length)];
         const rating = Math.floor(Math.random() * 5) + 1; // 1-5 stars
         const comment = comments[Math.floor(Math.random() * comments.length)];
-        
+
         // Random date in the past 30 days
         const daysAgo = Math.floor(Math.random() * 30) + 1;
         const bookingDate = new Date();
@@ -78,8 +85,13 @@ async function main() {
                         endTime: new Date("1970-01-01T12:00:00Z"),
                         totalPrice: field.pricePerHour * 2,
                         status: "COMPLETED",
-                        paymentStatus: "PAID",
-                    }
+                        payment: {
+                            create: {
+                                amount: field.pricePerHour * 2,
+                                status: "PAID",
+                            },
+                        },
+                    },
                 });
 
                 // Create Review linked to Booking
@@ -90,17 +102,19 @@ async function main() {
                         userId: user.id,
                         fieldId: field.id,
                         bookingId: booking.id, // Link to the booking we just created
-                    }
+                    },
                 });
             });
             createdCount++;
             if (createdCount % 20 === 0) process.stdout.write(".");
-        } catch (error) {
+        } catch (error: any) {
             console.error(`Failed to seed review ${i}:`, error.message);
         }
     }
 
-    console.log(`\nSuccessfully created ${createdCount} bookings with reviews.`);
+    console.log(
+        `\nSuccessfully created ${createdCount} bookings with reviews.`
+    );
 }
 
 main()

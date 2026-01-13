@@ -56,7 +56,7 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                             {fields.map((field) => (
                                 <CarouselItem
                                     key={field.id}
-                                    className="md:basis-1/2 2xl:basis-1/4"
+                                    className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                                 >
                                     <div className="h-full p-2">
                                         <FieldCard field={field} />

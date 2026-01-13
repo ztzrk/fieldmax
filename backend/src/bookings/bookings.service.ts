@@ -13,7 +13,7 @@ export class BookingsService {
     }
 
     public async findAllBookings(query: Pagination, user: User) {
-        const { page = 1, limit = 10, search } = query;
+        const { page = 1, limit = 10, cursor, take, search } = query;
         const skip = (page - 1) * limit;
 
         const whereCondition: Prisma.BookingWhereInput = {
@@ -38,32 +38,52 @@ export class BookingsService {
         }
         // ADMIN sees all (no additional filter)
 
-        const [bookings, total] = await prisma.$transaction([
-            prisma.booking.findMany({
-                skip: Number(skip),
-                take: Number(limit),
-                where: whereCondition,
-                include: {
-                    field: {
-                        include: {
-                            venue: true,
-                        },
+        const paginationArgs: any = {
+            take: take ?? Number(limit),
+            where: whereCondition,
+            orderBy: {
+                createdAt: "desc",
+            },
+            include: {
+                field: {
+                    include: {
+                        venue: true,
                     },
-                    user: true, // Include user details for Admin/Renter views
-                    review: true,
-                    payment: true,
                 },
-                orderBy: {
-                    createdAt: "desc",
-                },
-            }),
+                user: true,
+                review: true,
+                payment: true,
+            },
+        };
+
+        if (cursor) {
+            paginationArgs.cursor = { id: cursor };
+            paginationArgs.skip = 1; // Skip the cursor itself
+        } else {
+            paginationArgs.skip = Number(skip);
+        }
+
+        const [bookings, total] = await prisma.$transaction([
+            prisma.booking.findMany(paginationArgs),
             prisma.booking.count({
                 where: whereCondition,
             }),
         ]);
-        const totalPages = Math.ceil(total / limit);
 
-        return { data: bookings, meta: { total, page, limit, totalPages } };
+        const nextCursor =
+            bookings.length > 0 ? bookings[bookings.length - 1].id : null;
+        const totalPages = Math.ceil(total / (take ?? limit));
+
+        return {
+            data: bookings,
+            meta: {
+                total,
+                page: cursor ? undefined : page,
+                limit: take ?? limit,
+                totalPages,
+                nextCursor, // For infinite scroll
+            },
+        };
     }
 
     public async findBookingById(bookingId: string) {

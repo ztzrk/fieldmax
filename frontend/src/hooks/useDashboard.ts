@@ -4,7 +4,7 @@ import { queryKeys } from "@/lib/queryKeys";
 
 export const useAdminStats = () => {
     return useQuery({
-        queryKey: queryKeys.dashboard.adminStats(),
+        queryKey: ["admin-stats"],
         queryFn: DashboardService.getAdminStats,
     });
 };

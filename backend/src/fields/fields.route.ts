@@ -9,7 +9,6 @@ import {
     rejectFieldSchema,
     updateFieldSchema,
     toggleFieldClosureSchema,
-    scheduleOverrideSchema,
     getAvailabilitySchema,
 } from "../schemas/fields.schema";
 import { canManageField } from "../middleware/permission.middleware";
@@ -87,28 +86,6 @@ export class FieldsRoute {
             canManageField,
             validateRequest(z.object({ body: toggleFieldClosureSchema })),
             this.controller.toggleClosure
-        );
-
-        this.router.get(
-            `${this.path}/:fieldId/overrides`,
-            authMiddleware,
-            canManageField,
-            this.controller.getOverrides
-        );
-
-        this.router.post(
-            `${this.path}/:fieldId/overrides`,
-            authMiddleware,
-            canManageField,
-            validateRequest(z.object({ body: scheduleOverrideSchema })),
-            this.controller.createOverride
-        );
-
-        this.router.delete(
-            `${this.path}/:fieldId/overrides/:overrideId`,
-            authMiddleware,
-            canManageField,
-            this.controller.deleteOverride
         );
 
         this.router.delete(

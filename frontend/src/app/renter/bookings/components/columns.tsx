@@ -41,19 +41,6 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                {/* Note: Renter booking detail page might not exist yet, but linking generally structure */}
-                {/* For now, maybe just view details if the page exists, or no link if not ready.
-                     The sidebar has /renter/bookings, so detail might be /renter/bookings/[id].
-                     But we stick to the plan: just basic list first. 
-                     I'll verify if specific detail route is needed later. 
-                     For now, I'll assume /renter/bookings/[id] might be desired or just leave simple.
-                     Actually, I'll copy the admin style behavior but point to renter route.
-                 */}
-                {/* <DropdownMenuItem asChild>
-                    <Link href={`/renter/bookings/${booking.id}`}>
-                        View Details
-                    </Link>
-                </DropdownMenuItem> */}
                 <DropdownMenuItem
                     onClick={() => navigator.clipboard.writeText(booking.id)}
                 >

@@ -1,24 +1,17 @@
 import prisma from "../db";
-import midtransclient from "midtrans-client";
 import { BookingsService } from "../bookings/bookings.service";
-import { config } from "../config/env";
 
 export class PaymentsService {
-    private snap: any;
     private bookingsService: BookingsService;
 
-    constructor(snap: any, bookingsService: BookingsService) {
-        this.snap = snap;
+    constructor(bookingsService: BookingsService) {
         this.bookingsService = bookingsService;
     }
 
     public async handleMidtransNotification(notification: any) {
-        const statusResponse = await this.snap.transaction.notification(
-            notification
-        );
-        const orderId = statusResponse.order_id;
-        const transactionStatus = statusResponse.transaction_status;
-        const fraudStatus = statusResponse.fraud_status;
+        const orderId = notification.order_id;
+        const transactionStatus = notification.transaction_status;
+        const fraudStatus = notification.fraud_status;
 
         const booking = await prisma.booking.findUnique({
             where: { id: orderId },

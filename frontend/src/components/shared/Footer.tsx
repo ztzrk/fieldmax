@@ -41,6 +41,7 @@ export function Footer() {
                                     src="/logo.svg"
                                     alt="FieldMax Logo"
                                     fill
+                                    loading="eager"
                                     className="object-contain"
                                 />
                             </div>

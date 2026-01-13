@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
 
 const sportTypes = [
     { name: "Futsal" },
@@ -25,17 +23,17 @@ const sportTypes = [
     { name: "Cycling" },
 ];
 
-async function main() {
+export async function seedSportTypes(prisma: PrismaClient) {
     console.log(`Start seeding ${sportTypes.length} sport types...`);
 
     for (const sport of sportTypes) {
         const existing = await prisma.sportType.findUnique({
-            where: { name: sport.name }
+            where: { name: sport.name },
         });
 
         if (!existing) {
             await prisma.sportType.create({
-                data: sport
+                data: sport,
             });
             console.log(`Created sport type: ${sport.name}`);
         } else {
@@ -43,14 +41,5 @@ async function main() {
         }
     }
 
-    console.log("Seeding finished.");
+    console.log("Seeding sport types finished.");
 }
-
-main()
-    .catch((e) => {
-        console.error(e);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });

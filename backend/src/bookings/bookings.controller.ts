@@ -8,7 +8,8 @@ export class BookingsController {
     constructor(private service: BookingsService) {}
 
     public findAll = asyncHandler(async (req: Request, res: Response) => {
-        const query = req.query;
+        const query =
+            req.query as unknown as import("../schemas/pagination.schema").Pagination;
         const result = await this.service.findAllBookings(query, req.user!);
         sendSuccess(res, result.data, "Bookings retrieved", 200, result.meta);
     });

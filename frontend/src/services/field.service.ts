@@ -18,7 +18,7 @@ const FieldService = {
         try {
             const queryString = params ? `?${params.toString()}` : "";
             const response = await api.get(`/fields/${id}${queryString}`);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -38,7 +38,7 @@ const FieldService = {
     update: async (id: string, data: FieldFormSchema) => {
         try {
             const response = await api.put(`/fields/${id}`, data);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -63,7 +63,7 @@ const FieldService = {
     approve: async (id: string) => {
         try {
             const response = await api.patch(`/fields/${id}/approve`);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -83,7 +83,7 @@ const FieldService = {
     resubmit: async (id: string) => {
         try {
             const response = await api.patch(`/fields/${id}/resubmit`);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -105,7 +105,7 @@ const FieldService = {
                     },
                 }
             );
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }
@@ -134,7 +134,7 @@ const FieldService = {
             const response = await api.get(`/fields/${fieldId}/availability`, {
                 params: { date },
             });
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }

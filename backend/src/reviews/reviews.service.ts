@@ -47,7 +47,7 @@ export class ReviewsService {
     }
 
     public async getByFieldId(fieldId: string, query: ReviewFilter) {
-        const { page = 1, limit = 10, ratings } = query;
+        const { page = 1, limit = 10, cursor, take, ratings } = query;
         const skip = (page - 1) * limit;
 
         const where: any = { fieldId };
@@ -55,33 +55,49 @@ export class ReviewsService {
             where.rating = { in: ratings };
         }
 
-        const [reviews, total] = await prisma.$transaction([
-            prisma.review.findMany({
-                where,
-                include: {
-                    user: {
-                        select: {
-                            fullName: true,
-                            profile: {
-                                select: {
-                                    profilePictureUrl: true,
-                                },
+        const paginationArgs: any = {
+            where,
+            include: {
+                user: {
+                    select: {
+                        fullName: true,
+                        profile: {
+                            select: {
+                                profilePictureUrl: true,
                             },
                         },
                     },
                 },
-                orderBy: { createdAt: "desc" },
-                skip: Number(skip),
-                take: Number(limit),
-            }),
+            },
+            orderBy: { createdAt: "desc" },
+            take: take ?? Number(limit),
+        };
+
+        if (cursor) {
+            paginationArgs.cursor = { id: cursor };
+            paginationArgs.skip = 1;
+        } else {
+            paginationArgs.skip = Number(skip);
+        }
+
+        const [reviews, total] = await prisma.$transaction([
+            prisma.review.findMany(paginationArgs),
             prisma.review.count({ where }),
         ]);
 
-        const totalPages = Math.ceil(total / limit);
+        const nextCursor =
+            reviews.length > 0 ? reviews[reviews.length - 1].id : null;
+        const totalPages = Math.ceil(total / (take ?? limit));
 
         return {
             data: reviews,
-            meta: { total, page, limit, totalPages },
+            meta: {
+                total,
+                page: cursor ? undefined : page,
+                limit: take ?? limit,
+                totalPages,
+                nextCursor,
+            },
         };
     }
 }

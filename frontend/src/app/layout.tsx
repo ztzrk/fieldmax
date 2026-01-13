@@ -12,8 +12,6 @@ import { ModeToggle } from "@/components/shared/ModeToggle";
 import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
 import { Footer } from "@/components/shared/Footer";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
     title: "FieldMax",
     description: "Sewa Lapangan Olahraga",

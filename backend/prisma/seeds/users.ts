@@ -1,9 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcryptjs");
+import { PrismaClient, UserRole } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
-
-async function main() {
+export async function seedUsers(prisma: PrismaClient) {
     console.log("Seeding users...");
 
     const hashedPassword = await bcrypt.hash("password", 10);
@@ -16,7 +14,7 @@ async function main() {
             email: "admin@example.com",
             fullName: "Admin User",
             password: hashedPassword,
-            role: "ADMIN",
+            role: "ADMIN" as UserRole,
             isVerified: true,
         },
     });
@@ -30,7 +28,7 @@ async function main() {
             email: "renter@example.com",
             fullName: "Renter User",
             password: hashedPassword,
-            role: "RENTER",
+            role: "RENTER" as UserRole,
             isVerified: true,
         },
     });
@@ -44,20 +42,11 @@ async function main() {
             email: "user@example.com",
             fullName: "Normal User",
             password: hashedPassword,
-            role: "USER",
+            role: "USER" as UserRole,
             isVerified: true,
         },
     });
     console.log({ user });
 
-    console.log("Seeding finished.");
+    console.log("Seeding users finished.");
 }
-
-main()
-    .catch((e) => {
-        console.error(e);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });

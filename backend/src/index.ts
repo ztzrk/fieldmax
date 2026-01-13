@@ -8,7 +8,6 @@ import { globalLimiter } from "./middleware/rateLimit.middleware";
 import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 // Services
-// Services
 import { AuthService } from "./auth/auth.service";
 import { BookingsService } from "./bookings/bookings.service";
 import { FieldsService } from "./fields/fields.service";
@@ -82,7 +81,7 @@ app.use(cookieParser());
 const authService = new AuthService();
 const bookingsService = new BookingsService(midtransSnap);
 const fieldsService = new FieldsService();
-const paymentsService = new PaymentsService(midtransSnap, bookingsService);
+const paymentsService = new PaymentsService(bookingsService);
 const profileService = new ProfileService();
 const renterService = new RenterService();
 const sportTypesService = new SportTypesService();

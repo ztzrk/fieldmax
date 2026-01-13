@@ -43,7 +43,6 @@ export function HeroSection({
                 <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-600 to-amber-600 opacity-95" />
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-black/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
-                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
             </div>
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">

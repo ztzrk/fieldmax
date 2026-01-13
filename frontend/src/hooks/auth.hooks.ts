@@ -19,8 +19,10 @@ export function useLogin() {
     const [isRedirecting, setIsRedirecting] = useState(false);
 
     const mutation = useMutation({
-        mutationFn: (credentials: LoginFormSchema) =>
-            AuthService.login(credentials),
+        mutationFn: async (credentials: LoginFormSchema) => {
+            const response = await AuthService.login(credentials);
+            return response.data.user;
+        },
         onSuccess: (user: User) => {
             setIsRedirecting(true);
             login(user);
@@ -85,7 +87,10 @@ export function useRegister() {
     const router = useRouter();
 
     const mutation = useMutation({
-        mutationFn: (data: RegisterFormSchema) => AuthService.register(data),
+        mutationFn: async (data: RegisterFormSchema) => {
+            const response = await AuthService.register(data);
+            return response.data;
+        },
         onSuccess: (variables) => {
             toast.success("Account created successfully!", {
                 description: "A verification code has been sent to your email.",
@@ -115,8 +120,10 @@ export function useVerifyEmail() {
     const router = useRouter();
 
     const mutation = useMutation({
-        mutationFn: (data: { email: string; code: string }) =>
-            AuthService.verifyEmail(data),
+        mutationFn: async (data: { email: string; code: string }) => {
+            const response = await AuthService.verifyEmail(data);
+            return response.data;
+        },
         onSuccess: () => {
             toast.success("Email verified!", {
                 description: "You can now log in to your account.",
@@ -139,7 +146,10 @@ export function useVerifyEmail() {
 
 export function useResendCode() {
     const mutation = useMutation({
-        mutationFn: (email: string) => AuthService.resendCode(email),
+        mutationFn: async (email: string) => {
+            const response = await AuthService.resendCode(email);
+            return response.data;
+        },
         onSuccess: () => {
             toast.success("New code sent!", {
                 description:

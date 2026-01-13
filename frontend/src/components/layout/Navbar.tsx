@@ -35,6 +35,7 @@ export function Navbar() {
                                 alt="FieldMax Logo"
                                 fill
                                 className="object-contain"
+                                loading="eager"
                             />
                         </div>
                     </Link>
