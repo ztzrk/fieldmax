@@ -20,7 +20,7 @@ const VenueService = {
     getByIdPublic: async (id: string) => {
         try {
             const response = await api.get(`/venues/public/${id}`);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             throw error as AxiosError;
         }

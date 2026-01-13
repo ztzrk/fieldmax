@@ -32,6 +32,14 @@ const RenterService = {
             throw error as AxiosError;
         }
     },
+    getPublicProfile: async (renterId: string) => {
+        try {
+            const response = await api.get(`/renter/public/${renterId}`);
+            return response.data.data;
+        } catch (error) {
+            throw error as AxiosError;
+        }
+    },
 };
 
 export default RenterService;

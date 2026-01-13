@@ -7,6 +7,7 @@ interface BackendErrorResponse {
         details?: any;
     };
     message?: string; // Add optional message for fallback compatibility
+    errors?: Record<string, string>;
 }
 
 export type { BackendErrorResponse };

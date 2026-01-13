@@ -26,7 +26,7 @@ export default function ReportDetailPage() {
         try {
             setIsLoading(true);
             const data = await reportsService.getReportById(id);
-            setReport(data);
+            setReport(data || null);
         } catch (error) {
             console.error("Failed to fetch report", error);
             toast.error("Failed to load report details");

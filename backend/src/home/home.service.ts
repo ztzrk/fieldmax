@@ -63,6 +63,12 @@ export class HomeService {
                 prisma.venue.findMany({
                     where: { id: { in: topVenueIds }, status: "APPROVED" },
                     include: {
+                        renter: {
+                            select: {
+                                fullName: true,
+                                email: true,
+                            },
+                        },
                         photos: true,
                         _count: { select: { fields: true } },
                     },

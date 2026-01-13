@@ -57,6 +57,7 @@ export const venueResponseSchema = z.object({
     status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
     rejectionReason: z.string().nullable().optional(),
     createdAt: z.string().datetime(),
+    renterId: z.string().uuid(),
     renter: z.object({
         fullName: z.string(),
         email: z.string().email(),
@@ -126,6 +127,7 @@ export const venuePublicPhotoSchema = z.object({
 
 export const venuePublicSchema = z.object({
     id: z.string().uuid(),
+    renterId: z.string().uuid(),
     name: z.string(),
     address: z.string().optional(),
     city: z.string().nullable().optional(),

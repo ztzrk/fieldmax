@@ -19,7 +19,9 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
  * Public listing of all fields. Supports searching by name and filtering by sport type.
  * Displays results in a responsive grid of FieldCards.
  */
-export default function FieldsPage() {
+import { Suspense } from "react";
+
+function FieldsContent() {
     const searchParams = useSearchParams();
     const initialSportType = searchParams.get("sport");
 
@@ -177,5 +179,19 @@ export default function FieldsPage() {
                 )}
             </main>
         </div>
+    );
+}
+
+/**
+ * FieldsPage Component
+ *
+ * Public listing of all fields. Supports searching by name and filtering by sport type.
+ * Displays results in a responsive grid of FieldCards.
+ */
+export default function FieldsPage() {
+    return (
+        <Suspense fallback={<FullScreenLoader />}>
+            <FieldsContent />
+        </Suspense>
     );
 }

@@ -45,6 +45,7 @@ export const userQuerySchema = z.object({
     limit: z.number().optional(),
     search: z.string().optional(),
     role: z.enum(["USER", "RENTER", "ADMIN"]).optional(),
+    isVerified: z.string().optional(),
 });
 
 export type UserQuerySchema = z.infer<typeof userQuerySchema>;

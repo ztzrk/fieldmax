@@ -47,6 +47,7 @@ interface DataTableProps<TData, TValue> {
     onPaginationChange: (pagination: PaginationState) => void;
     onSearch?: (value: string) => void;
     searchValue?: string;
+    filters?: React.ReactNode;
 }
 
 /**
@@ -64,6 +65,7 @@ export function DataTable<TData, TValue>({
     onPaginationChange,
     onSearch,
     searchValue,
+    filters,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -109,8 +111,12 @@ export function DataTable<TData, TValue>({
                         placeholder="Search..."
                         value={searchValue ?? ""}
                         onChange={(event) => onSearch(event.target.value)}
-                        className="max-w-sm mr-4 w-full md:w-auto"
                     />
+                )}
+                {filters && (
+                    <div className="flex items-center gap-2 mr-4">
+                        {filters}
+                    </div>
                 )}
                 {onDeleteSelected && Object.keys(rowSelection).length > 0 && (
                     <ConfirmationDialog

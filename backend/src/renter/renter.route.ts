@@ -23,6 +23,11 @@ export class RenterRoute {
         );
 
         this.router.get(
+            `${this.path}/public/:id`,
+            this.controller.getPublicProfile
+        );
+
+        this.router.get(
             `${this.path}/venues/:id`,
             authMiddleware,
             renterOnlyMiddleware,

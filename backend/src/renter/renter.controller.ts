@@ -151,4 +151,12 @@ export class RenterController {
             sendSuccess(res, data, "Revenue stats retrieved");
         }
     );
+
+    public getPublicProfile = asyncHandler(
+        async (req: Request, res: Response) => {
+            const renterId = req.params.id;
+            const data = await this.service.getPublicProfile(renterId);
+            sendSuccess(res, data, "Public profile retrieved");
+        }
+    );
 }

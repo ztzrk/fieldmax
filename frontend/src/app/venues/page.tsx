@@ -8,7 +8,6 @@ import { Search as SearchIcon } from "lucide-react";
 import { VenueCard } from "@/components/venues/VenueCard";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 /**
  * VenuesPage Component

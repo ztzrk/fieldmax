@@ -38,7 +38,7 @@ export default function ReportsPage() {
         try {
             setIsLoading(true);
             const data = await reportsService.getMyReports();
-            setReports(data);
+            setReports(data || []);
         } catch (error) {
             console.error("Failed to fetch reports", error);
         } finally {

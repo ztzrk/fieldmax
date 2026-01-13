@@ -39,7 +39,7 @@ function SearchContent() {
 
     // Filter Venues Client-side
     const filteredVenues =
-        venuesData?.filter(
+        venuesData?.data?.filter(
             (venue) =>
                 !search ||
                 venue.name.toLowerCase().includes(search.toLowerCase()) ||

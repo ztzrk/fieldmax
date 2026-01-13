@@ -1,5 +1,6 @@
 import { PrismaClient, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -140,6 +141,7 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
         { text: "Average field, good price.", rating: 3 },
         { text: "Amazing view and atmosphere.", rating: 5 },
         { text: "Clean changing rooms.", rating: 4 },
+        // ... we can rely on faker now for comments too if we want, or mix
     ];
 
     // --- HELPERS ---
@@ -222,13 +224,19 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
     // We use createMany for speed, as Customers don't have complex deps yet
     console.log(`bust Creating ${SETTINGS.customers} Customers...`);
     const customerData = Array.from({ length: SETTINGS.customers }).map(
-        (_, i) => ({
-            email: `user${i + 1}_${dateNow}@example.com`,
-            fullName: `Customer ${i + 1}`,
-            password: hashedPassword,
-            role: "USER" as UserRole,
-            isVerified: true,
-        })
+        (_, i) => {
+            const firstName = faker.person.firstName();
+            const lastName = faker.person.lastName();
+            return {
+                email: faker.internet
+                    .email({ firstName, lastName })
+                    .toLowerCase(),
+                fullName: `${firstName} ${lastName}`,
+                password: hashedPassword,
+                role: "USER" as UserRole,
+                isVerified: true,
+            };
+        }
     );
     await prisma.user.createMany({ data: customerData });
     const customers = await prisma.user.findMany({ where: { role: "USER" } });
@@ -248,20 +256,28 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
     let totalBookings = 0;
 
     await processInChunks(rentersToCreate, 10, async (i) => {
-        const companyName = `Company ${i + 1} ${pickRandom(companySuffixes)}`;
+        const companyName = faker.company.name();
+        const firstName = faker.person.firstName();
+        const lastName = faker.person.lastName();
 
         // Create Renter + Profile
         const renter = await prisma.user.create({
             data: {
-                email: `renter${i + 1}_${dateNow}@simulation.com`,
-                fullName: `Renter Owner ${i + 1}`,
+                email: faker.internet
+                    .email({ firstName, lastName })
+                    .toLowerCase(),
+                fullName: `${firstName} ${lastName}`,
                 password: hashedPassword,
                 role: "RENTER",
                 isVerified: true,
                 profile: {
                     create: {
                         companyName: companyName,
-                        companyDescription: `Professional sports venue provider: ${companyName}`,
+                        companyDescription: faker.company.catchPhrase(),
+                        companyWebsite: faker.internet.url(),
+                        address: faker.location.streetAddress({
+                            useFullAddress: true,
+                        }),
                     },
                 },
             },
@@ -277,7 +293,13 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             totalVenues++;
             const cityObj = pickRandom(cities);
             const district = pickRandom(cityObj.districts);
-            const venueName = `${companyName} ${district} Branch`;
+            const venueName = `${companyName} ${district} ${pickRandom([
+                "Center",
+                "Arena",
+                "Sports Hall",
+                "Club",
+                "Hub",
+            ])}`;
 
             // Venue Status Logic
             const statusRoll = Math.random();
@@ -290,16 +312,16 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             const venue = await prisma.venue.create({
                 data: {
                     name: venueName,
-                    address: `Jl. ${district} No. ${randomInt(1, 999)}`,
+                    address: faker.location.streetAddress(),
                     city: cityObj.name,
                     district: district,
                     province: cityObj.province,
-                    postalCode: randomInt(10000, 99999).toString(),
-                    description: `Located in ${district}, ${venueName} offers great facilities.`,
+                    postalCode: faker.location.zipCode(),
+                    description: faker.lorem.paragraph(),
                     renterId: renter.id,
                     status: status,
                     rejectionReason:
-                        status === "REJECTED" ? "Incomplete documents." : null,
+                        status === "REJECTED" ? faker.lorem.sentence() : null,
                     schedules: {
                         create: [0, 1, 2, 3, 4, 5, 6].map((day) => ({
                             dayOfWeek: day,
@@ -322,11 +344,18 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             );
             for (let k = 0; k < numFields; k++) {
                 const sport = pickRandom(allSportTypes);
+                const fieldName = `${sport.name} ${faker.helpers.arrayElement([
+                    "Court",
+                    "Field",
+                    "Pitch",
+                    "Arena",
+                ])} ${k + 1}`;
+
                 const field = await prisma.field.create({
                     data: {
                         venueId: venue.id,
-                        name: `Field ${k + 1} (${sport.name})`,
-                        description: `${sport.name} court`,
+                        name: fieldName,
+                        description: faker.lorem.sentence(),
                         pricePerHour: randomInt(5, 20) * 10000,
                         sportTypeId: sport.id,
                         status: "APPROVED",
@@ -412,8 +441,8 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
                             create: {
                                 userId: customer.id,
                                 fieldId: field.id,
-                                rating: tmpl.rating,
-                                comment: tmpl.text,
+                                rating: faker.number.int({ min: 1, max: 5 }),
+                                comment: faker.lorem.sentence(),
                             },
                         };
                     }

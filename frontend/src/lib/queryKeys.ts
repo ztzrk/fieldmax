@@ -35,8 +35,13 @@ export const queryKeys = {
     },
     users: {
         all: () => ["users-all"] as const,
-        list: (params: { page: number; limit: number; search?: string }) =>
-            ["users", params] as const,
+        list: (params: {
+            page: number;
+            limit: number;
+            search?: string;
+            role?: string;
+            isVerified?: string;
+        }) => ["users", params] as const,
         _def: ["users"] as const,
     },
     bookings: {

@@ -38,6 +38,9 @@ export class UserService {
                   }
                 : {}),
             ...(role ? { role: role } : {}),
+            ...(query.isVerified !== undefined
+                ? { isVerified: query.isVerified }
+                : {}),
         };
 
         if (isPaginated) {

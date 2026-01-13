@@ -138,6 +138,7 @@ model Field {
   reviews         Review[]
 
   @@index([venueId])
+  @@index([name])
   @@map("fields")
 }
 
@@ -168,6 +169,8 @@ model Booking {
   payment     Payment?
 
   @@index([userId])
+  @@index([bookingDate])
+  @@index([createdAt])
   @@map("bookings")
 }
 
@@ -183,6 +186,7 @@ model Payment {
   booking            Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   @@index([bookingId])
+  @@index([status])
   @@map("payments")
 }
 

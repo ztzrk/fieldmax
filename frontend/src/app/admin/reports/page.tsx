@@ -25,7 +25,7 @@ export default function AdminReportsPage() {
         try {
             setIsLoading(true);
             const data = await reportsService.getAllReports();
-            setReports(data);
+            setReports(data || []);
         } catch (error) {
             console.error("Failed to fetch reports", error);
         } finally {

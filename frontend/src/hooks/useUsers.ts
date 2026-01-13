@@ -15,11 +15,29 @@ import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
 
-export function useGetAllUsers(page: number, limit: number, search?: string) {
+export function useGetAllUsers(
+    page: number,
+    limit: number,
+    search?: string,
+    role?: "ADMIN" | "USER" | "RENTER",
+    isVerified?: string
+) {
     return useQuery({
-        queryKey: queryKeys.users.list({ page, limit, search }),
+        queryKey: queryKeys.users.list({
+            page,
+            limit,
+            search,
+            role,
+            isVerified,
+        }),
         queryFn: async () => {
-            const data = await UserService.getAllUsers({ page, limit, search });
+            const data = await UserService.getAllUsers({
+                page,
+                limit,
+                search,
+                role,
+                isVerified,
+            });
             return usersPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,

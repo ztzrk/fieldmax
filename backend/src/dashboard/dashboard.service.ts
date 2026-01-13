@@ -9,9 +9,7 @@ export class DashboardService {
             pendingVenues,
             recentBookings,
             totalRevenue,
-            chartData7d,
-            chartData30d,
-            chartData12m,
+            allChartData,
         ] = await Promise.all([
             prisma.user.count(),
             prisma.venue.count(),
@@ -34,9 +32,7 @@ export class DashboardService {
                 _sum: { totalPrice: true },
                 where: { payment: { status: "PAID" } },
             }),
-            this.getChartData("ADMIN", "", "7d"),
-            this.getChartData("ADMIN", "", "30d"),
-            this.getChartData("ADMIN", "", "12m"),
+            this.getAllChartData("ADMIN", ""),
         ]);
 
         return {
@@ -48,11 +44,7 @@ export class DashboardService {
                 recentBookings,
                 totalRevenue: totalRevenue._sum.totalPrice || 0,
             },
-            chartData: {
-                "7d": chartData7d,
-                "30d": chartData30d,
-                "12m": chartData12m,
-            },
+            chartData: allChartData,
         };
     }
 
@@ -122,16 +114,82 @@ export class DashboardService {
             where.field = { venue: { renterId: userId } };
         }
 
-        const bookings = await prisma.booking.findMany({
-            where,
-            select: { bookingDate: true, totalPrice: true },
-            orderBy: { bookingDate: "asc" },
+        // Use count aggregation for performance
+        // Group by bookingDate to get daily totals directly from DB
+        const groupedBookings = await prisma.booking.groupBy({
+            by: ["bookingDate"],
+            _sum: {
+                totalPrice: true,
+            },
+            where: where,
         });
+
+        const bookings: { bookingDate: Date; totalPrice: number }[] =
+            groupedBookings.map((b) => ({
+                bookingDate: b.bookingDate,
+                totalPrice: b._sum.totalPrice || 0,
+            }));
+
+        return this.processChartData(bookings, range);
+    }
+
+    async getAllChartData(role: string, userId: string) {
+        const now = new Date();
+        const startDate = new Date();
+        startDate.setMonth(now.getMonth() - 12);
+
+        const where: any = {
+            payment: { status: "PAID" },
+            bookingDate: { gte: startDate },
+        };
+
+        if (role === "RENTER") {
+            where.field = { venue: { renterId: userId } };
+        }
+
+        // Use count aggregation instead of findMany for massive performance boost
+        // Group by bookingDate to get daily totals directly from DB
+        const groupedBookings = await prisma.booking.groupBy({
+            by: ["bookingDate"],
+            _sum: {
+                totalPrice: true,
+            },
+            where: where,
+        });
+
+        const bookings: { bookingDate: Date; totalPrice: number }[] =
+            groupedBookings.map((b) => ({
+                bookingDate: b.bookingDate,
+                totalPrice: b._sum.totalPrice || 0,
+            }));
+
+        return {
+            "7d": this.processChartData(bookings, "7d"),
+            "30d": this.processChartData(bookings, "30d"),
+            "12m": this.processChartData(bookings, "12m"),
+        };
+    }
+
+    private processChartData(
+        bookings: { bookingDate: Date; totalPrice: number }[],
+        range: "7d" | "30d" | "12m"
+    ) {
+        const now = new Date();
+        const startDate = new Date();
+
+        if (range === "7d") startDate.setDate(now.getDate() - 7);
+        if (range === "30d") startDate.setDate(now.getDate() - 30);
+        if (range === "12m") startDate.setMonth(now.getMonth() - 12);
+
+        // Filter bookings for the specific range
+        const filteredBookings = bookings.filter(
+            (b) => new Date(b.bookingDate) >= startDate
+        );
 
         // Aggregation
         const dataMap = new Map<string, number>();
 
-        // Initialize map with empty values
+        // Re-initialize straightforwardly for time ascending order
         if (range === "12m") {
             for (let i = 0; i <= 12; i++) {
                 const d = new Date(startDate);
@@ -144,18 +202,18 @@ export class DashboardService {
             }
         } else {
             const days = range === "7d" ? 7 : 30;
-            for (let i = 0; i <= days; i++) {
-                const d = new Date(startDate);
-                d.setDate(startDate.getDate() + i);
+            for (let i = 0; i < days; i++) {
+                const d = new Date(now);
+                d.setDate(now.getDate() - (days - 1 - i));
                 const key = d.toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short",
-                }); // 25 Jan
+                });
                 dataMap.set(key, 0);
             }
         }
 
-        bookings.forEach((b) => {
+        filteredBookings.forEach((b) => {
             let key = "";
             if (range === "12m") {
                 key = new Date(b.bookingDate).toLocaleString("default", {
@@ -170,8 +228,6 @@ export class DashboardService {
             }
 
             if (dataMap.has(key)) {
-                dataMap.set(key, (dataMap.get(key) || 0) + b.totalPrice);
-            } else {
                 dataMap.set(key, (dataMap.get(key) || 0) + b.totalPrice);
             }
         });

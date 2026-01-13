@@ -372,4 +372,38 @@ export class RenterService {
             revenueByField,
         };
     }
+    public async getPublicProfile(renterId: string) {
+        const renter = await prisma.user.findUnique({
+            where: { id: renterId, role: "RENTER" },
+            select: {
+                id: true,
+                fullName: true,
+                profile: true,
+                createdAt: true,
+            },
+        });
+
+        if (!renter) {
+            throw new Error("Renter not found");
+        }
+
+        const venues = await prisma.venue.findMany({
+            where: {
+                renterId,
+                status: "APPROVED",
+            },
+            include: {
+                photos: true,
+                _count: {
+                    select: { fields: true },
+                },
+            },
+            orderBy: { createdAt: "desc" },
+        });
+
+        return {
+            renter,
+            venues,
+        };
+    }
 }

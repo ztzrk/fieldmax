@@ -16,6 +16,13 @@ export const paginationSchema = z.object({
     }, z.boolean().optional()),
     sportTypeId: z.string().optional(),
     role: z.enum(["ADMIN", "USER", "RENTER"]).optional(),
+    isVerified: z.preprocess((val) => {
+        if (typeof val === "string") {
+            if (val === "true") return true;
+            if (val === "false") return false;
+        }
+        return val;
+    }, z.boolean().optional()),
 });
 
 export type Pagination = z.infer<typeof paginationSchema>;

@@ -16,7 +16,7 @@ export function NavbarWrapper() {
         "/login",
         "/register",
         "/admin",
-        "/renter",
+        "/renter/",
         "/search",
     ];
     const shouldHideNavbar = hideNavbarRoutes.some((route) =>

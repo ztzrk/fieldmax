@@ -7,13 +7,19 @@ interface PageHeaderProps {
     title: string;
     description?: string;
     children?: ReactNode;
+    backHref?: string;
 }
 
 /**
  * Reusable header component for admin pages.
  * Displays a title, optional description, and an optional back button.
  */
-export function PageHeader({ title, description, children }: PageHeaderProps) {
+export function PageHeader({
+    title,
+    description,
+    children,
+    backHref,
+}: PageHeaderProps) {
     const router = useRouter();
     return (
         <div className="flex items-center justify-between">
@@ -21,7 +27,13 @@ export function PageHeader({ title, description, children }: PageHeaderProps) {
                 <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => router.back()}
+                    onClick={() => {
+                        if (backHref) {
+                            router.push(backHref);
+                        } else {
+                            router.back();
+                        }
+                    }}
                 >
                     <ArrowLeft className="h-4 w-4" />
                 </Button>
