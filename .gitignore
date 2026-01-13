@@ -67,3 +67,6 @@ pnpm-lock.yaml
 
 # turbo
 .turbo/
+
+# gemini
+.gemini/
