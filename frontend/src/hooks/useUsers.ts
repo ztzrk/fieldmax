@@ -20,7 +20,9 @@ export function useGetAllUsers(
     limit: number,
     search?: string,
     role?: "ADMIN" | "USER" | "RENTER",
-    isVerified?: string
+    isVerified?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc"
 ) {
     return useQuery({
         queryKey: queryKeys.users.list({
@@ -29,6 +31,8 @@ export function useGetAllUsers(
             search,
             role,
             isVerified,
+            sortBy,
+            sortOrder,
         }),
         queryFn: async () => {
             const data = await UserService.getAllUsers({
@@ -37,6 +41,8 @@ export function useGetAllUsers(
                 search,
                 role,
                 isVerified,
+                sortBy,
+                sortOrder,
             });
             return usersPaginatedResponseSchema.parse(data);
         },

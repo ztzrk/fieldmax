@@ -19,6 +19,8 @@ export const fieldQuerySchema = z.object({
     status: z.enum(["PENDING", "APPROVED", "REJECTED"]).optional(),
     isClosed: z.boolean().optional(),
     sportTypeId: z.string().uuid().optional(),
+    sortBy: z.string().optional(),
+    sortOrder: z.enum(["asc", "desc"]).optional(),
 });
 
 export type FieldQuerySchema = z.infer<typeof fieldQuerySchema>;

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 // --- CONFIGURATION ---
 type Scale = "SMALL" | "MEDIUM" | "LARGE";
 
-export async function seedSimulation(scale: Scale = "MEDIUM") {
+export async function seedSimulation(scale: Scale = "LARGE") {
     // Allow override via env if not passed explicitly, but default to arg
     const envScale = process.env.SEED_SCALE as Scale;
     const FINAL_SCALE = envScale || scale;
@@ -19,6 +19,7 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             venuesPerRenter: { min: 1, max: 2 },
             fieldsPerVenue: { min: 2, max: 3 },
             bookingsPerField: { min: 5, max: 10 },
+            reports: 10,
         },
         MEDIUM: {
             customers: 100,
@@ -26,6 +27,7 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             venuesPerRenter: { min: 2, max: 5 },
             fieldsPerVenue: { min: 3, max: 6 },
             bookingsPerField: { min: 20, max: 50 },
+            reports: 50,
         },
         LARGE: {
             customers: 500,
@@ -33,6 +35,7 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             venuesPerRenter: { min: 3, max: 8 },
             fieldsPerVenue: { min: 4, max: 8 },
             bookingsPerField: { min: 50, max: 150 },
+            reports: 200,
         },
     };
 
@@ -177,6 +180,8 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
         await prisma.field.deleteMany({});
         await prisma.venue.deleteMany({});
         await prisma.userProfile.deleteMany({});
+        await prisma.reportReply.deleteMany({});
+        await prisma.report.deleteMany({});
         await prisma.user.deleteMany({ where: { role: { not: "ADMIN" } } });
         console.log("✅ Cleanup complete.\n");
     } catch (e: any) {
@@ -193,6 +198,21 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             "Football",
             "Badminton",
             "Tennis",
+            "Volleyball",
+            "Table Tennis",
+            "Swimming",
+            "Gym",
+            "Yoga",
+            "Cricket",
+            "Rugby",
+            "Hockey",
+            "Golf",
+            "Baseball",
+            "Softball",
+            "Squash",
+            "Boxing",
+            "MMA",
+            "Cycling",
         ];
         for (const name of defaults) {
             await prisma.sportType.create({ data: { name } });
@@ -457,6 +477,157 @@ export async function seedSimulation(scale: Scale = "MEDIUM") {
             }
         }
     });
+
+    // 5. GENERATE REPORTS
+    console.log(`\n📄 Generating ${SETTINGS.reports} Reports...`);
+    const adminUser = await prisma.user.findUnique({
+        where: { email: adminEmail },
+    });
+
+    if (!adminUser) {
+        console.warn(
+            "⚠️ Admin user not found, skipping report replies seeding."
+        );
+    }
+
+    const reportCategories = ["SCAM", "TECHNICAL", "PAYMENT", "OTHER"];
+
+    const reportTemplates: Record<
+        string,
+        { subject: string; description: string }[]
+    > = {
+        SCAM: [
+            {
+                subject: "Venue asked for extra fees",
+                description:
+                    "When I arrived, the owner demanded an extra 50k for lighting, which was not mentioned in the app.",
+            },
+            {
+                subject: "Venue does not exist",
+                description:
+                    "I went to the address provided but there was no sports field there, just an empty lot.",
+            },
+            {
+                subject: "Suspicious refund policy",
+                description:
+                    "They refused to refund my booking even though I cancelled within the allowed window.",
+            },
+            {
+                subject: "Fake photos",
+                description:
+                    "The photos on the app look nothing like the actual venue. It is completely run down.",
+            },
+        ],
+        TECHNICAL: [
+            {
+                subject: "App crashes on booking",
+                description:
+                    "Every time I try to confirm my booking, the app closes unexpectedly.",
+            },
+            {
+                subject: "Cannot upload payment proof",
+                description:
+                    "I am trying to upload my transfer receipt but it keeps saying 'Upload Failed'.",
+            },
+            {
+                subject: "Search is not working",
+                description:
+                    "I searched for 'Futsal' in Jakarta but got zero results, which seems wrong.",
+            },
+            {
+                subject: "Login issues",
+                description:
+                    "I reset my password but still cannot log in to my account.",
+            },
+        ],
+        PAYMENT: [
+            {
+                subject: "Charged twice",
+                description:
+                    "I noticed two charges on my credit card for the same booking ID.",
+            },
+            {
+                subject: "Payment failed but money deducted",
+                description:
+                    "The app said payment failed, but my bank balance has decreased.",
+            },
+            {
+                subject: "Refund not received",
+                description:
+                    "It has been 7 days since my cancellation refund was approved but I haven't received the money.",
+            },
+            {
+                subject: "Cannot select payment method",
+                description:
+                    "The option to pay with BCA Virtual Account is greyed out.",
+            },
+        ],
+        OTHER: [
+            {
+                subject: "Rude staff behavior",
+                description:
+                    "The staff at the venue was very rude when I asked for the locker room key.",
+            },
+            {
+                subject: "Facilities are dirty",
+                description:
+                    "The bathroom was extremely dirty and there was no running water.",
+            },
+            {
+                subject: "Suggestion for new feature",
+                description:
+                    "It would be great if we could filter venues by 'Covered' or 'Outdoor'.",
+            },
+            {
+                subject: "Wrong location pin",
+                description:
+                    "The map location is about 500m off from the actual venue entrance.",
+            },
+        ],
+    };
+
+    const adminReplies = [
+        "We are investigating this issue and will get back to you shortly.",
+        "Thank you for reporting this. We have refunded the transaction.",
+        "We have contacted the venue owner regarding this matter.",
+        "Please provide the transaction ID for further assistance.",
+        "The issue has been resolved. Please try again.",
+        "We apologize for the inconvenience. A credit has been added to your account.",
+    ];
+
+    for (let i = 0; i < SETTINGS.reports; i++) {
+        const reporter = pickRandom(customers);
+        if (!reporter) continue;
+
+        const category = pickRandom(reportCategories);
+        const templates = reportTemplates[category] || reportTemplates["OTHER"];
+        const template = pickRandom(templates);
+
+        const isResolved = Math.random() > 0.6;
+        const status = isResolved ? "RESOLVED" : "PENDING";
+
+        // Add some variation to description so strictly equal checks don't look weird if we have many reports
+        const variation = ` [Ref: ${faker.string.alphanumeric(6)}]`;
+
+        await prisma.report.create({
+            data: {
+                userId: reporter.id,
+                subject: template.subject,
+                description: template.description + variation,
+                category: category as any,
+                status: status as any,
+                replies:
+                    isResolved && adminUser && Math.random() > 0.2
+                        ? {
+                              create: {
+                                  senderId: adminUser.id,
+                                  message: pickRandom(adminReplies),
+                              },
+                          }
+                        : undefined,
+            },
+        });
+    }
 
     console.log(`\n\n✅ Seed Complete!`);
     console.log(`   - Venues: ${totalVenues}`);

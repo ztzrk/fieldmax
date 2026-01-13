@@ -46,5 +46,12 @@ export class ReportsRoute {
             adminOnlyMiddleware,
             this.reportsController.getAllReports
         );
+
+        this.router.patch(
+            "/admin/reports/:id/resolve",
+            authMiddleware,
+            adminOnlyMiddleware,
+            this.reportsController.resolveReport
+        );
     }
 }

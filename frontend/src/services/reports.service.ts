@@ -62,8 +62,15 @@ class ReportsService {
         return response.data.data;
     }
 
-    async getAllReports() {
-        const response = await api.get<ApiResponse<Report[]>>("/admin/reports");
+    async getAllReports(params?: any) {
+        const response = await api.get<ApiResponse<any>>("/admin/reports", {
+            params,
+        });
+        return response.data.data;
+    }
+
+    async resolve(id: string) {
+        const response = await api.patch(`/admin/reports/${id}/resolve`);
         return response.data.data;
     }
 }

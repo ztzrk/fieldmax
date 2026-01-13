@@ -7,8 +7,10 @@ import { ConflictError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class VenuesService {
     public async findAllAdmin(query: Pagination) {
-        const { page = 1, limit = 10, search } = query;
-        const skip = (page - 1) * limit;
+        const { page = 1, limit = 10, search, sortBy, sortOrder } = query;
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.VenueWhereInput = search
             ? {
@@ -18,6 +20,15 @@ export class VenuesService {
                   },
               }
             : {};
+
+        const orderByCondition: Prisma.VenueOrderByWithRelationInput =
+            sortBy && sortOrder
+                ? sortBy === "renter"
+                    ? { renter: { fullName: sortOrder } }
+                    : sortBy === "fields"
+                    ? { fields: { _count: sortOrder } }
+                    : { [sortBy]: sortOrder }
+                : { createdAt: "desc" };
 
         const [venues, total] = [
             await prisma.venue.findMany({
@@ -34,20 +45,25 @@ export class VenuesService {
                     },
                 },
                 skip: skip,
-                take: limit,
-                orderBy: { createdAt: "desc" },
+                take: limitNum,
+                orderBy: orderByCondition,
             }),
             await prisma.venue.count({ where: whereCondition }),
         ];
 
-        const totalPages = Math.ceil(total / limit);
+        const totalPages = Math.ceil(total / limitNum);
 
-        return { data: venues, meta: { total, page, limit, totalPages } };
+        return {
+            data: venues,
+            meta: { total, page: pageNum, limit: limitNum, totalPages },
+        };
     }
 
     public async findAllForRenter(renterId: string, query: Pagination) {
-        const { page = 1, limit = 10, search } = query;
-        const skip = (page - 1) * limit;
+        const { page = 1, limit = 10, search, sortBy, sortOrder } = query;
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.VenueWhereInput = {
             renterId: renterId,
@@ -63,6 +79,13 @@ export class VenuesService {
                 : [],
         };
 
+        const orderByCondition: Prisma.VenueOrderByWithRelationInput =
+            sortBy && sortOrder
+                ? sortBy === "fields"
+                    ? { fields: { _count: sortOrder } }
+                    : { [sortBy]: sortOrder }
+                : { createdAt: "desc" };
+
         const [venues, total] = [
             await prisma.venue.findMany({
                 where: whereCondition,
@@ -78,19 +101,24 @@ export class VenuesService {
                     },
                 },
                 skip: skip,
-                take: limit,
-                orderBy: { createdAt: "desc" },
+                take: limitNum,
+                orderBy: orderByCondition,
             }),
             await prisma.venue.count({ where: whereCondition }),
         ];
-        const totalPages = Math.ceil(total / limit);
+        const totalPages = Math.ceil(total / limitNum);
 
-        return { data: venues, meta: { total, page, limit, totalPages } };
+        return {
+            data: venues,
+            meta: { total, page: pageNum, limit: limitNum, totalPages },
+        };
     }
 
     public async findAllPublic(query: Pagination) {
-        const { page = 1, limit = 10, search } = query;
-        const skip = (page - 1) * limit;
+        const { page = 1, limit = 10, search, sortBy, sortOrder } = query;
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.VenueWhereInput = {
             status: "APPROVED",
@@ -116,6 +144,13 @@ export class VenuesService {
                 : [],
         };
 
+        const orderByCondition: Prisma.VenueOrderByWithRelationInput =
+            sortBy && sortOrder
+                ? sortBy === "fields"
+                    ? { fields: { _count: sortOrder } }
+                    : { [sortBy]: sortOrder }
+                : { createdAt: "desc" };
+
         const [venues, total] = [
             await prisma.venue.findMany({
                 where: whereCondition,
@@ -124,6 +159,7 @@ export class VenuesService {
                         select: {
                             fullName: true,
                             email: true,
+                            // Use dummy logic if needed or just return basic info
                         },
                     },
                     photos: {
@@ -137,14 +173,17 @@ export class VenuesService {
                     },
                 },
                 skip: skip,
-                take: limit,
-                orderBy: { createdAt: "desc" },
+                take: limitNum,
+                orderBy: orderByCondition,
             }),
             await prisma.venue.count({ where: whereCondition }),
         ];
 
-        const totalPages = Math.ceil(total / limit);
-        return { data: venues, meta: { total, page, limit, totalPages } };
+        const totalPages = Math.ceil(total / limitNum);
+        return {
+            data: venues,
+            meta: { total, page: pageNum, limit: limitNum, totalPages },
+        };
     }
 
     public async findAllList() {

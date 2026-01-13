@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -133,7 +133,18 @@ export const columns: ColumnDef<SportType>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => {
-            return <div className="text-left font-semibold">Name</div>;
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                    className="p-0 hover:bg-transparent"
+                >
+                    Name
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
         },
         cell: ({ row }) => {
             return (

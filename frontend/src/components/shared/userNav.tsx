@@ -13,7 +13,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
-import { User, LayoutDashboard, MapPin, Trophy, Calendar } from "lucide-react";
+import {
+    User,
+    LayoutDashboard,
+    MapPin,
+    Trophy,
+    Calendar,
+    MessageSquareWarning,
+} from "lucide-react";
 
 /**
  * UserNav Component
@@ -118,6 +125,18 @@ export function UserNav() {
                             </DropdownMenuItem>
                         </>
                     )}
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={
+                                user.role === "RENTER"
+                                    ? "/renter/reports"
+                                    : "/reports"
+                            }
+                        >
+                            <MessageSquareWarning className="mr-2 h-4 w-4" />
+                            <span>Support</span>
+                        </Link>
+                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>

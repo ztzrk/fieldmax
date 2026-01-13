@@ -3,10 +3,10 @@
 import { useGetAllFields, useDeleteMultipleFields } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
-import { PageHeader } from "@/app/admin/components/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
+import { Card, CardContent } from "@/components/ui/card";
 import { columns } from "./components/columns";
-import { PaginationState } from "@tanstack/react-table";
+import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 
 /**
@@ -19,12 +19,18 @@ export default function AdminFieldsPage() {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [sorting, setSorting] = useState<SortingState>([]);
     const [search, setSearch] = useState("");
 
     const { data, isLoading, isError } = useGetAllFields(
         pageIndex + 1,
         pageSize,
-        search
+        search,
+        undefined, // status
+        undefined, // isClosed
+        undefined, // sportTypeId
+        sorting.length > 0 ? sorting[0].id : undefined,
+        sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined
     );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleFields();
@@ -42,11 +48,10 @@ export default function AdminFieldsPage() {
         );
 
     return (
-        <div className="space-y-6">
-            <PageHeader
-                title="Manage Fields"
-                description="View and manage all fields in the system."
-            />
+        <AdminPageWrapper
+            title="Manage Fields"
+            subtitle="View and manage all fields in the system."
+        >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent className="p-6">
                     <DataTable
@@ -58,9 +63,11 @@ export default function AdminFieldsPage() {
                         onPaginationChange={setPagination}
                         onSearch={setSearch}
                         searchValue={search}
+                        sorting={sorting}
+                        onSortingChange={setSorting}
                     />
                 </CardContent>
             </Card>
-        </div>
+        </AdminPageWrapper>
     );
 }

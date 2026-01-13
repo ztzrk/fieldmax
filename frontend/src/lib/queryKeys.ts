@@ -4,13 +4,23 @@ export const queryKeys = {
     },
     sportTypes: {
         all: () => ["sport-types-all"] as const,
-        list: (params: { page: number; limit: number; search?: string }) =>
-            ["sport-types", params] as const,
+        list: (params: {
+            page: number;
+            limit: number;
+            search?: string;
+            sortBy?: string;
+            sortOrder?: "asc" | "desc";
+        }) => ["sport-types", params] as const,
         _def: ["sport-types"] as const,
     },
     venues: {
-        list: (params: { page: number; limit: number; search?: string }) =>
-            ["venues", params] as const,
+        list: (params: {
+            page: number;
+            limit: number;
+            search?: string;
+            sortBy?: string;
+            sortOrder?: "asc" | "desc";
+        }) => ["venues", params] as const,
         detail: (id: string) => ["venue", id] as const,
         publicList: () => ["public-venues"] as const,
         publicDetail: (id: string) => ["public-venue", id] as const,
@@ -24,6 +34,8 @@ export const queryKeys = {
             status?: string;
             isClosed?: boolean;
             sportTypeId?: string;
+            sortBy?: string;
+            sortOrder?: "asc" | "desc";
         }) => ["fields", params] as const,
         detail: (
             id: string,
@@ -41,12 +53,19 @@ export const queryKeys = {
             search?: string;
             role?: string;
             isVerified?: string;
+            sortBy?: string;
+            sortOrder?: "asc" | "desc";
         }) => ["users", params] as const,
         _def: ["users"] as const,
     },
     bookings: {
-        list: (params: { page: number; limit: number; search?: string }) =>
-            ["bookings", params] as const,
+        list: (params: {
+            page: number;
+            limit: number;
+            search?: string;
+            sortBy?: string;
+            sortOrder?: "asc" | "desc";
+        }) => ["bookings", params] as const,
         detail: (id: string) => ["booking", id] as const,
         availability: (fieldId: string, date: string) =>
             ["field-availability", fieldId, date] as const,

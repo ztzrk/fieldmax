@@ -13,8 +13,19 @@ export class BookingsService {
     }
 
     public async findAllBookings(query: Pagination, user: User) {
-        const { page = 1, limit = 10, cursor, take, search } = query;
-        const skip = (page - 1) * limit;
+        const {
+            page = 1,
+            limit = 10,
+            cursor,
+            take,
+            search,
+            sortBy,
+            sortOrder,
+        } = query;
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const takeNum = take ? Number(take) : undefined;
+        const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.BookingWhereInput = {
             ...(search && {
@@ -38,12 +49,19 @@ export class BookingsService {
         }
         // ADMIN sees all (no additional filter)
 
+        const orderByCondition: Prisma.BookingOrderByWithRelationInput =
+            sortBy && sortOrder
+                ? sortBy === "user"
+                    ? { user: { fullName: sortOrder } }
+                    : sortBy === "field"
+                    ? { field: { name: sortOrder } }
+                    : { [sortBy]: sortOrder }
+                : { createdAt: "desc" };
+
         const paginationArgs: any = {
-            take: take ?? Number(limit),
+            take: takeNum ?? limitNum,
             where: whereCondition,
-            orderBy: {
-                createdAt: "desc",
-            },
+            orderBy: orderByCondition,
             include: {
                 field: {
                     include: {
@@ -72,14 +90,14 @@ export class BookingsService {
 
         const nextCursor =
             bookings.length > 0 ? bookings[bookings.length - 1].id : null;
-        const totalPages = Math.ceil(total / (take ?? limit));
+        const totalPages = Math.ceil(total / (takeNum ?? limitNum));
 
         return {
             data: bookings,
             meta: {
                 total,
-                page: cursor ? undefined : page,
-                limit: take ?? limit,
+                page: cursor ? undefined : pageNum,
+                limit: takeNum ?? limitNum,
                 totalPages,
                 nextCursor, // For infinite scroll
             },

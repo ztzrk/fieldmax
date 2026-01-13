@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
-import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { useAdminStats, useChartData } from "@/hooks/useDashboard";
+import { useAdminStats } from "@/hooks/useDashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, MapPin, Trophy, Clock } from "lucide-react";
+import { Users, MapPin, Trophy } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RecentBookings } from "@/components/dashboard/RecentBookings";
 import { RevenueChart } from "@/components/dashboard/RevenueChart";
 import { DateRangeFilter } from "@/components/dashboard/DateRangeFilter";
+import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 
 /**
  * Admin Dashboard page.
@@ -38,16 +37,22 @@ export default function AdminDashboard() {
         );
     }
 
-    return (
-        <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Dashboard
-                    </h1>
-                </div>
+    if (error) {
+        return (
+            <div className="text-red-500">
+                Failed to load dashboard statistics.
             </div>
+        );
+    }
 
+    const pageActions = <DateRangeFilter value={range} onChange={setRange} />;
+
+    return (
+        <AdminPageWrapper
+            title="Dashboard"
+            subtitle="Overview of your platform's performance"
+            actions={pageActions}
+        >
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 <Card className="rounded-xl border-none shadow-lg bg-gradient-to-br from-blue-500 to-violet-600 text-white hover:shadow-xl transition-all">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -125,7 +130,6 @@ export default function AdminDashboard() {
                         <h2 className="text-xl font-bold tracking-tight">
                             Revenue Overview
                         </h2>
-                        <DateRangeFilter value={range} onChange={setRange} />
                     </div>
                     {isLoading ? (
                         <Skeleton className="h-[300px] w-full rounded-xl" />
@@ -160,7 +164,7 @@ export default function AdminDashboard() {
                     </Card>
                 </div>
             </div>
-        </div>
+        </AdminPageWrapper>
     );
 }
 

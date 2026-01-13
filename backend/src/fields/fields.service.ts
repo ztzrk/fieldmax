@@ -21,7 +21,9 @@ export class FieldsService {
             isClosed,
             sportTypeId,
         } = query;
-        const skip = (page - 1) * limit;
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
         const whereCondition: Prisma.FieldWhereInput = {
             ...(search
                 ? {
@@ -62,16 +64,30 @@ export class FieldsService {
                         },
                     },
                 },
-                orderBy: {
-                    venue: {
-                        name: "asc",
-                    },
-                },
+                orderBy:
+                    query.sortBy && query.sortOrder
+                        ? query.sortBy.includes(".") &&
+                          (query.sortBy.split(".")[0] === "venue" ||
+                              query.sortBy.split(".")[0] === "sportType")
+                            ? {
+                                  [query.sortBy.split(".")[0]]: {
+                                      [query.sortBy.split(".")[1]]:
+                                          query.sortOrder,
+                                  },
+                              }
+                            : { [query.sortBy]: query.sortOrder }
+                        : {
+                              venue: {
+                                  name: "asc",
+                              },
+                          },
                 skip: skip,
-                take: limit,
+                take: limitNum,
             }),
             await prisma.field.count({ where: whereCondition }),
         ];
+        // ... (lines 87-103 omitted for brevity, assuming they don't use 'limit' or 'page' directly in a way that breaks)
+
         const fieldIds = fields.map((f) => f.id);
 
         const aggregations = await prisma.review.groupBy({
@@ -90,13 +106,13 @@ export class FieldsService {
             };
         });
 
-        const totalPages = Math.ceil(total / limit);
+        const totalPages = Math.ceil(total / limitNum);
         return {
             data: fieldsWithRating,
             meta: {
                 total,
-                page,
-                limit,
+                page: pageNum,
+                limit: limitNum,
                 totalPages,
             },
         };
@@ -104,7 +120,9 @@ export class FieldsService {
 
     public async findAllForRenter(renterId: string, query: Pagination) {
         const { page = 1, limit = 10, search, sportTypeId } = query;
-        const skip = (page - 1) * limit;
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.FieldWhereInput = {
             venue: {
@@ -153,19 +171,19 @@ export class FieldsService {
                     },
                 },
                 skip,
-                take: limit,
+                take: limitNum,
             }),
             await prisma.field.count({ where: whereCondition }),
         ];
 
-        const totalPages = Math.ceil(total / limit);
+        const totalPages = Math.ceil(total / limitNum);
 
         return {
             data: fields,
             meta: {
                 total,
-                page,
-                limit,
+                page: pageNum,
+                limit: limitNum,
                 totalPages,
             },
         };

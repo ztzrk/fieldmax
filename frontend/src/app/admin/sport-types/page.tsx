@@ -8,8 +8,9 @@ import {
 } from "@/hooks/useSportTypes";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import CreateSportTypeButton from "./components/CreateSportTypeButton";
-import { PaginationState } from "@tanstack/react-table";
+import { PaginationState, SortingState } from "@tanstack/react-table";
 import { Card, CardContent } from "@/components/ui/card";
+import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 
 /**
  * Admin Sport Types Page.
@@ -21,11 +22,14 @@ export default function AdminSportTypesPage() {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [sorting, setSorting] = useState<SortingState>([]);
     const [search, setSearch] = useState("");
     const { data, isLoading, isError } = useGetAllSportTypes(
         pageIndex + 1,
         pageSize,
-        search
+        search,
+        sorting.length > 0 ? sorting[0].id : undefined,
+        sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined
     );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleSportTypes();
@@ -40,16 +44,11 @@ export default function AdminSportTypesPage() {
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
-        <div>
-            <div className="flex justify-between items-center mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold">Sport Types</h1>
-                    <p className="text-muted-foreground">
-                        Manage available sport types.
-                    </p>
-                </div>
-                <CreateSportTypeButton />
-            </div>
+        <AdminPageWrapper
+            title="Sport Types"
+            subtitle="Manage available sport types."
+            actions={<CreateSportTypeButton />}
+        >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent className="p-6">
                     <DataTable
@@ -61,9 +60,11 @@ export default function AdminSportTypesPage() {
                         onPaginationChange={setPagination}
                         onSearch={setSearch}
                         searchValue={search}
+                        sorting={sorting}
+                        onSortingChange={setSorting}
                     />
                 </CardContent>
             </Card>
-        </div>
+        </AdminPageWrapper>
     );
 }

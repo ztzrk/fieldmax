@@ -20,8 +20,10 @@ function exclude<User, Key extends keyof User>(
 export class UserService {
     public async findAllUsers(query: Partial<Pagination>) {
         const { page, limit, search, role } = query;
-        const isPaginated = page !== undefined && limit !== undefined;
-        const skip = isPaginated ? (page! - 1) * limit! : 0;
+        const pageNum = page ? Number(page) : undefined;
+        const limitNum = limit ? Number(limit) : undefined;
+        const isPaginated = pageNum !== undefined && limitNum !== undefined;
+        const skip = isPaginated ? (pageNum! - 1) * limitNum! : 0;
 
         const whereCondition: Prisma.UserWhereInput = {
             ...(search
@@ -55,20 +57,23 @@ export class UserService {
                         createdAt: true,
                     },
                     skip: skip,
-                    take: limit,
-                    orderBy: { createdAt: "desc" },
+                    take: limitNum,
+                    orderBy:
+                        query.sortBy && query.sortOrder
+                            ? { [query.sortBy]: query.sortOrder }
+                            : { createdAt: "desc" },
                 }),
                 prisma.user.count({ where: whereCondition }),
             ]);
 
-            const totalPages = Math.ceil(total / limit!);
+            const totalPages = Math.ceil(total / limitNum!);
 
             return {
                 data: users,
                 meta: {
                     total,
-                    page,
-                    limit,
+                    page: pageNum,
+                    limit: limitNum,
                     totalPages,
                 },
             };
@@ -82,7 +87,10 @@ export class UserService {
                     role: true,
                     createdAt: true,
                 },
-                orderBy: { createdAt: "desc" },
+                orderBy:
+                    query.sortBy && query.sortOrder
+                        ? { [query.sortBy]: query.sortOrder }
+                        : { createdAt: "desc" },
             });
             return { data: users };
         }

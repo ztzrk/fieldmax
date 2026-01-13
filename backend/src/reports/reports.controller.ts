@@ -20,7 +20,8 @@ export class ReportsController {
     });
 
     public getAllReports = asyncHandler(async (req: Request, res: Response) => {
-        const reports = await this.reportsService.getAllReports();
+        const query = req.query;
+        const reports = await this.reportsService.getAllReports(query);
         sendSuccess(res, reports, "All reports retrieved");
     });
 
@@ -52,5 +53,11 @@ export class ReportsController {
             isAdmin
         );
         sendSuccess(res, reply, "Reply created", 201);
+    });
+
+    public resolveReport = asyncHandler(async (req: Request, res: Response) => {
+        const reportId = req.params.id;
+        const report = await this.reportsService.resolveReport(reportId);
+        sendSuccess(res, report, "Report resolved successfully");
     });
 }

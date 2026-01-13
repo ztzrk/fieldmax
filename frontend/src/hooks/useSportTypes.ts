@@ -18,12 +18,26 @@ import { queryKeys } from "@/lib/queryKeys";
 export function useGetAllSportTypes(
     page: number,
     limit: number,
-    search?: string
+    search?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc"
 ) {
     return useQuery({
-        queryKey: queryKeys.sportTypes.list({ page, limit, search }),
+        queryKey: queryKeys.sportTypes.list({
+            page,
+            limit,
+            search,
+            sortBy,
+            sortOrder,
+        }),
         queryFn: async () => {
-            const data = await SportTypeService.getAll({ page, limit, search });
+            const data = await SportTypeService.getAll({
+                page,
+                limit,
+                search,
+                sortBy,
+                sortOrder,
+            });
             return sportTypesPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,

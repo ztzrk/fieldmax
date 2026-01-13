@@ -4,6 +4,7 @@ import {
     FileText,
     List,
     DollarSign,
+    MessageSquareWarning,
 } from "lucide-react";
 
 export type NavItem = {
@@ -37,5 +38,10 @@ export const renterNavItems: NavItem[] = [
         title: "Revenue",
         url: "/renter/revenue",
         icon: DollarSign,
+    },
+    {
+        title: "Support",
+        url: "/renter/reports",
+        icon: MessageSquareWarning,
     },
 ];

@@ -10,6 +10,7 @@ import {
     RowSelectionState,
     getPaginationRowModel,
     PaginationState,
+    OnChangeFn,
 } from "@tanstack/react-table";
 import {
     Table,
@@ -66,15 +67,20 @@ export function DataTable<TData, TValue>({
     onSearch,
     searchValue,
     filters,
-}: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = useState<SortingState>([]);
+    sorting,
+    onSortingChange,
+}: DataTableProps<TData, TValue> & {
+    sorting?: SortingState;
+    onSortingChange?: OnChangeFn<SortingState>;
+}) {
+    const [internalSorting, setInternalSorting] = useState<SortingState>([]);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        onSortingChange: setSorting,
+        onSortingChange: onSortingChange || setInternalSorting,
         getSortedRowModel: getSortedRowModel(),
         onRowSelectionChange: setRowSelection,
         getPaginationRowModel: getPaginationRowModel(),
@@ -85,8 +91,9 @@ export function DataTable<TData, TValue>({
             onPaginationChange(newPagination);
         },
         manualPagination: true,
+        manualSorting: !!onSortingChange, // Enable manual sorting if onSortingChange is provided
         state: {
-            sorting,
+            sorting: onSortingChange ? sorting : internalSorting,
             rowSelection,
             pagination,
         },

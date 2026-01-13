@@ -46,6 +46,8 @@ export const userQuerySchema = z.object({
     search: z.string().optional(),
     role: z.enum(["USER", "RENTER", "ADMIN"]).optional(),
     isVerified: z.string().optional(),
+    sortBy: z.string().optional(),
+    sortOrder: z.enum(["asc", "desc"]).optional(),
 });
 
 export type UserQuerySchema = z.infer<typeof userQuerySchema>;

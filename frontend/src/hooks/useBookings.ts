@@ -51,11 +51,29 @@ export function useCreateBooking() {
     });
 }
 
-export function useGetBookings(page: number, limit: number, search?: string) {
+export function useGetBookings(
+    page: number,
+    limit: number,
+    search?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc"
+) {
     return useQuery({
-        queryKey: queryKeys.bookings.list({ page, limit, search }),
+        queryKey: queryKeys.bookings.list({
+            page,
+            limit,
+            search,
+            sortBy,
+            sortOrder,
+        }),
         queryFn: async () => {
-            return BookingService.getAll({ page, limit, search });
+            return BookingService.getAll({
+                page,
+                limit,
+                search,
+                sortBy,
+                sortOrder,
+            });
         },
         placeholderData: keepPreviousData,
         refetchInterval: 60000, // Refetch every minute to update status

@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -101,19 +101,61 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "name",
-        header: "Field Name",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                Field Name
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
     },
     {
         accessorKey: "venue.name",
-        header: "Venue",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                Venue
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
     },
     {
         accessorKey: "sportType.name",
-        header: "Sport",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                Sport
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
     },
     {
         accessorKey: "pricePerHour",
-        header: "Price / Hour",
+        header: ({ column }) => (
+            <div className="text-right">
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Price / Hour
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            </div>
+        ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
             const formatted = new Intl.NumberFormat("id-ID", {
@@ -128,7 +170,19 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "isClosed",
-        header: () => <div className="text-center">Availability</div>,
+        header: ({ column }) => (
+            <div className="text-center">
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Availability
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            </div>
+        ),
         cell: ({ row }) => {
             const isClosed = row.getValue("isClosed");
             return (
@@ -142,7 +196,19 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "status",
-        header: () => <div className="text-center">Status</div>,
+        header: ({ column }) => (
+            <div className="text-center">
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Status
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            </div>
+        ),
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;

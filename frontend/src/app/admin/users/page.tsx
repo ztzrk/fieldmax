@@ -6,7 +6,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import { useGetAllUsers, useDeleteMultipleUsers } from "@/hooks/useUsers";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { CreateUserButton } from "./components/createUserButton";
-import { PaginationState } from "@tanstack/react-table";
+import { PaginationState, SortingState } from "@tanstack/react-table";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Select,
@@ -15,6 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 
 /**
  * Admin Users Page.
@@ -26,6 +27,7 @@ export default function AdminUsersPage() {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [sorting, setSorting] = useState<SortingState>([]);
     const [search, setSearch] = useState("");
     const [role, setRole] = useState<"ADMIN" | "USER" | "RENTER" | undefined>(
         undefined
@@ -37,7 +39,9 @@ export default function AdminUsersPage() {
         pageSize,
         search,
         role,
-        isVerified
+        isVerified,
+        sorting.length > 0 ? sorting[0].id : undefined,
+        sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined
     );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleUsers();
@@ -55,16 +59,11 @@ export default function AdminUsersPage() {
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
-        <div>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <div>
-                    <h1 className="text-2xl font-bold">Users</h1>
-                    <p className="text-muted-foreground">
-                        Total {data?.meta?.total || 0} users registered.
-                    </p>
-                </div>
-                <CreateUserButton />
-            </div>
+        <AdminPageWrapper
+            title="Users"
+            subtitle={`Total ${data?.meta?.total || 0} users registered.`}
+            actions={<CreateUserButton />}
+        >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent className="p-6">
                     <DataTable
@@ -76,6 +75,8 @@ export default function AdminUsersPage() {
                         onPaginationChange={setPagination}
                         onSearch={setSearch}
                         searchValue={search}
+                        sorting={sorting}
+                        onSortingChange={setSorting}
                         filters={
                             <>
                                 <Select
@@ -133,6 +134,6 @@ export default function AdminUsersPage() {
                     />
                 </CardContent>
             </Card>
-        </div>
+        </AdminPageWrapper>
     );
 }

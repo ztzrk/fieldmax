@@ -10,8 +10,10 @@ import { ConflictError, NotFoundError } from "../utils/errors";
 export class SportTypesService {
     public async findAll(query: Partial<Pagination>) {
         const { page, limit, search } = query;
-        const isPaginated = page !== undefined && limit !== undefined;
-        const skip = isPaginated ? (page! - 1) * limit! : 0;
+        const pageNum = page ? Number(page) : undefined;
+        const limitNum = limit ? Number(limit) : undefined;
+        const isPaginated = pageNum !== undefined && limitNum !== undefined;
+        const skip = isPaginated ? (pageNum! - 1) * limitNum! : 0;
 
         const whereCondition: Prisma.SportTypeWhereInput = search
             ? { name: { contains: search, mode: "insensitive" } }
@@ -22,17 +24,21 @@ export class SportTypesService {
                 prisma.sportType.findMany({
                     where: whereCondition,
                     skip: skip,
-                    take: limit,
+                    take: limitNum,
+                    orderBy:
+                        query.sortBy && query.sortOrder
+                            ? { [query.sortBy]: query.sortOrder }
+                            : { name: "asc" },
                 }),
                 prisma.sportType.count({
                     where: whereCondition,
                 }),
             ]);
 
-            const totalPages = Math.ceil(total / limit!);
+            const totalPages = Math.ceil(total / limitNum!);
             return {
                 data: sportTypes,
-                meta: { total, page, limit, totalPages },
+                meta: { total, page: pageNum, limit: limitNum, totalPages },
             };
         } else {
             const sportTypes = await prisma.sportType.findMany({

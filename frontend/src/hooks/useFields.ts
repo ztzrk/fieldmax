@@ -21,7 +21,9 @@ export function useGetAllFields(
     search?: string,
     status?: "PENDING" | "APPROVED" | "REJECTED",
     isClosed?: boolean,
-    sportTypeId?: string
+    sportTypeId?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc"
 ) {
     return useQuery({
         queryKey: queryKeys.fields.list({
@@ -31,6 +33,8 @@ export function useGetAllFields(
             status,
             isClosed,
             sportTypeId,
+            sortBy,
+            sortOrder,
         }),
         queryFn: async () => {
             const data = await FieldService.getAll({
@@ -40,6 +44,8 @@ export function useGetAllFields(
                 status,
                 isClosed,
                 sportTypeId,
+                sortBy,
+                sortOrder,
             });
             return fieldsPaginatedResponseSchema.parse(data);
         },

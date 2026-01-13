@@ -17,11 +17,29 @@ import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
 
-export function useGetAllVenues(page: number, limit: number, search?: string) {
+export function useGetAllVenues(
+    page: number,
+    limit: number,
+    search?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc"
+) {
     return useQuery({
-        queryKey: queryKeys.venues.list({ page, limit, search }),
+        queryKey: queryKeys.venues.list({
+            page,
+            limit,
+            search,
+            sortBy,
+            sortOrder,
+        }),
         queryFn: async () => {
-            const data = await VenueService.getAll({ page, limit, search });
+            const data = await VenueService.getAll({
+                page,
+                limit,
+                search,
+                sortBy,
+                sortOrder,
+            });
             return venuesPaginatedResponseSchema.parse(data);
         },
         placeholderData: keepPreviousData,

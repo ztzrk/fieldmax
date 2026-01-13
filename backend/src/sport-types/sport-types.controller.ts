@@ -4,7 +4,7 @@ import {
     CreateSportType,
     UpdateSportType,
 } from "../schemas/sport-types.schema";
-import { Pagination } from "../schemas/pagination.schema";
+import { paginationSchema } from "../schemas/pagination.schema";
 import { asyncHandler } from "../utils/asyncHandler";
 import { sendSuccess } from "../utils/response";
 
@@ -12,7 +12,7 @@ export class SportTypesController {
     constructor(private service: SportTypesService) {}
 
     public getAll = asyncHandler(async (req: Request, res: Response) => {
-        const query = req.query as unknown as Pagination;
+        const query = paginationSchema.parse(req.query);
         const result = await this.service.findAll(query);
         sendSuccess(
             res,

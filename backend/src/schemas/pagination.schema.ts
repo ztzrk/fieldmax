@@ -23,6 +23,8 @@ export const paginationSchema = z.object({
         }
         return val;
     }, z.boolean().optional()),
+    sortBy: z.string().optional(),
+    sortOrder: z.enum(["asc", "desc"]).optional(),
 });
 
 export type Pagination = z.infer<typeof paginationSchema>;
