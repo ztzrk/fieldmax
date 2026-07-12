@@ -1,0 +1,2398 @@
+RANCANG BANGUN SISTEM INFORMASI RESERVASI
+DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB
+
+ 
+
+ 
+
+ 
+
+ 
+
+AFLAH ALIFU NA
+MAPPATAJANG RAHMAN
+
+H071211021
+
+ 
+
+![](images/image001.png)
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+PROGRAM STUDI
+SISTEM INFORMASI
+
+FAKULTAS
+MATEMATIKA DAN ILMU PENGETAHUAN ALAM
+
+UNIVERSITAS
+HASANUDDIN
+
+MAKASSAR
+
+2025
+
+RANCANG BANGUN
+SISTEM INFORMASI RESERVASI DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB
+
+ 
+
+ 
+
+AFLAH ALIFU NA MAPPATAJANG RAHMAN
+
+H071211012
+
+ 
+
+ 
+
+ 
+
+Skripsi
+
+ 
+
+ 
+
+Sebagai salah satu
+syarat untuk mencapai gelar Sarjana
+
+ 
+
+ 
+
+Program Studi Sistem Informasi 
+
+ 
+
+ 
+
+ 
+
+Pada
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+PROGRAM STUDI
+SISTEM INFORMASI
+
+FAKULTAS
+MATEMATIKA DAN ILMU PENGETAHUAN ALAM
+
+UNIVERSITAS
+HASANUDDIN
+
+MAKASSAR
+
+2025
+
+ 
+
+# [ABSTRAK]()
+
+ 
+
+ 
+
+# [ABSTRACT]()
+
+ 
+
+ 
+
+ 
+
+# []()DAFTAR ISI
+
+**Halaman**
+
+[ABSTRAK. i](#_Toc220541843)
+
+[ABSTRACT. ii](#_Toc220541844)
+
+[DAFTAR ISI iii](#_Toc220541845)
+
+[DAFTAR GAMBAR. v](#_Toc220541846)
+
+[DAFTAR TABEL. x](#_Toc220541847)
+
+[BAB I. PENDAHULUAN. 1](#_Toc220541848)
+
+[1.1 Latar Belakang. 1](#_Toc220541849)
+
+[1.1 Rumusan Masalah. 3](#_Toc220541850)
+
+[1.2 Tujuan Penlitian. 3](#_Toc220541851)
+
+[1.3 Batasan Masalah. 3](#_Toc220541852)
+
+[1.4 Manfaat Penelitian. 3](#_Toc220541853)
+
+[1.5 Landasan Teori 4](#_Toc220541854)
+
+[BAB II. METODE PENELITIAN. 13](#_Toc220541855)
+
+[2.1 Waktu dan Lokasi Penelitian. 13](#_Toc220541856)
+
+[2.2 Design Science Research. 13](#_Toc220541857)
+
+[2.3 Metode Pengumpulan Data. 14](#_Toc220541858)
+
+[2.4 Metode Pengembangan Sistem.. 15](#_Toc220541859)
+
+[2.5 Tahapan Penelitian. 16](#_Toc220541860)
+
+[2.6 Analisis Pengembangan Sistem.. 16](#_Toc220541861)
+
+[2.7 Perancangan Sistem.. 19](#_Toc220541862)
+
+[2.8 Rancangan *User Interface* (UI) 19](#_Toc220541863)
+
+[BAB III. HASIL DAN PEMBAHASAN. 59](#_Toc220541864)
+
+[3.1 Implementasi Sistem.. 59](#_Toc220541865)
+
+[3.2 Implementasi Basis Data. 59](#_Toc220541866)
+
+[3.3 Implementasi *Activity Diagram*.. 76](#_Toc220541867)
+
+[3.4 Implementasi *UI/UX*. 116](#_Toc220541868)
+
+[3.5 Pengujian Sistem.. 146](#_Toc220541869)
+
+[BAB IV. KESIMPULAN DAN SARAN. 164](#_Toc220541870)
+
+[4.1 Kesimpulan. 164](#_Toc220541871)
+
+[4.2 Saran. 164](#_Toc220541872)
+
+[DAFTAR PUSTAKA. 165](#_Toc220541873)
+
+[LAMPIRAN. 167](#_Toc220541874)
+
+ 
+
+ 
+
+# [DAFTAR GAMBAR]()
+
+Halaman
+
+[**Gambar 1. **Kerangka *Design Science Research*. 10](#_Toc218542284)
+
+[**Gambar 2.** Tahapan dari metode waterfall 11](#_Toc218542285)
+
+[**Gambar 3**. Kerangka Penelitian Sistem Informasi yang Digunakan Pada Penelitian Ini 14](#_Toc218542286)
+
+[**Gambar 4**. Alur Penelitian. 16](#_Toc218542287)
+
+[**Gambar 5.** Sistem penggunaan web Platform FieldMax 18](#_Toc218542288)
+
+[**Gambar 6.** Use Case Diagram Web Platform FieldMax 20](#_Toc218542289)
+
+[**Gambar 7.** Halaman home. 21](#_Toc218542290)
+
+[**Gambar 8.** Halaman daftar layanan. 22](#_Toc218542291)
+
+[**Gambar 9.** Halaman detail layanan. 23](#_Toc218542292)
+
+[**Gambar 10.** Halaman *booking* tahap pilih waktu. 24](#_Toc218542293)
+
+[**Gambar 11.** Halaman *booking* tahap *informed consent* 24](#_Toc218542294)
+
+[**Gambar 12.** Halaman *booking* tahap isi biodata untuk personal 25](#_Toc218542295)
+
+[**Gambar 13.** Halaman *booking* tahap isi biodata untuk orang lain. 26](#_Toc218542296)
+
+[**Gambar 14.** Halaman *booking* tahap detail 27](#_Toc218542297)
+
+[**Gambar 15.** Halaman *login*. 28](#_Toc218542298)
+
+[**Gambar 16.** Halaman lupa password. 28](#_Toc218542299)
+
+[**Gambar 17.** Halaman reset *password*. 29](#_Toc218542300)
+
+[**Gambar 18.** Halaman kelola profil 29](#_Toc218542301)
+
+[**Gambar 19.** Halaman *form* tambah dan edit profil 30](#_Toc218542302)
+
+[**Gambar 20.** *Modal* detail profil user. 31](#_Toc218542303)
+
+[**Gambar 21.** Halaman daftar jadwal sewa reservasi. 32](#_Toc218542304)
+
+[**Gambar 22.** Halaman detail jadwal sewa reservasi. 32](#_Toc218542305)
+
+[**Gambar 23.** Halaman daftar paket jadwal sewa reservasi. 33](#_Toc218542306)
+
+[**Gambar 24.** Modal booking penggunaan paket untuk tab Pilih Waktu. 33](#_Toc218542307)
+
+[**Gambar 25.** Modal booking penggunaan untuk tab *Informed Consent* 34](#_Toc218542308)
+
+[**Gambar 26.** Modal booking penggunaan untuk tab detail 35](#_Toc218542309)
+
+[**Gambar 27.** Halaman *booking user* untuk tab Pilih Waktu. 36](#_Toc218542310)
+
+[**Gambar 28.** Halaman *booking user* untuk tab *Informed Consent* 37](#_Toc218542311)
+
+[**Gambar 29.** Halaman *booking user* untuk tab Pilih Profil 38](#_Toc218542312)
+
+[**Gambar 30.** Halaman *booking user* untuk tab Detail 39](#_Toc218542313)
+
+[**Gambar 31.** Halaman *dashboard Renter* 40](#_Toc218542314)
+
+[**Gambar 32.** Halaman input jadwal *Renter* 40](#_Toc218542315)
+
+[**Gambar 33.** Halaman detail layanan untuk input jadwal 41](#_Toc218542316)
+
+[**Gambar 34.** *Modal* input jadwal 41](#_Toc218542317)
+
+[**Gambar 35.** Halaman kelola *booking*. 42](#_Toc218542318)
+
+[**Gambar 36.** Halaman detail *booking*. 43](#_Toc218542319)
+
+[**Gambar 37.** *Modal* untuk menyelesaikan jadwal sewa 44](#_Toc218542320)
+
+[**Gambar 38.** Halaman daftar paket 44](#_Toc218542321)
+
+[**Gambar 39.** Halaman detail paket 45](#_Toc218542322)
+
+[**Gambar 40.** Halaman daftar riwayat penyewaan 45](#_Toc218542323)
+
+[**Gambar 41.** Halaman detail riwayat penyewaan 46](#_Toc218542324)
+
+[**Gambar 42.** Halaman daftar user. 47](#_Toc218542325)
+
+[**Gambar 43.** Halaman detail user. 47](#_Toc218542326)
+
+[**Gambar 44.** Halaman *dashboard Admin*. 48](#_Toc218542327)
+
+[**Gambar 45.** Halaman daftar *booking*. 49](#_Toc218542328)
+
+[**Gambar 46.** Halaman detail *booking*. 49](#_Toc218542329)
+
+[**Gambar 47.** Modal *reschedule* jadwal sewa untuk tab Pilih Waktu. 50](#_Toc218542330)
+
+[**Gambar 48.** Modal *reschedule* jadwal sewa untuk tab Detail 50](#_Toc218542331)
+
+[**Gambar 49.** Halaman kelola renter. 51](#_Toc218542332)
+
+[**Gambar 50.** Halaman detail renter. 52](#_Toc218542333)
+
+[**Gambar 51.** Halaman *form* tambah dan edit renter. 52](#_Toc218542334)
+
+[**Gambar 52.** Halaman kelola user. 53](#_Toc218542335)
+
+[**Gambar 53.** Halaman detail user. 53](#_Toc218542336)
+
+[**Gambar 54.** Halaman kelola layanan individu. 54](#_Toc218542337)
+
+[**Gambar 55.** Halaman detail layanan individu. 54](#_Toc218542338)
+
+[**Gambar 56.** Halaman tambah dan edit layanan individu. 55](#_Toc218542339)
+
+[**Gambar 57.** Halaman kelola kategori olahraga. 55](#_Toc218542340)
+
+[**Gambar 58.** *Modal* tambah dan edit tipe layanan venue olahraga. 56](#_Toc218542341)
+
+[**Gambar 59.** Halaman kelola venue olahraga. 56](#_Toc218542342)
+
+[**Gambar 60.** Halaman detail venue olahraga. 57](#_Toc218542343)
+
+[**Gambar 61.** Halaman tambah dan edit venue olahraga. 57](#_Toc218542344)
+
+[**Gambar 62.** Halaman kelola metode pembayaran. 58](#_Toc218542345)
+
+[**Gambar 63.** *Modal* tambah dan edit metode pembayaran. 58](#_Toc218542346)
+
+[**Gambar 64.** Halaman kelola *review* user. 59](#_Toc218542347)
+
+[**Gambar 65.** Halaman kelola review user untuk *homepage*. 59](#_Toc218542348)
+
+[**Gambar 66.** ERD Web Platform FieldMax 63](#_Toc218542349)
+
+[**Gambar 67.** Relasi antar tabel 77](#_Toc218542350)
+
+[**Gambar 68.** *Activity diagram Guest* melihat daftar layanan. 78](#_Toc218542351)
+
+[**Gambar 69.** *Activity diagram Guest* melihat detail layanan. 78](#_Toc218542352)
+
+[**Gambar 70.** *Activity diagram* *Guest* melakukan reservasi 80](#_Toc218542353)
+
+[**Gambar 71.** *Activity diagram login user* 81](#_Toc218542354)
+
+[**Gambar 72.** *Activity diagram User* melihat daftar profil 82](#_Toc218542355)
+
+[**Gambar 73.*** Activity diagram User *melihat detail profil 82](#_Toc218542356)
+
+[**Gambar 74.** *Activity diagram User *menambah profil 83](#_Toc218542357)
+
+[GGambar
+75.** *Activity diagram User* edit profil 84](#_Toc218542358)
+
+[**Gambar 76.** *Activity diagram User* hapus profil 85](#_Toc218542359)
+
+[**Gambar 77.** *Activity diagram User* lihat daftar jadwal sewa reservasi. 86](#_Toc218542360)
+
+[**Gambar 78.** *Activity diagram User* lihat detail jadwal sewa reservasi. 86](#_Toc218542361)
+
+[**Gambar 79.** *Activity diagram User* melakukan reservasi 88](#_Toc218542362)
+
+[**Gambar 80.** *Activity diagram User* lihat informasi paket 89](#_Toc218542363)
+
+[**Gambar 81.** *Activity diagram User* melakukan reservasi penggunaan paket 90](#_Toc218542364)
+
+[**Gambar 82.** *Activity diagram login Renter* 91](#_Toc218542365)
+
+[**Gambar 83.*** Activity diagram Renter *lihat* dashboard*. 91](#_Toc218542366)
+
+[**Gambar 84.*** Activity diagram Renter* mengelola jadwal 92](#_Toc218542367)
+
+[**Gambar 85.*** Activity diagram Renter* lihat daftar *booking*. 93](#_Toc218542368)
+
+[**Gambar 86.*** Activity diagram Renter *lihat detail* booking*. 93](#_Toc218542369)
+
+[**Gambar 87.*** Activity diagram Renter *selesaikan jadwal sewa 94](#_Toc218542370)
+
+[**Gambar 88.*** Activity diagram Renter *lihat informasi paket 95](#_Toc218542371)
+
+[**Gambar 89.*** Activity diagram Renter *lihat detail paket 95](#_Toc218542372)
+
+[**Gambar 90.*** Activity diagram Renter *lihat riwayat penyewaan 96](#_Toc218542373)
+
+[**Gambar 91.*** Activity diagram Renter *lihat detail riwayat penyewaan 96](#_Toc218542374)
+
+[**Gambar 92.*** Activity diagram Admin login*. 97](#_Toc218542375)
+
+[**Gambar 93.** *Activity diagram Admin *lihat* dashboard*. 97](#_Toc218542376)
+
+[**Gambar 94.*** Activity diagram Admin* lihat daftar *booking*. 98](#_Toc218542377)
+
+[**Gambar 95.*** Activity diagram Admin *lihat detail *booking*. 98](#_Toc218542378)
+
+[**Gambar 96.** *Activity diagram Admin *melakukan *reschedule*. 99](#_Toc218542379)
+
+[**Gambar 97.*** Activity diagram Admin *lihat daftar renter. 99](#_Toc218542380)
+
+[**Gambar 98.*** Activity diagram Admin *lihat detail renter. 100](#_Toc218542381)
+
+[**Gambar 99.*** Activity diagram Admin* tambah renter. 101](#_Toc218542382)
+
+[**Gambar 100.*** Activity diagram Admin* edit renter. 102](#_Toc218542383)
+
+[**Gambar 101.* Activity diagram Admin *hapus renter. 103](#_Toc218542384)
+
+[**Gambar 102.*** Activity diagram Admin *lihat daftar user. 103](#_Toc218542385)
+
+[**Gambar 103.*** Activity diagram Admin* lihat detail user. 104](#_Toc218542386)
+
+[**Gambar 104.** *Activity diagram Admin *lihat daftar layanan individu. 104](#_Toc218542387)
+
+[**Gambar 105.** *Activity diagram Admin* lihat detail layanan individu. 105](#_Toc218542388)
+
+[**Gambar 106.** *Activity diagram Admin* tambah layanan individu. 106](#_Toc218542389)
+
+[**Gambar 107.*** Activity diagram Admin* edit layanan individu. 107](#_Toc218542390)
+
+[**Gambar 108.*** Activity diagram Admin* hapus layanan individu. 108](#_Toc218542391)
+
+[**Gambar 109.*** Activity diagram Admin* lihat daftar kategori olahraga. 108](#_Toc218542392)
+
+[**Gambar 110.*** Activity diagram Admin *tambah kategori olahraga. 109](#_Toc218542393)
+
+[**Gambar 111.*** Activity diagram Admin *edit kategori olahraga. 110](#_Toc218542394)
+
+[**Gambar 112.*** Activity diagram Admin *hapus tipe. 111](#_Toc218542395)
+
+[**Gambar 113.*** Activity diagram Admin *lihat daftar venue olahraga. 111](#_Toc218542396)
+
+[**Gambar 114.*** Activity diagram Admin *lihat detail venue olahraga. 112](#_Toc218542397)
+
+[**Gambar 115.*** Activity diagram Admin *tambah venue olahraga. 113](#_Toc218542398)
+
+[**Gambar 116.*** Activity diagram Admin edit layanan venue olahraga*. 114](#_Toc218542399)
+
+[**Gambar 117.*** Activity diagram Admin *hapus venue olahraga. 115](#_Toc218542400)
+
+[**Gambar 118.*** Activity diagram Admin* lihat daftar review user. 115](#_Toc218542401)
+
+[**Gambar 119.* Activity diagram Admin *lihat detail review user. 116](#_Toc218542402)
+
+[**Gambar 120.*** Activity diagram Admin *memilih *review* untuk *homepage*. 117](#_Toc218542403)
+
+[**Gambar 121.** Halaman *home*. 117](#_Toc218542404)
+
+[**Gambar 122.** Halaman layanan. 118](#_Toc218542405)
+
+[**Gambar 123.** Halaman detail layanan. 118](#_Toc218542406)
+
+[**Gambar 124. **Halaman booking layanan untuk tab Pilih Waktu. 119](#_Toc218542407)
+
+[**Gambar 125.** Halaman booking layanan untuk tab *Informed Consent* 119](#_Toc218542408)
+
+[**Gambar 126.** Halaman booking layanan untuk tab Profil dengan tipe profil pribadi 120](#_Toc218542409)
+
+[**Gambar 127.** Halaman booking layanan untuk tab Profil dengan tipe profil orang lain� 120](#_Toc218542410)
+
+[**Gambar 128. **Halaman booking layanan untuk tab Detail 121](#_Toc218542411)
+
+[**Gambar 129.** Halaman proses pembayaran di *payment gateway*. 121](#_Toc218542412)
+
+[**Gambar 130.** Halaman *login*. 122](#_Toc218542413)
+
+[**Gambar 131.** Halaman lupa *password*. 122](#_Toc218542414)
+
+[**Gambar 132.** Halaman reset *password*. 123](#_Toc218542415)
+
+[**Gambar 133.** Halaman kelola profil user. 123](#_Toc218542416)
+
+[**Gambar 134.** Halaman tambah dan edit profil 124](#_Toc218542417)
+
+[**Gambar 135.** Modal detail profil user. 124](#_Toc218542418)
+
+[**Gambar 136.** Halaman jadwal sewa reservasi. 125](#_Toc218542419)
+
+[**Gambar 137.** Halaman detail jadwal sewa reservasi. 125](#_Toc218542420)
+
+[**Gambar 138.** Halaman paket reservasi. 126](#_Toc218542421)
+
+[**Gambar 139.** *Modal* *booking* penggunaan paket untuk tab Pilih Waktu. 126](#_Toc218542422)
+
+[**Gambar 140.** *Modal* *booking* penggunaan paket untuk tab *Informed Consent* 127](#_Toc218542423)
+
+[**Gambar 141.*** Modal* *booking* penggunaan paket untuk tab Detail 127](#_Toc218542424)
+
+[**Gambar 142.*** *Halaman *booking* penggunaan paket untuk tab Pilih Waktu. 128](#_Toc218542425)
+
+[**Gambar 143.** Halaman *booking* penggunaan paket untuk tab *Informed Consent* 128](#_Toc218542426)
+
+[**Gambar 144.** Halaman *booking* penggunaan paket untuk tab Profil 129](#_Toc218542427)
+
+[**Gambar 145.** Halaman *booking* penggunaan paket untuk tab Detail 129](#_Toc218542428)
+
+[**Gambar 146.** Halaman pembayaran di payment gateway. 130](#_Toc218542429)
+
+[**Gambar 147.** Halaman dashboard renter. 130](#_Toc218542430)
+
+[**Gambar 148.** Halaman input jadwal 131](#_Toc218542431)
+
+[**Gambar 149.** Halaman detail input jadwal 131](#_Toc218542432)
+
+[**Gambar 150.** *Modal* input jadwal renter. 132](#_Toc218542433)
+
+[**Gambar 151.** Halaman kelola *booking* untuk renter. 132](#_Toc218542434)
+
+[**Gambar 152.** Halaman detail *booking* untuk renter. 133](#_Toc218542435)
+
+[**Gambar 153. ***Modal* selesaikan jadwal sewa 133](#_Toc218542436)
+
+[**Gambar 154.** Halaman informasi paket untuk renter. 134](#_Toc218542437)
+
+[**Gambar 155.** Halaman detail paket renter. 134](#_Toc218542438)
+
+[**Gambar 156.** Halaman riwayat penyewaan 135](#_Toc218542439)
+
+[**Gambar 157.** Halaman detail riwayat penyewaan 135](#_Toc218542440)
+
+[**Gambar 158.** Halaman daftar user. 136](#_Toc218542441)
+
+[**Gambar 159.** Halaman detail user. 136](#_Toc218542442)
+
+[**Gambar 160.** Halaman *dashboard admin*. 137](#_Toc218542443)
+
+[**Gambar 161.** Halaman *kelola booking* untuk *admin*. 137](#_Toc218542444)
+
+[**Gambar 162.** Halaman detail *booking* untuk *admin*. 138](#_Toc218542445)
+
+[**Gambar 163.** Modal *reschedule* jadwal sewa untuk tab Pilih Waktu. 138](#_Toc218542446)
+
+[**Gambar 164.** Modal *reschedule* jadwal sewa untuk tab Detail 139](#_Toc218542447)
+
+[**Gambar 165.** Halaman kelola renter. 139](#_Toc218542448)
+
+[**Gambar 166.** Halaman detail renter. 140](#_Toc218542449)
+
+[**Gambar 167.** Halaman tambah serta edit renter. 140](#_Toc218542450)
+
+[**Gambar 168.** Halaman kelola user. 141](#_Toc218542451)
+
+[**Gambar 169.** Halaman detail user. 141](#_Toc218542452)
+
+[**Gambar 170.** Halaman layanan individu. 142](#_Toc218542453)
+
+[**Gambar 171.** Halaman detail layanan individu. 142](#_Toc218542454)
+
+[**Gambar 172.** Halaman tambah serta edit venue olahraga. 143](#_Toc218542455)
+
+[**Gambar 173.** Halaman kelola kategori olahraga. 143](#_Toc218542456)
+
+[**Gambar 174.** Modal tambah serta edit kategori olahraga. 144](#_Toc218542457)
+
+[**Gambar 175.** Halaman kelola venue olahraga. 144](#_Toc218542458)
+
+[**Gambar 176.** Halaman detail venue olahraga. 145](#_Toc218542459)
+
+[**Gambar 177.** Halaman tambah serta edit venue olahraga. 145](#_Toc218542460)
+
+[**Gambar 178. **Halaman kelola metode pembayaran. 146](#_Toc218542461)
+
+[**Gambar 179.** Halaman tambah serta edit metode pembayaran. 146](#_Toc218542462)
+
+[**Gambar 180. **Halaman kelola *review* user. 147](#_Toc218542463)
+
+[**Gambar 181.** Halaman kelola *review* user di *homepage*. 147](#_Toc218542464)
+
+ 
+
+# [DAFTAR TABEL]()
+
+Halaman
+
+[**Tabel 1.** Komponen *use case diagram*.. 8](#_Toc218857363)
+
+[**Tabel 2. **Komponen *activity diagram*.. 8](#_Toc218857364)
+
+[**Tabel 3. **Komponen *Entity Relationship Diagram*.. 9](#_Toc218857365)
+
+[**Tabel 4. **Waktu Penelitian. 13](#_Toc218857366)
+
+[**Tabel 5. **Tabel daftar *Enum* yang digunakan beserta nilainya. 64](#_Toc218857367)
+
+[**Tabel 6. **Tabel daftar simbol yang digunakan dalam relasi antar tabel 65](#_Toc218857368)
+
+[**Tabel 7. **Tabel users. 65](#_Toc218857369)
+
+[**Tabel 8. **Tabel password_reset_token. 66](#_Toc218857370)
+
+[**Tabel 9. **Tabel user_profiles. 66](#_Toc218857371)
+
+[**Tabel 10.** Tabel user_profiles_relationships. 67](#_Toc218857372)
+
+[**Tabel 11.** Tabel venues. 67](#_Toc218857373)
+
+[**Tabel 12.** Tabel sport_types. 68](#_Toc218857374)
+
+[**Tabel 13.** Tabel venues_sport_types. 68](#_Toc218857375)
+
+[**Tabel 14.** Tabel venue_schedules. 68](#_Toc218857376)
+
+[**Tabel 15.** Tabel fields. 69](#_Toc218857377)
+
+[**Tabel 16. **Tabel field_photos. 69](#_Toc218857378)
+
+[**Tabel 17. **Tabel payments. 70](#_Toc218857379)
+
+[**Tabel 18. **Tabel psychologist_services. 70](#_Toc218857380)
+
+[**Tabel 19. **Tabel reviews. 71](#_Toc218857381)
+
+[**Tabel 20. **Tabel log_payments 71](#_Toc218857382)
+
+[**Tabel 21. **Tabel venue_schedules_date. 72](#_Toc218857383)
+
+[**Tabel 22. **Tabel field_schedules_time. 73](#_Toc218857384)
+
+[**Tabel 23. **Tabel bookings. 73](#_Toc218857385)
+
+[**Tabel 24. **Tabel payments. 74](#_Toc218857386)
+
+[**Tabel 25. **Tabel payment_channels. 75](#_Toc218857387)
+
+[**Tabel 26. **Tabel field_reviews. 76](#_Toc218857388)
+
+[**Tabel 27.** Tabel field_reviews_type. 76](#_Toc218857389)
+
+[**Tabel 28. **Pengujian halaman *homepage*. 148](#_Toc218857390)
+
+[**Tabel 29.** Pengujian halaman layanan. 148](#_Toc218857391)
+
+[**Tabel 30.** Pengujian halaman detail venue olahraga. 148](#_Toc218857392)
+
+[**Tabel 31.** Pengujian halaman detail layanan individu. 148](#_Toc218857393)
+
+[**Tabel 32.** Pengujian halaman *Booking Guest* 148](#_Toc218857394)
+
+[**Tabel 33. **Pengujian halaman login. 149](#_Toc218857395)
+
+[**Tabel 34.** Pengujian halaman profil user. 150](#_Toc218857396)
+
+[**Tabel 35.** Pengujian halaman jadwal reservasi user. 150](#_Toc218857397)
+
+[**Tabel 36. **Pengujian halaman informasi paket user. 151](#_Toc218857398)
+
+[**Tabel 37. **Pengujian *modal* *booking* penggunaan paket user. 151](#_Toc218857399)
+
+[**Tabel 38.** Pengujian halaman *booking *dengan pembayaran user. 152](#_Toc218857400)
+
+[**Tabel 39. **Pengujian halaman *dashboard Renter* 153](#_Toc218857401)
+
+[**Tabel 40. **Pengujian halaman input jadwal 153](#_Toc218857402)
+
+[**Tabel 41. **Pengujian halaman detail layanan untuk input jadwal 153](#_Toc218857403)
+
+[**Tabel 42. **Pengujian halaman kelola *booking*. 154](#_Toc218857404)
+
+[**Tabel 43. **Pengujian halaman detail *booking*. 154](#_Toc218857405)
+
+[**Tabel 44. **Pengujian halaman informasi paket 155](#_Toc218857406)
+
+[**Tabel 45. **Pengujian halaman detail paket 155](#_Toc218857407)
+
+[**Tabel 46.** Pengujian halaman riwayat penyewaan 155](#_Toc218857408)
+
+[**Tabel 47.** Pengujian halaman detail riwayat penyewaan 156](#_Toc218857409)
+
+[**Tabel 48.** Pengujian halaman daftar user renter. 156](#_Toc218857410)
+
+[**Tabel 49. **Pengujian halaman detail user renter. 156](#_Toc218857411)
+
+[**Tabel 50. **Pengujian halaman *dashboard Admin*. 156](#_Toc218857412)
+
+[**Tabel 51. **Pengujian halaman kelola *booking*. 157](#_Toc218857413)
+
+[**Tabel 52. **Pengujian halaman detail *booking*. 157](#_Toc218857414)
+
+[**Tabel 53. **Pengujian modal *reschedule* jadwal sewa 157](#_Toc218857415)
+
+[**Tabel 54. **Pengujian halaman kelola user. 158](#_Toc218857416)
+
+[**Tabel 55. **Pengujian halaman detail user. 158](#_Toc218857417)
+
+[**Tabel 56. **Pengujian halaman kelola renter. 158](#_Toc218857418)
+
+[**Tabel 57.** Pengujian halaman detail renter. 159](#_Toc218857419)
+
+[**Tabel 58. **Pengujian halaman tambah dan edit renter. 159](#_Toc218857420)
+
+[**Tabel 59. **Pengujian halaman kelola layanan individu. 160](#_Toc218857421)
+
+[**Tabel 60. **Pengujian halaman detail layanan individu. 160](#_Toc218857422)
+
+[**Tabel 61. **Pengujian halaman tambah dan edit layanan individu. 160](#_Toc218857423)
+
+[**Tabel 62. **Pengujian halaman kelola kategori olahraga. 161](#_Toc218857424)
+
+[**Tabel 63. **Pengujian halaman kelola venue olahraga. 162](#_Toc218857425)
+
+[**Tabel 64. **Pengujian halaman detail venue olahraga. 162](#_Toc218857426)
+
+[**Tabel 65. **Pengujian halaman tambah dan edit layanan venue olahraga. 162](#_Toc218857427)
+
+[**Tabel 66. **Pengujian halaman kelola metode pembayaran. 163](#_Toc218857428)
+
+[**Tabel 67. **Pengujian halaman review user. 163](#_Toc218857429)
+
+[**Tabel 68. **Pengujian halaman kelola review user untuk homepage. 164](#_Toc218857430)
+
+ 
+
+# 
+BAB I �[]()
+
+PENDAHULUAN
+
+## [1.1 Latar Belakang]()
+
+Olahraga telah menjadi bagian penting dari
+gaya hidup masyarakat modern. Kesadaran akan pentingnya kesehatan mendorong
+peningkatan minat masyarakat terhadap aktivitas fisik, seperti futsal,
+badminton, basket, dan sepak bola mini. Peningkatan minat ini sejalan dengan
+meningkatnya permintaan akan fasilitas olahraga yang memadai. Bagi para
+pengelola fasilitas olahraga, hal ini merupakan peluang bisnis yang
+menjanjikan, namun juga menghadirkan tantangan dalam hal operasional dan
+manajemen pelayanan.
+
+Saat ini, masih banyak penyedia jasa penyewaan
+lapangan olahraga yang menggunakan sistem konvensional atau manual dalam proses
+bisnisnya, seperti pencatatan pada buku agenda dan pemesanan melalui telepon
+atau aplikasi pesan singkat (WhatsApp). Metode ini memiliki kelemahan yang
+berdampak pada efisiensi operasional. Menurut penelitian Nadjamuddin (2023),
+penggunaan sistem manual sering menyulitkan pelanggan dalam mengetahui jadwal
+yang tersedia secara pasti dan membebani admin atau pengelola dalam mengolah data
+pemesanan. Permasalahan klasik seperti jadwal bersamaan (double booking),
+kesalahan pencatatan, dan lambatnya rekapitulasi laporan pendapatan menjadi
+kendala utama yang dihadapi oleh pengelola fasilitas olahraga (Ratama et al.,
+2022).
+
+Selain itu, dari sisi pelanggan (User),
+ketiadaan platform terpusat membuat mereka kesulitan untuk mengakses informasi
+fasilitas dan melakukan pemesanan secara fleksibel. Saat ini, pelanggan
+menuntut kemudahan akses informasi dan transaksi yang cepat tanpa terikat waktu
+dan tempat. Sebagaimana dikemukakan oleh Nurhakim dkk. (2023), implementasi
+sistem informasi berbasis web bertujuan untuk memudahkan pemesanan secara
+daring, meningkatkan efisiensi operasional, serta meningkatkan kepuasan
+pelanggan melalui pelayanan yang lebih transparan dan responsif. Transformasi
+digital ini menjadi solusi strategis untuk memudahkan akses informasi antara
+kebutuhan pengguna akan fleksibilitas dan kebutuhan pengelola akan manajemen
+yang teratur.
+
+Berdasarkan permasalahan tersebut, diperlukan
+adanya solusi berupa sistem informasi terintegrasi yang dapat menampung
+kebutuhan kedua belah pihak. Penelitian terbaru oleh Fortunata dan
+Cahyaningtyas (2023) menunjukkan bahwa pengembangan sistem penyewaan lapangan
+berbasis web terbukti memudahkan pelanggan dalam melakukan penyewaan dan
+membantu pemilik dalam mengelola data sewa secara lebih terstruktur.
+
+Oleh karena itu, penelitian ini mengusulkan
+"Rancang Bangun Sistem Informasi Penyewaan dan Pengelolaan Lapangan
+Olahraga Berbasis Web". Sistem ini, yang kemudian dinamakan FieldMax,
+dirancang untuk memiliki fitur banyak role yang memfasilitasi Pemilik Fasilitas
+(Renter) dalam mengelola jadwal, lapangan, dan laporan transaksi, serta
+memudahkan Pelanggan (User) dalam melakukan pencarian, pengecekan ketersediaan
+jadwal secara real-time, dan pemesanan lapangan. Implementasi sistem ini
+diharapkan dapat menjadi solusi efisien untuk mengurangi kesalahan operasional
+dan meningkatkan kualitas layanan penyewaan fasilitas olahraga.
+
+## [1.1 Rumusan Masalah]()
+
+Berdasarkan latar belakang yang telah
+diuraikan, adapun rumusan masalah yang akan dibahas dalam penelitian ini yaitu
+sebagai berikut:
+
+ 
+1. Bagaimana merancang dan membangun sistem informasi penyewaan
+ lapangan olahraga berbasis web yang dapat menggantikan pencatatan manual?
+ 
+2. Bagaimana mengatasi masalah jadwal yang konflik (double booking)
+ dan ketidakpastian ketersediaan lapangan yang sering dialami oleh
+ pelanggan dan pengelola?
+ 
+3. Bagaimana menyediakan platform terintegrasi yang memudahkan
+ pengelola (Renter) dalam manajemen data transaksi dan laporan pendapatan,
+ serta memudahkan pelanggan (User) dalam pencarian dan pemesanan lapangan?
+
+## [1.2 Tujuan Penlitian]()
+
+Tujuan yang ingin dicapai dari penelitian ini
+yaitu:
+
+1. Merancang dan mengimplementasikan aplikasi berbasis web yang dapat
+menggantikan peran buku agenda dan komunikasi manual (WhatsApp) dalam proses
+pencatatan reservasi, sehingga data tersimpan secara digital, aman, dan
+terstruktur
+
+2. 
+Menyediakan fitur pengecekan jadwal ketersediaan
+lapangan secara real-time yang dapat diakses langsung oleh pelanggan, guna
+memastikan tidak ada dua pemesanan pada waktu dan lapangan yang sama.
+
+3. Menghasilkan platform terpadu (FieldMax) yang mampu memberikan
+kemudahan bagi pemilik fasilitas (Renter) dalam mengelola operasional bisnis
+dan laporan, sekaligus memberikan kemudahan bagi pengguna (User) dalam mencari
+informasi lapangan dan melakukan transaksi pemesanan secara mandiri.
+
+## [1.3 Batasan Masalah]()
+
+Dalam penelitian ini, ada beberapa batasan
+yang ditetapkan untuk menjaga agar fokus penelitian tetap jelas dan untuk
+memastikan hasil yang sesuai dengan tujuan yang diinginkan, yaitu:
+
+ 
+1. Sistem ini dibangun berbasis Web (Website)
+ menggunakan teknolog Next.js dan dapat diakses melalui browser pada
+ perangkat desktop maupun mobile (responsif), namun tidak berupa aplikasi
+ native (Android/iOS).
+ 
+2. Basis data dari sistem aplikasi ini menggunakan
+ PostgreSQL
+ 
+3. Sistem tidak membahas manajemen
+ keuangan/akuntansi yang mendalam (seperti neraca atau arus kas
+ perusahaan), melainkan hanya menyediakan rekapitulasi laporan pendapatan
+ transaksi penyewaan.
+
+## [1.4 Manfaat Penelitian]()
+
+Manfaat yang didapatkan dari penelitian ini,
+yaitu yaitu:
+
+1. Adanya sistem yang terintegrasi untuk proses reservasi, pembayaran, dan
+manajemen layanan penyewaan lapangan.
+
+2. Makin mudahnya proses pemesanan layanan reservasi bagi calon user
+layanan penyewaan lapangan di Platform FieldMax.
+
+## [1.5 Landasan Teori]()
+
+### 1.5.1 Sistem Informasi Berbasis Web
+
+Sistem informasi merupakan serangkaian
+kegiatan mengumpulkan, mengolah, menganalisis, serta mendistribusikan informasi
+yang dapat digunakan untuk mencapai tujuan tertentu, yang biasanya terdiri dari
+beberapa komponen di dalamnya meliputi manusia, perangkat keras, perangkat
+lunak, dan basis data. Dengan sistem informasi, proses komunikasi, transaksi,
+kegiatan operasional, manajerial, hingga pengambilan keputusan dapat menjadi
+lebih akurat dan tepat. Di sisi lain, web adalah kumpulan halaman yang di dalamnya
+terdiri dari berbagai macam bentuk informasi, seperti teks, gambar, video, dan
+elemen multimedia lainnya yang dapat diakses kapan saja dan di mana saja
+melalui jaringan internet (Rahmi et al., 2023).
+
+Sistem informasi berbasis web, berarti
+sistem informasi yang dibangun diwujudkan dalam bentuk web. Adanya hal ini
+diharapkan dapat memberikan banyak manfaat, terutama dari segi efisiensi karena
+dapat mengotomatisasi pekerjaan dan memudahkan proses bisnis, yang dalam kasus
+ini untuk sistem reservasi lapangan olahraga dan manajemen penyedia lapangan
+(renter) pada platform FieldMax..
+
+### 1.5.2 Reservasi Lapangan Olahraga
+
+Reservasi merupakan sebuah proses pemesanan
+produk baik barang maupun jasa yang pada saat itu telah terdapat kesepahaman
+antara konsumen dengan produsen mengenai produk tersebut. Selama berlangsungnya
+proses reservasi biasanya ditandai dengan adanya proses tukar menukar informasi
+antara konsumen dan produsen atau penyedia jasa agar pemahaman akan produk dan
+cara pemesanannya dapat tercapai (Christanto et al., 2012). Proses reservasi
+ini dimungkinkan dilakukan secara daring, sehingga memungkinkan pengguna melakukan
+pemesanan secara fleksibel tanpa perlu datang langsung ke lokasi layanan.
+Selain untuk memudahkan akses bagi pengguna, sistem ini juga mendukung dari
+sisi internal pemilik lapangan (sebagai penyedia fasilitas), untuk
+pengoptimalan dari sisi tata kelola waktu dan sumber daya operasional.
+Penerapan reservasi secara daring pada berbagai fasilitas olahraga menunjukkan
+bahwa penggunaan sistem ini dapat meningkatkan efektivitas pelayanan dengan
+mengurangi waktu tunggu, menghindari bentrok jadwal (double booking), dan
+memperbaiki keseluruhan alur penyewaan.
+
+ 
+
+Adapun sistem reservasi pada layanan
+olahraga tidak hanya berfungsi untuk mengatur jadwal penyewaan lapangan, tetapi
+juga mendukung pengelolaan data pengguna, ketersediaan fasilitas lapangan,
+serta rekapitulasi operasional renter. Penelitian mengenai sistem informasi
+reservasi layanan berbasis web menunjukkan bahwa penerapan sistem tersebut
+mampu meningkatkan efisiensi pelayanan, mempermudah proses pemesanan jadwal sewa,
+serta membantu manajemen tempat olahraga dalam mengelola operasional secara
+lebih sistematis dan terkontrol (Hasibuan et al., 2024). Sehingga reservasi
+lapangan olahraga dapat diartikan sebagai sistem pemesanan dan penyewaan secara
+daring di dalam domain fasilitas olahraga.
+
+### 1.5.3 Layanan Penyewaan Lapangan di FieldMax
+
+Platform FieldMax merupakan sebuah sistem marketplace multi-tenant yang dirancang khusus untuk memfasilitasi penyewaan lapangan olahraga di Kota Makassar. Platform ini menghubungkan pemilik venue olahraga (*Renter*) dengan masyarakat umum (*User*) yang ingin menyewa lapangan secara praktis.
+
+Sebelum adanya platform ini, proses penyewaan fasilitas olahraga pada umumnya masih dilakukan secara manual menggunakan chat WhatsApp atau Google Form, di mana pencatatan jadwal sewa dan konfirmasi pembayaran transfer bank harus diverifikasi manual satu per satu. Alur konvensional ini membutuhkan waktu lama, tidak efisien, dan rentan terhadap kesalahan pencatatan jadwal ganda (*double booking*). Melalui FieldMax, seluruh proses dari pencarian lapangan, cek ketersediaan jadwal real-time, reservasi, hingga pembayaran terintegrasi otomatis secara online menggunakan Midtrans payment gateway.
+
+### 1.5.4 Teknologi Pengembangan
+
+#### 1. Next.js.
+
+Next.js merupakan
+kerangka kerja (framework) berbasis pustaka (library) React.js yang mempermudah
+pengembangan aplikasi web modern yang mendukung Search Engine Optimization
+(SEO). Framework ini dirancang untuk meminimalkan masalah performa pada
+aplikasi yang hanya menggunakan Client-Side Rendering (CSR) ataupun Server-Side
+Rendering (SSR) dengan mengombinasikan keduanya. Selain SSR dan CSR, framework
+ini juga menyediakan beragam fitur bawaan yang lain, seperti Static Site
+Generation (SSG), dynamic routing, dan lain sebagainya, sehingga proses pembangunan
+bagian antar-muka aplikasi dapat lebih efisien (Pati & Zaki, 2025).
+
+Dengan adanya fitur tersebut, pengembang
+dapat menentukan proses rendering sesuai kebutuhan, dilakukan pada saat
+permintaan diterima (SSR), pada saat proses build (SSG), pada saat sudah sampai
+di client-side (CSR) atau dengan mengombinasikannya. Oleh karena itu, Next.js
+menjadi salah satu pilihan krusial untuk menangani bagian Front End dari sistem
+ini. Kombinasi yang dibawa oleh Next.js mampu menjadikan library React.js, yang
+basisnya hanya pada client-side, memiliki kapabilitas optimal hingga keramahan
+yang baik terhadap performa SEO secara menyeluruh..
+
+#### 2. Express.js.
+
+Express.js merupakan salah satu framework
+pengembangan aplikasi sisi antarmuka (backend) Node.js yang paling populer,
+minimal, dan fleksibel, menyediakan serangkaian fitur tangguh untuk web maupun
+Application Programming Interface (API) (Nasution & Pane, 2025). Express.js
+berjalan di sisi server platform Node.js, memungkinkan pengembang membangun
+lingkungan RESTful API yang cepat, efisien, serta sangat mudah diskalakan
+sesuai kebutuhan fungsional user. Framework ini bekerja menggunakan arsitektur
+yang mengutamakan kecepatan pemrosesan dan pola pertukaran data secara aman
+(Azkarin et al., 2023).
+
+#### 3. PostgreSQL.
+
+PostgreSQL merupakan salah satu
+Relational Database Management System (RDBMS) sumber terbuka yang populer.
+PostgreSQL versi terbaru memprioritaskan fokus pada tingkatan performa,
+dukungan paralelisme kueri komputasi kompleks, serta relasi deployment berbasis
+layanan awan (cloud). Repositori PostgreSQL menyediakan ragam tipe data dari
+standar format SQL, tipe array, hingga ekstensi penyimpanan semantik JSON untuk
+fleksibilitas komprehensif terhadap basis data.
+
+Keunggulan PostgreSQL terdapat di
+mekanisme implementasi Multi-Version Concurrency Control (MVCC) beserta
+arsitektur pengindekan berlapis. Berkat MVCC, PostgreSQL sanggup menoleransi
+beragam instruksi transaksi data dari pengguna platform yang berinteraksi dalam
+satu waktu secara bersamaan, sehingga ketersediaan akses data (availability)
+pada platform tetap optimal meski dalam trafik request yang tajam dan tak
+terprediksi dari user. Mekanisme ini menjamin operasi tabel data secara
+transaksional yang saling tertutup dari intervensi transaksi pihak lain
+(Salunke & Ouda, 2024).
+
+#### 4. *Payment Gateway.*
+
+Payment gateway merupakan teknologi jembatan
+perantara fungsional untuk memfasilitasi proses transaksi pembayaran non-tunai
+yang aman secara sistem antara sistem bisnis digital dengan pihak pelanggan,
+yang biasanya disertai sistem intelijen untuk mendeteksi penipuan siber. Saat
+ini, payment gateway krusial pemanfaatannya di bermacam inovasi elektronik dan
+digital. Dalam konteks sistem e-commerce dan reservasi layanan, sistem ini
+sanggup mempermudah transaksi beragam ragam metode pembayaran konvensional dari
+dompet kelab ke rekening bank dalam satu platform tanpa celah verifikasi palsu.
+Pengguna melakukan pembelajaan via platform, memilih vendor, dan selanjutnya
+diinisiasikan pihak pemroses (processor) hingga payment gateway bertugas
+meneruskan verifikasi approval penyelesaian akhir kepada sistem (Siahaan &
+Sianturi, 2024).
+
+Hal tersebut tecermin nyata di dalam
+arsitektur penelitian ini. Payment gateway berfungsi mengurus jalur pertukaran
+keuangan yang diajukan oleh pengguna FieldMax untuk menyewa lapangan secara
+beragam rupa pembayaran digital instan. Begitu inisiasi transaksi berlangsung
+dan diakhiri lewat pembayaran berhasil, webhook server pembayaran akan
+menyampaikan status perintah agar FieldMax langsung mengubah status pesanan
+PENDING menjadi PAID, maupun jika melebihi tenggatnya bertransisi kepada
+EXPIRED/CANCELLED.
+
+Payment gateway yang dimanfaatkan di
+riset sistem FieldMax adalah Midtrans. Midtrans merupakan penyedia
+infrastruktur payment gateway terintegrasi yang paling terkemuka di tanah air.
+Pilihan medium digital yang luas (mulai dari Virtual Account, QRIS, Dompet
+digital, GoPay, dan lainnya) memudahkan konektivitas Application Programming
+Interface (API) yang mulus di sisi aplikasi tanpa hambatan manual. Efisiensi
+luar biasa terasa pada mitigasi pengawasan riwayat pendapatan transaksi pemilik
+venue, pemberitahuan realisasi real-time, hingga mengikis potensi salah
+verifikasi dari pihak sistem manual reservasi lapangan (Hafiz et al., 2023)..
+
+### 1.5.5 Pemodelan Sistem Berbasis UML
+
+*Unified Modeling Language* (UML) merupakan cara pemodelan berbasis gambar untuk kebutuhan visualisasi,
+perumusan, pembangunan, serta pendokumentasian dari sebuah sistem (Pressman, 2010). Oleh karena itu, UML dapat dikatakan
+sebagai, standar penyusunan *blueprint* sistem, mulai dari pemodelan
+proses bisnis hingga berbagai komponen yang dibutuhkan dalam pengembangan
+sebuah perangkat lunak. Beberapa komponennya yang digunakan dalam penelitian
+ini meliputi: 
+
+#### 1. *Use Case Diagram.*
+
+*Use Case Diagram*
+adalah salah satu pemodelan untuk perilaku (behavior) sistem yang akan dibuat,
+di mana ia menguraikan interaksi antara satu atau lebih aktor dengan sistem.
+Diagram ini menggambarkan urutan interaksi yang saling berkaitan antara sistem
+dan aktor dari perspektif pengguna (*external view*). Tujuannya adalah
+mendefinisikan batas-batas sistem dan mengorganisasi persyaratan fungsional,
+serta mengetahui fungsi apa saja yang ada di dalam sistem dan aktor yang berhak
+menggunakan fungsi-fungsi tersebut.
+
+[Tabel ]()1.
+Komponen *use case diagram*
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+
+![](images/image002.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image003.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image004.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image005.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image006.png)
+
+ 
+
+ 
+
+ 
+| SIMBOL | NAMA           | KETERANGAN                                                                                                            |
+| ------ | -------------- | --------------------------------------------------------------------------------------------------------------------- |
+|        | Actor          | Mewakili peran orang, sistem yang lain, atau alat ketika berinteraksi dengan use case                                 |
+|        | Use Case       | Abstraksi dan interaksi antara sistem dan aktor                                                                       |
+|        | Association    | Abstraksi dari penghubung antara actor dengan use case                                                                |
+|        | Generalization | Menunjukkan spesialisasi actor untuk dapat berpartisipasi dengan use case                                             |
+|        | Include        | Menunjukkan bahwa suatu use case tambahan merupakan fungsionalitas dari use case lainnya jika suatu kondisi terpenuhi |
+
+#### 2. *Activity Diagram.*
+
+*Activity Diagram*
+adalah pemodelan yang dilakukan pada suatu sistem untuk menggambarkan aktivitas
+sistem berjalan dan merepresentasikan aliran proses atau alur kerja (*workflow*).
+Diagram ini sangat mirip dengan *flowchart* karena memodelkan alur kerja
+dari satu aktivitas ke aktivitas lainnya atau dari aktivitas ke status,
+termasuk di dalamnya keputusan-keputusan yang mungkin terjadi. Diagram ini
+memodelkan proses bisnis dan urutan aktivitas dalam sebuah proses.
+
+[Tabel ]()2.
+Komponen *activity diagram*
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+
+![](images/image007.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image008.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image009.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image010.png)
+
+ 
+
+ 
+
+ 
+| SIMBOL | NAMA        | KETERANGAN                                                                                |
+| ------ | ----------- | ----------------------------------------------------------------------------------------- |
+|        | Start Point | Titik awal bagaimana objek diawali atau dibentuk                                          |
+|        | End Point   | Titik akhir objek                                                                         |
+|        | Activities  | Memperlihatkan bagaimana masing masing antarmuka kelas saling berinteraksi satu sama lain |
+|        | Decision    | Menggambarkan suatu Keputusan atau tindakan yang harus diambil pada kondisi tertentu      |
+
+#### 3. *Entity Relationship Diagram *(ERD)*.*
+
+*Entity Relationship Diagram* (ERD) adalah diagram yang berbentuk notasi grafis yang merupakan salah
+satu alat utama dalam perancangan basis data. ERD memodelkan struktur data
+secara konseptual, yang mendeskripsikan hubungan antara data-data yang saling
+berhubungan. ERD adalah tahap dasar dalam membuat database dan merupakan teknik
+perancangan yang paling banyak digunakan karena semua entitas, atribut, dan
+relasinya harus dirancang secara lengkap dan detail.
+
+[Tabel ]()3.
+Komponen *Entity Relationship
+Diagram*
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image011.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image012.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image013.png)
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+![](images/image014.png)
+
+ 
+
+ 
+
+ 
+ 
+| SIMBOL | NAMA                | KETERANGAN                                                                                                |
+| ------ | ------------------- | --------------------------------------------------------------------------------------------------------- |
+|        | Entity              | Merupakan suatu simbol untuk mewakili suatu objek dengan karakteristik sama yang dilengkapi oleh atribut. |
+|        | Attribute           | Merupakan suatu simbol yang menjelaskan suatu entitas karakteristik dan juga relasinya.                   |
+|        | Strong Relationship | Menggambarkan hubungan beberapa entitas berdasarkan fakta pada suatu lingkungan.                          |
+|        | Connection          | Menggambarkan keterkaitan antara simbol berupa garis penghubung                                           |
+
+ 
+
+### 1.5.6 Ruang Lingkup Penelitian Sistem Informasi
+
+Terdapat ruang lingkup penelitian sistem
+informasi yang terdiri dari Environment, IS Research, dan Technology seperti
+yang dapat dilihat berikut.
+
+![Design science research in information systems according to [33] | Download Scientific Diagram](images/image015.png)
+
+[Gambar ]()1. Kerangka *Design Science Research** *
+
+Pada bagian *Environment* atau lingkungan,
+mencerminkan konteks permasalahan penelitian muncul. Lingkungan terdiri atas *people*
+(manusia), *organizations* (organisasi), dan *technology* (teknologi).
+Di dalam lingkungan terdapat tujuan, tugas, permasalahan, dan peluang yang
+membentuk kebutuhan bisnis organisasi. Lingkungan inilah yang mendefinisikan
+ruang permasalahan dan memastikan bahwa penelitian yang dilakukan memiliki
+relevansi praktis.
+
+Bagian *Knowledge Base* mencakup
+teori, konsep, model, metode, dan lain sebagainya yang menjadi landasan ilmiah
+yang digunakan dalam proses penelitian. Bagian ini berfungsi sebagai sumber *rigor*
+ilmiah, yaitu sebagai landasan utama untuk memastikan bahwa desain dan evaluasi
+dilakukan secara sistematis dan dapat dipertanggungjawabkan secara akademik.
+
+Adapun *IS Research* yang terletak di
+antara *Environment* dan *Knowledge Base*, merupakan fase peneliti
+merancang dan mengevaluasi artefak sistem informasi untuk menjawab kebutuhan
+bisnis yang ada. Proses ini didasarkan dari masalah yang telah diuraikan pada
+bagian *Environtment *dan beberapa teori penyelesaian yang diuraikan pada
+bagian *Knowledge Base*. Proses ini menghasilkan kontribusi ilmiah berupa
+artefak yang tervalidasi serta pengetahuan baru yang dapat digunakan kembali
+pada konteks serupa (Hevner et al., 2004).
+
+### 1.5.7 Metode Pengembangan (*Waterfall*)
+
+Metode waterfall merupakan salah satu metode
+dalam *System Development Life Cycle* (SDLC). Metode ini memiliki ciri
+khas bahwa setiap tahap harus diselesaikan terlebih dahulu sebelum melanjutkan
+ke tahap berikutnya. Dengan alur tersebut, fokus pada tiap fase dapat
+dimaksimalkan karena tidak ada pengerjaan paralel. Metode waterfall juga bersifat
+rekursif, karena setiap tahapnya dapat diulang kembali tanpa batas sampai
+mencapai hasil yang optimal (Heriyanti & Ishak, 2020).
+
+![](images/image016.png)
+
+[Gambar ]()2. Tahapan dari metode waterfall
+
+1. ***Requirement***, tahap ini merupakan tahap
+awal untuk menetapkan spesifikasi kebutuhan perangkat lunak. Pada fase ini,
+analis sistem dan analis bisnis berdiskusi untuk menentukan kebutuhan
+fungsional, seperti mendeskripsikan interaksi pengguna dengan sistem, maupun
+non-fungsional, yang meliputi reliabilitas, skalabilitas, kemudahan pengujian,
+standar kualitas dan lain sebagainya.
+
+2. 
+***Design***, tahap
+ini merupakan perencanaan dan perancangan solusi perangkat lunak. Pengembang
+dan desainer sistem menetapkan rancangan solusi yang mencakup perancangan
+algoritma, basis data, hingga desain antarmuka pengguna.
+
+3. 
+***Implementation***,
+fase ini merupakan tahap penulisan kode program hingga menghasilkan aplikasi
+yang dapat dijalankan. Pada tahap ini juga dibuat basis data dan file-file yang
+dibutuhkan aplikasi.
+
+4. 
+***Verification***,
+tahap pengujian atau verifikasi dan validasi, yaitu proses memastikan apakah
+perangkat lunak memenuhi spesifikasi dan kebutuhan awal, serta benar-benar
+dapat digunakan sesuai tujuan yang ditetapkan.
+
+5. ***Maintenance***, tahap pemeliharaan bertujuan
+memperbaiki kesalahan atau bug yang tidak ditemukan pada fase sebelumnya serta
+melakukan penyesuaian jika diperlukan.
+
+### 1.5.8 *Black Box Testing*
+
+*Black Box Testing*
+dalam pengembangan perangkat lunak merupakan metode pengujian yang dilakukan
+untuk menilai aplikasi dari sisi luar, seperti antarmuka, fungsi-fungsi yang
+tersedia, dan kesesuaiannya dengan kebutuhan yang telah dirancang sebelumnya. *Black Box Testing* dilakukan dari sudut pandang pengguna akhir. Metode
+ini tidak memerlukan penguji untuk memahami bahasa pemrograman tertentu,
+sehingga pengujiannya dilakukan berdasarkan perspektif pengguna. Hal itu
+dilakukan agar penguji dapat mengidentifikasi inkonsistensi dari kebutuhan
+awal. Kemudian pengembang dan penguji juga masih tetap dapat bekerja sama (Uminingsih et al., 2022). 
+
+Dalam *Black Box Testing* pengujian
+berfokus pada spesifikasi fungsional dari perangkat lunak, penguji dapat
+mendefinisikan kondisi-kondisi input dan melakukan pengujian pada fitur
+aplikasi. Proses pengujianya adalah mencoba program yang telah dibuat dengan
+memasukkan data pada setiap form yang ada atau menekan tombol untuk mengetahui
+aksinya sudah sesuai dengan ekspektasi atau tidak. Pengujian seperti ini
+diperlukan untuk mengetahui program tersebut sudah berjalan sesuai dengan yang
+dibutuhkan oleh perusahaan (Shadiq et al., 2021).
+
+# []() 
+BAB II 
+
+METODE PENELITIAN
+
+## [2.1 Waktu dan Lokasi Penelitian]()
+
+Penelitian ini dilaksanakan pada bulan Juli
+2025 sampai bulan November 2025.
+
+[Tabel ]()4. Waktu
+Penelitian
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+| # | Tahapan Penelitian | Juli | Agustus | September | Oktober | November |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+| --- | ------------------ | ---- | ------- | --------- | ------- | -------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 2                  | 3    | 4       | 1         | 2       | 3        | 4 | 1 | 2 | 3 | 4 | 1 | 2 | 3 | 4 | 1 | 2 | 3 | 4 |  |  |  |
+| 1 | Studi Literatur    |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+| 2 | Requirement        |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+| 3 | Design             |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+| 4 | Implementation     |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+| 5 | Testing            |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+| 6 | Maintenance        |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+|   |                    |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
+
+## [2.2 Design Science Research]()
+
+Berikut ini adalah gambaran Kerangka *Information
+Systems Research Framework* yang digunakan dalam penelitian ini. Konsep
+metode penelitian ini menggunakan Design Science Research yang sering digunakan
+dalam Penelitian Sistem Informasi (Hevner et al., 2004). Berikut pada gambar 3
+menjelaskan kerangka penelitian sistem informasi yang digunakan pada penelitian
+ini.
+
+![](images/image017.png)
+
+[Gambar ]()3. Kerangka
+Penelitian Sistem Informasi yang Digunakan Pada Penelitian Ini
+
+ 
+
+Pada aspek environment terdiri dari *People*
+(orang), *Organizations* (organisasi), dan *Technology* (teknologi). *People*
+(orang) mencakup admin, renter, dan juga user dari website ini. *Organizations*
+yang terlibat yaitu Platform FieldMax. Kemudian, *Technology*
+yang digunakan dalam penelitian adalah Visual Studio Code, Tailwind CSS, TypeScript,
+Next.js, Express.js, dan Figma. 
+
+Pada aspek *IS Research*, terdiri dari
+*Build* (membangun), dan *Evaluate* (evaluasi). Pada tahap *Build*,
+dilakukan pembuatan desain website Platform FieldMax. Pada tahap *Evaluate*,
+dilakukan pengujian fungsionalitas Sistem Reservasi dan Manajemen Layanan
+Penyewaan Lapangan yang bertujuan untuk menilai kinerja dan efektivitasnya. 
+
+Adapun aspek *Knowledge Base* dalam
+penelitian ini terdiri dari *Foundation* (dasar) dan *Methodologies*
+(metodologi). *Foundation* mencakup konsep SSR dan CSR. Adapun bagian *Methodologies*
+yang digunakan adalah Design Science Research dan model pengembangan SDLC *Waterfall*.
+Penerapan metode DSR ini diharapkan dapat berguna dalam meningkatkan kemudahan
+renter dalam melakukan booking dan pengelolaan lapangan secara efisien.
+
+## [2.3 Metode Pengumpulan Data]()
+
+Dalam penelitian ini, tahap pengumpulan data
+diperlukan untuk mendukung pengembangan sistem. Pemilihan metode pengumpulan
+data penting karena hasil yang diperoleh akan menjadi dasar dalam proses
+pengembangan aplikasi. Metode pengumpulan data yang dilakukan dalam penelitian
+ini adalah sebagai berikut:
+
+### 2.3.1 Studi Literatur
+
+Studi literatur adalah metode pengumpulan data
+dengan menelaah berbagai sumber-sumber tertulis, meliputi buku, jurnal, laporan
+penelitian, dan lainnya. Dalam penelitian ini, penulis melakukan studi
+literatur dengan mencari berbagai informasi yang relevan mengenai pengembangan sistem
+reservasi berbasis web dan manajemen layanan fasilitas olahraga.
+
+## [2.4 Metode Pengembangan Sistem]()
+
+Metode pengembangan sistem atau *System
+Development Life Cycle* (SDLC) yang digunakan adalah *Waterfall*.
+Adapun tahapannya sebagai berikut:
+
+### 2.4.1 Requirements (Kebutuhan)
+
+Pada tahap ini, dilakukan analisis untuk
+menentukan kebutuhan-kebutuhan yang harus ada. Hal ini bertujuan untuk memahami
+fitur-fitur yang diharapkan pada sistem yang akan digunakan di tahap
+selanjutnya.
+
+### 2.4.2 Design (Desain)
+
+Pada tahapan ini, peneliti merancang *Use Case
+Diagram* dan *Activity Diagram* untuk memberikan gambaran umum mengenai
+cara kerja sistem. Kemudian, akan dibuat sebuah *Entity Relationship Diagram*
+(ERD) untuk memvisualisasikan struktur data dan aliran informasi. Setelah itu, dilakukan
+perancangan antarmuka pengguna (*User Interface*) untuk memberikan
+gambaran visual yang lebih jelas mengenai tampilan sistem. Selain itu,
+perancangan *Database* juga dilakukan untuk menyimpan data-data yang
+berkaitan dengan aplikasi.
+
+### 2.4.3 Implementation (Implementasi)
+
+Pada tahapan ini,
+dimulai implementasi desain yang telah dibuat menjadi aplikasi berbasis website
+menggunakan teknologi Next.js dan Express.js sebagai framework utama
+pengembangan website. Terdapat pula Tailwind CSS sebagai framework Front-end
+dan TypeScript sebagai bahasa pemrograman utama. Selain itu, terdapat Figma sebagai platform yang digunakan untuk merancang *User
+Interface / User Experience* (UI/UX).
+
+### 2.4.4 Testing (Pengujian)
+
+Pada tahapan ini,
+peneliti melakukan pengujian dengan metode Black Box Testing untuk memastikan
+bahwa sistem yang telah dibangun berfungsi dengan
+baik.
+
+### 2.4.5 Maintenance (Pemeliharaan)
+
+Pada tahapan ini,
+peneliti melakukan pemeliharaan pada website untuk memastikan tidak ada bug
+atau error yang terjadi pada website.
+
+## [2.5 Tahapan Penelitian]()
+
+Tahapan pengembangan sistem ini menggunakan
+metode Waterfall, yang dimulai dengan tahap *Requirements* (Analisis
+Kebutuhan). Pada tahap ini, dilakukan analisis kebutuhan sistem yang harus ada
+untuk aplikasi Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan, sekaligus
+melakukan analisis masalah dan analisis kebutuhan sistem. Setelah itu,
+penelitian dilanjutkan dengan tahapan Design (Desain), yaitu melalui
+perancangan use case diagram, activity diagram, user interface (UI), serta
+perancangan database (ERD) untuk memberikan gambaran tentang bagaimana sistem
+akan berfungsi dan memiliki struktur data.
+
+Tahap berikutnya adalah Implementation
+(Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi
+aplikasi berbasis web menggunakan teknologi React.js dan Express.js. Setelah
+aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black
+Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai
+spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau
+kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap
+Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem
+sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai,
+menghasilkan Hasil Penelitian dan Kesimpulan.
+
+![](images/image018.png)
+
+[Gambar ]()4. Alur
+Penelitian
+
+## [2.6 Analisis Pengembangan Sistem]()
+
+### 2.6.1 Analisis Masalah
+
+Berdasarkan hasil observasi dan studi literasi,
+ditemukan beberapa permasalahan yang terjadi pada model sistem reservasi dan
+manajemen layanan penyewaan lapangan dari Platform FieldMax. Salah satu
+masalah utama adalah pemesanan layanan penyewaan lapangannya yang masih manual
+menggunakan Google Form, yang menyebabkan pengelolaan layanan yang tersedia
+juga dilakukan manua, serta proses pembayarannya yang tidak saling terintegrasi.
+Sistem manual ini akhirnya menimbulkan inefisiensi akibat dari permasalahan
+tersebut.
+
+Kemudian, terjadi penurunan efektivitas
+manajemen serta memperlambat proses pengambilan keputusan yang strategis. Oleh
+karena itu, pengembangan sebuah sistem informasi berbasis web yang terpusat dan
+terintegrasi, yang mampu mengelola proses booking dan manajemen layanan
+penyewaan lapangan, sangat diperlukan untuk mengatasi masalah-masalah tersebut. Sistem ini
+diharapkan dapat memberikan kemudahan bagi pelanggan dalam melakukan pemesanan
+layanan, sekaligus membantu pihak internal Platform FieldMax dalam pengelolaan
+layanan dan reservasinya.
+
+![](images/image019.png)
+
+[Gambar ]()5. Sistem penggunaan web FieldMax 
+
+### 2.6.2 Analisis Kebutuhan Sistem
+
+Dalam pembangunan web ini, dibutuhkan
+perangkat lunak dan perangkat keras sebagai alat yang dapat mendukung
+penelitian. Terdapat pula pengguna sistem (*user*) sebagai bahan analisis
+kebutuhan dalam perancangan sistem. Adapun kebutuhan sistem dalam penelitian
+ini yaitu:
+
+#### 1. Perangkat lunak.
+
+Perangkat lunak yang digunakan dalam merancang
+web ini terdiri dari:
+
+1. Windows 11
+
+2. Mermaid diagram
+
+3. dbdiagram.io
+
+4. Visual Studio Code (VS Code)
+
+5. PgAdmin
+
+6. Postman
+
+7. Chrome
+
+#### 2. Perangkat keras.
+
+Selama penelitian, peneliti menggunakan Laptop
+Lenovo Ideapad Gaming 3 dengan spesifikasi Processor Intel core i7-12650H @
+2,30 GHz, RAM 16GB, dan SSD 512GB.
+
+#### 3. Pengguna sistem *(user)*.
+
+1. ***Admin,*** merupakan pengguna yang berperan
+sebagai moderator dalam sistem. Admin bertugas memverifikasi dan menyetujui
+pendaftaran profil penyedia lapangan (Renter) ke dalam wadah platform. Admin
+juga berwenang meninjau kelayakan dan kelengkapan data venue beserta unit
+spesifik lapangan (field) yang ditambahkan oleh Renter sebelum fasilitas
+tersebut dapat diakses oleh publik. Selain itu, Admin memiliki akses menyeluruh
+untuk melihat daftar semua pengguna, serta memantau seluruh riwayat transaksi
+pemesanan (booking) dan aliran pembayaran yang terjadi di dalam FieldMax.
+
+2. **Renter (Pemilik/Pengelola Lapangan)*,*** merupakan
+mitra penyedia jasa yang menyewakan fasilitas olahraga. Renter dapat
+mendaftarkan venue miliknya dan menambahkan jenis-jenis lapangan secara
+tersendiri. Setelah mendapatkan persetujuan (approval) dari Admin, Renter
+berkuasa penuh untuk menentukan harga sewa, mengatur rentang waktu operasional,
+serta memperbarui jadwal lapangan secara mandiri. Sebagai pengguna yang
+mengoperasikan layanan di lapangan, Renter juga bertugas untuk mengonfirmasi
+kehadiran pengguna, menyewa lapangan sesuai dengan waktu pemesanan, dan
+merampungkan jadwal sewa pesanan (COMPLETED). Selain itu, Renter dapat melihat seluruh
+daftar pesanannya hari ini, mengawasi laporan status pembayaran tagihan
+pelanggannya, hingga memantau ikhtisar riwayat pendapatan dari lapangan yang ia
+kelola.
+
+3. **User (Pengguna/Penyewa),** merupakan user akhir
+atau pelanggan yang menggunakan layanan sewa lapangan olahraga. Untuk menjadi
+User, pengguna terlebih dahulu melakukan pendaftaran akun ke dalam platform
+FieldMax. User diberikan kemudahan mencari letak tempat olahraga yang sesuai, mencocokkan
+ketersediaan jadwal, dan melakukan reservasi lapangan (booking) secara
+real-time untuk dirinya sendiri maupun rombongan mainnya. Proses transaksinya
+melibatkan payment gateway sehingga dapat langsung disahkan oleh sistem
+seketika itu juga setelah ia menyelesaikan tagihan. User pastinya dapat melihat
+jadwal lapangan yang baru saja ia pesan, melihat keseluruhan rekam jejak
+riwayat bermain (booking history), dan memiliki kemampuan untuk memberikan
+ulasan (review) terhadap kualitas fasilitas lapangan yang telah ia gunakan.
+
+## [2.7 Perancangan Sistem]()
+
+Dalam prosesnya, peneliti menggunakan *use
+case diagram* untuk merepresentasikan aktivitas yang dapat dilakukan oleh
+pengguna di dalam sistem. Berikut *use case diagram* untuk
+merepresentasikannya.
+
+![](images/image020.png)
+
+[Gambar ]()6. Use
+Case Diagram Web Platform FieldMax
+
+ 
+
+# []() 
+BAB III 
+
+HASIL DAN
+PEMBAHASAN
+
+## [3.1 Implementasi Sistem]()
+
+Setelah proses perancangan sistem
+diselesaikan, tahap berikutnya dalam pengembangan sistem informasi adalah
+mengimplementasikan hasil rancangan tersebut ke dalam bentuk sistem informasi
+berbasis web. Web ini dibangun menggunakan *framework* Next.js dari sisi
+Front End dan Express.js dari sisi Back End, yang keduanya menggunakan bahasa
+pemrograman TypeScript. Untuk *styling* pada sisi Front End dibantu dengan
+TailwindCSS. Adapun untuk pengelolaan data digunakan PostgeSQL sebagai basis
+data utama.
+
+## [3.2 Implementasi Basis Data]()
+
+Implementasi basis data terdiri dari tiga
+tahapan utama yang saling berkaitan. Tahap pertama yaitu pembuatan Entity
+Relationship Diagram (ERD) untuk memetakan entitas, atribut, serta hubungan
+antar entitas sehingga diperoleh gambaran menyeluruh alur pengelolaan data.
+Tahap berikutnya adalah perancangan struktur tabel, yang mencakup penentuan
+tipe data, *primary key*, dan *foreign key* agar data dapat lebih
+konsisten dan terorganisir. Terakhir adalah membangun relasi antar tabel
+berdasarkan hubungan yang telah dirancang pada ERD, baik relasi *one-to-one*,
+*one-to-many*, maupun *many-to-many*. Melalui tahapan tersebut,
+integritas data dapat terjaga dengan baik dan basis data dapat berfungsi secara
+optimal untuk mendukung kinerja sistem.
+
+### 3.2.1 Entity Relational Diagram (ERD)
+
+Dalam penelitian ini, terdapat beberapa entitas yang digunakan untuk menggambarkan alur dari basis data. ERD yang dirancang untuk web ini mencakup berbagai entitas utama sebagai berikut:
+
+1. **users**: Menyimpan informasi kredensial dan data akun dasar pengguna.
+2. **verification_tokens**: Menyimpan token verifikasi email untuk pendaftaran akun baru.
+3. **reset_tokens**: Menyimpan token reset sandi untuk fitur lupa password.
+4. **user_profiles**: Menyimpan informasi profil tambahan untuk pengguna (User) maupun profil usaha untuk pemilik lapangan (Renter).
+5. **sport_types**: Menyimpan kategori jenis olahraga (misalnya Futsal, Bulutangkis, Basket).
+6. **venues**: Menyimpan informasi lokasi tempat olahraga (lapangan olahraga multi-tenant).
+7. **venue_schedules**: Menyimpan jadwal operasional buka dan tutup dari suatu venue berdasarkan hari dalam seminggu.
+8. **venue_photos**: Menyimpan foto-foto dokumentasi venue olahraga.
+9. **fields**: Menyimpan detail data lapangan yang disewakan di dalam venue beserta tarif per jam.
+10. **field_photos**: Menyimpan foto-foto detail lapangan olahraga.
+11. **bookings**: Menyimpan data transaksi pemesanan lapangan oleh pengguna.
+12. **payments**: Menyimpan informasi transaksi pembayaran booking menggunakan Midtrans Snap.
+13. **reviews**: Menyimpan data ulasan dan rating lapangan setelah penyewaan selesai.
+14. **sessions**: Menyimpan data sesi login aktif pengguna di database.
+15. **reports**: Menyimpan laporan kendala atau keluhan dari pengguna (SCAM, TECHNICAL, PAYMENT, OTHER).
+16. **report_replies**: Menyimpan balasan pesan terhadap laporan keluhan antara admin dan pengguna.
+
+### 3.2.2 Struktur Tabel
+
+Berikut adalah detail struktur tabel dari basis data web Platform FieldMax yang dirancang sesuai dengan Prisma schema:
+
+Terdapat pula beberapa nilai bertipe *enum* yang dideklarasikan sebagai tipe data kolom basis data. Adapun nilai-nilainya sebagai berikut.
+
+| Nama Enum              | Nilai / Deskripsi                                |
+| ---------------------- | ------------------------------------------------ |
+| **UserRole**           | `USER`, `RENTER`, `ADMIN`                        |
+| **BookingStatus**      | `PENDING`, `CONFIRMED`, `CANCELLED`, `COMPLETED` |
+| **PaymentStatus**      | `PENDING`, `PAID`, `EXPIRED`, `FAILED`           |
+| **VerificationStatus** | `DRAFT`, `PENDING`, `APPROVED`, `REJECTED`       |
+| **ReportStatus**       | `PENDING`, `RESOLVED`                            |
+| **ReportCategory**     | `SCAM`, `TECHNICAL`, `PAYMENT`, `OTHER`          |
+
+Berikut adalah tabel-tabel penyusun basis data sistem informasi FieldMax:
+
+#### 1. Tabel *users*
+Berisi data otentikasi akun pengguna.
+| Nama Field   | Tipe Field    | Keterangan              | Default    |
+| ------------ | ------------- | ----------------------- | ---------- |
+| id           | String (UUID) | Primary Key             | uuid()     |
+| full_name    | String        | Nama lengkap pengguna   | No Default |
+| email        | String        | Email unik untuk login  | No Default |
+| password     | String        | Hash password akun      | No Default |
+| phone_number | String        | Nomor telepon unik      | Nullable   |
+| role         | UserRole      | Hak akses akun          | USER       |
+| is_verified  | Boolean       | Status verifikasi email | false      |
+| created_at   | DateTime      | Waktu pendaftaran       | now()      |
+
+#### 2. Tabel *verification_tokens*
+Digunakan untuk mencatat token aktivasi email.
+| Nama Field | Tipe Field | Keterangan             | Default    |
+| ---------- | ---------- | ---------------------- | ---------- |
+| identifier | String     | Email/identitas user   | No Default |
+| token      | String     | Token verifikasi unik  | No Default |
+| expires    | DateTime   | Waktu kadaluarsa token | No Default |
+
+#### 3. Tabel *reset_tokens*
+Digunakan untuk mencatat token penggantian sandi.
+| Nama Field | Tipe Field    | Keterangan              | Default    |
+| ---------- | ------------- | ----------------------- | ---------- |
+| id         | String (UUID) | Primary Key             | uuid()     |
+| token      | String        | Token reset unik        | No Default |
+| expires    | DateTime      | Waktu kadaluarsa        | No Default |
+| user_id    | String        | Foreign Key ke users.id | No Default |
+| created_at | DateTime      | Waktu pembuatan         | now()      |
+
+#### 4. Tabel *user_profiles*
+Menyimpan data profil user atau profil usaha milik renter.
+| Nama Field          | Tipe Field    | Keterangan                            | Default  |
+| ------------------- | ------------- | ------------------------------------- | -------- |
+| user_id             | String (UUID) | Primary Key & Foreign Key ke users.id | uuid()   |
+| profile_picture_url | String        | URL foto profil user                  | Nullable |
+| bio                 | String        | Deskripsi singkat diri                | Nullable |
+| address             | String        | Alamat lengkap user                   | Nullable |
+| updated_at          | DateTime      | Waktu pembaruan profil                | now()    |
+| company_description | String        | Deskripsi bisnis/usaha Renter         | Nullable |
+| company_logo_url    | String        | Logo bisnis Renter                    | Nullable |
+| company_name        | String        | Nama perusahaan Renter                | Nullable |
+| company_website     | String        | Website bisnis Renter                 | Nullable |
+
+#### 5. Tabel *sport_types*
+Daftar jenis cabang olahraga lapangan.
+| Nama Field | Tipe Field    | Keterangan                   | Default    |
+| ---------- | ------------- | ---------------------------- | ---------- |
+| id         | String (UUID) | Primary Key                  | uuid()     |
+| name       | String        | Nama jenis olahraga (Unique) | No Default |
+
+#### 6. Tabel *venues*
+Lokasi tempat penyewaan lapangan olahraga.
+| Nama Field       | Tipe Field         | Keterangan               | Default    |
+| ---------------- | ------------------ | ------------------------ | ---------- |
+| id               | String (UUID)      | Primary Key              | uuid()     |
+| renter_id        | String             | Foreign Key ke users.id  | No Default |
+| name             | String             | Nama venue olahraga      | No Default |
+| address          | String             | Alamat lengkap lokasi    | No Default |
+| city             | String             | Kota lokasi venue        | Nullable   |
+| district         | String             | Kecamatan venue          | Nullable   |
+| province         | String             | Provinsi venue           | Nullable   |
+| postal_code      | String             | Kode pos venue           | Nullable   |
+| description      | String             | Deskripsi detail venue   | Nullable   |
+| created_at       | DateTime           | Tanggal dibuat           | now()      |
+| status           | VerificationStatus | Status persetujuan admin | DRAFT      |
+| rejection_reason | String             | Alasan penolakan admin   | Nullable   |
+
+#### 7. Tabel *venue_schedules*
+Jadwal buka-tutup venue olahraga.
+| Nama Field  | Tipe Field    | Keterangan                                | Default    |
+| ----------- | ------------- | ----------------------------------------- | ---------- |
+| id          | String (UUID) | Primary Key                               | uuid()     |
+| venue_id    | String        | Foreign Key ke venues.id                  | No Default |
+| day_of_week | Integer       | Hari operasional (0=Minggu, 1=Senin, dst) | No Default |
+| open_time   | Time(6)       | Jam operasional buka                      | No Default |
+| close_time  | Time(6)       | Jam operasional tutup                     | No Default |
+
+#### 8. Tabel *venue_photos*
+Galeri foto dari lokasi venue.
+| Nama Field  | Tipe Field    | Keterangan                    | Default    |
+| ----------- | ------------- | ----------------------------- | ---------- |
+| id          | String (UUID) | Primary Key                   | uuid()     |
+| venue_id    | String        | Foreign Key ke venues.id      | No Default |
+| url         | String        | Tautan gambar di ImageKit CDN | No Default |
+| is_featured | Boolean       | Gambar utama venue            | false      |
+| created_at  | DateTime      | Waktu unggah                  | now()      |
+
+#### 9. Tabel *fields*
+Data detail lapangan olahraga di dalam venue.
+| Nama Field       | Tipe Field         | Keterangan                    | Default    |
+| ---------------- | ------------------ | ----------------------------- | ---------- |
+| id               | String (UUID)      | Primary Key                   | uuid()     |
+| venue_id         | String             | Foreign Key ke venues.id      | No Default |
+| sport_type_id    | String             | Foreign Key ke sport_types.id | No Default |
+| name             | String             | Nama/nomor lapangan           | No Default |
+| description      | String             | Deskripsi lapangan            | Nullable   |
+| price_per_hour   | Float              | Harga sewa per jam            | No Default |
+| is_closed        | Boolean            | Lapangan sedang ditutup/tidak | false      |
+| status           | VerificationStatus | Status approval admin         | PENDING    |
+| rejection_reason | String             | Alasan penolakan admin        | Nullable   |
+| created_at       | DateTime           | Tanggal penambahan            | now()      |
+
+#### 10. Tabel *field_photos*
+Foto-foto pendukung detail lapangan.
+| Nama Field  | Tipe Field    | Keterangan               | Default    |
+| ----------- | ------------- | ------------------------ | ---------- |
+| id          | String (UUID) | Primary Key              | uuid()     |
+| field_id    | String        | Foreign Key ke fields.id | No Default |
+| url         | String        | Tautan gambar di CDN     | No Default |
+| is_featured | Boolean       | Foto utama lapangan      | false      |
+| created_at  | DateTime      | Waktu unggah             | now()      |
+
+#### 11. Tabel *bookings*
+Data transaksi pemesanan lapangan oleh pengguna.
+| Nama Field   | Tipe Field    | Keterangan               | Default    |
+| ------------ | ------------- | ------------------------ | ---------- |
+| id           | String (UUID) | Primary Key              | uuid()     |
+| user_id      | String        | Foreign Key ke users.id  | No Default |
+| field_id     | String        | Foreign Key ke fields.id | No Default |
+| booking_date | Date          | Tanggal penyewaan        | No Default |
+| start_time   | Time(6)       | Jam mulai sewa           | No Default |
+| end_time     | Time(6)       | Jam selesai sewa         | No Default |
+| total_price  | Float         | Total biaya pemesanan    | No Default |
+| status       | BookingStatus | Status pesanan           | PENDING    |
+| created_at   | DateTime      | Waktu pesanan dibuat     | now()      |
+
+#### 12. Tabel *payments*
+Informasi transaksi pembayaran booking lapangan via Midtrans Snap.
+| Nama Field           | Tipe Field    | Keterangan                          | Default    |
+| -------------------- | ------------- | ----------------------------------- | ---------- |
+| id                   | String (UUID) | Primary Key                         | uuid()     |
+| booking_id           | String        | Foreign Key (Unique) ke bookings.id | No Default |
+| amount               | Float         | Jumlah pembayaran                   | No Default |
+| status               | PaymentStatus | Status transaksi pembayaran         | PENDING    |
+| snap_token           | String        | Token Midtrans Snap                 | Nullable   |
+| payment_redirect_url | String        | Tautan url pembayaran Midtrans      | Nullable   |
+| created_at           | DateTime      | Tanggal dibuat                      | now()      |
+| updated_at           | DateTime      | Waktu pembaruan status              | updated_at |
+
+#### 13. Tabel *reviews*
+Ulasan dan rating lapangan olahraga oleh penyewa.
+| Nama Field | Tipe Field    | Keterangan                          | Default    |
+| ---------- | ------------- | ----------------------------------- | ---------- |
+| id         | String (UUID) | Primary Key                         | uuid()     |
+| rating     | Integer       | Nilai bintang (1 s/d 5)             | No Default |
+| comment    | String        | Komentar atau ulasan user           | Nullable   |
+| user_id    | String        | Foreign Key ke users.id             | No Default |
+| field_id   | String        | Foreign Key ke fields.id            | No Default |
+| booking_id | String        | Foreign Key (Unique) ke bookings.id | No Default |
+| created_at | DateTime      | Tanggal ulasan dibuat               | now()      |
+
+#### 14. Tabel *sessions*
+Mencatat session pengguna untuk sistem otentikasi.
+| Nama Field | Tipe Field | Keterangan               | Default    |
+| ---------- | ---------- | ------------------------ | ---------- |
+| id         | String     | Primary Key              | No Default |
+| user_id    | String     | Foreign Key ke users.id  | No Default |
+| expires_at | DateTime   | Waktu kadaluarsa session | No Default |
+
+#### 15. Tabel *reports*
+Penyimpanan keluhan/pengaduan masalah dari pengguna.
+| Nama Field  | Tipe Field     | Keterangan                | Default    |
+| ----------- | -------------- | ------------------------- | ---------- |
+| id          | String (UUID)  | Primary Key               | uuid()     |
+| user_id     | String         | Foreign Key ke users.id   | No Default |
+| subject     | String         | Judul keluhan/laporan     | No Default |
+| description | String         | Deskripsi detail masalah  | No Default |
+| category    | ReportCategory | Jenis kategori kendala    | OTHER      |
+| status      | ReportStatus   | Status penanganan keluhan | PENDING    |
+| created_at  | DateTime       | Tanggal keluhan dikirim   | now()      |
+| updated_at  | DateTime       | Tanggal pembaruan laporan | now()      |
+
+#### 16. Tabel *report_replies*
+Tanggapan atau obrolan penyelesaian keluhan pengguna.
+| Nama Field | Tipe Field    | Keterangan                   | Default    |
+| ---------- | ------------- | ---------------------------- | ---------- |
+| id         | String (UUID) | Primary Key                  | uuid()     |
+| report_id  | String        | Foreign Key ke reports.id    | No Default |
+| sender_id  | String        | Foreign Key ke users.id      | No Default |
+| message    | String        | Isi pesan tanggapan          | No Default |
+| created_at | DateTime      | Tanggal pengiriman tanggapan | now()      |
+
+
+### 3.2.3 Relasi Antar Tabel
+
+Setelah perancangan, selanjutnya adalah
+merancang relasi antar tabel, yang berfungsi untuk menentukan keterhubungan
+antar tabel yang ada dalam basis data. Perancangan yang tepat diperlukan agar
+mengakses basis data dari sistem dapat efektif dan efisien.
+
+![](images/image026.png)
+
+[Gambar ]()67. Relasi
+antar tabel
+
+## [3.3 Implementasi *Activity Diagram*]()
+
+### 3.3.1 *Activity Diagram Guest*
+Menggambarkan alur interaksi pengguna tanpa akun (*Guest*) pada sistem informasi:
+1. **Mencari dan Memfilter Venue**: Guest mengunjungi web, menginput nama kota/daerah atau memfilter jenis olahraga, kemudian sistem menampilkan daftar venue olahraga yang sesuai.
+2. **Melihat Detail Venue dan Lapangan**: Guest memilih salah satu venue olahraga, sistem memproses data untuk menampilkan info alamat, jam operasional, galeri foto venue, ulasan pengguna, serta daftar lapangan olahraga beserta harganya.
+
+### 3.3.2 *Activity Diagram User*
+Menggambarkan alur aktivitas pengguna terdaftar (*User*):
+1. **Pendaftaran dan Aktivasi Akun**: Mengisi form pendaftaran, menerima tautan verifikasi lewat email (VerificationToken), dan mengaktifkan akun.
+2. **Melakukan Reservasi Lapangan**: Memilih lapangan, memilih tanggal dan jam sewa yang tersedia, mengirim data booking (Booking status PENDING), sistem membuat token pembayaran Midtrans Snap.
+3. **Melakukan Pembayaran**: User melakukan pembayaran di portal Midtrans Snap. Begitu pembayaran diverifikasi, status pembayaran diperbarui menjadi PAID dan booking diperbarui menjadi CONFIRMED.
+4. **Mengirim Ulasan (Review)**: Setelah status sewa dinyatakan selesai (COMPLETED) oleh sistem, User dapat menginput ulasan berupa rating (bintang 1-5) dan komentar pada lapangan yang telah digunakan.
+5. **Melaporkan Masalah (Report)**: User dapat menulis laporan pengaduan terkait masalah sistem, transaksi pembayaran, atau indikasi penipuan.
+
+### 3.3.3 *Activity Diagram Renter*
+Menggambarkan alur aktivitas mitra pemilik lapangan (*Renter*):
+1. **Mendaftarkan Venue Olahraga**: Renter menginput nama venue, alamat, kelurahan/kecamatan/kota, deskripsi, jadwal operasional mingguan, serta mengunggah galeri foto lokasi. Status awal venue adalah DRAFT.
+2. **Mengelola Lapangan (Fields)**: Renter menambahkan lapangan olahraga di bawah venue miliknya, memilih jenis olahraga (SportType), mengatur harga sewa per jam, serta mengunggah foto lapangan.
+3. **Melihat Dashboard & Laporan Keuangan**: Renter memantau grafik analitik total penyewaan lapangan, rincian transaksi harian, dan grafik total omzet pendapatan sewa.
+4. **Mengelola Penyewaan (Bookings)**: Renter melihat daftar pemesanan masuk untuk lapangannya dan menandai jadwal sewa yang selesai.
+
+### 3.3.4 *Activity Diagram Admin*
+Menggambarkan alur operasi administrator sistem (*Admin*):
+1. **Moderasi Venue dan Lapangan Baru**: Admin memeriksa data pengajuan venue/lapangan oleh renter baru, lalu memutuskan untuk menyetujui (APPROVED) atau menolak (REJECTED) disertai alasan penolakan.
+2. **Mengelola Master Data Olahraga**: Admin dapat menambah, mengedit, atau menghapus jenis cabang olahraga (SportType).
+3. **Mengelola Pengaduan Pengguna (Reports)**: Admin meninjau laporan keluhan pengguna, membalas laporan tersebut, dan mengubah status laporan menjadi RESOLVED setelah masalah teratasi.
+
+
+## [3.4 Implementasi *UI/UX*]()
+
+Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 App Router dengan pembagian halaman sebagai berikut:
+
+### 3.4.1 Halaman Publik (Guest)
+1. **Halaman Utama (Landing Page)**: Menampilkan banner utama, pengenalan sistem FieldMax, peta fitur, kategori olahraga pilihan, testimoni, dan bagian kaki halaman.
+2. **Halaman Pencarian Venue (/search)**: Menyediakan kolom pencarian lokasi dan filter kategori olahraga. Hasil pencarian ditampilkan dalam bentuk kartu venue interaktif.
+3. **Halaman Detail Venue & Lapangan (/venues/[id])**: Menampilkan informasi lengkap venue, foto galeri, jadwal operasional, serta daftar lapangan olahraga dengan harga sewa.
+
+### 3.4.2 Halaman Autentikasi
+1. **Halaman Login & Register (/login, /register)**: Form masuk akun dan pendaftaran dengan validasi client-side menggunakan Zod dan React Hook Form.
+2. **Halaman Lupa Password (/forgot-password, /reset-password)**: Form permintaan pengiriman tautan ganti sandi ke email dan form pengisian password baru.
+
+### 3.4.3 Dashboard Pengguna (User / Customer)
+1. **Halaman Kelola Profil (/profile)**: Mengatur data profil pribadi seperti nama lengkap, bio, alamat, nomor telepon, dan foto avatar.
+2. **Halaman Riwayat Booking (/bookings)**: Menampilkan daftar pemesanan aktif dan masa lalu. Menyediakan tombol bayar jika transaksi masih PENDING, ulasan (Review) jika status selesai, dan cetak invoice.
+3. **Halaman Laporan Keluhan (/reports)**: Form pengaduan masalah sistem atau pembayaran dan riwayat obrolan dukungan keluhan.
+
+### 3.4.4 Dashboard Mitra (Renter)
+1. **Halaman Dashboard (/renter/dashboard)**: Menampilkan rangkuman total lapangan aktif, pesanan masuk hari ini, ulasan terbaru, dan grafik tren pendapatan bulanan.
+2. **Halaman Kelola Venue (/renter/venues)**: Rincian venue milik renter, tambah/edit info venue, kelola jadwal operasional mingguan, serta upload galeri foto lokasi.
+3. **Halaman Kelola Lapangan (/renter/fields)**: CRUD data lapangan olahraga per jam sewa dan pengaturan penutupan lapangan sementara.
+
+### 3.4.5 Dashboard Administrator (Admin)
+1. **Halaman Kelola Pengguna (/admin/users)**: Menampilkan daftar pengguna (Admin, Renter, User) dengan kemampuan melakukan verifikasi data atau menonaktifkan akun.
+2. **Halaman Moderasi Pengajuan (/admin/venues, /admin/fields)**: Meninjau pendaftaran venue atau lapangan baru dari renter untuk divalidasi dan diubah statusnya menjadi APPROVED atau REJECTED.
+3. **Halaman Pengaduan Masalah (/admin/reports)**: Menampilkan keluhan masuk dari pengguna dan menyediakan form untuk merespon aduan.
+
+
+## [3.5 Pengujian Sistem]()
+
+### 3.5.1 *Black Box Testing*
+
+*Black box testing* digunakan untuk menguji fungsionalitas sistem informasi FieldMax untuk memastikan input dan output berjalan sesuai dengan skenario bisnis reservasi lapangan olahraga yang dirancang.
+
+[Tabel ]()28. Pengujian Halaman Utama & Pencarian Venue
+| No | Deskripsi Pengujian                                                 | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
+| --- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
+| 1  | Pengunjung menekan opsi cabang olahraga di landing page             | Sistem menyaring dan mengarahkan ke halaman pencarian dengan filter olahraga tersebut aktif | Berhasil        |
+| 2  | Pengunjung mengetik nama kota pada input pencarian dan menekan cari | Sistem menampilkan daftar venue olahraga yang berada di kota tersebut                       | Berhasil        |
+| 3  | Pengunjung menekan salah satu kartu venue olahraga                  | Sistem menampilkan halaman informasi detail venue, fasilitas, foto, dan lapangan            | Berhasil        |
+
+[Tabel ]()29. Pengujian Fitur Otentikasi & Akun
+| No | Deskripsi Pengujian                                                  | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
+| --- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
+| 1  | Pengguna mendaftar dengan email yang sudah terdaftar                 | Sistem memvalidasi input dan menampilkan pesan peringatan email telah digunakan             | Berhasil        |
+| 2  | Pengguna masuk (login) dengan email dan password yang sesuai         | Sistem membuat sesi login (Session) di database dan mengarahkan pengguna ke halaman beranda | Berhasil        |
+| 3  | Pengguna menekan tombol "Lupa Password" dan mengirim email pemulihan | Sistem mengirim token reset (ResetToken) ke email pengguna                                  | Berhasil        |
+
+[Tabel ]()30. Skema Reservasi Lapangan & Pembayaran (User-Side)
+| No | Deskripsi Pengujian                                                          | Hasil yang Diharapkan                                                                                           | Hasil Pengujian |
+| --- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------- |
+| 1  | User memilih tanggal sewa dan rentang waktu/jam sewa lapangan                | Sistem menghitung total tarif berdasarkan harga per jam dan memeriksa ketersediaan jam                          | Berhasil        |
+| 2  | User menekan tombol "Bayar Sekarang"                                         | Sistem membuat data booking baru (status PENDING) dan memunculkan pop-up Midtrans Snap                          | Berhasil        |
+| 3  | User menyelesaikan transaksi pembayaran pada simulasi bank transfer Midtrans | Sistem menerima webhook callback, mengubah status pembayaran menjadi PAID, dan status booking menjadi CONFIRMED | Berhasil        |
+
+[Tabel ]()31. Fitur Ulasan Lapangan & Laporan Pengaduan
+| No | Deskripsi Pengujian                                                            | Hasil yang Diharapkan                                                                     | Hasil Pengujian |
+| --- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- | --------------- |
+| 1  | User memberikan rating bintang 5 dan komentar pada pesanan berstatus COMPLETED | Ulasan tersimpan di tabel reviews dan rata-rata rating lapangan terupdate secara otomatis | Berhasil        |
+| 2  | User mengirim laporan pengaduan masalah transaksi dengan kategori PAYMENT      | Laporan tersimpan di tabel reports dengan status awal PENDING                             | Berhasil        |
+
+[Tabel ]()32. Pengelolaan Venue & Lapangan (Renter-Side)
+| No | Deskripsi Pengujian                                                       | Hasil yang Diharapkan                                                         | Hasil Pengujian |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------- |
+| 1  | Renter mengisi formulir detail lokasi venue dan jam operasional           | Data venue disimpan di database dengan status DRAFT menunggu verifikasi admin | Berhasil        |
+| 2  | Renter mengunggah foto venue olahraga                                     | Foto diproses menggunakan ImageKit SDK dan tersimpan dalam tabel venue_photos | Berhasil        |
+| 3  | Renter menambahkan lapangan olahraga baru dan mengatur harga sewa per jam | Data lapangan disimpan ke tabel fields berstatus PENDING                      | Berhasil        |
+
+[Tabel ]()33. Panel Moderasi & Administrasi (Admin-Side)
+| No | Deskripsi Pengujian                                               | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
+| --- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
+| 1  | Admin membuka panel review venue baru dan menekan tombol APPROVED | Status venue berubah menjadi APPROVED dan venue dapat dicari di halaman publik              | Berhasil        |
+| 2  | Admin membalas pesan keluhan transaksi pembayaran dari user       | Pesan tanggapan disimpan ke tabel report_replies dan memunculkan notifikasi ke user terkait | Berhasil        |
+
+
+# 
+BAB IV 
+
+KESIMPULAN DAN
+SARAN
+
+## [4.1 Kesimpulan]()
+
+Berdasarkan penelitian yang dilakukan, dapat
+diambil kesimpulan sebagai berikut.
+
+1. Perancangan dan pembangunan sistem informasi reservasi dan manajemen
+layanan penyewaan lapangan pada Platform FieldMax yang telah dilakukan
+berhasil dirancang dan diimplementasikan dengan baik sesuai dengan kebutuhan
+perusahaan. Sistem dibangun dengan menggunakan NextJS sebagai *framework
+frontend*, TailwindCSS sebagai *styling*, ExpressJS sebagai *framework
+backend*, dan PostgreSQL sebagai basis data. Sistem mampu mengakomodasi
+proses reservasi layanan dan pengelolaan layanan secara terstruktur sehingga
+dapat menggantikan proses yang sebelumnya masih manual. Dengan adanya sistem
+ini, proses operasional menjadi lebih efisien, terorganisir, dan mendukung
+peningkatan kualitas layanan penyewaan lapangan di Platform FieldMax.
+
+2. Sistem informasi berbasis web ini berhasil diuji dengan menggunakan
+metode pengujian *black box testing*. Hasil pengujian *black box testing*
+menunjukkan bahwa web berjalan dengan lancar, sehingga pengguna dapat
+menggunakan fitur-fitur yang tersedia.
+
+## [4.2 Saran]()
+
+Penelitian ini tidak lepas dari kekurangan dan
+keterbatasan. Oleh karena itu, berdasarkan hasil penelitian yang telah
+dilakukan, peneliti mengajukan beberapa saran yang dapat menjadi pertimbangan
+untuk penelitian selanjutnya.
+
+1. Penelitian berikutnya dapat menambahkan fitur pertemuan secara daring
+langsung melalui web. 
+
+2. Penelitian berikutnya dapat mempertimbangkan untuk membangun aplikasi
+berbasis *mobile.*
+
+ 
+
+# []()DAFTAR PUSTAKA
+
+Azkarin, V., Guntara, R. G., & Herdiana, O. (2023). Development of a REST API for Human Resource Information System for Employee Referral Management Domain Using the Express JS Framework and Node.js. *JSRET (Journal of Scientific, Research, Education, and Technology)*.
+
+Christanto, W., Prasida, A. S., & Fibriani, C. (2012). Perancangan dan Implementasi Sistem Reservasi Foodcourt Berbasis Web dengan Memanfaatkan Koneksi Wifi. *Jurnal Buana Informatika*. https://doi.org/https://doi.org/10.24002/jbi.v3i1.319
+
+Fathoni, I., & Asfiah, N. (2024). Transformasi Digital Bisnis UMKM di Indonesia Setelah Masa Pandemi. *INNOVATIVE: Journal Of Social Science Research*, 10219-10236.
+
+Hafiz, M., Lubis, I., & Andriana, S. D. (2023). Penerapan Payment Gateway Booking Lapangan Mini Soccer. *Djtechno : Jurnal Teknologi Informasi*, 520-533. https://doi.org/10.46576/djtechno
+
+Hasibuan, H. R., Supriatman, A., & Hidayat, C. R. (2024). Sistem Iinformasi Reservasi Penyewaan Lapangan dengan Metode Rapid Application Development. *JITET (Jurnal Informatikadan Teknik Elektro Terapan)*, 1727-1737. https://doi.org/http://dx.doi.org/10.23960/jitet.v12i3.4411
+
+Heriyanti, F., & Ishak, A. (2020). Design of logistics information system in the finished product warehouse with the waterfall method: review literature. *IOP Conf. Ser.: Mater. Sci. Eng*.
+
+Hevner, A. R., March, S. T., Park, J., & Ram, S. (2004). Design Science in Information Systems Research. *MIS Quarterly*, 75-106.
+
+Nasution, T. I., & Pane, S. M. (2025). Design and Analysis of an Integrated IoT Electronic Menu Based on The MERN Stack Website. *Journal of Technomaterial Physics*, 71-79.
+
+Pati, S., & Zaki, Y. (2025). Evaluating the Efficacy of Next.js: A Comparative Analysis with React.js on Performance, SEO, and Global Network Equity. https://doi.org/10.48550/arXiv.2502.15707
+
+Pressman, R. S. (2010). *Software Engineering A Practitioner's Approach* (7th ed.). New York: McGraw-Hill.
+
+Rahmi, E., Yumami, E., & Hidayasari, N. (2023). Analisis Metode Pengembangan Sistem Informasi Berbasis Website: Systematic Literature Review. *Remik: Riset dan E-Jurnal Manajemen Informatika Komputer*, 821-834.
+
+Salunke, S. V., & Ouda, A. (2024). A Performance Benchmark for the PostgreSQL and MySQL Databases. *Future Internet*. https://doi.org/https://doi.org/10.3390/fi16100382
+
+Shadiq, J., Safei, A., & Loly, R. W. (2021). Pengujian Aplikasi Peminjaman Kendaraan Operasional Kantor Menggunakan BlackBox Testing. *INFORMATION MANAGEMENT FOR EDUCATORS AND PROFESSIONALS*, 97-110.
+
+Siahaan, R. A., & Sianturi, R. A. (2024). Analisis Perbandingan Payment Gateway untuk Sistem Pembayaran Berbasis Aplikasi Dengan Comparative Study. *Jurnal Teknologi Informasi dan Ilmu Komputer (JTIIK)*, 291-296.
+
+Uminingsih, Ichsanudin, M. N., Yusuf, M., & Suraya. (2022). Pengujian Fungsional Perangkat Lunak Sistem Informasi Perpustakaan Dengan Metode Black Box Testing Bagi Pemula. *STORAGE-Jurnal Ilmiah Teknik dan Ilmu Komputer*.
+
+
+# [LAMPIRAN]()
+
+ 
+
+Link video pengujian
+*Black Box Testing*
+
+![](images/image141.jpg)
