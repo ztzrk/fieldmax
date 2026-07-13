@@ -134,73 +134,42 @@ Minat masyarakat yang tinggi terhadap olahraga mendorong permintaan yang besar t
 The high public interest in sports drives a significant demand for sports venue rentals. However, manual management of sports facilities often leads to operational issues, such as double bookings, record-keeping errors, delayed financial reporting, and customer difficulty in checking real-time field availability. This study aims to design and develop FieldMax, a web-based sports venue booking and management marketplace platform. FieldMax was developed using the Design Science Research (DSR) approach and the Waterfall software development life cycle (SDLC) method. The system is built as a full-stack TypeScript monorepo, separating the architecture into a Next.js (App Router) frontend, an Express.js backend, and a PostgreSQL database accessed via Prisma ORM. System security is handled using database-stored session-based authentication. Payment transactions are securely integrated via the Midtrans Snap payment gateway, media files are managed through ImageKit CDN, and system notifications are sent via Nodemailer (SMTP). System testing was conducted using the Black Box Testing method to ensure functional compatibility for three user roles: Customer (User), Venue Owner (Renter), and Administrator (Admin). The testing results demonstrate that the FieldMax platform successfully facilitates instant booking transactions, automates real-time availability updates, minimizes double-booking errors, and provides revenue data visualization for Renters. This study proves that the FieldMax platform effectively optimizes the operational efficiency of sports venue management and simplifies customer service access digitally.
 
 **Keywords:** Venue Booking, Marketplace, Next.js, Express.js, Midtrans, Design Science Research.
-# []()DAFTAR ISI
+# DAFTAR ISI ^daftar-isi
 
-**Halaman**
-
-ABSTRAK. i
-
-ABSTRACT. ii
-
-DAFTAR ISI iii
-
-DAFTAR GAMBAR. v
-
-DAFTAR TABEL. x
-
-BAB I. PENDAHULUAN. 1
-
-1.1 Latar Belakang. 1
-
-1.1 Rumusan Masalah. 3
-
-1.2 Tujuan Penlitian. 3
-
-1.3 Batasan Masalah. 3
-
-1.4 Manfaat Penelitian. 3
-
-1.5 Landasan Teori 4
-
-BAB II. METODE PENELITIAN. 13
-
-2.1 Waktu dan Lokasi Penelitian. 13
-
-2.2 Design Science Research. 13
-
-2.3 Metode Pengumpulan Data. 14
-
-2.4 Metode Pengembangan Sistem.. 15
-
-2.5 Tahapan Penelitian. 16
-
-2.6 Analisis Pengembangan Sistem.. 16
-
-2.7 Perancangan Sistem.. 19
-
-2.8 Rancangan *User Interface* (UI) 19
-
-BAB III. HASIL DAN PEMBAHASAN. 59
-
-3.1 Implementasi Sistem.. 59
-
-3.2 Implementasi Basis Data. 59
-
-3.3 Implementasi *Activity Diagram*.. 76
-
-3.4 Implementasi *UI/UX*. 116
-
-3.5 Pengujian Sistem.. 146
-
-BAB IV. KESIMPULAN DAN SARAN. 164
-
-4.1 Kesimpulan. 164
-
-4.2 Saran. 164
-
-DAFTAR PUSTAKA. 165
-
-LAMPIRAN. 167
+| Judul | Halaman |
+|---|---|
+| [ABSTRAK](#^abstrak) | i |
+| [ABSTRACT](#^abstract) | ii |
+| DAFTAR ISI | iii |
+| [DAFTAR GAMBAR](#^daftar-gambar) | v |
+| [DAFTAR TABEL](#^daftar-tabel) | x |
+| [BAB I. PENDAHULUAN](#^bab-1) | 1 |
+| [1.1 Latar Belakang](#^latar-belakang) | 1 |
+| [1.2 Rumusan Masalah](#^rumusan-masalah) | 3 |
+| [1.3 Tujuan Penelitian](#^tujuan-penelitian) | 3 |
+| [1.4 Batasan Masalah](#^batasan-masalah) | 3 |
+| [1.5 Manfaat Penelitian](#^manfaat-penelitian) | 3 |
+| [1.6 Landasan Teori](#^landasan-teori) | 4 |
+| [BAB II. METODE PENELITIAN](#^bab-2) | 13 |
+| [2.1 Waktu dan Lokasi Penelitian](#^waktu-dan-lokasi-penelitian) | 13 |
+| [2.2 Design Science Research](#^design-science-research) | 13 |
+| [2.3 Metode Pengumpulan Data](#^metode-pengumpulan-data) | 14 |
+| [2.4 Metode Pengembangan Sistem](#^metode-pengembangan-sistem) | 15 |
+| [2.5 Tahapan Penelitian](#^tahapan-penelitian) | 16 |
+| [2.6 Analisis Pengembangan Sistem](#^analisis-pengembangan-sistem) | 16 |
+| [2.7 Perancangan Sistem](#^perancangan-sistem) | 19 |
+| [2.8 Rancangan *User Interface* (UI)](#^rancangan-user-interface) | 19 |
+| [BAB III. HASIL DAN PEMBAHASAN](#^bab-3) | 59 |
+| [3.1 Implementasi Sistem](#^implementasi-sistem) | 59 |
+| [3.2 Implementasi Basis Data](#^implementasi-basis-data) | 59 |
+| [3.3 Implementasi *Activity Diagram*](#^implementasi-activity-diagram) | 76 |
+| [3.4 Implementasi *UI/UX*](#^implementasi-ui-ux) | 116 |
+| [3.5 Pengujian Sistem](#^pengujian-sistem) | 146 |
+| [BAB IV. KESIMPULAN DAN SARAN](#^bab-4) | 164 |
+| [4.1 Kesimpulan](#^kesimpulan) | 164 |
+| [4.2 Saran](#^saran) | 164 |
+| [DAFTAR PUSTAKA](#^daftar-pustaka) | 165 |
+| [LAMPIRAN](#^lampiran) | 167 |
 
  
 
@@ -208,79 +177,47 @@ LAMPIRAN. 167
 
 # DAFTAR GAMBAR ^daftar-gambar
 
-Halaman
-
-[**Gambar 1.** Kerangka *Design Science Research*](#^gambar-1)
-
-[**Gambar 2.** Tahapan dari metode waterfall](#^gambar-2)
-
-[**Gambar 3.** Kerangka Penelitian Sistem Informasi yang Digunakan Pada Penelitian Ini](#^gambar-3)
-
-[**Gambar 4.** Alur Penelitian](#^gambar-4)
-
-[**Gambar 5.** Sistem penggunaan web Platform FieldMax](#^gambar-5)
-
-[**Gambar 6.** Use Case Diagram Web Platform FieldMax](#^gambar-6)
-
-[**Gambar 7.** Relasi antar tabel](#^gambar-7)
+| Gambar | Judul Gambar |
+|---|---|
+| [**Gambar 1.**](#^gambar-1) | Kerangka *Design Science Research* |
+| [**Gambar 2.**](#^gambar-2) | Tahapan dari metode waterfall |
+| [**Gambar 3.**](#^gambar-3) | Kerangka Penelitian Sistem Informasi yang Digunakan Pada Penelitian Ini |
+| [**Gambar 4.**](#^gambar-4) | Alur Penelitian |
+| [**Gambar 5.**](#^gambar-5) | Sistem penggunaan web Platform FieldMax |
+| [**Gambar 6.**](#^gambar-6) | Use Case Diagram Web Platform FieldMax |
+| [**Gambar 7.**](#^gambar-7) | Relasi antar tabel |
 
 # DAFTAR TABEL ^daftar-tabel
 
-Halaman
-
-[**Tabel 1.** Komponen *use case diagram*](#^tabel-1)
-
-[**Tabel 2.** Komponen *activity diagram*](#^tabel-2)
-
-[**Tabel 3.** Komponen *Entity Relationship Diagram*](#^tabel-3)
-
-[**Tabel 4.** Waktu Penelitian](#^tabel-4)
-
-[**Tabel 5.** Tabel daftar Enum yang digunakan beserta nilainya](#^tabel-5)
-
-[**Tabel 6.** Tabel *users*](#^tabel-6)
-
-[**Tabel 7.** Tabel *verification_tokens*](#^tabel-7)
-
-[**Tabel 8.** Tabel *reset_tokens*](#^tabel-8)
-
-[**Tabel 9.** Tabel *user_profiles*](#^tabel-9)
-
-[**Tabel 10.** Tabel *sport_types*](#^tabel-10)
-
-[**Tabel 11.** Tabel *venues*](#^tabel-11)
-
-[**Tabel 12.** Tabel *venue_schedules*](#^tabel-12)
-
-[**Tabel 13.** Tabel *venue_photos*](#^tabel-13)
-
-[**Tabel 14.** Tabel *fields*](#^tabel-14)
-
-[**Tabel 15.** Tabel *field_photos*](#^tabel-15)
-
-[**Tabel 16.** Tabel *bookings*](#^tabel-16)
-
-[**Tabel 17.** Tabel *payments*](#^tabel-17)
-
-[**Tabel 18.** Tabel *reviews*](#^tabel-18)
-
-[**Tabel 19.** Tabel *sessions*](#^tabel-19)
-
-[**Tabel 20.** Tabel *reports*](#^tabel-20)
-
-[**Tabel 21.** Tabel *report_replies*](#^tabel-21)
-
-[**Tabel 22.** Pengujian Halaman Utama & Pencarian Venue](#^tabel-22)
-
-[**Tabel 23.** Pengujian Fitur Otentikasi & Akun](#^tabel-23)
-
-[**Tabel 24.** Skema Reservasi Lapangan & Pembayaran (User-Side)](#^tabel-24)
-
-[**Tabel 25.** Fitur Ulasan Lapangan & Laporan Pengaduan](#^tabel-25)
-
-[**Tabel 26.** Pengelolaan Venue & Lapangan (Renter-Side)](#^tabel-26)
-
-[**Tabel 27.** Panel Moderasi & Administrasi (Admin-Side)](#^tabel-27)
+| Tabel | Judul Tabel |
+|---|---|
+| [**Tabel 1.**](#^tabel-1) | Komponen *use case diagram* |
+| [**Tabel 2.**](#^tabel-2) | Komponen *activity diagram* |
+| [**Tabel 3.**](#^tabel-3) | Komponen *Entity Relationship Diagram* |
+| [**Tabel 4.**](#^tabel-4) | Waktu Penelitian |
+| [**Tabel 5.**](#^tabel-5) | Tabel daftar Enum yang digunakan beserta nilainya |
+| [**Tabel 6.**](#^tabel-6) | Tabel *users* |
+| [**Tabel 7.**](#^tabel-7) | Tabel *verification_tokens* |
+| [**Tabel 8.**](#^tabel-8) | Tabel *reset_tokens* |
+| [**Tabel 9.**](#^tabel-9) | Tabel *user_profiles* |
+| [**Tabel 10.**](#^tabel-10) | Tabel *sport_types* |
+| [**Tabel 11.**](#^tabel-11) | Tabel *venues* |
+| [**Tabel 12.**](#^tabel-12) | Tabel *venue_schedules* |
+| [**Tabel 13.**](#^tabel-13) | Tabel *venue_photos* |
+| [**Tabel 14.**](#^tabel-14) | Tabel *fields* |
+| [**Tabel 15.**](#^tabel-15) | Tabel *field_photos* |
+| [**Tabel 16.**](#^tabel-16) | Tabel *bookings* |
+| [**Tabel 17.**](#^tabel-17) | Tabel *payments* |
+| [**Tabel 18.**](#^tabel-18) | Tabel *reviews* |
+| [**Tabel 19.**](#^tabel-19) | Tabel *sessions* |
+| [**Tabel 20.**](#^tabel-20) | Tabel *reports* |
+| [**Tabel 21.**](#^tabel-21) | Tabel *report_replies* |
+| [**Tabel 22.**](#^tabel-22) | Pengujian Halaman Utama & Pencarian Venue |
+| [**Tabel 23.**](#^tabel-23) | Pengujian Fitur Otentikasi & Akun |
+| [**Tabel 24.**](#^tabel-24) | Skema Reservasi Lapangan & Pembayaran (User-Side) |
+| [**Tabel 25.**](#^tabel-25) | Fitur Ulasan Lapangan & Laporan Pengaduan |
+| [**Tabel 26.**](#^tabel-26) | Pengelolaan Venue & Lapangan (Renter-Side) |
+| [**Tabel 27.**](#^tabel-27) | Panel Moderasi & Administrasi (Admin-Side) |
 
 
 # BAB I PENDAHULUAN ^bab-1 ^bab-1
@@ -542,7 +479,24 @@ Tahapan pengembangan sistem ini menggunakan metode Waterfall, yang dimulai denga
 
 Tahap berikutnya adalah Implementation (Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi aplikasi berbasis web menggunakan teknologi React.js dan Express.js. Setelah aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai, menghasilkan Hasil Penelitian dan Kesimpulan.
 
-![](images/image018.png)
+```mermaid
+flowchart TD
+  A([Mulai]) --> B[Requirements<br>Analisis Kebutuhan]
+  B --> C[Design<br>Perancangan Sistem]
+  C --> D[Implementation<br>Implementasi]
+  D --> E{Testing<br>Memenuhi?}
+  E -->|Ya| F[Hasil Penelitian<br>& Kesimpulan]
+  F --> G([Selesai])
+  E -->|Tidak / Umpan Balik| B
+
+  style A fill:#d5e8d4,stroke:#82b366
+  style B fill:#dae8fc,stroke:#6c8ebf
+  style C fill:#dae8fc,stroke:#6c8ebf
+  style D fill:#dae8fc,stroke:#6c8ebf
+  style E fill:#fff2cc,stroke:#d6b656
+  style F fill:#e1d5e7,stroke:#9673a6
+  style G fill:#d5e8d4,stroke:#82b366
+```
 
 **Gambar 4.** Alur Penelitian ^gambar-4
 
@@ -554,7 +508,23 @@ Berdasarkan hasil observasi dan studi literasi, ditemukan beberapa permasalahan 
 
 Kemudian, terjadi penurunan efektivitas manajemen serta memperlambat proses pengambilan keputusan yang strategis. Oleh karena itu, pengembangan sebuah sistem informasi berbasis web yang terpusat dan terintegrasi, yang mampu mengelola proses booking dan manajemen layanan penyewaan lapangan, sangat diperlukan untuk mengatasi masalah-masalah tersebut. Sistem ini diharapkan dapat memberikan kemudahan bagi pelanggan dalam melakukan pemesanan layanan, sekaligus membantu pihak internal Platform FieldMax dalam pengelolaan layanan dan reservasinya.
 
-![](images/image019.png)
+```mermaid
+flowchart LR
+  Admin[<b>Admin</b><br>Moderasi Venue & Lapangan<br>Kelola Sport Type<br>Tangani Pengaduan]
+  Renter[<b>Renter</b><br>Kelola Venue & Lapangan<br>Atur Jadwal & Harga<br>Dashboard Pendapatan]
+  User[<b>User</b><br>Cari & Reservasi Lapangan<br>Bayar via Midtrans<br>Ulasan & Laporan]
+
+  Platform[<b>Web Platform FieldMax</b><br>Next.js · Express.js<br>PostgreSQL · Midtrans]
+
+  Admin <--> Platform
+  Renter <--> Platform
+  User <--> Platform
+
+  style Admin fill:#dae8fc,stroke:#6c8ebf
+  style Renter fill:#d5e8d4,stroke:#82b366
+  style User fill:#fff2cc,stroke:#d6b656
+  style Platform fill:#f5f5f5,stroke:#666
+```
 
 **Gambar 5.** Sistem penggunaan web FieldMax  ^gambar-5
 
@@ -656,6 +626,7 @@ Berikut adalah tabel-tabel penyusun basis data sistem informasi FieldMax:
 
 #### 1. **Tabel 6.** Tabel *users* ^tabel-6
 Berisi data otentikasi akun pengguna.
+
 | Nama Field   | Tipe Field    | Keterangan              | Default    |
 | ------------ | ------------- | ----------------------- | ---------- |
 | id           | String (UUID) | Primary Key             | uuid()     |
@@ -669,6 +640,7 @@ Berisi data otentikasi akun pengguna.
 
 #### 2. **Tabel 7.** Tabel *verification_tokens* ^tabel-7
 Digunakan untuk mencatat token aktivasi email.
+
 | Nama Field | Tipe Field | Keterangan             | Default    |
 | ---------- | ---------- | ---------------------- | ---------- |
 | identifier | String     | Email/identitas user   | No Default |
@@ -677,6 +649,7 @@ Digunakan untuk mencatat token aktivasi email.
 
 #### 3. **Tabel 8.** Tabel *reset_tokens* ^tabel-8
 Digunakan untuk mencatat token penggantian sandi.
+
 | Nama Field | Tipe Field    | Keterangan              | Default    |
 | ---------- | ------------- | ----------------------- | ---------- |
 | id         | String (UUID) | Primary Key             | uuid()     |
@@ -687,6 +660,7 @@ Digunakan untuk mencatat token penggantian sandi.
 
 #### 4. **Tabel 9.** Tabel *user_profiles* ^tabel-9
 Menyimpan data profil user atau profil usaha milik renter.
+
 | Nama Field          | Tipe Field    | Keterangan                            | Default  |
 | ------------------- | ------------- | ------------------------------------- | -------- |
 | user_id             | String (UUID) | Primary Key & Foreign Key ke users.id | uuid()   |
@@ -701,6 +675,7 @@ Menyimpan data profil user atau profil usaha milik renter.
 
 #### 5. **Tabel 10.** Tabel *sport_types* ^tabel-10
 Daftar jenis cabang olahraga lapangan.
+
 | Nama Field | Tipe Field    | Keterangan                   | Default    |
 | ---------- | ------------- | ---------------------------- | ---------- |
 | id         | String (UUID) | Primary Key                  | uuid()     |
@@ -708,6 +683,7 @@ Daftar jenis cabang olahraga lapangan.
 
 #### 6. **Tabel 11.** Tabel *venues* ^tabel-11
 Lokasi tempat penyewaan lapangan olahraga.
+
 | Nama Field       | Tipe Field         | Keterangan               | Default    |
 | ---------------- | ------------------ | ------------------------ | ---------- |
 | id               | String (UUID)      | Primary Key              | uuid()     |
@@ -725,6 +701,7 @@ Lokasi tempat penyewaan lapangan olahraga.
 
 #### 7. **Tabel 12.** Tabel *venue_schedules* ^tabel-12
 Jadwal buka-tutup venue olahraga.
+
 | Nama Field  | Tipe Field    | Keterangan                                | Default    |
 | ----------- | ------------- | ----------------------------------------- | ---------- |
 | id          | String (UUID) | Primary Key                               | uuid()     |
@@ -735,6 +712,7 @@ Jadwal buka-tutup venue olahraga.
 
 #### 8. **Tabel 13.** Tabel *venue_photos* ^tabel-13
 Galeri foto dari lokasi venue.
+
 | Nama Field  | Tipe Field    | Keterangan                    | Default    |
 | ----------- | ------------- | ----------------------------- | ---------- |
 | id          | String (UUID) | Primary Key                   | uuid()     |
@@ -745,6 +723,7 @@ Galeri foto dari lokasi venue.
 
 #### 9. **Tabel 14.** Tabel *fields* ^tabel-14
 Data detail lapangan olahraga di dalam venue.
+
 | Nama Field       | Tipe Field         | Keterangan                    | Default    |
 | ---------------- | ------------------ | ----------------------------- | ---------- |
 | id               | String (UUID)      | Primary Key                   | uuid()     |
@@ -760,6 +739,7 @@ Data detail lapangan olahraga di dalam venue.
 
 #### 10. **Tabel 15.** Tabel *field_photos* ^tabel-15
 Foto-foto pendukung detail lapangan.
+
 | Nama Field  | Tipe Field    | Keterangan               | Default    |
 | ----------- | ------------- | ------------------------ | ---------- |
 | id          | String (UUID) | Primary Key              | uuid()     |
@@ -770,6 +750,7 @@ Foto-foto pendukung detail lapangan.
 
 #### 11. **Tabel 16.** Tabel *bookings* ^tabel-16
 Data transaksi pemesanan lapangan oleh pengguna.
+
 | Nama Field   | Tipe Field    | Keterangan               | Default    |
 | ------------ | ------------- | ------------------------ | ---------- |
 | id           | String (UUID) | Primary Key              | uuid()     |
@@ -784,6 +765,7 @@ Data transaksi pemesanan lapangan oleh pengguna.
 
 #### 12. **Tabel 17.** Tabel *payments* ^tabel-17
 Informasi transaksi pembayaran booking lapangan via Midtrans Snap.
+
 | Nama Field           | Tipe Field    | Keterangan                          | Default    |
 | -------------------- | ------------- | ----------------------------------- | ---------- |
 | id                   | String (UUID) | Primary Key                         | uuid()     |
@@ -797,6 +779,7 @@ Informasi transaksi pembayaran booking lapangan via Midtrans Snap.
 
 #### 13. **Tabel 18.** Tabel *reviews* ^tabel-18
 Ulasan dan rating lapangan olahraga oleh penyewa.
+
 | Nama Field | Tipe Field    | Keterangan                          | Default    |
 | ---------- | ------------- | ----------------------------------- | ---------- |
 | id         | String (UUID) | Primary Key                         | uuid()     |
@@ -809,6 +792,7 @@ Ulasan dan rating lapangan olahraga oleh penyewa.
 
 #### 14. **Tabel 19.** Tabel *sessions* ^tabel-19
 Mencatat session pengguna untuk sistem otentikasi.
+
 | Nama Field | Tipe Field | Keterangan               | Default    |
 | ---------- | ---------- | ------------------------ | ---------- |
 | id         | String     | Primary Key              | No Default |
@@ -817,6 +801,7 @@ Mencatat session pengguna untuk sistem otentikasi.
 
 #### 15. **Tabel 20.** Tabel *reports* ^tabel-20
 Penyimpanan keluhan/pengaduan masalah dari pengguna.
+
 | Nama Field  | Tipe Field     | Keterangan                | Default    |
 | ----------- | -------------- | ------------------------- | ---------- |
 | id          | String (UUID)  | Primary Key               | uuid()     |
@@ -830,6 +815,7 @@ Penyimpanan keluhan/pengaduan masalah dari pengguna.
 
 #### 16. **Tabel 21.** Tabel *report_replies* ^tabel-21
 Tanggapan atau obrolan penyelesaian keluhan pengguna.
+
 | Nama Field | Tipe Field    | Keterangan                   | Default    |
 | ---------- | ------------- | ---------------------------- | ---------- |
 | id         | String (UUID) | Primary Key                  | uuid()     |
@@ -912,6 +898,7 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 *Black box testing* digunakan untuk menguji fungsionalitas sistem informasi FieldMax untuk memastikan input dan output berjalan sesuai dengan skenario bisnis reservasi lapangan olahraga yang dirancang.
 
 **Tabel 22.** Pengujian Halaman Utama & Pencarian Venue ^tabel-22
+
 | No | Deskripsi Pengujian                                                 | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
 | --- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
 | 1  | Pengunjung menekan opsi cabang olahraga di landing page             | Sistem menyaring dan mengarahkan ke halaman pencarian dengan filter olahraga tersebut aktif | Berhasil        |
@@ -919,6 +906,7 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 | 3  | Pengunjung menekan salah satu kartu venue olahraga                  | Sistem menampilkan halaman informasi detail venue, fasilitas, foto, dan lapangan            | Berhasil        |
 
 **Tabel 23.** Pengujian Fitur Otentikasi & Akun ^tabel-23
+
 | No | Deskripsi Pengujian                                                  | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
 | --- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
 | 1  | Pengguna mendaftar dengan email yang sudah terdaftar                 | Sistem memvalidasi input dan menampilkan pesan peringatan email telah digunakan             | Berhasil        |
@@ -926,6 +914,7 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 | 3  | Pengguna menekan tombol "Lupa Password" dan mengirim email pemulihan | Sistem mengirim token reset (ResetToken) ke email pengguna                                  | Berhasil        |
 
 **Tabel 24.** Skema Reservasi Lapangan & Pembayaran (User-Side) ^tabel-24
+
 | No | Deskripsi Pengujian                                                          | Hasil yang Diharapkan                                                                                           | Hasil Pengujian |
 | --- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------- |
 | 1  | User memilih tanggal sewa dan rentang waktu/jam sewa lapangan                | Sistem menghitung total tarif berdasarkan harga per jam dan memeriksa ketersediaan jam                          | Berhasil        |
@@ -933,12 +922,14 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 | 3  | User menyelesaikan transaksi pembayaran pada simulasi bank transfer Midtrans | Sistem menerima webhook callback, mengubah status pembayaran menjadi PAID, dan status booking menjadi CONFIRMED | Berhasil        |
 
 **Tabel 25.** Fitur Ulasan Lapangan & Laporan Pengaduan ^tabel-25
+
 | No | Deskripsi Pengujian                                                            | Hasil yang Diharapkan                                                                     | Hasil Pengujian |
 | --- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- | --------------- |
 | 1  | User memberikan rating bintang 5 dan komentar pada pesanan berstatus COMPLETED | Ulasan tersimpan di tabel reviews dan rata-rata rating lapangan terupdate secara otomatis | Berhasil        |
 | 2  | User mengirim laporan pengaduan masalah transaksi dengan kategori PAYMENT      | Laporan tersimpan di tabel reports dengan status awal PENDING                             | Berhasil        |
 
 **Tabel 26.** Pengelolaan Venue & Lapangan (Renter-Side) ^tabel-26
+
 | No | Deskripsi Pengujian                                                       | Hasil yang Diharapkan                                                         | Hasil Pengujian |
 | --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------- |
 | 1  | Renter mengisi formulir detail lokasi venue dan jam operasional           | Data venue disimpan di database dengan status DRAFT menunggu verifikasi admin | Berhasil        |
@@ -946,6 +937,7 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 | 3  | Renter menambahkan lapangan olahraga baru dan mengatur harga sewa per jam | Data lapangan disimpan ke tabel fields berstatus PENDING                      | Berhasil        |
 
 **Tabel 27.** Panel Moderasi & Administrasi (Admin-Side) ^tabel-27
+
 | No | Deskripsi Pengujian                                               | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
 | --- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
 | 1  | Admin membuka panel review venue baru dan menekan tombol APPROVED | Status venue berubah menjadi APPROVED dan venue dapat dicari di halaman publik              | Berhasil        |
@@ -972,7 +964,7 @@ Penelitian ini tidak lepas dari kekurangan dan keterbatasan. Oleh karena itu, be
 
  
 
-# []()DAFTAR PUSTAKA
+# DAFTAR PUSTAKA ^daftar-pustaka
 
 Azkarin, V., Guntara, R. G., & Herdiana, O. (2023). Development of a REST API for Human Resource Information System for Employee Referral Management Domain Using the Express JS Framework and Node.js. *JSRET (Journal of Scientific, Research, Education, and Technology)*.
 
