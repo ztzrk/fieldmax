@@ -72,3 +72,6 @@ pnpm-lock.yaml
 .gemini/
 
 .agents/
+
+# Local configuration files
+opencode.json
