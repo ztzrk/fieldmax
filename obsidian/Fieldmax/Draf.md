@@ -124,13 +124,13 @@ MAKASSAR
 
  
 
-# [ABSTRAK]()
+# ABSTRAK
 
  
 
  
 
-# [ABSTRACT]()
+# ABSTRACT
 
  
 
@@ -142,75 +142,75 @@ MAKASSAR
 
 **Halaman**
 
-[ABSTRAK. i](#_Toc220541843)
+ABSTRAK. i
 
-[ABSTRACT. ii](#_Toc220541844)
+ABSTRACT. ii
 
-[DAFTAR ISI iii](#_Toc220541845)
+DAFTAR ISI iii
 
-[DAFTAR GAMBAR. v](#_Toc220541846)
+DAFTAR GAMBAR. v
 
-[DAFTAR TABEL. x](#_Toc220541847)
+DAFTAR TABEL. x
 
-[BAB I. PENDAHULUAN. 1](#_Toc220541848)
+BAB I. PENDAHULUAN. 1
 
-[1.1 Latar Belakang. 1](#_Toc220541849)
+1.1 Latar Belakang. 1
 
-[1.1 Rumusan Masalah. 3](#_Toc220541850)
+1.1 Rumusan Masalah. 3
 
-[1.2 Tujuan Penlitian. 3](#_Toc220541851)
+1.2 Tujuan Penlitian. 3
 
-[1.3 Batasan Masalah. 3](#_Toc220541852)
+1.3 Batasan Masalah. 3
 
-[1.4 Manfaat Penelitian. 3](#_Toc220541853)
+1.4 Manfaat Penelitian. 3
 
-[1.5 Landasan Teori 4](#_Toc220541854)
+1.5 Landasan Teori 4
 
-[BAB II. METODE PENELITIAN. 13](#_Toc220541855)
+BAB II. METODE PENELITIAN. 13
 
-[2.1 Waktu dan Lokasi Penelitian. 13](#_Toc220541856)
+2.1 Waktu dan Lokasi Penelitian. 13
 
-[2.2 Design Science Research. 13](#_Toc220541857)
+2.2 Design Science Research. 13
 
-[2.3 Metode Pengumpulan Data. 14](#_Toc220541858)
+2.3 Metode Pengumpulan Data. 14
 
-[2.4 Metode Pengembangan Sistem.. 15](#_Toc220541859)
+2.4 Metode Pengembangan Sistem.. 15
 
-[2.5 Tahapan Penelitian. 16](#_Toc220541860)
+2.5 Tahapan Penelitian. 16
 
-[2.6 Analisis Pengembangan Sistem.. 16](#_Toc220541861)
+2.6 Analisis Pengembangan Sistem.. 16
 
-[2.7 Perancangan Sistem.. 19](#_Toc220541862)
+2.7 Perancangan Sistem.. 19
 
-[2.8 Rancangan *User Interface* (UI) 19](#_Toc220541863)
+2.8 Rancangan *User Interface* (UI) 19
 
-[BAB III. HASIL DAN PEMBAHASAN. 59](#_Toc220541864)
+BAB III. HASIL DAN PEMBAHASAN. 59
 
-[3.1 Implementasi Sistem.. 59](#_Toc220541865)
+3.1 Implementasi Sistem.. 59
 
-[3.2 Implementasi Basis Data. 59](#_Toc220541866)
+3.2 Implementasi Basis Data. 59
 
-[3.3 Implementasi *Activity Diagram*.. 76](#_Toc220541867)
+3.3 Implementasi *Activity Diagram*.. 76
 
-[3.4 Implementasi *UI/UX*. 116](#_Toc220541868)
+3.4 Implementasi *UI/UX*. 116
 
-[3.5 Pengujian Sistem.. 146](#_Toc220541869)
+3.5 Pengujian Sistem.. 146
 
-[BAB IV. KESIMPULAN DAN SARAN. 164](#_Toc220541870)
+BAB IV. KESIMPULAN DAN SARAN. 164
 
-[4.1 Kesimpulan. 164](#_Toc220541871)
+4.1 Kesimpulan. 164
 
-[4.2 Saran. 164](#_Toc220541872)
+4.2 Saran. 164
 
-[DAFTAR PUSTAKA. 165](#_Toc220541873)
+DAFTAR PUSTAKA. 165
 
-[LAMPIRAN. 167](#_Toc220541874)
-
- 
+LAMPIRAN. 167
 
  
 
-# [DAFTAR GAMBAR]()
+ 
+
+# DAFTAR GAMBAR
 
 Halaman
 
@@ -228,7 +228,7 @@ Halaman
 
 [**Gambar 7.** Relasi antar tabel](#gambar-7)
 
-# [DAFTAR TABEL]()
+# DAFTAR TABEL
 
 Halaman
 
@@ -291,179 +291,73 @@ BAB I �[]()
 
 PENDAHULUAN
 
-## [1.1 Latar Belakang]()
+## 1.1 Latar Belakang
 
-Olahraga telah menjadi bagian penting dari
-gaya hidup masyarakat modern. Kesadaran akan pentingnya kesehatan mendorong
-peningkatan minat masyarakat terhadap aktivitas fisik, seperti futsal,
-badminton, basket, dan sepak bola mini. Peningkatan minat ini sejalan dengan
-meningkatnya permintaan akan fasilitas olahraga yang memadai. Bagi para
-pengelola fasilitas olahraga, hal ini merupakan peluang bisnis yang
-menjanjikan, namun juga menghadirkan tantangan dalam hal operasional dan
-manajemen pelayanan.
+Olahraga telah menjadi bagian penting dari gaya hidup masyarakat modern. Kesadaran akan pentingnya kesehatan mendorong peningkatan minat masyarakat terhadap aktivitas fisik, seperti futsal, badminton, basket, dan sepak bola mini. Peningkatan minat ini sejalan dengan meningkatnya permintaan akan fasilitas olahraga yang memadai. Bagi para pengelola fasilitas olahraga, hal ini merupakan peluang bisnis yang menjanjikan, namun juga menghadirkan tantangan dalam hal operasional dan manajemen pelayanan.
 
-Saat ini, masih banyak penyedia jasa penyewaan
-lapangan olahraga yang menggunakan sistem konvensional atau manual dalam proses
-bisnisnya, seperti pencatatan pada buku agenda dan pemesanan melalui telepon
-atau aplikasi pesan singkat (WhatsApp). Metode ini memiliki kelemahan yang
-berdampak pada efisiensi operasional. Menurut penelitian Nadjamuddin (2023),
-penggunaan sistem manual sering menyulitkan pelanggan dalam mengetahui jadwal
-yang tersedia secara pasti dan membebani admin atau pengelola dalam mengolah data
-pemesanan. Permasalahan klasik seperti jadwal bersamaan (double booking),
-kesalahan pencatatan, dan lambatnya rekapitulasi laporan pendapatan menjadi
-kendala utama yang dihadapi oleh pengelola fasilitas olahraga (Ratama et al.,
-2022).
+Saat ini, masih banyak penyedia jasa penyewaan lapangan olahraga yang menggunakan sistem konvensional atau manual dalam proses bisnisnya, seperti pencatatan pada buku agenda dan pemesanan melalui telepon atau aplikasi pesan singkat (WhatsApp). Metode ini memiliki kelemahan yang berdampak pada efisiensi operasional. Menurut penelitian Nadjamuddin (2023), penggunaan sistem manual sering menyulitkan pelanggan dalam mengetahui jadwal yang tersedia secara pasti dan membebani admin atau pengelola dalam mengolah data pemesanan. Permasalahan klasik seperti jadwal bersamaan (double booking), kesalahan pencatatan, dan lambatnya rekapitulasi laporan pendapatan menjadi kendala utama yang dihadapi oleh pengelola fasilitas olahraga (Ratama et al., 2022).
 
-Selain itu, dari sisi pelanggan (User),
-ketiadaan platform terpusat membuat mereka kesulitan untuk mengakses informasi
-fasilitas dan melakukan pemesanan secara fleksibel. Saat ini, pelanggan
-menuntut kemudahan akses informasi dan transaksi yang cepat tanpa terikat waktu
-dan tempat. Sebagaimana dikemukakan oleh Nurhakim dkk. (2023), implementasi
-sistem informasi berbasis web bertujuan untuk memudahkan pemesanan secara
-daring, meningkatkan efisiensi operasional, serta meningkatkan kepuasan
-pelanggan melalui pelayanan yang lebih transparan dan responsif. Transformasi
-digital ini menjadi solusi strategis untuk memudahkan akses informasi antara
-kebutuhan pengguna akan fleksibilitas dan kebutuhan pengelola akan manajemen
-yang teratur.
+Selain itu, dari sisi pelanggan (User), ketiadaan platform terpusat membuat mereka kesulitan untuk mengakses informasi fasilitas dan melakukan pemesanan secara fleksibel. Saat ini, pelanggan menuntut kemudahan akses informasi dan transaksi yang cepat tanpa terikat waktu dan tempat. Sebagaimana dikemukakan oleh Nurhakim dkk. (2023), implementasi sistem informasi berbasis web bertujuan untuk memudahkan pemesanan secara daring, meningkatkan efisiensi operasional, serta meningkatkan kepuasan pelanggan melalui pelayanan yang lebih transparan dan responsif. Transformasi digital ini menjadi solusi strategis untuk memudahkan akses informasi antara kebutuhan pengguna akan fleksibilitas dan kebutuhan pengelola akan manajemen yang teratur.
 
-Berdasarkan permasalahan tersebut, diperlukan
-adanya solusi berupa sistem informasi terintegrasi yang dapat menampung
-kebutuhan kedua belah pihak. Penelitian terbaru oleh Fortunata dan
-Cahyaningtyas (2023) menunjukkan bahwa pengembangan sistem penyewaan lapangan
-berbasis web terbukti memudahkan pelanggan dalam melakukan penyewaan dan
-membantu pemilik dalam mengelola data sewa secara lebih terstruktur.
+Berdasarkan permasalahan tersebut, diperlukan adanya solusi berupa sistem informasi terintegrasi yang dapat menampung kebutuhan kedua belah pihak. Penelitian terbaru oleh Fortunata dan Cahyaningtyas (2023) menunjukkan bahwa pengembangan sistem penyewaan lapangan berbasis web terbukti memudahkan pelanggan dalam melakukan penyewaan dan membantu pemilik dalam mengelola data sewa secara lebih terstruktur.
 
-Oleh karena itu, penelitian ini mengusulkan
-"Rancang Bangun Sistem Informasi Penyewaan dan Pengelolaan Lapangan
-Olahraga Berbasis Web". Sistem ini, yang kemudian dinamakan FieldMax,
-dirancang untuk memiliki fitur banyak role yang memfasilitasi Pemilik Fasilitas
-(Renter) dalam mengelola jadwal, lapangan, dan laporan transaksi, serta
-memudahkan Pelanggan (User) dalam melakukan pencarian, pengecekan ketersediaan
-jadwal secara real-time, dan pemesanan lapangan. Implementasi sistem ini
-diharapkan dapat menjadi solusi efisien untuk mengurangi kesalahan operasional
-dan meningkatkan kualitas layanan penyewaan fasilitas olahraga.
+Oleh karena itu, penelitian ini mengusulkan "Rancang Bangun Sistem Informasi Penyewaan dan Pengelolaan Lapangan Olahraga Berbasis Web". Sistem ini, yang kemudian dinamakan FieldMax, dirancang untuk memiliki fitur banyak role yang memfasilitasi Pemilik Fasilitas (Renter) dalam mengelola jadwal, lapangan, dan laporan transaksi, serta memudahkan Pelanggan (User) dalam melakukan pencarian, pengecekan ketersediaan jadwal secara real-time, dan pemesanan lapangan. Implementasi sistem ini diharapkan dapat menjadi solusi efisien untuk mengurangi kesalahan operasional dan meningkatkan kualitas layanan penyewaan fasilitas olahraga.
 
-## [1.1 Rumusan Masalah]()
+## 1.1 Rumusan Masalah
 
-Berdasarkan latar belakang yang telah
-diuraikan, adapun rumusan masalah yang akan dibahas dalam penelitian ini yaitu
-sebagai berikut:
+Berdasarkan latar belakang yang telah diuraikan, adapun rumusan masalah yang akan dibahas dalam penelitian ini yaitu sebagai berikut:
 
  
-1. Bagaimana merancang dan membangun sistem informasi penyewaan
- lapangan olahraga berbasis web yang dapat menggantikan pencatatan manual?
+1. Bagaimana merancang dan membangun sistem informasi penyewaan lapangan olahraga berbasis web yang dapat menggantikan pencatatan manual?
  
-2. Bagaimana mengatasi masalah jadwal yang konflik (double booking)
- dan ketidakpastian ketersediaan lapangan yang sering dialami oleh
- pelanggan dan pengelola?
+2. Bagaimana mengatasi masalah jadwal yang konflik (double booking) dan ketidakpastian ketersediaan lapangan yang sering dialami oleh pelanggan dan pengelola?
  
-3. Bagaimana menyediakan platform terintegrasi yang memudahkan
- pengelola (Renter) dalam manajemen data transaksi dan laporan pendapatan,
- serta memudahkan pelanggan (User) dalam pencarian dan pemesanan lapangan?
+3. Bagaimana menyediakan platform terintegrasi yang memudahkan pengelola (Renter) dalam manajemen data transaksi dan laporan pendapatan, serta memudahkan pelanggan (User) dalam pencarian dan pemesanan lapangan?
 
-## [1.2 Tujuan Penlitian]()
+## 1.2 Tujuan Penlitian
 
-Tujuan yang ingin dicapai dari penelitian ini
-yaitu:
+Tujuan yang ingin dicapai dari penelitian ini yaitu:
 
-1. Merancang dan mengimplementasikan aplikasi berbasis web yang dapat
-menggantikan peran buku agenda dan komunikasi manual (WhatsApp) dalam proses
-pencatatan reservasi, sehingga data tersimpan secara digital, aman, dan
-terstruktur
+1. Merancang dan mengimplementasikan aplikasi berbasis web yang dapat menggantikan peran buku agenda dan komunikasi manual (WhatsApp) dalam proses pencatatan reservasi, sehingga data tersimpan secara digital, aman, dan terstruktur
 
-2. 
-Menyediakan fitur pengecekan jadwal ketersediaan
-lapangan secara real-time yang dapat diakses langsung oleh pelanggan, guna
-memastikan tidak ada dua pemesanan pada waktu dan lapangan yang sama.
+2. Menyediakan fitur pengecekan jadwal ketersediaan lapangan secara real-time yang dapat diakses langsung oleh pelanggan, guna memastikan tidak ada dua pemesanan pada waktu dan lapangan yang sama.
 
-3. Menghasilkan platform terpadu (FieldMax) yang mampu memberikan
-kemudahan bagi pemilik fasilitas (Renter) dalam mengelola operasional bisnis
-dan laporan, sekaligus memberikan kemudahan bagi pengguna (User) dalam mencari
-informasi lapangan dan melakukan transaksi pemesanan secara mandiri.
+3. Menghasilkan platform terpadu (FieldMax) yang mampu memberikan kemudahan bagi pemilik fasilitas (Renter) dalam mengelola operasional bisnis dan laporan, sekaligus memberikan kemudahan bagi pengguna (User) dalam mencari informasi lapangan dan melakukan transaksi pemesanan secara mandiri.
 
-## [1.3 Batasan Masalah]()
+## 1.3 Batasan Masalah
 
-Dalam penelitian ini, ada beberapa batasan
-yang ditetapkan untuk menjaga agar fokus penelitian tetap jelas dan untuk
-memastikan hasil yang sesuai dengan tujuan yang diinginkan, yaitu:
+Dalam penelitian ini, ada beberapa batasan yang ditetapkan untuk menjaga agar fokus penelitian tetap jelas dan untuk memastikan hasil yang sesuai dengan tujuan yang diinginkan, yaitu:
 
  
-1. Sistem ini dibangun berbasis Web (Website)
- menggunakan teknolog Next.js dan dapat diakses melalui browser pada
- perangkat desktop maupun mobile (responsif), namun tidak berupa aplikasi
- native (Android/iOS).
+1. Sistem ini dibangun berbasis Web (Website) menggunakan teknolog Next.js dan dapat diakses melalui browser pada perangkat desktop maupun mobile (responsif), namun tidak berupa aplikasi native (Android/iOS).
  
-2. Basis data dari sistem aplikasi ini menggunakan
- PostgreSQL
+2. Basis data dari sistem aplikasi ini menggunakan PostgreSQL
  
-3. Sistem tidak membahas manajemen
- keuangan/akuntansi yang mendalam (seperti neraca atau arus kas
- perusahaan), melainkan hanya menyediakan rekapitulasi laporan pendapatan
- transaksi penyewaan.
+3. Sistem tidak membahas manajemen keuangan/akuntansi yang mendalam (seperti neraca atau arus kas perusahaan), melainkan hanya menyediakan rekapitulasi laporan pendapatan transaksi penyewaan.
 
-## [1.4 Manfaat Penelitian]()
+## 1.4 Manfaat Penelitian
 
-Manfaat yang didapatkan dari penelitian ini,
-yaitu yaitu:
+Manfaat yang didapatkan dari penelitian ini, yaitu yaitu:
 
-1. Adanya sistem yang terintegrasi untuk proses reservasi, pembayaran, dan
-manajemen layanan penyewaan lapangan.
+1. Adanya sistem yang terintegrasi untuk proses reservasi, pembayaran, dan manajemen layanan penyewaan lapangan.
 
-2. Makin mudahnya proses pemesanan layanan reservasi bagi calon user
-layanan penyewaan lapangan di Platform FieldMax.
+2. Makin mudahnya proses pemesanan layanan reservasi bagi calon user layanan penyewaan lapangan di Platform FieldMax.
 
-## [1.5 Landasan Teori]()
+## 1.5 Landasan Teori
 
 ### 1.5.1 Sistem Informasi Berbasis Web
 
-Sistem informasi merupakan serangkaian
-kegiatan mengumpulkan, mengolah, menganalisis, serta mendistribusikan informasi
-yang dapat digunakan untuk mencapai tujuan tertentu, yang biasanya terdiri dari
-beberapa komponen di dalamnya meliputi manusia, perangkat keras, perangkat
-lunak, dan basis data. Dengan sistem informasi, proses komunikasi, transaksi,
-kegiatan operasional, manajerial, hingga pengambilan keputusan dapat menjadi
-lebih akurat dan tepat. Di sisi lain, web adalah kumpulan halaman yang di dalamnya
-terdiri dari berbagai macam bentuk informasi, seperti teks, gambar, video, dan
-elemen multimedia lainnya yang dapat diakses kapan saja dan di mana saja
-melalui jaringan internet (Rahmi et al., 2023).
+Sistem informasi merupakan serangkaian kegiatan mengumpulkan, mengolah, menganalisis, serta mendistribusikan informasi yang dapat digunakan untuk mencapai tujuan tertentu, yang biasanya terdiri dari beberapa komponen di dalamnya meliputi manusia, perangkat keras, perangkat lunak, dan basis data. Dengan sistem informasi, proses komunikasi, transaksi, kegiatan operasional, manajerial, hingga pengambilan keputusan dapat menjadi lebih akurat dan tepat. Di sisi lain, web adalah kumpulan halaman yang di dalamnya terdiri dari berbagai macam bentuk informasi, seperti teks, gambar, video, dan elemen multimedia lainnya yang dapat diakses kapan saja dan di mana saja melalui jaringan internet (Rahmi et al., 2023).
 
-Sistem informasi berbasis web, berarti
-sistem informasi yang dibangun diwujudkan dalam bentuk web. Adanya hal ini
-diharapkan dapat memberikan banyak manfaat, terutama dari segi efisiensi karena
-dapat mengotomatisasi pekerjaan dan memudahkan proses bisnis, yang dalam kasus
-ini untuk sistem reservasi lapangan olahraga dan manajemen penyedia lapangan
-(renter) pada platform FieldMax..
+Sistem informasi berbasis web, berarti sistem informasi yang dibangun diwujudkan dalam bentuk web. Adanya hal ini diharapkan dapat memberikan banyak manfaat, terutama dari segi efisiensi karena dapat mengotomatisasi pekerjaan dan memudahkan proses bisnis, yang dalam kasus ini untuk sistem reservasi lapangan olahraga dan manajemen penyedia lapangan (renter) pada platform FieldMax..
 
 ### 1.5.2 Reservasi Lapangan Olahraga
 
-Reservasi merupakan sebuah proses pemesanan
-produk baik barang maupun jasa yang pada saat itu telah terdapat kesepahaman
-antara konsumen dengan produsen mengenai produk tersebut. Selama berlangsungnya
-proses reservasi biasanya ditandai dengan adanya proses tukar menukar informasi
-antara konsumen dan produsen atau penyedia jasa agar pemahaman akan produk dan
-cara pemesanannya dapat tercapai (Christanto et al., 2012). Proses reservasi
-ini dimungkinkan dilakukan secara daring, sehingga memungkinkan pengguna melakukan
-pemesanan secara fleksibel tanpa perlu datang langsung ke lokasi layanan.
-Selain untuk memudahkan akses bagi pengguna, sistem ini juga mendukung dari
-sisi internal pemilik lapangan (sebagai penyedia fasilitas), untuk
-pengoptimalan dari sisi tata kelola waktu dan sumber daya operasional.
-Penerapan reservasi secara daring pada berbagai fasilitas olahraga menunjukkan
-bahwa penggunaan sistem ini dapat meningkatkan efektivitas pelayanan dengan
-mengurangi waktu tunggu, menghindari bentrok jadwal (double booking), dan
-memperbaiki keseluruhan alur penyewaan.
+Reservasi merupakan sebuah proses pemesanan produk baik barang maupun jasa yang pada saat itu telah terdapat kesepahaman antara konsumen dengan produsen mengenai produk tersebut. Selama berlangsungnya proses reservasi biasanya ditandai dengan adanya proses tukar menukar informasi antara konsumen dan produsen atau penyedia jasa agar pemahaman akan produk dan cara pemesanannya dapat tercapai (Christanto et al., 2012). Proses reservasi ini dimungkinkan dilakukan secara daring, sehingga memungkinkan pengguna melakukan pemesanan secara fleksibel tanpa perlu datang langsung ke lokasi layanan. Selain untuk memudahkan akses bagi pengguna, sistem ini juga mendukung dari sisi internal pemilik lapangan (sebagai penyedia fasilitas), untuk pengoptimalan dari sisi tata kelola waktu dan sumber daya operasional. Penerapan reservasi secara daring pada berbagai fasilitas olahraga menunjukkan bahwa penggunaan sistem ini dapat meningkatkan efektivitas pelayanan dengan mengurangi waktu tunggu, menghindari bentrok jadwal (double booking), dan memperbaiki keseluruhan alur penyewaan.
 
  
 
-Adapun sistem reservasi pada layanan
-olahraga tidak hanya berfungsi untuk mengatur jadwal penyewaan lapangan, tetapi
-juga mendukung pengelolaan data pengguna, ketersediaan fasilitas lapangan,
-serta rekapitulasi operasional renter. Penelitian mengenai sistem informasi
-reservasi layanan berbasis web menunjukkan bahwa penerapan sistem tersebut
-mampu meningkatkan efisiensi pelayanan, mempermudah proses pemesanan jadwal sewa,
-serta membantu manajemen tempat olahraga dalam mengelola operasional secara
-lebih sistematis dan terkontrol (Hasibuan et al., 2024). Sehingga reservasi
-lapangan olahraga dapat diartikan sebagai sistem pemesanan dan penyewaan secara
-daring di dalam domain fasilitas olahraga.
+Adapun sistem reservasi pada layanan olahraga tidak hanya berfungsi untuk mengatur jadwal penyewaan lapangan, tetapi juga mendukung pengelolaan data pengguna, ketersediaan fasilitas lapangan, serta rekapitulasi operasional renter. Penelitian mengenai sistem informasi reservasi layanan berbasis web menunjukkan bahwa penerapan sistem tersebut mampu meningkatkan efisiensi pelayanan, mempermudah proses pemesanan jadwal sewa, serta membantu manajemen tempat olahraga dalam mengelola operasional secara lebih sistematis dan terkontrol (Hasibuan et al., 2024). Sehingga reservasi lapangan olahraga dapat diartikan sebagai sistem pemesanan dan penyewaan secara daring di dalam domain fasilitas olahraga.
 
 ### 1.5.3 Layanan Penyewaan Lapangan di FieldMax
 
@@ -475,422 +369,117 @@ Sebelum adanya platform ini, proses penyewaan fasilitas olahraga pada umumnya ma
 
 #### 1. Next.js.
 
-Next.js merupakan
-kerangka kerja (framework) berbasis pustaka (library) React.js yang mempermudah
-pengembangan aplikasi web modern yang mendukung Search Engine Optimization
-(SEO). Framework ini dirancang untuk meminimalkan masalah performa pada
-aplikasi yang hanya menggunakan Client-Side Rendering (CSR) ataupun Server-Side
-Rendering (SSR) dengan mengombinasikan keduanya. Selain SSR dan CSR, framework
-ini juga menyediakan beragam fitur bawaan yang lain, seperti Static Site
-Generation (SSG), dynamic routing, dan lain sebagainya, sehingga proses pembangunan
-bagian antar-muka aplikasi dapat lebih efisien (Pati & Zaki, 2025).
+Next.js merupakan kerangka kerja (framework) berbasis pustaka (library) React.js yang mempermudah pengembangan aplikasi web modern yang mendukung Search Engine Optimization (SEO). Framework ini dirancang untuk meminimalkan masalah performa pada aplikasi yang hanya menggunakan Client-Side Rendering (CSR) ataupun Server-Side Rendering (SSR) dengan mengombinasikan keduanya. Selain SSR dan CSR, framework ini juga menyediakan beragam fitur bawaan yang lain, seperti Static Site Generation (SSG), dynamic routing, dan lain sebagainya, sehingga proses pembangunan bagian antar-muka aplikasi dapat lebih efisien (Pati & Zaki, 2025).
 
-Dengan adanya fitur tersebut, pengembang
-dapat menentukan proses rendering sesuai kebutuhan, dilakukan pada saat
-permintaan diterima (SSR), pada saat proses build (SSG), pada saat sudah sampai
-di client-side (CSR) atau dengan mengombinasikannya. Oleh karena itu, Next.js
-menjadi salah satu pilihan krusial untuk menangani bagian Front End dari sistem
-ini. Kombinasi yang dibawa oleh Next.js mampu menjadikan library React.js, yang
-basisnya hanya pada client-side, memiliki kapabilitas optimal hingga keramahan
-yang baik terhadap performa SEO secara menyeluruh..
+Dengan adanya fitur tersebut, pengembang dapat menentukan proses rendering sesuai kebutuhan, dilakukan pada saat permintaan diterima (SSR), pada saat proses build (SSG), pada saat sudah sampai di client-side (CSR) atau dengan mengombinasikannya. Oleh karena itu, Next.js menjadi salah satu pilihan krusial untuk menangani bagian Front End dari sistem ini. Kombinasi yang dibawa oleh Next.js mampu menjadikan library React.js, yang basisnya hanya pada client-side, memiliki kapabilitas optimal hingga keramahan yang baik terhadap performa SEO secara menyeluruh..
 
 #### 2. Express.js.
 
-Express.js merupakan salah satu framework
-pengembangan aplikasi sisi antarmuka (backend) Node.js yang paling populer,
-minimal, dan fleksibel, menyediakan serangkaian fitur tangguh untuk web maupun
-Application Programming Interface (API) (Nasution & Pane, 2025). Express.js
-berjalan di sisi server platform Node.js, memungkinkan pengembang membangun
-lingkungan RESTful API yang cepat, efisien, serta sangat mudah diskalakan
-sesuai kebutuhan fungsional user. Framework ini bekerja menggunakan arsitektur
-yang mengutamakan kecepatan pemrosesan dan pola pertukaran data secara aman
-(Azkarin et al., 2023).
+Express.js merupakan salah satu framework pengembangan aplikasi sisi antarmuka (backend) Node.js yang paling populer, minimal, dan fleksibel, menyediakan serangkaian fitur tangguh untuk web maupun Application Programming Interface (API) (Nasution & Pane, 2025). Express.js berjalan di sisi server platform Node.js, memungkinkan pengembang membangun lingkungan RESTful API yang cepat, efisien, serta sangat mudah diskalakan sesuai kebutuhan fungsional user. Framework ini bekerja menggunakan arsitektur yang mengutamakan kecepatan pemrosesan dan pola pertukaran data secara aman (Azkarin et al., 2023).
 
 #### 3. PostgreSQL.
 
-PostgreSQL merupakan salah satu
-Relational Database Management System (RDBMS) sumber terbuka yang populer.
-PostgreSQL versi terbaru memprioritaskan fokus pada tingkatan performa,
-dukungan paralelisme kueri komputasi kompleks, serta relasi deployment berbasis
-layanan awan (cloud). Repositori PostgreSQL menyediakan ragam tipe data dari
-standar format SQL, tipe array, hingga ekstensi penyimpanan semantik JSON untuk
-fleksibilitas komprehensif terhadap basis data.
+PostgreSQL merupakan salah satu Relational Database Management System (RDBMS) sumber terbuka yang populer. PostgreSQL versi terbaru memprioritaskan fokus pada tingkatan performa, dukungan paralelisme kueri komputasi kompleks, serta relasi deployment berbasis layanan awan (cloud). Repositori PostgreSQL menyediakan ragam tipe data dari standar format SQL, tipe array, hingga ekstensi penyimpanan semantik JSON untuk fleksibilitas komprehensif terhadap basis data.
 
-Keunggulan PostgreSQL terdapat di
-mekanisme implementasi Multi-Version Concurrency Control (MVCC) beserta
-arsitektur pengindekan berlapis. Berkat MVCC, PostgreSQL sanggup menoleransi
-beragam instruksi transaksi data dari pengguna platform yang berinteraksi dalam
-satu waktu secara bersamaan, sehingga ketersediaan akses data (availability)
-pada platform tetap optimal meski dalam trafik request yang tajam dan tak
-terprediksi dari user. Mekanisme ini menjamin operasi tabel data secara
-transaksional yang saling tertutup dari intervensi transaksi pihak lain
-(Salunke & Ouda, 2024).
+Keunggulan PostgreSQL terdapat di mekanisme implementasi Multi-Version Concurrency Control (MVCC) beserta arsitektur pengindekan berlapis. Berkat MVCC, PostgreSQL sanggup menoleransi beragam instruksi transaksi data dari pengguna platform yang berinteraksi dalam satu waktu secara bersamaan, sehingga ketersediaan akses data (availability) pada platform tetap optimal meski dalam trafik request yang tajam dan tak terprediksi dari user. Mekanisme ini menjamin operasi tabel data secara transaksional yang saling tertutup dari intervensi transaksi pihak lain (Salunke & Ouda, 2024).
 
 #### 4. *Payment Gateway.*
 
-Payment gateway merupakan teknologi jembatan
-perantara fungsional untuk memfasilitasi proses transaksi pembayaran non-tunai
-yang aman secara sistem antara sistem bisnis digital dengan pihak pelanggan,
-yang biasanya disertai sistem intelijen untuk mendeteksi penipuan siber. Saat
-ini, payment gateway krusial pemanfaatannya di bermacam inovasi elektronik dan
-digital. Dalam konteks sistem e-commerce dan reservasi layanan, sistem ini
-sanggup mempermudah transaksi beragam ragam metode pembayaran konvensional dari
-dompet kelab ke rekening bank dalam satu platform tanpa celah verifikasi palsu.
-Pengguna melakukan pembelajaan via platform, memilih vendor, dan selanjutnya
-diinisiasikan pihak pemroses (processor) hingga payment gateway bertugas
-meneruskan verifikasi approval penyelesaian akhir kepada sistem (Siahaan &
-Sianturi, 2024).
+Payment gateway merupakan teknologi jembatan perantara fungsional untuk memfasilitasi proses transaksi pembayaran non-tunai yang aman secara sistem antara sistem bisnis digital dengan pihak pelanggan, yang biasanya disertai sistem intelijen untuk mendeteksi penipuan siber. Saat ini, payment gateway krusial pemanfaatannya di bermacam inovasi elektronik dan digital. Dalam konteks sistem e-commerce dan reservasi layanan, sistem ini sanggup mempermudah transaksi beragam ragam metode pembayaran konvensional dari dompet kelab ke rekening bank dalam satu platform tanpa celah verifikasi palsu. Pengguna melakukan pembelajaan via platform, memilih vendor, dan selanjutnya diinisiasikan pihak pemroses (processor) hingga payment gateway bertugas meneruskan verifikasi approval penyelesaian akhir kepada sistem (Siahaan & Sianturi, 2024).
 
-Hal tersebut tecermin nyata di dalam
-arsitektur penelitian ini. Payment gateway berfungsi mengurus jalur pertukaran
-keuangan yang diajukan oleh pengguna FieldMax untuk menyewa lapangan secara
-beragam rupa pembayaran digital instan. Begitu inisiasi transaksi berlangsung
-dan diakhiri lewat pembayaran berhasil, webhook server pembayaran akan
-menyampaikan status perintah agar FieldMax langsung mengubah status pesanan
-PENDING menjadi PAID, maupun jika melebihi tenggatnya bertransisi kepada
-EXPIRED/CANCELLED.
+Hal tersebut tecermin nyata di dalam arsitektur penelitian ini. Payment gateway berfungsi mengurus jalur pertukaran keuangan yang diajukan oleh pengguna FieldMax untuk menyewa lapangan secara beragam rupa pembayaran digital instan. Begitu inisiasi transaksi berlangsung dan diakhiri lewat pembayaran berhasil, webhook server pembayaran akan menyampaikan status perintah agar FieldMax langsung mengubah status pesanan PENDING menjadi PAID, maupun jika melebihi tenggatnya bertransisi kepada EXPIRED/CANCELLED.
 
-Payment gateway yang dimanfaatkan di
-riset sistem FieldMax adalah Midtrans. Midtrans merupakan penyedia
-infrastruktur payment gateway terintegrasi yang paling terkemuka di tanah air.
-Pilihan medium digital yang luas (mulai dari Virtual Account, QRIS, Dompet
-digital, GoPay, dan lainnya) memudahkan konektivitas Application Programming
-Interface (API) yang mulus di sisi aplikasi tanpa hambatan manual. Efisiensi
-luar biasa terasa pada mitigasi pengawasan riwayat pendapatan transaksi pemilik
-venue, pemberitahuan realisasi real-time, hingga mengikis potensi salah
-verifikasi dari pihak sistem manual reservasi lapangan (Hafiz et al., 2023)..
+Payment gateway yang dimanfaatkan di riset sistem FieldMax adalah Midtrans. Midtrans merupakan penyedia infrastruktur payment gateway terintegrasi yang paling terkemuka di tanah air. Pilihan medium digital yang luas (mulai dari Virtual Account, QRIS, Dompet digital, GoPay, dan lainnya) memudahkan konektivitas Application Programming Interface (API) yang mulus di sisi aplikasi tanpa hambatan manual. Efisiensi luar biasa terasa pada mitigasi pengawasan riwayat pendapatan transaksi pemilik venue, pemberitahuan realisasi real-time, hingga mengikis potensi salah verifikasi dari pihak sistem manual reservasi lapangan (Hafiz et al., 2023)..
 
 ### 1.5.5 Pemodelan Sistem Berbasis UML
 
-*Unified Modeling Language* (UML) merupakan cara pemodelan berbasis gambar untuk kebutuhan visualisasi,
-perumusan, pembangunan, serta pendokumentasian dari sebuah sistem (Pressman, 2010). Oleh karena itu, UML dapat dikatakan
-sebagai, standar penyusunan *blueprint* sistem, mulai dari pemodelan
-proses bisnis hingga berbagai komponen yang dibutuhkan dalam pengembangan
-sebuah perangkat lunak. Beberapa komponennya yang digunakan dalam penelitian
-ini meliputi: 
+*Unified Modeling Language* (UML) merupakan cara pemodelan berbasis gambar untuk kebutuhan visualisasi, perumusan, pembangunan, serta pendokumentasian dari sebuah sistem (Pressman, 2010). Oleh karena itu, UML dapat dikatakan sebagai, standar penyusunan *blueprint* sistem, mulai dari pemodelan proses bisnis hingga berbagai komponen yang dibutuhkan dalam pengembangan sebuah perangkat lunak. Beberapa komponennya yang digunakan dalam penelitian ini meliputi:
 
 #### 1. *Use Case Diagram.*
 
-*Use Case Diagram*
-adalah salah satu pemodelan untuk perilaku (behavior) sistem yang akan dibuat,
-di mana ia menguraikan interaksi antara satu atau lebih aktor dengan sistem.
-Diagram ini menggambarkan urutan interaksi yang saling berkaitan antara sistem
-dan aktor dari perspektif pengguna (*external view*). Tujuannya adalah
-mendefinisikan batas-batas sistem dan mengorganisasi persyaratan fungsional,
-serta mengetahui fungsi apa saja yang ada di dalam sistem dan aktor yang berhak
-menggunakan fungsi-fungsi tersebut.
+*Use Case Diagram* adalah salah satu pemodelan untuk perilaku (behavior) sistem yang akan dibuat, di mana ia menguraikan interaksi antara satu atau lebih aktor dengan sistem. Diagram ini menggambarkan urutan interaksi yang saling berkaitan antara sistem dan aktor dari perspektif pengguna (*external view*). Tujuannya adalah mendefinisikan batas-batas sistem dan mengorganisasi persyaratan fungsional, serta mengetahui fungsi apa saja yang ada di dalam sistem dan aktor yang berhak menggunakan fungsi-fungsi tersebut.
 
 <a id="tabel-1"></a>**Tabel 1.** Komponen *use case diagram*
 
- 
- 
- 
-
- 
-
- 
-
- 
- 
- 
- 
-
-![](images/image002.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image003.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image004.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image005.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image006.png)
-
- 
-
- 
-
- 
-| SIMBOL | NAMA           | KETERANGAN                                                                                                            |
-| ------ | -------------- | --------------------------------------------------------------------------------------------------------------------- |
-|        | Actor          | Mewakili peran orang, sistem yang lain, atau alat ketika berinteraksi dengan use case                                 |
-|        | Use Case       | Abstraksi dan interaksi antara sistem dan aktor                                                                       |
-|        | Association    | Abstraksi dari penghubung antara actor dengan use case                                                                |
-|        | Generalization | Menunjukkan spesialisasi actor untuk dapat berpartisipasi dengan use case                                             |
-|        | Include        | Menunjukkan bahwa suatu use case tambahan merupakan fungsionalitas dari use case lainnya jika suatu kondisi terpenuhi |
+| SIMBOL | NAMA | KETERANGAN |
+| :---: | :--- | :--- |
+| <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg> | Actor | Mewakili peran orang, sistem yang lain, atau alat ketika berinteraksi dengan use case |
+| <svg width="40" height="20" viewBox="0 0 40 20"><ellipse cx="20" cy="10" rx="18" ry="8" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Use Case | Abstraksi dan interaksi antara sistem dan aktor |
+| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="38" y2="10" stroke="currentColor" stroke-width="2"/></svg> | Association | Abstraksi dari penghubung antara actor dengan use case |
+| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="30" y2="10" stroke="currentColor" stroke-width="2"/><polygon points="30,6 38,10 30,14" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Generalization | Menunjukkan spesialisasi actor untuk dapat berpartisipasi dengan use case |
+| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="30" y2="10" stroke="currentColor" stroke-width="2" stroke-dasharray="3,3"/><polygon points="30,6 38,10 30,14" fill="currentColor"/></svg> | Include | Menunjukkan bahwa suatu use case tambahan merupakan fungsionalitas dari use case lainnya jika suatu kondisi terpenuhi |
 
 #### 2. *Activity Diagram.*
 
-*Activity Diagram*
-adalah pemodelan yang dilakukan pada suatu sistem untuk menggambarkan aktivitas
-sistem berjalan dan merepresentasikan aliran proses atau alur kerja (*workflow*).
-Diagram ini sangat mirip dengan *flowchart* karena memodelkan alur kerja
-dari satu aktivitas ke aktivitas lainnya atau dari aktivitas ke status,
-termasuk di dalamnya keputusan-keputusan yang mungkin terjadi. Diagram ini
-memodelkan proses bisnis dan urutan aktivitas dalam sebuah proses.
+*Activity Diagram* adalah pemodelan yang dilakukan pada suatu sistem untuk menggambarkan aktivitas sistem berjalan dan merepresentasikan aliran proses atau alur kerja (*workflow*). Diagram ini sangat mirip dengan *flowchart* karena memodelkan alur kerja dari satu aktivitas ke aktivitas lainnya atau dari aktivitas ke status, termasuk di dalamnya keputusan-keputusan yang mungkin terjadi. Diagram ini memodelkan proses bisnis dan urutan aktivitas dalam sebuah proses.
 
 <a id="tabel-2"></a>**Tabel 2.** Komponen *activity diagram*
 
- 
- 
- 
-
- 
-
- 
-
- 
- 
- 
- 
-
-![](images/image007.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image008.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image009.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image010.png)
-
- 
-
- 
-
- 
-| SIMBOL | NAMA        | KETERANGAN                                                                                |
-| ------ | ----------- | ----------------------------------------------------------------------------------------- |
-|        | Start Point | Titik awal bagaimana objek diawali atau dibentuk                                          |
-|        | End Point   | Titik akhir objek                                                                         |
-|        | Activities  | Memperlihatkan bagaimana masing masing antarmuka kelas saling berinteraksi satu sama lain |
-|        | Decision    | Menggambarkan suatu Keputusan atau tindakan yang harus diambil pada kondisi tertentu      |
+| SIMBOL | NAMA | KETERANGAN |
+| :---: | :--- | :--- |
+| <svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg> | Start Point | Titik awal bagaimana objek diawali atau dibentuk |
+| <svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="10" cy="10" r="4" fill="currentColor"/></svg> | End Point | Titik akhir objek |
+| <svg width="40" height="20" viewBox="0 0 40 20"><rect x="2" y="2" width="36" height="16" rx="5" ry="5" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Activities | Memperlihatkan bagaimana masing masing antarmuka kelas saling berinteraksi satu sama lain |
+| <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="10,2 18,10 10,18 2,10" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Decision | Menggambarkan suatu Keputusan atau tindakan yang harus diambil pada kondisi tertentu |
 
 #### 3. *Entity Relationship Diagram *(ERD)*.*
 
-*Entity Relationship Diagram* (ERD) adalah diagram yang berbentuk notasi grafis yang merupakan salah
-satu alat utama dalam perancangan basis data. ERD memodelkan struktur data
-secara konseptual, yang mendeskripsikan hubungan antara data-data yang saling
-berhubungan. ERD adalah tahap dasar dalam membuat database dan merupakan teknik
-perancangan yang paling banyak digunakan karena semua entitas, atribut, dan
-relasinya harus dirancang secara lengkap dan detail.
+*Entity Relationship Diagram* (ERD) adalah diagram yang berbentuk notasi grafis yang merupakan salah satu alat utama dalam perancangan basis data. ERD memodelkan struktur data secara konseptual, yang mendeskripsikan hubungan antara data-data yang saling berhubungan. ERD adalah tahap dasar dalam membuat database dan merupakan teknik perancangan yang paling banyak digunakan karena semua entitas, atribut, dan relasinya harus dirancang secara lengkap dan detail.
 
 <a id="tabel-3"></a>**Tabel 3.** Komponen *Entity Relationship Diagram*
 
- 
- 
- 
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image011.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image012.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image013.png)
-
- 
-
- 
-
- 
- 
- 
-
-![](images/image014.png)
-
- 
-
- 
-
- 
- 
-| SIMBOL | NAMA                | KETERANGAN                                                                                                |
-| ------ | ------------------- | --------------------------------------------------------------------------------------------------------- |
-|        | Entity              | Merupakan suatu simbol untuk mewakili suatu objek dengan karakteristik sama yang dilengkapi oleh atribut. |
-|        | Attribute           | Merupakan suatu simbol yang menjelaskan suatu entitas karakteristik dan juga relasinya.                   |
-|        | Strong Relationship | Menggambarkan hubungan beberapa entitas berdasarkan fakta pada suatu lingkungan.                          |
-|        | Connection          | Menggambarkan keterkaitan antara simbol berupa garis penghubung                                           |
+| SIMBOL | NAMA | KETERANGAN |
+| :---: | :--- | :--- |
+| <svg width="40" height="20" viewBox="0 0 40 20"><rect x="2" y="2" width="36" height="16" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Entity | Merupakan suatu simbol untuk mewakili suatu objek dengan karakteristik sama yang dilengkapi oleh atribut. |
+| <svg width="40" height="20" viewBox="0 0 40 20"><ellipse cx="20" cy="10" rx="18" ry="8" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Attribute | Merupakan suatu simbol yang menjelaskan suatu entitas karakteristik dan juga relasinya. |
+| <svg width="30" height="20" viewBox="0 0 30 20"><polygon points="15,2 27,10 15,18 3,10" stroke="currentColor" stroke-width="2" fill="none"/></svg> | Strong Relationship | Menggambarkan hubungan beberapa entitas berdasarkan fakta pada suatu lingkungan. |
+| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="38" y2="10" stroke="currentColor" stroke-width="2"/></svg> | Connection | Menggambarkan keterkaitan antara simbol berupa garis penghubung |
 
  
 
 ### 1.5.6 Ruang Lingkup Penelitian Sistem Informasi
 
-Terdapat ruang lingkup penelitian sistem
-informasi yang terdiri dari Environment, IS Research, dan Technology seperti
-yang dapat dilihat berikut.
+Terdapat ruang lingkup penelitian sistem informasi yang terdiri dari Environment, IS Research, dan Technology seperti yang dapat dilihat berikut.
 
 ![Design science research in information systems according to [33] | Download Scientific Diagram](images/image015.png)
 
 <a id="gambar-1"></a>**Gambar 1.** Kerangka *Design Science Research*
 
-Pada bagian *Environment* atau lingkungan,
-mencerminkan konteks permasalahan penelitian muncul. Lingkungan terdiri atas *people*
-(manusia), *organizations* (organisasi), dan *technology* (teknologi).
-Di dalam lingkungan terdapat tujuan, tugas, permasalahan, dan peluang yang
-membentuk kebutuhan bisnis organisasi. Lingkungan inilah yang mendefinisikan
-ruang permasalahan dan memastikan bahwa penelitian yang dilakukan memiliki
-relevansi praktis.
+Pada bagian *Environment* atau lingkungan, mencerminkan konteks permasalahan penelitian muncul. Lingkungan terdiri atas *people* (manusia), *organizations* (organisasi), dan *technology* (teknologi). Di dalam lingkungan terdapat tujuan, tugas, permasalahan, dan peluang yang membentuk kebutuhan bisnis organisasi. Lingkungan inilah yang mendefinisikan ruang permasalahan dan memastikan bahwa penelitian yang dilakukan memiliki relevansi praktis.
 
-Bagian *Knowledge Base* mencakup
-teori, konsep, model, metode, dan lain sebagainya yang menjadi landasan ilmiah
-yang digunakan dalam proses penelitian. Bagian ini berfungsi sebagai sumber *rigor*
-ilmiah, yaitu sebagai landasan utama untuk memastikan bahwa desain dan evaluasi
-dilakukan secara sistematis dan dapat dipertanggungjawabkan secara akademik.
+Bagian *Knowledge Base* mencakup teori, konsep, model, metode, dan lain sebagainya yang menjadi landasan ilmiah yang digunakan dalam proses penelitian. Bagian ini berfungsi sebagai sumber *rigor* ilmiah, yaitu sebagai landasan utama untuk memastikan bahwa desain dan evaluasi dilakukan secara sistematis dan dapat dipertanggungjawabkan secara akademik.
 
-Adapun *IS Research* yang terletak di
-antara *Environment* dan *Knowledge Base*, merupakan fase peneliti
-merancang dan mengevaluasi artefak sistem informasi untuk menjawab kebutuhan
-bisnis yang ada. Proses ini didasarkan dari masalah yang telah diuraikan pada
-bagian *Environtment *dan beberapa teori penyelesaian yang diuraikan pada
-bagian *Knowledge Base*. Proses ini menghasilkan kontribusi ilmiah berupa
-artefak yang tervalidasi serta pengetahuan baru yang dapat digunakan kembali
-pada konteks serupa (Hevner et al., 2004).
+Adapun *IS Research* yang terletak di antara *Environment* dan *Knowledge Base*, merupakan fase peneliti merancang dan mengevaluasi artefak sistem informasi untuk menjawab kebutuhan bisnis yang ada. Proses ini didasarkan dari masalah yang telah diuraikan pada bagian *Environtment *dan beberapa teori penyelesaian yang diuraikan pada bagian *Knowledge Base*. Proses ini menghasilkan kontribusi ilmiah berupa artefak yang tervalidasi serta pengetahuan baru yang dapat digunakan kembali pada konteks serupa (Hevner et al., 2004).
 
 ### 1.5.7 Metode Pengembangan (*Waterfall*)
 
-Metode waterfall merupakan salah satu metode
-dalam *System Development Life Cycle* (SDLC). Metode ini memiliki ciri
-khas bahwa setiap tahap harus diselesaikan terlebih dahulu sebelum melanjutkan
-ke tahap berikutnya. Dengan alur tersebut, fokus pada tiap fase dapat
-dimaksimalkan karena tidak ada pengerjaan paralel. Metode waterfall juga bersifat
-rekursif, karena setiap tahapnya dapat diulang kembali tanpa batas sampai
-mencapai hasil yang optimal (Heriyanti & Ishak, 2020).
+Metode waterfall merupakan salah satu metode dalam *System Development Life Cycle* (SDLC). Metode ini memiliki ciri khas bahwa setiap tahap harus diselesaikan terlebih dahulu sebelum melanjutkan ke tahap berikutnya. Dengan alur tersebut, fokus pada tiap fase dapat dimaksimalkan karena tidak ada pengerjaan paralel. Metode waterfall juga bersifat rekursif, karena setiap tahapnya dapat diulang kembali tanpa batas sampai mencapai hasil yang optimal (Heriyanti & Ishak, 2020).
 
 ![](images/image016.png)
 
 <a id="gambar-2"></a>**Gambar 2.** Tahapan dari metode waterfall
 
-1.***Requirement***, tahap ini merupakan tahap
-awal untuk menetapkan spesifikasi kebutuhan perangkat lunak. Pada fase ini,
-analis sistem dan analis bisnis berdiskusi untuk menentukan kebutuhan
-fungsional, seperti mendeskripsikan interaksi pengguna dengan sistem, maupun
-non-fungsional, yang meliputi reliabilitas, skalabilitas, kemudahan pengujian,
-standar kualitas dan lain sebagainya.
+1.***Requirement***, tahap ini merupakan tahap awal untuk menetapkan spesifikasi kebutuhan perangkat lunak. Pada fase ini, analis sistem dan analis bisnis berdiskusi untuk menentukan kebutuhan fungsional, seperti mendeskripsikan interaksi pengguna dengan sistem, maupun non-fungsional, yang meliputi reliabilitas, skalabilitas, kemudahan pengujian, standar kualitas dan lain sebagainya.
 
-2.***Design***, tahap
-ini merupakan perencanaan dan perancangan solusi perangkat lunak. Pengembang
-dan desainer sistem menetapkan rancangan solusi yang mencakup perancangan
-algoritma, basis data, hingga desain antarmuka pengguna.
+2.***Design***, tahap ini merupakan perencanaan dan perancangan solusi perangkat lunak. Pengembang dan desainer sistem menetapkan rancangan solusi yang mencakup perancangan algoritma, basis data, hingga desain antarmuka pengguna.
 
-3.***Implementation***,
-fase ini merupakan tahap penulisan kode program hingga menghasilkan aplikasi
-yang dapat dijalankan. Pada tahap ini juga dibuat basis data dan file-file yang
-dibutuhkan aplikasi.
+3.***Implementation***, fase ini merupakan tahap penulisan kode program hingga menghasilkan aplikasi yang dapat dijalankan. Pada tahap ini juga dibuat basis data dan file-file yang dibutuhkan aplikasi.
 
-4.***Verification***,
-tahap pengujian atau verifikasi dan validasi, yaitu proses memastikan apakah
-perangkat lunak memenuhi spesifikasi dan kebutuhan awal, serta benar-benar
-dapat digunakan sesuai tujuan yang ditetapkan.
+4.***Verification***, tahap pengujian atau verifikasi dan validasi, yaitu proses memastikan apakah perangkat lunak memenuhi spesifikasi dan kebutuhan awal, serta benar-benar dapat digunakan sesuai tujuan yang ditetapkan.
 
-5.***Maintenance***, tahap pemeliharaan bertujuan
-memperbaiki kesalahan atau bug yang tidak ditemukan pada fase sebelumnya serta
-melakukan penyesuaian jika diperlukan.
+5.***Maintenance***, tahap pemeliharaan bertujuan memperbaiki kesalahan atau bug yang tidak ditemukan pada fase sebelumnya serta melakukan penyesuaian jika diperlukan.
 
 ### 1.5.8 *Black Box Testing*
 
-*Black Box Testing*
-dalam pengembangan perangkat lunak merupakan metode pengujian yang dilakukan
-untuk menilai aplikasi dari sisi luar, seperti antarmuka, fungsi-fungsi yang
-tersedia, dan kesesuaiannya dengan kebutuhan yang telah dirancang sebelumnya. *Black Box Testing* dilakukan dari sudut pandang pengguna akhir. Metode
-ini tidak memerlukan penguji untuk memahami bahasa pemrograman tertentu,
-sehingga pengujiannya dilakukan berdasarkan perspektif pengguna. Hal itu
-dilakukan agar penguji dapat mengidentifikasi inkonsistensi dari kebutuhan
-awal. Kemudian pengembang dan penguji juga masih tetap dapat bekerja sama (Uminingsih et al., 2022). 
+*Black Box Testing* dalam pengembangan perangkat lunak merupakan metode pengujian yang dilakukan untuk menilai aplikasi dari sisi luar, seperti antarmuka, fungsi-fungsi yang tersedia, dan kesesuaiannya dengan kebutuhan yang telah dirancang sebelumnya. *Black Box Testing* dilakukan dari sudut pandang pengguna akhir. Metode ini tidak memerlukan penguji untuk memahami bahasa pemrograman tertentu, sehingga pengujiannya dilakukan berdasarkan perspektif pengguna. Hal itu dilakukan agar penguji dapat mengidentifikasi inkonsistensi dari kebutuhan awal. Kemudian pengembang dan penguji juga masih tetap dapat bekerja sama (Uminingsih et al., 2022).
 
-Dalam *Black Box Testing* pengujian
-berfokus pada spesifikasi fungsional dari perangkat lunak, penguji dapat
-mendefinisikan kondisi-kondisi input dan melakukan pengujian pada fitur
-aplikasi. Proses pengujianya adalah mencoba program yang telah dibuat dengan
-memasukkan data pada setiap form yang ada atau menekan tombol untuk mengetahui
-aksinya sudah sesuai dengan ekspektasi atau tidak. Pengujian seperti ini
-diperlukan untuk mengetahui program tersebut sudah berjalan sesuai dengan yang
-dibutuhkan oleh perusahaan (Shadiq et al., 2021).
+Dalam *Black Box Testing* pengujian berfokus pada spesifikasi fungsional dari perangkat lunak, penguji dapat mendefinisikan kondisi-kondisi input dan melakukan pengujian pada fitur aplikasi. Proses pengujianya adalah mencoba program yang telah dibuat dengan memasukkan data pada setiap form yang ada atau menekan tombol untuk mengetahui aksinya sudah sesuai dengan ekspektasi atau tidak. Pengujian seperti ini diperlukan untuk mengetahui program tersebut sudah berjalan sesuai dengan yang dibutuhkan oleh perusahaan (Shadiq et al., 2021).
 
-# []() 
-BAB II 
+# BAB II METODE PENELITIAN
 
-METODE PENELITIAN
+## 2.1 Waktu dan Lokasi Penelitian
 
-## [2.1 Waktu dan Lokasi Penelitian]()
-
-Penelitian ini dilaksanakan pada bulan Juli
-2025 sampai bulan November 2025.
+Penelitian ini dilaksanakan pada bulan Juli 2025 sampai bulan November 2025.
 
 <a id="tabel-4"></a>**Tabel 4.** Waktu Penelitian
 
@@ -1264,14 +853,9 @@ Penelitian ini dilaksanakan pada bulan Juli
 | 6 | Maintenance        |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
 |   |                    |      |         |           |         |          |   |   |   |   |   |   |   |   |   |   |   |   |   |  |  |  |
 
-## [2.2 Design Science Research]()
+## 2.2 Design Science Research
 
-Berikut ini adalah gambaran Kerangka *Information
-Systems Research Framework* yang digunakan dalam penelitian ini. Konsep
-metode penelitian ini menggunakan Design Science Research yang sering digunakan
-dalam Penelitian Sistem Informasi (Hevner et al., 2004). Berikut pada gambar 3
-menjelaskan kerangka penelitian sistem informasi yang digunakan pada penelitian
-ini.
+Berikut ini adalah gambaran Kerangka *Information Systems Research Framework* yang digunakan dalam penelitian ini. Konsep metode penelitian ini menggunakan Design Science Research yang sering digunakan dalam Penelitian Sistem Informasi (Hevner et al., 2004). Berikut pada gambar 3 menjelaskan kerangka penelitian sistem informasi yang digunakan pada penelitian ini.
 
 ![](images/image017.png)
 
@@ -1279,136 +863,61 @@ ini.
 
  
 
-Pada aspek environment terdiri dari *People*
-(orang), *Organizations* (organisasi), dan *Technology* (teknologi). *People*
-(orang) mencakup admin, renter, dan juga user dari website ini. *Organizations*
-yang terlibat yaitu Platform FieldMax. Kemudian, *Technology*
-yang digunakan dalam penelitian adalah Visual Studio Code, Tailwind CSS, TypeScript,
-Next.js, Express.js, dan Figma. 
+Pada aspek environment terdiri dari *People* (orang), *Organizations* (organisasi), dan *Technology* (teknologi). *People* (orang) mencakup admin, renter, dan juga user dari website ini. *Organizations* yang terlibat yaitu Platform FieldMax. Kemudian, *Technology* yang digunakan dalam penelitian adalah Visual Studio Code, Tailwind CSS, TypeScript, Next.js, Express.js, dan Figma.
 
-Pada aspek *IS Research*, terdiri dari
-*Build* (membangun), dan *Evaluate* (evaluasi). Pada tahap *Build*,
-dilakukan pembuatan desain website Platform FieldMax. Pada tahap *Evaluate*,
-dilakukan pengujian fungsionalitas Sistem Reservasi dan Manajemen Layanan
-Penyewaan Lapangan yang bertujuan untuk menilai kinerja dan efektivitasnya. 
+Pada aspek *IS Research*, terdiri dari *Build* (membangun), dan *Evaluate* (evaluasi). Pada tahap *Build*, dilakukan pembuatan desain website Platform FieldMax. Pada tahap *Evaluate*, dilakukan pengujian fungsionalitas Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan yang bertujuan untuk menilai kinerja dan efektivitasnya.
 
-Adapun aspek *Knowledge Base* dalam
-penelitian ini terdiri dari *Foundation* (dasar) dan *Methodologies*
-(metodologi). *Foundation* mencakup konsep SSR dan CSR. Adapun bagian *Methodologies*
-yang digunakan adalah Design Science Research dan model pengembangan SDLC *Waterfall*.
-Penerapan metode DSR ini diharapkan dapat berguna dalam meningkatkan kemudahan
-renter dalam melakukan booking dan pengelolaan lapangan secara efisien.
+Adapun aspek *Knowledge Base* dalam penelitian ini terdiri dari *Foundation* (dasar) dan *Methodologies* (metodologi). *Foundation* mencakup konsep SSR dan CSR. Adapun bagian *Methodologies* yang digunakan adalah Design Science Research dan model pengembangan SDLC *Waterfall*. Penerapan metode DSR ini diharapkan dapat berguna dalam meningkatkan kemudahan renter dalam melakukan booking dan pengelolaan lapangan secara efisien.
 
-## [2.3 Metode Pengumpulan Data]()
+## 2.3 Metode Pengumpulan Data
 
-Dalam penelitian ini, tahap pengumpulan data
-diperlukan untuk mendukung pengembangan sistem. Pemilihan metode pengumpulan
-data penting karena hasil yang diperoleh akan menjadi dasar dalam proses
-pengembangan aplikasi. Metode pengumpulan data yang dilakukan dalam penelitian
-ini adalah sebagai berikut:
+Dalam penelitian ini, tahap pengumpulan data diperlukan untuk mendukung pengembangan sistem. Pemilihan metode pengumpulan data penting karena hasil yang diperoleh akan menjadi dasar dalam proses pengembangan aplikasi. Metode pengumpulan data yang dilakukan dalam penelitian ini adalah sebagai berikut:
 
 ### 2.3.1 Studi Literatur
 
-Studi literatur adalah metode pengumpulan data
-dengan menelaah berbagai sumber-sumber tertulis, meliputi buku, jurnal, laporan
-penelitian, dan lainnya. Dalam penelitian ini, penulis melakukan studi
-literatur dengan mencari berbagai informasi yang relevan mengenai pengembangan sistem
-reservasi berbasis web dan manajemen layanan fasilitas olahraga.
+Studi literatur adalah metode pengumpulan data dengan menelaah berbagai sumber-sumber tertulis, meliputi buku, jurnal, laporan penelitian, dan lainnya. Dalam penelitian ini, penulis melakukan studi literatur dengan mencari berbagai informasi yang relevan mengenai pengembangan sistem reservasi berbasis web dan manajemen layanan fasilitas olahraga.
 
-## [2.4 Metode Pengembangan Sistem]()
+## 2.4 Metode Pengembangan Sistem
 
-Metode pengembangan sistem atau *System
-Development Life Cycle* (SDLC) yang digunakan adalah *Waterfall*.
-Adapun tahapannya sebagai berikut:
+Metode pengembangan sistem atau *System Development Life Cycle* (SDLC) yang digunakan adalah *Waterfall*. Adapun tahapannya sebagai berikut:
 
 ### 2.4.1 Requirements (Kebutuhan)
 
-Pada tahap ini, dilakukan analisis untuk
-menentukan kebutuhan-kebutuhan yang harus ada. Hal ini bertujuan untuk memahami
-fitur-fitur yang diharapkan pada sistem yang akan digunakan di tahap
-selanjutnya.
+Pada tahap ini, dilakukan analisis untuk menentukan kebutuhan-kebutuhan yang harus ada. Hal ini bertujuan untuk memahami fitur-fitur yang diharapkan pada sistem yang akan digunakan di tahap selanjutnya.
 
 ### 2.4.2 Design (Desain)
 
-Pada tahapan ini, peneliti merancang *Use Case
-Diagram* dan *Activity Diagram* untuk memberikan gambaran umum mengenai
-cara kerja sistem. Kemudian, akan dibuat sebuah *Entity Relationship Diagram*
-(ERD) untuk memvisualisasikan struktur data dan aliran informasi. Setelah itu, dilakukan
-perancangan antarmuka pengguna (*User Interface*) untuk memberikan
-gambaran visual yang lebih jelas mengenai tampilan sistem. Selain itu,
-perancangan *Database* juga dilakukan untuk menyimpan data-data yang
-berkaitan dengan aplikasi.
+Pada tahapan ini, peneliti merancang *Use Case Diagram* dan *Activity Diagram* untuk memberikan gambaran umum mengenai cara kerja sistem. Kemudian, akan dibuat sebuah *Entity Relationship Diagram* (ERD) untuk memvisualisasikan struktur data dan aliran informasi. Setelah itu, dilakukan perancangan antarmuka pengguna (*User Interface*) untuk memberikan gambaran visual yang lebih jelas mengenai tampilan sistem. Selain itu, perancangan *Database* juga dilakukan untuk menyimpan data-data yang berkaitan dengan aplikasi.
 
 ### 2.4.3 Implementation (Implementasi)
 
-Pada tahapan ini,
-dimulai implementasi desain yang telah dibuat menjadi aplikasi berbasis website
-menggunakan teknologi Next.js dan Express.js sebagai framework utama
-pengembangan website. Terdapat pula Tailwind CSS sebagai framework Front-end
-dan TypeScript sebagai bahasa pemrograman utama. Selain itu, terdapat Figma sebagai platform yang digunakan untuk merancang *User
-Interface / User Experience* (UI/UX).
+Pada tahapan ini, dimulai implementasi desain yang telah dibuat menjadi aplikasi berbasis website menggunakan teknologi Next.js dan Express.js sebagai framework utama pengembangan website. Terdapat pula Tailwind CSS sebagai framework Front-end dan TypeScript sebagai bahasa pemrograman utama. Selain itu, terdapat Figma sebagai platform yang digunakan untuk merancang *User Interface / User Experience* (UI/UX).
 
 ### 2.4.4 Testing (Pengujian)
 
-Pada tahapan ini,
-peneliti melakukan pengujian dengan metode Black Box Testing untuk memastikan
-bahwa sistem yang telah dibangun berfungsi dengan
-baik.
+Pada tahapan ini, peneliti melakukan pengujian dengan metode Black Box Testing untuk memastikan bahwa sistem yang telah dibangun berfungsi dengan baik.
 
 ### 2.4.5 Maintenance (Pemeliharaan)
 
-Pada tahapan ini,
-peneliti melakukan pemeliharaan pada website untuk memastikan tidak ada bug
-atau error yang terjadi pada website.
+Pada tahapan ini, peneliti melakukan pemeliharaan pada website untuk memastikan tidak ada bug atau error yang terjadi pada website.
 
-## [2.5 Tahapan Penelitian]()
+## 2.5 Tahapan Penelitian
 
-Tahapan pengembangan sistem ini menggunakan
-metode Waterfall, yang dimulai dengan tahap *Requirements* (Analisis
-Kebutuhan). Pada tahap ini, dilakukan analisis kebutuhan sistem yang harus ada
-untuk aplikasi Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan, sekaligus
-melakukan analisis masalah dan analisis kebutuhan sistem. Setelah itu,
-penelitian dilanjutkan dengan tahapan Design (Desain), yaitu melalui
-perancangan use case diagram, activity diagram, user interface (UI), serta
-perancangan database (ERD) untuk memberikan gambaran tentang bagaimana sistem
-akan berfungsi dan memiliki struktur data.
+Tahapan pengembangan sistem ini menggunakan metode Waterfall, yang dimulai dengan tahap *Requirements* (Analisis Kebutuhan). Pada tahap ini, dilakukan analisis kebutuhan sistem yang harus ada untuk aplikasi Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan, sekaligus melakukan analisis masalah dan analisis kebutuhan sistem. Setelah itu, penelitian dilanjutkan dengan tahapan Design (Desain), yaitu melalui perancangan use case diagram, activity diagram, user interface (UI), serta perancangan database (ERD) untuk memberikan gambaran tentang bagaimana sistem akan berfungsi dan memiliki struktur data.
 
-Tahap berikutnya adalah Implementation
-(Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi
-aplikasi berbasis web menggunakan teknologi React.js dan Express.js. Setelah
-aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black
-Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai
-spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau
-kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap
-Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem
-sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai,
-menghasilkan Hasil Penelitian dan Kesimpulan.
+Tahap berikutnya adalah Implementation (Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi aplikasi berbasis web menggunakan teknologi React.js dan Express.js. Setelah aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai, menghasilkan Hasil Penelitian dan Kesimpulan.
 
 ![](images/image018.png)
 
 <a id="gambar-4"></a>**Gambar 4.** Alur Penelitian
 
-## [2.6 Analisis Pengembangan Sistem]()
+## 2.6 Analisis Pengembangan Sistem
 
 ### 2.6.1 Analisis Masalah
 
-Berdasarkan hasil observasi dan studi literasi,
-ditemukan beberapa permasalahan yang terjadi pada model sistem reservasi dan
-manajemen layanan penyewaan lapangan dari Platform FieldMax. Salah satu
-masalah utama adalah pemesanan layanan penyewaan lapangannya yang masih manual
-menggunakan Google Form, yang menyebabkan pengelolaan layanan yang tersedia
-juga dilakukan manua, serta proses pembayarannya yang tidak saling terintegrasi.
-Sistem manual ini akhirnya menimbulkan inefisiensi akibat dari permasalahan
-tersebut.
+Berdasarkan hasil observasi dan studi literasi, ditemukan beberapa permasalahan yang terjadi pada model sistem reservasi dan manajemen layanan penyewaan lapangan dari Platform FieldMax. Salah satu masalah utama adalah pemesanan layanan penyewaan lapangannya yang masih manual menggunakan Google Form, yang menyebabkan pengelolaan layanan yang tersedia juga dilakukan manua, serta proses pembayarannya yang tidak saling terintegrasi. Sistem manual ini akhirnya menimbulkan inefisiensi akibat dari permasalahan tersebut.
 
-Kemudian, terjadi penurunan efektivitas
-manajemen serta memperlambat proses pengambilan keputusan yang strategis. Oleh
-karena itu, pengembangan sebuah sistem informasi berbasis web yang terpusat dan
-terintegrasi, yang mampu mengelola proses booking dan manajemen layanan
-penyewaan lapangan, sangat diperlukan untuk mengatasi masalah-masalah tersebut. Sistem ini
-diharapkan dapat memberikan kemudahan bagi pelanggan dalam melakukan pemesanan
-layanan, sekaligus membantu pihak internal Platform FieldMax dalam pengelolaan
-layanan dan reservasinya.
+Kemudian, terjadi penurunan efektivitas manajemen serta memperlambat proses pengambilan keputusan yang strategis. Oleh karena itu, pengembangan sebuah sistem informasi berbasis web yang terpusat dan terintegrasi, yang mampu mengelola proses booking dan manajemen layanan penyewaan lapangan, sangat diperlukan untuk mengatasi masalah-masalah tersebut. Sistem ini diharapkan dapat memberikan kemudahan bagi pelanggan dalam melakukan pemesanan layanan, sekaligus membantu pihak internal Platform FieldMax dalam pengelolaan layanan dan reservasinya.
 
 ![](images/image019.png)
 
@@ -1416,16 +925,11 @@ layanan dan reservasinya.
 
 ### 2.6.2 Analisis Kebutuhan Sistem
 
-Dalam pembangunan web ini, dibutuhkan
-perangkat lunak dan perangkat keras sebagai alat yang dapat mendukung
-penelitian. Terdapat pula pengguna sistem (*user*) sebagai bahan analisis
-kebutuhan dalam perancangan sistem. Adapun kebutuhan sistem dalam penelitian
-ini yaitu:
+Dalam pembangunan web ini, dibutuhkan perangkat lunak dan perangkat keras sebagai alat yang dapat mendukung penelitian. Terdapat pula pengguna sistem (*user*) sebagai bahan analisis kebutuhan dalam perancangan sistem. Adapun kebutuhan sistem dalam penelitian ini yaitu:
 
 #### 1. Perangkat lunak.
 
-Perangkat lunak yang digunakan dalam merancang
-web ini terdiri dari:
+Perangkat lunak yang digunakan dalam merancang web ini terdiri dari:
 
 1. Windows 11
 
@@ -1443,52 +947,19 @@ web ini terdiri dari:
 
 #### 2. Perangkat keras.
 
-Selama penelitian, peneliti menggunakan Laptop
-Lenovo Ideapad Gaming 3 dengan spesifikasi Processor Intel core i7-12650H @
-2,30 GHz, RAM 16GB, dan SSD 512GB.
+Selama penelitian, peneliti menggunakan Laptop Lenovo Ideapad Gaming 3 dengan spesifikasi Processor Intel core i7-12650H @ 2,30 GHz, RAM 16GB, dan SSD 512GB.
 
 #### 3. Pengguna sistem *(user)*.
 
-1. ***Admin,*** merupakan pengguna yang berperan
-sebagai moderator dalam sistem. Admin bertugas memverifikasi dan menyetujui
-pendaftaran profil penyedia lapangan (Renter) ke dalam wadah platform. Admin
-juga berwenang meninjau kelayakan dan kelengkapan data venue beserta unit
-spesifik lapangan (field) yang ditambahkan oleh Renter sebelum fasilitas
-tersebut dapat diakses oleh publik. Selain itu, Admin memiliki akses menyeluruh
-untuk melihat daftar semua pengguna, serta memantau seluruh riwayat transaksi
-pemesanan (booking) dan aliran pembayaran yang terjadi di dalam FieldMax.
+1. ***Admin,*** merupakan pengguna yang berperan sebagai moderator dalam sistem. Admin bertugas memverifikasi dan menyetujui pendaftaran profil penyedia lapangan (Renter) ke dalam wadah platform. Admin juga berwenang meninjau kelayakan dan kelengkapan data venue beserta unit spesifik lapangan (field) yang ditambahkan oleh Renter sebelum fasilitas tersebut dapat diakses oleh publik. Selain itu, Admin memiliki akses menyeluruh untuk melihat daftar semua pengguna, serta memantau seluruh riwayat transaksi pemesanan (booking) dan aliran pembayaran yang terjadi di dalam FieldMax.
 
-2.**Renter (Pemilik/Pengelola Lapangan)*,*** merupakan
-mitra penyedia jasa yang menyewakan fasilitas olahraga. Renter dapat
-mendaftarkan venue miliknya dan menambahkan jenis-jenis lapangan secara
-tersendiri. Setelah mendapatkan persetujuan (approval) dari Admin, Renter
-berkuasa penuh untuk menentukan harga sewa, mengatur rentang waktu operasional,
-serta memperbarui jadwal lapangan secara mandiri. Sebagai pengguna yang
-mengoperasikan layanan di lapangan, Renter juga bertugas untuk mengonfirmasi
-kehadiran pengguna, menyewa lapangan sesuai dengan waktu pemesanan, dan
-merampungkan jadwal sewa pesanan (COMPLETED). Selain itu, Renter dapat melihat seluruh
-daftar pesanannya hari ini, mengawasi laporan status pembayaran tagihan
-pelanggannya, hingga memantau ikhtisar riwayat pendapatan dari lapangan yang ia
-kelola.
+2.**Renter (Pemilik/Pengelola Lapangan)*,*** merupakan mitra penyedia jasa yang menyewakan fasilitas olahraga. Renter dapat mendaftarkan venue miliknya dan menambahkan jenis-jenis lapangan secara tersendiri. Setelah mendapatkan persetujuan (approval) dari Admin, Renter berkuasa penuh untuk menentukan harga sewa, mengatur rentang waktu operasional, serta memperbarui jadwal lapangan secara mandiri. Sebagai pengguna yang mengoperasikan layanan di lapangan, Renter juga bertugas untuk mengonfirmasi kehadiran pengguna, menyewa lapangan sesuai dengan waktu pemesanan, dan merampungkan jadwal sewa pesanan (COMPLETED). Selain itu, Renter dapat melihat seluruh daftar pesanannya hari ini, mengawasi laporan status pembayaran tagihan pelanggannya, hingga memantau ikhtisar riwayat pendapatan dari lapangan yang ia kelola.
 
-3.**User (Pengguna/Penyewa),** merupakan user akhir
-atau pelanggan yang menggunakan layanan sewa lapangan olahraga. Untuk menjadi
-User, pengguna terlebih dahulu melakukan pendaftaran akun ke dalam platform
-FieldMax. User diberikan kemudahan mencari letak tempat olahraga yang sesuai, mencocokkan
-ketersediaan jadwal, dan melakukan reservasi lapangan (booking) secara
-real-time untuk dirinya sendiri maupun rombongan mainnya. Proses transaksinya
-melibatkan payment gateway sehingga dapat langsung disahkan oleh sistem
-seketika itu juga setelah ia menyelesaikan tagihan. User pastinya dapat melihat
-jadwal lapangan yang baru saja ia pesan, melihat keseluruhan rekam jejak
-riwayat bermain (booking history), dan memiliki kemampuan untuk memberikan
-ulasan (review) terhadap kualitas fasilitas lapangan yang telah ia gunakan.
+3.**User (Pengguna/Penyewa),** merupakan user akhir atau pelanggan yang menggunakan layanan sewa lapangan olahraga. Untuk menjadi User, pengguna terlebih dahulu melakukan pendaftaran akun ke dalam platform FieldMax. User diberikan kemudahan mencari letak tempat olahraga yang sesuai, mencocokkan ketersediaan jadwal, dan melakukan reservasi lapangan (booking) secara real-time untuk dirinya sendiri maupun rombongan mainnya. Proses transaksinya melibatkan payment gateway sehingga dapat langsung disahkan oleh sistem seketika itu juga setelah ia menyelesaikan tagihan. User pastinya dapat melihat jadwal lapangan yang baru saja ia pesan, melihat keseluruhan rekam jejak riwayat bermain (booking history), dan memiliki kemampuan untuk memberikan ulasan (review) terhadap kualitas fasilitas lapangan yang telah ia gunakan.
 
-## [2.7 Perancangan Sistem]()
+## 2.7 Perancangan Sistem
 
-Dalam prosesnya, peneliti menggunakan *use
-case diagram* untuk merepresentasikan aktivitas yang dapat dilakukan oleh
-pengguna di dalam sistem. Berikut *use case diagram* untuk
-merepresentasikannya.
+Dalam prosesnya, peneliti menggunakan *use case diagram* untuk merepresentasikan aktivitas yang dapat dilakukan oleh pengguna di dalam sistem. Berikut *use case diagram* untuk merepresentasikannya.
 
 ![](images/image020.png)
 
@@ -1496,36 +967,15 @@ merepresentasikannya.
 
  
 
-# []() 
-BAB III 
+# BAB III HASIL DAN PEMBAHASAN
 
-HASIL DAN
-PEMBAHASAN
+## 3.1 Implementasi Sistem
 
-## [3.1 Implementasi Sistem]()
+Setelah proses perancangan sistem diselesaikan, tahap berikutnya dalam pengembangan sistem informasi adalah mengimplementasikan hasil rancangan tersebut ke dalam bentuk sistem informasi berbasis web. Web ini dibangun menggunakan *framework* Next.js dari sisi Front End dan Express.js dari sisi Back End, yang keduanya menggunakan bahasa pemrograman TypeScript. Untuk *styling* pada sisi Front End dibantu dengan TailwindCSS. Adapun untuk pengelolaan data digunakan PostgeSQL sebagai basis data utama.
 
-Setelah proses perancangan sistem
-diselesaikan, tahap berikutnya dalam pengembangan sistem informasi adalah
-mengimplementasikan hasil rancangan tersebut ke dalam bentuk sistem informasi
-berbasis web. Web ini dibangun menggunakan *framework* Next.js dari sisi
-Front End dan Express.js dari sisi Back End, yang keduanya menggunakan bahasa
-pemrograman TypeScript. Untuk *styling* pada sisi Front End dibantu dengan
-TailwindCSS. Adapun untuk pengelolaan data digunakan PostgeSQL sebagai basis
-data utama.
+## 3.2 Implementasi Basis Data
 
-## [3.2 Implementasi Basis Data]()
-
-Implementasi basis data terdiri dari tiga
-tahapan utama yang saling berkaitan. Tahap pertama yaitu pembuatan Entity
-Relationship Diagram (ERD) untuk memetakan entitas, atribut, serta hubungan
-antar entitas sehingga diperoleh gambaran menyeluruh alur pengelolaan data.
-Tahap berikutnya adalah perancangan struktur tabel, yang mencakup penentuan
-tipe data, *primary key*, dan *foreign key* agar data dapat lebih
-konsisten dan terorganisir. Terakhir adalah membangun relasi antar tabel
-berdasarkan hubungan yang telah dirancang pada ERD, baik relasi *one-to-one*,
-*one-to-many*, maupun *many-to-many*. Melalui tahapan tersebut,
-integritas data dapat terjaga dengan baik dan basis data dapat berfungsi secara
-optimal untuk mendukung kinerja sistem.
+Implementasi basis data terdiri dari tiga tahapan utama yang saling berkaitan. Tahap pertama yaitu pembuatan Entity Relationship Diagram (ERD) untuk memetakan entitas, atribut, serta hubungan antar entitas sehingga diperoleh gambaran menyeluruh alur pengelolaan data. Tahap berikutnya adalah perancangan struktur tabel, yang mencakup penentuan tipe data, *primary key*, dan *foreign key* agar data dapat lebih konsisten dan terorganisir. Terakhir adalah membangun relasi antar tabel berdasarkan hubungan yang telah dirancang pada ERD, baik relasi *one-to-one*, *one-to-many*, maupun *many-to-many*. Melalui tahapan tersebut, integritas data dapat terjaga dengan baik dan basis data dapat berfungsi secara optimal untuk mendukung kinerja sistem.
 
 ### 3.2.1 Entity Relational Diagram (ERD)
 
@@ -1752,16 +1202,13 @@ Tanggapan atau obrolan penyelesaian keluhan pengguna.
 
 ### 3.2.3 Relasi Antar Tabel
 
-Setelah perancangan, selanjutnya adalah
-merancang relasi antar tabel, yang berfungsi untuk menentukan keterhubungan
-antar tabel yang ada dalam basis data. Perancangan yang tepat diperlukan agar
-mengakses basis data dari sistem dapat efektif dan efisien.
+Setelah perancangan, selanjutnya adalah merancang relasi antar tabel, yang berfungsi untuk menentukan keterhubungan antar tabel yang ada dalam basis data. Perancangan yang tepat diperlukan agar mengakses basis data dari sistem dapat efektif dan efisien.
 
 ![](images/image026.png)
 
 <a id="gambar-7"></a>**Gambar 7.** Relasi antar tabel
 
-## [3.3 Implementasi *Activity Diagram*]()
+## 3.3 Implementasi *Activity Diagram*
 
 ### 3.3.1 *Activity Diagram Guest*
 Menggambarkan alur interaksi pengguna tanpa akun (*Guest*) pada sistem informasi:
@@ -1790,7 +1237,7 @@ Menggambarkan alur operasi administrator sistem (*Admin*):
 3.**Mengelola Pengaduan Pengguna (Reports)**: Admin meninjau laporan keluhan pengguna, membalas laporan tersebut, dan mengubah status laporan menjadi RESOLVED setelah masalah teratasi.
 
 
-## [3.4 Implementasi *UI/UX*]()
+## 3.4 Implementasi *UI/UX*
 
 Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 App Router dengan pembagian halaman sebagai berikut:
 
@@ -1819,7 +1266,7 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 3.**Halaman Pengaduan Masalah (/admin/reports)**: Menampilkan keluhan masuk dari pengguna dan menyediakan form untuk merespon aduan.
 
 
-## [3.5 Pengujian Sistem]()
+## 3.5 Pengujian Sistem
 
 ### 3.5.1 *Black Box Testing*
 
@@ -1866,45 +1313,23 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 | 2  | Admin membalas pesan keluhan transaksi pembayaran dari user       | Pesan tanggapan disimpan ke tabel report_replies dan memunculkan notifikasi ke user terkait | Berhasil        |
 
 
-# 
-BAB IV 
+# BAB IV KESIMPULAN DAN SARAN
 
-KESIMPULAN DAN
-SARAN
+## 4.1 Kesimpulan
 
-## [4.1 Kesimpulan]()
+Berdasarkan penelitian yang dilakukan, dapat diambil kesimpulan sebagai berikut.
 
-Berdasarkan penelitian yang dilakukan, dapat
-diambil kesimpulan sebagai berikut.
+1. Perancangan dan pembangunan sistem informasi reservasi dan manajemen layanan penyewaan lapangan pada Platform FieldMax yang telah dilakukan berhasil dirancang dan diimplementasikan dengan baik sesuai dengan kebutuhan perusahaan. Sistem dibangun dengan menggunakan NextJS sebagai *framework frontend*, TailwindCSS sebagai *styling*, ExpressJS sebagai *framework backend*, dan PostgreSQL sebagai basis data. Sistem mampu mengakomodasi proses reservasi layanan dan pengelolaan layanan secara terstruktur sehingga dapat menggantikan proses yang sebelumnya masih manual. Dengan adanya sistem ini, proses operasional menjadi lebih efisien, terorganisir, dan mendukung peningkatan kualitas layanan penyewaan lapangan di Platform FieldMax.
 
-1. Perancangan dan pembangunan sistem informasi reservasi dan manajemen
-layanan penyewaan lapangan pada Platform FieldMax yang telah dilakukan
-berhasil dirancang dan diimplementasikan dengan baik sesuai dengan kebutuhan
-perusahaan. Sistem dibangun dengan menggunakan NextJS sebagai *framework
-frontend*, TailwindCSS sebagai *styling*, ExpressJS sebagai *framework
-backend*, dan PostgreSQL sebagai basis data. Sistem mampu mengakomodasi
-proses reservasi layanan dan pengelolaan layanan secara terstruktur sehingga
-dapat menggantikan proses yang sebelumnya masih manual. Dengan adanya sistem
-ini, proses operasional menjadi lebih efisien, terorganisir, dan mendukung
-peningkatan kualitas layanan penyewaan lapangan di Platform FieldMax.
+2. Sistem informasi berbasis web ini berhasil diuji dengan menggunakan metode pengujian *black box testing*. Hasil pengujian *black box testing* menunjukkan bahwa web berjalan dengan lancar, sehingga pengguna dapat menggunakan fitur-fitur yang tersedia.
 
-2. Sistem informasi berbasis web ini berhasil diuji dengan menggunakan
-metode pengujian *black box testing*. Hasil pengujian *black box testing*
-menunjukkan bahwa web berjalan dengan lancar, sehingga pengguna dapat
-menggunakan fitur-fitur yang tersedia.
+## 4.2 Saran
 
-## [4.2 Saran]()
+Penelitian ini tidak lepas dari kekurangan dan keterbatasan. Oleh karena itu, berdasarkan hasil penelitian yang telah dilakukan, peneliti mengajukan beberapa saran yang dapat menjadi pertimbangan untuk penelitian selanjutnya.
 
-Penelitian ini tidak lepas dari kekurangan dan
-keterbatasan. Oleh karena itu, berdasarkan hasil penelitian yang telah
-dilakukan, peneliti mengajukan beberapa saran yang dapat menjadi pertimbangan
-untuk penelitian selanjutnya.
+1. Penelitian berikutnya dapat menambahkan fitur pertemuan secara daring langsung melalui web.
 
-1. Penelitian berikutnya dapat menambahkan fitur pertemuan secara daring
-langsung melalui web. 
-
-2. Penelitian berikutnya dapat mempertimbangkan untuk membangun aplikasi
-berbasis *mobile.*
+2. Penelitian berikutnya dapat mempertimbangkan untuk membangun aplikasi berbasis *mobile.*
 
  
 
@@ -1941,11 +1366,10 @@ Siahaan, R. A., & Sianturi, R. A. (2024). Analisis Perbandingan Payment Gateway 
 Uminingsih, Ichsanudin, M. N., Yusuf, M., & Suraya. (2022). Pengujian Fungsional Perangkat Lunak Sistem Informasi Perpustakaan Dengan Metode Black Box Testing Bagi Pemula. *STORAGE-Jurnal Ilmiah Teknik dan Ilmu Komputer*.
 
 
-# [LAMPIRAN]()
+# LAMPIRAN
 
  
 
-Link video pengujian
-*Black Box Testing*
+Link video pengujian *Black Box Testing*
 
 ![](images/image141.jpg)
