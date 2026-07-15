@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#C00"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Metode Pengembangan Sistem — SDLC Waterfall</text>
+
+  <!-- Phase boxes -->
+  <rect x="60" y="60" width="170" height="120" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="2" filter="url(#shadow)"/>
+  <text x="145" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">1. Requirements</text>
+  <text x="145" y="100" text-anchor="middle" font-size="9" fill="#555" font-style="italic">Analisis Kebutuhan</text>
+  <line x1="80" y1="108" x2="210" y2="108" stroke="#6C8EBF" stroke-width="0.5"/>
+  <text x="75" y="125" font-size="10" fill="#444">• Analisis masalah</text>
+  <text x="75" y="142" font-size="10" fill="#444">• Analisis kebutuhan sistem</text>
+  <text x="75" y="159" font-size="10" fill="#444">• Studi literatur</text>
+
+  <rect x="280" y="60" width="170" height="120" rx="8" fill="#D5E8D4" stroke="#82B366" stroke-width="2" filter="url(#shadow)"/>
+  <text x="365" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">2. Design</text>
+  <text x="365" y="100" text-anchor="middle" font-size="9" fill="#555" font-style="italic">Desain Sistem</text>
+  <line x1="300" y1="108" x2="430" y2="108" stroke="#82B366" stroke-width="0.5"/>
+  <text x="295" y="125" font-size="10" fill="#444">• Use Case Diagram</text>
+  <text x="295" y="142" font-size="10" fill="#444">• Activity Diagram</text>
+  <text x="295" y="159" font-size="10" fill="#444">• ERD &amp; UI/UX (Figma)</text>
+
+  <rect x="500" y="60" width="170" height="120" rx="8" fill="#FFF2CC" stroke="#D6B656" stroke-width="2" filter="url(#shadow)"/>
+  <text x="585" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">3. Implementation</text>
+  <text x="585" y="100" text-anchor="middle" font-size="9" fill="#555" font-style="italic">Implementasi Sistem</text>
+  <line x1="520" y1="108" x2="650" y2="108" stroke="#D6B656" stroke-width="0.5"/>
+  <text x="515" y="125" font-size="10" fill="#444">• Next.js &amp; Express.js</text>
+  <text x="515" y="142" font-size="10" fill="#444">• PostgreSQL (Database)</text>
+  <text x="515" y="159" font-size="10" fill="#444">• Midtrans (Payment)</text>
+
+  <rect x="170" y="240" width="170" height="110" rx="8" fill="#F8CECC" stroke="#B85450" stroke-width="2" filter="url(#shadow)"/>
+  <text x="255" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">4. Testing</text>
+  <text x="255" y="277" text-anchor="middle" font-size="9" fill="#555" font-style="italic">Pengujian Sistem</text>
+  <line x1="190" y1="285" x2="320" y2="285" stroke="#B85450" stroke-width="0.5"/>
+  <text x="185" y="302" font-size="10" fill="#444">• Black Box Testing</text>
+  <text x="185" y="319" font-size="10" fill="#444">• Uji fungsionalitas</text>
+  <text x="185" y="336" font-size="10" fill="#444">• Verifikasi kebutuhan</text>
+
+  <rect x="390" y="240" width="170" height="110" rx="8" fill="#E1D5E7" stroke="#9673A6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="475" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">5. Maintenance</text>
+  <text x="475" y="277" text-anchor="middle" font-size="9" fill="#555" font-style="italic">Pemeliharaan Sistem</text>
+  <line x1="410" y1="285" x2="540" y2="285" stroke="#9673A6" stroke-width="0.5"/>
+  <text x="405" y="302" font-size="10" fill="#444">• Perbaikan bug</text>
+  <text x="405" y="319" font-size="10" fill="#444">• Monitoring error</text>
+  <text x="405" y="336" font-size="10" fill="#444">• Pemeliharaan rutin</text>
+
+  <!-- Forward arrows row 1 -->
+  <line x1="230" y1="120" x2="272" y2="120" stroke="#555" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="450" y1="120" x2="492" y2="120" stroke="#555" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Curved arrow from Implementation (phase 3) down to Testing (phase 4) -->
+  <path d="M 585 180 L 585 215 Q 585 225 575 225 L 265 225 Q 255 225 255 235" fill="none" stroke="#555" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Arrow from Testing to Maintenance -->
+  <line x1="340" y1="295" x2="382" y2="295" stroke="#555" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Feedback loop (red dashed) from Testing back to Requirements -->
+  <path d="M 170 250 Q 40 250 40 180 Q 40 120 52 120" fill="none" stroke="#C00" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowRed)"/>
+  <text x="48" y="220" font-size="9" fill="#C00" font-weight="bold" transform="rotate(-90, 48, 220)">Tidak Sesuai →</text>
+
+  <!-- "Sesuai" label -->
+  <text x="340" y="288" text-anchor="middle" font-size="10" fill="#090" font-weight="bold">Sesuai → Lanjut</text>
+  <text x="440" y="235" font-size="9" fill="#090" font-weight="bold">→ Selesai</text>
+
+  <!-- Waterfall cascade background label -->
+  <rect x="55" y="55" width="620" height="130" rx="4" fill="none" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
+  <rect x="165" y="235" width="400" height="120" rx="4" fill="none" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
+  <text x="900" y="505" font-size="8" fill="#aaa" text-anchor="end">Gambar — SDLC Waterfall FieldMax</text>
+</svg>

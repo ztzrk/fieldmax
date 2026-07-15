@@ -1,14 +1,14 @@
-﻿# BAB III HASIL DAN PEMBAHASAN ^bab-3
+# BAB III HASIL DAN PEMBAHASAN ^bab-3
 
 ## 3.1 Implementasi Sistem ^implementasi-sistem
 
-Setelah proses perancangan sistem diselesaikan, tahap berikutnya dalam pengembangan sistem informasi adalah mengimplementasikan hasil rancangan tersebut ke dalam bentuk sistem informasi berbasis web. Web ini dibangun menggunakan *framework* Next.js dari sisi Front End dan Express.js dari sisi Back End, yang keduanya menggunakan bahasa pemrograman TypeScript. Untuk *styling* pada sisi Front End dibantu dengan TailwindCSS. Adapun untuk pengelolaan data digunakan PostgeSQL sebagai basis data utama.
+Setelah proses perancangan sistem diselesaikan, tahap berikutnya dalam pengembangan sistem informasi adalah mengimplementasikan hasil rancangan tersebut ke dalam bentuk sistem informasi berbasis web. Web ini dibangun menggunakan *framework* Next.js dari sisi Front End dan Express.js dari sisi Back End, yang keduanya menggunakan bahasa pemrograman TypeScript. Untuk *styling* pada sisi Front End dibantu dengan TailwindCSS. Adapun untuk pengelolaan data digunakan PostgreSQL sebagai basis data utama. Sebelum implementasi kode, perancangan antarmuka pengguna dilakukan menggunakan Figma untuk mendesain UI/UX yang intuitif bagi seluruh aktor sistem.
 
 ## 3.2 Implementasi Basis Data ^implementasi-basis-data
 
 Implementasi basis data terdiri dari tiga tahapan utama yang saling berkaitan. Tahap pertama yaitu pembuatan Entity Relationship Diagram (ERD) untuk memetakan entitas, atribut, serta hubungan antar entitas sehingga diperoleh gambaran menyeluruh alur pengelolaan data. Tahap berikutnya adalah perancangan struktur tabel, yang mencakup penentuan tipe data, *primary key*, dan *foreign key* agar data dapat lebih konsisten dan terorganisir. Terakhir adalah membangun relasi antar tabel berdasarkan hubungan yang telah dirancang pada ERD, baik relasi *one-to-one*, *one-to-many*, maupun *many-to-many*. Melalui tahapan tersebut, integritas data dapat terjaga dengan baik dan basis data dapat berfungsi secara optimal untuk mendukung kinerja sistem.
 
-### 3.2.1 Entity Relational Diagram (ERD)
+### 3.2.1 Entity Relationship Diagram (ERD)
 
 Dalam penelitian ini, terdapat beberapa entitas yang digunakan untuk menggambarkan alur dari basis data. ERD yang dirancang untuk web ini mencakup berbagai entitas utama sebagai berikut:
 
@@ -31,9 +31,7 @@ Dalam penelitian ini, terdapat beberapa entitas yang digunakan untuk menggambark
 
 ### 3.2.2 Struktur Tabel
 
-Berikut adalah detail struktur tabel dari basis data web Platform FieldMax yang dirancang sesuai dengan Prisma schema:
-
-Terdapat pula beberapa nilai bertipe *enum* yang dideklarasikan sebagai tipe data kolom basis data. Adapun nilai-nilainya sebagai berikut pada **Tabel 5.** Tabel daftar Enum yang digunakan beserta nilainya. ^tabel-5
+Sebelum membahas struktur tabel secara rinci, terdapat beberapa nilai bertipe *enum* yang dideklarasikan sebagai tipe data kolom basis data. Adapun nilai-nilainya sebagai berikut pada **Tabel 5.** Tabel daftar Enum yang digunakan beserta nilainya. ^tabel-5
 
 | Nama Enum              | Nilai / Deskripsi                                |
 | ---------------------- | ------------------------------------------------ |
@@ -45,6 +43,8 @@ Terdapat pula beberapa nilai bertipe *enum* yang dideklarasikan sebagai tipe dat
 |**ReportCategory**     | `SCAM`, `TECHNICAL`, `PAYMENT`, `OTHER`          |
 
 Berikut adalah tabel-tabel penyusun basis data sistem informasi FieldMax:
+
+Berikut adalah detail struktur tabel dari basis data web Platform FieldMax yang dirancang sesuai dengan Prisma schema:
 
 #### 1. **Tabel 6.** Tabel *users* ^tabel-6
 Berisi data otentikasi akun pengguna.
@@ -104,7 +104,7 @@ Daftar jenis cabang olahraga lapangan.
 | name       | String        | Nama jenis olahraga (Unique) | No Default |
 
 #### 6. **Tabel 11.** Tabel *venues* ^tabel-11
-Lokasi tempat penyewaan lapangan olahraga.
+Lokasi penyewaan yang dapat menampung berbagai jenis lapangan olahraga (multi-sport).
 
 | Nama Field       | Tipe Field         | Keterangan               | Default    |
 | ---------------- | ------------------ | ------------------------ | ---------- |
@@ -197,7 +197,7 @@ Informasi transaksi pembayaran booking lapangan via Midtrans Snap.
 | snap_token           | String        | Token Midtrans Snap                 | Nullable   |
 | payment_redirect_url | String        | Tautan url pembayaran Midtrans      | Nullable   |
 | created_at           | DateTime      | Tanggal dibuat                      | now()      |
-| updated_at           | DateTime      | Waktu pembaruan status              | updated_at |
+| updated_at           | DateTime      | Waktu pembaruan status              | otomatis  |
 
 #### 13. **Tabel 18.** Tabel *reviews* ^tabel-18
 Ulasan dan rating lapangan olahraga oleh penyewa.
@@ -253,7 +253,7 @@ Setelah perancangan, selanjutnya adalah merancang relasi antar tabel, yang berfu
 
 ![](images/image026.png)
 
-**Gambar 7.** Relasi antar tabel ^gambar-7
+**Gambar 10.** Relasi antar tabel ^gambar-10
 
 ## 3.3 Implementasi *Activity Diagram* ^implementasi-activity-diagram
 
@@ -261,6 +261,10 @@ Setelah perancangan, selanjutnya adalah merancang relasi antar tabel, yang berfu
 Menggambarkan alur interaksi pengguna tanpa akun (*Guest*) pada sistem informasi:
 1. **Mencari dan Memfilter Venue**: Guest mengunjungi web, menginput nama kota/daerah atau memfilter jenis olahraga, kemudian sistem menampilkan daftar venue olahraga yang sesuai.
 2.**Melihat Detail Venue dan Lapangan**: Guest memilih salah satu venue olahraga, sistem memproses data untuk menampilkan info alamat, jam operasional, galeri foto venue, ulasan pengguna, serta daftar lapangan olahraga beserta harganya.
+
+![[images/drawio/gambar-activity-guest.drawio]]
+
+**Gambar 11.** Activity Diagram Guest ^gambar-11
 
 ### 3.3.2 *Activity Diagram User*
 Menggambarkan alur aktivitas pengguna terdaftar (*User*):
@@ -270,6 +274,10 @@ Menggambarkan alur aktivitas pengguna terdaftar (*User*):
 4.**Mengirim Ulasan (Review)**: Setelah status sewa dinyatakan selesai (COMPLETED) oleh sistem, User dapat menginput ulasan berupa rating (bintang 1-5) dan komentar pada lapangan yang telah digunakan.
 5.**Melaporkan Masalah (Report)**: User dapat menulis laporan pengaduan terkait masalah sistem, transaksi pembayaran, atau indikasi penipuan.
 
+![[images/drawio/gambar-activity-user.drawio]]
+
+**Gambar 12.** Activity Diagram User ^gambar-12
+
 ### 3.3.3 *Activity Diagram Renter*
 Menggambarkan alur aktivitas mitra pemilik lapangan (*Renter*):
 1. **Mendaftarkan Venue Olahraga**: Renter menginput nama venue, alamat, kelurahan/kecamatan/kota, deskripsi, jadwal operasional mingguan, serta mengunggah galeri foto lokasi. Status awal venue adalah DRAFT.
@@ -277,11 +285,19 @@ Menggambarkan alur aktivitas mitra pemilik lapangan (*Renter*):
 3.**Melihat Dashboard & Laporan Keuangan**: Renter memantau grafik analitik total penyewaan lapangan, rincian transaksi harian, dan grafik total omzet pendapatan sewa.
 4.**Mengelola Penyewaan (Bookings)**: Renter melihat daftar pemesanan masuk untuk lapangannya dan menandai jadwal sewa yang selesai.
 
+![[images/drawio/gambar-activity-renter.drawio]]
+
+**Gambar 13.** Activity Diagram Renter ^gambar-13
+
 ### 3.3.4 *Activity Diagram Admin*
 Menggambarkan alur operasi administrator sistem (*Admin*):
 1. **Moderasi Venue dan Lapangan Baru**: Admin memeriksa data pengajuan venue/lapangan oleh renter baru, lalu memutuskan untuk menyetujui (APPROVED) atau menolak (REJECTED) disertai alasan penolakan.
 2.**Mengelola Master Data Olahraga**: Admin dapat menambah, mengedit, atau menghapus jenis cabang olahraga (SportType).
 3.**Mengelola Pengaduan Pengguna (Reports)**: Admin meninjau laporan keluhan pengguna, membalas laporan tersebut, dan mengubah status laporan menjadi RESOLVED setelah masalah teratasi.
+
+![[images/drawio/gambar-activity-admin.drawio]]
+
+**Gambar 14.** Activity Diagram Admin ^gambar-14
 
 
 ## 3.4 Implementasi *UI/UX* ^implementasi-ui-ux
@@ -295,7 +311,8 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 
 ### 3.4.2 Halaman Autentikasi
 1.**Halaman Login & Register (/login, /register)**: Form masuk akun dan pendaftaran dengan validasi client-side menggunakan Zod dan React Hook Form.
-2.**Halaman Lupa Password (/forgot-password, /reset-password)**: Form permintaan pengiriman tautan ganti sandi ke email dan form pengisian password baru.
+2.**Halaman Verifikasi Email (/verify-email)**: Halaman konfirmasi setelah pengguna melakukan pendaftaran, yang mengarahkan pengguna untuk memeriksa email dan mengklik tautan aktivasi akun.
+3.**Halaman Lupa Password (/forgot-password, /reset-password)**: Form permintaan pengiriman tautan ganti sandi ke email dan form pengisian password baru.
 
 ### 3.4.3 Dashboard Pengguna (User / Customer)
 1.**Halaman Kelola Profil (/profile)**: Mengatur data profil pribadi seperti nama lengkap, bio, alamat, nomor telepon, dan foto avatar.
@@ -306,11 +323,17 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 1.**Halaman Dashboard (/renter/dashboard)**: Menampilkan rangkuman total lapangan aktif, pesanan masuk hari ini, ulasan terbaru, dan grafik tren pendapatan bulanan.
 2.**Halaman Kelola Venue (/renter/venues)**: Rincian venue milik renter, tambah/edit info venue, kelola jadwal operasional mingguan, serta upload galeri foto lokasi.
 3.**Halaman Kelola Lapangan (/renter/fields)**: CRUD data lapangan olahraga per jam sewa dan pengaturan penutupan lapangan sementara.
+4.**Halaman Kelola Booking (/renter/bookings)**: Daftar pemesanan masuk untuk seluruh lapangan milik renter, konfirmasi kehadiran penyewa, serta penyelesaian jadwal sewa (COMPLETED).
+5.**Halaman Laporan Pengaduan (/renter/reports)**: Menampilkan dan merespon keluhan yang diajukan oleh pengguna terkait venue atau lapangan milik renter.
+6.**Halaman Pendapatan (/renter/revenue)**: Grafik analitik total penyewaan lapangan, rincian transaksi harian, dan ikhtisar riwayat pendapatan dari lapangan yang dikelola.
 
 ### 3.4.5 Dashboard Administrator (Admin)
-1.**Halaman Kelola Pengguna (/admin/users)**: Menampilkan daftar pengguna (Admin, Renter, User) dengan kemampuan melakukan verifikasi data atau menonaktifkan akun.
-2.**Halaman Moderasi Pengajuan (/admin/venues, /admin/fields)**: Meninjau pendaftaran venue atau lapangan baru dari renter untuk divalidasi dan diubah statusnya menjadi APPROVED atau REJECTED.
-3.**Halaman Pengaduan Masalah (/admin/reports)**: Menampilkan keluhan masuk dari pengguna dan menyediakan form untuk merespon aduan.
+1.**Halaman Dashboard (/admin/dashboard)**: Menampilkan ringkasan statistik platform secara keseluruhan, termasuk total pengguna, venue, lapangan, dan transaksi aktif.
+2.**Halaman Kelola Pengguna (/admin/users)**: Menampilkan daftar pengguna (Admin, Renter, User) dengan kemampuan melakukan verifikasi data atau menonaktifkan akun.
+3.**Halaman Moderasi Pengajuan (/admin/venues, /admin/fields)**: Meninjau pendaftaran venue atau lapangan baru dari renter untuk divalidasi dan diubah statusnya menjadi APPROVED atau REJECTED.
+4.**Halaman Kelola Booking (/admin/bookings)**: Melihat seluruh riwayat transaksi pemesanan dan aliran pembayaran yang terjadi di dalam platform FieldMax.
+5.**Halaman Kelola Sport Type (/admin/sport-types)**: Menambah, mengedit, atau menghapus jenis cabang olahraga (SportType) yang tersedia di platform.
+6.**Halaman Pengaduan Masalah (/admin/reports)**: Menampilkan keluhan masuk dari pengguna dan menyediakan form untuk merespon aduan.
 
 
 ## 3.5 Pengujian Sistem ^pengujian-sistem
@@ -363,6 +386,6 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 | No | Deskripsi Pengujian                                               | Hasil yang Diharapkan                                                                       | Hasil Pengujian |
 | --- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------- |
 | 1  | Admin membuka panel review venue baru dan menekan tombol APPROVED | Status venue berubah menjadi APPROVED dan venue dapat dicari di halaman publik              | Berhasil        |
-| 2  | Admin membalas pesan keluhan transaksi pembayaran dari user       | Pesan tanggapan disimpan ke tabel report_replies dan memunculkan notifikasi ke user terkait | Berhasil        |
+| 2  | Admin membalas pesan keluhan transaksi pembayaran dari user       | Pesan tanggapan disimpan ke tabel report_replies dan dapat dilihat oleh user terkait pada halaman laporan | Berhasil        |
 
 

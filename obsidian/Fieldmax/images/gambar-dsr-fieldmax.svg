@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="Arial, sans-serif">
+  <defs>
+    <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+    <marker id="a1" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#666"/></marker>
+  </defs>
+  <text x="480" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Pemetaan Design Science Research (DSR) — Platform FieldMax</text>
+  <text x="480" y="52" text-anchor="middle" font-size="10" fill="#888" font-style="italic">Berdasarkan Information Systems Research Framework (Hevner et al., 2004)</text>
+  <rect x="30" y="75" width="280" height="380" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="75" width="280" height="32" rx="8" fill="#1565C0"/>
+  <rect x="30" y="99" width="280" height="8" fill="#1565C0"/>
+  <text x="170" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">ENVIRONMENT</text>
+  <text x="170" y="128" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">👥 People (Orang)</text>
+  <text x="50" y="148" font-size="10" fill="#444">• Admin — Moderasi platform</text>
+  <text x="50" y="165" font-size="10" fill="#444">• Renter — Penyedia lapangan</text>
+  <text x="50" y="182" font-size="10" fill="#444">• User — Penyewa lapangan</text>
+  <text x="170" y="210" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">🏢 Organizations</text>
+  <text x="50" y="230" font-size="10" fill="#444">• Platform FieldMax</text>
+  <text x="50" y="247" font-size="10" fill="#444">• Venue olahraga mitra</text>
+  <text x="170" y="275" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">💻 Technology</text>
+  <text x="50" y="295" font-size="10" fill="#444">• Next.js + Express.js</text>
+  <text x="50" y="312" font-size="10" fill="#444">• Tailwind CSS + TypeScript</text>
+  <text x="50" y="329" font-size="10" fill="#444">• PostgreSQL + Prisma</text>
+  <text x="50" y="346" font-size="10" fill="#444">• Midtrans + ImageKit</text>
+  <text x="50" y="363" font-size="10" fill="#444">• Figma + VS Code</text>
+  <text x="170" y="395" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">Kebutuhan Bisnis</text>
+  <text x="50" y="415" font-size="10" fill="#555" font-style="italic">Booking real-time,</text>
+  <text x="50" y="432" font-size="10" fill="#555" font-style="italic">manajemen terpusat,</text>
+  <text x="50" y="449" font-size="10" fill="#555" font-style="italic">payment terintegrasi</text>
+  <rect x="340" y="75" width="280" height="380" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
+  <rect x="340" y="75" width="280" height="32" rx="8" fill="#E65100"/>
+  <rect x="340" y="99" width="280" height="8" fill="#E65100"/>
+  <text x="480" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">IS RESEARCH</text>
+  <text x="480" y="128" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">🔨 Develop / Build</text>
+  <text x="360" y="150" font-size="10" fill="#444">• Perancangan Use Case Diagram</text>
+  <text x="360" y="167" font-size="10" fill="#444">• Activity Diagram</text>
+  <text x="360" y="184" font-size="10" fill="#444">• Entity Relationship Diagram</text>
+  <text x="360" y="201" font-size="10" fill="#444">• UI/UX Design (Figma)</text>
+  <text x="360" y="218" font-size="10" fill="#444">• Pengembangan Web (Next.js + Express)</text>
+  <text x="360" y="235" font-size="10" fill="#444">• Integrasi Midtrans Payment</text>
+  <text x="480" y="268" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">📊 Evaluate</text>
+  <text x="360" y="290" font-size="10" fill="#444">• Black Box Testing</text>
+  <text x="360" y="307" font-size="10" fill="#444">• Pengujian fungsionalitas</text>
+  <text x="360" y="324" font-size="10" fill="#444">• Verifikasi kebutuhan sistem</text>
+  <text x="360" y="341" font-size="10" fill="#444">• Evaluasi kinerja &amp; efektivitas</text>
+  <line x1="310" y1="260" x2="340" y2="260" stroke="#666" stroke-width="1.5" marker-end="url(#a1)"/>
+  <line x1="620" y1="260" x2="650" y2="260" stroke="#666" stroke-width="1.5" marker-end="url(#a1)"/>
+  <rect x="650" y="75" width="280" height="380" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
+  <rect x="650" y="75" width="280" height="32" rx="8" fill="#2E7D32"/>
+  <rect x="650" y="99" width="280" height="8" fill="#2E7D32"/>
+  <text x="790" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">KNOWLEDGE BASE</text>
+  <text x="790" y="128" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">📚 Foundations</text>
+  <text x="670" y="150" font-size="10" fill="#444">• SSR (Server-Side Rendering)</text>
+  <text x="670" y="167" font-size="10" fill="#444">• CSR (Client-Side Rendering)</text>
+  <text x="670" y="184" font-size="10" fill="#444">• REST API Architecture</text>
+  <text x="670" y="201" font-size="10" fill="#444">• Session-based Auth</text>
+  <text x="670" y="218" font-size="10" fill="#444">• Relational Database Design</text>
+  <text x="790" y="250" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">📐 Methodologies</text>
+  <text x="670" y="272" font-size="10" fill="#444">• Design Science Research</text>
+  <text x="670" y="289" font-size="10" fill="#444">• SDLC Waterfall</text>
+  <text x="670" y="306" font-size="10" fill="#444">• Black Box Testing</text>
+  <text x="790" y="340" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">🎯 Tujuan</text>
+  <text x="670" y="360" font-size="10" fill="#444">Meningkatkan kemudahan renter</text>
+  <text x="670" y="377" font-size="10" fill="#444">dalam booking dan pengelolaan</text>
+  <text x="670" y="394" font-size="10" fill="#444">lapangan secara efisien</text>
+  <rect x="30" y="480" width="900" height="50" rx="8" fill="#F5F5F5" stroke="#BBB" stroke-width="1"/>
+  <text x="480" y="500" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">Penerapan Design Science Research pada Pengembangan Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan FieldMax</text>
+  <text x="480" y="518" text-anchor="middle" font-size="9" fill="#888">Sumber: Diadaptasi dari Information Systems Research Framework — Hevner et al. (2004)</text>
+</svg>

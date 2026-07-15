@@ -17,7 +17,7 @@ Penelitian ini dilaksanakan pada bulan Juli 2025 sampai bulan November 2025.
 
 ## 2.2 Design Science Research ^design-science-research
 
-Berikut ini adalah gambaran Kerangka *Information Systems Research Framework* yang digunakan dalam penelitian ini. Konsep metode penelitian ini menggunakan Design Science Research yang sering digunakan dalam Penelitian Sistem Informasi (Hevner et al., 2004). Berikut pada gambar 3 menjelaskan kerangka penelitian sistem informasi yang digunakan pada penelitian ini.
+Berikut ini adalah gambaran Kerangka *Information Systems Research Framework* yang digunakan dalam penelitian ini. Konsep metode penelitian ini menggunakan Design Science Research yang sering digunakan dalam Penelitian Sistem Informasi (Hevner et al., 2004). Berikut pada Gambar 3 menjelaskan kerangka penelitian sistem informasi yang digunakan pada penelitian ini.
 
 ![](images/image017.png)
 
@@ -27,21 +27,29 @@ Berikut ini adalah gambaran Kerangka *Information Systems Research Framework* ya
 
 Pada aspek environment terdiri dari *People* (orang), *Organizations* (organisasi), dan *Technology* (teknologi). *People* (orang) mencakup admin, renter, dan juga user dari website ini. *Organizations* yang terlibat yaitu Platform FieldMax. Kemudian, *Technology* yang digunakan dalam penelitian adalah Visual Studio Code, Tailwind CSS, TypeScript, Next.js, Express.js, dan Figma.
 
-Pada aspek *IS Research*, terdiri dari *Build* (membangun), dan *Evaluate* (evaluasi). Pada tahap *Build*, dilakukan pembuatan desain website Platform FieldMax. Pada tahap *Evaluate*, dilakukan pengujian fungsionalitas Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan yang bertujuan untuk menilai kinerja dan efektivitasnya.
+Pada aspek *IS Research*, terdiri dari *Build* (membangun), dan *Evaluate* (evaluasi). Pada tahap *Build*, dilakukan perancangan dan pembangunan artefak sistem informasi berupa platform web FieldMax, meliputi perancangan use case diagram, activity diagram, ERD, desain UI/UX, serta implementasi kode program menggunakan Next.js dan Express.js. Pada tahap *Evaluate*, dilakukan pengujian fungsionalitas Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan yang bertujuan untuk menilai kinerja dan efektivitasnya.
 
 Adapun aspek *Knowledge Base* dalam penelitian ini terdiri dari *Foundation* (dasar) dan *Methodologies* (metodologi). *Foundation* mencakup konsep SSR dan CSR. Adapun bagian *Methodologies* yang digunakan adalah Design Science Research dan model pengembangan SDLC *Waterfall*. Penerapan metode DSR ini diharapkan dapat berguna dalam meningkatkan kemudahan renter dalam melakukan booking dan pengelolaan lapangan secara efisien.
 
+Berikut pada Gambar 4 merupakan pemetaan spesifik dari kerangka *Design Science Research* yang diterapkan dalam pengembangan Platform FieldMax, yang merinci setiap komponen *Environment*, *IS Research*, dan *Knowledge Base* sesuai konteks penelitian ini.
+
+![[images/gambar-dsr-fieldmax.svg]]
+
+**Gambar 4.** Pemetaan Design Science Research pada Platform FieldMax ^gambar-4
+
 ## 2.3 Metode Pengumpulan Data ^metode-pengumpulan-data
 
-Dalam penelitian ini, tahap pengumpulan data diperlukan untuk mendukung pengembangan sistem. Pemilihan metode pengumpulan data penting karena hasil yang diperoleh akan menjadi dasar dalam proses pengembangan aplikasi. Metode pengumpulan data yang dilakukan dalam penelitian ini adalah sebagai berikut:
-
-### 2.3.1 Studi Literatur
+Dalam penelitian ini, tahap pengumpulan data diperlukan untuk mendukung pengembangan sistem. Pemilihan metode pengumpulan data penting karena hasil yang diperoleh akan menjadi dasar dalam proses pengembangan aplikasi. Metode pengumpulan data yang dilakukan dalam penelitian ini adalah studi literatur.
 
 Studi literatur adalah metode pengumpulan data dengan menelaah berbagai sumber-sumber tertulis, meliputi buku, jurnal, laporan penelitian, dan lainnya. Dalam penelitian ini, penulis melakukan studi literatur dengan mencari berbagai informasi yang relevan mengenai pengembangan sistem reservasi berbasis web dan manajemen layanan fasilitas olahraga.
 
 ## 2.4 Metode Pengembangan Sistem ^metode-pengembangan-sistem
 
 Metode pengembangan sistem atau *System Development Life Cycle* (SDLC) yang digunakan adalah *Waterfall*. Adapun tahapannya sebagai berikut:
+
+![[images/gambar-waterfall-sdlc.svg]]
+
+**Gambar 5.** Tahapan Metode Waterfall pada Pengembangan Platform FieldMax ^gambar-5
 
 ### 2.4.1 Requirements (Kebutuhan)
 
@@ -57,7 +65,7 @@ Pada tahapan ini, dimulai implementasi desain yang telah dibuat menjadi aplikasi
 
 ### 2.4.4 Testing (Pengujian)
 
-Pada tahapan ini, peneliti melakukan pengujian dengan metode Black Box Testing untuk memastikan bahwa sistem yang telah dibangun berfungsi dengan baik.
+Pada tahapan ini, peneliti melakukan pengujian dengan metode Black Box Testing untuk memastikan bahwa sistem yang telah dibangun berfungsi dengan baik. Pengujian dilakukan berdasarkan skenario fungsional yang mencakup seluruh fitur utama sistem, yaitu: registrasi dan login pengguna, pencarian dan reservasi lapangan, pembayaran melalui Midtrans, pengelolaan venue dan lapangan oleh Renter, serta moderasi oleh Admin. Setiap skenario diuji berdasarkan input dan output yang diharapkan untuk memverifikasi kesesuaian dengan kebutuhan yang telah didefinisikan pada tahap Requirements.
 
 ### 2.4.5 Maintenance (Pemeliharaan)
 
@@ -67,19 +75,23 @@ Pada tahapan ini, peneliti melakukan pemeliharaan pada website untuk memastikan 
 
 Tahapan pengembangan sistem ini menggunakan metode Waterfall, yang dimulai dengan tahap *Requirements* (Analisis Kebutuhan). Pada tahap ini, dilakukan analisis kebutuhan sistem yang harus ada untuk aplikasi Sistem Reservasi dan Manajemen Layanan Penyewaan Lapangan, sekaligus melakukan analisis masalah dan analisis kebutuhan sistem. Setelah itu, penelitian dilanjutkan dengan tahapan Design (Desain), yaitu melalui perancangan use case diagram, activity diagram, user interface (UI), serta perancangan database (ERD) untuk memberikan gambaran tentang bagaimana sistem akan berfungsi dan memiliki struktur data.
 
-Tahap berikutnya adalah Implementation (Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi aplikasi berbasis web menggunakan teknologi React.js dan Express.js. Setelah aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai, menghasilkan Hasil Penelitian dan Kesimpulan.
+Tahap berikutnya adalah Implementation (Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi aplikasi berbasis web menggunakan teknologi Next.js dan Express.js. Setelah aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai, menghasilkan Hasil Penelitian dan Kesimpulan.
 
 ![[images/gambar-4-alur-penelitian.svg]]
 
-**Gambar 4.** Alur Penelitian ^gambar-4
+**Gambar 6.** Alur Penelitian ^gambar-6
 
 ## 2.6 Analisis Pengembangan Sistem ^analisis-pengembangan-sistem
 
 ### 2.6.1 Analisis Masalah
 
-Berdasarkan hasil observasi dan studi literasi, ditemukan beberapa permasalahan yang terjadi pada model sistem reservasi dan manajemen layanan penyewaan lapangan dari Platform FieldMax. Salah satu masalah utama adalah pemesanan layanan penyewaan lapangannya yang masih manual menggunakan Google Form, yang menyebabkan pengelolaan layanan yang tersedia juga dilakukan manua, serta proses pembayarannya yang tidak saling terintegrasi. Sistem manual ini akhirnya menimbulkan inefisiensi akibat dari permasalahan tersebut.
+Berdasarkan hasil studi literatur, ditemukan beberapa permasalahan yang terjadi pada model sistem reservasi dan manajemen layanan penyewaan lapangan dari Platform FieldMax. Salah satu masalah utama adalah pemesanan layanan penyewaan lapangannya yang masih manual menggunakan Google Form, yang menyebabkan pengelolaan layanan yang tersedia juga dilakukan manual, serta proses pembayarannya yang tidak saling terintegrasi. Sistem manual ini akhirnya menimbulkan inefisiensi akibat dari permasalahan tersebut.
 
 Kemudian, terjadi penurunan efektivitas manajemen serta memperlambat proses pengambilan keputusan yang strategis. Oleh karena itu, pengembangan sebuah sistem informasi berbasis web yang terpusat dan terintegrasi, yang mampu mengelola proses booking dan manajemen layanan penyewaan lapangan, sangat diperlukan untuk mengatasi masalah-masalah tersebut. Sistem ini diharapkan dapat memberikan kemudahan bagi pelanggan dalam melakukan pemesanan layanan, sekaligus membantu pihak internal Platform FieldMax dalam pengelolaan layanan dan reservasinya.
+
+![[images/gambar-analisis-masalah.svg]]
+
+**Gambar 7.** Diagram Analisis Masalah Sistem Reservasi Lapangan ^gambar-7
 
 ```mermaid
 flowchart LR
@@ -99,7 +111,7 @@ flowchart LR
   style Platform fill:#f5f5f5,stroke:#666
 ```
 
-**Gambar 5.** Sistem penggunaan web FieldMax  ^gambar-5
+**Gambar 8.** Sistem penggunaan web FieldMax  ^gambar-8
 
 ### 2.6.2 Analisis Kebutuhan Sistem
 
@@ -111,17 +123,25 @@ Perangkat lunak yang digunakan dalam merancang web ini terdiri dari:
 
 1. Windows 11
 
-2. Mermaid diagram
+2. Visual Studio Code (VS Code)
 
-3. dbdiagram.io
+3. Node.js
 
-4. Visual Studio Code (VS Code)
+4. Git & GitHub
 
-5. PgAdmin
+5. Figma
 
-6. Postman
+6. Prisma ORM
 
-7. Chrome
+7. PostgreSQL (PgAdmin)
+
+8. Postman
+
+9. Mermaid diagram
+
+10. dbdiagram.io
+
+11. Chrome
 
 #### 2. Perangkat keras.
 
@@ -141,7 +161,7 @@ Dalam prosesnya, peneliti menggunakan *use case diagram* untuk merepresentasikan
 
 ![](images/image020.png)
 
-**Gambar 6.** Use Case Diagram Web Platform FieldMax ^gambar-6
+**Gambar 9.** Use Case Diagram Web Platform FieldMax ^gambar-9
 
  
 
