@@ -4,18 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "94d91c837f528616",
+        "id": "fb4edba645ef70cb",
         "type": "tabs",
         "children": [
           {
-            "id": "c323ad9cef1be9d8",
+            "id": "6d97f1f791af21d1",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "Draf.md",
                 "mode": "preview",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "Draf"
@@ -183,9 +183,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "c323ad9cef1be9d8",
+  "active": "6d97f1f791af21d1",
   "lastOpenFiles": [
-    "Welcome.md",
-    "Draf.md"
+    "images/gambar-4-alur-penelitian.svg",
+    "images/gambar-4-alur-penelitian.drawio.svg",
+    "Draf.md",
+    "images/gambar-4-alur-penelitian.drawio",
+    "Untitled.base",
+    "Untitled",
+    "Welcome.md"
   ]
 }

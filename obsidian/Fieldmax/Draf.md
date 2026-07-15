@@ -479,24 +479,7 @@ Tahapan pengembangan sistem ini menggunakan metode Waterfall, yang dimulai denga
 
 Tahap berikutnya adalah Implementation (Implementasi), yang merupakan perwujudan rancangan yang telah dibuat menjadi aplikasi berbasis web menggunakan teknologi React.js dan Express.js. Setelah aplikasi dibangun, Testing (Pengujian) dilakukan dengan menggunakan metode *Black Box Testing* untuk memastikan aplikasi berfungsi dengan baik sesuai spesifikasi dan fungsionalitas. Jika sistem tidak memenuhi fungsi atau kebutuhan yang ditentukan, maka tahapan akan diulang kembali ke tahap Requirements untuk diperbaiki (disebut siklus umpan balik). Namun, jika sistem sudah berjalan sesuai dengan kebutuhan, maka penelitian dapat dianggap selesai, menghasilkan Hasil Penelitian dan Kesimpulan.
 
-```mermaid
-flowchart TD
-  A([Mulai]) --> B[Requirements<br>Analisis Kebutuhan]
-  B --> C[Design<br>Perancangan Sistem]
-  C --> D[Implementation<br>Implementasi]
-  D --> E{Testing<br>Memenuhi?}
-  E -->|Ya| F[Hasil Penelitian<br>& Kesimpulan]
-  F --> G([Selesai])
-  E -->|Tidak / Umpan Balik| B
-
-  style A fill:#d5e8d4,stroke:#82b366
-  style B fill:#dae8fc,stroke:#6c8ebf
-  style C fill:#dae8fc,stroke:#6c8ebf
-  style D fill:#dae8fc,stroke:#6c8ebf
-  style E fill:#fff2cc,stroke:#d6b656
-  style F fill:#e1d5e7,stroke:#9673a6
-  style G fill:#d5e8d4,stroke:#82b366
-```
+![[images/gambar-4-alur-penelitian.svg]]
 
 **Gambar 4.** Alur Penelitian ^gambar-4
 
