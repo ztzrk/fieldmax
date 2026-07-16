@@ -1,4 +1,4 @@
-﻿# BAB II METODE PENELITIAN ^bab-2
+# BAB II METODE PENELITIAN ^bab-2
 
 ## 2.1 Waktu dan Lokasi Penelitian ^waktu-dan-lokasi-penelitian
 
@@ -167,5 +167,165 @@ Dalam prosesnya, peneliti menggunakan *use case diagram* untuk merepresentasikan
 
 ## 2.8 Rancangan *User Interface* (UI) ^rancangan-user-interface ^rancangan-user-interface
 
-Rancangan antarmuka pengguna (*user interface*) pada platform FieldMax dirancang untuk memberikan kemudahan bagi semua aktor dalam berinteraksi dengan sistem.
+Rancangan antarmuka pengguna (*user interface*) pada platform FieldMax dirancang untuk memberikan kemudahan bagi semua aktor dalam berinteraksi dengan sistem. Berikut adalah rancangan antarmuka yang dikelompokkan berdasarkan peran pengguna.
+
+### 2.8.1 Halaman Autentikasi (*Auth*) ^halaman-autentikasi
+
+Halaman autentikasi merupakan halaman yang digunakan oleh seluruh pengguna untuk masuk ke dalam sistem. Pada bagian ini, pengguna dapat melakukan pendaftaran akun, masuk (*login*), serta mengelola proses autentikasi seperti lupa kata sandi dan verifikasi email.
+
+![[figma/Auth/Login.jpg]]
+
+**Gambar 10.** Halaman Login ^gambar-10
+
+![[figma/Auth/Register User.jpg]]
+
+**Gambar 11.** Halaman Register User ^gambar-11
+
+![[figma/Auth/Register Renter.jpg]]
+
+**Gambar 12.** Halaman Register Renter ^gambar-12
+
+![[figma/Auth/Forgot Password.jpg]]
+
+**Gambar 13.** Halaman Forgot Password ^gambar-13
+
+![[figma/Auth/Reset Password.jpg]]
+
+**Gambar 14.** Halaman Reset Password ^gambar-14
+
+![[figma/Auth/Verify Email.jpg]]
+
+**Gambar 15.** Halaman Verify Email ^gambar-15
+
+### 2.8.2 Halaman Publik ^halaman-publik
+
+Halaman publik merupakan halaman yang dapat diakses oleh semua pengunjung tanpa perlu melakukan autentikasi terlebih dahulu. Halaman ini mencakup beranda, pencarian lapangan, detail venue dan lapangan, serta halaman informasi pendukung seperti tentang kami, harga, FAQ, dan kebijakan privasi.
+
+![[figma/Public/Home.jpg]]
+
+**Gambar 16.** Halaman Home ^gambar-16
+
+![[figma/Public/Search.jpg]]
+
+**Gambar 17.** Halaman Search ^gambar-17
+
+![[figma/Public/Venue Detail.jpg]]
+
+**Gambar 18.** Halaman Venue Detail ^gambar-18
+
+![[figma/Public/Field Detail.jpg]]
+
+**Gambar 19.** Halaman Field Detail ^gambar-19
+
+![[figma/Public/About.jpg]]
+
+**Gambar 20.** Halaman About ^gambar-20
+
+![[figma/Public/Pricing.jpg]]
+
+**Gambar 21.** Halaman Pricing ^gambar-21
+
+![[figma/Public/Faq.jpg]]
+
+**Gambar 22.** Halaman FAQ ^gambar-22
+
+![[figma/Public/Privacy Policy.jpg]]
+
+**Gambar 23.** Halaman Privacy Policy ^gambar-23
+
+![[figma/Public/Terms of Service.jpg]]
+
+**Gambar 24.** Halaman Terms of Service ^gambar-24
+
+![[figma/Public/Renter Profile.jpg]]
+
+**Gambar 25.** Halaman Renter Profile ^gambar-25
+
+![[figma/Public/Error.jpg]]
+
+**Gambar 26.** Halaman Error ^gambar-26
+
+### 2.8.3 Halaman *User* (Penyewa) ^halaman-user
+
+Halaman *User* merupakan halaman yang dapat diakses oleh pengguna dengan peran penyewa. Pada bagian ini, pengguna dapat melihat riwayat pemesanan, detail pemesanan, mengelola profil pribadi, serta membuat pengaduan (*report*).
+
+![[figma/User/My Bookings.jpg]]
+
+**Gambar 27.** Halaman My Bookings ^gambar-27
+
+![[figma/User/Booking Detail.jpg]]
+
+**Gambar 28.** Halaman Booking Detail ^gambar-28
+
+![[figma/User/Profile.jpg]]
+
+**Gambar 29.** Halaman Profile ^gambar-29
+
+![[figma/User/Report.jpg]]
+
+**Gambar 30.** Halaman Report ^gambar-30
+
+![[figma/User/Report Detail.jpg]]
+
+**Gambar 31.** Halaman Report Detail ^gambar-31
+
+### 2.8.4 Halaman *Renter* (Pemilik Lapangan) ^halaman-renter
+
+Halaman *Renter* merupakan halaman yang dapat diakses oleh pengguna dengan peran pemilik atau pengelola lapangan. Pada bagian ini, renter dapat mengelola venue dan lapangan miliknya, melihat pendapatan, memantau pemesanan, serta menangani laporan pengaduan.
+
+![[figma/Renter/Dashboard.jpg]]
+
+**Gambar 32.** Halaman Dashboard Renter ^gambar-32
+
+![[figma/Renter/Venues.jpg]]
+
+**Gambar 33.** Halaman Venues ^gambar-33
+
+![[figma/Renter/Venue Detail.jpg]]
+
+**Gambar 34.** Halaman Venue Detail ^gambar-34
+
+![[figma/Renter/Fields.jpg]]
+
+**Gambar 35.** Halaman Fields ^gambar-35
+
+![[figma/Renter/Field Detail.jpg]]
+
+**Gambar 36.** Halaman Field Detail ^gambar-36
+
+![[figma/Renter/Revenue.jpg]]
+
+**Gambar 37.** Halaman Revenue ^gambar-37
+
+![[figma/Renter/Reports.jpg]]
+
+**Gambar 38.** Halaman Reports ^gambar-38
+
+![[figma/Renter/Report Detail.jpg]]
+
+**Gambar 39.** Halaman Report Detail ^gambar-39
+
+### 2.8.5 Halaman *Admin* ^halaman-admin
+
+Halaman *Admin* merupakan halaman yang dapat diakses oleh pengguna dengan peran administrator. Pada bagian ini, admin dapat memantau keseluruhan sistem melalui dashboard, mengelola data pengguna dan jenis olahraga, serta memeriksa riwayat pemesanan dan transaksi.
+
+![[figma/Admin/Dashboard.jpg]]
+
+**Gambar 40.** Halaman Dashboard Admin ^gambar-40
+
+![[figma/Admin/Booking.jpg]]
+
+**Gambar 41.** Halaman Booking ^gambar-41
+
+![[figma/Admin/Booking Detail.jpg]]
+
+**Gambar 42.** Halaman Booking Detail ^gambar-42
+
+![[figma/Admin/Users.jpg]]
+
+**Gambar 43.** Halaman Users ^gambar-43
+
+![[figma/Admin/Sport Types.jpg]]
+
+**Gambar 44.** Halaman Sport Types ^gambar-44
 
