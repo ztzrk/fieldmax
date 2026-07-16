@@ -6,78 +6,55 @@
     <title>Renter Reports — FieldMax Wireframe</title>
     <link rel="stylesheet" href="../wireframe.css">
 </head>
-<body>
-    <div class="wf-dashboard-layout">
-        <aside class="wf-sidebar">
-            <div class="wf-sidebar-header">[FieldMax Renter]</div>
-            <nav>
-                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
-                <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
-                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
-                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
-                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
-                <a href="reports.html" class="wf-sidebar-item active">[Reports]</a>
-            </nav>
-        </aside>
-        <main class="wf-dashboard-content">
-            <div class="wf-dashboard-header">
-                <div>
-                    <h1 class="wf-page-title">[Support Tickets]</h1>
-                    <p class="wf-page-subtitle">[Submit and track your support requests]</p>
-                </div>
+<body class="wf-dashboard-layout">
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Renter]</div>
+        <nav>
+            <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+            <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
+            <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+            <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+            <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+            <a href="reports.html" class="wf-sidebar-item active">[Reports]</a>
+        </nav>
+    </aside>
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Renter]</div>
+        <div class="wf-dashboard-content">
+            <h1 class="wf-page-title">[Support Tickets]</h1>
+            <p class="wf-page-subtitle">[Submit and track your support requests]</p>
+            <div class="wf-card wf-mb-24">
+                <div class="wf-card-header">[Submit New Ticket]</div>
+                <label style="display:block;margin-bottom:12px;">[Ticket Type]
+                    <select class="wf-input" style="width:100%;margin-top:4px;">
+                        <option>[Select type...]</option><option>[Bug Report]</option><option>[Account Issue]</option><option>[Payment Problem]</option>
+                    </select>
+                </label>
+                <label style="display:block;margin-bottom:12px;">[Description]
+                    <textarea class="wf-input" placeholder="[Describe your issue...]" style="width:100%;min-height:80px;margin-top:4px;"></textarea>
+                </label>
+                <button class="wf-btn primary">[Submit Ticket]</button>
             </div>
-            <!-- Create Report Form -->
-            <div class="wf-box wf-mb-24">
-                <h3 class="wf-section-title">[Submit New Ticket]</h3>
-                <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
-                    <label>[Ticket Type]
-                        <select class="wf-input" style="width:100%;margin-top:4px;">
-                            <option>[Select type...]</option>
-                            <option>[Bug Report]</option>
-                            <option>[Account Issue]</option>
-                            <option>[Payment Problem]</option>
-                            <option>[Venue Issue]</option>
-                            <option>[Other]</option>
-                        </select>
-                    </label>
-                    <label>[Description]
-                        <textarea class="wf-input" placeholder="[Describe your issue...]" style="width:100%;min-height:100px;margin-top:4px;"></textarea>
-                    </label>
-                    <button class="wf-btn primary">[Submit Ticket]</button>
+            <h3 class="wf-section-title">[Your Tickets]</h3>
+            <div class="wf-card" style="margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span class="wf-badge accent">[Bug Report]</span>
+                    <span class="wf-badge success">[Resolved]</span>
                 </div>
+                <p style="font-size:12px;color:#888;">[10 Mar 2025]</p>
+                <p>[Double booking terjadi pada Lapangan Futsal A...]</p>
+                <a href="report-detail.html" style="font-size:13px;">[View Details →]</a>
             </div>
-            <!-- Previous Tickets -->
-            <div>
-                <h3 class="wf-section-title wf-mb-16">[Your Tickets]</h3>
-                <div class="wf-box wf-mb-12">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                        <span class="wf-badge accent">[Bug Report]</span>
-                        <span class="wf-badge success">[Resolved]</span>
-                    </div>
-                    <p style="font-size:12px;color:#888;margin-bottom:4px;">[10 Mar 2025]</p>
-                    <p>[Double booking terjadi pada Lapangan Futsal A tanggal 8 Maret. Sistem mengizinkan dua user...]</p>
-                    <a href="report-detail.html" style="font-size:13px;">[View Details →]</a>
+            <div class="wf-card">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span class="wf-badge accent">[Payment Problem]</span>
+                    <span class="wf-badge accent">[Open]</span>
                 </div>
-                <div class="wf-box wf-mb-12">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                        <span class="wf-badge accent">[Payment Problem]</span>
-                        <span class="wf-badge accent">[Open]</span>
-                    </div>
-                    <p style="font-size:12px;color:#888;margin-bottom:4px;">[5 Mar 2025]</p>
-                    <p>[Pembayaran dari customer belum masuk ke rekening padahal status sudah Paid. Mohon bantuan.]</p>
-                    <a href="report-detail.html" style="font-size:13px;">[View Details →]</a>
-                </div>
-                <div class="wf-box">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                        <span class="wf-badge accent">[Venue Issue]</span>
-                        <span class="wf-badge success">[Resolved]</span>
-                    </div>
-                    <p style="font-size:12px;color:#888;margin-bottom:4px;">[28 Feb 2025]</p>
-                    <p>[GOR Medan status masih Pending lebih dari 5 hari. Mohon percepatan review.]</p>
-                    <a href="report-detail.html" style="font-size:13px;">[View Details →]</a>
-                </div>
+                <p style="font-size:12px;color:#888;">[5 Mar 2025]</p>
+                <p>[Pembayaran belum masuk rekening...]</p>
+                <a href="report-detail.html" style="font-size:13px;">[View Details →]</a>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 </body>
 </html>

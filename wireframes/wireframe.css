@@ -16,6 +16,10 @@ body {
     line-height: 1.5;
 }
 
+html, body {
+    height: 100%;
+}
+
 /* ---- Wireframe Box Base ---- */
 .wf-box {
     border: 2px dashed #bbb;
@@ -109,10 +113,12 @@ body {
 
 /* ---- Dashboard Layout ---- */
 .wf-dashboard-layout { display: flex; min-height: 100vh; }
-.wf-sidebar { width: 240px; background: #1a2327; color: #b0bec5; padding: 20px 0; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.wf-sidebar { width: 240px; background: #1a2327; color: #b0bec5; padding: 20px 0; display: flex; flex-direction: column; flex-shrink: 0; }
 .wf-sidebar .wf-sidebar-header { padding: 0 20px 20px; font-size: 16px; font-weight: 700; color: #ff9800; }
-.wf-sidebar .wf-sidebar-item { padding: 10px 20px; font-size: 13px; font-weight: 500; border-left: 3px solid transparent; }
+.wf-sidebar .wf-sidebar-item { padding: 10px 20px; font-size: 13px; font-weight: 500; border-left: 3px solid transparent; display: block; text-decoration: none; color: #b0bec5; transition: all 0.15s; }
+.wf-sidebar .wf-sidebar-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
 .wf-sidebar .wf-sidebar-item.active { background: rgba(255,152,0,0.12); border-left-color: #ff9800; color: #fff; }
+.wf-sidebar nav { display: flex; flex-direction: column; gap: 2px; }
 .wf-dashboard-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .wf-dashboard-header { height: 56px; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; padding: 0 24px; }
 .wf-dashboard-content { flex: 1; padding: 24px; overflow-y: auto; }

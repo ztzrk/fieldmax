@@ -6,26 +6,23 @@
     <title>Renter Revenue — FieldMax Wireframe</title>
     <link rel="stylesheet" href="../wireframe.css">
 </head>
-<body>
-    <div class="wf-dashboard-layout">
-        <aside class="wf-sidebar">
-            <div class="wf-sidebar-header">[FieldMax Renter]</div>
-            <nav>
-                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
-                <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
-                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
-                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
-                <a href="revenue.html" class="wf-sidebar-item active">[Revenue]</a>
-                <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
-            </nav>
-        </aside>
-        <main class="wf-dashboard-content">
-            <div class="wf-dashboard-header">
-                <div>
-                    <h1 class="wf-page-title">[Revenue]</h1>
-                    <p class="wf-page-subtitle">[Track your earnings and performance across venues]</p>
-                </div>
-            </div>
+<body class="wf-dashboard-layout">
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Renter]</div>
+        <nav>
+            <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+            <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
+            <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+            <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+            <a href="revenue.html" class="wf-sidebar-item active">[Revenue]</a>
+            <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
+        </nav>
+    </aside>
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Renter]</div>
+        <div class="wf-dashboard-content">
+            <h1 class="wf-page-title">[Revenue]</h1>
+            <p class="wf-page-subtitle">[Track your earnings across venues]</p>
             <div class="wf-grid-3 wf-mb-24">
                 <div class="wf-stat-card">
                     <div class="wf-stat-icon">[Rp]</div>
@@ -33,15 +30,16 @@
                     <div class="wf-stat-label">[Total Revenue]</div>
                 </div>
                 <div class="wf-stat-card">
-                    <div class="wf-stat-icon">[🏟️]</div>
+                    <div class="wf-stat-icon">[🏟]</div>
                     <div class="wf-stat-value">[GOR Jakarta]</div>
-                    <div class="wf-stat-label">[Top Performing Venue]</div>
+                    <div class="wf-stat-label">[Top Venue]</div>
                 </div>
                 <div class="wf-stat-card">
                     <div class="wf-stat-icon">[📅]</div>
                     <div class="wf-stat-value">[Rp 5.2M]</div>
                     <div class="wf-stat-label">[This Month]</div>
                 </div>
+            </div>
             <div class="wf-card">
                 <div class="wf-card-header">
                     <div class="wf-tabs">
@@ -50,17 +48,13 @@
                         <span class="wf-tab">[By Field]</span>
                     </div>
                 </div>
-                <!-- Chart Tab Content -->
                 <div style="padding:16px;">
-                    <div class="wf-chart" style="height:300px;">[Bar Chart: Monthly Revenue Breakdown — GOR Jakarta, GOR Surabaya, GOR Bandung]</div>
+                    <div class="wf-chart" style="height:300px;">[Bar Chart: Monthly Revenue]</div>
                 </div>
-                <!-- By Venue Tab Content (hidden by default, shown for wireframe) -->
                 <div style="padding:16px;">
-                    <p class="wf-section-title" style="margin-bottom:8px;">[Revenue by Venue]</p>
+                    <p class="wf-section-title">[Revenue by Venue]</p>
                     <table class="wf-table">
-                        <thead>
-                            <tr><th>[Venue Name]</th><th>[Total Bookings]</th><th>[Revenue]</th></tr>
-                        </thead>
+                        <thead><tr><th>[Venue]</th><th>[Bookings]</th><th>[Revenue]</th></tr></thead>
                         <tbody>
                             <tr><td>[GOR Jakarta]</td><td>[320]</td><td>[Rp 22M]</td></tr>
                             <tr><td>[GOR Surabaya]</td><td>[180]</td><td>[Rp 14M]</td></tr>
@@ -68,25 +62,19 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- By Field Tab Content -->
                 <div style="padding:16px;">
-                    <p class="wf-section-title" style="margin-bottom:8px;">[Revenue by Field]</p>
+                    <p class="wf-section-title">[Revenue by Field]</p>
                     <table class="wf-table">
-                        <thead>
-                            <tr><th>[Field Name]</th><th>[Venue]</th><th>[Total Bookings]</th><th>[Revenue]</th></tr>
-                        </thead>
+                        <thead><tr><th>[Field]</th><th>[Venue]</th><th>[Bookings]</th><th>[Revenue]</th></tr></thead>
                         <tbody>
                             <tr><td>[Lapangan Futsal A]</td><td>[GOR Jakarta]</td><td>[120]</td><td>[Rp 8M]</td></tr>
                             <tr><td>[Lapangan Futsal B]</td><td>[GOR Jakarta]</td><td>[100]</td><td>[Rp 7M]</td></tr>
                             <tr><td>[Lapangan Sepak Bola]</td><td>[GOR Bandung]</td><td>[80]</td><td>[Rp 6M]</td></tr>
-                            <tr><td>[Lapangan Basket]</td><td>[GOR Surabaya]</td><td>[65]</td><td>[Rp 4.5M]</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 </body>
 </html>
-
-            </div>

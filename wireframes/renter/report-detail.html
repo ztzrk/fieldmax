@@ -6,82 +6,50 @@
     <title>Report Detail — FieldMax Wireframe</title>
     <link rel="stylesheet" href="../wireframe.css">
 </head>
-<body>
-    <div class="wf-dashboard-layout">
-        <aside class="wf-sidebar">
-            <div class="wf-sidebar-header">[FieldMax Renter]</div>
-            <nav>
-                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
-                <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
-                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
-                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
-                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
-                <a href="reports.html" class="wf-sidebar-item active">[Reports]</a>
-            </nav>
-        </aside>
-        <main class="wf-dashboard-content">
+<body class="wf-dashboard-layout">
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Renter]</div>
+        <nav>
+            <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+            <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
+            <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+            <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+            <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+            <a href="reports.html" class="wf-sidebar-item active">[Reports]</a>
+        </nav>
+    </aside>
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Renter]</div>
+        <div class="wf-dashboard-content">
             <a href="reports.html" class="wf-back-link">[← Support Tickets]</a>
-            <!-- Report Info -->
-            <div class="wf-box wf-mb-24">
+            <div class="wf-card wf-mb-24">
                 <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
                     <span class="wf-badge accent">[Payment Problem]</span>
                     <span class="wf-badge accent">[Open]</span>
                 </div>
-                <p style="font-size:12px;color:#888;margin-bottom:8px;">[Submitted: 5 Mar 2025, 14:30 WIB]</p>
-                <p style="line-height:1.6;">[Pembayaran dari customer belum masuk ke rekening padahal status sudah Paid. Saya sudah cek mutasi rekening 3 hari terakhir tidak ada dana masuk. Mohon bantuan tim untuk investigasi.]</p>
+                <p style="font-size:12px;color:#888;">[Submitted: 5 Mar 2025, 14:30 WIB]</p>
+                <p>[Pembayaran dari customer belum masuk ke rekening padahal status sudah Paid. Mohon bantuan.]</p>
             </div>
-
-            <!-- Chat Thread -->
-            <h3 class="wf-section-title wf-mb-16">[Conversation]</h3>
-            <div class="wf-mb-16">
-                <!-- User message -->
-                <div style="display:flex;justify-content:flex-start;margin-bottom:16px;">
-                    <div class="wf-box" style="max-width:70%;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <strong>[Andi Prakoso]</strong>
-                            <span style="font-size:11px;color:#888;">[5 Mar 2025, 14:30]</span>
-                        </div>
-                        <p style="margin:0;">[Pembayaran belum masuk ke rekening padahal status sudah Paid.]</p>
-                    </div>
-                </div>
-                <!-- Admin reply -->
-                <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
-                    <div class="wf-box primary" style="max-width:70%;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <strong>[Admin Fikri] <span class="wf-badge" style="font-size:10px;">[Staff]</span></strong>
-                            <span style="font-size:11px;color:#888;">[5 Mar 2025, 16:45]</span>
-                        </div>
-                        <p style="margin:0;">[Terima kasih Pak Andi. Kami akan investigasi. Mohon tunggu 1x24 jam.]</p>
-                    </div>
-                </div>
-                <!-- User follow-up -->
-                <div style="display:flex;justify-content:flex-start;margin-bottom:16px;">
-                    <div class="wf-box" style="max-width:70%;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <strong>[Andi Prakoso]</strong>
-                            <span style="font-size:11px;color:#888;">[6 Mar 2025, 09:15]</span>
-                        </div>
-                        <p style="margin:0;">[Baik, saya tunggu. Mohon update jika ada perkembangan.]</p>
-                    </div>
-                </div>
-                <!-- Admin final -->
-                <div style="display:flex;justify-content:flex-end;">
-                    <div class="wf-box primary" style="max-width:70%;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <strong>[Admin Fikri] <span class="wf-badge" style="font-size:10px;">[Staff]</span></strong>
-                            <span style="font-size:11px;color:#888;">[7 Mar 2025, 11:00]</span>
-                        </div>
-                        <p style="margin:0;">[Sedang dicek oleh tim payment. Akan dikabari secepatnya.]</p>
-                    </div>
+            <h3 class="wf-section-title">[Conversation]</h3>
+            <div style="margin-bottom:16px;">
+                <div class="wf-box" style="max-width:70%;">
+                    <strong>[Andi Prakoso]</strong> <span style="font-size:11px;color:#888;">[5 Mar, 14:30]</span>
+                    <p>[Pembayaran belum masuk ke rekening...]</p>
                 </div>
             </div>
-            <!-- Reply Form -->
-            <div class="wf-box">
-                <h3 class="wf-section-title" style="margin-bottom:12px;">[Send Reply]</h3>
+            <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+                <div class="wf-box primary" style="max-width:70%;">
+                    <strong>[Admin Fikri]</strong> <span class="wf-badge" style="font-size:10px;">[Staff]</span>
+                    <span style="font-size:11px;color:#888;">[5 Mar, 16:45]</span>
+                    <p>[Kami akan investigasi. Mohon tunggu 1x24 jam.]</p>
+                </div>
+            </div>
+            <div class="wf-card">
+                <div class="wf-card-header">[Send Reply]</div>
                 <textarea class="wf-input" placeholder="[Type your reply...]" style="width:100%;min-height:80px;margin-bottom:8px;"></textarea>
                 <button class="wf-btn primary">[Send Reply]</button>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 </body>
 </html>

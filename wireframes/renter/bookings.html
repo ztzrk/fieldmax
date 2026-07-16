@@ -6,94 +6,39 @@
     <title>Renter Bookings — FieldMax Wireframe</title>
     <link rel="stylesheet" href="../wireframe.css">
 </head>
-<body>
-    <div class="wf-dashboard-layout">
-        <aside class="wf-sidebar">
-            <div class="wf-sidebar-header">[FieldMax Renter]</div>
-            <nav>
-                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
-                <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
-                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
-                <a href="bookings.html" class="wf-sidebar-item active">[Bookings]</a>
-                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
-                <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
-            </nav>
-        </aside>
-        <main class="wf-dashboard-content">
-            <div class="wf-dashboard-header">
-                <div>
-                    <h1 class="wf-page-title">[Bookings Management]</h1>
-                    <p class="wf-page-subtitle">[View and manage all bookings across your venues]</p>
-                </div>
-            </div>
+<body class="wf-dashboard-layout">
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Renter]</div>
+        <nav>
+            <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+            <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
+            <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+            <a href="bookings.html" class="wf-sidebar-item active">[Bookings]</a>
+            <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+            <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
+        </nav>
+    </aside>
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Renter]</div>
+        <div class="wf-dashboard-content">
+            <h1 class="wf-page-title">[Bookings Management]</h1>
+            <p class="wf-page-subtitle">[View and manage all bookings across your venues]</p>
             <div class="wf-card">
                 <div class="wf-card-header">
                     <span>[All Bookings]</span>
-                    <input type="text" class="wf-input" placeholder="[Search bookings...]" style="width:200px;">
+                    <input type="text" class="wf-input" placeholder="[Search...]" style="width:200px;">
                 </div>
                 <table class="wf-table">
-                    <thead>
-                        <tr>
-                            <th>[Booking ID]</th>
-                            <th>[User]</th>
-                            <th>[Field]</th>
-                            <th>[Date]</th>
-                            <th>[Time]</th>
-                            <th>[Status]</th>
-                            <th>[Payment]</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>[Booking ID]</th><th>[User]</th><th>[Field]</th><th>[Date]</th><th>[Time]</th><th>[Status]</th><th>[Payment]</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td>[#BK-001]</td>
-                            <td>[Budi Santoso]</td>
-                            <td>[Lapangan Futsal A — GOR Jakarta]</td>
-                            <td>[12 Mar 2025]</td>
-                            <td>[14:00-16:00]</td>
-                            <td><span class="wf-badge success">[Confirmed]</span></td>
-                            <td><span class="wf-badge success">[Paid]</span></td>
-                        </tr>
-                        <tr>
-                            <td>[#BK-002]</td>
-                            <td>[Citra Dewi]</td>
-                            <td>[Lapangan Basket — GOR Surabaya]</td>
-                            <td>[12 Mar 2025]</td>
-                            <td>[09:00-11:00]</td>
-                            <td><span class="wf-badge success">[Confirmed]</span></td>
-                            <td><span class="wf-badge success">[Paid]</span></td>
-                        </tr>
-                        <tr>
-                            <td>[#BK-003]</td>
-                            <td>[Dian Permana]</td>
-                            <td>[Lapangan Sepak Bola — GOR Bandung]</td>
-                            <td>[11 Mar 2025]</td>
-                            <td>[16:00-18:00]</td>
-                            <td><span class="wf-badge accent">[Pending]</span></td>
-                            <td><span class="wf-badge accent">[Awaiting]</span></td>
-                        </tr>
-                        <tr>
-                            <td>[#BK-004]</td>
-                            <td>[Eko Prasetyo]</td>
-                            <td>[Lapangan Futsal B — GOR Jakarta]</td>
-                            <td>[11 Mar 2025]</td>
-                            <td>[19:00-21:00]</td>
-                            <td><span class="wf-badge success">[Confirmed]</span></td>
-                            <td><span class="wf-badge success">[Paid]</span></td>
-                        </tr>
-                        <tr>
-                            <td>[#BK-005]</td>
-                            <td>[Fitri Anggraini]</td>
-                            <td>[Lapangan Tenis — GOR Surabaya]</td>
-                            <td>[10 Mar 2025]</td>
-                            <td>[07:00-09:00]</td>
-                            <td><span class="wf-badge danger">[Canceled]</span></td>
-                            <td><span class="wf-badge danger">[Refunded]</span></td>
-                        </tr>
+                        <tr><td>[#BK-001]</td><td>[Budi Santoso]</td><td>[Lapangan Futsal A]</td><td>[12 Mar 2025]</td><td>[14:00-16:00]</td><td><span class="wf-badge success">[Confirmed]</span></td><td><span class="wf-badge success">[Paid]</span></td></tr>
+                        <tr><td>[#BK-002]</td><td>[Citra Dewi]</td><td>[Lapangan Basket]</td><td>[12 Mar 2025]</td><td>[09:00-11:00]</td><td><span class="wf-badge success">[Confirmed]</span></td><td><span class="wf-badge success">[Paid]</span></td></tr>
+                        <tr><td>[#BK-003]</td><td>[Dian Permana]</td><td>[Lapangan Sepak Bola]</td><td>[11 Mar 2025]</td><td>[16:00-18:00]</td><td><span class="wf-badge accent">[Pending]</span></td><td><span class="wf-badge accent">[Awaiting]</span></td></tr>
                     </tbody>
                 </table>
-                <div class="wf-pagination" style="margin-top:12px;">[‹ 1 2 3 ›]</div>
+                <div class="wf-pagination">[‹ 1 2 3 ›]</div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 </body>
 </html>

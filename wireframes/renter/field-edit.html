@@ -6,24 +6,23 @@
     <title>Edit Field — FieldMax Wireframe</title>
     <link rel="stylesheet" href="../wireframe.css">
 </head>
-<body>
-    <div class="wf-dashboard-layout">
-        <aside class="wf-sidebar">
-            <div class="wf-sidebar-header">[FieldMax Renter]</div>
-            <nav>
-                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
-                <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
-                <a href="fields.html" class="wf-sidebar-item active">[My Fields]</a>
-                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
-                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
-                <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
-            </nav>
-        </aside>
-        <main class="wf-dashboard-content">
+<body class="wf-dashboard-layout">
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Renter]</div>
+        <nav>
+            <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+            <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
+            <a href="fields.html" class="wf-sidebar-item active">[My Fields]</a>
+            <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+            <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+            <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
+        </nav>
+    </aside>
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Renter]</div>
+        <div class="wf-dashboard-content">
             <a href="fields.html" class="wf-back-link">[← My Fields]</a>
-            <div class="wf-dashboard-header">
-                <h1 class="wf-page-title">[Edit Field: Lapangan Futsal A]</h1>
-            </div>
+            <h1 class="wf-page-title wf-mb-24">[Edit Field: Lapangan Futsal A]</h1>
             <div class="wf-two-col wf-mb-24">
                 <div>
                     <div class="wf-card wf-mb-16">
@@ -34,52 +33,45 @@
                             </label>
                             <label style="display:block;margin-bottom:12px;">[Sport Type]
                                 <select class="wf-input" style="width:100%;margin-top:4px;">
-                                    <option>[Futsal]</option>
-                                    <option>[Sepak Bola]</option>
-                                    <option>[Basket]</option>
-                                    <option>[Badminton]</option>
-                                    <option>[Tenis]</option>
+                                    <option>[Futsal]</option><option>[Sepak Bola]</option><option>[Basket]</option>
                                 </select>
                             </label>
-                            <label style="display:block;margin-bottom:12px;">[Base Price (per hour)]
+                            <label style="display:block;margin-bottom:12px;">[Price per Hour]
                                 <input type="text" class="wf-input" value="[250000]" style="width:100%;margin-top:4px;">
                             </label>
                             <label style="display:block;margin-bottom:12px;">[Description]
-                                <textarea class="wf-input" style="width:100%;margin-top:4px;min-height:80px;">[Lapangan futsal berkualitas tinggi dengan rumput sintetis.]</textarea>
+                                <textarea class="wf-input" style="width:100%;min-height:80px;margin-top:4px;">[Lapangan futsal berkualitas tinggi dengan rumput sintetis.]</textarea>
                             </label>
                             <button class="wf-btn primary">[Save Changes]</button>
                         </div>
-
                     </div>
                     <div class="wf-card">
                         <div class="wf-card-header">[Photo Gallery]</div>
                         <div class="wf-grid-3" style="padding:16px;gap:8px;">
-                            <div class="wf-box filled" style="height:100px;">[Field Photo 1]</div>
-                            <div class="wf-box filled" style="height:100px;">[Field Photo 2]</div>
-                            <div class="wf-box filled" style="height:100px;">[Field Photo 3]</div>
+                            <div class="wf-box filled" style="height:100px;">[Photo 1]</div>
+                            <div class="wf-box filled" style="height:100px;">[Photo 2]</div>
+                            <div class="wf-box filled" style="height:100px;">[Photo 3]</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div class="wf-box accent wf-mb-16">
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <span><strong>[Status]</strong></span>
+                    <div class="wf-card wf-mb-16">
+                        <div class="wf-card-header">[Field Status]</div>
+                        <div style="padding:16px;">
                             <span class="wf-badge success">[Active]</span>
-                        </div>
-                        <div style="margin-top:12px;">
-                            <button class="wf-btn outline danger" style="width:100%;">[Deactivate Field]</button>
+                            <button class="wf-btn outline" style="width:100%;margin-top:12px;">[Deactivate Field]</button>
                         </div>
                     </div>
                     <div class="wf-card wf-mb-16">
                         <div class="wf-card-header">[Temporarily Closed]</div>
                         <div style="padding:16px;display:flex;justify-content:space-between;align-items:center;">
                             <span>[Field is open for bookings]</span>
-                            <span style="width:44px;height:24px;background:#ccc;border-radius:12px;display:inline-block;"></span>
+                            <span class="wf-box" style="width:44px;height:24px;border-radius:12px;background:#ccc;"></span>
                         </div>
                     </div>
                     <div class="wf-card wf-mb-16">
                         <div class="wf-card-header">[Upload Images]</div>
-                        <div class="wf-box dashed" style="margin:16px;text-align:center;padding:30px 16px;">
+                        <div class="wf-box filled" style="margin:16px;text-align:center;padding:30px;">
                             [Drop images or click]
                             <br><button class="wf-btn primary" style="margin-top:8px;">[Upload]</button>
                         </div>
@@ -88,12 +80,11 @@
                         <div class="wf-card-header">[Schedule]</div>
                         <div class="wf-box" style="margin:16px;text-align:center;padding:20px;">
                             [Coming Soon]
-                            <br><small>[Advanced schedule management in development]</small>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 </body>
 </html>
