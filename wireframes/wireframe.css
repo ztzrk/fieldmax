@@ -1,0 +1,181 @@
+/* ============================================================
+   FieldMax Wireframe Stylesheet
+   Simple gray-box wireframe design for all pages
+   ============================================================ */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* ---- Wireframe Box Base ---- */
+.wf-box {
+    border: 2px dashed #bbb;
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    min-height: 40px;
+}
+
+.wf-box.solid   { border-style: solid; }
+.wf-box.filled  { background: #e8e8e8; border-color: #ccc; }
+.wf-box.accent  { background: #fff3e0; border-color: #ff9800; color: #e65100; }
+.wf-box.primary { background: #e3f2fd; border-color: #2196f3; color: #1565c0; }
+.wf-box.success { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+.wf-box.danger  { background: #ffebee; border-color: #f44336; color: #c62828; }
+.wf-box.dark    { background: #37474f; border-color: #263238; color: #eceff1; }
+
+.wf-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+/* ---- Layout Containers ---- */
+.wf-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.wf-navbar {
+    height: 56px;
+    background: #263238;
+    color: #eceff1;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    font-size: 14px;
+    font-weight: 600;
+    gap: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.wf-navbar .wf-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff9800;
+}
+
+.wf-navbar .wf-nav-links {
+    display: flex;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.wf-navbar .wf-nav-link {
+    color: #b0bec5;
+    font-weight: 400;
+}
+
+.wf-footer {
+    height: 48px;
+    background: #263238;
+    color: #78909c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    gap: 24px;
+    margin-top: auto;
+}
+
+.wf-main {
+    flex: 1;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ---- Dashboard Layout ---- */
+.wf-dashboard-layout { display: flex; min-height: 100vh; }
+.wf-sidebar { width: 240px; background: #1a2327; color: #b0bec5; padding: 20px 0; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.wf-sidebar .wf-sidebar-header { padding: 0 20px 20px; font-size: 16px; font-weight: 700; color: #ff9800; }
+.wf-sidebar .wf-sidebar-item { padding: 10px 20px; font-size: 13px; font-weight: 500; border-left: 3px solid transparent; }
+.wf-sidebar .wf-sidebar-item.active { background: rgba(255,152,0,0.12); border-left-color: #ff9800; color: #fff; }
+.wf-dashboard-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.wf-dashboard-header { height: 56px; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; padding: 0 24px; }
+.wf-dashboard-content { flex: 1; padding: 24px; overflow-y: auto; }
+
+/* ---- Grids ---- */
+.wf-row { display: flex; gap: 16px; margin-bottom: 16px; }
+.wf-col-1 { flex: 1; } .wf-col-2 { flex: 2; } .wf-col-3 { flex: 3; }
+.wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.wf-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.wf-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.wf-grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+
+/* ---- Cards & Sections ---- */
+.wf-stat-card { border: 2px dashed #ccc; background: #fff; border-radius: 12px; padding: 20px; }
+.wf-stat-card .wf-stat-icon { width: 32px; height: 32px; border: 1px dashed #bbb; border-radius: 8px; margin-bottom: 4px; }
+.wf-stat-card .wf-stat-value { font-size: 28px; font-weight: 700; color: #333; }
+.wf-stat-card .wf-stat-label { font-size: 12px; color: #999; }
+.wf-section-title { font-size: 18px; font-weight: 700; color: #444; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #ddd; }
+.wf-page-title { font-size: 24px; font-weight: 700; color: #222; margin-bottom: 4px; }
+.wf-page-subtitle { font-size: 14px; color: #888; margin-bottom: 24px; }
+.wf-card { border: 2px dashed #ccc; background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.wf-card-header { font-size: 16px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
+
+/* ---- Table ---- */
+.wf-table { width: 100%; border-collapse: collapse; }
+.wf-table th { background: #f5f5f5; border: 1px dashed #ddd; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #777; }
+.wf-table td { border: 1px dashed #e0e0e0; padding: 10px 14px; font-size: 13px; color: #666; }
+
+/* ---- Forms & Buttons ---- */
+.wf-input { width: 100%; height: 40px; border: 2px dashed #ccc; border-radius: 8px; padding: 0 12px; background: #fff; font-size: 13px; color: #888; }
+.wf-btn { height: 40px; padding: 0 20px; border: 2px dashed #ccc; border-radius: 8px; background: #fff; font-size: 13px; font-weight: 600; color: #666; display: inline-flex; align-items: center; gap: 6px; }
+.wf-btn.primary { background: #37474f; color: #fff; border-color: #263238; }
+.wf-btn.outline { background: transparent; border-color: #999; }
+
+/* ---- Hero, Carousel, Tabs ---- */
+.wf-hero { background: #e0e0e0; padding: 80px 24px; text-align: center; border: 2px dashed #bbb; }
+.wf-hero h1 { font-size: 36px; color: #555; margin-bottom: 12px; }
+.wf-carousel { height: 320px; background: #e8e8e8; border: 2px dashed #ccc; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #999; font-weight: 600; }
+.wf-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+.wf-tab { padding: 8px 20px; border: 2px dashed #ccc; border-radius: 999px; font-size: 13px; font-weight: 600; color: #888; background: #fff; }
+.wf-tab.active { background: #37474f; color: #fff; border-color: #263238; }
+
+/* ---- Misc Components ---- */
+.wf-badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1px dashed #bbb; }
+.wf-pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+.wf-two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+.wf-two-col-equal { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.wf-auth-layout { display: flex; min-height: 100vh; }
+.wf-auth-form-side { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px; }
+.wf-auth-image-side { flex: 1; background: #d0d0d0; border-left: 2px dashed #bbb; display: flex; align-items: center; justify-content: center; color: #999; font-size: 16px; font-weight: 600; }
+.wf-centered-card { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.wf-centered-card .wf-card { width: 380px; }
+.wf-chart { height: 280px; background: #fafafa; border: 2px dashed #ddd; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #aaa; font-weight: 600; }
+.wf-chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.wf-chip { padding: 6px 14px; border: 2px dashed #ccc; border-radius: 999px; font-size: 12px; font-weight: 600; color: #777; }
+.wf-chip.active { background: #37474f; color: #fff; border-color: #263238; }
+.wf-empty { text-align: center; padding: 48px 24px; color: #aaa; font-size: 14px; font-weight: 600; }
+.wf-accordion-item { border: 2px dashed #ddd; border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; font-size: 13px; color: #777; font-weight: 600; }
+.wf-sep { height: 1px; background: #ddd; border: none; margin: 16px 0; }
+.wf-sidebar-card { position: sticky; top: 80px; }
+.wf-back-link { font-size: 13px; color: #999; margin-bottom: 16px; display: inline-block; }
+.wf-text-center { text-align: center; }
+.wf-mb-8 { margin-bottom: 8px; } .wf-mb-16 { margin-bottom: 16px; } .wf-mb-24 { margin-bottom: 24px; } .wf-mb-32 { margin-bottom: 32px; }
+.wf-mt-16 { margin-top: 16px; }
+
+

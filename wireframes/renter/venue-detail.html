@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renter Venue Detail — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body>
+    <div class="wf-dashboard-layout">
+        <aside class="wf-sidebar">
+            <div class="wf-sidebar-header">[FieldMax Renter]</div>
+            <nav>
+                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+                <a href="venues.html" class="wf-sidebar-item active">[My Venues]</a>
+                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+                <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
+            </nav>
+        </aside>
+        <main class="wf-dashboard-content">
+            <a href="venues.html" class="wf-back-link">[← My Venues]</a>
+            <div class="wf-dashboard-header">
+                <h1 class="wf-page-title">[GOR Jakarta]</h1>
+                <div style="display:flex;gap:8px;">
+                    <button class="wf-btn success">[Publish Venue]</button>
+                    <button class="wf-btn outline danger">[Unpublish]</button>
+                </div>
+            </div>
+                <div>
+                    <div class="wf-card wf-mb-16">
+                        <div class="wf-card-header">[Venue Information]</div>
+                        <div style="padding:16px;">
+                            <label style="display:block;margin-bottom:12px;">[Venue Name]
+                                <input type="text" class="wf-input" value="[GOR Jakarta]" style="width:100%;margin-top:4px;">
+                            </label>
+                            <label style="display:block;margin-bottom:12px;">[Address]
+                                <textarea class="wf-input" style="width:100%;margin-top:4px;min-height:60px;">[Jl. Sudirman No. 10, Jakarta Pusat, DKI Jakarta 10250]</textarea>
+                            </label>
+                            <label style="display:block;margin-bottom:12px;">[Description]
+                                <textarea class="wf-input" style="width:100%;margin-top:4px;min-height:80px;">[Gedung Olahraga modern dengan fasilitas lengkap di pusat kota Jakarta.]</textarea>
+                            </label>
+                            <button class="wf-btn primary">[Save Changes]</button>
+                        </div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-header">[Photo Gallery]</div>
+                        <div class="wf-grid-4" style="padding:16px;gap:8px;">
+                            <div class="wf-box filled" style="height:100px;">[Photo 1]</div>
+                            <div class="wf-box filled" style="height:100px;">[Photo 2]</div>
+                            <div class="wf-box filled" style="height:100px;">[Photo 3]</div>
+                            <div class="wf-box filled" style="height:100px;">[Photo 4]</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="wf-card wf-mb-16">
+                        <div class="wf-card-header">[Upload Images]</div>
+                        <div class="wf-box dashed" style="margin:16px;text-align:center;padding:40px 16px;">
+                            [Drag & drop images here or click to browse]
+                            <br><small>[Max 5MB per image — JPG, PNG]</small>
+                            <br><button class="wf-btn primary" style="margin-top:8px;">[Upload]</button>
+                        </div>
+                    </div>
+
+            <div class="wf-two-col wf-mb-24">
+                </div>
+            </div>
+            <div class="wf-card">
+                <div class="wf-card-header">
+                    <span>[Fields in this Venue]</span>
+                    <a href="field-edit.html" class="wf-btn primary">[+ Create Field]</a>
+                </div>
+                <table class="wf-table">
+                    <thead>
+                        <tr>
+                            <th>[Name]</th>
+                            <th>[Sport Type]</th>
+                            <th>[Price]</th>
+                            <th>[Status]</th>
+                            <th>[Closed]</th>
+                            <th>[Actions]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="field-edit.html">[Lapangan Futsal A]</a></td>
+                            <td>[Futsal]</td>
+                            <td>[Rp 250K/hr]</td>
+                            <td><span class="wf-badge success">[Active]</span></td>
+                            <td>[No]</td>
+                            <td><a href="field-edit.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="field-edit.html">[Lapangan Futsal B]</a></td>
+                            <td>[Futsal]</td>
+                            <td>[Rp 250K/hr]</td>
+                            <td><span class="wf-badge success">[Active]</span></td>
+                            <td>[No]</td>
+                            <td><a href="field-edit.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="field-edit.html">[Lapangan Basket]</a></td>
+                            <td>[Basket]</td>
+                            <td>[Rp 180K/hr]</td>
+                            <td><span class="wf-badge danger">[Inactive]</span></td>
+                            <td>[Yes]</td>
+                            <td><a href="field-edit.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="field-edit.html">[Lapangan Badminton 1]</a></td>
+                            <td>[Badminton]</td>
+                            <td>[Rp 100K/hr]</td>
+                            <td><span class="wf-badge success">[Active]</span></td>
+                            <td>[No]</td>
+                            <td><a href="field-edit.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

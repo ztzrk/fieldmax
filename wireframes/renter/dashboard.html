@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renter Dashboard — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body>
+    <div class="wf-dashboard-layout">
+        <aside class="wf-sidebar">
+            <div class="wf-sidebar-header">[FieldMax Renter]</div>
+            <nav>
+                <a href="dashboard.html" class="wf-sidebar-item active">[Dashboard]</a>
+                <a href="venues.html" class="wf-sidebar-item">[My Venues]</a>
+                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+                <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
+            </nav>
+        </aside>
+        <main class="wf-dashboard-content">
+            <div class="wf-dashboard-header">
+                <div>
+                    <h1 class="wf-page-title">[Renter Dashboard]</h1>
+                    <p class="wf-page-subtitle">[Welcome back, Andi Prakoso]</p>
+                </div>
+                <a href="#" class="wf-btn outline">[Logout]</a>
+            </div>
+            <div class="wf-grid-4 wf-mb-24">
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon">[V]</div>
+                    <div class="wf-stat-value">[3]</div>
+                    <div class="wf-stat-label">[My Venues]</div>
+                </div>
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon">[F]</div>
+                    <div class="wf-stat-value">[15]</div>
+                    <div class="wf-stat-label">[My Fields]</div>
+                </div>
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon">[P]</div>
+                    <div class="wf-stat-value">[1]</div>
+                    <div class="wf-stat-label">[Pending Venues]</div>
+                </div>
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon">[Rp]</div>
+                    <div class="wf-stat-value">[Rp 12.5M]</div>
+                    <div class="wf-stat-label">[Total Revenue]</div>
+                </div>
+            </div>
+            <div class="wf-two-col wf-mb-24">
+                <div class="wf-card">
+                    <div class="wf-card-header">
+                        <span>[Revenue Overview]</span>
+                        <select class="wf-input" style="width:auto;">
+                            <option>[Last 7 Days]</option>
+                            <option>[Last 30 Days]</option>
+                            <option>[Last 3 Months]</option>
+                        </select>
+                    </div>
+                    <div class="wf-chart" style="height:260px;">[Bar Chart: Revenue per Day]</div>
+                </div>
+                <div class="wf-card">
+                    <div class="wf-card-header">[Recent Bookings]</div>
+                    <div class="wf-box" style="margin-bottom:8px;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <strong>[Budi Santoso]</strong>
+                            <span class="wf-badge success">[Confirmed]</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                            <span>[Lapangan Futsal A — GOR Jakarta]</span>
+                            <span>[Rp 250K]</span>
+                        </div>
+                        <div style="font-size:12px;color:#888;margin-top:2px;">[12 Mar 2025, 14:00-16:00]</div>
+                    </div>
+                    <div class="wf-box" style="margin-bottom:8px;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <strong>[Citra Dewi]</strong>
+                            <span class="wf-badge success">[Confirmed]</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                            <span>[Lapangan Basket — GOR Surabaya]</span>
+                            <span>[Rp 180K]</span>
+                        </div>
+                        <div style="font-size:12px;color:#888;margin-top:2px;">[12 Mar 2025, 09:00-11:00]</div>
+                    </div>
+                    <div class="wf-box" style="margin-bottom:8px;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <strong>[Dian Permana]</strong>
+                            <span class="wf-badge accent">[Pending]</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                            <span>[Lapangan Sepak Bola — GOR Bandung]</span>
+                            <span>[Rp 500K]</span>
+                        </div>
+                        <div style="font-size:12px;color:#888;margin-top:2px;">[11 Mar 2025, 16:00-18:00]</div>
+                    </div>
+                    <div class="wf-box" style="margin-bottom:8px;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <strong>[Eko Prasetyo]</strong>
+                            <span class="wf-badge success">[Confirmed]</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                            <span>[Lapangan Futsal B — GOR Jakarta]</span>
+                            <span>[Rp 250K]</span>
+                        </div>
+                        <div style="font-size:12px;color:#888;margin-top:2px;">[11 Mar 2025, 19:00-21:00]</div>
+                    </div>
+                    <div class="wf-box">
+                        <div style="display:flex;justify-content:space-between;">
+                            <strong>[Fitri Anggraini]</strong>
+                            <span class="wf-badge danger">[Canceled]</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                            <span>[Lapangan Tenis — GOR Surabaya]</span>
+                            <span>[Rp 150K]</span>
+                        </div>
+                        <div style="font-size:12px;color:#888;margin-top:2px;">[10 Mar 2025, 07:00-09:00]</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

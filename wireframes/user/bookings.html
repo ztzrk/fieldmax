@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+    <style>
+        .wf-nav-link.active { color: #ff9800; font-weight: 700; }
+        .booking-card { padding: 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; }
+        .booking-card .booking-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+        .booking-card .booking-row .icon { width: 16px; height: 16px; border: 1px dashed #bbb; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+        .booking-card .booking-title { font-size: 15px; font-weight: 700; color: #333; }
+        .booking-card .booking-venue { font-size: 13px; color: #777; }
+        .booking-card .booking-footer { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px; }
+        .booking-card .booking-price { font-size: 16px; font-weight: 700; color: #333; }
+        .badge-confirmed { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+        .badge-pending  { background: #fff3e0; border-color: #ff9800; color: #e65100; }
+        .badge-cancelled { background: #ffebee; border-color: #f44336; color: #c62828; }
+        .sticky-header { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 16px 24px; margin: -24px -24px 24px -24px; }
+    </style>
+</head>
+<body>
+<div class="wf-page">
+    <nav class="wf-navbar">
+        <span class="wf-logo">[FieldMax]</span>
+        <div class="wf-nav-links">
+            <span class="wf-nav-link">[Home]</span>
+            <span class="wf-nav-link">[Venues]</span>
+            <span class="wf-nav-link active">[My Bookings]</span>
+            <span class="wf-nav-link">[Profile]</span>
+        </div>
+    </nav>
+    <div class="sticky-header">
+        <a href="#" class="wf-back-link">← Dashboard</a>
+        <h1 class="wf-page-title">[My Bookings]</h1>
+        <p class="wf-page-subtitle" style="margin-bottom:0;">[Manage your upcoming games]</p>
+        <div class="wf-tabs wf-mt-16" style="margin-bottom:0;">
+            <span class="wf-tab active">[Active Tickets]</span>
+            <span class="wf-tab">[Order History]</span>
+        </div>
+    </div>
+    <main class="wf-main">
+        <section class="wf-mb-32">
+            <h2 class="wf-section-title">[Active Tickets]</h2>
+
+            <!-- Booking Card 1 — Confirmed -->
+            <div class="wf-box booking-card wf-mb-16">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                    <span class="wf-badge badge-confirmed">[Confirmed]</span>
+                    <span style="font-size:11px; color:#aaa;">[#BK-001]</span>
+                </div>
+                <span class="booking-title">[Futsal Field A]</span>
+                <span class="booking-venue">[Gelora Arena — Jakarta Selatan]</span>
+                <div class="booking-row">
+                    <span class="icon">📅</span><span>[Senin, 15 Mar 2025]</span>
+                    <span class="icon">🕐</span><span>[19:00 – 21:00]</span>
+                </div>
+                <div class="booking-footer">
+                    <span class="booking-price">[Rp 160.000]</span>
+                    <span class="wf-btn primary" style="height:32px; padding:0 14px; font-size:12px;">[View Details]</span>
+                </div>
+            </div>
+
+            <!-- Booking Card 2 — Pending -->
+            <div class="wf-box booking-card wf-mb-16">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                    <span class="wf-badge badge-pending">[Pending]</span>
+                    <span style="font-size:11px; color:#aaa;">[#BK-002]</span>
+                </div>
+                <span class="booking-title">[Mini Soccer Field B]</span>
+                <span class="booking-venue">[Lapangan Merdeka — Bandung]</span>
+                <div class="booking-row">
+                    <span class="icon">📅</span><span>[Sabtu, 20 Mar 2025]</span>
+                    <span class="icon">🕐</span><span>[08:00 – 10:00]</span>
+                </div>
+                <div class="booking-footer">
+                    <span class="booking-price">[Rp 200.000]</span>
+                    <span class="wf-btn primary" style="height:32px; padding:0 14px; font-size:12px;">[View Details]</span>
+                </div>
+            </div>
+
+            <!-- Booking Card 3 — Cancelled -->
+            <div class="wf-box booking-card wf-mb-16">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                    <span class="wf-badge badge-cancelled">[Cancelled]</span>
+                    <span style="font-size:11px; color:#aaa;">[#BK-003]</span>
+                </div>
+                <span class="booking-title">[Basketball Court C]</span>
+                <span class="booking-venue">[SportHub — Surabaya]</span>
+                <div class="booking-row">
+                    <span class="icon">📅</span><span>[Minggu, 10 Mar 2025]</span>
+                    <span class="icon">🕐</span><span>[16:00 – 18:00]</span>
+                </div>
+                <div class="booking-footer">
+                    <span class="booking-price">[Rp 120.000]</span>
+                    <span class="wf-btn outline" style="height:32px; padding:0 14px; font-size:12px;">[View Details]</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order History -->
+        <section class="wf-mb-32">
+            <h2 class="wf-section-title">[Order History]</h2>
+
+            <!-- Past Booking 1 -->
+            <div class="wf-box booking-card wf-mb-16" style="opacity:0.85;">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                    <span class="wf-badge" style="background:#e8e8e8; border-color:#bbb; color:#777;">[Completed]</span>
+                    <span style="font-size:11px; color:#aaa;">[#BK-004]</span>
+                </div>
+                <span class="booking-title">[Futsal Field A]</span>
+                <span class="booking-venue">[Gelora Arena — Jakarta Selatan]</span>
+                <div class="booking-row">
+                    <span class="icon">📅</span><span>[Senin, 01 Feb 2025]</span>
+                    <span class="icon">🕐</span><span>[19:00 – 21:00]</span>
+                </div>
+                <div class="booking-footer">
+                    <span class="booking-price">[Rp 160.000]</span>
+                    <span class="wf-btn outline" style="height:32px; padding:0 14px; font-size:12px;">[View Details]</span>
+                </div>
+            </div>
+
+            <!-- Past Booking 2 -->
+            <div class="wf-box booking-card wf-mb-16" style="opacity:0.85;">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                    <span class="wf-badge" style="background:#e8e8e8; border-color:#bbb; color:#777;">[Completed]</span>
+                    <span style="font-size:11px; color:#aaa;">[#BK-005]</span>
+                </div>
+                <span class="booking-title">[Badminton Court D]</span>
+                <span class="booking-venue">[Arena Sport Center — Medan]</span>
+                <div class="booking-row">
+                    <span class="icon">📅</span><span>[Rabu, 15 Jan 2025]</span>
+                    <span class="icon">🕐</span><span>[10:00 – 11:00]</span>
+                </div>
+                <div class="booking-footer">
+                    <span class="booking-price">[Rp 80.000]</span>
+                    <span class="wf-btn outline" style="height:32px; padding:0 14px; font-size:12px;">[View Details]</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="wf-footer">
+        <span>[FieldMax © 2025]</span>
+        <span>[Terms]</span>
+        <span>[Privacy]</span>
+        <span>[Contact]</span>
+    </footer>
+
+</div>
+</body>
+</html>
+
+

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Venue - FieldMax Admin</title>
+    <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body class="wf-dashboard-layout">
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Admin]</div>
+        <nav>
+            <div class="wf-sidebar-item">[Dashboard]</div>
+            <div class="wf-sidebar-item">[Bookings]</div>
+            <div class="wf-sidebar-item active">[Venues]</div>
+            <div class="wf-sidebar-item">[Fields]</div>
+            <div class="wf-sidebar-item">[Users]</div>
+            <div class="wf-sidebar-item">[Sport Types]</div>
+            <div class="wf-sidebar-item">[Reports]</div>
+        </nav>
+    </aside>
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Admin]</div>
+        <div class="wf-dashboard-content">
+            <div class="wf-row wf-mb-24">
+                <div class="wf-col-2">
+                    <a href="#" class="wf-back-link">[← Back to Venues]</a>
+                    <h1 class="wf-page-title">[Gelora Futsal Center]</h1>
+                    <span class="wf-badge">[Active]</span>
+                </div>
+                <div class="wf-col-2 wf-text-center">
+                    <div class="wf-mt-16">
+                        <button class="wf-btn success">[Approve]</button>
+                        <button class="wf-btn danger">[Reject]</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wf-two-col wf-gap-16 wf-mb-24">
+                <div>
+                    <div class="wf-card wf-mb-16">
+                        <div class="wf-card-header">[Edit Venue Details]</div>
+                        <div class="wf-mb-8">
+                            <label class="wf-stat-label">[Venue Name]</label>
+                            <input type="text" class="wf-input" value="[Gelora Futsal Center]">
+                        </div>
+                        <div class="wf-mb-8">
+                            <label class="wf-stat-label">[Address]</label>
+                            <input type="text" class="wf-input" value="[Jl. Merdeka No. 45, Jakarta Selatan]">
+                        </div>
+                        <div class="wf-mb-8">
+                            <label class="wf-stat-label">[Description]</label>
+                            <textarea class="wf-input" rows="4">[Fasilitas futsal profesional dengan 8 lapangan berstandar internasional.]</textarea>
+                        </div>
+                        <button class="wf-btn primary">[Save Changes]</button>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-header">[Photo Gallery]</div>
+                        <div class="wf-grid-3 wf-gap-8">
+                            <div class="wf-box filled">[Photo 1]</div>
+                            <div class="wf-box filled">[Photo 2]</div>
+                            <div class="wf-box filled">[Photo 3]</div>
+                            <div class="wf-box filled">[Photo 4]</div>
+                            <div class="wf-box filled">[Photo 5]</div>
+                            <div class="wf-box filled">[Photo 6]</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wf-card">
+                    <div class="wf-card-header">[Upload Images]</div>
+                    <div class="wf-box filled wf-text-center" style="height: 200px;">
+                        <p>[Drag & Drop Images Here]</p>
+                        <p class="wf-stat-label">[or]</p>
+                        <button class="wf-btn outline">[Browse Files]</button>
+                    </div>
+                    <p class="wf-stat-label wf-mt-8">[Supported: JPG, PNG, WebP (Max 5MB each)]</p>
+                </div>
+            </div>
+            <div class="wf-card">
+                <div class="wf-card-header">
+                    <div class="wf-row">
+                        <div class="wf-col-2">
+                            <span>[Fields in this Venue]</span>
+                        </div>
+                        <div class="wf-col-2 wf-text-center">
+                            <button class="wf-btn primary">[Create Field]</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="wf-table">
+                    <thead>
+                        <tr>
+                            <th>[Name]</th>
+                            <th>[Sport Type]</th>
+                            <th>[Price]</th>
+                            <th>[Status]</th>
+                            <th>[Actions]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[Lapangan A]</td>
+                            <td>[Futsal]</td>
+                            <td>[Rp 150,000/hr]</td>
+                            <td><span class="wf-badge">[Active]</span></td>
+                            <td>
+                                <a href="#" class="wf-btn outline">[Edit]</a>
+                                <button class="wf-btn danger">[Delete]</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>[Lapangan B]</td>
+                            <td>[Futsal]</td>
+                            <td>[Rp 150,000/hr]</td>
+                            <td><span class="wf-badge">[Active]</span></td>
+                            <td>
+                                <a href="#" class="wf-btn outline">[Edit]</a>
+                                <button class="wf-btn danger">[Delete]</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>[Lapangan C]</td>
+                            <td>[Futsal]</td>
+                            <td>[Rp 200,000/hr]</td>
+                            <td><span class="wf-badge">[Active]</span></td>
+                            <td>
+                                <a href="#" class="wf-btn outline">[Edit]</a>
+                                <button class="wf-btn danger">[Delete]</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>[Lapangan D]</td>
+                            <td>[Sepak Bola Mini]</td>
+                            <td>[Rp 300,000/hr]</td>
+                            <td><span class="wf-badge">[Inactive]</span></td>
+                            <td>
+                                <a href="#" class="wf-btn outline">[Edit]</a>
+                                <button class="wf-btn danger">[Delete]</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

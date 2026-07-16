@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Detail — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+    <style>
+        .wf-nav-link.active { color: #ff9800; font-weight: 700; }
+        .badge-confirmed { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+        .badge-success { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+        .detail-row { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #555; padding: 8px 0; }
+        .detail-row .d-icon { width: 20px; height: 20px; border: 1px dashed #bbb; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; color: #666; }
+        .summary-row.total { font-weight: 700; font-size: 15px; color: #333; border-top: 1px dashed #ddd; padding-top: 12px; margin-top: 4px; }
+        .star { color: #ff9800; font-size: 16px; }
+    </style>
+</head>
+<body>
+<div class="wf-page">
+
+    <nav class="wf-navbar">
+        <span class="wf-logo">[FieldMax]</span>
+        <div class="wf-nav-links">
+            <span class="wf-nav-link">[Home]</span>
+            <span class="wf-nav-link">[Venues]</span>
+            <span class="wf-nav-link active">[My Bookings]</span>
+            <span class="wf-nav-link">[Profile]</span>
+        </div>
+    </nav>
+
+    <main class="wf-main">
+        <a href="#" class="wf-back-link">← My Bookings</a>
+
+        <div class="wf-two-col">
+
+            <!-- LEFT COLUMN -->
+            <div>
+
+                <!-- Booking Header -->
+                <div class="wf-mb-24">
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+                        <span class="wf-badge badge-confirmed">[Confirmed]</span>
+                        <span style="font-size:12px; color:#aaa;">[Booking ID: #BK-001]</span>
+                    </div>
+                    <h1 class="wf-page-title">[Booking Detail]</h1>
+                </div>
+
+                <!-- Field & Venue Info -->
+                <div class="wf-box wf-mb-16" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                    <h3 style="font-size:14px; color:#444; margin-bottom:4px;">[Field & Venue]</h3>
+                    <div class="detail-row">
+                        <span class="d-icon">📍</span>
+                        <span>[Gelora Arena — Jl. Sudirman No. 45, Jakarta Selatan]</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-icon">📅</span>
+                        <span>[Senin, 15 Maret 2025]</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-icon">🕐</span>
+                        <span>[19:00 – 21:00 WIB (2 Jam)]</span>
+                    </div>
+                </div>
+
+                <!-- Payment Status -->
+                <div class="wf-box wf-mb-16" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                    <h3 style="font-size:14px; color:#444; margin-bottom:4px;">[Payment Status]</h3>
+                    <span class="wf-badge badge-success">[Paid]</span>
+                    <div class="detail-row"><span style="font-weight:600; color:#555;">[Method:]</span><span>[Transfer Bank BCA]</span></div>
+                    <div class="detail-row"><span style="font-weight:600; color:#555;">[Amount:]</span><span>[Rp 160.000]</span></div>
+                </div>
+
+                <!-- Review Section (already reviewed) -->
+                <div class="wf-box wf-mb-16" style="flex-direction:column; align-items:flex-start; gap:8px;">
+                    <h3 style="font-size:14px; color:#444; margin-bottom:4px;">[Your Review]</h3>
+                    <div>
+                        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc;">★</span>
+                        <span style="font-size:12px; color:#888; margin-left:6px;">[4/5]</span>
+                    </div>
+                    <p style="font-size:13px; color:#666;">[Lapangan bersih, fasilitas lengkap. Pencahayaan bagus untuk main malam. Akan booking lagi!]</p>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN — Sticky Sidebar -->
+            <div>
+                <div class="wf-sidebar-card">
+                    <div class="wf-box" style="flex-direction:column; align-items:stretch; gap:0;">
+                        <h3 style="font-size:14px; color:#444; margin-bottom:12px; text-align:left;">[Order Summary]</h3>
+                        <div class="summary-row"><span>[Field Price]</span><span>[Rp 80.000]</span></div>
+                        <div class="summary-row"><span>[Duration]</span><span>[2 Jam]</span></div>
+                        <div class="summary-row"><span>[Service Fee]</span><span>[Rp 0]</span></div>
+                        <div class="summary-row total"><span>[Total]</span><span>[Rp 160.000]</span></div>
+                        <div class="wf-mt-16 wf-text-center">
+                            <span class="wf-badge badge-success">[✓ Payment Verified]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="wf-footer">
+        <span>[FieldMax © 2025]</span>
+        <span>[Terms]</span>
+        <span>[Privacy]</span>
+        <span>[Contact]</span>
+    </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renter Venues — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body>
+    <div class="wf-dashboard-layout">
+        <aside class="wf-sidebar">
+            <div class="wf-sidebar-header">[FieldMax Renter]</div>
+            <nav>
+                <a href="dashboard.html" class="wf-sidebar-item">[Dashboard]</a>
+                <a href="venues.html" class="wf-sidebar-item active">[My Venues]</a>
+                <a href="fields.html" class="wf-sidebar-item">[My Fields]</a>
+                <a href="bookings.html" class="wf-sidebar-item">[Bookings]</a>
+                <a href="revenue.html" class="wf-sidebar-item">[Revenue]</a>
+                <a href="reports.html" class="wf-sidebar-item">[Reports]</a>
+            </nav>
+        </aside>
+        <main class="wf-dashboard-content">
+            <div class="wf-dashboard-header">
+                <div>
+                    <h1 class="wf-page-title">[My Venues]</h1>
+                    <p class="wf-page-subtitle">[Manage your sports venues and their details]</p>
+                </div>
+                <a href="venue-detail.html" class="wf-btn primary">[+ Create Venue]</a>
+            </div>
+            <div class="wf-card">
+                <div class="wf-card-header">
+                    <span>[All Venues]</span>
+                    <div style="display:flex;gap:8px;">
+                        <input type="text" class="wf-input" placeholder="[Search venues...]" style="width:200px;">
+                        <button class="wf-btn outline danger">[Bulk Delete]</button>
+                    </div>
+                </div>
+                <table class="wf-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>[Name]</th>
+                            <th>[Address]</th>
+                            <th>[Status]</th>
+                            <th>[Fields]</th>
+                            <th>[Actions]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><a href="venue-detail.html">[GOR Jakarta]</a></td>
+                            <td>[Jl. Sudirman No. 10, Jakarta Pusat]</td>
+                            <td><span class="wf-badge success">[Approved]</span></td>
+                            <td>[8]</td>
+                            <td>
+                                <a href="venue-detail.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><a href="venue-detail.html">[GOR Surabaya]</a></td>
+                            <td>[Jl. Ahmad Yani No. 25, Surabaya]</td>
+                            <td><span class="wf-badge success">[Approved]</span></td>
+                            <td>[5]</td>
+                            <td>
+                                <a href="venue-detail.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><a href="venue-detail.html">[GOR Bandung]</a></td>
+                            <td>[Jl. Dago No. 88, Bandung]</td>
+                            <td><span class="wf-badge accent">[Pending]</span></td>
+                            <td>[2]</td>
+                            <td>
+                                <a href="venue-detail.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><a href="venue-detail.html">[GOR Medan]</a></td>
+                            <td>[Jl. Gatot Subroto No. 5, Medan]</td>
+                            <td><span class="wf-badge danger">[Rejected]</span></td>
+                            <td>[0]</td>
+                            <td>
+                                <a href="venue-detail.html" class="wf-btn outline" style="font-size:11px;">[Edit]</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="wf-pagination" style="margin-top:12px;">[‹ 1 2 3 ›]</div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

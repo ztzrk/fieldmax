@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Report Detail — Wireframe</title>
+<link rel="stylesheet" href="../wireframe.css">
+<style>
+.chat-msg { margin-bottom:16px; display:flex; }
+.chat-msg.left { justify-content:flex-start; }
+.chat-msg.right { justify-content:flex-end; }
+.chat-bubble { max-width:70%; padding:12px 16px; border-radius:12px; font-size:13px; }
+.chat-msg.left .chat-bubble { background:#f0f0f0; border:1px dashed #ccc; color:#555; }
+.chat-msg.right .chat-bubble { background:#e3f2fd; border:1px dashed #90caf9; color:#1565c0; }
+.chat-meta { font-size:11px; color:#999; margin-bottom:4px; display:flex;gap:8px;align-items:center; }
+.chat-msg.right .chat-meta { justify-content:flex-end; }
+</style>
+</head>
+<body>
+<div class="wf-dashboard-layout">
+<aside class="wf-sidebar">
+<div class="wf-sidebar-header">[FieldMax Admin]</div>
+<div class="wf-sidebar-item">[Dashboard]</div>
+<div class="wf-sidebar-item">[Venues]</div>
+<div class="wf-sidebar-item">[Fields]</div>
+<div class="wf-sidebar-item">[Users]</div>
+<div class="wf-sidebar-item">[Sport Types]</div>
+<div class="wf-sidebar-item active">[Reports]</div>
+</aside>
+<div class="wf-dashboard-main">
+<header class="wf-dashboard-header">[Admin Header / User Menu]</header>
+<main class="wf-dashboard-content">
+<a class="wf-back-link" href="#">← Back to Reports</a>
+<h1 class="wf-page-title wf-mb-24">Report Detail: [#RPT-0042]</h1>
+<div class="wf-two-col">
+<div>
+<div class="wf-card wf-mb-24">
+<div class="wf-card-header">[Reported User]</div>
+<div style="display:flex;gap:16px;align-items:center;">
+<div class="wf-box filled" style="width:56px;height:56px;border-radius:50%;min-height:56px;">[AV]</div>
+<div>
+<div style="font-weight:700;color:#333;">[Budi Santoso]</div>
+<div style="font-size:13px;color:#888;">[budi@email.com]</div>
+<div style="font-size:12px;color:#aaa;">[User · Joined 12 Jan 2025]</div>
+</div>
+</div>
+</div>
+<div class="wf-card wf-mb-24">
+<div class="wf-card-header">[Report Information]</div>
+<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+<span class="wf-badge" style="font-size:12px;">[Inappropriate Content]</span>
+<span class="wf-box accent" style="min-height:24px;padding:2px 10px;font-size:11px;">[In Progress]</span>
+</div>
+<div style="font-size:12px;color:#999;margin-bottom:12px;">[Reported on: 12 April 2025, 14:30 WIB]</div>
+<div style="font-size:13px;color:#555;line-height:1.6;padding:12px;background:#fafafa;border:1px dashed #ddd;border-radius:8px;">
+[Venue "Lapangan Futsal XYZ" contains misleading information about pricing. The listed price is Rp 150,000/hour but when users try to book, the actual price shown is Rp 200,000/hour. This is deceptive and needs to be reviewed.]
+</div>
+</div>
+<div class="wf-card">
+<div class="wf-card-header">[Conversation]</div>
+<div class="chat-msg left">
+<div style="min-width:0;">
+<div class="chat-meta"><span class="wf-badge">[User]</span> [Budi Santoso] · [12 Apr, 14:30]</div>
+<div class="chat-bubble">[Saya ingin melaporkan venue Lapangan Futsal XYZ karena harga yang tercantum tidak sesuai dengan harga saat booking. Ini menyesatkan.]</div>
+</div>
+</div>
+<div class="chat-msg right">
+<div style="min-width:0;">
+<div class="chat-meta">[Admin Staff] · [13 Apr, 09:15] <span class="wf-badge" style="background:#e3f2fd;color:#1565c0;">[Staff]</span></div>
+<div class="chat-bubble">[Terima kasih atas laporannya. Kami sedang menyelidiki masalah ini dan akan menghubungi pemilik venue terkait.]</div>
+</div>
+</div>
+<div class="chat-msg left">
+<div style="min-width:0;">
+<div class="chat-meta"><span class="wf-badge">[User]</span> [Budi Santoso] · [14 Apr, 11:45]</div>
+<div class="chat-bubble">[Apakah ada update? Saya masih melihat harga yang tidak sesuai di halaman venue tersebut.]</div>
+</div>
+</div>
+</div>
+<div class="wf-card wf-mt-16">
+<div class="wf-card-header">[Reply to Report]</div>
+<textarea class="wf-input" rows="3" placeholder="[Type your reply...]" style="height:80px;padding-top:10px;margin-bottom:12px;"></textarea>
+<button class="wf-btn primary">[Send Reply]</button>
+</div>
+</div>
+<div>
+<div class="wf-card wf-sidebar-card">
+<div class="wf-card-header">[Report Actions]</div>
+<div style="display:flex;flex-direction:column;gap:8px;">
+<button class="wf-btn primary" style="width:100%;">[Mark In Progress]</button>
+<button class="wf-btn success" style="width:100%;border-color:#4caf50;color:#2e7d32;">[Mark Resolved]</button>
+<button class="wf-btn outline" style="width:100%;border-color:#f44336;color:#c62828;">[Close Report]</button>
+</div>
+<hr class="wf-sep">
+<div style="font-size:12px;color:#999;">[Report Timeline]</div>
+<div style="font-size:12px;color:#aaa;margin-top:4px;">[Created: 12 Apr 2025]</div>
+<div style="font-size:12px;color:#aaa;">[Last Updated: 14 Apr 2025]</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body>
+</html>

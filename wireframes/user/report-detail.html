@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Detail — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+    <style>
+        .wf-nav-link.active { color: #ff9800; font-weight: 700; }
+        .badge-open { background: #fff3e0; border-color: #ff9800; color: #e65100; }
+        .badge-harassment { background: #fce4ec; border-color: #e91e63; color: #880e4f; }
+        .badge-staff { background: #e3f2fd; border-color: #2196f3; color: #1565c0; }
+        .chat-thread { display: flex; flex-direction: column; gap: 16px; }
+        .chat-msg { display: flex; flex-direction: column; max-width: 75%; }
+        .chat-msg.user { align-self: flex-start; }
+        .chat-msg.admin { align-self: flex-end; text-align: right; }
+        .chat-msg .msg-bubble { padding: 12px 16px; border-radius: 12px; font-size: 13px; color: #555; }
+        .chat-msg.user .msg-bubble { background: #f5f5f5; border: 1px dashed #ddd; }
+        .chat-msg.admin .msg-bubble { background: #e3f2fd; border: 1px dashed #90caf9; }
+        .chat-msg .msg-meta { font-size: 11px; color: #aaa; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .chat-msg.admin .msg-meta { justify-content: flex-end; }
+        .reply-box { margin-top: 24px; }
+        .reply-box textarea.wf-input { height: 80px; padding: 10px 12px; resize: vertical; margin-bottom: 10px; }
+        .report-detail-body { flex-direction: column; align-items: flex-start; gap: 8px; }
+        .report-detail-body .report-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .report-detail-body .report-desc { font-size: 14px; color: #555; font-weight: 400; line-height: 1.6; }
+    </style>
+</head>
+<body>
+<div class="wf-page">
+
+    <nav class="wf-navbar">
+        <span class="wf-logo">[FieldMax]</span>
+        <div class="wf-nav-links">
+            <span class="wf-nav-link">[Home]</span>
+            <span class="wf-nav-link">[Venues]</span>
+            <span class="wf-nav-link">[My Bookings]</span>
+            <span class="wf-nav-link active">[Reports]</span>
+        </div>
+    </nav>
+
+    <main class="wf-main">
+        <a href="#" class="wf-back-link">← My Reports</a>
+        <h1 class="wf-page-title">[Report Detail]</h1>
+        <p class="wf-page-subtitle">[View and follow up on your submitted report]</p>
+
+        <!-- Report Info -->
+        <div class="wf-box report-detail-body wf-mb-32">
+            <div class="report-meta">
+                <span class="wf-badge badge-harassment">[Harassment]</span>
+                <span class="wf-badge badge-open">[Open]</span>
+                <span style="font-size:12px; color:#aaa;">[Submitted: 12 Maret 2025, 14:30 WIB]</span>
+            </div>
+            <p class="report-desc">[Pengguna lain melakukan pelecehan verbal di lapangan futsal dan mengganggu kenyamanan bermain. Kejadian terjadi saat sesi booking pukul 19:00 - 21:00 di Gelora Arena. Pengguna tersebut terus-menerus berteriak kasar dan menghina pemain lain meskipun sudah ditegur.]</p>
+        </div>
+
+        <!-- Replies — Chat Thread -->
+        <section class="wf-mb-32">
+            <h2 class="wf-section-title">[Replies]</h2>
+
+            <div class="chat-thread">
+
+                <!-- Message 1 — User (left) -->
+                <div class="chat-msg user">
+                    <div class="msg-meta">
+                        <span style="font-weight:700; color:#555;">[Budi Santoso]</span>
+                        <span>[12 Mar 2025, 14:30]</span>
+                    </div>
+                    <div class="msg-bubble">[Saya ingin melaporkan pengguna lain yang melakukan pelecehan verbal di lapangan futsal Gelora Arena. Mohon ditindaklanjuti.]</div>
+                </div>
+
+                <!-- Message 2 — Admin (right) -->
+                <div class="chat-msg admin">
+                    <div class="msg-meta">
+                        <span>[13 Mar 2025, 09:15]</span>
+                        <span style="font-weight:700; color:#555;">[Admin FieldMax]</span>
+                        <span class="wf-badge badge-staff">[Staff]</span>
+                    </div>
+                    <div class="msg-bubble">[Terima kasih atas laporannya. Kami akan menyelidiki kejadian ini. Bisa tolong berikan detail nama pengguna yang dilaporkan?]</div>
+                </div>
+
+                <!-- Message 3 — User (left) -->
+                <div class="chat-msg user">
+                    <div class="msg-meta">
+                        <span style="font-weight:700; color:#555;">[Budi Santoso]</span>
+                        <span>[13 Mar 2025, 10:45]</span>
+                    </div>
+                    <div class="msg-bubble">[Saya tidak tahu nama lengkapnya, tapi dia memakai jersey merah nomor 7. Booking atas nama grup "Red Warriors".]</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Reply Input -->
+        <div class="wf-card reply-box">
+            <h3 class="wf-card-header">[Send Reply]</h3>
+            <textarea class="wf-input" placeholder="[Tulis balasan Anda...]"></textarea>
+            <span class="wf-btn primary">[Send Reply]</span>
+        </div>
+    </main>
+
+    <footer class="wf-footer">
+        <span>[FieldMax © 2025]</span>
+        <span>[Terms]</span>
+        <span>[Privacy]</span>
+        <span>[Contact]</span>
+    </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FieldMax</title>
+    <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body class="wf-dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="wf-sidebar">
+        <div class="wf-sidebar-header">[FieldMax Admin]</div>
+        <nav>
+            <div class="wf-sidebar-item active">[Dashboard]</div>
+            <div class="wf-sidebar-item">[Bookings]</div>
+            <div class="wf-sidebar-item">[Venues]</div>
+            <div class="wf-sidebar-item">[Fields]</div>
+            <div class="wf-sidebar-item">[Users]</div>
+            <div class="wf-sidebar-item">[Sport Types]</div>
+            <div class="wf-sidebar-item">[Reports]</div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="wf-main">
+        <div class="wf-dashboard-header">[Admin]</div>
+        <div class="wf-dashboard-content">
+            <!-- Page Title -->
+            <h1 class="wf-page-title">[Dashboard]</h1>
+            <p class="wf-page-subtitle">[Overview of platform activity and key metrics.]</p>
+
+            <!-- Date Range Filter -->
+            <div class="wf-mb-16">
+                <span class="wf-chip active">[Today]</span>
+                <span class="wf-chip">[This Week]</span>
+                <span class="wf-chip">[This Month]</span>
+                <span class="wf-chip">[Custom Range]</span>
+            </div>
+
+            <!-- Stat Cards Row -->
+            <div class="wf-grid-4 wf-gap-16 wf-mb-24">
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon wf-box accent"></div>
+                    <div class="wf-stat-value">[1,250]</div>
+                    <div class="wf-stat-label">[Total Users]</div>
+                </div>
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon wf-box primary"></div>
+                    <div class="wf-stat-value">[85]</div>
+                    <div class="wf-stat-label">[Total Venues]</div>
+                </div>
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon wf-box success"></div>
+                    <div class="wf-stat-value">[320]</div>
+                    <div class="wf-stat-label">[Total Fields]</div>
+                </div>
+                <div class="wf-stat-card">
+                    <div class="wf-stat-icon wf-box danger"></div>
+                    <div class="wf-stat-value">[Rp 45M]</div>
+                    <div class="wf-stat-label">[Total Revenue]</div>
+                </div>
+            </div>
+
+            <!-- Two-Col Layout: Revenue Chart + Side Info -->
+            <div class="wf-two-col wf-gap-16 wf-mb-24">
+                <!-- Left: Revenue Chart -->
+                <div class="wf-card">
+                    <div class="wf-card-header">[Revenue Overview]</div>
+                    <div class="wf-mb-8">
+                        <span class="wf-chip active">[Monthly]</span>
+                        <span class="wf-chip">[Weekly]</span>
+                    </div>
+                    <div class="wf-chart">[Revenue Chart]</div>
+                </div>
+
+                <!-- Right: Recent Bookings + Quick Stats -->
+                <div>
+                    <div class="wf-card wf-mb-16">
+                        <div class="wf-card-header">[Recent Bookings]</div>
+                        <table class="wf-table">
+                            <thead>
+                                <tr>
+                                    <th>[Booking ID]</th>
+                                    <th>[User]</th>
+                                    <th>[Field]</th>
+                                    <th>[Status]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>[BK-001]</td>
+                                    <td>[Andi Pratama]</td>
+                                    <td>[Lapangan A]</td>
+                                    <td><span class="wf-badge">[Confirmed]</span></td>
+                                </tr>
+                                <tr>
+                                    <td>[BK-002]</td>
+                                    <td>[Budi Santoso]</td>
+                                    <td>[Lapangan B]</td>
+                                    <td><span class="wf-badge">[Pending]</span></td>
+                                </tr>
+                                <tr>
+                                    <td>[BK-003]</td>
+                                    <td>[Citra Dewi]</td>
+                                    <td>[Lapangan C]</td>
+                                    <td><span class="wf-badge">[Completed]</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="wf-box filled">
+                        <h4 class="wf-section-title">[Quick Stats]</h4>
+                        <div class="wf-row wf-gap-16">
+                            <div class="wf-col-2">
+                                <div class="wf-stat-value">[12]</div>
+                                <div class="wf-stat-label">[Pending Venues]</div>
+                            </div>
+                            <div class="wf-col-2">
+                                <div class="wf-stat-value">[298]</div>
+                                <div class="wf-stat-label">[Active Fields]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

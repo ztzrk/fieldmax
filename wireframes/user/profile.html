@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+    <style>
+        .wf-nav-link.active { color: #ff9800; font-weight: 700; }
+        .avatar-wrapper { position: relative; display: inline-block; }
+        .avatar-wrapper .wf-carousel { width: 140px; height: 140px; border-radius: 50%; }
+        .avatar-wrapper .camera-overlay { position: absolute; bottom: 6px; right: 6px; width: 36px; height: 36px; background: #fff; border: 2px dashed #bbb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .form-group { margin-bottom: 16px; text-align: left; width: 100%; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: #777; margin-bottom: 6px; text-transform: uppercase; }
+        .form-group textarea.wf-input { height: 80px; padding: 10px 12px; resize: vertical; }
+        .profile-card { text-align: left; }
+    </style>
+</head>
+<body>
+<div class="wf-page">
+
+    <nav class="wf-navbar">
+        <span class="wf-logo">[FieldMax]</span>
+        <div class="wf-nav-links">
+            <span class="wf-nav-link">[Home]</span>
+            <span class="wf-nav-link">[Venues]</span>
+            <span class="wf-nav-link">[My Bookings]</span>
+            <span class="wf-nav-link active">[Profile]</span>
+        </div>
+    </nav>
+
+    <main class="wf-main">
+        <a href="#" class="wf-back-link">← Dashboard</a>
+
+        <!-- Profile Header -->
+        <div class="wf-text-center wf-mb-32">
+            <div class="avatar-wrapper wf-mb-16">
+                <div class="wf-carousel" style="width:140px; height:140px; border-radius:50%;">[Avatar]</div>
+                <span class="camera-overlay">📷</span>
+            </div>
+            <div style="display:flex; justify-content:center; gap:10px;">
+                <span class="wf-btn primary">[Edit Profile]</span>
+                <span class="wf-btn outline">[Save]</span>
+                <span class="wf-btn outline">[Cancel]</span>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="wf-card profile-card" style="max-width:640px; margin:0 auto;">
+            <h2 class="wf-card-header">[Profile Information]</h2>
+
+            <div class="form-group">
+                <label>[Full Name]</label>
+                <input class="wf-input" type="text" value="[Budi Santoso]" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>[Phone Number]</label>
+                <input class="wf-input" type="tel" value="[+62 812-3456-7890]" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>[Bio]</label>
+                <textarea class="wf-input" readonly>[Pemain futsal amatir. Main setiap weekend bareng tim kantor.]</textarea>
+            </div>
+
+            <h3 style="font-size:14px; font-weight:700; color:#555; margin:20px 0 12px;">[Address]</h3>
+
+            <div class="form-group">
+                <label>[Street]</label>
+                <input class="wf-input" type="text" value="[Jl. Merdeka No. 12, RT 03/RW 05]" readonly>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <div class="form-group" style="flex:1;">
+                    <label>[City]</label>
+                    <input class="wf-input" type="text" value="[Jakarta Selatan]" readonly>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>[Province]</label>
+                    <input class="wf-input" type="text" value="[DKI Jakarta]" readonly>
+                </div>
+            </div>
+
+            <hr class="wf-sep">
+
+            <div class="form-group" style="margin-bottom:0;">
+                <label>[Account Info]</label>
+                <p style="font-size:13px; color:#666;">[Member Since: March 2024]</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="wf-footer">
+        <span>[FieldMax © 2025]</span>
+        <span>[Terms]</span>
+        <span>[Privacy]</span>
+        <span>[Contact]</span>
+    </footer>
+
+</div>
+</body>
+</html>

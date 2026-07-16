@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports — FieldMax Wireframe</title>
+    <link rel="stylesheet" href="../wireframe.css">
+    <style>
+        .wf-nav-link.active { color: #ff9800; font-weight: 700; }
+        .report-item { flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; }
+        .report-item .report-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .report-item .report-desc { font-size: 13px; color: #666; font-weight: 400; }
+        .report-item .report-link { font-size: 12px; color: #2196f3; font-weight: 600; align-self: flex-end; }
+        .badge-open { background: #fff3e0; border-color: #ff9800; color: #e65100; }
+        .badge-resolved { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+        .badge-harassment { background: #fce4ec; border-color: #e91e63; color: #880e4f; }
+        .badge-facility { background: #e3f2fd; border-color: #2196f3; color: #1565c0; }
+        .form-group { margin-bottom: 16px; text-align: left; width: 100%; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: #777; margin-bottom: 6px; text-transform: uppercase; }
+        .form-group textarea.wf-input { height: 100px; padding: 10px 12px; resize: vertical; }
+        .form-group select.wf-input { appearance: none; }
+    </style>
+</head>
+<body>
+<div class="wf-page">
+
+    <nav class="wf-navbar">
+        <span class="wf-logo">[FieldMax]</span>
+        <div class="wf-nav-links">
+            <span class="wf-nav-link">[Home]</span>
+            <span class="wf-nav-link">[Venues]</span>
+            <span class="wf-nav-link">[My Bookings]</span>
+            <span class="wf-nav-link active">[Reports]</span>
+        </div>
+    </nav>
+
+    <main class="wf-main">
+        <h1 class="wf-page-title">[Reports]</h1>
+        <p class="wf-page-subtitle">[Report issues and track your submitted reports]</p>
+
+        <!-- Report an Issue -->
+        <div class="wf-card wf-mb-32">
+            <h2 class="wf-card-header">[Report an Issue]</h2>
+
+            <div class="form-group">
+                <label>[Report Type]</label>
+                <select class="wf-input">
+                    <option>[Select type...]</option>
+                    <option>[Harassment / Misconduct]</option>
+                    <option>[Facility Damage]</option>
+                    <option>[Booking Dispute]</option>
+                    <option>[Other]</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>[Description]</label>
+                <textarea class="wf-input" placeholder="[Describe the issue in detail...]"></textarea>
+            </div>
+
+            <span class="wf-btn primary">[Submit Report]</span>
+        </div>
+
+        <!-- Your Reports -->
+        <section>
+            <h2 class="wf-section-title">[Your Reports]</h2>
+
+            <!-- Report 1 -->
+            <div class="wf-box report-item wf-mb-16">
+                <div class="report-meta">
+                    <span class="wf-badge badge-harassment">[Harassment]</span>
+                    <span class="wf-badge badge-open">[Open]</span>
+                    <span style="font-size:11px; color:#aaa;">[12 Mar 2025]</span>
+                </div>
+                <p class="report-desc">[Pengguna lain melakukan pelecehan verbal di lapangan dan mengganggu kenyamanan bermain...]</p>
+                <a href="#" class="report-link">[View →]</a>
+            </div>
+
+            <!-- Report 2 -->
+            <div class="wf-box report-item wf-mb-16">
+                <div class="report-meta">
+                    <span class="wf-badge badge-facility">[Facility Damage]</span>
+                    <span class="wf-badge badge-resolved">[Resolved]</span>
+                    <span style="font-size:11px; color:#aaa;">[28 Feb 2025]</span>
+                </div>
+                <p class="report-desc">[Lampu lapangan mati sebagian, penerangan tidak merata saat main malam hari...]</p>
+                <a href="#" class="report-link">[View →]</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="wf-footer">
+        <span>[FieldMax © 2025]</span>
+        <span>[Terms]</span>
+        <span>[Privacy]</span>
+        <span>[Contact]</span>
+    </footer>
+
+</div>
+</body>
+</html>
