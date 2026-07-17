@@ -13,28 +13,27 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07 - BAB II - Metode Penelitian.md",
+                "file": "08 - BAB III - Hasil dan Pembahasan.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "07 - BAB II - Metode Penelitian"
+              "title": "08 - BAB III - Hasil dan Pembahasan"
             }
           },
           {
-            "id": "8406200eb0e55fc6",
+            "id": "677b09accf900100",
             "type": "leaf",
             "state": {
               "type": "diagram-edit",
               "state": {
-                "file": "images/gambar-use-case-diagram.drawio"
+                "file": "images/drawio/gambar-activity-guest.drawio"
               },
               "icon": "lucide-file",
-              "title": "gambar-use-case-diagram.drawio"
+              "title": "gambar-activity-guest.drawio"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -196,15 +195,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "8406200eb0e55fc6",
+  "active": "24f508af18954300",
   "lastOpenFiles": [
+    "images/drawio/gambar-activity-guest.drawio",
+    "08 - BAB III - Hasil dan Pembahasan.md",
     "07 - BAB II - Metode Penelitian.md",
     "images/gambar-use-case-diagram.drawio",
-    "ins1.js",
-    "08 - BAB III - Hasil dan Pembahasan.md",
-    "images/drawio/gambar-activity-guest.drawio",
-    "images/drawio/gambar-activity-renter.drawio",
+    "images/drawio/gambar-activity-user.drawio",
+    "images/drawio/gambar-activity-admin.drawio",
     "09 - BAB IV - Kesimpulan dan Saran.md",
+    "ins1.js",
+    "images/drawio/gambar-activity-renter.drawio",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
     "06 - BAB I - Pendahuluan.md",
@@ -224,8 +225,6 @@
     "figma/Renter/Venue Detail.jpg",
     "figma/Renter",
     "figma/Public",
-    "figma/Auth",
-    "figma/User",
     "Draf.md",
     "05 - Daftar Tabel.md",
     "02 - Abstrak.md",
