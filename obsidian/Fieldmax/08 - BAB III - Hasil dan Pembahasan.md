@@ -257,47 +257,165 @@ Setelah perancangan, selanjutnya adalah merancang relasi antar tabel, yang berfu
 
 ## 3.3 Implementasi *Activity Diagram* ^implementasi-activity-diagram
 
-### 3.3.1 *Activity Diagram Guest*
-Menggambarkan alur interaksi pengguna tanpa akun (*Guest*) pada sistem informasi:
-1. **Mencari dan Memfilter Venue**: Guest mengunjungi web, menginput nama kota/daerah atau memfilter jenis olahraga, kemudian sistem menampilkan daftar venue olahraga yang sesuai.
-2.**Melihat Detail Venue dan Lapangan**: Guest memilih salah satu venue olahraga, sistem memproses data untuk menampilkan info alamat, jam operasional, galeri foto venue, ulasan pengguna, serta daftar lapangan olahraga beserta harganya.
+*Activity diagram* menggambarkan alur kerja, aktivitas, atau proses bisnis yang terjadi di dalam sistem untuk setiap *use case* yang telah dirancang sebelumnya. Pada bagian ini, alur aktivitas dijabarkan secara terpisah untuk masing-masing *use case* dengan menggunakan pembagian kolom *Client* (aktor) dan *System* (aplikasi) untuk memperjelas batas interaksi.
 
-![[images/drawio/gambar-activity-guest.drawio]]
+### 3.3.1 *Activity Diagram* Aktor *Guest* (Pengunjung Umum) ^gambar-11
 
-**Gambar 11.** Activity Diagram Guest ^gambar-11
+#### 1. Cari & Filter Lapangan (`uc-cari`)
+Menggambarkan alur aktivitas saat pengunjung mencari lapangan olahraga berdasarkan kota/daerah atau filter kategori olahraga dan kisaran harga sewa:
 
-### 3.3.2 *Activity Diagram User*
-Menggambarkan alur aktivitas pengguna terdaftar (*User*):
-1. **Pendaftaran dan Aktivasi Akun**: Mengisi form pendaftaran, menerima tautan verifikasi lewat email (VerificationToken), dan mengaktifkan akun.
-2.**Melakukan Reservasi Lapangan**: Memilih lapangan, memilih tanggal dan jam sewa yang tersedia, mengirim data booking (Booking status PENDING), sistem membuat token pembayaran Midtrans Snap.
-3.**Melakukan Pembayaran**: User melakukan pembayaran di portal Midtrans Snap. Begitu pembayaran diverifikasi, status pembayaran diperbarui menjadi PAID dan booking diperbarui menjadi CONFIRMED.
-4.**Mengirim Ulasan (Review)**: Setelah status sewa dinyatakan selesai (COMPLETED) oleh sistem, User dapat menginput ulasan berupa rating (bintang 1-5) dan komentar pada lapangan yang telah digunakan.
-5.**Melaporkan Masalah (Report)**: User dapat menulis laporan pengaduan terkait masalah sistem, transaksi pembayaran, atau indikasi penipuan.
+![[images/drawio/gambar-activity-cari.drawio]]
 
-![[images/drawio/gambar-activity-user.drawio]]
+**Gambar 11.** Activity Diagram Cari & Filter Lapangan ^gambar-11-label
 
-**Gambar 12.** Activity Diagram User ^gambar-12
+#### 2. Lihat Detail Venue & Lapangan (`uc-detail`)
+Menggambarkan alur aktivitas saat pengunjung memilih salah satu tempat olahraga untuk melihat detail jam operasional, galeri foto, ulasan, serta daftar lapangan yang disewakan:
 
-### 3.3.3 *Activity Diagram Renter*
-Menggambarkan alur aktivitas mitra pemilik lapangan (*Renter*):
-1. **Mendaftarkan Venue Olahraga**: Renter menginput nama venue, alamat, kelurahan/kecamatan/kota, deskripsi, jadwal operasional mingguan, serta mengunggah galeri foto lokasi. Status awal venue adalah DRAFT.
-2.**Mengelola Lapangan (Fields)**: Renter menambahkan lapangan olahraga di bawah venue miliknya, memilih jenis olahraga (SportType), mengatur harga sewa per jam, serta mengunggah foto lapangan.
-3.**Melihat Dashboard & Laporan Keuangan**: Renter memantau grafik analitik total penyewaan lapangan, rincian transaksi harian, dan grafik total omzet pendapatan sewa.
-4.**Mengelola Penyewaan (Bookings)**: Renter melihat daftar pemesanan masuk untuk lapangannya dan menandai jadwal sewa yang selesai.
+![[images/drawio/gambar-activity-detail.drawio]]
 
-![[images/drawio/gambar-activity-renter.drawio]]
+**Gambar 12.** Activity Diagram Lihat Detail Venue & Lapangan ^gambar-12-label
 
-**Gambar 13.** Activity Diagram Renter ^gambar-13
 
-### 3.3.4 *Activity Diagram Admin*
-Menggambarkan alur operasi administrator sistem (*Admin*):
-1. **Moderasi Venue dan Lapangan Baru**: Admin memeriksa data pengajuan venue/lapangan oleh renter baru, lalu memutuskan untuk menyetujui (APPROVED) atau menolak (REJECTED) disertai alasan penolakan.
-2.**Mengelola Master Data Olahraga**: Admin dapat menambah, mengedit, atau menghapus jenis cabang olahraga (SportType).
-3.**Mengelola Pengaduan Pengguna (Reports)**: Admin meninjau laporan keluhan pengguna, membalas laporan tersebut, dan mengubah status laporan menjadi RESOLVED setelah masalah teratasi.
+### 3.3.2 *Activity Diagram* Aktor *User* (Penyewa Terdaftar) ^gambar-12
 
-![[images/drawio/gambar-activity-admin.drawio]]
+#### 3. Registrasi Akun (`uc-daftar`)
+Menggambarkan proses pendaftaran akun baru oleh calon User hingga aktivasi melalui kode OTP verifikasi email:
 
-**Gambar 14.** Activity Diagram Admin ^gambar-14
+![[images/drawio/gambar-activity-daftar.drawio]]
+
+**Gambar 13.** Activity Diagram Registrasi Akun ^gambar-13-label
+
+#### 4. Login Akun (`uc-login`)
+Menggambarkan alur masuk ke dalam sistem menggunakan akun terdaftar untuk memperoleh otorisasi sesi login:
+
+![[images/drawio/gambar-activity-login.drawio]]
+
+**Gambar 14.** Activity Diagram Login Akun ^gambar-14-label
+
+#### 5. Reservasi Lapangan (`uc-reservasi`)
+Menggambarkan alur pemesanan lapangan oleh User dengan memilih tanggal, durasi sewa, dan meminta snap_token pembayaran dari Midtrans Snap API:
+
+![[images/drawio/gambar-activity-reservasi.drawio]]
+
+**Gambar 15.** Activity Diagram Reservasi Lapangan ^gambar-15-label
+
+#### 6. Lakukan Pembayaran (`uc-bayar`)
+Menggambarkan proses penyelesaian pembayaran di portal Midtrans Snap hingga status booking terkonfirmasi secara otomatis:
+
+![[images/drawio/gambar-activity-bayar.drawio]]
+
+**Gambar 16.** Activity Diagram Lakukan Pembayaran ^gambar-16-label
+
+#### 7. Lihat Riwayat Pemesanan (`uc-riwayat`)
+Menggambarkan alur saat User mengakses log riwayat transaksi penyewaan yang pernah dilakukan sebelumnya:
+
+![[images/drawio/gambar-activity-riwayat.drawio]]
+
+**Gambar 17.** Activity Diagram Lihat Riwayat Pemesanan ^gambar-17-label
+
+#### 8. Beri Ulasan (`uc-ulasan`)
+Menggambarkan alur pemberian rating bintang dan teks komentar oleh User terhadap unit lapangan yang telah selesai disewa:
+
+![[images/drawio/gambar-activity-ulasan.drawio]]
+
+**Gambar 18.** Activity Diagram Beri Ulasan ^gambar-18-label
+
+#### 9. Buat Pengaduan User (`uc-pengaduan-user`)
+Menggambarkan proses pelaporan kendala teknis atau pengaduan masalah pembayaran oleh User:
+
+![[images/drawio/gambar-activity-pengaduan-user.drawio]]
+
+**Gambar 19.** Activity Diagram Buat Pengaduan User ^gambar-19-label
+
+
+### 3.3.3 *Activity Diagram* Aktor *Renter* (Pemilik Lapangan) ^gambar-13
+
+#### 10. Kelola Venue (`uc-kelola-venue`)
+Menggambarkan alur pengisian detail venue, jam operasional harian, serta galeri foto lokasi oleh Renter:
+
+![[images/drawio/gambar-activity-kelola-venue.drawio]]
+
+**Gambar 20.** Activity Diagram Kelola Venue ^gambar-20-label
+
+#### 11. Kelola Lapangan (`uc-kelola-lapangan`)
+Menggambarkan alur penambahan data unit lapangan olahraga, penentuan tarif per jam sewa, serta pengaturan penutupan sementara lapangan:
+
+![[images/drawio/gambar-activity-kelola-lapangan.drawio]]
+
+**Gambar 21.** Activity Diagram Kelola Lapangan ^gambar-21-label
+
+#### 12. Ajukan Venue & Lapangan (`uc-ajukan`)
+Menggambarkan alur pengajuan verifikasi venue atau lapangan yang masih berstatus DRAFT/REJECTED ke antrean peninjauan Admin:
+
+![[images/drawio/gambar-activity-ajukan.drawio]]
+
+**Gambar 22.** Activity Diagram Ajukan Verifikasi Venue & Lapangan ^gambar-22-label
+
+#### 13. Kelola Pemesanan Renter (`uc-kelola-pemesanan-renter`)
+Menggambarkan alur pemantauan pesanan masuk dan penyelesaian masa sewa lapangan penyewa oleh Renter di lokasi:
+
+![[images/drawio/gambar-activity-kelola-pemesanan-renter.drawio]]
+
+**Gambar 23.** Activity Diagram Kelola Pemesanan Renter ^gambar-23-label
+
+#### 14. Lihat Pendapatan Renter (`uc-pendapatan`)
+Menggambarkan alur saat Renter mengakses visualisasi grafik tren omzet harian/bulanan hasil penyewaan lapangan:
+
+![[images/drawio/gambar-activity-pendapatan.drawio]]
+
+**Gambar 24.** Activity Diagram Lihat Pendapatan Renter ^gambar-24-label
+
+#### 15. Buat Pengaduan Renter (`uc-pengaduan-renter`)
+Menggambarkan alur pengiriman tiket keluhan Renter terkait kendala operasional usaha atau dashboard ke Admin:
+
+![[images/drawio/gambar-activity-pengaduan-renter.drawio]]
+
+**Gambar 25.** Activity Diagram Buat Pengaduan Renter ^gambar-25-label
+
+
+### 3.3.4 *Activity Diagram* Aktor *Admin* (Administrator Sistem) ^gambar-14
+
+#### 16. Lihat Dashboard Admin (`uc-dashboard-admin`)
+Menggambarkan alur saat Admin memantau data ringkasan agregat pengguna, venue, dan omzet transaksi di platform:
+
+![[images/drawio/gambar-activity-dashboard-admin.drawio]]
+
+**Gambar 26.** Activity Diagram Lihat Dashboard Admin ^gambar-26-label
+
+#### 17. Kelola Data Pengguna (`uc-kelola-user`)
+Menggambarkan alur penangguhan akses akun pengguna (suspend) dan verifikasi profil bisnis Renter oleh Admin:
+
+![[images/drawio/gambar-activity-kelola-user.drawio]]
+
+**Gambar 27.** Activity Diagram Kelola Data Pengguna ^gambar-27-label
+
+#### 18. Kelola Sport Type (`uc-sport-type`)
+Menggambarkan alur manajemen master data jenis cabang olahraga (tambah/edit/hapus kategori) oleh Admin:
+
+![[images/drawio/gambar-activity-sport-type.drawio]]
+
+**Gambar 28.** Activity Diagram Kelola Sport Type ^gambar-28-label
+
+#### 19. Moderasi Venue & Lapangan (`uc-moderasi`)
+Menggambarkan alur pemeriksaan kelayakan pengajuan tempat olahraga dari Renter hingga pemberian status APPROVED atau REJECTED:
+
+![[images/drawio/gambar-activity-moderasi.drawio]]
+
+**Gambar 29.** Activity Diagram Moderasi Venue & Lapangan ^gambar-29-label
+
+#### 20. Pantau Pemesanan & Pembayaran (`uc-pantau`)
+Menggambarkan alur pengawasan real-time log reservasi dan status aliran dana transaksi penyewaan di platform:
+
+![[images/drawio/gambar-activity-pantau.drawio]]
+
+**Gambar 30.** Activity Diagram Pantau Pemesanan & Pembayaran ^gambar-30-label
+
+#### 21. Kelola Pengaduan Admin (`uc-pengaduan-admin`)
+Menggambarkan alur penanganan tiket aduan masuk, penulisan pesan respon, dan penutupan tiket laporan setelah teratasi:
+
+![[images/drawio/gambar-activity-pengaduan-admin.drawio]]
+
+**Gambar 31.** Activity Diagram Kelola Pengaduan Admin ^gambar-31-label
 
 
 ## 3.4 Implementasi *UI/UX* ^implementasi-ui-ux

@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "788ef71d834d04da",
+        "id": "659a5c8256c8902a",
         "type": "tabs",
         "children": [
           {
-            "id": "24f508af18954300",
+            "id": "6047cda81f8d62b3",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,18 +19,6 @@
               },
               "icon": "lucide-file",
               "title": "08 - BAB III - Hasil dan Pembahasan"
-            }
-          },
-          {
-            "id": "677b09accf900100",
-            "type": "leaf",
-            "state": {
-              "type": "diagram-edit",
-              "state": {
-                "file": "images/drawio/gambar-activity-guest.drawio"
-              },
-              "icon": "lucide-file",
-              "title": "gambar-activity-guest.drawio"
             }
           }
         ]
@@ -192,20 +180,25 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "drawio-editor:Create new drawio diagram": false
     }
   },
-  "active": "24f508af18954300",
+  "active": "6047cda81f8d62b3",
   "lastOpenFiles": [
-    "images/drawio/gambar-activity-guest.drawio",
     "08 - BAB III - Hasil dan Pembahasan.md",
+    "images/drawio/gambar-activity-cari.drawio",
     "07 - BAB II - Metode Penelitian.md",
     "images/gambar-use-case-diagram.drawio",
+    "images/drawio/gambar-activity-detail.drawio",
     "images/drawio/gambar-activity-user.drawio",
-    "images/drawio/gambar-activity-admin.drawio",
+    "images/drawio/gambar-activity-pengaduan-admin.drawio",
+    "images/drawio/gambar-activity-pantau.drawio",
+    "images/drawio/gambar-activity-moderasi.drawio",
+    "images/drawio/gambar-activity-sport-type.drawio",
+    "images/drawio/gambar-activity-kelola-user.drawio",
+    "images/drawio/gambar-activity-dashboard-admin.drawio",
     "09 - BAB IV - Kesimpulan dan Saran.md",
-    "ins1.js",
-    "images/drawio/gambar-activity-renter.drawio",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
     "06 - BAB I - Pendahuluan.md",
@@ -216,15 +209,11 @@
     "figma/Admin/Booking Detail.jpg",
     "figma/Admin/Booking.jpg",
     "figma/Admin/Dashboard.jpg",
-    "figma/Admin",
-    "figma/New folder",
     "figma/Renter/Report Detail.jpg",
     "figma/Renter/Reports.jpg",
     "figma/Renter/Field Detail.jpg",
     "figma/Renter/Fields.jpg",
     "figma/Renter/Venue Detail.jpg",
-    "figma/Renter",
-    "figma/Public",
     "Draf.md",
     "05 - Daftar Tabel.md",
     "02 - Abstrak.md",
