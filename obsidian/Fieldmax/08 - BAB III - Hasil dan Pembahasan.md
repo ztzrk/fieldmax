@@ -10,6 +10,12 @@ Implementasi basis data terdiri dari tiga tahapan utama yang saling berkaitan. T
 
 ### 3.2.1 Entity Relationship Diagram (ERD)
 
+Berikut adalah rancangan *Entity Relationship Diagram* (ERD) yang digunakan untuk memetakan entitas, atribut, dan hubungan antar entitas pada sistem:
+
+![[images/gambar-erd-fieldmax.drawio]]
+
+**Gambar 9a.** ERD Web Platform FieldMax ^gambar-9a
+
 Dalam penelitian ini, terdapat beberapa entitas yang digunakan untuk menggambarkan alur dari basis data. ERD yang dirancang untuk web ini mencakup berbagai entitas utama sebagai berikut:
 
 1. **users**: Menyimpan informasi kredensial dan data akun dasar pengguna.

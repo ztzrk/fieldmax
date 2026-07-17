@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "659a5c8256c8902a",
+        "id": "5c0ecec570fdbe83",
         "type": "tabs",
         "children": [
           {
-            "id": "6047cda81f8d62b3",
+            "id": "c199aedf9cf22639",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "08 - BAB III - Hasil dan Pembahasan.md",
+                "file": "07 - BAB II - Metode Penelitian.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "08 - BAB III - Hasil dan Pembahasan"
+              "title": "07 - BAB II - Metode Penelitian"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 378.5
   },
   "right": {
     "id": "b8e9ef844a39ebe4",
@@ -184,24 +184,27 @@
       "drawio-editor:Create new drawio diagram": false
     }
   },
-  "active": "6047cda81f8d62b3",
+  "active": "c199aedf9cf22639",
   "lastOpenFiles": [
+    "images/gambar-booking-flow.drawio",
+    "07 - BAB II - Metode Penelitian.md",
+    "images/drawio/gambar-activity-daftar.drawio",
+    "images/gambar-waterfall-sdlc.svg",
+    "images/gambar-dsr-fieldmax.svg",
+    "images/gambar-4-alur-penelitian.svg",
+    "06 - BAB I - Pendahuluan.md",
+    "images/gambar-erd-fieldmax.drawio",
+    "images/gambar-erd-psikolog.drawio",
     "08 - BAB III - Hasil dan Pembahasan.md",
     "images/drawio/gambar-activity-cari.drawio",
-    "07 - BAB II - Metode Penelitian.md",
     "images/gambar-use-case-diagram.drawio",
     "images/drawio/gambar-activity-detail.drawio",
     "images/drawio/gambar-activity-user.drawio",
     "images/drawio/gambar-activity-pengaduan-admin.drawio",
     "images/drawio/gambar-activity-pantau.drawio",
-    "images/drawio/gambar-activity-moderasi.drawio",
-    "images/drawio/gambar-activity-sport-type.drawio",
-    "images/drawio/gambar-activity-kelola-user.drawio",
-    "images/drawio/gambar-activity-dashboard-admin.drawio",
     "09 - BAB IV - Kesimpulan dan Saran.md",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
-    "06 - BAB I - Pendahuluan.md",
     "10 - Daftar Pustaka.md",
     "11 - Lampiran.md",
     "figma/Admin/Sport Types.jpg",
@@ -211,9 +214,6 @@
     "figma/Admin/Dashboard.jpg",
     "figma/Renter/Report Detail.jpg",
     "figma/Renter/Reports.jpg",
-    "figma/Renter/Field Detail.jpg",
-    "figma/Renter/Fields.jpg",
-    "figma/Renter/Venue Detail.jpg",
     "Draf.md",
     "05 - Daftar Tabel.md",
     "02 - Abstrak.md",

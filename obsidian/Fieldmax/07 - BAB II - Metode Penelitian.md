@@ -111,25 +111,9 @@ Berdasarkan hasil studi literatur, ditemukan beberapa permasalahan pada model si
 
 **Gambar 7.** Diagram Analisis Masalah Sistem Reservasi Lapangan ^gambar-7
 
-```mermaid
-flowchart LR
-  Admin[<b>Admin</b><br>Moderasi Venue & Lapangan<br>Kelola Sport Type<br>Tangani Pengaduan]
-  Renter[<b>Renter</b><br>Kelola Venue & Lapangan<br>Atur Jadwal & Harga<br>Dashboard Pendapatan]
-  User[<b>User</b><br>Cari & Reservasi Lapangan<br>Bayar via Midtrans<br>Ulasan & Laporan]
+![[images/gambar-booking-flow.drawio]]
 
-  Platform[<b>Web Platform FieldMax</b><br>Next.js · Express.js<br>PostgreSQL · Midtrans]
-
-  Admin <--> Platform
-  Renter <--> Platform
-  User <--> Platform
-
-  style Admin fill:#dae8fc,stroke:#6c8ebf
-  style Renter fill:#d5e8d4,stroke:#82b366
-  style User fill:#fff2cc,stroke:#d6b656
-  style Platform fill:#f5f5f5,stroke:#666
-```
-
-**Gambar 8.** Sistem penggunaan web FieldMax  ^gambar-8
+**Gambar 8.** Activity Diagram Proses Reservasi Lapangan di FieldMax  ^gambar-8
 
 ### 2.6.2 Analisis Kebutuhan Sistem
 
