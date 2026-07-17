@@ -20,8 +20,21 @@
               "icon": "lucide-file",
               "title": "07 - BAB II - Metode Penelitian"
             }
+          },
+          {
+            "id": "8406200eb0e55fc6",
+            "type": "leaf",
+            "state": {
+              "type": "diagram-edit",
+              "state": {
+                "file": "images/gambar-use-case-diagram.drawio"
+              },
+              "icon": "lucide-file",
+              "title": "gambar-use-case-diagram.drawio"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -183,8 +196,20 @@
       "bases:Create new base": false
     }
   },
-  "active": "24f508af18954300",
+  "active": "8406200eb0e55fc6",
   "lastOpenFiles": [
+    "07 - BAB II - Metode Penelitian.md",
+    "images/gambar-use-case-diagram.drawio",
+    "ins1.js",
+    "08 - BAB III - Hasil dan Pembahasan.md",
+    "images/drawio/gambar-activity-guest.drawio",
+    "images/drawio/gambar-activity-renter.drawio",
+    "09 - BAB IV - Kesimpulan dan Saran.md",
+    "04 - Daftar Gambar.md",
+    "03 - Daftar Isi.md",
+    "06 - BAB I - Pendahuluan.md",
+    "10 - Daftar Pustaka.md",
+    "11 - Lampiran.md",
     "figma/Admin/Sport Types.jpg",
     "figma/Admin/Users.jpg",
     "figma/Admin/Booking Detail.jpg",
@@ -197,27 +222,14 @@
     "figma/Renter/Field Detail.jpg",
     "figma/Renter/Fields.jpg",
     "figma/Renter/Venue Detail.jpg",
-    "figma/Renter/Venues.jpg",
     "figma/Renter",
     "figma/Public",
     "figma/Auth",
     "figma/User",
-    "figma",
-    "New folder",
-    "images/drawio/gambar-activity-user.drawio",
-    "images/gambar-activity-user.drawio",
-    "08 - BAB III - Hasil dan Pembahasan.md",
-    "07 - BAB II - Metode Penelitian.md",
-    "06 - BAB I - Pendahuluan.md",
     "Draf.md",
     "05 - Daftar Tabel.md",
-    "04 - Daftar Gambar.md",
-    "03 - Daftar Isi.md",
     "02 - Abstrak.md",
     "01 - Halaman Judul.md",
-    "11 - Lampiran.md",
-    "10 - Daftar Pustaka.md",
-    "09 - BAB IV - Kesimpulan dan Saran.md",
     "Welcome.md"
   ]
 }

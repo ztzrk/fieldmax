@@ -85,9 +85,27 @@ Tahap berikutnya adalah Implementation (Implementasi), yang merupakan perwujudan
 
 ### 2.6.1 Analisis Masalah
 
-Berdasarkan hasil studi literatur, ditemukan beberapa permasalahan yang terjadi pada model sistem reservasi dan manajemen layanan penyewaan lapangan dari Platform FieldMax. Salah satu masalah utama adalah pemesanan layanan penyewaan lapangannya yang masih manual menggunakan Google Form, yang menyebabkan pengelolaan layanan yang tersedia juga dilakukan manual, serta proses pembayarannya yang tidak saling terintegrasi. Sistem manual ini akhirnya menimbulkan inefisiensi akibat dari permasalahan tersebut.
+Berdasarkan hasil studi literatur, ditemukan beberapa permasalahan pada model sistem reservasi dan manajemen layanan penyewaan lapangan yang dijalankan oleh Platform FieldMax. Permasalahan-permasalahan tersebut dirangkum dalam sepuluh poin berikut.
 
-Kemudian, terjadi penurunan efektivitas manajemen serta memperlambat proses pengambilan keputusan yang strategis. Oleh karena itu, pengembangan sebuah sistem informasi berbasis web yang terpusat dan terintegrasi, yang mampu mengelola proses booking dan manajemen layanan penyewaan lapangan, sangat diperlukan untuk mengatasi masalah-masalah tersebut. Sistem ini diharapkan dapat memberikan kemudahan bagi pelanggan dalam melakukan pemesanan layanan, sekaligus membantu pihak internal Platform FieldMax dalam pengelolaan layanan dan reservasinya.
+1. **Pemesanan lapangan masih dilakukan secara manual melalui Google Form** tanpa integrasi dengan sistem pembayaran, sehingga pengelolaan jadwal dan konfirmasi pemesanan dilakukan secara terpisah dan rawan kesalahan pencatatan.
+
+2. **Proses pembayaran tidak terintegrasi dengan pemesanan**, sehingga verifikasi pembayaran harus dilakukan secara manual oleh pihak pengelola. Hal ini memperlambat konfirmasi pemesanan dan meningkatkan risiko kesalahan pencocokan data pembayaran.
+
+3. **Pengelolaan data venue dan lapangan tidak terpusat** — Renter tidak memiliki dasbor khusus untuk mendaftarkan, memperbarui, atau mengelola fasilitas olahraganya secara mandiri, sehingga setiap perubahan data harus dikomunikasikan secara terpisah kepada admin.
+
+4. **Tidak adanya mekanisme moderasi dan verifikasi kelayakan** venue serta lapangan sebelum ditampilkan kepada publik, sehingga kualitas dan kelengkapan informasi fasilitas tidak terjamin.
+
+5. **Tidak tersedia dasbor analitik** yang memungkinkan Renter memantau pendapatan, tren pemesanan, dan kinerja bisnis secara visual, sehingga keputusan bisnis hanya dapat diambil berdasarkan data yang dikumpulkan secara manual.
+
+6. **Pengguna tidak dapat mencari dan memfilter lapangan** berdasarkan lokasi, jenis olahraga, atau harga secara *real-time*, sehingga proses menemukan lapangan yang sesuai menjadi tidak efisien.
+
+7. **Tidak adanya sistem autentikasi terpadu** — calon pengguna tidak dapat mendaftarkan akun, masuk, atau memulihkan kata sandi secara mandiri melalui platform.
+
+8. **Pengguna tidak dapat melihat riwayat pemesanan** atau memberikan ulasan terhadap lapangan yang telah digunakan, sehingga tidak ada mekanisme umpan balik yang dapat membantu calon penyewa lain dalam memilih lapangan.
+
+9. **Tidak tersedia saluran pengaduan resmi** bagi pengguna maupun Renter untuk melaporkan masalah teknis, kendala pembayaran, atau indikasi penipuan, sehingga keluhan hanya dapat disampaikan melalui komunikasi informal di luar platform.
+
+10. **Admin tidak memiliki panel terpusat** untuk memantau seluruh aktivitas platform, mengelola data pengguna, mengelola jenis olahraga, serta menangani pengaduan dari pengguna dan Renter.
 
 ![[images/gambar-analisis-masalah.svg]]
 
@@ -115,53 +133,143 @@ flowchart LR
 
 ### 2.6.2 Analisis Kebutuhan Sistem
 
-Dalam pembangunan web ini, dibutuhkan perangkat lunak dan perangkat keras sebagai alat yang dapat mendukung penelitian. Terdapat pula pengguna sistem (*user*) sebagai bahan analisis kebutuhan dalam perancangan sistem. Adapun kebutuhan sistem dalam penelitian ini yaitu:
+Berdasarkan permasalahan yang telah diidentifikasi pada bagian 2.6.1, sistem yang dikembangkan harus memenuhi kebutuhan fungsional setiap aktor agar dapat mengatasi permasalahan tersebut secara efektif. Adapun kebutuhan sistem dalam penelitian ini dikelompokkan menjadi kebutuhan fungsional, kebutuhan perangkat lunak dan perangkat keras, serta identifikasi pengguna sistem.
 
-#### 1. Perangkat lunak.
+#### 1. Kebutuhan Fungsional
 
-Perangkat lunak yang digunakan dalam merancang web ini terdiri dari:
+**a. Kebutuhan Fungsional Admin:**
 
-1. Windows 11
+1. Admin dapat memverifikasi dan menyetujui atau menolak pendaftaran venue dan lapangan yang diajukan oleh Renter.
 
-2. Visual Studio Code (VS Code)
+2. Admin dapat melihat daftar seluruh pengguna yang terdaftar di platform.
 
-3. Node.js
+3. Admin dapat memantau seluruh riwayat transaksi pemesanan dan aliran pembayaran yang terjadi di platform.
 
-4. Git & GitHub
+4. Admin dapat mengelola data referensi jenis olahraga, termasuk menambah dan menghapus kategori.
 
-5. Figma
+5. Admin dapat meninjau, membalas, dan menyelesaikan laporan pengaduan dari pengguna maupun Renter.
 
-6. Prisma ORM
+6. Admin memiliki dasbor ringkasan yang menampilkan statistik platform secara keseluruhan.
 
-7. PostgreSQL (PgAdmin)
+**b. Kebutuhan Fungsional Renter:**
 
-8. Postman
+1. Renter dapat mendaftarkan venue baru beserta informasi alamat, deskripsi, dan jadwal operasional.
 
-9. Mermaid diagram
+2. Renter dapat menambahkan lapangan olahraga di bawah venue miliknya, termasuk menentukan jenis olahraga dan harga sewa per jam.
 
-10. dbdiagram.io
+3. Renter dapat mengunggah foto venue dan lapangan sebagai dokumentasi fasilitas.
 
-11. Chrome
+4. Renter dapat mengajukan venue dan lapangan kepada Admin untuk ditinjau dan disetujui.
 
-#### 2. Perangkat keras.
+5. Renter dapat melihat daftar pemesanan yang masuk pada lapangan miliknya serta mengonfirmasi dan menyelesaikan jadwal sewa.
 
-Selama penelitian, peneliti menggunakan Laptop Lenovo Ideapad Gaming 3 dengan spesifikasi Processor Intel core i7-12650H @ 2,30 GHz, RAM 16GB, dan SSD 512GB.
+6. Renter dapat memantau pendapatan dari seluruh lapangan yang dikelola melalui dasbor analitik.
 
-#### 3. Pengguna sistem *(user)*.
+7. Renter dapat membuat laporan pengaduan kepada Admin jika mengalami kendala.
 
-1. ***Admin,*** merupakan pengguna yang berperan sebagai moderator dalam sistem. Admin bertugas memverifikasi dan menyetujui pendaftaran profil penyedia lapangan (Renter) ke dalam wadah platform. Admin juga berwenang meninjau kelayakan dan kelengkapan data venue beserta unit spesifik lapangan (field) yang ditambahkan oleh Renter sebelum fasilitas tersebut dapat diakses oleh publik. Selain itu, Admin memiliki akses menyeluruh untuk melihat daftar semua pengguna, serta memantau seluruh riwayat transaksi pemesanan (booking) dan aliran pembayaran yang terjadi di dalam FieldMax.
+**c. Kebutuhan Fungsional User:**
 
-2.**Renter (Pemilik/Pengelola Lapangan)*,*** merupakan mitra penyedia jasa yang menyewakan fasilitas olahraga. Renter dapat mendaftarkan venue miliknya dan menambahkan jenis-jenis lapangan secara tersendiri. Setelah mendapatkan persetujuan (approval) dari Admin, Renter berkuasa penuh untuk menentukan harga sewa, mengatur rentang waktu operasional, serta memperbarui jadwal lapangan secara mandiri. Sebagai pengguna yang mengoperasikan layanan di lapangan, Renter juga bertugas untuk mengonfirmasi kehadiran pengguna, menyewa lapangan sesuai dengan waktu pemesanan, dan merampungkan jadwal sewa pesanan (COMPLETED). Selain itu, Renter dapat melihat seluruh daftar pesanannya hari ini, mengawasi laporan status pembayaran tagihan pelanggannya, hingga memantau ikhtisar riwayat pendapatan dari lapangan yang ia kelola.
+1. User dapat mendaftarkan akun, melakukan login, serta mengelola proses autentikasi seperti verifikasi email dan pemulihan kata sandi.
 
-3.**User (Pengguna/Penyewa),** merupakan user akhir atau pelanggan yang menggunakan layanan sewa lapangan olahraga. Untuk menjadi User, pengguna terlebih dahulu melakukan pendaftaran akun ke dalam platform FieldMax. User diberikan kemudahan mencari letak tempat olahraga yang sesuai, mencocokkan ketersediaan jadwal, dan melakukan reservasi lapangan (booking) secara real-time untuk dirinya sendiri maupun rombongan mainnya. Proses transaksinya melibatkan payment gateway sehingga dapat langsung disahkan oleh sistem seketika itu juga setelah ia menyelesaikan tagihan. User pastinya dapat melihat jadwal lapangan yang baru saja ia pesan, melihat keseluruhan rekam jejak riwayat bermain (booking history), dan memiliki kemampuan untuk memberikan ulasan (review) terhadap kualitas fasilitas lapangan yang telah ia gunakan.
+2. User dapat mencari dan memfilter lapangan olahraga berdasarkan lokasi, jenis olahraga, atau harga.
 
+3. User dapat melihat informasi detail venue dan lapangan, termasuk foto, harga, dan jadwal ketersediaan.
+
+4. User dapat melakukan reservasi lapangan secara *real-time* dengan memilih tanggal dan rentang waktu yang tersedia.
+
+5. User dapat melakukan pembayaran melalui *payment gateway* Midtrans yang terintegrasi langsung dengan sistem pemesanan.
+
+6. User dapat melihat riwayat pemesanan yang telah dilakukan.
+
+7. User dapat memberikan ulasan dan rating terhadap lapangan yang telah digunakan.
+
+8. User dapat membuat laporan pengaduan kepada Admin jika mengalami kendala teknis, pembayaran, atau indikasi penipuan.
+
+#### 2. Kebutuhan Perangkat Lunak
+
+Perangkat lunak yang digunakan dalam pengembangan sistem ini terdiri dari:
+
+1. Visual Studio Code (VS Code)
+2. Node.js
+3. Git & GitHub
+4. Figma
+5. Prisma ORM
+6. PostgreSQL (PgAdmin)
+7. Postman
+8. TypeScript
+
+#### 3. Kebutuhan Perangkat Keras
+
+Selama penelitian, peneliti menggunakan Laptop Lenovo LOQ 15IRX9 dengan prosesor Intel Core i5-12450HX @ 2,40 GHz (8-core), RAM 28 GB, dan penyimpanan SSD 512 GB yang menjalankan sistem operasi Windows 11.
+
+#### 4. Pengguna Sistem
+
+1. **Admin** merupakan pengguna yang berperan sebagai moderator dalam sistem. Admin bertugas memverifikasi dan menyetujui pendaftaran profil penyedia lapangan (Renter) ke dalam platform. Admin juga berwenang meninjau kelayakan dan kelengkapan data venue beserta unit spesifik lapangan (field) yang ditambahkan oleh Renter sebelum fasilitas tersebut dapat diakses oleh publik. Selain itu, Admin memiliki akses menyeluruh untuk melihat daftar semua pengguna, serta memantau seluruh riwayat transaksi pemesanan (booking) dan aliran pembayaran yang terjadi di dalam FieldMax.
+
+2. **Renter (Pemilik/Pengelola Lapangan)** merupakan mitra penyedia jasa yang menyewakan fasilitas olahraga. Renter dapat mendaftarkan venue miliknya dan menambahkan jenis-jenis lapangan secara tersendiri. Setelah mendapatkan persetujuan (approval) dari Admin, Renter berkuasa penuh untuk menentukan harga sewa, mengatur rentang waktu operasional, serta memperbarui jadwal lapangan secara mandiri. Sebagai pengguna yang mengoperasikan layanan di lapangan, Renter juga bertugas untuk mengonfirmasi kehadiran pengguna dan merampungkan jadwal sewa pesanan. Selain itu, Renter dapat melihat seluruh daftar pesanannya, mengawasi laporan status pembayaran pelanggannya, hingga memantau ikhtisar riwayat pendapatan dari lapangan yang ia kelola.
+
+3. **User (Pengguna/Penyewa)** merupakan pengguna akhir atau pelanggan yang menggunakan layanan sewa lapangan olahraga. Untuk menjadi User, pengguna terlebih dahulu melakukan pendaftaran akun ke dalam platform FieldMax. User diberikan kemudahan mencari tempat olahraga yang sesuai, mencocokkan ketersediaan jadwal, dan melakukan reservasi lapangan (booking) secara *real-time*. Proses transaksinya melibatkan *payment gateway* sehingga dapat langsung disahkan oleh sistem setelah ia menyelesaikan tagihan. User dapat melihat jadwal lapangan yang telah ia pesan, melihat keseluruhan riwayat pemesanan, dan memiliki kemampuan untuk memberikan ulasan (review) terhadap kualitas fasilitas lapangan yang telah ia gunakan.
 ## 2.7 Perancangan Sistem ^perancangan-sistem
 
 Dalam prosesnya, peneliti menggunakan *use case diagram* untuk merepresentasikan aktivitas yang dapat dilakukan oleh pengguna di dalam sistem. Berikut *use case diagram* untuk merepresentasikannya.
 
-![](images/image020.png)
+![[images/gambar-use-case-diagram.drawio]]
 
 **Gambar 9.** Use Case Diagram Web Platform FieldMax ^gambar-9
+
+Diagram *use case* di atas menggambarkan interaksi antara tiga aktor — Admin, Renter, dan User — dengan sistem FieldMax. Setiap aktor memiliki akses ke sejumlah *use case* yang dikelompokkan berdasarkan peran dan kebutuhan fungsional yang telah diidentifikasi pada bagian 2.6.2. Berikut adalah penjabaran *use case* untuk masing-masing aktor.
+
+### 2.7.1 *Use Case* Admin
+
+1. **Login** — Admin melakukan autentikasi untuk mengakses panel administrasi.
+
+2. **Kelola Data Pengguna** — Admin dapat melihat, mencari, memfilter, menambah, dan menghapus data seluruh pengguna yang terdaftar di platform. *(Memenuhi kebutuhan fungsional Admin poin 2)*.
+
+3. **Kelola Sport Type** — Admin dapat menambah, mengedit, dan menghapus jenis olahraga yang tersedia di platform. *(Memenuhi kebutuhan fungsional Admin poin 4)*.
+
+4. **Moderasi Venue dan Lapangan** — Admin meninjau pengajuan venue dan lapangan dari Renter, kemudian menyetujui (APPROVED) atau menolak (REJECTED) disertai alasan penolakan. *(Memenuhi kebutuhan fungsional Admin poin 1)*.
+
+5. **Pantau Pemesanan dan Pembayaran** — Admin dapat melihat seluruh riwayat transaksi pemesanan dan aliran pembayaran di platform. *(Memenuhi kebutuhan fungsional Admin poin 3)*.
+
+6. **Kelola Pengaduan** — Admin meninjau, membalas, dan menyelesaikan laporan pengaduan dari pengguna maupun Renter. *(Memenuhi kebutuhan fungsional Admin poin 5)*.
+
+7. **Lihat Dashboard** — Admin memantau ringkasan statistik platform secara keseluruhan. *(Memenuhi kebutuhan fungsional Admin poin 6)*.
+
+### 2.7.2 *Use Case* Renter
+
+1. **Daftar dan Login** — Renter melakukan pendaftaran akun dan autentikasi untuk mengakses panel Renter.
+
+2. **Kelola Venue** — Renter dapat mendaftarkan venue baru, mengisi informasi alamat dan deskripsi, mengatur jadwal operasional, serta mengunggah foto venue. *(Memenuhi kebutuhan fungsional Renter poin 1 dan 3)*.
+
+3. **Kelola Lapangan** — Renter dapat menambahkan lapangan di bawah venue miliknya, menentukan jenis olahraga dan harga sewa per jam, serta mengatur status penutupan sementara. *(Memenuhi kebutuhan fungsional Renter poin 2)*.
+
+4. **Ajukan Venue dan Lapangan** — Renter mengajukan venue dan lapangan yang telah dilengkapi kepada Admin untuk ditinjau dan disetujui. *(Memenuhi kebutuhan fungsional Renter poin 4)*.
+
+5. **Kelola Pemesanan** — Renter melihat daftar pemesanan yang masuk, mengonfirmasi kehadiran penyewa, dan menyelesaikan jadwal sewa. *(Memenuhi kebutuhan fungsional Renter poin 5)*.
+
+6. **Lihat Pendapatan** — Renter memantau pendapatan dari seluruh lapangan yang dikelola melalui dasbor analitik. *(Memenuhi kebutuhan fungsional Renter poin 6)*.
+
+7. **Buat Pengaduan** — Renter membuat laporan pengaduan kepada Admin jika mengalami kendala. *(Memenuhi kebutuhan fungsional Renter poin 7)*.
+
+### 2.7.3 *Use Case* User
+
+1. **Daftar dan Login** — User melakukan pendaftaran akun, verifikasi email, dan autentikasi untuk mengakses platform. *(Memenuhi kebutuhan fungsional User poin 1)*.
+
+2. **Cari dan Filter Lapangan** — User mencari lapangan olahraga berdasarkan lokasi, jenis olahraga, atau harga. *(Memenuhi kebutuhan fungsional User poin 2)*.
+
+3. **Lihat Detail Venue dan Lapangan** — User melihat informasi lengkap venue dan lapangan, termasuk foto, harga, jadwal operasional, dan ulasan. *(Memenuhi kebutuhan fungsional User poin 3)*.
+
+4. **Reservasi Lapangan** — User memilih tanggal dan rentang waktu yang tersedia, kemudian melakukan pemesanan lapangan secara *real-time*. *(Memenuhi kebutuhan fungsional User poin 4)*.
+
+5. **Lakukan Pembayaran** — User melakukan pembayaran melalui *payment gateway* Midtrans yang terintegrasi langsung dengan sistem. *(Memenuhi kebutuhan fungsional User poin 5)*.
+
+6. **Lihat Riwayat Pemesanan** — User melihat daftar pemesanan yang telah dilakukan. *(Memenuhi kebutuhan fungsional User poin 6)*.
+
+7. **Beri Ulasan** — User memberikan ulasan dan rating terhadap lapangan yang telah digunakan setelah pemesanan selesai. *(Memenuhi kebutuhan fungsional User poin 7)*.
+
+8. **Buat Pengaduan** — User membuat laporan pengaduan kepada Admin jika mengalami kendala teknis, pembayaran, atau indikasi penipuan. *(Memenuhi kebutuhan fungsional User poin 8)*.
+
+Seluruh *use case* yang telah dijabarkan menjadi dasar dalam perancangan antarmuka pengguna (*user interface*) yang disajikan pada bagian 2.8. Setiap *use case* diterjemahkan ke dalam satu atau lebih halaman antarmuka yang memungkinkan aktor terkait untuk menjalankan fungsinya di dalam sistem.
 
  
 
@@ -177,25 +285,37 @@ Halaman autentikasi merupakan halaman yang digunakan oleh seluruh pengguna untuk
 
 **Gambar 10.** Halaman Login ^gambar-10
 
+Halaman Login berfungsi sebagai gerbang masuk bagi pengguna terdaftar untuk mengakses sistem melalui kredensial email dan kata sandi. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan pengguna masuk ke dalam platform secara mandiri.
+
 ![[figma/Auth/Register User.jpg]]
 
 **Gambar 11.** Halaman Register User ^gambar-11
+
+Halaman Register User berfungsi untuk mendaftarkan akun baru bagi calon penyewa lapangan dengan mengisi data nama lengkap, email, dan kata sandi. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan calon pengguna mendaftarkan akun secara mandiri melalui platform.
 
 ![[figma/Auth/Register Renter.jpg]]
 
 **Gambar 12.** Halaman Register Renter ^gambar-12
 
+Halaman Register Renter berfungsi untuk mendaftarkan akun bagi calon pemilik atau pengelola lapangan yang ingin menyewakan fasilitas olahraganya melalui platform. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan calon Renter mendaftarkan akun bisnisnya secara mandiri melalui platform.
+
 ![[figma/Auth/Forgot Password.jpg]]
 
 **Gambar 13.** Halaman Forgot Password ^gambar-13
+
+Halaman Forgot Password berfungsi untuk memulai proses pemulihan akun bagi pengguna yang lupa kata sandinya dengan mengirimkan tautan reset ke email terdaftar. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme pemulihan kata sandi secara mandiri.
 
 ![[figma/Auth/Reset Password.jpg]]
 
 **Gambar 14.** Halaman Reset Password ^gambar-14
 
+Halaman Reset Password berfungsi untuk mengatur ulang kata sandi baru setelah pengguna mengakses tautan pemulihan yang dikirimkan melalui email. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme pengaturan ulang kata sandi secara mandiri dan aman.
+
 ![[figma/Auth/Verify Email.jpg]]
 
 **Gambar 15.** Halaman Verify Email ^gambar-15
+
+Halaman Verify Email berfungsi untuk memasukkan kode verifikasi enam digit yang dikirimkan ke email pengguna setelah pendaftaran guna mengaktifkan akun. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme verifikasi email untuk mengaktifkan akun pengguna.
 
 ### 2.8.2 Halaman Publik ^halaman-publik
 
@@ -205,45 +325,67 @@ Halaman publik merupakan halaman yang dapat diakses oleh semua pengunjung tanpa 
 
 **Gambar 16.** Halaman Home ^gambar-16
 
+Halaman Home berfungsi sebagai halaman utama yang memperkenalkan platform FieldMax, menampilkan lapangan dan venue unggulan, serta menyediakan pencarian langsung bagi pengunjung. Halaman ini menjawab permasalahan **Poin 1 dan 6** pada bagian 2.6.1, yaitu pemesanan manual dan ketidakmampuan pengguna mencari serta memfilter lapangan secara real-time.
+
 ![[figma/Public/Search.jpg]]
 
 **Gambar 17.** Halaman Search ^gambar-17
+
+Halaman Search berfungsi untuk menampilkan daftar lapangan olahraga yang tersedia berdasarkan kata kunci pencarian, sehingga pengguna dapat menemukan lapangan yang sesuai dengan cepat. Halaman ini menjawab permasalahan **Poin 1 dan 6** pada bagian 2.6.1, yaitu pemesanan manual dan ketidakmampuan pengguna mencari serta memfilter lapangan secara real-time.
 
 ![[figma/Public/Venue Detail.jpg]]
 
 **Gambar 18.** Halaman Venue Detail ^gambar-18
 
+Halaman Venue Detail berfungsi untuk menampilkan informasi lengkap suatu venue olahraga beserta daftar lapangan yang tersedia di dalamnya. Halaman ini menjawab permasalahan **Poin 6** pada bagian 2.6.1, yaitu ketidakmampuan pengguna mencari dan memfilter lapangan berdasarkan lokasi secara real-time.
+
 ![[figma/Public/Field Detail.jpg]]
 
 **Gambar 19.** Halaman Field Detail ^gambar-19
+
+Halaman Field Detail berfungsi untuk menampilkan informasi spesifik satu lapangan beserta fitur pemilihan jadwal dan pemesanan yang terintegrasi dengan pembayaran. Halaman ini menjawab permasalahan **Poin 1 dan 2** pada bagian 2.6.1, yaitu pemesanan manual melalui Google Form dan proses pembayaran yang tidak terintegrasi dengan pemesanan.
 
 ![[figma/Public/About.jpg]]
 
 **Gambar 20.** Halaman About ^gambar-20
 
+Halaman About berfungsi untuk menyajikan informasi mengenai visi, misi, dan latar belakang platform FieldMax kepada pengunjung. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+
 ![[figma/Public/Pricing.jpg]]
 
 **Gambar 21.** Halaman Pricing ^gambar-21
+
+Halaman Pricing berfungsi untuk menampilkan informasi mengenai struktur harga dan biaya layanan yang berlaku di platform FieldMax. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Faq.jpg]]
 
 **Gambar 22.** Halaman FAQ ^gambar-22
 
+Halaman FAQ berfungsi untuk menyajikan daftar pertanyaan yang sering diajukan beserta jawabannya guna membantu pengguna memahami cara penggunaan platform. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+
 ![[figma/Public/Privacy Policy.jpg]]
 
 **Gambar 23.** Halaman Privacy Policy ^gambar-23
+
+Halaman Privacy Policy berfungsi untuk menampilkan kebijakan privasi platform yang menjelaskan bagaimana data pribadi pengguna dikumpulkan, digunakan, dan dilindungi. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Terms of Service.jpg]]
 
 **Gambar 24.** Halaman Terms of Service ^gambar-24
 
+Halaman Terms of Service berfungsi untuk menampilkan syarat dan ketentuan penggunaan platform yang mengikat secara hukum antara platform dan pengguna. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+
 ![[figma/Public/Renter Profile.jpg]]
 
 **Gambar 25.** Halaman Renter Profile ^gambar-25
 
+Halaman Renter Profile berfungsi untuk menampilkan profil publik seorang Renter beserta daftar venue yang dikelolanya, membangun kredibilitas di mata calon penyewa. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+
 ![[figma/Public/Error.jpg]]
 
 **Gambar 26.** Halaman Error ^gambar-26
+
+Halaman Error berfungsi sebagai halaman fallback yang ditampilkan ketika terjadi kesalahan sistem, memberikan informasi yang jelas dan navigasi kembali ke halaman utama. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ### 2.8.3 Halaman *User* (Penyewa) ^halaman-user
 
@@ -253,21 +395,31 @@ Halaman *User* merupakan halaman yang dapat diakses oleh pengguna dengan peran p
 
 **Gambar 27.** Halaman My Bookings ^gambar-27
 
+Halaman My Bookings berfungsi untuk menampilkan daftar riwayat pemesanan lapangan yang telah dilakukan oleh pengguna. Halaman ini menjawab permasalahan **Poin 8** pada bagian 2.6.1, yaitu pengguna tidak dapat melihat riwayat pemesanan yang telah dilakukan.
+
 ![[figma/User/Booking Detail.jpg]]
 
 **Gambar 28.** Halaman Booking Detail ^gambar-28
+
+Halaman Booking Detail berfungsi untuk menampilkan informasi lengkap satu pemesanan, termasuk status pembayaran dan opsi pemberian ulasan setelah sewa selesai. Halaman ini menjawab permasalahan **Poin 2 dan 8** pada bagian 2.6.1, yaitu proses pembayaran yang tidak terintegrasi dan ketidakmampuan pengguna memberikan ulasan terhadap lapangan yang telah digunakan.
 
 ![[figma/User/Profile.jpg]]
 
 **Gambar 29.** Halaman Profile ^gambar-29
 
+Halaman Profile berfungsi untuk memungkinkan pengguna mengelola data pribadinya, termasuk foto profil, informasi kontak, dan pengaturan keamanan akun. Halaman ini menjawab permasalahan **Poin 8** pada bagian 2.6.1, yaitu tidak adanya mekanisme bagi pengguna untuk mengelola profil dan data pribadinya secara mandiri.
+
 ![[figma/User/Report.jpg]]
 
 **Gambar 30.** Halaman Report ^gambar-30
 
+Halaman Report berfungsi untuk menampilkan daftar laporan pengaduan yang telah dibuat oleh pengguna serta menyediakan formulir untuk membuat laporan baru. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi bagi pengguna untuk melaporkan masalah.
+
 ![[figma/User/Report Detail.jpg]]
 
 **Gambar 31.** Halaman Report Detail ^gambar-31
+
+Halaman Report Detail berfungsi untuk menampilkan informasi lengkap satu laporan pengaduan beserta riwayat percakapan antara pengguna dan admin. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi dengan mekanisme tindak lanjut yang terdokumentasi.
 
 ### 2.8.4 Halaman *Renter* (Pemilik Lapangan) ^halaman-renter
 
@@ -277,33 +429,49 @@ Halaman *Renter* merupakan halaman yang dapat diakses oleh pengguna dengan peran
 
 **Gambar 32.** Halaman Dashboard Renter ^gambar-32
 
+Halaman Dashboard Renter berfungsi untuk menampilkan ringkasan statistik bisnis Renter, termasuk metrik utama, grafik pendapatan, dan daftar pemesanan terbaru. Halaman ini menjawab permasalahan **Poin 3 dan 5** pada bagian 2.6.1, yaitu pengelolaan data venue yang tidak terpusat dan tidak tersedianya dasbor analitik pendapatan.
+
 ![[figma/Renter/Venues.jpg]]
 
 **Gambar 33.** Halaman Venues ^gambar-33
+
+Halaman Venues berfungsi untuk menampilkan daftar venue yang dimiliki Renter serta menyediakan fitur pembuatan venue baru. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
 
 ![[figma/Renter/Venue Detail.jpg]]
 
 **Gambar 34.** Halaman Venue Detail ^gambar-34
 
+Halaman Venue Detail berfungsi untuk menampilkan informasi lengkap satu venue beserta fitur pengelolaan foto, jadwal, dan daftar lapangan di dalamnya. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
+
 ![[figma/Renter/Fields.jpg]]
 
 **Gambar 35.** Halaman Fields ^gambar-35
+
+Halaman Fields berfungsi untuk menampilkan daftar seluruh lapangan yang dimiliki Renter di semua venue-nya serta menyediakan fitur pembuatan lapangan baru. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
 
 ![[figma/Renter/Field Detail.jpg]]
 
 **Gambar 36.** Halaman Field Detail ^gambar-36
 
+Halaman Field Detail berfungsi untuk menampilkan informasi lengkap satu lapangan beserta fitur pengelolaan seperti pengaturan harga, penutupan sementara, dan unggah foto. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
+
 ![[figma/Renter/Revenue.jpg]]
 
 **Gambar 37.** Halaman Revenue ^gambar-37
+
+Halaman Revenue berfungsi untuk menampilkan analisis pendapatan Renter yang dikelompokkan berdasarkan venue dan lapangan. Halaman ini menjawab permasalahan **Poin 5** pada bagian 2.6.1, yaitu tidak tersedianya dasbor analitik yang memungkinkan Renter memantau pendapatan dan kinerja bisnis secara visual.
 
 ![[figma/Renter/Reports.jpg]]
 
 **Gambar 38.** Halaman Reports ^gambar-38
 
+Halaman Reports berfungsi untuk menampilkan daftar laporan pengaduan yang telah dibuat oleh Renter kepada admin serta menyediakan fitur pembuatan laporan baru. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi bagi Renter untuk melaporkan masalah.
+
 ![[figma/Renter/Report Detail.jpg]]
 
 **Gambar 39.** Halaman Report Detail ^gambar-39
+
+Halaman Report Detail berfungsi untuk menampilkan detail satu laporan pengaduan Renter beserta riwayat percakapan dengan admin. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi dengan mekanisme tindak lanjut yang terdokumentasi.
 
 ### 2.8.5 Halaman *Admin* ^halaman-admin
 
@@ -313,19 +481,29 @@ Halaman *Admin* merupakan halaman yang dapat diakses oleh pengguna dengan peran 
 
 **Gambar 40.** Halaman Dashboard Admin ^gambar-40
 
+Halaman Dashboard Admin berfungsi untuk menampilkan ringkasan statistik keseluruhan platform, termasuk total pengguna, venue, lapangan, venue yang menunggu persetujuan, dan total pendapatan. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi dan tidak tersedianya panel terpusat bagi admin untuk memantau aktivitas platform.
+
 ![[figma/Admin/Booking.jpg]]
 
 **Gambar 41.** Halaman Booking ^gambar-41
+
+Halaman Booking berfungsi untuk menampilkan daftar seluruh pemesanan yang terjadi di platform, memberikan visibilitas penuh kepada admin terhadap aktivitas transaksi. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi dan tidak tersedianya panel terpusat bagi admin.
 
 ![[figma/Admin/Booking Detail.jpg]]
 
 **Gambar 42.** Halaman Booking Detail ^gambar-42
 
+Halaman Booking Detail berfungsi untuk menampilkan informasi lengkap satu pemesanan secara menyeluruh, termasuk data pengguna, lapangan, status, dan ulasan. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi transaksi dan tidak tersedianya panel terpusat bagi admin.
+
 ![[figma/Admin/Users.jpg]]
 
 **Gambar 43.** Halaman Users ^gambar-43
 
+Halaman Users berfungsi untuk menampilkan daftar seluruh pengguna platform serta menyediakan fitur pembuatan, pencarian, pemfilteran, dan penghapusan pengguna. Halaman ini menjawab permasalahan **Poin 10** pada bagian 2.6.1, yaitu admin tidak memiliki panel terpusat untuk mengelola data pengguna.
+
 ![[figma/Admin/Sport Types.jpg]]
 
 **Gambar 44.** Halaman Sport Types ^gambar-44
+
+Halaman Sport Types berfungsi untuk menampilkan dan mengelola daftar jenis olahraga yang tersedia di platform, termasuk penambahan dan penghapusan data. Halaman ini menjawab permasalahan **Poin 10** pada bagian 2.6.1, yaitu admin tidak memiliki panel terpusat untuk mengelola data referensi jenis olahraga.
 
