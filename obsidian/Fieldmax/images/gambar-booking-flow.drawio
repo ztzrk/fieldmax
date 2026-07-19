@@ -1,0 +1,184 @@
+<mxfile host="Electron">
+  <diagram id="gambar-booking-flow" name="Proses Reservasi FieldMax">
+    <mxGraphModel dx="2571" dy="1529" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lane_user" parent="1" style="swimlane;startSize=45;fillColor=#f5f5f5;html=1;fontSize=14;fontStyle=1;" value="User (Penyewa)" vertex="1">
+          <mxGeometry height="1700" width="260" as="geometry" />
+        </mxCell>
+        <mxCell id="k1" parent="lane_user" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Mencari &amp; Memilih Lapangan,&lt;br&gt;Tanggal &amp; Waktu Sewa" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="k2" parent="lane_user" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Membuat Booking Reservasi&lt;br&gt;&amp; Mengisi Form" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="k3" parent="lane_user" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Melakukan Proses&lt;br&gt;Pembayaran" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="k4" parent="lane_user" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Menggunakan Lapangan Olahraga&lt;br&gt;(Melaksanakan Sewa)" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="k5" parent="lane_user" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Mengisi Ulasan &amp; Rating&lt;br&gt;untuk Lapangan" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_midtrans" parent="1" style="swimlane;startSize=45;fillColor=#e8f4f8;html=1;fontSize=14;fontStyle=1;" value="Payment Gateway (Midtrans)" vertex="1">
+          <mxGeometry height="1700" width="260" x="260" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="lane_midtrans" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Menampilkan Halaman Pembayaran&lt;br&gt;(Snap Token)" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="lane_midtrans" style="rhombus;whiteSpace=wrap;html=1;fontSize=12;" value="Pembayaran Berhasil?" vertex="1">
+          <mxGeometry height="90" width="160" x="50" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="lane_midtrans" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Trigger Webhook Pembayaran&lt;br&gt;Berhasil (settlement/capture)" vertex="1">
+          <mxGeometry height="70" width="110" x="15" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="lane_midtrans" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Trigger Webhook Pembayaran&lt;br&gt;Gagal/Expired (deny/expire/cancel)" vertex="1">
+          <mxGeometry height="70" width="110" x="135" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_sistem" parent="1" style="swimlane;startSize=45;fillColor=#fff0e6;html=1;fontSize=14;fontStyle=1;" value="Sistem FieldMax" vertex="1">
+          <mxGeometry height="1700" width="260" x="520" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Menampilkan Daftar Lapangan&lt;br&gt;&amp; Jadwal Ketersediaan" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Menerima Data Booking&lt;br&gt;(Status: PENDING)" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Membuat Transaksi &amp; Mengambil&lt;br&gt;snapToken dari Midtrans" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Mengubah Status Pembayaran PAID&lt;br&gt;&amp; Status Booking CONFIRMED" vertex="1">
+          <mxGeometry height="70" width="110" x="15" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;" value="Mengubah Status Pembayaran FAILED&lt;br&gt;&amp; Status Booking CANCELLED" vertex="1">
+          <mxGeometry height="70" width="110" x="135" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Mengubah Status Booking jadi COMPLETED&lt;br&gt;Setelah Jadwal Sewa Berakhir (Cron Job)" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="lane_sistem" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Menyimpan Ulasan &amp; Rating,&lt;br&gt;Memperbarui Rata-rata Rating Field" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="1460" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="lane_sistem" style="ellipse;fillColor=#000000;strokeColor=#000000;shape=doubleEllipse;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="105" y="1550" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_renter" parent="1" style="swimlane;startSize=45;fillColor=#e8f5e9;html=1;fontSize=14;fontStyle=1;" value="Renter (Mitra/Pemilik Lapangan)" vertex="1">
+          <mxGeometry height="1700" width="260" x="780" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" parent="lane_renter" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Mendaftar Akun Renter&lt;br&gt;&amp; Login" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" parent="lane_renter" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Mendaftarkan Venue &amp; Lapangan&lt;br&gt;&amp; Mengajukan Verifikasi" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" parent="lane_renter" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Melihat Detail Booking Masuk&lt;br&gt;di Dashboard Renter" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_admin" parent="1" style="swimlane;startSize=45;fillColor=#fff9e6;html=1;fontSize=14;fontStyle=1;" value="Admin (Administrator)" vertex="1">
+          <mxGeometry height="1700" width="260" x="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="lane_admin" style="ellipse;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="105" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" parent="lane_admin" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" value="Membuat Kategori Olahraga&lt;br&gt;(Sport Type)" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" parent="lane_admin" style="rhombus;whiteSpace=wrap;html=1;fontSize=12;" value="Verifikasi Kelayakan&lt;br&gt;Venue &amp; Lapangan?" vertex="1">
+          <mxGeometry height="90" width="160" x="50" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="e_start_a1" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="a1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a1_r1" edge="1" parent="1" source="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="r1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r1_r2" edge="1" parent="1" source="r1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="r2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r2_a2" edge="1" parent="1" source="r2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="a2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a2_s1" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s1" value="Disetujui (APPROVED)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a2_r2" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="r2" value="Ditolak (REJECTED)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s1_k1" edge="1" parent="1" source="s1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="k1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_k1_k2" edge="1" parent="1" source="k1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="k2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_k2_s2" edge="1" parent="1" source="k2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s2_s3" edge="1" parent="1" source="s2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s3_p1" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="p1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p1_k3" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="k3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_k3_p2" edge="1" parent="1" source="k3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="p2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p2_p3" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="p3" value="Ya">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p2_p4" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="p4" value="Tidak">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p3_s4" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s4" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="1090" />
+              <mxPoint x="590" y="1090" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_p4_s5" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s5" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="1050" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s4_r3" edge="1" parent="1" source="s4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="r3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="590" y="1180" />
+              <mxPoint x="910" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s4_k4" edge="1" parent="1" source="s4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="k4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_k4_s6" edge="1" parent="1" source="k4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s6_k5" edge="1" parent="1" source="s6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="k5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_k5_s7" edge="1" parent="1" source="k5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="s7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s7_end" edge="1" parent="1" source="s7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="end" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s5_end" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" target="end" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="1575" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
