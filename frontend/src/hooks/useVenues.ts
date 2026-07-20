@@ -81,7 +81,7 @@ export function useGetVenueById(venueId: string) {
         queryKey: queryKeys.venues.detail(venueId),
         queryFn: async () => {
             const response = await VenueService.getById(venueId);
-            return venueDetailResponseSchema.parse(response.data);
+            return venueDetailResponseSchema.parse(response);
         },
         enabled: !!venueId,
     });

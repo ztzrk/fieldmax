@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "bd39e09ac9627c51",
+        "id": "abae497a72918bfb",
         "type": "tabs",
         "children": [
           {
-            "id": "ee7ceff560e61298",
+            "id": "f8507966eb698f84",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -184,19 +184,22 @@
       "drawio-editor:Create new drawio diagram": false
     }
   },
-  "active": "ee7ceff560e61298",
+  "active": "f8507966eb698f84",
   "lastOpenFiles": [
     "08 - BAB III - Hasil dan Pembahasan.md",
-    "images/screenshots/halaman-detail-booking-admin.png",
-    "images/screenshots/admin-booking-detail.png",
-    "images/admin-booking-detail.png",
-    "admin-booking-detail.png",
-    "images/images/halaman-kelola-booking-admin.png",
-    "images/images/admin-bookings.png",
-    "images/screenshots/halaman-kelola-booking-admin.png",
-    "images/screenshots/admin-bookings.png",
-    "images/images/admin-venue-edit.png",
-    "images/screenshots/halaman-edit-venue-admin.png",
+    "halaman-detail-laporan-admin.png",
+    "images/images/halaman-detail-laporan-admin.png",
+    "images/screenshots/halaman-detail-laporan-admin.png",
+    "halaman-laporan-admin.png",
+    "images/images/halaman-laporan-admin.png",
+    "images/screenshots/halaman-laporan-admin.png",
+    "images/halaman-laporan-admin.png",
+    "attachments/halaman-pencarian.png",
+    "screenshots/halaman-pencarian.png",
+    "attachments/halaman-utama.png",
+    "images/attachments",
+    "attachments",
+    "screenshots",
     "images/images",
     "09 - BAB IV - Kesimpulan dan Saran.md",
     "07 - BAB II - Metode Penelitian.md",
@@ -207,9 +210,6 @@
     "images/gambar-erd-fieldmax.drawio",
     "images/gambar-erd-psikolog.drawio",
     "images/drawio/gambar-activity-cari.drawio",
-    "images/gambar-use-case-diagram.drawio",
-    "images/drawio/gambar-activity-detail.drawio",
-    "images/drawio/gambar-activity-user.drawio",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
     "10 - Daftar Pustaka.md",

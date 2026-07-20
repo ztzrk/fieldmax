@@ -433,42 +433,42 @@ Implementasi antarmuka pengguna dibangun secara dinamis menggunakan Next.js 16 A
 #### 1. Halaman Utama (*Landing Page*)
 Halaman utama menampilkan banner hero dengan tagline FieldMax, pengenalan fitur unggulan platform, daftar kategori olahraga yang dapat diklik sebagai filter pencarian, testimoni pengguna, serta bagian kaki halaman dengan tautan navigasi.
 
-![[images/halaman-utama.png]]
+![[halaman-utama.png]]
 
 **Gambar 32.** Halaman Utama (Landing Page) ^gambar-32
 
 #### 2. Halaman Pencarian Venue (`/search`)
 Halaman pencarian menyediakan kolom input lokasi kota dan filter kategori jenis olahraga. Hasil pencarian ditampilkan dalam bentuk kartu venue interaktif yang menampilkan nama, lokasi, harga mulai, dan foto utama venue.
 
-![[images/halaman-pencarian.png]]
+![[halaman-pencarian.png]]
 
 **Gambar 33.** Halaman Pencarian Venue ^gambar-33
 
 #### 3. Halaman Daftar Venue (`/venues`)
 Halaman daftar venue menampilkan seluruh venue olahraga yang telah disetujui (*APPROVED*) oleh admin dalam format kartu. Setiap kartu memuat foto utama, nama venue, lokasi kota, dan kisaran harga lapangan per jam.
 
-![[images/halaman-daftar-venue.png]]
+![[halaman-daftar-venue.png]]
 
 **Gambar 34.** Halaman Daftar Venue ^gambar-34
 
 #### 4. Halaman Detail Venue (`/venues/[id]`)
 Halaman detail venue menampilkan informasi lengkap venue meliputi foto galeri, deskripsi, jadwal operasional harian, serta daftar lapangan olahraga yang tersedia beserta harga sewanya.
 
-![[images/halaman-detail-venue.png]]
+![[halaman-detail-venue.png]]
 
 **Gambar 35.** Halaman Detail Venue ^gambar-35
 
 #### 5. Halaman Daftar Lapangan (`/fields`)
 Halaman daftar lapangan menampilkan semua lapangan olahraga yang tersedia di seluruh venue, dilengkapi dengan filter berdasarkan jenis olahraga dan rentang harga.
 
-![[images/halaman-daftar-lapangan.png]]
+![[halaman-daftar-lapangan.png]]
 
 **Gambar 36.** Halaman Daftar Lapangan ^gambar-36
 
 #### 6. Halaman Detail Lapangan (`/fields/[id]`)
 Halaman detail lapangan menampilkan informasi spesifik satu lapangan, mencakup foto galeri, deskripsi, harga per jam, ulasan pengguna, serta kalender pemilihan tanggal dan jam sewa untuk memulai proses reservasi.
 
-![[images/halaman-detail-lapangan.png]]
+![[halaman-detail-lapangan.png]]
 
 **Gambar 37.** Halaman Detail Lapangan ^gambar-37
 
@@ -477,35 +477,35 @@ Halaman detail lapangan menampilkan informasi spesifik satu lapangan, mencakup f
 #### 7. Halaman Login (`/login`)
 Halaman login menyediakan form masuk akun dengan validasi *client-side* menggunakan Zod dan React Hook Form. Terdapat pula tautan menuju halaman pendaftaran bagi pengguna baru dan tautan lupa password.
 
-![[images/halaman-login.png]]
+![[halaman-login.png]]
 
 **Gambar 38.** Halaman Login ^gambar-38
 
 #### 8. Halaman Registrasi (`/register`)
 Halaman registrasi menyediakan form pendaftaran akun baru yang mencakup input nama lengkap, email, kata sandi, konfirmasi kata sandi, dan pilihan peran akun (User atau Renter). Validasi dilakukan secara *real-time* di sisi klien.
 
-![[images/halaman-register.png]]
+![[halaman-register.png]]
 
 **Gambar 39.** Halaman Registrasi ^gambar-39
 
 #### 9. Halaman Verifikasi Email (`/verify-email`)
 Halaman ini ditampilkan setelah pengguna berhasil mendaftar, menginformasikan bahwa kode OTP verifikasi enam digit telah dikirim ke alamat email yang didaftarkan dan meminta pengguna untuk mengisinya.
 
-![[images/halaman-verifikasi-email.png]]
+![[halaman-verifikasi-email.png]]
 
 **Gambar 40.** Halaman Verifikasi Email ^gambar-40
 
 #### 10. Halaman Lupa Password (`/forgot-password`)
 Halaman lupa password menyediakan form input email untuk meminta pengiriman tautan pemulihan kata sandi. Sistem akan mengirimkan token reset ke email pengguna yang terdaftar melalui layanan SMTP Nodemailer.
 
-![[images/halaman-lupa-password.png]]
+![[halaman-lupa-password.png]]
 
 **Gambar 41.** Halaman Lupa Password ^gambar-41
 
 #### 11. Halaman Reset Password (`/reset-password`)
 Halaman reset password menampilkan form pengisian kata sandi baru yang diakses melalui tautan pemulihan di email. Pengguna diminta mengisi kata sandi baru dan konfirmasinya sebelum disimpan ke basis data.
 
-![[images/halaman-reset-password.png]]
+![[halaman-reset-password.png]]
 
 **Gambar 42.** Halaman Reset Password ^gambar-42
 
@@ -514,35 +514,35 @@ Halaman reset password menampilkan form pengisian kata sandi baru yang diakses m
 #### 12. Halaman Kelola Profil (`/profile`)
 Halaman profil memungkinkan pengguna mengatur data diri seperti nama lengkap, bio, alamat, nomor telepon, dan foto avatar. Foto profil diunggah ke *cloud* ImageKit CDN dan disimpan sebagai URL.
 
-![[images/halaman-profil-user.png]]
+![[halaman-profil-user.png]]
 
 **Gambar 43.** Halaman Profil Pengguna ^gambar-43
 
 #### 13. Halaman Riwayat Booking (`/bookings`)
 Halaman riwayat booking menampilkan daftar seluruh pemesanan lapangan yang pernah dilakukan pengguna. Setiap kartu booking menampilkan status transaksi beserta tombol aksi kontekstual: **Bayar** untuk transaksi PENDING, **Beri Ulasan** untuk transaksi COMPLETED, dan **Unduh Invoice** untuk semua transaksi.
 
-![[images/halaman-riwayat-booking.png]]
+![[halaman-riwayat-booking.png]]
 
 **Gambar 44.** Halaman Riwayat Booking Pengguna ^gambar-44
 
 #### 14. Halaman Detail Booking (`/bookings/[id]`)
 Halaman detail booking menampilkan ringkasan lengkap satu transaksi pemesanan, mencakup informasi lapangan, tanggal dan jam sewa, total biaya, status pembayaran, dan riwayat status pemesanan.
 
-![[images/halaman-detail-booking-user.png]]
+![[halaman-detail-booking-user.png]]
 
 **Gambar 45.** Halaman Detail Booking Pengguna ^gambar-45
 
 #### 15. Halaman Laporan Keluhan (`/reports`)
 Halaman laporan keluhan menyediakan form pengaduan masalah (kategori SCAM, TECHNICAL, PAYMENT, atau OTHER) serta menampilkan daftar riwayat laporan yang pernah diajukan beserta status penanganannya.
 
-![[images/halaman-laporan-user.png]]
+![[halaman-laporan-user.png]]
 
 **Gambar 46.** Halaman Laporan Keluhan Pengguna ^gambar-46
 
 #### 16. Halaman Detail Laporan (`/reports/[id]`)
 Halaman detail laporan menampilkan rincian satu pengaduan beserta thread percakapan dua arah antara pengguna dan admin. Pengguna dapat melanjutkan percakapan selama laporan masih berstatus PENDING.
 
-![[images/halaman-detail-laporan-user.png]]
+![[halaman-detail-laporan-user.png]]
 
 **Gambar 47.** Halaman Detail Laporan Pengguna ^gambar-47
 
@@ -551,63 +551,63 @@ Halaman detail laporan menampilkan rincian satu pengaduan beserta thread percaka
 #### 17. Halaman Dashboard Renter (`/renter/dashboard`)
 Halaman dashboard mitra menampilkan rangkuman statistik bisnis harian: total lapangan aktif, jumlah pesanan masuk hari ini, ulasan terbaru dari penyewa, dan grafik tren pendapatan bulanan.
 
-![[images/halaman-dashboard-renter.png]]
+![[halaman-dashboard-renter.png]]
 
 **Gambar 48.** Halaman Dashboard Renter ^gambar-48
 
 #### 18. Halaman Kelola Venue (`/renter/venues`)
 Halaman kelola venue menampilkan daftar seluruh venue milik renter. Renter dapat menambahkan venue baru, mengedit informasi venue, mengatur jadwal operasional mingguan, mengunggah galeri foto, serta mengajukan venue ke admin untuk mendapatkan persetujuan.
 
-![[images/halaman-kelola-venue-renter.png]]
+![[halaman-kelola-venue-renter.png]]
 
 **Gambar 49.** Halaman Kelola Venue Renter ^gambar-49
 
 #### 19. Halaman Detail Venue Renter (`/renter/venues/[id]`)
 Halaman detail venue di sisi renter menampilkan pratinjau tampilan venue beserta ringkasan statistik seperti total lapangan, total booking, dan status persetujuan venue dari admin.
 
-![[images/halaman-detail-venue-renter.png]]
+![[halaman-detail-venue-renter.png]]
 
 **Gambar 50.** Halaman Detail Venue Renter ^gambar-50
 
 #### 20. Halaman Kelola Lapangan (`/renter/fields`)
 Halaman kelola lapangan menampilkan daftar seluruh lapangan olahraga milik renter lintas venue. Renter dapat menambahkan lapangan baru, mengatur harga per jam, mengunggah foto, menutup lapangan sementara (*is_closed*), dan mengajukan lapangan ke admin.
 
-![[images/halaman-kelola-lapangan-renter.png]]
+![[halaman-kelola-lapangan-renter.png]]
 
 **Gambar 51.** Halaman Kelola Lapangan Renter ^gambar-51
 
 #### 21. Halaman Edit Lapangan (`/renter/fields/[id]/edit`)
 Halaman edit lapangan menyediakan form lengkap untuk memperbarui informasi lapangan seperti nama, deskripsi, jenis olahraga, harga per jam, serta pengelolaan galeri foto lapangan.
 
-![[images/halaman-edit-lapangan-renter.png]]
+![[halaman-edit-lapangan-renter.png]]
 
 **Gambar 52.** Halaman Edit Lapangan Renter ^gambar-52
 
 #### 22. Halaman Kelola Booking Renter (`/renter/bookings`)
 Halaman kelola booking menampilkan seluruh daftar pemesanan yang masuk untuk semua lapangan milik renter. Renter dapat memantau status pesanan, mengkonfirmasi kehadiran penyewa, serta menandai sesi sewa sebagai selesai (COMPLETED).
 
-![[images/halaman-kelola-booking-renter.png]]
+![[halaman-kelola-booking-renter.png]]
 
 **Gambar 53.** Halaman Kelola Booking Renter ^gambar-53
 
 #### 23. Halaman Pendapatan (`/renter/revenue`)
 Halaman pendapatan menampilkan visualisasi grafik analitik tren omzet harian dan bulanan, total transaksi terkonfirmasi, serta rincian pendapatan per lapangan yang dikelola.
 
-![[images/halaman-pendapatan-renter.png]]
+![[halaman-pendapatan-renter.png]]
 
 **Gambar 54.** Halaman Pendapatan Renter ^gambar-54
 
 #### 24. Halaman Laporan Pengaduan Renter (`/renter/reports`)
 Halaman laporan pengaduan renter menampilkan daftar keluhan yang pernah diajukan oleh renter kepada admin, beserta status penanganannya (PENDING atau RESOLVED).
 
-![[images/halaman-laporan-renter.png]]
+![[halaman-laporan-renter.png]]
 
 **Gambar 55.** Halaman Laporan Pengaduan Renter ^gambar-55
 
 #### 25. Halaman Detail Laporan Renter (`/renter/reports/[id]`)
 Halaman detail laporan pengaduan renter menampilkan rincian satu tiket keluhan beserta thread percakapan dua arah antara renter dan admin platform.
 
-![[images/halaman-detail-laporan-renter.png]]
+![[halaman-detail-laporan-renter.png]]
 
 **Gambar 56.** Halaman Detail Laporan Renter ^gambar-56
 
@@ -616,77 +616,77 @@ Halaman detail laporan pengaduan renter menampilkan rincian satu tiket keluhan b
 #### 26. Halaman Dashboard Admin (`/admin/dashboard`)
 Halaman dashboard administrator menampilkan ringkasan statistik platform secara keseluruhan, mencakup total pengguna terdaftar, total venue, total lapangan aktif, dan total transaksi yang berjalan di platform FieldMax.
 
-![[images/halaman-dashboard-admin.png]]
+![[halaman-dashboard-admin.png]]
 
 **Gambar 57.** Halaman Dashboard Admin ^gambar-57
 
 #### 27. Halaman Kelola Pengguna (`/admin/users`)
 Halaman kelola pengguna menampilkan daftar seluruh akun yang terdaftar di platform, baik User, Renter, maupun Admin. Administrator dapat melihat detail profil, memverifikasi data bisnis Renter, atau menonaktifkan akun yang melanggar kebijakan.
 
-![[images/halaman-kelola-pengguna-admin.png]]
+![[halaman-kelola-pengguna-admin.png]]
 
 **Gambar 58.** Halaman Kelola Pengguna Admin ^gambar-58
 
 #### 28. Halaman Moderasi Venue (`/admin/venues`)
 Halaman moderasi venue menampilkan daftar venue yang sedang menunggu peninjauan (status PENDING). Admin dapat mengubah status venue menjadi APPROVED agar tampil di halaman publik, atau REJECTED dengan menyertakan alasan penolakan sebagai umpan balik bagi renter.
 
-![[images/halaman-moderasi-venue-admin.png]]
+![[halaman-moderasi-venue-admin.png]]
 
 **Gambar 59.** Halaman Moderasi Venue Admin ^gambar-59
 
 #### 29. Halaman Edit Venue Admin (`/admin/venues/[id]/edit`)
 Halaman edit venue di sisi admin memungkinkan administrator memperbarui informasi venue, mengubah status verifikasi, serta mengisi alasan penolakan apabila venue tidak memenuhi syarat platform.
 
-![[images/halaman-edit-venue-admin.png]]
+![[halaman-edit-venue-admin.png]]
 
 **Gambar 60.** Halaman Edit Venue Admin ^gambar-60
 
 #### 30. Halaman Moderasi Lapangan (`/admin/fields`)
 Halaman moderasi lapangan menampilkan daftar lapangan yang diajukan oleh renter dan memerlukan peninjauan admin. Admin dapat menyetujui atau menolak lapangan dengan mekanisme yang sama seperti moderasi venue.
 
-![[images/halaman-moderasi-lapangan-admin.png]]
+![[halaman-moderasi-lapangan-admin.png]]
 
 **Gambar 61.** Halaman Moderasi Lapangan Admin ^gambar-61
 
 #### 31. Halaman Edit Lapangan Admin (`/admin/fields/[id]/edit`)
 Halaman edit lapangan di sisi admin memungkinkan administrator memperbarui data lapangan, mengubah status verifikasi, serta memberikan keterangan penolakan kepada renter apabila lapangan tidak disetujui.
 
-![[images/halaman-edit-lapangan-admin.png]]
+![[halaman-edit-lapangan-admin.png]]
 
 **Gambar 62.** Halaman Edit Lapangan Admin ^gambar-62
 
 #### 32. Halaman Kelola Sport Type (`/admin/sport-types`)
 Halaman kelola sport type merupakan panel manajemen data master jenis cabang olahraga. Administrator dapat menambahkan kategori olahraga baru, mengedit nama kategori yang ada, atau menghapus kategori yang tidak lagi digunakan.
 
-![[images/halaman-sport-type-admin.png]]
+![[halaman-sport-type-admin.png]]
 
 **Gambar 63.** Halaman Kelola Sport Type Admin ^gambar-63
 
 #### 33. Halaman Kelola Booking Admin (`/admin/bookings`)
 Halaman kelola booking admin menampilkan seluruh riwayat transaksi pemesanan yang terjadi di platform FieldMax, beserta informasi status booking dan status pembayaran dari setiap transaksi.
 
-![[images/halaman-kelola-booking-admin.png]]
+![[halaman-kelola-booking-admin.png]]
 
 **Gambar 64.** Halaman Kelola Booking Admin ^gambar-64
 
 #### 34. Halaman Detail Booking Admin (`/admin/bookings/[id]`)
 Halaman detail booking admin menampilkan informasi lengkap satu transaksi pemesanan, termasuk data penyewa, lapangan yang dipesan, waktu sewa, total biaya, serta status pembayaran yang terintegrasi dengan Midtrans.
 
-![[images/halaman-detail-booking-admin.png]]
+![[halaman-detail-booking-admin.png]]
 
 **Gambar 65.** Halaman Detail Booking Admin ^gambar-65
 
 #### 35. Halaman Pengaduan Masalah Admin (`/admin/reports`)
 Halaman pengaduan masalah menampilkan seluruh tiket keluhan yang masuk dari pengguna dan renter, dikelompokkan berdasarkan status (PENDING atau RESOLVED). Admin dapat menelusuri dan menangani setiap laporan yang masuk.
 
-![[images/halaman-laporan-admin.png]]
+![[halaman-laporan-admin.png]]
 
 **Gambar 66.** Halaman Daftar Laporan Admin ^gambar-66
 
 #### 36. Halaman Detail Laporan Admin (`/admin/reports/[id]`)
 Halaman detail laporan admin menampilkan rincian tiket pengaduan beserta thread percakapan dua arah. Admin dapat membalas pesan pengguna dan mengubah status laporan menjadi RESOLVED setelah permasalahan terselesaikan.
 
-![[images/halaman-detail-laporan-admin.png]]
+![[halaman-detail-laporan-admin.png]]
 
 **Gambar 67.** Halaman Detail Laporan Admin ^gambar-67
 
