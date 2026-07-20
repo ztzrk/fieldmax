@@ -37,8 +37,8 @@ export type VenueFormSchema = z.infer<typeof venueFormSchema>;
 export const venueScheduleSchema = z.object({
     id: z.string().uuid(),
     dayOfWeek: z.number().int(),
-    openTime: z.string(),
-    closeTime: z.string(),
+    openTime: z.union([z.string(), z.date()]),
+    closeTime: z.union([z.string(), z.date()]),
 });
 
 const venuePhotoSchema = z.object({
@@ -58,7 +58,7 @@ export const venueResponseSchema = z.object({
     description: z.string().nullable(),
     status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
     rejectionReason: z.string().nullable().optional(),
-    createdAt: z.string().datetime(),
+    createdAt: z.union([z.string(), z.date()]),
     renterId: z.string().uuid(),
     renter: z.object({
         fullName: z.string(),
@@ -76,9 +76,9 @@ export const venueResponseSchema = z.object({
 const fieldNestedResponseSchema = z.object({
     id: z.string(),
     name: z.string(),
-    pricePerHour: z.number(),
-    status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
-    sportTypeName: z.string(),
+    pricePerHour: z.number().optional(),
+    status: z.enum(["PENDING", "APPROVED", "REJECTED"]).optional(),
+    sportTypeName: z.string().optional(),
     photos: z.array(z.object({ url: z.string() })).optional(),
 });
 
@@ -86,16 +86,16 @@ export const venueDetailResponseSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     address: z.string(),
-    city: z.string().optional(),
-    district: z.string().optional(),
-    province: z.string().optional(),
-    postalCode: z.string().optional(),
-    description: z.string().nullable(),
+    city: z.string().nullable().optional(),
+    district: z.string().nullable().optional(),
+    province: z.string().nullable().optional(),
+    postalCode: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
     status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
-    rejectionReason: z.string().nullable(),
-    photos: z.array(venuePhotoSchema),
-    schedules: z.array(venueScheduleSchema).optional(),
-    fields: z.array(fieldNestedResponseSchema),
+    rejectionReason: z.string().nullable().optional(),
+    photos: z.array(venuePhotoSchema).optional().default([]),
+    schedules: z.array(venueScheduleSchema).optional().default([]),
+    fields: z.array(fieldNestedResponseSchema).optional().default([]),
 });
 
 export type FieldNestedResponseSchema = z.infer<
