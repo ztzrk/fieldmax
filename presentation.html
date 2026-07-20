@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FieldMax — Presentation Deck (Seminar Hasil Skripsi Unhas)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #f6f3ee;
+      --bg-slide: #faf8f5;
+      --bg-card: #ffffff;
+      --border-card: #e4dfd7;
+      --text-main: #1c1c1e;
+      --text-muted: #57575e;
+      --text-sub: #7a7a85;
+      --unhas-crimson: #800000;
+      --unhas-gold: #c59b27;
+      --fieldmax-emerald: #0d9488;
+      --fieldmax-dark: #0f172a;
+      --accent-blue: #2563eb;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 36px rgba(0,0,0,0.1);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-code: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Deck Layout */
+    .presentation-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    /* Top Navigation Header */
+    .top-header {
+      height: 54px;
+      background: rgba(250, 248, 245, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .unhas-logo-badge {
+      width: 28px;
+      height: 28px;
+      background: var(--unhas-crimson);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .brand-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .seminar-badge {
+      background: rgba(128, 0, 0, 0.08);
+      color: var(--unhas-crimson);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .action-btn {
+      background: white;
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background: var(--bg-canvas);
+      border-color: #cbd5e1;
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 20px;
+    }
+
+    .slide-wrapper {
+      width: 100%;
+      max-width: 1380px;
+      height: 100%;
+      max-height: 780px;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      background: var(--bg-slide);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-card);
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 48px 56px;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.98);
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    /* Decorative Motifs */
+    .unhas-arch-motif {
+      position: absolute;
+      top: 40px;
+      right: 48px;
+      width: 64px;
+      height: 70px;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .slide-number-pill {
+      position: absolute;
+      bottom: 36px;
+      right: 48px;
+      width: 42px;
+      height: 42px;
+      background: var(--text-main);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* Slide Typography & Titles */
+    .slide-title {
+      font-family: var(--font-title);
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+
+    .slide-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: -16px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    /* Custom Scrollbar */
+    .slide-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .slide-content::-webkit-scrollbar-thumb {
+      background: var(--border-card);
+      border-radius: 10px;
+    }
+
+    /* Section Slide Styling */
+    .slide.section-slide {
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 100px;
+      background: linear-gradient(135deg, #faf8f5 0%, #f1ebe1 100%);
+    }
+
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--unhas-crimson);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Title Slide Cover */
+    .slide.cover-slide {
+      padding: 60px 72px;
+      justify-content: space-between;
+    }
+
+    .cover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-institution {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .cover-seminar {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: 1px;
+    }
+
+    .cover-body {
+      margin: auto 0;
+    }
+
+    .cover-title {
+      font-family: var(--font-title);
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 24px;
+      max-width: 1000px;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+
+    .cover-author {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .cover-nim {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--unhas-crimson);
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-card);
+      padding-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .cover-lecturers {
+      display: flex;
+      gap: 48px;
+    }
+
+    .lecturer-box h5 {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .lecturer-box p {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Cards & Grid Containers */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-title {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(13, 148, 136, 0.1);
+      color: var(--fieldmax-emerald);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* List Item Cards */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feature-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .feature-num {
+      width: 26px;
+      height: 26px;
+      background: var(--text-main);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-body h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: var(--text-main);
+    }
+
+    .feature-body p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* DSR Visual Box */
+    .dsr-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 8px;
+    }
+
+    .dsr-column {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .dsr-head {
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border-card);
+    }
+
+    .dsr-column.env .dsr-head { color: #d97706; border-color: #fef3c7; }
+    .dsr-column.isr .dsr-head { color: var(--fieldmax-emerald); border-color: #ccfbf1; }
+    .dsr-column.kb .dsr-head { color: var(--accent-blue); border-color: #dbeafe; }
+
+    .dsr-block {
+      background: var(--bg-canvas);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+
+    .dsr-block h5 {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .dsr-block p {
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-size: 11.5px;
+    }
+
+    /* Gantt Schedule Table */
+    .gantt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: white;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-card);
+    }
+
+    .gantt-table th, .gantt-table td {
+      padding: 8px 10px;
+      text-align: center;
+      border: 1px solid #f1f5f9;
+    }
+
+    .gantt-table th {
+      background: #f8fafc;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .gantt-table td.label-cell {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .gantt-fill {
+      background: var(--fieldmax-emerald);
+      color: white;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 0;
+    }
+
+    /* Waterfall Flow Visualizer */
+    .waterfall-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 800px;
+      margin: 10px auto;
+    }
+
+    .waterfall-step {
+      background: white;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .waterfall-step .step-idx {
+      background: var(--unhas-crimson);
+      color: white;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Interactive Tab Control */
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-card);
+      padding-bottom: 8px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--text-main);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Code & Enum Block */
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: var(--font-code);
+      font-size: 12px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    .code-kw { color: #f472b6; }
+    .code-val { color: #38bdf8; }
+    .code-cm { color: #94a3b8; }
+
+    /* Schema Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: white;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .data-table th {
+      background: #f8fafc;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    .data-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text-muted);
+    }
+
+    .data-table td.fw-bold {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .badge-pk { background: #dbeafe; color: #1e40af; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10px; }
+    .badge-fk { background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10px; }
+
+    /* Test Results Status Badges */
+    .test-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-bar {
+      height: 58px;
+      background: rgba(250, 248, 245, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      z-index: 100;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background: white;
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--text-main);
+      color: white;
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-progress-info {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #e2e8f0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--unhas-crimson);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Overview Modal Drawer */
+    .overview-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .overview-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .overview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat( auto-fill, minmax(200px, 1fr) );
+      gap: 16px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .thumb-card {
+      background: white;
+      aspect-ratio: 16/9;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .thumb-card:hover {
+      transform: scale(1.03);
+      border-color: var(--fieldmax-emerald);
+    }
+
+    .thumb-card.active {
+      border-color: var(--unhas-crimson);
+      box-shadow: 0 0 0 2px var(--unhas-crimson);
+    }
+
+    .thumb-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-sub);
+    }
+
+    .thumb-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* UI Screenshot Display */
+    .ui-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .ui-card {
+      background: white;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .ui-card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .ui-card-body {
+      padding: 8px 12px;
+    }
+
+    .ui-card-body h5 {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .ui-card-body p {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+  </style>
+</head>
+<body>
+
+<div class="presentation-container">
+  
+  <!-- Top Navigation Header -->
+  <header class="top-header">
+    <div class="brand-section">
+      <div class="unhas-logo-badge">U</div>
+      <span class="brand-title">Sistem Informasi Universitas Hasanuddin</span>
+      <span class="seminar-badge">Seminar Hasil Skripsi</span>
+    </div>
+    <div class="header-actions">
+      <button class="action-btn" id="btn-overview">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Overview (O)
+      </button>
+      <button class="action-btn" id="btn-fullscreen">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        Layar Penuh (F)
+      </button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main class="slide-stage">
+    <div class="slide-wrapper">
+      
+      <!-- Arch Motif SVG Accent -->
+      <svg class="unhas-arch-motif" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+        <path d="M10,90 V40 A40,40 0 0,1 90,40 V90" />
+        <path d="M25,90 V45 A25,25 0 0,1 75,45 V90" />
+        <path d="M40,90 V50 A10,10 0 0,1 60,50 V90" />
+      </svg>
+
+      <!-- SLIDE 1: Cover Slide -->
+      <div class="slide cover-slide active" data-slide="1">
+        <div class="cover-header">
+          <span class="cover-institution">Program Studi Sistem Informasi • FMIPA Universitas Hasanuddin</span>
+          <span class="cover-seminar">SEMINAR HASIL</span>
+        </div>
+        <div class="cover-body">
+          <h1 class="cover-title">Rancang Bangun Sistem Informasi Reservasi dan Fasilitas Olahraga Multi-Tenant Berbasis Web</h1>
+          <div class="cover-author">Oleh: AFLAH ALIFU NA MAPPATAJANG RAHMAN</div>
+          <div class="cover-nim">NIM: H071211021 / H071211012</div>
+        </div>
+        <div class="cover-footer">
+          <div class="cover-lecturers">
+            <div class="lecturer-box">
+              <h5>Dosen Pembimbing</h5>
+              <p>Dr. Eng Supri Bin Hj Amir, S.Si., M.Eng.</p>
+            </div>
+            <div class="lecturer-box">
+              <h5>Dosen Penguji</h5>
+              <p>Edy Saputra Rusdi, S.Si., M.Si. / Dr. Hendra, S.Si., M.Kom.</p>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <p><strong>Makassar, 2025</strong></p>
+          </div>
+        </div>
+        <div class="slide-number-pill">1</div>
+      </div>
+
+      <!-- SLIDE 2: Section 01 Pendahuluan -->
+      <div class="slide section-slide" data-slide="2">
+        <span class="section-subtitle">Bagian 01</span>
+        <h2 class="section-title">Pendahuluan</h2>
+        <div class="slide-number-pill">2</div>
+      </div>
+
+      <!-- SLIDE 3: Latar Belakang -->
+      <div class="slide" data-slide="3">
+        <h2 class="slide-title">Latar Belakang Permasalahan</h2>
+        <div class="slide-subtitle">Tantangan pengelolaan operasional lapangan olahraga konvensional di Kota Makassar</div>
+        <div class="slide-content">
+          <div class="grid-2">
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-num">1</div>
+                <div class="feature-body">
+                  <h4>Pencatatan Reservasi Masih Manual</h4>
+                  <p>Penggunaan WhatsApp dan Google Form sering menimbulkan jadwal ganda (<em>double booking</em>) dan human error.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-num">2</div>
+                <div class="feature-body">
+                  <h4>Verifikasi Pembayaran Terpisah</h4>
+                  <p>Bukti transfer disahkan manual satu per satu, memperlambat konfirmasi sewa dan berisiko bukti pembayaran palsu.</p>
+                </div>
+              </div>
+            </div>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-num">3</div>
+                <div class="feature-body">
+                  <h4>Sulit Cek Ketersediaan Real-Time</h4>
+                  <p>Pelanggan (User) kesulitan melihat slot jam yang pasti secara fleksibel tanpa harus menghubungi pengelola.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-num">4</div>
+                <div class="feature-body">
+                  <h4>Tidak Ada Dasbor Rekapitulasi Renter</h4>
+                  <p>Pemilik lapangan (Renter) kesulitan memantau tren omzet pendapatan dan laporan transaksi secara otomatis.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">3</div>
+      </div>
+
+      <!-- SLIDE 4: Rumusan Masalah -->
+      <div class="slide" data-slide="4">
+        <h2 class="slide-title">Rumusan Masalah</h2>
+        <div class="slide-content">
+          <div class="feature-list" style="margin-top: 10px;">
+            <div class="feature-item">
+              <div class="feature-num">1</div>
+              <div class="feature-body">
+                <h4>Bagaimana merancang dan membangun sistem informasi penyewaan lapangan olahraga berbasis web yang dapat menggantikan pencatatan manual?</h4>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-num">2</div>
+              <div class="feature-body">
+                <h4>Bagaimana mengatasi masalah jadwal yang konflik (double booking) dan ketidakpastian ketersediaan lapangan secara real-time?</h4>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-num">3</div>
+              <div class="feature-body">
+                <h4>Bagaimana menyediakan platform terintegrasi yang memudahkan pengelola (Renter) dalam manajemen data transaksi dan laporan pendapatan, serta memudahkan pelanggan (User) dalam pencarian dan pemesanan?</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">4</div>
+      </div>
+
+      <!-- SLIDE 5: Tujuan Penelitian -->
+      <div class="slide" data-slide="5">
+        <h2 class="slide-title">Tujuan Penelitian</h2>
+        <div class="slide-content">
+          <div class="grid-3" style="margin-top: 16px;">
+            <div class="card">
+              <div class="card-icon">01</div>
+              <h4 class="card-title" style="margin-top: 12px;">Digitalisasi Sistem</h4>
+              <p class="card-text">Merancang & membangun platform web yang menggantikan peran buku agenda dan pesan manual dengan basis data digital yang terstruktur.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">02</div>
+              <h4 class="card-title" style="margin-top: 12px;">Pencegahan Schedule Conflict</h4>
+              <p class="card-text">Menyediakan fitur pengecekan jadwal ketersediaan real-time untuk menjamin tidak ada dua booking pada jam dan lapangan yang sama.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">03</div>
+              <h4 class="card-title" style="margin-top: 12px;">Platform Terpadu Multi-Tenant</h4>
+              <p class="card-text">Menghasilkan FieldMax yang memfasilitasi 3 aktor (User, Renter, Admin) dalam reservasi, pembayaran otomatis, dan analitik pendapatan.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">5</div>
+      </div>
+
+      <!-- SLIDE 6: Batasan & Manfaat Penelitian -->
+      <div class="slide" data-slide="6">
+        <h2 class="slide-title">Batasan & Manfaat Penelitian</h2>
+        <div class="slide-content">
+          <div class="grid-2">
+            <div class="card" style="border-top: 4px solid var(--unhas-crimson);">
+              <h4 class="card-title">Batasan Masalah</h4>
+              <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px; margin-top: 10px;">
+                <li>Sistem dibangun berbasis Web (Responsive Next.js & Express.js) tanpa aplikasi native (Android/iOS).</li>
+                <li>Sistem manajemen basis data menggunakan PostgreSQL.</li>
+                <li>Pengelolaan keuangan dibatasi pada rekapitulasi laporan pendapatan transaksi penyewaan fasilitas (bukan akuntansi mendalam).</li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--fieldmax-emerald);">
+              <h4 class="card-title">Manfaat Penelitian</h4>
+              <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-left: 18px; margin-top: 10px;">
+                <li>Tersedianya platform terintegrasi otomatis untuk reservasi, pembayaran digital Midtrans, dan kelola venue.</li>
+                <li>Meningkatkan efisiensi waktu, mencegah kerugian double booking, dan memudahkan pemesanan lapangan bagi masyarakat.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">6</div>
+      </div>
+
+      <!-- SLIDE 7: Section 02 Metode Penelitian -->
+      <div class="slide section-slide" data-slide="7">
+        <span class="section-subtitle">Bagian 02</span>
+        <h2 class="section-title">Metode Penelitian</h2>
+        <div class="slide-number-pill">7</div>
+      </div>
+
+      <!-- SLIDE 8: Waktu dan Lokasi Penelitian -->
+      <div class="slide" data-slide="8">
+        <h2 class="slide-title">Waktu & Lokasi Penelitian</h2>
+        <div class="slide-subtitle">Penelitian dilaksanakan pada bulan Juli 2025 s.d. November 2025 (Makassar)</div>
+        <div class="slide-content">
+          <table class="gantt-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Tahapan Penelitian</th>
+                <th colspan="4">Juli</th>
+                <th colspan="4">Agustus</th>
+                <th colspan="4">September</th>
+                <th colspan="4">Oktober</th>
+                <th colspan="4">November</th>
+              </tr>
+              <tr>
+                <th>1</th><th>2</th><th>3</th><th>4</th>
+                <th>1</th><th>2</th><th>3</th><th>4</th>
+                <th>1</th><th>2</th><th>3</th><th>4</th>
+                <th>1</th><th>2</th><th>3</th><th>4</th>
+                <th>1</th><th>2</th><th>3</th><th>4</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label-cell">1. Studi Literatur</td>
+                <td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td class="label-cell">2. Requirements (Analisis)</td>
+                <td></td><td></td><td></td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td class="label-cell">3. Design (Perancangan)</td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td class="label-cell">4. Implementation (Koding)</td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td class="label-cell">5. Testing (Black Box)</td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td>
+              </tr>
+              <tr>
+                <td class="label-cell">6. Maintenance</td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="gantt-fill">✓</td><td class="gantt-fill">✓</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="slide-number-pill">8</div>
+      </div>
+
+      <!-- SLIDE 9: Design Science Research (DSR Framework) -->
+      <div class="slide" data-slide="9">
+        <h2 class="slide-title">Design Science Research (DSR)</h2>
+        <div class="slide-subtitle">Kerangka konseptual penelitian sistem informasi (Hevner et al., 2004)</div>
+        <div class="slide-content">
+          <div class="dsr-container">
+            <div class="dsr-column env">
+              <div class="dsr-head">ENVIRONMENT</div>
+              <div class="dsr-block">
+                <h5>People (Aktor)</h5>
+                <p>User (Penyewa), Renter (Pemilik Venue), Admin (Moderator).</p>
+              </div>
+              <div class="dsr-block">
+                <h5>Organization</h5>
+                <p>Platform FieldMax (Penyewaan Lapangan Olahraga Makassar).</p>
+              </div>
+              <div class="dsr-block">
+                <h5>Technology</h5>
+                <p>VS Code, Next.js, Express.js, TypeScript, Tailwind, Figma.</p>
+              </div>
+            </div>
+            <div class="dsr-column isr">
+              <div class="dsr-head">IS RESEARCH</div>
+              <div class="dsr-block" style="background: #e6fffa;">
+                <h5>BUILD (Artefak Web)</h5>
+                <p>Perancangan Use Case, ERD, UI/UX Figma, & Pembentukan Sistem Monorepo FieldMax.</p>
+              </div>
+              <div class="dsr-block" style="background: #e6fffa;">
+                <h5>EVALUATE (Pengujian)</h5>
+                <p>Pengujian fungsionalitas sistem reservasi & manajemen sewa via Black Box Testing.</p>
+              </div>
+            </div>
+            <div class="dsr-column kb">
+              <div class="dsr-head">KNOWLEDGE BASE</div>
+              <div class="dsr-block">
+                <h5>Foundations</h5>
+                <p>Server-Side Rendering (SSR), Client-Side Rendering (CSR), Session Auth.</p>
+              </div>
+              <div class="dsr-block">
+                <h5>Methodologies</h5>
+                <p>Design Science Research (DSR) & SDLC Model Waterfall.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">9</div>
+      </div>
+
+      <!-- SLIDE 10: Metode Pengembangan Waterfall -->
+      <div class="slide" data-slide="10">
+        <h2 class="slide-title">Metode SDLC Waterfall</h2>
+        <div class="slide-subtitle">Alur siklus pengembangan perangkat lunak secara urut dan terstruktur</div>
+        <div class="slide-content">
+          <div class="waterfall-flow">
+            <div class="waterfall-step">
+              <span>1. Requirements Analysis</span>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0 16px;">Identifikasi masalah reservasi manual, pemetaan 10 poin masalah & kebutuhan 3 aktor.</p>
+              <span class="step-idx">Fase 1</span>
+            </div>
+            <div class="waterfall-step">
+              <span>2. System Design</span>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0 16px;">Pemodelan Use Case Diagram, Activity Diagram, ERD 16 tabel, & Design UI Figma.</p>
+              <span class="step-idx">Fase 2</span>
+            </div>
+            <div class="waterfall-step">
+              <span>3. Implementation</span>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0 16px;">Pengkodean full-stack TypeScript (Next.js 16 + Express.js 5 + Prisma PostgreSQL).</p>
+              <span class="step-idx">Fase 3</span>
+            </div>
+            <div class="waterfall-step">
+              <span>4. Verification & Testing</span>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0 16px;">Pengujian skenario fungsionalitas sistem menggunakan metode Black Box Testing.</p>
+              <span class="step-idx">Fase 4</span>
+            </div>
+            <div class="waterfall-step">
+              <span>5. Maintenance</span>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0 16px;">Pemeliharaan kode, perbaikan bug, dan optimasi performa platform web.</p>
+              <span class="step-idx">Fase 5</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">10</div>
+      </div>
+
+      <!-- SLIDE 11: Pemodelan Multi-Role (Use Case) -->
+      <div class="slide" data-slide="11">
+        <h2 class="slide-title">Pemodelan Sistem — Multi-Role Use Case</h2>
+        <div class="slide-subtitle">Pembagian wewenang dan hak akses 3 aktor utama platform FieldMax</div>
+        <div class="slide-content">
+          <div class="grid-3">
+            <div class="card" style="border-top: 4px solid var(--accent-blue);">
+              <h4 class="card-title">User (Penyewa)</h4>
+              <ul style="font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-left: 16px;">
+                <li>Registrasi & Login Akun (Email OTP)</li>
+                <li>Cari & Filter Lapangan Real-Time</li>
+                <li>Pilih Jam & Reservasi Lapangan</li>
+                <li>Pembayaran via Midtrans Snap</li>
+                <li>Riwayat Booking & Beri Ulasan</li>
+                <li>Buat Laporan Pengaduan Kendala</li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--fieldmax-emerald);">
+              <h4 class="card-title">Renter (Pemilik Lapangan)</h4>
+              <ul style="font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-left: 16px;">
+                <li>Kelola Profil Usaha & Kelola Venue</li>
+                <li>Atur Jadwal Operasional & Foto CDN</li>
+                <li>Kelola Lapangan & Tarif per Jam</li>
+                <li>Ajukan Verifikasi Venue ke Admin</li>
+                <li>Konfirmasi Booking & Kehadiran</li>
+                <li>Dasbor Analitik Grafik Omzet</li>
+              </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--unhas-crimson);">
+              <h4 class="card-title">Admin (Moderator)</h4>
+              <ul style="font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-left: 16px;">
+                <li>Dashboard Agregat Statistik Platform</li>
+                <li>Moderasi Approval/Reject Venue & Field</li>
+                <li>Kelola Data Pengguna (User/Renter)</li>
+                <li>Kelola Master Data Sport Types</li>
+                <li>Pantau Transaksi & Payment Logs</li>
+                <li>Tindak Lanjut & Balas Pengaduan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">11</div>
+      </div>
+
+      <!-- SLIDE 12: Section 03 Hasil dan Pembahasan -->
+      <div class="slide section-slide" data-slide="12">
+        <span class="section-subtitle">Bagian 03</span>
+        <h2 class="section-title">Hasil & Pembahasan</h2>
+        <div class="slide-number-pill">12</div>
+      </div>
+
+      <!-- SLIDE 13: Arsitektur & Tech Stack Monorepo -->
+      <div class="slide" data-slide="13">
+        <h2 class="slide-title">Arsitektur Monorepo & Tech Stack</h2>
+        <div class="slide-subtitle">Struktur Full-Stack TypeScript Monorepo (pnpm + Turborepo)</div>
+        <div class="slide-content">
+          <div class="grid-2">
+            <div class="card">
+              <h4 class="card-title">Arsitektur Monorepo</h4>
+              <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.7; margin-top: 8px;">
+                <p><strong>Frontend:</strong> Next.js 16 (App Router), React 19, Tailwind CSS v4, shadcn/ui.</p>
+                <p><strong>Backend:</strong> Express.js 5 REST API (Controller → Service → Route pattern).</p>
+                <p><strong>Shared Package:</strong> <code>@fieldmax/shared</code> (Validasi Zod & API Types).</p>
+                <p><strong>Database:</strong> PostgreSQL disetel melalui Prisma ORM v6.</p>
+                <p><strong>Autentikasi:</strong> Session-based auth (<code>sessionId</code> HttpOnly cookie di DB).</p>
+              </div>
+            </div>
+            <div class="card">
+              <h4 class="card-title">Integrasi Layanan Pihak Ketiga</h4>
+              <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.7; margin-top: 8px;">
+                <p><strong>Payment Gateway:</strong> Midtrans Snap (Virtual Account, QRIS, GoPay) via Webhook Notification Server.</p>
+                <p><strong>CDN Upload:</strong> ImageKit SDK untuk unggahan foto venue & lapangan.</p>
+                <p><strong>Layanan Email:</strong> Nodemailer (SMTP) untuk kode verifikasi OTP & Reset Password.</p>
+                <p><strong>Background Cron:</strong> Hourly Job otomatis mengubah status CONFIRMED menjadi COMPLETED.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">13</div>
+      </div>
+
+      <!-- SLIDE 14: Implementasi Basis Data ERD -->
+      <div class="slide" data-slide="14">
+        <h2 class="slide-title">Implementasi Basis Data — ERD</h2>
+        <div class="slide-subtitle">Model Konseptual Basis Data (16 Tabel Utama & 6 Enum Data)</div>
+        <div class="slide-content">
+          <div class="grid-3" style="margin-bottom: 14px;">
+            <div class="card" style="padding: 12px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--unhas-crimson);">ENTITAS PENGGUNA</div>
+              <p style="font-size: 12px; font-weight: 600; margin-top: 4px;">users, user_profiles, verification_tokens, reset_tokens, sessions</p>
+            </div>
+            <div class="card" style="padding: 12px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--fieldmax-emerald);">ENTITAS VENUE & LAPANGAN</div>
+              <p style="font-size: 12px; font-weight: 600; margin-top: 4px;">venues, venue_schedules, venue_photos, fields, field_photos, sport_types</p>
+            </div>
+            <div class="card" style="padding: 12px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--accent-blue);">TRANSAKSI & LENGKAP</div>
+              <p style="font-size: 12px; font-weight: 600; margin-top: 4px;">bookings, payments, reviews, reports, report_replies</p>
+            </div>
+          </div>
+          <div class="card" style="background: #0f172a; color: white;">
+            <h5 style="font-family: var(--font-title); font-size: 13px; color: #38bdf8; margin-bottom: 8px;">Relasi Utama Basis Data:</h5>
+            <p style="font-family: var(--font-code); font-size: 11.5px; color: #cbd5e1; line-height: 1.6;">
+              User (1) ── (N) Venues (1) ── (N) Fields (1) ── (N) Bookings (1) ── (1) Payment<br>
+              Booking (1) ── (1) Review &nbsp;&nbsp;|&nbsp;&nbsp; User (1) ── (N) Reports (1) ── (N) ReportReplies
+            </p>
+          </div>
+        </div>
+        <div class="slide-number-pill">14</div>
+      </div>
+
+      <!-- SLIDE 15: Implementasi Enum Data Basis Data -->
+      <div class="slide" data-slide="15">
+        <h2 class="slide-title">Nilai Enum Basis Data (Prisma Schema)</h2>
+        <div class="slide-subtitle">Validasi konsistensi data status transaksi & hak akses di PostgreSQL</div>
+        <div class="slide-content">
+          <div class="grid-3">
+            <div class="code-block">
+              <span class="code-cm">// Peran Pengguna</span><br>
+              <span class="code-kw">enum</span> UserRole {<br>
+              &nbsp;&nbsp;<span class="code-val">USER</span><br>
+              &nbsp;&nbsp;<span class="code-val">RENTER</span><br>
+              &nbsp;&nbsp;<span class="code-val">ADMIN</span><br>
+              }<br><br>
+              <span class="code-cm">// Status Moderasi</span><br>
+              <span class="code-kw">enum</span> VerificationStatus {<br>
+              &nbsp;&nbsp;<span class="code-val">DRAFT</span><br>
+              &nbsp;&nbsp;<span class="code-val">PENDING</span><br>
+              &nbsp;&nbsp;<span class="code-val">APPROVED</span><br>
+              &nbsp;&nbsp;<span class="code-val">REJECTED</span><br>
+              }
+            </div>
+            <div class="code-block">
+              <span class="code-cm">// Status Pemesanan</span><br>
+              <span class="code-kw">enum</span> BookingStatus {<br>
+              &nbsp;&nbsp;<span class="code-val">PENDING</span><br>
+              &nbsp;&nbsp;<span class="code-val">CONFIRMED</span><br>
+              &nbsp;&nbsp;<span class="code-val">CANCELLED</span><br>
+              &nbsp;&nbsp;<span class="code-val">COMPLETED</span><br>
+              }<br><br>
+              <span class="code-cm">// Status Pembayaran</span><br>
+              <span class="code-kw">enum</span> PaymentStatus {<br>
+              &nbsp;&nbsp;<span class="code-val">PENDING</span><br>
+              &nbsp;&nbsp;<span class="code-val">PAID</span><br>
+              &nbsp;&nbsp;<span class="code-val">EXPIRED</span><br>
+              &nbsp;&nbsp;<span class="code-val">FAILED</span><br>
+              }
+            </div>
+            <div class="code-block">
+              <span class="code-cm">// Kategori Laporan</span><br>
+              <span class="code-kw">enum</span> ReportCategory {<br>
+              &nbsp;&nbsp;<span class="code-val">SCAM</span><br>
+              &nbsp;&nbsp;<span class="code-val">TECHNICAL</span><br>
+              &nbsp;&nbsp;<span class="code-val">PAYMENT</span><br>
+              &nbsp;&nbsp;<span class="code-val">OTHER</span><br>
+              }<br><br>
+              <span class="code-cm">// Status Laporan</span><br>
+              <span class="code-kw">enum</span> ReportStatus {<br>
+              &nbsp;&nbsp;<span class="code-val">PENDING</span><br>
+              &nbsp;&nbsp;<span class="code-val">RESOLVED</span><br>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">15</div>
+      </div>
+
+      <!-- SLIDE 16: Structure Table Inspector -->
+      <div class="slide" data-slide="16">
+        <h2 class="slide-title">Struktur Tabel Inti Basis Data</h2>
+        <div class="slide-content">
+          <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchDbTab(event, 'tab-bookings')">Tabel bookings</button>
+            <button class="tab-btn" onclick="switchDbTab(event, 'tab-payments')">Tabel payments</button>
+            <button class="tab-btn" onclick="switchDbTab(event, 'tab-venues')">Tabel venues</button>
+            <button class="tab-btn" onclick="switchDbTab(event, 'tab-fields')">Tabel fields</button>
+          </div>
+
+          <div id="tab-bookings" class="tab-content active">
+            <table class="data-table">
+              <thead>
+                <tr><th>Nama Field</th><th>Tipe Field</th><th>Keterangan</th><th>Default</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="fw-bold">id</td><td>String (UUID)</td><td><span class="badge-pk">PRIMARY KEY</span></td><td>uuid()</td></tr>
+                <tr><td class="fw-bold">user_id</td><td>String</td><td><span class="badge-fk">FK ke users.id</span></td><td>-</td></tr>
+                <tr><td class="fw-bold">field_id</td><td>String</td><td><span class="badge-fk">FK ke fields.id</span></td><td>-</td></tr>
+                <tr><td class="fw-bold">booking_date</td><td>Date</td><td>Tanggal penyewaan</td><td>-</td></tr>
+                <tr><td class="fw-bold">start_time / end_time</td><td>Time(6)</td><td>Jam sewa</td><td>-</td></tr>
+                <tr><td class="fw-bold">total_price</td><td>Float</td><td>Total harga (durasi x tarif)</td><td>-</td></tr>
+                <tr><td class="fw-bold">status</td><td>BookingStatus</td><td>Status pesanan</td><td>PENDING</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="tab-payments" class="tab-content">
+            <table class="data-table">
+              <thead>
+                <tr><th>Nama Field</th><th>Tipe Field</th><th>Keterangan</th><th>Default</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="fw-bold">id</td><td>String (UUID)</td><td><span class="badge-pk">PRIMARY KEY</span></td><td>uuid()</td></tr>
+                <tr><td class="fw-bold">booking_id</td><td>String</td><td><span class="badge-fk">FK UNIQUE ke bookings.id</span></td><td>-</td></tr>
+                <tr><td class="fw-bold">amount</td><td>Float</td><td>Total tagihan</td><td>-</td></tr>
+                <tr><td class="fw-bold">status</td><td>PaymentStatus</td><td>Status Midtrans (PAID/EXPIRED)</td><td>PENDING</td></tr>
+                <tr><td class="fw-bold">snap_token</td><td>String</td><td>Token Midtrans Snap API</td><td>Nullable</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="tab-venues" class="tab-content">
+            <table class="data-table">
+              <thead>
+                <tr><th>Nama Field</th><th>Tipe Field</th><th>Keterangan</th><th>Default</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="fw-bold">id</td><td>String (UUID)</td><td><span class="badge-pk">PRIMARY KEY</span></td><td>uuid()</td></tr>
+                <tr><td class="fw-bold">renter_id</td><td>String</td><td><span class="badge-fk">FK ke users.id</span></td><td>-</td></tr>
+                <tr><td class="fw-bold">name / address</td><td>String</td><td>Nama & lokasi venue</td><td>-</td></tr>
+                <tr><td class="fw-bold">status</td><td>VerificationStatus</td><td>Status approval admin</td><td>DRAFT</td></tr>
+                <tr><td class="fw-bold">rejection_reason</td><td>String</td><td>Alasan penolakan admin</td><td>Nullable</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="tab-fields" class="tab-content">
+            <table class="data-table">
+              <thead>
+                <tr><th>Nama Field</th><th>Tipe Field</th><th>Keterangan</th><th>Default</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="fw-bold">id</td><td>String (UUID)</td><td><span class="badge-pk">PRIMARY KEY</span></td><td>uuid()</td></tr>
+                <tr><td class="fw-bold">venue_id</td><td>String</td><td><span class="badge-fk">FK ke venues.id</span></td><td>-</td></tr>
+                <tr><td class="fw-bold">sport_type_id</td><td>String</td><td><span class="badge-fk">FK ke sport_types.id</span></td><td>-</td></tr>
+                <tr><td class="fw-bold">price_per_hour</td><td>Float</td><td>Tarif sewa per jam</td><td>-</td></tr>
+                <tr><td class="fw-bold">is_closed</td><td>Boolean</td><td>Sakelar penutupan sementara</td><td>false</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="slide-number-pill">16</div>
+      </div>
+
+      <!-- SLIDE 17: Activity Diagram Flow -->
+      <div class="slide" data-slide="17">
+        <h2 class="slide-title">Activity Diagram Process Flow</h2>
+        <div class="slide-subtitle">Alur kerja sistem reservasi real-time dan konfirmasi otomatis</div>
+        <div class="slide-content">
+          <div class="grid-2">
+            <div class="card">
+              <h4 class="card-title">Alur Reservasi User & Midtrans</h4>
+              <ol style="font-size: 12.5px; color: var(--text-muted); line-height: 1.7; margin-left: 18px; margin-top: 8px;">
+                <li>User memilih venue, tanggal, dan rentang jam sewa.</li>
+                <li>Sistem memvalidasi ketersediaan jam (menghindari jadwal bentrok).</li>
+                <li>Sistem membuat catatan <code>Booking</code> (PENDING) dan meminta <code>snap_token</code> dari Midtrans API.</li>
+                <li>User menyelesaikan tagihan di portal Midtrans Snap.</li>
+                <li>Webhook Midtrans mengirimkan notifikasi status ke server FieldMax.</li>
+                <li>Server memperbarui status <code>Payment</code> (PAID) dan <code>Booking</code> (CONFIRMED) secara otomatis.</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h4 class="card-title">Alur Operasional Renter & Cron</h4>
+              <ol style="font-size: 12.5px; color: var(--text-muted); line-height: 1.7; margin-left: 18px; margin-top: 8px;">
+                <li>Renter melihat pesanan masuk di Halaman Kelola Booking.</li>
+                <li>Renter mengonfirmasi kehadiran penyewa di lokasi venue.</li>
+                <li>Hourly Cron Job secara otomatis memeriksa seluruh booking terkonfirmasi yang melewati <code>end_time</code>.</li>
+                <li>Cron job mengubah status booking menjadi COMPLETED.</li>
+                <li>Analitik grafik pendapatan Renter diperbarui secara real-time.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">17</div>
+      </div>
+
+      <!-- SLIDE 18: Showcase UI Guest & Auth -->
+      <div class="slide" data-slide="18">
+        <h2 class="slide-title">Implementasi UI — Guest & Auth</h2>
+        <div class="slide-content">
+          <div class="ui-showcase-grid">
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-utama.png" alt="Landing Page">
+              <div class="ui-card-body">
+                <h5>Halaman Utama (Landing Page)</h5>
+                <p>Hero banner, pencarian cepat, & venue unggulan.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-pencarian.png" alt="Search Page">
+              <div class="ui-card-body">
+                <h5>Halaman Pencarian Lapangan</h5>
+                <p>Filter kota, cabang olahraga, & harga sewa.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-detail-lapangan.png" alt="Field Detail">
+              <div class="ui-card-body">
+                <h5>Detail Lapangan & Kalender Jam</h5>
+                <p>Informasi foto, ulasan, & pemilih jam sewa.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-login.png" alt="Login">
+              <div class="ui-card-body">
+                <h5>Halaman Login</h5>
+                <p>Autentikasi kredensial email & password.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-register.png" alt="Register">
+              <div class="ui-card-body">
+                <h5>Halaman Registrasi</h5>
+                <p>Pilihan akun User (Penyewa) atau Renter (Mitra).</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-verifikasi-email.png" alt="OTP">
+              <div class="ui-card-body">
+                <h5>Halaman OTP Verifikasi Email</h5>
+                <p>Pengisian kode 6 digit via Nodemailer SMTP.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">18</div>
+      </div>
+
+      <!-- SLIDE 19: Showcase UI User & Renter -->
+      <div class="slide" data-slide="19">
+        <h2 class="slide-title">Implementasi UI — User & Renter Dashboard</h2>
+        <div class="slide-content">
+          <div class="ui-showcase-grid">
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-riwayat-booking.png" alt="My Bookings">
+              <div class="ui-card-body">
+                <h5>Riwayat Booking User</h5>
+                <p>Daftar pesanan, tombol bayar, & ulasan.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-dashboard-renter.png" alt="Renter Dashboard">
+              <div class="ui-card-body">
+                <h5>Dashboard Mitra (Renter)</h5>
+                <p>Ringkasan statistik & grafik omzet pendapatan.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-kelola-venue-renter.png" alt="Venues">
+              <div class="ui-card-body">
+                <h5>Kelola Venue & Foto Galeri</h5>
+                <p>Pendaftaran venue baru & pengajuan admin.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-kelola-lapangan-renter.png" alt="Fields">
+              <div class="ui-card-body">
+                <h5>Kelola Unit Lapangan</h5>
+                <p>Penetapan harga per jam & penutupan sewa.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-pendapatan-renter.png" alt="Revenue">
+              <div class="ui-card-body">
+                <h5>Dasbor Analitik Pendapatan</h5>
+                <p>Visualisasi tren transaksi harian & bulanan.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-laporan-user.png" alt="Report">
+              <div class="ui-card-body">
+                <h5>Halaman Pengaduan Kendala</h5>
+                <p>Tiket keluhan kendala teknis atau pembayaran.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">19</div>
+      </div>
+
+      <!-- SLIDE 20: Showcase UI Admin Moderasi -->
+      <div class="slide" data-slide="20">
+        <h2 class="slide-title">Implementasi UI — Admin Moderasi</h2>
+        <div class="slide-content">
+          <div class="ui-showcase-grid">
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-dashboard-admin.png" alt="Admin Dashboard">
+              <div class="ui-card-body">
+                <h5>Dashboard Administrator</h5>
+                <p>Rangkuman total user, venue, & omzet platform.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-moderasi-venue-admin.png" alt="Moderation">
+              <div class="ui-card-body">
+                <h5>Moderasi Venue & Lapangan</h5>
+                <p>Persetujuan (APPROVED) atau penolakan (REJECTED).</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-kelola-pengguna-admin.png" alt="Users">
+              <div class="ui-card-body">
+                <h5>Kelola Data Pengguna</h5>
+                <p>Pencarian, pemfilteran, & penangguhan akun.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-sport-type-admin.png" alt="Sport Types">
+              <div class="ui-card-body">
+                <h5>Kelola Master Sport Types</h5>
+                <p>Manajemen kategori jenis cabang olahraga.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-kelola-booking-admin.png" alt="All Bookings">
+              <div class="ui-card-body">
+                <h5>Pantau Seluruh Transaksi</h5>
+                <p>Visibilitas riwayat transaksi penyewaan platform.</p>
+              </div>
+            </div>
+            <div class="ui-card">
+              <img src="obsidian/Fieldmax/halaman-laporan-admin.png" alt="Admin Reports">
+              <div class="ui-card-body">
+                <h5>Kelola Tiket Pengaduan</h5>
+                <p>Thread balasan dua arah & penutupan laporan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">20</div>
+      </div>
+
+      <!-- SLIDE 21: Hasil Pengujian Black Box Testing -->
+      <div class="slide" data-slide="21">
+        <h2 class="slide-title">Hasil Pengujian (Black Box Testing)</h2>
+        <div class="slide-subtitle">Evaluasi fungsionalitas sistem berdasarkan spesifikasi kebutuhan 3 aktor</div>
+        <div class="slide-content">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Modul Skenario Pengujian</th>
+                <th>Fungsi yang Diuji</th>
+                <th>Hasil yang Diharapkan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold">Autentikasi & Akun</td>
+                <td>Registrasi, OTP email, Login, Reset Password</td>
+                <td>Akun terdaftar, OTP terkirim, & sesi login aktif</td>
+                <td><span class="test-status">✓ PASSED</span></td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Pencarian & Reservasi</td>
+                <td>Filter lapangan, cek jam sewa, buat pesanan</td>
+                <td>Jam bentrok dicegah, total harga dihitung otomatis</td>
+                <td><span class="test-status">✓ PASSED</span></td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Pembayaran Midtrans</td>
+                <td>Inisiasi Snap Token, Webhook notifikasi</td>
+                <td>Status pembayaran otomatis terupdate PAID di DB</td>
+                <td><span class="test-status">✓ PASSED</span></td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Kelola Renter</td>
+                <td>Tambah venue, upload CDN, ajukan approval</td>
+                <td>Venue tersimpan DRAFT/PENDING & foto terunggah</td>
+                <td><span class="test-status">✓ PASSED</span></td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Moderasi Admin</td>
+                <td>Approval venue, kelola user, balasan pengaduan</td>
+                <td>Status venue berubah APPROVED & tampil di publik</td>
+                <td><span class="test-status">✓ PASSED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="slide-number-pill">21</div>
+      </div>
+
+      <!-- SLIDE 22: Section 04 Penutup -->
+      <div class="slide section-slide" data-slide="22">
+        <span class="section-subtitle">Bagian 04</span>
+        <h2 class="section-title">Penutup</h2>
+        <div class="slide-number-pill">22</div>
+      </div>
+
+      <!-- SLIDE 23: Kesimpulan -->
+      <div class="slide" data-slide="23">
+        <h2 class="slide-title">Kesimpulan</h2>
+        <div class="slide-content">
+          <div class="feature-list" style="margin-top: 10px;">
+            <div class="feature-item">
+              <div class="feature-num">1</div>
+              <div class="feature-body">
+                <h4>Keberhasilan Rancang Bangun Platform Multi-Tenant</h4>
+                <p>Platform FieldMax berhasil dirancang dan dibangun menggunakan Next.js (Frontend), Express.js (Backend), dan PostgreSQL (Prisma ORM). Platform mampu mengintegrasikan pencarian real-time, reservasi, pembayaran Midtrans Snap, dan manajemen Renter secara otomatis menggantikan proses manual.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-num">2</div>
+              <div class="feature-body">
+                <h4>Validasi Fungsionalitas via Black Box Testing</h4>
+                <p>Hasil pengujian Black Box Testing membuktikan bahwa seluruh fungsi pada tiga aktor (User, Renter, Admin) berjalan lancar tanpa kesalahan (100% Passed), mampu mencegah jadwal ganda (double booking), serta menyediakan analitik omzet yang akurat.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">23</div>
+      </div>
+
+      <!-- SLIDE 24: Saran -->
+      <div class="slide" data-slide="24">
+        <h2 class="slide-title">Saran Pengembangan Mendatang</h2>
+        <div class="slide-content">
+          <div class="grid-2" style="margin-top: 16px;">
+            <div class="card" style="border-top: 4px solid var(--unhas-crimson);">
+              <div class="card-icon">01</div>
+              <h4 class="card-title" style="margin-top: 10px;">Integrasi Fitur Virtual Meeting</h4>
+              <p class="card-text">Penelitian selanjutnya dapat menambahkan fitur pertemuan daring langsung melalui web untuk koordinasi komunitas olahraga atau event turnamen.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--fieldmax-emerald);">
+              <div class="card-icon">02</div>
+              <h4 class="card-title" style="margin-top: 10px;">Pengembangan Mobile App Native</h4>
+              <p class="card-text">Penelitian berikutnya dapat mempertimbangkan untuk membangun aplikasi berbasis Mobile Native (Android & iOS) dengan notifikasi push langsung.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-number-pill">24</div>
+      </div>
+
+      <!-- SLIDE 25: Closing & Q&A Slide -->
+      <div class="slide section-slide" data-slide="25" style="align-items: center; text-align: center; padding-left: 56px;">
+        <h2 class="section-title" style="font-size: 64px;">SEKIAN & TERIMA KASIH</h2>
+        <p class="section-subtitle" style="margin-top: 12px; color: var(--text-muted); text-transform: none; font-size: 20px;">Sesi Tanya Jawab (Q&A)</p>
+        <div style="margin-top: 32px; font-size: 14px; color: var(--text-sub);">
+          <p><strong>AFLAH ALIFU NA MAPPATAJANG RAHMAN</strong></p>
+          <p>Program Studi Sistem Informasi — Universitas Hasanuddin</p>
+        </div>
+        <div class="slide-number-pill">25</div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="bottom-bar">
+    <div class="nav-btn-group">
+      <button class="nav-btn" id="btn-prev">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        Sebelumnya
+      </button>
+      <button class="nav-btn" id="btn-next">
+        Selanjutnya
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="slide-progress-info" id="slide-info">Slide 1 dari 25</div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Overview Modal Drawer -->
+<div class="overview-modal" id="overview-modal">
+  <div class="overview-header">
+    <h3 style="font-family: var(--font-title); font-size: 22px;">Slide Overview Deck</h3>
+    <button class="action-btn" id="btn-close-overview">Tutup (ESC)</button>
+  </div>
+  <div class="overview-grid" id="overview-grid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<script>
+  let currentSlide = 1;
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+
+  const slideInfo = document.getElementById('slide-info');
+  const progressFill = document.getElementById('progress-fill');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const overviewModal = document.getElementById('overview-modal');
+  const overviewGrid = document.getElementById('overview-grid');
+
+  function updateSlide(newIdx) {
+    if (newIdx < 1 || newIdx > totalSlides) return;
+    
+    slides.forEach(slide => slide.classList.remove('active'));
+    currentSlide = newIdx;
+    
+    const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+    if (activeSlide) activeSlide.classList.add('active');
+
+    // UI Updates
+    slideInfo.textContent = `Slide ${currentSlide} dari ${totalSlides}`;
+    progressFill.style.width = `${((currentSlide) / totalSlides) * 100}%`;
+
+    btnPrev.disabled = currentSlide === 1;
+    btnNext.disabled = currentSlide === totalSlides;
+  }
+
+  // Next / Prev Triggers
+  btnPrev.addEventListener('click', () => updateSlide(currentSlide - 1));
+  btnNext.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+  // Keyboard Shortcuts
+  window.addEventListener('keydown', (e) => {
+    if (overviewModal.classList.contains('open')) {
+      if (e.key === 'Escape') toggleOverview(false);
+      return;
+    }
+
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      updateSlide(currentSlide + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      updateSlide(currentSlide - 1);
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullscreen();
+    } else if (e.key === 'o' || e.key === 'O') {
+      toggleOverview(true);
+    }
+  });
+
+  // Fullscreen Handler
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => console.log(err));
+    } else {
+      document.exitFullscreen().catch(err => console.log(err));
+    }
+  }
+  document.getElementById('btn-fullscreen').addEventListener('click', toggleFullscreen);
+
+  // Overview Drawer Handler
+  function toggleOverview(show) {
+    if (show) {
+      populateOverview();
+      overviewModal.classList.add('open');
+    } else {
+      overviewModal.classList.remove('open');
+    }
+  }
+
+  document.getElementById('btn-overview').addEventListener('click', () => toggleOverview(true));
+  document.getElementById('btn-close-overview').addEventListener('click', () => toggleOverview(false));
+
+  function populateOverview() {
+    overviewGrid.innerHTML = '';
+    slides.forEach((slide, idx) => {
+      const slideNum = idx + 1;
+      const titleEl = slide.querySelector('.slide-title, .section-title, .cover-title');
+      const titleText = titleEl ? titleEl.textContent : `Slide ${slideNum}`;
+
+      const card = document.createElement('div');
+      card.className = `thumb-card ${slideNum === currentSlide ? 'active' : ''}`;
+      card.innerHTML = `
+        <span class="thumb-num">#${slideNum}</span>
+        <div class="thumb-title">${titleText}</div>
+      `;
+      card.addEventListener('click', () => {
+        updateSlide(slideNum);
+        toggleOverview(false);
+      });
+      overviewGrid.appendChild(card);
+    });
+  }
+
+  // Database Table Switcher Tab
+  function switchDbTab(evt, tabId) {
+    const parent = evt.target.closest('.slide-content');
+    parent.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+    evt.target.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  // Initialize First Slide
+  updateSlide(1);
+</script>
+</body>
+</html>
