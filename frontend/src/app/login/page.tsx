@@ -55,6 +55,14 @@ export default function LoginPage() {
                         control={form.control}
                         name="password"
                         label="Password"
+                        rightLabel={
+                            <Link
+                                href="/forgot-password"
+                                className="text-xs text-muted-foreground hover:text-brand hover:underline"
+                            >
+                                Forgot password?
+                            </Link>
+                        }
                         placeholder="••••••••"
                         type="password"
                         required

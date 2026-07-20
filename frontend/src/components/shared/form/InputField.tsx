@@ -16,7 +16,8 @@ import { Eye, EyeOff } from "lucide-react";
 interface InputFieldProps<T extends FieldValues> {
     control: Control<T>;
     name: Path<T>;
-    label: string;
+    label?: string;
+    rightLabel?: React.ReactNode;
     placeholder?: string;
     type?: string;
     required?: boolean;
@@ -32,6 +33,7 @@ export function InputField<T extends FieldValues>({
     control,
     name,
     label,
+    rightLabel,
     placeholder,
     type = "text",
     required,
@@ -44,12 +46,19 @@ export function InputField<T extends FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>
-                        {label}{" "}
-                        {required && (
-                            <span className="text-destructive">*</span>
-                        )}
-                    </FormLabel>
+                    {(label || rightLabel) && (
+                        <div className="flex items-center justify-between">
+                            {label ? (
+                                <FormLabel>
+                                    {label}{" "}
+                                    {required && (
+                                        <span className="text-destructive">*</span>
+                                    )}
+                                </FormLabel>
+                            ) : <div />}
+                            {rightLabel}
+                        </div>
+                    )}
                     <FormControl>
                         <div className="relative">
                             <Input
