@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "5c0ecec570fdbe83",
+        "id": "bd39e09ac9627c51",
         "type": "tabs",
         "children": [
           {
-            "id": "c199aedf9cf22639",
+            "id": "ee7ceff560e61298",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -184,20 +184,21 @@
       "drawio-editor:Create new drawio diagram": false
     }
   },
-  "active": "c199aedf9cf22639",
+  "active": "ee7ceff560e61298",
   "lastOpenFiles": [
-    "09 - BAB IV - Kesimpulan dan Saran.md",
     "08 - BAB III - Hasil dan Pembahasan.md",
-    "halaman-reset-password.png",
-    "halaman-lupa-password.png",
-    "halaman-detail-lapangan.png",
-    "halaman-detail-booking-user.png",
-    "halaman-detail-booking-admin.png",
-    "halaman-dashboard-renter.png",
-    "halaman-dashboard-admin.png",
-    "halaman-daftar-venue.png",
-    "halaman-daftar-lapangan.png",
-    "images/halaman-verifikasi-email.png",
+    "images/screenshots/halaman-detail-booking-admin.png",
+    "images/screenshots/admin-booking-detail.png",
+    "images/admin-booking-detail.png",
+    "admin-booking-detail.png",
+    "images/images/halaman-kelola-booking-admin.png",
+    "images/images/admin-bookings.png",
+    "images/screenshots/halaman-kelola-booking-admin.png",
+    "images/screenshots/admin-bookings.png",
+    "images/images/admin-venue-edit.png",
+    "images/screenshots/halaman-edit-venue-admin.png",
+    "images/images",
+    "09 - BAB IV - Kesimpulan dan Saran.md",
     "07 - BAB II - Metode Penelitian.md",
     "images/screenshots",
     "images/gambar-booking-flow.drawio",
@@ -209,7 +210,6 @@
     "images/gambar-use-case-diagram.drawio",
     "images/drawio/gambar-activity-detail.drawio",
     "images/drawio/gambar-activity-user.drawio",
-    "images/drawio/gambar-activity-pengaduan-admin.drawio",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
     "10 - Daftar Pustaka.md",
