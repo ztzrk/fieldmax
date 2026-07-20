@@ -42,6 +42,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
         `,
     };
     try {
+        console.log(`[MAILER] Password Reset Link: ${resetLink}`);
         await transporter.sendMail(message);
     } catch (error) {
         console.error("Error sending password reset email:", error);
