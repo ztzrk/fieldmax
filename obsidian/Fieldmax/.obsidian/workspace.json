@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "6b45decfae282dae",
+        "id": "46160d71de4fe979",
         "type": "tabs",
         "children": [
           {
-            "id": "5245fe26e71a1ea6",
+            "id": "08ab1183b1d40a38",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -184,10 +184,12 @@
       "drawio-editor:Create new drawio diagram": false
     }
   },
-  "active": "5245fe26e71a1ea6",
+  "active": "08ab1183b1d40a38",
   "lastOpenFiles": [
-    "dokumen_4846_4.pdf",
+    "06 - BAB I - Pendahuluan.md",
     "08 - BAB III - Hasil dan Pembahasan.md",
+    "07 - BAB II - Metode Penelitian.md",
+    "dokumen_4846_4.pdf",
     "halaman-detail-laporan-admin.png",
     "images/images/halaman-detail-laporan-admin.png",
     "images/screenshots/halaman-detail-laporan-admin.png",
@@ -203,14 +205,11 @@
     "screenshots",
     "images/images",
     "09 - BAB IV - Kesimpulan dan Saran.md",
-    "07 - BAB II - Metode Penelitian.md",
     "images/screenshots",
     "images/gambar-booking-flow.drawio",
     "images/drawio/gambar-activity-daftar.drawio",
-    "06 - BAB I - Pendahuluan.md",
     "images/gambar-erd-fieldmax.drawio",
     "images/gambar-erd-psikolog.drawio",
-    "images/drawio/gambar-activity-cari.drawio",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
     "10 - Daftar Pustaka.md",

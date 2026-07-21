@@ -265,229 +265,264 @@ Rancangan antarmuka pengguna (*user interface*) pada platform FieldMax dirancang
 
 Halaman autentikasi merupakan halaman yang digunakan oleh seluruh pengguna untuk masuk ke dalam sistem. Pada bagian ini, pengguna dapat melakukan pendaftaran akun, masuk (*login*), serta mengelola proses autentikasi seperti lupa kata sandi dan verifikasi email.
 
+#### 1. Halaman Login
+Halaman Login berfungsi sebagai gerbang masuk bagi pengguna terdaftar untuk mengakses sistem melalui kredensial email dan kata sandi. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan pengguna masuk ke dalam platform secara mandiri.
+
 ![[figma/Auth/Login.jpg]]
 
 **Gambar 10.** Halaman Login ^gambar-10
 
-Halaman Login berfungsi sebagai gerbang masuk bagi pengguna terdaftar untuk mengakses sistem melalui kredensial email dan kata sandi. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan pengguna masuk ke dalam platform secara mandiri.
+#### 2. Halaman Register User
+Halaman Register User berfungsi untuk mendaftarkan akun baru bagi calon penyewa lapangan dengan mengisi data nama lengkap, email, dan kata sandi. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan calon pengguna mendaftarkan akun secara mandiri melalui platform.
 
 ![[figma/Auth/Register User.jpg]]
 
 **Gambar 11.** Halaman Register User ^gambar-11
 
-Halaman Register User berfungsi untuk mendaftarkan akun baru bagi calon penyewa lapangan dengan mengisi data nama lengkap, email, dan kata sandi. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan calon pengguna mendaftarkan akun secara mandiri melalui platform.
+#### 3. Halaman Register Renter
+Halaman Register Renter berfungsi untuk mendaftarkan akun bagi calon pemilik atau pengelola lapangan yang ingin menyewakan fasilitas olahraganya melalui platform. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan calon Renter mendaftarkan akun bisnisnya secara mandiri melalui platform.
 
 ![[figma/Auth/Register Renter.jpg]]
 
 **Gambar 12.** Halaman Register Renter ^gambar-12
 
-Halaman Register Renter berfungsi untuk mendaftarkan akun bagi calon pemilik atau pengelola lapangan yang ingin menyewakan fasilitas olahraganya melalui platform. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang memungkinkan calon Renter mendaftarkan akun bisnisnya secara mandiri melalui platform.
+#### 4. Halaman Forgot Password
+Halaman Forgot Password berfungsi untuk memulai proses pemulihan akun bagi pengguna yang lupa kata sandinya dengan mengirimkan tautan reset ke email terdaftar. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme pemulihan kata sandi secara mandiri.
 
 ![[figma/Auth/Forgot Password.jpg]]
 
 **Gambar 13.** Halaman Forgot Password ^gambar-13
 
-Halaman Forgot Password berfungsi untuk memulai proses pemulihan akun bagi pengguna yang lupa kata sandinya dengan mengirimkan tautan reset ke email terdaftar. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme pemulihan kata sandi secara mandiri.
+#### 5. Halaman Reset Password
+Halaman Reset Password berfungsi untuk mengatur ulang kata sandi baru setelah pengguna mengakses tautan pemulihan yang dikirimkan melalui email. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme pengaturan ulang kata sandi secara mandiri dan aman.
 
 ![[figma/Auth/Reset Password.jpg]]
 
 **Gambar 14.** Halaman Reset Password ^gambar-14
 
-Halaman Reset Password berfungsi untuk mengatur ulang kata sandi baru setelah pengguna mengakses tautan pemulihan yang dikirimkan melalui email. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme pengaturan ulang kata sandi secara mandiri dan aman.
+#### 6. Halaman Verify Email
+Halaman Verify Email berfungsi untuk memasukkan kode verifikasi enam digit yang dikirimkan ke email pengguna setelah pendaftaran guna mengaktifkan akun. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme verifikasi email untuk mengaktifkan akun pengguna.
 
 ![[figma/Auth/Verify Email.jpg]]
 
 **Gambar 15.** Halaman Verify Email ^gambar-15
 
-Halaman Verify Email berfungsi untuk memasukkan kode verifikasi enam digit yang dikirimkan ke email pengguna setelah pendaftaran guna mengaktifkan akun. Halaman ini menjawab permasalahan **Poin 7** pada bagian 2.6.1, yaitu tidak adanya sistem autentikasi terpadu yang menyediakan mekanisme verifikasi email untuk mengaktifkan akun pengguna.
-
 ### 2.8.2 Halaman Publik ^halaman-publik
 
 Halaman publik merupakan halaman yang dapat diakses oleh semua pengunjung tanpa perlu melakukan autentikasi terlebih dahulu. Halaman ini mencakup beranda, pencarian lapangan, detail venue dan lapangan, serta halaman informasi pendukung seperti tentang kami, harga, FAQ, dan kebijakan privasi.
+
+#### 7. Halaman Home
+Halaman Home berfungsi sebagai halaman utama yang memperkenalkan platform FieldMax, menampilkan lapangan dan venue unggulan, serta menyediakan pencarian langsung bagi pengunjung. Halaman ini menjawab permasalahan **Poin 1 dan 6** pada bagian 2.6.1, yaitu pemesanan manual dan ketidakmampuan pengguna mencari serta memfilter lapangan secara real-time.
 
 ![[figma/Public/Home.jpg]]
 
 **Gambar 16.** Halaman Home ^gambar-16
 
-Halaman Home berfungsi sebagai halaman utama yang memperkenalkan platform FieldMax, menampilkan lapangan dan venue unggulan, serta menyediakan pencarian langsung bagi pengunjung. Halaman ini menjawab permasalahan **Poin 1 dan 6** pada bagian 2.6.1, yaitu pemesanan manual dan ketidakmampuan pengguna mencari serta memfilter lapangan secara real-time.
+#### 8. Halaman Search
+Halaman Search berfungsi untuk menampilkan daftar lapangan olahraga yang tersedia berdasarkan kata kunci pencarian, sehingga pengguna dapat menemukan lapangan yang sesuai dengan cepat. Halaman ini menjawab permasalahan **Poin 1 dan 6** pada bagian 2.6.1, yaitu pemesanan manual dan ketidakmampuan pengguna mencari serta memfilter lapangan secara real-time.
 
 ![[figma/Public/Search.jpg]]
 
 **Gambar 17.** Halaman Search ^gambar-17
 
-Halaman Search berfungsi untuk menampilkan daftar lapangan olahraga yang tersedia berdasarkan kata kunci pencarian, sehingga pengguna dapat menemukan lapangan yang sesuai dengan cepat. Halaman ini menjawab permasalahan **Poin 1 dan 6** pada bagian 2.6.1, yaitu pemesanan manual dan ketidakmampuan pengguna mencari serta memfilter lapangan secara real-time.
+#### 9. Halaman Venue Detail
+Halaman Venue Detail berfungsi untuk menampilkan informasi lengkap suatu venue olahraga beserta daftar lapangan yang tersedia di dalamnya. Halaman ini menjawab permasalahan **Poin 6** pada bagian 2.6.1, yaitu ketidakmampuan pengguna mencari dan memfilter lapangan berdasarkan lokasi secara real-time.
 
 ![[figma/Public/Venue Detail.jpg]]
 
 **Gambar 18.** Halaman Venue Detail ^gambar-18
 
-Halaman Venue Detail berfungsi untuk menampilkan informasi lengkap suatu venue olahraga beserta daftar lapangan yang tersedia di dalamnya. Halaman ini menjawab permasalahan **Poin 6** pada bagian 2.6.1, yaitu ketidakmampuan pengguna mencari dan memfilter lapangan berdasarkan lokasi secara real-time.
+#### 10. Halaman Field Detail
+Halaman Field Detail berfungsi untuk menampilkan informasi spesifik satu lapangan beserta fitur pemilihan jadwal dan pemesanan yang terintegrasi dengan pembayaran. Halaman ini menjawab permasalahan **Poin 1 dan 2** pada bagian 2.6.1, yaitu pemesanan manual melalui Google Form dan proses pembayaran yang tidak terintegrasi dengan pemesanan.
 
 ![[figma/Public/Field Detail.jpg]]
 
 **Gambar 19.** Halaman Field Detail ^gambar-19
 
-Halaman Field Detail berfungsi untuk menampilkan informasi spesifik satu lapangan beserta fitur pemilihan jadwal dan pemesanan yang terintegrasi dengan pembayaran. Halaman ini menjawab permasalahan **Poin 1 dan 2** pada bagian 2.6.1, yaitu pemesanan manual melalui Google Form dan proses pembayaran yang tidak terintegrasi dengan pemesanan.
+#### 11. Halaman About
+Halaman About berfungsi untuk menyajikan informasi mengenai visi, misi, dan latar belakang platform FieldMax kepada pengunjung. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/About.jpg]]
 
 **Gambar 20.** Halaman About ^gambar-20
 
-Halaman About berfungsi untuk menyajikan informasi mengenai visi, misi, dan latar belakang platform FieldMax kepada pengunjung. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+#### 12. Halaman Pricing
+Halaman Pricing berfungsi untuk menampilkan informasi mengenai struktur harga dan biaya layanan yang berlaku di platform FieldMax. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Pricing.jpg]]
 
 **Gambar 21.** Halaman Pricing ^gambar-21
 
-Halaman Pricing berfungsi untuk menampilkan informasi mengenai struktur harga dan biaya layanan yang berlaku di platform FieldMax. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+#### 13. Halaman FAQ
+Halaman FAQ berfungsi untuk menyajikan daftar pertanyaan yang sering diajukan beserta jawabannya guna membantu pengguna memahami cara penggunaan platform. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Faq.jpg]]
 
 **Gambar 22.** Halaman FAQ ^gambar-22
 
-Halaman FAQ berfungsi untuk menyajikan daftar pertanyaan yang sering diajukan beserta jawabannya guna membantu pengguna memahami cara penggunaan platform. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+#### 14. Halaman Privacy Policy
+Halaman Privacy Policy berfungsi untuk menampilkan kebijakan privasi platform yang menjelaskan bagaimana data pribadi pengguna dikumpulkan, digunakan, dan dilindungi. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Privacy Policy.jpg]]
 
 **Gambar 23.** Halaman Privacy Policy ^gambar-23
 
-Halaman Privacy Policy berfungsi untuk menampilkan kebijakan privasi platform yang menjelaskan bagaimana data pribadi pengguna dikumpulkan, digunakan, dan dilindungi. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+#### 15. Halaman Terms of Service
+Halaman Terms of Service berfungsi untuk menampilkan syarat dan ketentuan penggunaan platform yang mengikat secara hukum antara platform dan pengguna. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Terms of Service.jpg]]
 
 **Gambar 24.** Halaman Terms of Service ^gambar-24
 
-Halaman Terms of Service berfungsi untuk menampilkan syarat dan ketentuan penggunaan platform yang mengikat secara hukum antara platform dan pengguna. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+#### 16. Halaman Renter Profile
+Halaman Renter Profile berfungsi untuk menampilkan profil publik seorang Renter beserta daftar venue yang dikelolanya, membangun kredibilitas di mata calon penyewa. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Renter Profile.jpg]]
 
 **Gambar 25.** Halaman Renter Profile ^gambar-25
 
-Halaman Renter Profile berfungsi untuk menampilkan profil publik seorang Renter beserta daftar venue yang dikelolanya, membangun kredibilitas di mata calon penyewa. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
+#### 17. Halaman Error
+Halaman Error berfungsi sebagai halaman fallback yang ditampilkan ketika terjadi kesalahan sistem, memberikan informasi yang jelas dan navigasi kembali ke halaman utama. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
 
 ![[figma/Public/Error.jpg]]
 
 **Gambar 26.** Halaman Error ^gambar-26
 
-Halaman Error berfungsi sebagai halaman fallback yang ditampilkan ketika terjadi kesalahan sistem, memberikan informasi yang jelas dan navigasi kembali ke halaman utama. Halaman ini mendukung kelengkapan informasi platform sebagaimana diidentifikasi dalam analisis kebutuhan sistem pada bagian 2.6.2.
-
 ### 2.8.3 Halaman *User* (Penyewa) ^halaman-user
 
 Halaman *User* merupakan halaman yang dapat diakses oleh pengguna dengan peran penyewa. Pada bagian ini, pengguna dapat melihat riwayat pemesanan, detail pemesanan, mengelola profil pribadi, serta membuat pengaduan (*report*).
+
+#### 18. Halaman My Bookings
+Halaman My Bookings berfungsi untuk menampilkan daftar riwayat pemesanan lapangan yang telah dilakukan oleh pengguna. Halaman ini menjawab permasalahan **Poin 8** pada bagian 2.6.1, yaitu pengguna tidak dapat melihat riwayat pemesanan yang telah dilakukan.
 
 ![[figma/User/My Bookings.jpg]]
 
 **Gambar 27.** Halaman My Bookings ^gambar-27
 
-Halaman My Bookings berfungsi untuk menampilkan daftar riwayat pemesanan lapangan yang telah dilakukan oleh pengguna. Halaman ini menjawab permasalahan **Poin 8** pada bagian 2.6.1, yaitu pengguna tidak dapat melihat riwayat pemesanan yang telah dilakukan.
+#### 19. Halaman Booking Detail
+Halaman Booking Detail berfungsi untuk menampilkan informasi lengkap satu pemesanan, termasuk status pembayaran dan opsi pemberian ulasan setelah sewa selesai. Halaman ini menjawab permasalahan **Poin 2 dan 8** pada bagian 2.6.1, yaitu proses pembayaran yang tidak terintegrasi dan ketidakmampuan pengguna memberikan ulasan terhadap lapangan yang telah digunakan.
 
 ![[figma/User/Booking Detail.jpg]]
 
 **Gambar 28.** Halaman Booking Detail ^gambar-28
 
-Halaman Booking Detail berfungsi untuk menampilkan informasi lengkap satu pemesanan, termasuk status pembayaran dan opsi pemberian ulasan setelah sewa selesai. Halaman ini menjawab permasalahan **Poin 2 dan 8** pada bagian 2.6.1, yaitu proses pembayaran yang tidak terintegrasi dan ketidakmampuan pengguna memberikan ulasan terhadap lapangan yang telah digunakan.
+#### 20. Halaman Profile
+Halaman Profile berfungsi untuk memungkinkan pengguna mengelola data pribadinya, termasuk foto profil, informasi kontak, dan pengaturan keamanan akun. Halaman ini menjawab permasalahan **Poin 8** pada bagian 2.6.1, yaitu tidak adanya mekanisme bagi pengguna untuk mengelola profil dan data pribadinya secara mandiri.
 
 ![[figma/User/Profile.jpg]]
 
 **Gambar 29.** Halaman Profile ^gambar-29
 
-Halaman Profile berfungsi untuk memungkinkan pengguna mengelola data pribadinya, termasuk foto profil, informasi kontak, dan pengaturan keamanan akun. Halaman ini menjawab permasalahan **Poin 8** pada bagian 2.6.1, yaitu tidak adanya mekanisme bagi pengguna untuk mengelola profil dan data pribadinya secara mandiri.
+#### 21. Halaman Report
+Halaman Report berfungsi untuk menampilkan daftar laporan pengaduan yang telah dibuat oleh pengguna serta menyediakan formulir untuk membuat laporan baru. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi bagi pengguna untuk melaporkan masalah.
 
 ![[figma/User/Report.jpg]]
 
 **Gambar 30.** Halaman Report ^gambar-30
 
-Halaman Report berfungsi untuk menampilkan daftar laporan pengaduan yang telah dibuat oleh pengguna serta menyediakan formulir untuk membuat laporan baru. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi bagi pengguna untuk melaporkan masalah.
+#### 22. Halaman Report Detail
+Halaman Report Detail berfungsi untuk menampilkan informasi lengkap satu laporan pengaduan beserta riwayat percakapan antara pengguna dan admin. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi dengan mekanisme tindak lanjut yang terdokumentasi.
 
 ![[figma/User/Report Detail.jpg]]
 
 **Gambar 31.** Halaman Report Detail ^gambar-31
 
-Halaman Report Detail berfungsi untuk menampilkan informasi lengkap satu laporan pengaduan beserta riwayat percakapan antara pengguna dan admin. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi dengan mekanisme tindak lanjut yang terdokumentasi.
-
 ### 2.8.4 Halaman *Renter* (Pemilik Lapangan) ^halaman-renter
 
 Halaman *Renter* merupakan halaman yang dapat diakses oleh pengguna dengan peran pemilik atau pengelola lapangan. Pada bagian ini, renter dapat mengelola venue dan lapangan miliknya, melihat pendapatan, memantau pemesanan, serta menangani laporan pengaduan.
+
+#### 23. Halaman Dashboard Renter
+Halaman Dashboard Renter berfungsi untuk menampilkan ringkasan statistik bisnis Renter, termasuk metrik utama, grafik pendapatan, dan daftar pemesanan terbaru. Halaman ini menjawab permasalahan **Poin 3 dan 5** pada bagian 2.6.1, yaitu pengelolaan data venue yang tidak terpusat dan tidak tersedianya dasbor analitik pendapatan.
 
 ![[figma/Renter/Dashboard.jpg]]
 
 **Gambar 32.** Halaman Dashboard Renter ^gambar-32
 
-Halaman Dashboard Renter berfungsi untuk menampilkan ringkasan statistik bisnis Renter, termasuk metrik utama, grafik pendapatan, dan daftar pemesanan terbaru. Halaman ini menjawab permasalahan **Poin 3 dan 5** pada bagian 2.6.1, yaitu pengelolaan data venue yang tidak terpusat dan tidak tersedianya dasbor analitik pendapatan.
+#### 24. Halaman Venues
+Halaman Venues berfungsi untuk menampilkan daftar venue yang dimiliki Renter serta menyediakan fitur pembuatan venue baru. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
 
 ![[figma/Renter/Venues.jpg]]
 
 **Gambar 33.** Halaman Venues ^gambar-33
 
-Halaman Venues berfungsi untuk menampilkan daftar venue yang dimiliki Renter serta menyediakan fitur pembuatan venue baru. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
+#### 25. Halaman Venue Detail
+Halaman Venue Detail berfungsi untuk menampilkan informasi lengkap satu venue beserta fitur pengelolaan foto, jadwal, dan daftar lapangan di dalamnya. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
 
 ![[figma/Renter/Venue Detail.jpg]]
 
 **Gambar 34.** Halaman Venue Detail ^gambar-34
 
-Halaman Venue Detail berfungsi untuk menampilkan informasi lengkap satu venue beserta fitur pengelolaan foto, jadwal, dan daftar lapangan di dalamnya. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
+#### 26. Halaman Fields
+Halaman Fields berfungsi untuk menampilkan daftar seluruh lapangan yang dimiliki Renter di semua venue-nya serta menyediakan fitur pembuatan lapangan baru. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
 
 ![[figma/Renter/Fields.jpg]]
 
 **Gambar 35.** Halaman Fields ^gambar-35
 
-Halaman Fields berfungsi untuk menampilkan daftar seluruh lapangan yang dimiliki Renter di semua venue-nya serta menyediakan fitur pembuatan lapangan baru. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
+#### 27. Halaman Field Detail
+Halaman Field Detail berfungsi untuk menampilkan informasi lengkap satu lapangan beserta fitur pengelolaan seperti pengaturan harga, penutupan sementara, dan unggah foto. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
 
 ![[figma/Renter/Field Detail.jpg]]
 
 **Gambar 36.** Halaman Field Detail ^gambar-36
 
-Halaman Field Detail berfungsi untuk menampilkan informasi lengkap satu lapangan beserta fitur pengelolaan seperti pengaturan harga, penutupan sementara, dan unggah foto. Halaman ini menjawab permasalahan **Poin 3** pada bagian 2.6.1, yaitu pengelolaan data venue dan lapangan yang tidak terpusat.
+#### 28. Halaman Revenue
+Halaman Revenue berfungsi untuk menampilkan analisis pendapatan Renter yang dikelompokkan berdasarkan venue dan lapangan. Halaman ini menjawab permasalahan **Poin 5** pada bagian 2.6.1, yaitu tidak tersedianya dasbor analitik yang memungkinkan Renter memantau pendapatan dan kinerja bisnis secara visual.
 
 ![[figma/Renter/Revenue.jpg]]
 
 **Gambar 37.** Halaman Revenue ^gambar-37
 
-Halaman Revenue berfungsi untuk menampilkan analisis pendapatan Renter yang dikelompokkan berdasarkan venue dan lapangan. Halaman ini menjawab permasalahan **Poin 5** pada bagian 2.6.1, yaitu tidak tersedianya dasbor analitik yang memungkinkan Renter memantau pendapatan dan kinerja bisnis secara visual.
+#### 29. Halaman Reports
+Halaman Reports berfungsi untuk menampilkan daftar laporan pengaduan yang telah dibuat oleh Renter kepada admin serta menyediakan fitur pembuatan laporan baru. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi bagi Renter untuk melaporkan masalah.
 
 ![[figma/Renter/Reports.jpg]]
 
 **Gambar 38.** Halaman Reports ^gambar-38
 
-Halaman Reports berfungsi untuk menampilkan daftar laporan pengaduan yang telah dibuat oleh Renter kepada admin serta menyediakan fitur pembuatan laporan baru. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi bagi Renter untuk melaporkan masalah.
+#### 30. Halaman Report Detail
+Halaman Report Detail berfungsi untuk menampilkan detail satu laporan pengaduan Renter beserta riwayat percakapan dengan admin. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi dengan mekanisme tindak lanjut yang terdokumentasi.
 
 ![[figma/Renter/Report Detail.jpg]]
 
 **Gambar 39.** Halaman Report Detail ^gambar-39
 
-Halaman Report Detail berfungsi untuk menampilkan detail satu laporan pengaduan Renter beserta riwayat percakapan dengan admin. Halaman ini menjawab permasalahan **Poin 9** pada bagian 2.6.1, yaitu tidak tersedianya saluran pengaduan resmi dengan mekanisme tindak lanjut yang terdokumentasi.
-
 ### 2.8.5 Halaman *Admin* ^halaman-admin
 
 Halaman *Admin* merupakan halaman yang dapat diakses oleh pengguna dengan peran administrator. Pada bagian ini, admin dapat memantau keseluruhan sistem melalui dashboard, mengelola data pengguna dan jenis olahraga, serta memeriksa riwayat pemesanan dan transaksi.
+
+#### 31. Halaman Dashboard Admin
+Halaman Dashboard Admin berfungsi untuk menampilkan ringkasan statistik keseluruhan platform, termasuk total pengguna, venue, lapangan, venue yang menunggu persetujuan, dan total pendapatan. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi dan tidak tersedianya panel terpusat bagi admin untuk memantau aktivitas platform.
 
 ![[figma/Admin/Dashboard.jpg]]
 
 **Gambar 40.** Halaman Dashboard Admin ^gambar-40
 
-Halaman Dashboard Admin berfungsi untuk menampilkan ringkasan statistik keseluruhan platform, termasuk total pengguna, venue, lapangan, venue yang menunggu persetujuan, dan total pendapatan. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi dan tidak tersedianya panel terpusat bagi admin untuk memantau aktivitas platform.
+#### 32. Halaman Booking
+Halaman Booking berfungsi untuk menampilkan daftar seluruh pemesanan yang terjadi di platform, memberikan visibilitas penuh kepada admin terhadap aktivitas transaksi. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi dan tidak tersedianya panel terpusat bagi admin.
 
 ![[figma/Admin/Booking.jpg]]
 
 **Gambar 41.** Halaman Booking ^gambar-41
 
-Halaman Booking berfungsi untuk menampilkan daftar seluruh pemesanan yang terjadi di platform, memberikan visibilitas penuh kepada admin terhadap aktivitas transaksi. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi dan tidak tersedianya panel terpusat bagi admin.
+#### 33. Halaman Booking Detail
+Halaman Booking Detail berfungsi untuk menampilkan informasi lengkap satu pemesanan secara menyeluruh, termasuk data pengguna, lapangan, status, dan ulasan. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi transaksi dan tidak tersedianya panel terpusat bagi admin.
 
 ![[figma/Admin/Booking Detail.jpg]]
 
 **Gambar 42.** Halaman Booking Detail ^gambar-42
 
-Halaman Booking Detail berfungsi untuk menampilkan informasi lengkap satu pemesanan secara menyeluruh, termasuk data pengguna, lapangan, status, dan ulasan. Halaman ini menjawab permasalahan **Poin 4 dan 10** pada bagian 2.6.1, yaitu tidak adanya mekanisme moderasi transaksi dan tidak tersedianya panel terpusat bagi admin.
+#### 34. Halaman Users
+Halaman Users berfungsi untuk menampilkan daftar seluruh pengguna platform serta menyediakan fitur pembuatan, pencarian, pemfilteran, dan penghapusan pengguna. Halaman ini menjawab permasalahan **Poin 10** pada bagian 2.6.1, yaitu admin tidak memiliki panel terpusat untuk mengelola data pengguna.
 
 ![[figma/Admin/Users.jpg]]
 
 **Gambar 43.** Halaman Users ^gambar-43
 
-Halaman Users berfungsi untuk menampilkan daftar seluruh pengguna platform serta menyediakan fitur pembuatan, pencarian, pemfilteran, dan penghapusan pengguna. Halaman ini menjawab permasalahan **Poin 10** pada bagian 2.6.1, yaitu admin tidak memiliki panel terpusat untuk mengelola data pengguna.
+#### 35. Halaman Sport Types
+Halaman Sport Types berfungsi untuk menampilkan dan mengelola daftar jenis olahraga yang tersedia di platform, termasuk penambahan dan penghapusan data. Halaman ini menjawab permasalahan **Poin 10** pada bagian 2.6.1, yaitu admin tidak memiliki panel terpusat untuk mengelola data referensi jenis olahraga.
 
 ![[figma/Admin/Sport Types.jpg]]
 
 **Gambar 44.** Halaman Sport Types ^gambar-44
-
-Halaman Sport Types berfungsi untuk menampilkan dan mengelola daftar jenis olahraga yang tersedia di platform, termasuk penambahan dan penghapusan data. Halaman ini menjawab permasalahan **Poin 10** pada bagian 2.6.1, yaitu admin tidak memiliki panel terpusat untuk mengelola data referensi jenis olahraga.
 
