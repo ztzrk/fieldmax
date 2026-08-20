@@ -1,0 +1,20 @@
+{
+  "id": "2cd5a2e3-958c-44ab-87c0-65dd1f448589",
+  "state": "rolled_back",
+  "createdAt": "2026-08-20T17:52:25.299Z",
+  "snapshots": [
+    {
+      "path": "Proposal Skripsi - BAB I dan BAB II (Audited).md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "pending",
+      "plannedEtag": "f3f6bb8c0110aa34e3c1fcae56f45a361345efe7e439ff4cd798e28caad188c5",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "ed0c00d2c3f3335fa389fab80c928294d38438cda3b9f0e02b23bdc971f68cba",
+      "snapshot": "0.bin"
+    }
+  ],
+  "completedAt": "2026-08-20T17:52:25.312Z"
+}

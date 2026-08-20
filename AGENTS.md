@@ -238,9 +238,67 @@ Academic thesis in Bahasa Indonesia:
 - `01-05`: Title, abstract, ToC, figures, tables
 - `06-09`: BAB I-IV (Pendahuluan, Metode, Hasil dan Pembahasan, Kesimpulan)
 - `10-11`: References, appendices
-- `images/`: Research figures (`.drawio` + `.svg`)
+- `images/`: Research figures (`.drawio` + `.svg` + `.png`)
+- `Proposal Skripsi - BAB I dan BAB II (Audited).md`: Full unified audited proposal document.
+- `convert_proposal_to_docx.py`: Python conversion script to Word DOCX.
 
 Use the `obsidian` MCP server to read/write vault files.
+
+---
+
+## 🎓 Pedoman Penulisan Tugas Akhir Mahasiswa Universitas Hasanuddin (2023)
+*Sumber: Lampiran Keputusan Rektor Universitas Hasanuddin No: 10438/UN4.1/KEP/2023*
+
+When writing, auditing, formatting, or converting academic thesis files (*skripsi/proposal*) in `obsidian/Fieldmax/`, AI agents MUST ALWAYS adhere to these official Unhas rules:
+
+### 1. Struktur & Sistematika Penulisan
+- **Tanpa Bab Tinjauan Pustaka Terpisah**: Tidak ada bab Tinjauan Pustaka tersendiri. Landasan teori dan kajian literatur dielaborasi langsung ke dalam **BAB I (Pendahuluan)** pada subbab `1.1 Latar Belakang` dan `1.6 Landasan Teori`.
+- **Struktur Skripsi Standar**:
+  - **Bagian Awal (*Front-Matter*)**: Halaman Judul, Halaman Pengajuan, Halaman Pengesahan, Pernyataan Keaslian & Pelimpahan Hak Cipta, Ucapan Terima Kasih, Abstrak (Bahasa Indonesia), Abstract (Bahasa Inggris), Daftar Isi, Daftar Tabel, Daftar Gambar, Daftar Lampiran, Daftar Singkatan/Istilah.
+  - **Bagian Utama**:
+    - **BAB I: PENDAHULUAN** (Latar Belakang, Rumusan Masalah, Tujuan Penelitian, Batasan Masalah, Manfaat Penelitian, Landasan Teori).
+    - **BAB II: METODE PENELITIAN** (Waktu & Lokasi, Kerangka DSR, Metode Pengumpulan Data, Metode Pengembangan Waterfall SDLC, Tahapan Penelitian, Analisis Sistem, Perancangan UML, Desain UI).
+    - **BAB III: HASIL DAN PEMBAHASAN** (Implementasi Sistem & Basis Data, Activity Diagram, Implementasi UI/UX, Pengujian Black Box Testing, Pembahasan Hasil Penelitian).
+    - **BAB IV: KESIMPULAN DAN SARAN** (Kesimpulan menjawab rumusan masalah secara lugas, Saran pengembangan).
+  - **Bagian Akhir**: Daftar Pustaka (APA Style 7th Edition / Harvard), Lampiran.
+
+### 2. Tipografi & Tata Letak Naskah
+- **Ukuran Kertas**: **B5 (176 mm x 250 mm)** format buku standar Unhas (atau A4 jika diminta secara khusus).
+- **Margin (Batas Sembir)**: **2,25 cm** merata pada seluruh sisi (Atas, Bawah, Kiri, Kanan).
+- **Jenis Font**: **Arial** di seluruh bagian naskah skripsi.
+- **Ukuran Huruf**:
+  - Judul Bab (`BAB I`, `BAB II`): **11 pt Tebal (Bold), Huruf Kapital, Rata Tengah (Centered)**.
+  - Subjudul (`1.1`, `2.1`): **10 pt Tebal (Bold), Title Case, Rata Kiri**.
+  - Anak-subjudul (`1.6.1`, `2.4.1`): **10 pt Tebal (Bold), Rata Kiri**.
+  - Teks Isi / Paragraf: **10 pt Reguler, Rata Kiri-Kanan (Justified)**.
+- **Spasi & Jarak**:
+  - Teks utama skripsi: **Spasi 1,15**.
+  - Spasi **1,0 (Single)** untuk: Abstrak, kutipan langsung, judul tabel, judul gambar, isi tabel, daftar isi/tabel/gambar, dan daftar pustaka.
+- **Indentasi Paragraf**:
+  - Awal paragraf menggunakan indentasi **1,25 cm** (ketukan ke-5).
+  - **Pengecualian**: Paragraf pertama tepat setelah Subjudul dimulai **tanpa indentasi (rata kiri)**, indentasi berlaku pada paragraf kedua dan seterusnya.
+
+### 3. Ketentuan Ilustrasi: Tabel & Gambar
+- **Tabel**:
+  - Judul tabel diletakkan di **ATAS tabel**, rata kiri, spasi 1.0, font Arial 10 pt.
+  - Format penamaan: `Tabel [Nomor]. [Judul Tabel]` **tanpa diakhiri tanda titik**.
+  - Nomor tabel berlanjut dari nomor urut 1 sampai selesai di seluruh skripsi (misal `Tabel 1.`, `Tabel 2.`, ... `Tabel 27.`).
+  - Garis tabel bergaya akademik bersih (garis horizontal atas, bawah header, dan bawah tabel).
+- **Gambar**:
+  - Gambar diletakkan di posisi **Rata Tengah (Centered)**.
+  - Judul gambar diletakkan di **BAWAH gambar**, rata tengah/justified, spasi 1.0, font Arial 10 pt.
+  - Format penamaan: `Gambar [Nomor]. [Judul Gambar]` **tanpa diakhiri tanda titik**.
+  - Nomor gambar berlanjut dari nomor urut 1 sampai selesai (misal `Gambar 1.`, `Gambar 2.`, ... `Gambar 67.`).
+
+### 4. Kaidah Sitasi & Daftar Pustaka
+- Menggunakan sistem **Harvard / APA Style** (`Author, Year`).
+- Penulisan et al.: Gunakan **et al.** (dengan titik di akhir, tidak dicetak miring), bukan dkk.
+- Daftar Pustaka diurutkan secara alfabetis (A-Z) berdasarkan nama belakang/keluarga penulis pertama, spasi 1.0 dengan *hanging indent*.
+
+### 5. Abstrak & Abstract
+- Ditulis dalam **1 paragraf utuh** yang padat, maksimum **250 kata** untuk skripsi.
+- Memuat alur: *Latar belakang $\rightarrow$ Tujuan $\rightarrow$ Metode $\rightarrow$ Hasil $\rightarrow$ Kesimpulan*.
+- Kata Kunci (*Keywords*): Maksimum **6 kata kunci**, dipisahkan oleh tanda titik koma (`;`), tidak mengulang kata persis yang ada di judul utama.
 
 ---
 
@@ -250,7 +308,8 @@ Use the `obsidian` MCP server to read/write vault files.
 2. **Read schema.prisma** before any database work
 3. **Follow existing patterns** — check similar controllers/services/hooks first
 4. **Don't break Prisma relations** when refactoring
-5. **Bahasa Indonesia** for user-facing text, **English** for code/comments
+5. **Bahasa Indonesia** for user-facing text and thesis writing, **English** for code/comments
 6. **Frontend on port 3001** — the diagram MCP HTTP mode also uses 3001
 7. **Backend uses nodemon + ts-node** for dev, not a fixed port (configured in index.ts)
+8. **Follow Unhas 2023 Guidelines** for all thesis writing, formatting, and document conversions.
 

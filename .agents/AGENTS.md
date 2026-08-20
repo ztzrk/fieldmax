@@ -57,3 +57,12 @@ Register new routes/controllers/services in [backend/src/index.ts](file:///c:/Us
 
 ### 5. Localization
 - The application targets the Indonesian market. User-facing text, alerts, notifications, and dashboard strings in the frontend must remain in **Bahasa Indonesia** unless requested otherwise. Code structure, APIs, logs, and comments must be in **English**.
+
+### 6. Academic Thesis Writing Guidelines (Unhas 2023)
+*Reference: Pedoman Penulisan Tugas Akhir Mahasiswa Universitas Hasanuddin (SK Rektor No: 10438/UN4.1/KEP/2023)*
+- **No Separate Literature Review Chapter**: All theoretical foundations and literature review are integrated into **BAB I (1.1 Latar Belakang & 1.6 Landasan Teori)**.
+- **Paper & Layout**: **B5 (176 mm x 250 mm)**, Margin **2.25 cm** all sides, Font **Arial** across the entire document.
+- **Typography**: Chapter titles Arial 11 pt Bold Center, Subheadings Arial 10 pt Bold Left, Body text Arial 10 pt Justified with 1.15 line spacing and 1.25 cm first-line indentation (0 cm for the first paragraph after a heading).
+- **Tables & Figures**: Table titles ABOVE table (Arial 10 pt, single space, no trailing period), Figure titles BELOW image (Arial 10 pt, single space, no trailing period). Continuous numbering across entire thesis.
+- **Citations**: Harvard / APA Style 7th edition (`Author, Year`), use **et al.** (not dkk, not italicized).
+- **Word Conversion**: Always use `convert_proposal_to_docx.py` to produce official formatted `.docx` files.

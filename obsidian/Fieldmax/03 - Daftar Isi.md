@@ -1,4 +1,4 @@
-﻿# DAFTAR ISI ^daftar-isi
+# DAFTAR ISI ^daftar-isi
 
 | Judul | Halaman |
 |---|---|
@@ -29,6 +29,8 @@
 | [3.3 Implementasi *Activity Diagram*](#^implementasi-activity-diagram) | 76 |
 | [3.4 Implementasi *UI/UX*](#^implementasi-ui-ux) | 116 |
 | [3.5 Pengujian Sistem](#^pengujian-sistem) | 146 |
+| [3.5.1 *Black Box Testing*](#^pengujian-sistem) | 146 |
+| [3.5.2 Pembahasan Hasil Penelitian](#^pembahasan-hasil-penelitian) | 160 |
 | [BAB IV. KESIMPULAN DAN SARAN](#^bab-4) | 164 |
 | [4.1 Kesimpulan](#^kesimpulan) | 164 |
 | [4.2 Saran](#^saran) | 164 |

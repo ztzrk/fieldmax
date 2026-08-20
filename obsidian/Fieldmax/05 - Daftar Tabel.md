@@ -1,4 +1,4 @@
-﻿# DAFTAR TABEL ^daftar-tabel
+# DAFTAR TABEL ^daftar-tabel
 
 | Tabel | Judul Tabel |
 |---|---|
@@ -6,6 +6,7 @@
 | [**Tabel 2.**](#^tabel-2) | Komponen *activity diagram* |
 | [**Tabel 3.**](#^tabel-3) | Komponen *Entity Relationship Diagram* |
 | [**Tabel 4.**](#^tabel-4) | Waktu Penelitian |
+| [**Tabel 4a.**](#^tabel-4a) | Definisi Aktor Sistem Informasi FieldMax |
 | [**Tabel 5.**](#^tabel-5) | Tabel daftar Enum yang digunakan beserta nilainya |
 | [**Tabel 6.**](#^tabel-6) | Tabel *users* |
 | [**Tabel 7.**](#^tabel-7) | Tabel *verification_tokens* |

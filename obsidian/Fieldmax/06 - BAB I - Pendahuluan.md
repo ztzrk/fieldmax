@@ -17,14 +17,14 @@ Berdasarkan latar belakang permasalahan dan kesenjangan (*gap*) penelitian terse
 Berdasarkan latar belakang yang telah diuraikan, rumusan masalah dalam penelitian ini adalah sebagai berikut:
 
 1. Bagaimana merancang dan membangun sistem informasi reservasi dan fasilitas olahraga *multi-tenant* berbasis web (FieldMax) yang mampu mengotomatisasi proses bisnis penyewaan lapangan, memfasilitasi transaksi secara digital, serta menyediakan layanan terpadu bagi pengelola fasilitas dan pelanggan?
-2. Bagaimana menguji dan mengevaluasi fungsionalitas sistem informasi FieldMax menggunakan metode *Black Box Testing*, dengan fokus utama pada validasi keberhasilan pencegahan jadwal ganda (*double booking*) serta kelancaran alur pemesanan?
+2. Bagaimana menguji dan membuktikan keandalan sistem informasi FieldMax menggunakan metode *Black Box Testing* dalam mengeliminasi terjadinya bentrok jadwal (*double booking*) pada proses reservasi lapangan?
 
 ## 1.3 Tujuan Penelitian ^tujuan-penelitian
 
 Tujuan yang ingin dicapai dalam penelitian ini adalah:
 
 1. Merancang dan mengimplementasikan sistem informasi reservasi dan fasilitas olahraga *multi-tenant* berbasis web (FieldMax) guna mendigitalisasi pengelolaan sarana olahraga, mempermudah proses transaksi pemesanan secara mandiri, dan menyediakan platform terpadu bagi seluruh pengguna sistem (*User*, *Renter*, dan *Admin*).
-2. Menguji dan mengevaluasi fungsionalitas sistem informasi FieldMax menggunakan metode *Black Box Testing* untuk memverifikasi secara empiris keandalan sistem dalam mencegah bentrok jadwal (*double booking*) serta memastikan seluruh fitur berjalan sesuai dengan kebutuhan pengguna.
+2. Menguji dan membuktikan secara empiris keandalan sistem informasi FieldMax menggunakan metode *Black Box Testing* dalam mencegah dan mengeliminasi terjadinya pemesanan ganda (*double booking*) pada slot waktu dan lapangan yang sama.
 
 ## 1.4 Batasan Masalah ^batasan-masalah
 
