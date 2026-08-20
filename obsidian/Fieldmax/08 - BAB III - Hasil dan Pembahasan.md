@@ -289,7 +289,7 @@ Berikut adalah detail struktur tabel dari basis data web Platform FieldMax yang 
 
 Setelah perancangan, selanjutnya adalah merancang relasi antar tabel, yang berfungsi untuk menentukan keterhubungan antar tabel yang ada dalam basis data. Perancangan yang tepat diperlukan agar mengakses basis data dari sistem dapat efektif dan efisien.
 
-![](images/image026.png)
+![[images/gambar-relasi-tabel.drawio]]
 
 **Gambar 10.** Relasi antar tabel ^gambar-10
 
