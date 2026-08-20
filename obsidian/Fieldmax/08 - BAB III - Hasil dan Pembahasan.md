@@ -787,4 +787,23 @@ Pengujian pada Tabel 27 memvalidasi peran Admin sebagai moderator dan pengawas p
 | 1  | Admin membuka panel review venue baru dan menekan tombol APPROVED | Status venue berubah menjadi APPROVED dan venue dapat dicari di halaman publik              | Berhasil        |
 | 2  | Admin membalas pesan keluhan transaksi pembayaran dari user       | Pesan tanggapan disimpan ke tabel report_replies dan dapat dilihat oleh user terkait pada halaman laporan | Berhasil        |
 
+### 3.5.2 Pembahasan Hasil Penelitian ^pembahasan-hasil-penelitian
+
+Berdasarkan serangkaian tahapan perancangan, implementasi, dan pengujian sistem yang telah dilaksanakan, terdapat beberapa poin pembahasan utama yang merefleksikan pencapaian tujuan penelitian dan penyelesaian rumusan masalah:
+
+#### 1. Otomasi Proses Bisnis dan Penggantian Sistem Konvensional
+Pengembangan platform FieldMax berhasil mentransformasikan alur operasional reservasi lapangan olahraga yang sebelumnya bersifat konvensional dan manual (menggunakan buku agenda fisik, formulir Google Form terpisah, atau obrolan pesan instan WhatsApp) menjadi sistem berbasis web terintegrasi. Penerapan arsitektur *full-stack TypeScript monorepo* membagi tanggung jawab sistem secara terstruktur: Next.js (App Router) pada sisi antarmuka (*frontend*) memberikan pengalaman pengguna yang responsif dan interaktif, sedangkan Express.js pada sisi peladen (*backend*) mengisolasi logika bisnis ke dalam pola tiga lapis (*Controller-Service-Route*). Penggunaan Prisma ORM dan basis data PostgreSQL menjamin integritas data secara relasional dan konsisten. Seluruh data transaksi, informasi profil pengguna, jadwal operasional venue, serta galeri fasilitas tersimpan secara terpusat, aman, dan dapat diakses kapan saja.
+
+#### 2. Mekanisme Pencegahan Bentrok Jadwal (*Double Booking*) dan Sinkronisasi *Real-Time*
+Permasalahan klasik berupa jadwal pemesanan ganda (*double booking*) berhasil diatasi melalui penerapan algoritma validasi ketersediaan jadwal pada lapisan layanan pemesanan (*bookings service*). Ketika pengguna memilih tanggal dan slot waktu sewa tertentu, sistem mengeksekusi kueri pengecekan tumpang tindih waktu (*time overlap query*) pada basis data PostgreSQL. Apabila slot waktu tersebut telah terikat oleh pemesanan berstatus `PENDING` (dalam masa tenggat penyelesaian pembayaran) atau `CONFIRMED`, sistem secara otomatis menolak permintaan pemesanan baru pada slot tersebut. Selain itu, integrasi *webhook callback* notifikasi instan dari *payment gateway* Midtrans Snap memastikan status pembayaran terverifikasi secara *real-time*, sehingga slot waktu yang gagal atau melewati batas waktu pembayaran (*expired*) akan langsung dilepaskan kembali menjadi tersedia (*available*), sementara transaksi yang berhasil dibayar langsung dikunci secara permanen menjadi status `CONFIRMED`.
+
+#### 3. Efektivitas Platform Multi-Tenant dan Dampak Penggunaan bagi Ketiga Aktor
+Penerapan *Role-Based Access Control* (RBAC) pada platform FieldMax memberikan diferensiasi hak akses dan fungsionalitas yang proporsional bagi ketiga peran aktor sistem:
+- **Pelanggan (*User*)**: Memperoleh fleksibilitas penuh untuk mencari venue olahraga berdasarkan filter cabang olahraga, kisaran harga, dan lokasi; memeriksa transparansi harga serta fasilitas pendukung; memilih jam sewa secara mandiri; dan menyelesaikan transaksi melalui berbagai kanal pembayaran digital (QRIS, *Virtual Account*, *e-Wallet*) tanpa perlu menunggu konfirmasi manual dari pihak pemilik lapangan.
+- **Mitra Pengelola (*Renter*)**: Mendapatkan otonomi penuh dalam mengelola fasilitas fisik olahraga miliknya, mengatur jam operasional harian, menetapkan tarif per jam, serta memantau kalender reservasi lapangan. Kehadiran dasbor analitik pendapatan (*Revenue*) memberikan visualisasi omzet dan tren pemesanan secara transparan, mempermudah evaluasi kinerja bisnis tanpa perlu melakukan pembukuan manual.
+- **Administrator (*Admin*)**: Memiliki visibilitas pengawasan menyeluruh terhadap ekosistem platform melalui mekanisme moderasi venue dan lapangan baru sebelum dipublikasikan, pengawasan data transaksi lintas mitra, pengelolaan master data jenis cabang olahraga, serta penanganan tiket pengaduan (*Report*) pengguna secara terpusat dan terstruktur.
+
+Secara keseluruhan, hasil evaluasi fungsional melalui *Black Box Testing* pada Tabel 22 hingga Tabel 27 membuktikan bahwa seluruh modul sistem berjalan dengan tingkat keberhasilan 100% dan memenuhi seluruh spesifikasi kebutuhan yang telah dirumuskan pada tahap awal penelitian.
+
+
 

@@ -1,0 +1,21 @@
+{
+  "id": "5b54bfa2-6a79-4afc-b187-31242536b553",
+  "state": "committed",
+  "createdAt": "2026-08-20T12:32:25.002Z",
+  "snapshots": [
+    {
+      "path": "06 - BAB I - Pendahuluan.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "35ef2515fc5833f1d4608e1f5b5d939faa3bf00bba4d4297a99c101bad9ff3d8",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "639769c689f075f869506ce1c59d19aea38d876723a07ca691aa1b7f09a215e4",
+      "snapshot": "0.bin",
+      "committedEtag": "35ef2515fc5833f1d4608e1f5b5d939faa3bf00bba4d4297a99c101bad9ff3d8"
+    }
+  ],
+  "completedAt": "2026-08-20T12:32:25.026Z"
+}

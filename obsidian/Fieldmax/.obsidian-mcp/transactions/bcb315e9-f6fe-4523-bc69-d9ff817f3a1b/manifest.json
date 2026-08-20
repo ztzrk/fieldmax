@@ -1,0 +1,19 @@
+{
+  "id": "bcb315e9-f6fe-4523-bc69-d9ff817f3a1b",
+  "state": "preparing",
+  "createdAt": "2026-08-20T12:33:44.170Z",
+  "snapshots": [
+    {
+      "path": "09 - BAB IV - Kesimpulan dan Saran.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "pending",
+      "plannedEtag": "0942e1e256141c04625cf121dcdd76ae6aba2b7c5a2bb640b98de879ccddafa2",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "1711fe7d0b1233f1f7a6f6ae397a705a13507a695a0ab48d89b7424fb176fec9",
+      "snapshot": "0.bin"
+    }
+  ]
+}

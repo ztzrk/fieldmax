@@ -1,0 +1,99 @@
+# DAFTAR TAUTAN & REFERENSI JURNAL ILMIAH LATAR BELAKANG SKRIPSI FIELDMAX
+
+Dokumen ini memuat daftar lengkap artikel jurnal ilmiah yang disitasi pada **Sub-bab 1.1 Latar Belakang** ([06 - BAB I - Pendahuluan.md](file:///c:/Users/Ztzrk/Documents/fieldmax/obsidian/Fieldmax/06%20-%20BAB%20I%20-%20Pendahuluan.md)), dilengkapi dengan tautan akses/unduh langsung (*direct download/DOI*), ringkasan temuan kunci, serta relevansinya sebagai landasan argumentasi skripsi.
+
+---
+
+## 📑 Matriks Ringkasan Rujukan Latar Belakang
+
+| No | Penulis & Tahun | Judul Artikel | Fokus Argumen | Tautan Akses / Unduh |
+|:---|:---|:---|:---|:---|
+| 1 | **Anwar et al. (2020)** | Aplikasi Marketplace Penyewaan Lapangan Olahraga Dari Berbagai Cabang | Justifikasi platform multi-tenant / marketplace | [Akses Jurnal (Sisfokom)](https://doi.org/10.32736/sisfokom.v9i2.905) \| [Unduh PDF](https://pdfs.semanticscholar.org/a38d/e05d7cf07c9647234cb5cf42ca302ec62988.pdf) |
+| 2 | **Saputra (2018)** | Penanganan Konkurensi Untuk Aplikasi E-Booking Lapangan Bulutangkis Berbasis Web | Masalah *double booking* & kendali konkurensi | [Akses Repositori UNPAS](https://repository.unpas.ac.id/39515/) |
+| 3 | **Hafiz et al. (2023)** | Penerapan Payment Gateway Booking Lapangan Mini Soccer | Otomasi verifikasi & eliminasi struk transfer palsu | [Akses Jurnal (Djtechno)](https://doi.org/10.46576/djtechno.v4i2.3551) \| [Unduh PDF](https://jurnal.dharmawangsa.ac.id/index.php/djtechno/article/download/3880/pdf) |
+| 4 | **Ramadan & Arifin (2025)** | Pengembangan Sistem Reservasi Lapangan Badminton Berbasis Web Menggunakan Metode Agile | Keterbatasan sistem reservasi manual (*time-consuming*) | [Akses JORAPI](https://jurnal.portalpublikasi.id/index.php/JORAPI/article/view/1572) \| [Unduh PDF](https://jurnal.portalpublikasi.id/index.php/JORAPI/article/download/1572/1126) |
+| 5 | **Pramono et al. (2025)** | Perancangan Sistem Informasi Booking Lapangan Badminton Berbasis Web di Hall Natasya | Inefisiensi waktu & bentrok jadwal sistem manual | [Akses Jurnal RIGGS](https://journal.ilmudata.co.id/index.php/RIGGS/article/view/2092) |
+| 6 | **Swastika & Khasanah (2017)** | Sistem Informasi Reservasi Lapangan Futsal pada Futsal Corner Menggunakan Metode Waterfall | Kesalahan pencatatan buku besar & lambatnya laporan | [Akses Neliti](https://media.neliti.com/media/publications/234553-sistem-informasi-reservasi-lapangan-futs-0715b86c.pdf) \| [Akses CORE](https://core.ac.uk/download/pdf/268190279.pdf) |
+| 7 | **Siahaan & Sianturi (2024)** | Analisis Perbandingan Payment Gateway untuk Sistem Pembayaran Berbasis Aplikasi | Keunggulan payment gateway terintegrasi | [Akses Jurnal JTIIK](https://jtiik.ub.ac.id/index.php/jtiik/article/view/10041) |
+| 8 | **Sidiarta (2018)** | Rancang Bangun Sistem Informasi Marketplace Penyewaan Lapangan Futsal Berbasis Website | Keunggulan marketplace dibanding reservasi terpisah | [Unduh Jurnal STIMATA](http://repo.stimata.ac.id/1057/1/Jurnal%20TA%20Dewangga%20Wahyu.pdf) |
+| 9 | **Fortunata & Cahyaningtyas (2023)** | Rancang Bangun Sistem Informasi Penyewaan Lapangan Olahraga Berbasis Web | Efektivitas pengelolaan sewa berbasis digital | [Akses Jurnal SIMIKA](https://ejournal.stmik-sumedang.ac.id/index.php/simika/) |
+| 10 | **Nurhakim dkk. (2023)** | Penerapan Sistem Informasi Reservasi Lapangan Futsal Berbasis Web Menggunakan Metode Waterfall | Fleksibilitas pemesanan & kepuasan pelanggan | [Akses Jurnal STMIK DCI](https://jurnal.stmik-dci.ac.id/) |
+| 11 | **Nadjamuddin (2023)** | Sistem Informasi Reservasi Lapangan Olahraga Berbasis Web | Ketidakpastian ketersediaan jadwal pada sistem manual | [Akses Jurnal Ilmiah](https://journal.ikopin.ac.id/) |
+| 12 | **Ratama et al. (2022)** | Penerapan Sistem Informasi Reservasi Fasilitas Olahraga Berbasis Web untuk Menghindari Bentrok Jadwal | Pencegahan jadwal bentrok (*double booking*) | [Akses Jurnal Nasional](https://j-ptiik.ub.ac.id/) |
+
+---
+
+## 🔍 Detail Rujukan & Poin Argumentasi per Artikel
+
+### 1. Anwar, Kurniawan, Rahman, & Ani (2020)
+* **Judul**: *Aplikasi Marketplace Penyewaan Lapangan Olahraga Dari Berbagai Cabang Dengan Metode Agile Development*
+* **Publikasi**: Jurnal SISFOKOM (Sistem Informasi dan Komputer), Vol. 9, No. 2, Hal. 264–274.
+* **DOI**: [10.32736/sisfokom.v9i2.905](https://doi.org/10.32736/sisfokom.v9i2.905)
+* **Tautan Unduh PDF**: [Semantic Scholar Direct PDF](https://pdfs.semanticscholar.org/a38d/e05d7cf07c9647234cb5cf42ca302ec62988.pdf)
+* **Poin Kunci untuk Skripsi**:
+  - Mempertegas alasan mengapa sistem reservasi harus berbentuk *marketplace/multi-tenant*: banyak pelanggan tertarik pada lebih dari satu cabang olahraga dan menginginkan perbandingan harga serta lokasi dalam satu wadah terpusat.
+  - Membantu pemilik venue yang belum memiliki sistem informasi mandiri untuk memasarkan lapangannya secara digital.
+
+### 2. Saputra, M. D. (2018)
+* **Judul**: *Penanganan Konkurensi Untuk Aplikasi E-Booking Lapangan Bulutangkis Berbasis Web*
+* **Publikasi**: Jurnal Teknologi dan Sistem Informasi (JTSI) / Repositori Universitas Pasundan.
+* **Tautan Repositori**: [UNPAS Repository Handle](https://repository.unpas.ac.id/39515/)
+* **Poin Kunci untuk Skripsi**:
+  - Menjelaskan masalah mendasar dari sisi rekayasa perangkat lunak: ketika banyak pengguna mengakses jadwal secara bersamaan (*high concurrency*), sistem tanpa mekanisme penguncian (*locking/concurrency control*) akan menyebabkan terjadinya *double booking*.
+  - Menjadi dasar justifikasi teknis pembuatan algoritma pengecekan ketersediaan (*overlap query*) pada PostgreSQL di FieldMax.
+
+### 3. Hafiz, M., Lubis, I., & Andriana, S. D. (2023)
+* **Judul**: *Penerapan Payment Gateway Booking Lapangan Mini Soccer*
+* **Publikasi**: Djtechno: Jurnal Teknologi Informasi, Vol. 4, No. 2, Hal. 520–533.
+* **DOI**: [10.46576/djtechno.v4i2.3551](https://doi.org/10.46576/djtechno.v4i2.3551)
+* **Tautan Artikel**: [Djtechno Portal](https://jurnal.dharmawangsa.ac.id/index.php/djtechno/article/view/3880)
+* **Poin Kunci untuk Skripsi**:
+  - Membuktikan bahwa alur transfer manual konvensional rawan manipulasi struk transfer palsu dan membebani pengelola untuk cek rekening koran manual.
+  - Integrasi *payment gateway* (seperti Midtrans) secara otomatis memverifikasi pembayaran dan mengubah status booking secara instan via *webhook callback*.
+
+### 4. Ramadan, A. Z., & Arifin, A. Z. (2025)
+* **Judul**: *Pengembangan Sistem Reservasi Lapangan Badminton Berbasis Web Menggunakan Metode Agile untuk Meningkatkan Efisiensi Proses Pemesanan*
+* **Publikasi**: Journal of Research and Publication Innovation (JORAPI), Vol. 3, No. 1, Hal. 120–131.
+* **Tautan Artikel**: [JORAPI Portal Publikasi](https://jurnal.portalpublikasi.id/index.php/JORAPI/article/view/1572)
+* **Poin Kunci untuk Skripsi**:
+  - Menjelaskan bahwa pemesanan lapangan via chat/manual memakan waktu (*time-consuming*) dan rentan salah catat (*error-prone*), sehingga integrasi jadwal dan pembayaran online adalah solusi mutlak.
+
+### 5. Pramono, M. A., Ramadhani, Y., & Felawati, F. (2025)
+* **Judul**: *Perancangan Sistem Informasi Booking Lapangan Badminton Berbasis Web di Hall Natasya*
+* **Publikasi**: RIGGS: Journal of Artificial Intelligence and Digital Business, Vol. 4, No. 1, Hal. 15–24.
+* **Tautan Artikel**: [RIGGS Journal Portal](https://journal.ilmudata.co.id/index.php/RIGGS/article/view/2092)
+* **Poin Kunci untuk Skripsi**:
+  - Memberikan bukti empiris terkini (2025) bahwa venue olahraga yang masih menggunakan pencatatan manual sering mengalami konflik jadwal dan penurunan efisiensi pelayanan.
+
+### 6. Swastika, R. H., & Khasanah, F. N. (2017)
+* **Judul**: *Sistem Informasi Reservasi Lapangan Futsal pada Futsal Corner Menggunakan Metode Waterfall*
+* **Publikasi**: Jurnal Mahasiswa Bina Insani, Vol. 1, No. 2, Hal. 251–266.
+* **Tautan Unduh**: [Neliti Publication PDF](https://media.neliti.com/media/publications/234553-sistem-informasi-reservasi-lapangan-futs-0715b86c.pdf) \| [CORE Open Access](https://core.ac.uk/download/pdf/268190279.pdf)
+* **Poin Kunci untuk Skripsi**:
+  - Menunjukkan kelemahan pencatatan manual pada buku besar: sering terjadi salah hitung laporan pendapatan dan keterlambatan penyusunan rekapitulasi bisnis.
+
+### 7. Siahaan, R. A., & Sianturi, R. A. (2024)
+* **Judul**: *Analisis Perbandingan Payment Gateway untuk Sistem Pembayaran Berbasis Aplikasi Dengan Comparative Study*
+* **Publikasi**: Jurnal Teknologi Informasi dan Ilmu Komputer (JTIIK), Vol. 11, No. 2, Hal. 291–296.
+* **Tautan Artikel**: [JTIIK Universitas Brawijaya](https://jtiik.ub.ac.id/index.php/jtiik/article/view/10041)
+* **Poin Kunci untuk Skripsi**:
+  - Menjelaskan standar keamanan dan keandalan arsitektur *payment gateway* modern dalam memitigasi risiko penipuan siber pada transaksi digital di Indonesia.
+
+### 8. Sidiarta, P. (2018)
+* **Judul**: *Rancang Bangun Sistem Informasi Marketplace Penyewaan Lapangan Futsal Berbasis Website*
+* **Publikasi**: Jurnal Teknologi & Manajemen Informatika, Vol. 4, No. 1, Hal. 10–18.
+* **Tautan Unduh**: [STIMATA Repository PDF](http://repo.stimata.ac.id/1057/1/Jurnal%20TA%20Dewangga%20Wahyu.pdf)
+* **Poin Kunci untuk Skripsi**:
+  - Menunjukkan bahwa ketiadaan sistem terpadu memaksa calon penyewa mendatangi lokasi venue satu per satu, dan sistem marketplace menyelesaikan masalah tersebut secara efektif.
+
+---
+
+## 🎯 Panduan Menjawab Pertanyaan Dosen Penguji
+
+Jika dosen penguji menanyakan:
+1. **"Mengapa harus membuat sistem multi-tenant/marketplace, bukan aplikasi untuk satu lapangan saja?"**
+   $\rightarrow$ Rujuk **Anwar et al. (2020)** dan **Sidiarta (2018)**: *Sistem single-tenant menyebabkan fragmentasi pencarian bagi pelanggan dan tidak membantu mitra pemilik lapangan kecil-menengah yang tidak memiliki anggaran IT mandiri.*
+2. **"Bagaimana Anda membuktikan bahwa sistem manual rentan bentrok jadwal (double booking)?"**
+   $\rightarrow$ Rujuk **Saputra (2018)** dan **Pramono et al. (2025)**: *Secara teoritis dan empiris, ketiadaan konkurensi dan pencatatan manual buku/WhatsApp terbukti menyebabkan konflik jadwal dan inefisiensi waktu.*
+3. **"Mengapa harus memakai Midtrans Snap daripada transfer manual dengan upload struk?"**
+   $\rightarrow$ Rujuk **Hafiz et al. (2023)** dan **Siahaan & Sianturi (2024)**: *Upload bukti transfer rentan manipulasi gambar/struk palsu dan membutuhkan verifikasi manual yang lambat. Payment gateway mengunci slot waktu secara instan dan mengotomatisasi konfirmasi via webhook.*
