@@ -34,7 +34,7 @@
 
 # ABSTRAK ^abstrak
 
-Minat masyarakat yang tinggi terhadap olahraga mendorong peningkatan permintaan terhadap penyewaan sarana dan fasilitas olahraga. Namun, tata kelola operasional konvensional yang masih manual kerap memicu berbagai permasalahan krusial, seperti terjadinya jadwal ganda (*double booking*), kelalaian pencatatan, manipulasi bukti transfer pembayaran, serta ketiadaan saluran informasi ketersediaan lapangan secara *real-time*. Penelitian ini bertujuan untuk merancang dan membangun platform FieldMax, sebuah *marketplace* reservasi dan manajemen penyewaan fasilitas olahraga *multi-tenant* berbasis web, sekaligus menguji keandalan sistem dalam mengeliminasi potensi *double booking*. Pengembangan sistem menerapkan pendekatan *Design Science Research* (DSR) dan siklus hidup perangkat lunak *Waterfall*. Sistem dibangun dengan arsitektur *full-stack TypeScript monorepo*, memisahkan antarmuka pengguna berbasis Next.js (App Router) dan peladen layanan berbasis Express.js, dengan basis data relasional PostgreSQL yang diakses menggunakan Prisma ORM. Otentikasi sistem memanfaatkan *session-based authentication* tersimpan di basis data, transaksi pembayaran otomatis terintegrasi melalui *payment gateway* Midtrans Snap, penyimpanan berkas media dioptimalkan melalui ImageKit CDN, dan notifikasi email dikirimkan via SMTP Nodemailer. Evaluasi fungsionalitas dilakukan melalui metode *Black Box Testing* yang mencakup peran *User*, *Renter*, dan *Admin*. Hasil pengujian membuktikan bahwa platform FieldMax berhasil mengotomatisasi transaksi reservasi instan, memperbarui ketersediaan jadwal secara *real-time*, mengeliminasi terjadinya bentrok jadwal (*double booking*) hingga 100% valid, serta menyediakan transparansi rekapitulasi analitik pendapatan bagi mitra pengelola.
+Minat masyarakat yang tinggi terhadap olahraga mendorong peningkatan permintaan terhadap penyewaan sarana dan fasilitas olahraga. Namun, tata kelola operasional konvensional yang masih manual kerap memicu berbagai permasalahan krusial, seperti terjadinya jadwal ganda (*double booking*), kelalaian pencatatan, manipulasi bukti transfer pembayaran, serta ketiadaan saluran informasi ketersediaan lapangan secara *real-time*. Penelitian ini bertujuan untuk merancang dan membangun platform FieldMax, sebuah *marketplace* reservasi dan manajemen penyewaan fasilitas olahraga *multi-tenant* berbasis web, sekaligus menguji keandalan sistem dalam mengeliminasi potensi *double booking*. Pengembangan sistem menerapkan pendekatan *Design Science Research* (DSR) dan siklus hidup perangkat lunak *Waterfall*. Sistem dibangun dengan arsitektur *full-stack TypeScript monorepo*, memisahkan antarmuka pengguna berbasis Next.js (App Router) dan peladen layanan berbasis Express.js, dengan basis data relasional PostgreSQL yang diakses menggunakan Prisma ORM. Autentikasi sistem memanfaatkan *session-based authentication* tersimpan di basis data, transaksi pembayaran otomatis terintegrasi melalui *payment gateway* Midtrans Snap, penyimpanan berkas media dioptimalkan melalui ImageKit CDN, dan notifikasi email dikirimkan via SMTP Nodemailer. Evaluasi fungsionalitas dilakukan melalui metode *Black Box Testing* yang mencakup peran *User*, *Renter*, dan *Admin*. Hasil pengujian membuktikan bahwa platform FieldMax berhasil mengotomatisasi transaksi reservasi instan, memperbarui ketersediaan jadwal secara *real-time*, mengeliminasi terjadinya bentrok jadwal (*double booking*) hingga 100% valid, serta menyediakan transparansi rekapitulasi analitik pendapatan bagi mitra pengelola.
 
 **Kata Kunci:** Reservasi Lapangan, *Marketplace Multi-Tenant*, *Double Booking*, Next.js, Express.js, Midtrans Snap, *Design Science Research*.
 
@@ -219,7 +219,7 @@ Hingga saat ini, sebagian besar penyedia jasa penyewaan lapangan olahraga masih 
 
 Selain masalah penjadwalan, alur pembayaran pada sistem konvensional umumnya masih mengandalkan transfer bank manual dengan bukti transfer berupa gambar atau struk. Pola transaksi ini memperlambat proses konfirmasi karena pengelola harus memeriksa mutasi rekening secara manual satu per satu, sekaligus membuka celah manipulasi bukti transfer palsu (*fraudulent transfer receipt*) (Hafiz et al., 2023). Sebagaimana ditegaskan oleh Ramadan dan Arifin (2025) serta Siahaan dan Sianturi (2024), integrasi teknologi transaksi digital otomatis (*payment gateway*) menjadi komponen krusial untuk mengotomatisasi konfirmasi pembayaran secara instan, mengunci slot waktu sewa secara *real-time*, dan mengeliminasi ketergantungan pada verifikasi manual pengelola.
 
-Dari perspektif kebutuhan pasar dan penelitian terdahulu, sebagian besar pengembangan sistem informasi reservasi olahraga yang telah ada hanya berfokus pada satu fasilitas tertentu (*single-tenant / single-venue*) (Fortunata & Cahyaningtyas, 2023; Nurhakim dkk., 2023). Pendekatan *single-venue* tersebut memiliki keterbatasan, yaitu memicu fragmentasi layanan di mana pelanggan harus mengakses banyak aplikasi berbeda untuk membandingkan fasilitas, harga, dan ketersediaan jadwal. Di sisi lain, pemilik sarana olahraga skala kecil dan menengah menghadapi kendala biaya investasi yang tinggi apabila harus membangun sistem aplikasi digital secara mandiri. Oleh karena itu, penerapan konsep *marketplace multi-tenant* menjadi solusi strategis yang efektif karena mampu mempertemukan banyak penyedia lapangan (*Renter*) dengan masyarakat luas (*User*) dalam satu wadah terpusat berbasis pencarian cabang olahraga, harga, dan lokasi (Anwar et al., 2020; Sidiarta, 2018).
+Dari perspektif kebutuhan pasar dan penelitian terdahulu, sebagian besar pengembangan sistem informasi reservasi olahraga yang telah ada hanya berfokus pada satu fasilitas tertentu (*single-tenant / single-venue*) (Fortunata & Cahyaningtyas, 2023; Nurhakim et al., 2023). Pendekatan *single-venue* tersebut memiliki keterbatasan, yaitu memicu fragmentasi layanan di mana pelanggan harus mengakses banyak aplikasi berbeda untuk membandingkan fasilitas, harga, dan ketersediaan jadwal. Di sisi lain, pemilik sarana olahraga skala kecil dan menengah menghadapi kendala biaya investasi yang tinggi apabila harus membangun sistem aplikasi digital secara mandiri. Oleh karena itu, penerapan konsep *marketplace multi-tenant* menjadi solusi strategis yang efektif karena mampu mempertemukan banyak penyedia lapangan (*Renter*) dengan masyarakat luas (*User*) dalam satu wadah terpusat berbasis pencarian cabang olahraga, harga, dan lokasi (Anwar et al., 2020; Sidiarta, 2018).
 
 Berdasarkan latar belakang permasalahan dan kesenjangan (*gap*) penelitian tersebut, penelitian ini mengusulkan **"Rancang Bangun Sistem Informasi Reservasi dan Fasilitas Olahraga Multi-Tenant Berbasis Web"** yang dinamakan **FieldMax**. Platform FieldMax dirancang dengan arsitektur modern berbasis *full-stack TypeScript monorepo* yang mengintegrasikan tiga peran pengguna (*User*, *Renter*, dan *Admin*). Platform ini memfasilitasi Pemilik Fasilitas (*Renter*) dalam mengelola jadwal operasional, data lapangan, galeri fasilitas, dan visualisasi laporan pendapatan, sekaligus memberikan kemudahan bagi Pelanggan (*User*) untuk mengecek ketersediaan jadwal secara *real-time*, melakukan pemesanan instan, serta menyelesaikan pembayaran digital otomatis melalui *payment gateway* Midtrans Snap. Implementasi sistem ini diharapkan menjadi solusi komprehensif untuk mengeliminasi masalah *double booking*, mencegah kecurangan bukti transaksi, meningkatkan efisiensi operasional pengelola, dan memberikan pengalaman reservasi digital yang praktis bagi masyarakat.
 
@@ -274,7 +274,7 @@ Di era digital, sistem informasi berbasis web (*web-based information system*) m
 
 Reservasi merupakan proses perikatan awal antara konsumen dan penyedia jasa mengenai pemanfaatan suatu produk atau fasilitas pada waktu tertentu di masa mendatang (Christanto et al., 2012). Selama proses reservasi berlangsung, terjadi pertukaran informasi terstruktur antara konsumen mengenai kebutuhan spesifik (seperti pilihan lapangan, tanggal sewa, dan rentang jam main) dengan penyedia jasa mengenai ketersediaan jadwal serta tarif yang berlaku.
 
-Penerapan reservasi secara daring (*online reservation*) terbukti mampu meminimalkan friksi operasional, seperti antrean panjang, ketidakpastian ketersediaan lapangan, dan risiko bentrok jadwal (*double booking*). Penelitian Hasibuan dkk. (2024) menunjukkan bahwa sistem informasi reservasi olahraga berbasis web berhasil meningkatkan efisiensi operasional pengelola tempat olahraga secara sistematis dan terkontrol, sekaligus memberikan kepastian konfirmasi instan bagi pelanggan.
+Penerapan reservasi secara daring (*online reservation*) terbukti mampu meminimalkan friksi operasional, seperti antrean panjang, ketidakpastian ketersediaan lapangan, dan risiko bentrok jadwal (*double booking*). Penelitian Hasibuan et al. (2024) menunjukkan bahwa sistem informasi reservasi olahraga berbasis web berhasil meningkatkan efisiensi operasional pengelola tempat olahraga secara sistematis dan terkontrol, sekaligus memberikan kepastian konfirmasi instan bagi pelanggan.
 
 ### 1.6.3 Layanan Penyewaan Lapangan di FieldMax
 
@@ -323,11 +323,11 @@ Pengelolaan media foto (seperti foto profil pengguna, foto fasilitas venue, dan 
 
 | SIMBOL | NAMA | KETERANGAN |
 | :---: | :--- | :--- |
-| <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg> | *Actor* | Mewakili peran pengguna, sistem lain, atau perangkat luar yang berinteraksi dengan sistem |
-| <svg width="40" height="20" viewBox="0 0 40 20"><ellipse cx="20" cy="10" rx="18" ry="8" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Use Case* | Deskripsi urutan aksi yang dilakukan sistem untuk menghasilkan nilai terukur bagi aktor |
-| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="38" y2="10" stroke="currentColor" stroke-width="2"/></svg> | *Association* | Garis penghubung komunikasi antara aktor dengan *use case* yang bersangkutan |
-| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="30" y2="10" stroke="currentColor" stroke-width="2"/><polygon points="30,6 38,10 30,14" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Generalization* | Relasi hierarki pewarisan sifat atau perilaku dari *use case* umum ke khusus |
-| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="30" y2="10" stroke="currentColor" stroke-width="2" stroke-dasharray="3,3"/><polygon points="30,6 38,10 30,14" fill="currentColor"/></svg> | *Include* | Relasi keharusan di mana eksekusi *use case* sumber mutlak menyertakan fungsionalitas *use case* target |
+| ![](images/symbols/uc_actor.png) | *Actor* | Mewakili peran pengguna, sistem lain, atau perangkat luar yang berinteraksi dengan sistem |
+| ![](images/symbols/uc_usecase.png) | *Use Case* | Deskripsi urutan aksi yang dilakukan sistem untuk menghasilkan nilai terukur bagi aktor |
+| ![](images/symbols/uc_association.png) | *Association* | Garis penghubung komunikasi antara aktor dengan *use case* yang bersangkutan |
+| ![](images/symbols/uc_generalization.png) | *Generalization* | Relasi hierarki pewarisan sifat atau perilaku dari *use case* umum ke khusus |
+| ![](images/symbols/uc_include.png) | *Include* | Relasi keharusan di mana eksekusi *use case* sumber mutlak menyertakan fungsionalitas *use case* target |
 
 #### 2. *Activity Diagram*
 
@@ -337,10 +337,10 @@ Pengelolaan media foto (seperti foto profil pengguna, foto fasilitas venue, dan 
 
 | SIMBOL | NAMA | KETERANGAN |
 | :---: | :--- | :--- |
-| <svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg> | *Initial Node (Start Point)* | Menandai titik awal dimulainya suatu aliran aktivitas |
-| <svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="10" cy="10" r="4" fill="currentColor"/></svg> | *Activity Final Node (End Point)* | Menandai titik akhir penyelesaian seluruh aliran aktivitas |
-| <svg width="40" height="20" viewBox="0 0 40 20"><rect x="2" y="2" width="36" height="16" rx="5" ry="5" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Action / Activity* | Menunjukkan pekerjaan atau tindakan komputasi yang sedang dilakukan dalam alur proses |
-| <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="10,2 18,10 10,18 2,10" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Decision Node* | Titik percabangan logika untuk menentukan arah alur berdasarkan evaluasi kondisi boolean tertentu |
+| ![](images/symbols/act_start.png) | *Initial Node (Start Point)* | Menandai titik awal dimulainya suatu aliran aktivitas |
+| ![](images/symbols/act_end.png) | *Activity Final Node (End Point)* | Menandai titik akhir penyelesaian seluruh aliran aktivitas |
+| ![](images/symbols/act_action.png) | *Action / Activity* | Menunjukkan pekerjaan atau tindakan komputasi yang sedang dilakukan dalam alur proses |
+| ![](images/symbols/act_decision.png) | *Decision Node* | Titik percabangan logika untuk menentukan arah alur berdasarkan evaluasi kondisi boolean tertentu |
 
 #### 3. *Entity Relationship Diagram* (ERD)
 
@@ -350,12 +350,12 @@ Pengelolaan media foto (seperti foto profil pengguna, foto fasilitas venue, dan 
 
 | SIMBOL | NAMA | KETERANGAN |
 | :---: | :--- | :--- |
-| <svg width="40" height="20" viewBox="0 0 40 20"><rect x="2" y="2" width="36" height="16" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Entity* | Objek data riil atau konseptual yang memiliki karakteristik tersendiri dalam basis data |
-| <svg width="40" height="20" viewBox="0 0 40 20"><ellipse cx="20" cy="10" rx="18" ry="8" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Attribute* | Properti atau karakteristik spesifik yang mendeskripsikan suatu entitas |
-| <svg width="30" height="20" viewBox="0 0 30 20"><polygon points="15,2 27,10 15,18 3,10" stroke="currentColor" stroke-width="2" fill="none"/></svg> | *Relationship* | Keterhubungan logis antara dua entitas atau lebih di dalam sistem basis data |
-| <svg width="40" height="20" viewBox="0 0 40 20"><line x1="2" y1="10" x2="38" y2="10" stroke="currentColor" stroke-width="2"/></svg> | *Line / Connector* | Garis penghubung yang mengaitkan entitas dengan atribut maupun relasinya |
+| ![](images/symbols/erd_entity.png) | *Entity* | Objek data riil atau konseptual yang memiliki karakteristik tersendiri dalam basis data |
+| ![](images/symbols/erd_attribute.png) | *Attribute* | Properti atau karakteristik spesifik yang mendeskripsikan suatu entitas |
+| ![](images/symbols/erd_relationship.png) | *Relationship* | Keterhubungan logis antara dua entitas atau lebih di dalam sistem basis data |
+| ![](images/symbols/erd_connector.png) | *Connector Line* | Garis penghubung yang mengaitkan entitas dengan atribut maupun relasinya |
 
-### 1.6.6 Ruang Lingkup Penelitian Sistem Informasi (Design Science Research)
+### 1.6.6 Ruang Lingkup Penelitian Sistem Informasi (*Design Science Research*)
 
 Kerangka kerja *Design Science Research* (DSR) dalam bidang Sistem Informasi berfokus pada penciptaan dan evaluasi artefak teknologi informasi yang inovatif untuk memecahkan permasalahan manajerial dan organisasi yang nyata (Hevner et al., 2004).
 
@@ -398,18 +398,18 @@ Penelitian ini dilaksanakan pada bulan Juli 2025 sampai dengan bulan November 20
 
 **Tabel 4.** Waktu dan Jadwal Pelaksanaan Penelitian ^tabel-4
 
-| No | Tahapan Penelitian | Juli M1 | Juli M2 | Juli M3 | Juli M4 | Ags M1 | Ags M2 | Ags M3 | Ags M4 | Sep M1 | Sep M2 | Sep M3 | Sep M4 | Okt M1 | Okt M2 | Okt M3 | Okt M4 | Nov M1 | Nov M2 | Nov M3 | Nov M4 |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | Studi Literatur | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | | | | | | | | | | | | | |
-| 2 | Analisis Kebutuhan (*Requirements*) | | | | ✓ | ✓ | ✓ | | | | | | | | | | | | | | |
-| 3 | Desain Sistem (*Design*) | | | | | | | ✓ | ✓ | ✓ | ✓ | | | | | | | | | | |
-| 4 | Implementasi Sistem (*Implementation*) | | | | | | | | | | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | | | |
-| 5 | Pengujian Sistem (*Testing*) | | | | | | | | | | | | | | | | | ✓ | ✓ | ✓ | ✓ |
-| 6 | Pemeliharaan Sistem (*Maintenance*) | | | | | | | | | | | | | | | | | | | ✓ | ✓ |
+| No | Tahapan Penelitian | Juli 2025 | Agustus 2025 | September 2025 | Oktober 2025 | November 2025 |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| 1 | Studi Literatur | ✓ | ✓ | | | |
+| 2 | Analisis Kebutuhan (*Requirements*) | | ✓ | | | |
+| 3 | Desain Sistem (*Design*) | | ✓ | ✓ | | |
+| 4 | Implementasi Sistem (*Implementation*) | | | ✓ | ✓ | |
+| 5 | Pengujian Sistem (*Testing*) | | | | ✓ | ✓ |
+| 6 | Pemeliharaan & Dokumentasi (*Maintenance*) | | | | | ✓ |
 
-## 2.2 Design Science Research ^design-science-research
+## 2.2 *Design Science Research* ^design-science-research
 
-Penelitian ini mengadopsi kerangka kerja *Design Science Research* (DSR) yang dikemukakan oleh Hevner dkk. (2004). Kerangka DSR bertujuan memecahkan permasalahan praktis organisasi melalui penciptaan dan evaluasi artefak teknologi informasi inovatif. Gambar 3 mengilustrasikan kerangka penelitian sistem informasi yang diterapkan pada riset ini.
+Penelitian ini mengadopsi kerangka kerja *Design Science Research* (DSR) yang dikemukakan oleh Hevner et al. (2004). Kerangka DSR bertujuan memecahkan permasalahan praktis organisasi melalui penciptaan dan evaluasi artefak teknologi informasi inovatif. Gambar 3 mengilustrasikan kerangka penelitian sistem informasi yang diterapkan pada riset ini.
 
 ![](images/image017.png)
 
@@ -443,7 +443,7 @@ Pengembangan platform FieldMax menerapkan metode rekayasa perangkat lunak *Water
 
 ![[images/gambar-waterfall-sdlc.svg]]
 
-**Gambar 5.** Tahapan Metode Waterfall pada Pengembangan Platform FieldMax ^gambar-5
+**Gambar 5.** Tahapan Metode *Waterfall* pada Pengembangan Platform FieldMax ^gambar-5
 
 Tahapan *Waterfall* yang dilaksanakan mencakup:
 
@@ -534,12 +534,12 @@ Berdasarkan analisis permasalahan di atas, dirumuskan kebutuhan fungsional bagi 
 
 Perangkat lunak yang digunakan dalam proses perancangan, implementasi, dan pengujian sistem meliputi:
 1. **Visual Studio Code**: Lingkungan pengembangan terintegrasi (*IDE*) utama.
-2. **Node.js (v20+) & pnpm (v10)**: *Runtime* JavaScript/TypeScript dan manajer paket monorepo.
+2. **Node.js (v20+) & pnpm (v10)**: *Runtime* JavaScript/TypeScript dan manajer paket *monorepo*.
 3. **Git & GitHub**: Sistem kendali versi (*version control system*) dan repositori kode.
 4. **Figma**: Perancangan purwarupa antarmuka pengguna (*UI/UX design*).
 5. **PostgreSQL & Prisma ORM**: Sistem basis data relasional dan generator kueri *type-safe*.
-6. **Midtrans Sandbox**: Lingkungan pengujian simulasi transaksi pembayaran digital.
-7. **Postman**: Pengujian dan verifikasi *endpoint* RESTful API backend.
+6. **Midtrans *Sandbox***: Lingkungan pengujian simulasi transaksi pembayaran digital.
+7. **Postman**: Pengujian dan verifikasi *endpoint* RESTful API *backend*.
 
 #### 3. Kebutuhan Perangkat Keras
 
@@ -608,91 +608,91 @@ Rancangan antarmuka pengguna (*User Interface*) dirancang menggunakan Figma deng
 
 ### 2.8.1 Halaman Autentikasi (*Auth*) ^halaman-autentikasi
 
-#### 1. Halaman Login
+#### 1. Halaman *Login*
 Berfungsi sebagai pintu masuk pengguna terdaftar menggunakan email dan kata sandi. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/Auth/Login.jpg]]
 
-**Gambar 10.** Halaman Login ^gambar-10
+**Gambar 10.** Halaman *Login* ^gambar-10
 
-#### 2. Halaman Register User
+#### 2. Halaman *Register User*
 Berfungsi untuk mendaftarkan akun baru bagi calon pelanggan penyewa lapangan. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/Auth/Register User.jpg]]
 
-**Gambar 11.** Halaman Register User ^gambar-11
+**Gambar 11.** Halaman *Register User* ^gambar-11
 
-#### 3. Halaman Register Renter
+#### 3. Halaman *Register Renter*
 Berfungsi untuk mendaftarkan akun mitra pengelola fasilitas olahraga. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/Auth/Register Renter.jpg]]
 
-**Gambar 12.** Halaman Register Renter ^gambar-12
+**Gambar 12.** Halaman *Register Renter* ^gambar-12
 
-#### 4. Halaman Forgot Password
+#### 4. Halaman *Forgot Password*
 Berfungsi untuk menginisiasi pemulihan akun bagi pengguna yang melupakan kata sandi. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/Auth/Forgot Password.jpg]]
 
-**Gambar 13.** Halaman Forgot Password ^gambar-13
+**Gambar 13.** Halaman *Forgot Password* ^gambar-13
 
-#### 5. Halaman Reset Password
+#### 5. Halaman *Reset Password*
 Berfungsi untuk menetapkan kata sandi baru pasca verifikasi token email. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/Auth/Reset Password.jpg]]
 
-**Gambar 14.** Halaman Reset Password ^gambar-14
+**Gambar 14.** Halaman *Reset Password* ^gambar-14
 
-#### 6. Halaman Verify Email
+#### 6. Halaman *Verify Email*
 Berfungsi untuk memasukkan token verifikasi email guna mengaktifkan akun pengguna baru. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/Auth/Verify Email.jpg]]
 
-**Gambar 15.** Halaman Verify Email ^gambar-15
+**Gambar 15.** Halaman *Verify Email* ^gambar-15
 
 ### 2.8.2 Halaman Publik ^halaman-publik
 
-#### 7. Halaman Home
+#### 7. Halaman *Home*
 Menampilkan pengenalan platform, *banner* statistik, rekomendasi venue/lapangan unggulan, dan kolom pencarian cepat. *(Menjawab Masalah Poin 1 dan 6)*.
 
 ![[figma/Public/Home.jpg]]
 
-**Gambar 16.** Halaman Home ^gambar-16
+**Gambar 16.** Halaman *Home* ^gambar-16
 
-#### 8. Halaman Search
+#### 8. Halaman *Search*
 Menyajikan katalog pencarian lapangan dilengkapi filter cabang olahraga, kisaran harga, dan lokasi. *(Menjawab Masalah Poin 1 dan 6)*.
 
 ![[figma/Public/Search.jpg]]
 
-**Gambar 17.** Halaman Search ^gambar-17
+**Gambar 17.** Halaman *Search* ^gambar-17
 
-#### 9. Halaman Venue Detail
+#### 9. Halaman *Venue Detail*
 Menampilkan profil lengkap sarana venue, alamat, jam operasional, dan daftar unit lapangan yang tersedia. *(Menjawab Masalah Poin 6)*.
 
 ![[figma/Public/Venue Detail.jpg]]
 
-**Gambar 18.** Halaman Venue Detail ^gambar-18
+**Gambar 18.** Halaman *Venue Detail* ^gambar-18
 
-#### 10. Halaman Field Detail
+#### 10. Halaman *Field Detail*
 Menampilkan rincian spesifik satu unit lapangan, tarif sewa per jam, kalender ketersediaan jadwal, formulir reservasi *real-time*, dan ulasan pengguna. *(Menjawab Masalah Poin 1 dan 2)*.
 
 ![[figma/Public/Field Detail.jpg]]
 
-**Gambar 19.** Halaman Field Detail ^gambar-19
+**Gambar 19.** Halaman *Field Detail* ^gambar-19
 
-#### 11. Halaman About
+#### 11. Halaman *About*
 Menyajikan informasi profil, visi, dan misi platform FieldMax.
 
 ![[figma/Public/About.jpg]]
 
-**Gambar 20.** Halaman About ^gambar-20
+**Gambar 20.** Halaman *About* ^gambar-20
 
-#### 12. Halaman Pricing
+#### 12. Halaman *Pricing*
 Menjelaskan struktur biaya layanan dan skema kerja sama bagi mitra Renter.
 
 ![[figma/Public/Pricing.jpg]]
 
-**Gambar 21.** Halaman Pricing ^gambar-21
+**Gambar 21.** Halaman *Pricing* ^gambar-21
 
 #### 13. Halaman FAQ
 Menyajikan daftar pertanyaan umum seputar alur reservasi, pembayaran, dan ketentuan sewa.
@@ -701,162 +701,162 @@ Menyajikan daftar pertanyaan umum seputar alur reservasi, pembayaran, dan ketent
 
 **Gambar 22.** Halaman FAQ ^gambar-22
 
-#### 14. Halaman Privacy Policy
+#### 14. Halaman *Privacy Policy*
 Menjelaskan kebijakan perlindungan dan pengelolaan data pribadi pengguna.
 
 ![[figma/Public/Privacy Policy.jpg]]
 
-**Gambar 23.** Halaman Privacy Policy ^gambar-23
+**Gambar 23.** Halaman *Privacy Policy* ^gambar-23
 
-#### 15. Halaman Terms of Service
+#### 15. Halaman *Terms of Service*
 Menyajikan syarat dan ketentuan hukum penggunaan platform FieldMax.
 
 ![[figma/Public/Terms of Service.jpg]]
 
-**Gambar 24.** Halaman Terms of Service ^gambar-24
+**Gambar 24.** Halaman *Terms of Service* ^gambar-24
 
-#### 16. Halaman Renter Profile
+#### 16. Halaman *Renter Profile*
 Menampilkan profil publik mitra Renter beserta daftar seluruh venue yang dikelolanya.
 
 ![[figma/Public/Renter Profile.jpg]]
 
-**Gambar 25.** Halaman Renter Profile ^gambar-25
+**Gambar 25.** Halaman *Renter Profile* ^gambar-25
 
-#### 17. Halaman Error
+#### 17. Halaman *Error*
 Halaman penanganan kondisi galat sistem (*fallback page*) dengan navigasi kembali ke beranda.
 
 ![[figma/Public/Error.jpg]]
 
-**Gambar 26.** Halaman Error ^gambar-26
+**Gambar 26.** Halaman *Error* ^gambar-26
 
 ### 2.8.3 Halaman *User* (Penyewa) ^halaman-user
 
-#### 18. Halaman My Bookings
+#### 18. Halaman *My Bookings*
 Menampilkan daftar seluruh riwayat reservasi yang telah dibuat oleh pelanggan. *(Menjawab Masalah Poin 8)*.
 
 ![[figma/User/My Bookings.jpg]]
 
-**Gambar 27.** Halaman My Bookings ^gambar-27
+**Gambar 27.** Halaman *My Bookings* ^gambar-27
 
-#### 19. Halaman Booking Detail
+#### 19. Halaman *Booking Detail*
 Menampilkan rincian satu transaksi reservasi, kode booking, instruksi pembayaran Midtrans, serta formulir pemberian ulasan. *(Menjawab Masalah Poin 2 dan 8)*.
 
 ![[figma/User/Booking Detail.jpg]]
 
-**Gambar 28.** Halaman Booking Detail ^gambar-28
+**Gambar 28.** Halaman *Booking Detail* ^gambar-28
 
-#### 20. Halaman Profile
+#### 20. Halaman *Profile*
 Memfasilitasi pengguna untuk memperbarui data pribadi, foto profil, dan informasi kontak. *(Menjawab Masalah Poin 7)*.
 
 ![[figma/User/Profile.jpg]]
 
-**Gambar 29.** Halaman Profile ^gambar-29
+**Gambar 29.** Halaman *Profile* ^gambar-29
 
-#### 21. Halaman Report
+#### 21. Halaman *Report*
 Menampilkan riwayat laporan kendala pengguna serta formulir pembuatan tiket baru. *(Menjawab Masalah Poin 9)*.
 
 ![[figma/User/Report.jpg]]
 
-**Gambar 30.** Halaman Report ^gambar-30
+**Gambar 30.** Halaman *Report* ^gambar-30
 
-#### 22. Halaman Report Detail
+#### 22. Halaman *Report Detail*
 Menampilkan rincian tiket pengaduan beserta riwayat utas pesan tanggapan dari Admin. *(Menjawab Masalah Poin 9)*.
 
 ![[figma/User/Report Detail.jpg]]
 
-**Gambar 31.** Halaman Report Detail ^gambar-31
+**Gambar 31.** Halaman *Report* Detail ^gambar-31
 
 ### 2.8.4 Halaman *Renter* (Pemilik Lapangan) ^halaman-renter
 
-#### 23. Halaman Dashboard Renter
+#### 23. Halaman *Dashboard Renter*
 Menampilkan ringkasan metrik performa bisnis, grafik omzet harian/bulanan, dan aktivitas booking terbaru. *(Menjawab Masalah Poin 3 dan 5)*.
 
 ![[figma/Renter/Dashboard.jpg]]
 
-**Gambar 32.** Halaman Dashboard Renter ^gambar-32
+**Gambar 32.** Halaman *Dashboard Renter* ^gambar-32
 
-#### 24. Halaman Venues
+#### 24. Halaman *Venues*
 Menampilkan daftar venue milik Renter serta tombol penambahan venue baru. *(Menjawab Masalah Poin 3)*.
 
 ![[figma/Renter/Venues.jpg]]
 
-**Gambar 33.** Halaman Venues ^gambar-33
+**Gambar 33.** Halaman *Venues* ^gambar-33
 
-#### 25. Halaman Venue Detail
+#### 25. Halaman *Venue Detail*
 Menampilkan informasi rincian venue, pengaturan jam operasional, galeri foto, dan daftar lapangan di dalamnya. *(Menjawab Masalah Poin 3)*.
 
 ![[figma/Renter/Venue Detail.jpg]]
 
-**Gambar 34.** Halaman Venue Detail ^gambar-34
+**Gambar 34.** Halaman *Venue Detail* ^gambar-34
 
-#### 26. Halaman Fields
+#### 26. Halaman *Fields*
 Menampilkan daftar seluruh unit lapangan yang dikelola di bawah akun Renter. *(Menjawab Masalah Poin 3)*.
 
 ![[figma/Renter/Fields.jpg]]
 
-**Gambar 35.** Halaman Fields ^gambar-35
+**Gambar 35.** Halaman *Fields* ^gambar-35
 
-#### 27. Halaman Field Detail
+#### 27. Halaman *Field Detail*
 Menampilkan formulir pengaturan tarif sewa, status operasional, dan galeri foto lapangan. *(Menjawab Masalah Poin 3)*.
 
 ![[figma/Renter/Field Detail.jpg]]
 
-**Gambar 36.** Halaman Field Detail ^gambar-36
+**Gambar 36.** Halaman *Field Detail* ^gambar-36
 
-#### 28. Halaman Revenue
+#### 28. Halaman *Revenue*
 Menyajikan visualisasi analitik pendapatan kotor Renter secara terperinci per venue dan periode waktu. *(Menjawab Masalah Poin 5)*.
 
 ![[figma/Renter/Revenue.jpg]]
 
-**Gambar 37.** Halaman Revenue ^gambar-37
+**Gambar 37.** Halaman *Revenue* ^gambar-37
 
-#### 29. Halaman Reports
+#### 29. Halaman *Reports*
 Menampilkan daftar tiket pengaduan yang diajukan Renter kepada pihak Admin. *(Menjawab Masalah Poin 9)*.
 
 ![[figma/Renter/Reports.jpg]]
 
-**Gambar 38.** Halaman Reports ^gambar-38
+**Gambar 38.** Halaman *Reports* ^gambar-38
 
-#### 30. Halaman Report Detail
+#### 30. Halaman *Report Detail*
 Menampilkan detail komunikasi tiket kendala antara Renter dan Admin. *(Menjawab Masalah Poin 9)*.
 
 ![[figma/Renter/Report Detail.jpg]]
 
-**Gambar 39.** Halaman Report Detail ^gambar-39
+**Gambar 39.** Halaman *Report* Detail ^gambar-39
 
 ### 2.8.5 Halaman *Admin* ^halaman-admin
 
-#### 31. Halaman Dashboard Admin
+#### 31. Halaman *Dashboard Admin*
 Menampilkan statistik sistem secara menyeluruh, total pengguna aktif, permohonan venue yang menunggu moderasi (*pending approval*), dan total volume transaksi. *(Menjawab Masalah Poin 4 dan 10)*.
 
 ![[figma/Admin/Dashboard.jpg]]
 
-**Gambar 40.** Halaman Dashboard Admin ^gambar-40
+**Gambar 40.** Halaman *Dashboard Admin* ^gambar-40
 
-#### 32. Halaman Booking
+#### 32. Halaman *Booking*
 Menampilkan rekapitulasi seluruh transaksi pemesanan lintas venue yang terjadi di dalam platform. *(Menjawab Masalah Poin 4 dan 10)*.
 
 ![[figma/Admin/Booking.jpg]]
 
-**Gambar 41.** Halaman Booking ^gambar-41
+**Gambar 41.** Halaman *Booking* ^gambar-41
 
-#### 33. Halaman Booking Detail
+#### 33. Halaman *Booking Detail*
 Menampilkan rincian lengkap transaksi pemesanan, data penyewa, identitas venue/lapangan, dan status pembayaran Midtrans. *(Menjawab Masalah Poin 4 dan 10)*.
 
 ![[figma/Admin/Booking Detail.jpg]]
 
-**Gambar 42.** Halaman Booking Detail ^gambar-42
+**Gambar 42.** Halaman *Booking Detail* ^gambar-42
 
-#### 34. Halaman Users
+#### 34. Halaman *Users*
 Menyajikan tabel manajemen akun pengguna terdaftar dengan fitur pencarian, filter peran (*role*), dan aksi pengelolaan status akun. *(Menjawab Masalah Poin 10)*.
 
 ![[figma/Admin/Users.jpg]]
 
-**Gambar 43.** Halaman Users ^gambar-43
+**Gambar 43.** Halaman *Users* ^gambar-43
 
-#### 35. Halaman Sport Types
+#### 35. Halaman *Sport Types*
 Menyajikan antarmuka pengelolaan data master cabang olahraga (tambah, ubah, hapus). *(Menjawab Masalah Poin 10)*.
 
 ![[figma/Admin/Sport Types.jpg]]
 
-**Gambar 44.** Halaman Sport Types ^gambar-44
+**Gambar 44.** Halaman *Sport Types* ^gambar-44
