@@ -1,7 +1,7 @@
-// src/bookings/bookings.route.ts
 import { Router } from "express";
 import { BookingsController } from "./bookings.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { validateRequest } from "../middleware/validate.middleware";
 import { z } from "zod";
 import { createBookingSchema } from "../schemas/bookings.schema";
@@ -36,6 +36,7 @@ export class BookingsRoute {
         this.router.post(
             `${this.path}/:bookingId/confirm`,
             authMiddleware,
+            adminOnlyMiddleware,
             this.controller.confirmBooking
         );
         this.router.post(

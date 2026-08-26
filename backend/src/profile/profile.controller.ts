@@ -23,9 +23,8 @@ export class ProfileController {
     public changePassword = asyncHandler(
         async (req: Request, res: Response) => {
             const userId = req.user!.id;
-            const { newPassword } = req.body;
-            await this.service.changePassword(userId, newPassword);
-            sendSuccess(res, null, "Password changed");
+            await this.service.changePassword(userId, req.body);
+            sendSuccess(res, null, "Password changed successfully");
         }
     );
 

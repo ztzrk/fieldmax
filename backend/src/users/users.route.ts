@@ -1,10 +1,12 @@
-// src/users/users.route.ts
 import { Router } from "express";
 import { UsersController } from "./users.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validateRequest } from "../middleware/validate.middleware";
-import { updateUserSchema } from "../schemas/users.schema";
-import { registerSchema as registerUserSchema } from "@fieldmax/shared";
+import {
+    createUserSchema,
+    updateUserSchema,
+    deleteMultipleUsersSchema,
+} from "../schemas/users.schema";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { paginationSchema } from "../schemas/pagination.schema";
 import { z } from "zod";
@@ -22,7 +24,7 @@ export class UsersRoute {
 
         this.router.post(
             `${this.path}`,
-            validateRequest(z.object({ body: registerUserSchema })),
+            validateRequest(z.object({ body: createUserSchema })),
             this.usersController.createUser
         );
 
@@ -46,7 +48,7 @@ export class UsersRoute {
 
         this.router.post(
             `${this.path}/multiple`,
-            // Manual validation for simple array handled in controller or can be added here
+            validateRequest(z.object({ body: deleteMultipleUsersSchema })),
             this.usersController.deleteMultipleUsers
         );
     }

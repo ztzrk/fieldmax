@@ -5,9 +5,9 @@ import { Separator } from "@/components/ui/separator";
 interface VenueInfoSidebarProps {
     name: string;
     address: string;
-    city?: string;
-    province?: string;
-    postalCode?: string;
+    city?: string | null;
+    province?: string | null;
+    postalCode?: string | null;
 }
 
 /**

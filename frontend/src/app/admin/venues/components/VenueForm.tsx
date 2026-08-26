@@ -2,7 +2,11 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VenueFormSchema, venueSchema } from "@/lib/schema/venue.schema";
+import {
+    VenueFormSchema,
+    venueSchema,
+    VenueResponseSchema,
+} from "@/lib/schema/venue.schema";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
@@ -14,7 +18,7 @@ import { useState } from "react";
 import { useGetRenters } from "@/hooks/useUsers";
 
 interface VenueFormProps {
-    initialData?: Partial<VenueFormSchema>;
+    initialData?: Partial<VenueFormSchema> | (Partial<VenueResponseSchema> & { schedules?: any[] });
     onSubmit: (values: VenueFormSchema) => void;
     isPending: boolean;
 }

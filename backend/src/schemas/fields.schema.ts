@@ -16,6 +16,8 @@ export type CreateField = z.infer<typeof createFieldSchema>;
 export const updateFieldSchema = z.object({
     name: z.string().min(1).optional(),
     sportTypeId: z.string().uuid().optional(),
+    pricePerHour: z.number().min(0).optional(),
+    description: z.string().optional(),
     isClosed: z.boolean().optional(),
 });
 

@@ -82,3 +82,18 @@ export const resetPasswordFormSchema = resetPasswordFormBase.refine(
     }
 );
 export type ResetPasswordFormInput = z.infer<typeof resetPasswordFormSchema>;
+
+// Verify Email
+export const verifyEmailSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    code: z.string().min(1, "Verification code is required"),
+});
+
+export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
+
+// Resend Verification Code
+export const resendCodeSchema = z.object({
+    email: z.string().email("Invalid email address"),
+});
+
+export type ResendCodeInput = z.infer<typeof resendCodeSchema>;

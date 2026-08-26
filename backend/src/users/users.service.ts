@@ -125,7 +125,7 @@ export class UserService {
     }
 
     public async createUser(
-        userData: RegisterUser
+        userData: import("../schemas/users.schema").CreateUser
     ): Promise<Omit<User, "password">> {
         const findEmail = await prisma.user.findUnique({
             where: { email: userData.email },
@@ -137,10 +137,15 @@ export class UserService {
         }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
+        const { fullName, email, role } = userData;
+
         const createdUser = await prisma.user.create({
             data: {
-                ...userData,
+                fullName,
+                email,
+                role: role || "USER",
                 password: hashedPassword,
+                isVerified: true,
             },
         });
 

@@ -47,22 +47,25 @@ export class RenterController {
 
     public confirmBooking = asyncHandler(
         async (req: Request, res: Response) => {
+            const renterId = req.user!.id;
             const bookingId = req.params.id;
-            const data = await this.service.confirmBooking(bookingId);
+            const data = await this.service.confirmBooking(renterId, bookingId);
             sendSuccess(res, data, "Booking confirmed");
         }
     );
 
     public cancelBooking = asyncHandler(async (req: Request, res: Response) => {
+        const renterId = req.user!.id;
         const bookingId = req.params.id;
-        const data = await this.service.cancelBooking(bookingId);
+        const data = await this.service.cancelBooking(renterId, bookingId);
         sendSuccess(res, data, "Booking cancelled");
     });
 
     public completeBooking = asyncHandler(
         async (req: Request, res: Response) => {
+            const renterId = req.user!.id;
             const bookingId = req.params.id;
-            const data = await this.service.completeBooking(bookingId);
+            const data = await this.service.completeBooking(renterId, bookingId);
             sendSuccess(res, data, "Booking completed");
         }
     );

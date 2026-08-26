@@ -62,18 +62,32 @@ export default function BookingHistoryPage() {
         const endDateTime = getEndDateTime(booking);
         const isFuture = endDateTime > now;
         const isPending =
-            booking.status === "PENDING" || booking.paymentStatus === "PENDING";
-        return isFuture || isPending;
+            (booking.status === "PENDING" ||
+                (booking as any).payment?.status === "PENDING" ||
+                booking.paymentStatus === "PENDING") &&
+            booking.status !== "CANCELLED";
+
+        const isFutureActive =
+            isFuture &&
+            booking.status !== "CANCELLED" &&
+            booking.status !== "COMPLETED";
+
+        return isFutureActive || isPending;
     });
 
     const historyBookings = bookings.filter(
         (booking: BookingResponseSchema) => {
             const endDateTime = getEndDateTime(booking);
             const isPast = endDateTime <= now;
-            const isNotPending =
-                booking.status !== "PENDING" &&
-                booking.paymentStatus !== "PENDING";
-            return isPast && isNotPending;
+            const isCompletedOrCancelled =
+                booking.status === "COMPLETED" ||
+                booking.status === "CANCELLED" ||
+                (booking as any).payment?.status === "FAILED" ||
+                (booking as any).payment?.status === "EXPIRED" ||
+                booking.paymentStatus === "FAILED" ||
+                booking.paymentStatus === "EXPIRED";
+
+            return isCompletedOrCancelled || (isPast && booking.status !== "PENDING");
         }
     );
 

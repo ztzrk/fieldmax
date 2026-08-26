@@ -7,6 +7,8 @@ import {
     loginSchema as loginUserSchema,
     forgotPasswordSchema,
     resetPasswordSchema,
+    verifyEmailSchema,
+    resendCodeSchema,
 } from "@fieldmax/shared";
 import { z } from "zod";
 import { authMiddleware } from "../middleware/auth.middleware";
@@ -44,12 +46,14 @@ export class AuthRoute {
         this.router.post(
             `${this.path}/verify`,
             authLimiter,
+            validateRequest(z.object({ body: verifyEmailSchema })),
             this.authController.verify
         );
 
         this.router.post(
             `${this.path}/resend-code`,
             authLimiter,
+            validateRequest(z.object({ body: resendCodeSchema })),
             this.authController.resendCode
         );
 

@@ -1,6 +1,12 @@
 import prisma from "../db";
 import { CreateReview } from "../schemas/reviews.schema";
 import { ReviewFilter } from "../schemas/pagination.schema";
+import {
+    ConflictError,
+    ForbiddenError,
+    NotFoundError,
+    ValidationError,
+} from "../utils/errors";
 
 export class ReviewsService {
     public async create(userId: string, data: CreateReview) {
@@ -11,27 +17,32 @@ export class ReviewsService {
         });
 
         if (!booking) {
-            throw new Error("Booking not found");
+            throw new NotFoundError("Booking not found");
         }
 
         if (booking.userId !== userId) {
-            throw new Error("Unauthorized to review this booking");
+            throw new ForbiddenError("Unauthorized to review this booking");
         }
 
         // 2. Verify booking is completed (or confirmed and past time)
-        // For simplicity, we check if status is COMPLETED or (CONFIRMED and endTime < now)
+        const bookingDateStr = booking.bookingDate.toISOString().split("T")[0];
+        const hours = booking.endTime.getUTCHours().toString().padStart(2, "0");
+        const minutes = booking.endTime.getUTCMinutes().toString().padStart(2, "0");
+        const endDateTime = new Date(
+            `${bookingDateStr}T${hours}:${minutes}:00.000+07:00`
+        );
+
         const isCompleted = booking.status === "COMPLETED";
         const isPastAndConfirmed =
-            booking.status === "CONFIRMED" &&
-            new Date() > new Date(booking.endTime);
+            booking.status === "CONFIRMED" && new Date() >= endDateTime;
 
         if (!isCompleted && !isPastAndConfirmed) {
-            throw new Error("Cannot review an incomplete booking");
+            throw new ValidationError("Cannot review an incomplete booking");
         }
 
         // 3. Check if review already exists
         if (booking.review) {
-            throw new Error("Booking already reviewed");
+            throw new ConflictError("Booking already reviewed");
         }
 
         // 4. Create review

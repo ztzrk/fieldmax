@@ -10,8 +10,13 @@ import {
     updateFieldSchema,
     toggleFieldClosureSchema,
     getAvailabilitySchema,
+    deleteMultipleFieldsSchema,
 } from "../schemas/fields.schema";
-import { canManageField } from "../middleware/permission.middleware";
+import {
+    canManageField,
+    canCreateFieldInVenue,
+    canManageFieldPhoto,
+} from "../middleware/permission.middleware";
 import { paginationSchema } from "../schemas/pagination.schema";
 import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware";
 
@@ -34,8 +39,8 @@ export class FieldsRoute {
         this.router.post(
             `${this.path}`,
             authMiddleware,
-            canManageField,
             validateRequest(z.object({ body: createFieldSchema })),
+            canCreateFieldInVenue,
             this.controller.create
         );
         this.router.put(
@@ -54,8 +59,7 @@ export class FieldsRoute {
         this.router.post(
             `${this.path}/multiple`,
             authMiddleware,
-            canManageField,
-            // Manual validation often ok here or add schema
+            validateRequest(z.object({ body: deleteMultipleFieldsSchema })),
             this.controller.deleteMultiple
         );
         this.router.patch(
@@ -91,7 +95,7 @@ export class FieldsRoute {
         this.router.delete(
             `${this.path}/photos/:photoId`,
             authMiddleware,
-            canManageField,
+            canManageFieldPhoto,
             this.controller.deletePhoto
         );
         this.router.get(

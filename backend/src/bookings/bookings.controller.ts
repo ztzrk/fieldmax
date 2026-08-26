@@ -16,7 +16,7 @@ export class BookingsController {
 
     public findOne = asyncHandler(async (req: Request, res: Response) => {
         const { bookingId } = req.params;
-        const data = await this.service.findBookingById(bookingId);
+        const data = await this.service.findBookingById(bookingId, req.user!);
         sendSuccess(res, data, "Booking details retrieved");
     });
 
@@ -37,7 +37,7 @@ export class BookingsController {
 
     public cancelBooking = asyncHandler(async (req: Request, res: Response) => {
         const { bookingId } = req.params;
-        const data = await this.service.cancelBooking(bookingId);
+        const data = await this.service.cancelBooking(bookingId, req.user!);
         sendSuccess(res, data, "Booking canceled.");
     });
 }

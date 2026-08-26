@@ -445,7 +445,7 @@ export class FieldsService {
     }
 
     public async getAvailability(fieldId: string, query: GetAvailability) {
-        const TIMEZONE = "Asia/Jakarta"; // TODO: Make this dynamic from Venue
+        const TIMEZONE = "Asia/Jakarta";
         const field = await prisma.field.findUnique({
             where: { id: fieldId },
             select: { isClosed: true, venueId: true },
@@ -468,53 +468,50 @@ export class FieldsService {
         });
         if (regularSchedule) {
             openTime = this.combineDateAndTime(
-                requestDate,
-                regularSchedule.openTime,
-                TIMEZONE
+                query.date,
+                regularSchedule.openTime
             );
             closeTime = this.combineDateAndTime(
-                requestDate,
-                regularSchedule.closeTime,
-                TIMEZONE
+                query.date,
+                regularSchedule.closeTime
             );
         }
 
         if (!openTime || !closeTime) return [];
 
-        // 3. Get Bookings for this Range
-        // We look for bookings that overlap with our operating window
+        // 3. Get Bookings for this Specific Date
+        const targetDate = new Date(query.date);
         const bookings = await prisma.booking.findMany({
             where: {
                 fieldId: fieldId,
+                bookingDate: targetDate,
                 status: { in: ["CONFIRMED", "PENDING"] },
-                // Overlap formula: StartA < EndB AND EndA > StartB
-                startTime: { lt: closeTime },
-                endTime: { gt: openTime },
             },
             select: { startTime: true, endTime: true },
         });
 
-        // 4. Generate Slots (Hourly for now)
+        // 4. Normalize booking times to the requested date
+        const normalizedBookings = bookings.map((b) => ({
+            start: this.combineDateAndTime(query.date, b.startTime),
+            end: this.combineDateAndTime(query.date, b.endTime),
+        }));
+
+        // 5. Generate Slots (Hourly)
         const slots: string[] = [];
         let currentSlot = openTime;
 
-        // Loop until we reach closeTime.
-        // Assuming 1 hour slots.
         while (addHours(currentSlot, 1) <= closeTime) {
             const slotEnd = addHours(currentSlot, 1);
             const slotInterval = { start: currentSlot, end: slotEnd };
 
-            // Check if this slot overlaps with ANY booking
-            const isBooked = bookings.some((booking) =>
-                areIntervalsOverlapping(slotInterval, {
-                    start: booking.startTime,
-                    end: booking.endTime,
-                })
+            // Check if this slot overlaps with any booking
+            const isBooked = normalizedBookings.some((booking) =>
+                areIntervalsOverlapping(slotInterval, booking)
             );
 
             if (!isBooked) {
-                // Format output as HH:mm
-                slots.push(format(currentSlot, "HH:mm"));
+                // Format output as HH:mm in WIB
+                slots.push(format(toZonedTime(currentSlot, TIMEZONE), "HH:mm"));
             }
 
             currentSlot = addHours(currentSlot, 1);
@@ -524,25 +521,15 @@ export class FieldsService {
     }
 
     private combineDateAndTime(
-        baseDate: Date,
-        timeDate: Date,
-        timezone: string
+        dateString: string,
+        timeDate: Date
     ): Date {
-        // Extract hour/minute from the database Time object (which is UTC-ish 1970)
-        // Note: Prisma stores @db.Time as a Date object on 1970-01-01.
-        // When we read it, it comes as a JS Date.
-        // We want to apply ITS hours/minutes to OUR baseDate in the target Timezone.
+        // Extract UTC hours & minutes from the Prisma Time Date object
+        const hours = timeDate.getUTCHours().toString().padStart(2, "0");
+        const minutes = timeDate.getUTCMinutes().toString().padStart(2, "0");
 
-        // Get HH:mm from the source time (in UTC, since that's how Prisma typically gives it back for Time columns)
-        // OR better: use format to extract the string "HH:mm" from the time object
-        const timeString = format(timeDate, "HH:mm"); // e.g. "16:00"
-
-        // Create a string "YYYY-MM-DD HH:mm"
-        const dateString = format(baseDate, "yyyy-MM-dd");
-        const combinedString = `${dateString} ${timeString}`;
-
-        // Parse this string BACK into a Date object in the target timezone
-        return toZonedTime(combinedString, timezone);
+        // Construct standard ISO string in WIB (+07:00)
+        return new Date(`${dateString}T${hours}:${minutes}:00.000+07:00`);
     }
 
     public async toggleClosure(fieldId: string, isClosed: boolean, user: User) {

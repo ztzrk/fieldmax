@@ -68,7 +68,11 @@ app.use(helmet());
 app.use(globalLimiter);
 app.use(
     cors({
-        origin: "http://localhost:3001",
+        origin: [
+            config.FRONTEND_URL,
+            "http://localhost:3001",
+            "http://localhost:3000",
+        ],
         credentials: true,
     })
 );
@@ -139,6 +143,7 @@ app.use("/api", renterRoute.router);
 app.use("/api", profileRoute.router);
 app.use("/api", bookingsRoute.router);
 app.use("/api", paymentsRoute.router);
+app.use("/", paymentsRoute.router);
 app.use("/api", dashboardRoute.router);
 app.use("/api", reviewsRoute.router);
 app.use("/api", reportsRoute.router);

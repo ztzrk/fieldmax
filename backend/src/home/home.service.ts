@@ -6,6 +6,9 @@ export class HomeService {
         const [fieldBookings, fields] = await Promise.all([
             prisma.booking.groupBy({
                 by: ["fieldId"],
+                where: {
+                    status: { in: ["CONFIRMED", "COMPLETED"] },
+                },
                 _count: { id: true },
             }),
             prisma.field.findMany({ select: { id: true, venueId: true } }),

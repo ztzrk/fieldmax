@@ -1,5 +1,7 @@
 import prisma from "../db";
-import { UpdateProfile } from "../schemas/profile.schema";
+import { UpdateProfile, ChangePassword } from "../schemas/profile.schema";
+import bcrypt from "bcryptjs";
+import { NotFoundError, UnauthorizedError } from "../utils/errors";
 
 export class ProfileService {
     public async updateProfile(userId: string, data: UpdateProfile) {
@@ -40,10 +42,25 @@ export class ProfileService {
         return userWithoutPassword;
     }
 
-    public async changePassword(userId: string, newPassword: string) {
+    public async changePassword(userId: string, data: ChangePassword) {
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        if (!user) {
+            throw new NotFoundError("User not found.");
+        }
+
+        const isMatch = await bcrypt.compare(data.oldPassword, user.password);
+        if (!isMatch) {
+            throw new UnauthorizedError("Current password is incorrect.");
+        }
+
+        const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+
         return prisma.user.update({
             where: { id: userId },
-            data: { password: newPassword },
+            data: { password: hashedPassword },
         });
     }
 

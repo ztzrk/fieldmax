@@ -1,9 +1,14 @@
 import prisma from "../db";
 import { CreateBooking } from "../schemas/bookings.schema";
-const midtransClient = require("midtrans-client");
 import { Prisma, User } from "@prisma/client";
 import { Pagination } from "../schemas/pagination.schema";
 import { config } from "../config/env";
+import {
+    ConflictError,
+    ForbiddenError,
+    NotFoundError,
+    ValidationError,
+} from "../utils/errors";
 
 export class BookingsService {
     private snap: any;
@@ -104,8 +109,8 @@ export class BookingsService {
         };
     }
 
-    public async findBookingById(bookingId: string) {
-        return prisma.booking.findUnique({
+    public async findBookingById(bookingId: string, user?: User) {
+        const booking = await prisma.booking.findUnique({
             where: { id: bookingId },
             include: {
                 field: {
@@ -118,42 +123,105 @@ export class BookingsService {
                 payment: true,
             },
         });
+
+        if (!booking) {
+            throw new NotFoundError("Booking not found");
+        }
+
+        if (user) {
+            if (user.role === "USER" && booking.userId !== user.id) {
+                throw new ForbiddenError(
+                    "You do not have access to view this booking."
+                );
+            }
+            if (
+                user.role === "RENTER" &&
+                booking.field.venue.renterId !== user.id
+            ) {
+                throw new ForbiddenError(
+                    "You do not have access to view this booking."
+                );
+            }
+        }
+
+        // Auto-sync status from Midtrans if still pending (especially vital on localhost where webhooks cannot reach directly)
+        if (
+            booking.status === "PENDING" &&
+            booking.payment?.status === "PENDING"
+        ) {
+            try {
+                const statusResponse = await this.snap.transaction.status(
+                    bookingId
+                );
+                if (statusResponse) {
+                    const txStatus = statusResponse.transaction_status;
+                    const fraudStatus = statusResponse.fraud_status;
+
+                    if (
+                        txStatus === "settlement" ||
+                        (txStatus === "capture" && fraudStatus === "accept")
+                    ) {
+                        await this.updateStatus(bookingId, "CONFIRMED", "PAID");
+                        booking.status = "CONFIRMED";
+                        if (booking.payment) booking.payment.status = "PAID";
+                    } else if (txStatus === "cancel" || txStatus === "deny") {
+                        await this.updateStatus(bookingId, "CANCELLED", "FAILED");
+                        booking.status = "CANCELLED";
+                        if (booking.payment) booking.payment.status = "FAILED";
+                    } else if (txStatus === "expire") {
+                        await this.updateStatus(bookingId, "CANCELLED", "EXPIRED");
+                        booking.status = "CANCELLED";
+                        if (booking.payment) booking.payment.status = "EXPIRED";
+                    }
+                }
+            } catch (error) {
+                // Ignore if transaction is not yet found on Midtrans
+            }
+        }
+
+        return booking;
     }
 
     public async createBooking(data: CreateBooking, user: User) {
         const field = await prisma.field.findUnique({
             where: { id: data.fieldId },
+            include: { venue: true },
         });
-        if (!field) throw new Error("Field not found");
+        if (!field) throw new NotFoundError("Field not found");
+        if (field.isClosed)
+            throw new ValidationError("This field is currently closed.");
 
         const duration = data.duration || 1;
-        // Construct timestamp in WIB (UTC+7)
-        const startTime = new Date(
-            `${data.bookingDate}T${data.startTime}:00.000+07:00`
-        );
+        // Parse start time as UTC epoch for Postgres @db.Time(6)
+        const timePart =
+            data.startTime.length === 5
+                ? `${data.startTime}:00`
+                : data.startTime;
+        const startTime = new Date(`1970-01-01T${timePart}.000Z`);
         const endTime = new Date(
             startTime.getTime() + duration * 60 * 60 * 1000
         );
 
-        // Check for overlaps: (StartA < EndB) and (EndA > StartB)
-        const overlappingBooking = await prisma.booking.findFirst({
-            where: {
-                fieldId: data.fieldId,
-                bookingDate: new Date(data.bookingDate),
-                status: { in: ["CONFIRMED", "PENDING"] },
-                startTime: { lt: endTime },
-                endTime: { gt: startTime },
-            },
-        });
-
-        if (overlappingBooking)
-            throw new Error(
-                "This time slot (or part of it) is already booked."
-            );
-
         const totalPrice = field.pricePerHour * duration;
 
         return prisma.$transaction(async (tx) => {
+            // Overlap check inside transaction
+            const overlappingBooking = await tx.booking.findFirst({
+                where: {
+                    fieldId: data.fieldId,
+                    bookingDate: new Date(data.bookingDate),
+                    status: { in: ["CONFIRMED", "PENDING"] },
+                    startTime: { lt: endTime },
+                    endTime: { gt: startTime },
+                },
+            });
+
+            if (overlappingBooking) {
+                throw new ConflictError(
+                    "This time slot (or part of it) is already booked."
+                );
+            }
+
             const newBooking = await tx.booking.create({
                 data: {
                     userId: user.id,
@@ -181,7 +249,7 @@ export class BookingsService {
 
             const transactionDetails = {
                 transaction_details: {
-                    order_id: newBooking.id, // Booking ID is still the Order ID
+                    order_id: newBooking.id,
                     gross_amount: safePrice,
                 },
                 customer_details: {
@@ -197,9 +265,9 @@ export class BookingsService {
                     },
                 ],
                 callbacks: {
-                    finish: `${config.BACKEND_URL}/payments/finish`,
-                    unfinish: `${config.BACKEND_URL}/payments/unfinish`,
-                    error: `${config.BACKEND_URL}/payments/error`,
+                    finish: `${config.FRONTEND_URL}/bookings`,
+                    unfinish: `${config.FRONTEND_URL}/bookings`,
+                    error: `${config.FRONTEND_URL}/bookings`,
                 },
             };
 
@@ -223,7 +291,7 @@ export class BookingsService {
 
     public async updateStatus(
         bookingId: string,
-        status: "CONFIRMED" | "CANCELLED" | "PENDING",
+        status: "CONFIRMED" | "CANCELLED" | "PENDING" | "COMPLETED",
         paymentStatus?: "PENDING" | "PAID" | "EXPIRED" | "FAILED"
     ) {
         return prisma.$transaction(async (tx) => {
@@ -247,7 +315,36 @@ export class BookingsService {
         return this.updateStatus(bookingId, "CONFIRMED", "PAID");
     }
 
-    public async cancelBooking(bookingId: string) {
+    public async cancelBooking(bookingId: string, user?: User) {
+        const booking = await prisma.booking.findUnique({
+            where: { id: bookingId },
+            include: {
+                field: {
+                    include: { venue: true },
+                },
+            },
+        });
+
+        if (!booking) {
+            throw new NotFoundError("Booking not found");
+        }
+
+        if (user) {
+            if (user.role === "USER" && booking.userId !== user.id) {
+                throw new ForbiddenError(
+                    "You do not have permission to cancel this booking."
+                );
+            }
+            if (
+                user.role === "RENTER" &&
+                booking.field.venue.renterId !== user.id
+            ) {
+                throw new ForbiddenError(
+                    "You do not have permission to cancel this booking."
+                );
+            }
+        }
+
         return this.updateStatus(bookingId, "CANCELLED", "FAILED");
     }
 }

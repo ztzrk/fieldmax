@@ -59,6 +59,7 @@ export function BookingModal({
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
     const [duration, setDuration] = useState(1);
     const router = useRouter();
+    const { user } = useAuth();
 
     const {
         data: availability,
@@ -117,7 +118,21 @@ export function BookingModal({
         }
     }, [maxDuration, duration]);
 
-    const { user } = useAuth();
+    useEffect(() => {
+        const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+        const clientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "";
+        const existingScript = document.querySelector(
+            `script[src="${snapScript}"]`
+        );
+
+        if (!existingScript) {
+            const script = document.createElement("script");
+            script.src = snapScript;
+            script.setAttribute("data-client-key", clientKey);
+            script.async = true;
+            document.body.appendChild(script);
+        }
+    }, []);
 
     const handleBooking = () => {
         if (!selectedTime) return;
@@ -135,24 +150,34 @@ export function BookingModal({
                 duration: duration,
             },
             {
-                onSuccess: (response: { data: { snapToken: string } }) => {
-                    const snapToken = response.data.snapToken;
-                    if (snapToken) {
-                        // @ts-ignore
-                        window.snap.pay(snapToken, {
-                            onSuccess: function (result: unknown) {
+                onSuccess: (response: any) => {
+                    const snapToken =
+                        response?.data?.snapToken || response?.snapToken;
+                    if (
+                        snapToken &&
+                        typeof window !== "undefined" &&
+                        (window as any).snap
+                    ) {
+                        (window as any).snap.pay(snapToken, {
+                            onSuccess: function () {
+                                toast.success("Pembayaran berhasil!");
                                 router.push(`/bookings`);
                             },
-                            onPending: function (result: unknown) {
+                            onPending: function () {
+                                toast.info("Menunggu pembayaran...");
                                 router.push(`/bookings`);
                             },
-                            onError: function (result: unknown) {
-                                toast.error("Payment failed");
+                            onError: function () {
+                                toast.error("Pembayaran gagal");
+                                router.push(`/bookings`);
                             },
                             onClose: function () {
-                                toast.error("Payment closed");
+                                toast.info("Pembayaran belum diselesaikan");
+                                router.push(`/bookings`);
                             },
                         });
+                    } else {
+                        router.push(`/bookings`);
                     }
                 },
             }

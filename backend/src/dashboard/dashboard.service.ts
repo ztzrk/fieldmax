@@ -111,7 +111,11 @@ export class DashboardService {
         };
 
         if (role === "RENTER") {
-            where.field = { venue: { renterId: userId } };
+            const renterFields = await prisma.field.findMany({
+                where: { venue: { renterId: userId } },
+                select: { id: true },
+            });
+            where.fieldId = { in: renterFields.map((f) => f.id) };
         }
 
         // Use count aggregation for performance
@@ -144,7 +148,11 @@ export class DashboardService {
         };
 
         if (role === "RENTER") {
-            where.field = { venue: { renterId: userId } };
+            const renterFields = await prisma.field.findMany({
+                where: { venue: { renterId: userId } },
+                select: { id: true },
+            });
+            where.fieldId = { in: renterFields.map((f) => f.id) };
         }
 
         // Use count aggregation instead of findMany for massive performance boost

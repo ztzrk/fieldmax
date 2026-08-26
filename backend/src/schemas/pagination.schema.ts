@@ -6,7 +6,7 @@ export const paginationSchema = z.object({
     cursor: z.string().optional(),
     take: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
-    status: z.enum(["PENDING", "APPROVED", "REJECTED"]).optional(),
+    status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]).optional(),
     isClosed: z.preprocess((val) => {
         if (typeof val === "string") {
             if (val === "true") return true;

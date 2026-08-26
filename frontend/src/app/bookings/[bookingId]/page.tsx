@@ -61,23 +61,24 @@ export default function BookingDetailPage({
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (booking?.snapToken) {
-            setSnapToken(booking.snapToken);
+        const token = booking?.payment?.snapToken || booking?.snapToken;
+        if (token) {
+            setSnapToken(token);
         }
     }, [booking]);
 
     useEffect(() => {
         const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
         const clientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "";
-        const script = document.createElement("script");
-        script.src = snapScript;
-        script.setAttribute("data-client-key", clientKey);
-        script.async = true;
-        document.body.appendChild(script);
+        let script = document.querySelector(`script[src="${snapScript}"]`) as HTMLScriptElement;
 
-        return () => {
-            document.body.removeChild(script);
-        };
+        if (!script) {
+            script = document.createElement("script");
+            script.src = snapScript;
+            script.setAttribute("data-client-key", clientKey);
+            script.async = true;
+            document.body.appendChild(script);
+        }
     }, []);
 
     const cancelMutation = useMutation({
@@ -229,61 +230,61 @@ export default function BookingDetailPage({
 
                             <div className="flex items-center gap-3 z-10 w-full sm:w-auto">
                                 {booking.status === "PENDING" &&
-                                    booking.paymentStatus !== "PAID" && (
-                                        <AlertDialog>
-                                            <AlertDialogTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-full sm:w-auto hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                                <AlertDialogHeader>
-                                                    <AlertDialogTitle>
-                                                        Are you absolutely sure?
-                                                    </AlertDialogTitle>
-                                                    <AlertDialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently cancel your
-                                                        booking.
-                                                    </AlertDialogDescription>
-                                                </AlertDialogHeader>
-                                                <AlertDialogFooter>
-                                                    <AlertDialogCancel>
-                                                        Dismiss
-                                                    </AlertDialogCancel>
-                                                    <AlertDialogAction
-                                                        onClick={() =>
-                                                            cancelMutation.mutate()
-                                                        }
-                                                        className="bg-destructive hover:bg-destructive/90"
-                                                    >
-                                                        Yes, Cancel
-                                                    </AlertDialogAction>
-                                                </AlertDialogFooter>
-                                            </AlertDialogContent>
-                                        </AlertDialog>
-                                    )}
+                                    booking.payment?.status !== "PAID" && (
+                                         <AlertDialog>
+                                             <AlertDialogTrigger asChild>
+                                                 <Button
+                                                     variant="outline"
+                                                     className="w-full sm:w-auto hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+                                                 >
+                                                     Cancel
+                                                 </Button>
+                                             </AlertDialogTrigger>
+                                             <AlertDialogContent>
+                                                 <AlertDialogHeader>
+                                                     <AlertDialogTitle>
+                                                         Are you absolutely sure?
+                                                     </AlertDialogTitle>
+                                                     <AlertDialogDescription>
+                                                         This action cannot be
+                                                         undone. This will
+                                                         permanently cancel your
+                                                         booking.
+                                                     </AlertDialogDescription>
+                                                 </AlertDialogHeader>
+                                                 <AlertDialogFooter>
+                                                     <AlertDialogCancel>
+                                                         Dismiss
+                                                     </AlertDialogCancel>
+                                                     <AlertDialogAction
+                                                         onClick={() =>
+                                                             cancelMutation.mutate()
+                                                         }
+                                                         className="bg-destructive hover:bg-destructive/90"
+                                                     >
+                                                         Yes, Cancel
+                                                     </AlertDialogAction>
+                                                 </AlertDialogFooter>
+                                             </AlertDialogContent>
+                                         </AlertDialog>
+                                     )}
 
                                 {booking.status === "PENDING" &&
-                                    booking.paymentStatus === "PENDING" && (
-                                        <Button
-                                            onClick={handlePayment}
-                                            disabled={isPaymentLoading}
-                                            className="w-full sm:w-auto shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
-                                        >
-                                            {isPaymentLoading ? (
-                                                <FullScreenLoader />
-                                            ) : (
-                                                `Pay Now ${formatPrice(
-                                                    booking.totalPrice
-                                                )}`
-                                            )}
-                                        </Button>
-                                    )}
+                                    booking.payment?.status === "PENDING" && (
+                                         <Button
+                                             onClick={handlePayment}
+                                             disabled={isPaymentLoading}
+                                             className="w-full sm:w-auto shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
+                                         >
+                                             {isPaymentLoading ? (
+                                                 <FullScreenLoader />
+                                             ) : (
+                                                 `Pay Now ${formatPrice(
+                                                     booking.totalPrice
+                                                 )}`
+                                             )}
+                                         </Button>
+                                     )}
                             </div>
                         </div>
 

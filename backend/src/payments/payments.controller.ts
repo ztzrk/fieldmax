@@ -17,8 +17,10 @@ export class PaymentsController {
 
     public handleRedirect = asyncHandler(
         async (req: Request, res: Response) => {
-            // Redirect to frontend profile page
-            const redirectUrl = `${config.FRONTEND_URL}/bookings`;
+            const orderId = req.query.order_id as string;
+            const redirectUrl = orderId
+                ? `${config.FRONTEND_URL}/bookings/${orderId}`
+                : `${config.FRONTEND_URL}/bookings`;
             res.redirect(redirectUrl);
         }
     );

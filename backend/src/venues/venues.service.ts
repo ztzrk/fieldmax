@@ -290,10 +290,18 @@ export class VenuesService {
                           create: schedules.map((schedule) => ({
                               dayOfWeek: schedule.dayOfWeek,
                               openTime: new Date(
-                                  `1970-01-01T${schedule.openTime}Z`
-                              ), // Ensure ISO format for time
+                                  `1970-01-01T${
+                                      schedule.openTime.length === 5
+                                          ? schedule.openTime + ":00"
+                                          : schedule.openTime
+                                  }.000Z`
+                              ),
                               closeTime: new Date(
-                                  `1970-01-01T${schedule.closeTime}Z`
+                                  `1970-01-01T${
+                                      schedule.closeTime.length === 5
+                                          ? schedule.closeTime + ":00"
+                                          : schedule.closeTime
+                                  }.000Z`
                               ),
                           })),
                       }
@@ -328,9 +336,19 @@ export class VenuesService {
                     data: schedules.map((schedule) => ({
                         venueId: id,
                         dayOfWeek: schedule.dayOfWeek,
-                        openTime: new Date(`1970-01-01T${schedule.openTime}Z`),
+                        openTime: new Date(
+                            `1970-01-01T${
+                                schedule.openTime.length === 5
+                                    ? schedule.openTime + ":00"
+                                    : schedule.openTime
+                            }.000Z`
+                        ),
                         closeTime: new Date(
-                            `1970-01-01T${schedule.closeTime}Z`
+                            `1970-01-01T${
+                                schedule.closeTime.length === 5
+                                    ? schedule.closeTime + ":00"
+                                    : schedule.closeTime
+                            }.000Z`
                         ),
                     })),
                 });

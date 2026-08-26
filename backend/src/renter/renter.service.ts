@@ -68,21 +68,65 @@ export class RenterService {
         });
     }
 
-    public async confirmBooking(bookingId: string) {
-        return prisma.booking.update({
-            where: { id: bookingId },
-            data: { status: "CONFIRMED" },
+    public async confirmBooking(renterId: string, bookingId: string) {
+        const booking = await prisma.booking.findFirst({
+            where: {
+                id: bookingId,
+                field: { venue: { renterId } },
+            },
+        });
+        if (!booking) {
+            throw new Error("Booking not found or not owned by you.");
+        }
+
+        return prisma.$transaction(async (tx) => {
+            const updatedBooking = await tx.booking.update({
+                where: { id: bookingId },
+                data: { status: "CONFIRMED" },
+            });
+            await tx.payment.updateMany({
+                where: { bookingId },
+                data: { status: "PAID" },
+            });
+            return updatedBooking;
         });
     }
 
-    public async cancelBooking(bookingId: string) {
-        return prisma.booking.update({
-            where: { id: bookingId },
-            data: { status: "CANCELLED" },
+    public async cancelBooking(renterId: string, bookingId: string) {
+        const booking = await prisma.booking.findFirst({
+            where: {
+                id: bookingId,
+                field: { venue: { renterId } },
+            },
+        });
+        if (!booking) {
+            throw new Error("Booking not found or not owned by you.");
+        }
+
+        return prisma.$transaction(async (tx) => {
+            const updatedBooking = await tx.booking.update({
+                where: { id: bookingId },
+                data: { status: "CANCELLED" },
+            });
+            await tx.payment.updateMany({
+                where: { bookingId },
+                data: { status: "FAILED" },
+            });
+            return updatedBooking;
         });
     }
 
-    public async completeBooking(bookingId: string) {
+    public async completeBooking(renterId: string, bookingId: string) {
+        const booking = await prisma.booking.findFirst({
+            where: {
+                id: bookingId,
+                field: { venue: { renterId } },
+            },
+        });
+        if (!booking) {
+            throw new Error("Booking not found or not owned by you.");
+        }
+
         return prisma.booking.update({
             where: { id: bookingId },
             data: { status: "COMPLETED" },

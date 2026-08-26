@@ -44,3 +44,9 @@ export const rejectVenueSchema = z.object({
 });
 
 export type RejectVenue = z.infer<typeof rejectVenueSchema>;
+
+export const deleteMultipleVenuesSchema = z.object({
+    ids: z.array(z.string().uuid()).min(1),
+});
+
+export type DeleteMultipleVenues = z.infer<typeof deleteMultipleVenuesSchema>;

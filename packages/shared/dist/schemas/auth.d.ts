@@ -101,3 +101,22 @@ export declare const resetPasswordFormSchema: z.ZodEffects<z.ZodObject<Omit<{
     confirmPassword: string;
 }>;
 export type ResetPasswordFormInput = z.infer<typeof resetPasswordFormSchema>;
+export declare const verifyEmailSchema: z.ZodObject<{
+    email: z.ZodString;
+    code: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    email: string;
+    code: string;
+}, {
+    email: string;
+    code: string;
+}>;
+export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
+export declare const resendCodeSchema: z.ZodObject<{
+    email: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    email: string;
+}, {
+    email: string;
+}>;
+export type ResendCodeInput = z.infer<typeof resendCodeSchema>;

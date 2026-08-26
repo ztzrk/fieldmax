@@ -224,15 +224,19 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await prisma.user.update({
-            where: { id: existingToken.userId },
-            data: {
-                password: hashedPassword,
-            },
-        });
-
-        await prisma.resetToken.delete({
-            where: { id: existingToken.id },
-        });
+        await prisma.$transaction([
+            prisma.user.update({
+                where: { id: existingToken.userId },
+                data: {
+                    password: hashedPassword,
+                },
+            }),
+            prisma.resetToken.delete({
+                where: { id: existingToken.id },
+            }),
+            prisma.session.deleteMany({
+                where: { userId: existingToken.userId },
+            }),
+        ]);
     }
 }

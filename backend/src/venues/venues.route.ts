@@ -1,4 +1,3 @@
-// src/venues/venues.route.ts
 import { Router } from "express";
 import { VenuesController } from "./venues.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
@@ -8,10 +7,12 @@ import {
     createVenueSchema,
     rejectVenueSchema,
     updateVenueSchema,
+    deleteMultipleVenuesSchema,
 } from "../schemas/venues.schema";
 import {
     canManageVenue,
     isVenueOwner,
+    canManageVenuePhoto,
 } from "../middleware/permission.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { paginationSchema } from "../schemas/pagination.schema";
@@ -77,7 +78,7 @@ export class VenuesRoute {
         this.router.post(
             `${this.path}/multiple`,
             authMiddleware,
-            canManageVenue,
+            validateRequest(z.object({ body: deleteMultipleVenuesSchema })),
             this.controller.deleteMultiple
         );
 
@@ -113,7 +114,7 @@ export class VenuesRoute {
         this.router.delete(
             `${this.path}/photos/:photoId`,
             authMiddleware,
-            canManageVenue,
+            canManageVenuePhoto,
             this.controller.deletePhoto
         );
     }
