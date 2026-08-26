@@ -54,7 +54,7 @@ export function BookingModal({
 }: BookingModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().split("T")[0]
+        format(new Date(), "yyyy-MM-dd")
     );
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
     const [duration, setDuration] = useState(1);
@@ -151,6 +151,7 @@ export function BookingModal({
             },
             {
                 onSuccess: (response: any) => {
+                    handleOpenChange(false);
                     const snapToken =
                         response?.data?.snapToken || response?.snapToken;
                     if (
@@ -225,7 +226,9 @@ export function BookingModal({
                                         <CalendarIcon className="mr-2 h-4 w-4" />
                                         {selectedDate ? (
                                             format(
-                                                new Date(selectedDate),
+                                                new Date(
+                                                    `${selectedDate}T00:00:00`
+                                                ),
                                                 "PPP"
                                             )
                                         ) : (
@@ -241,7 +244,9 @@ export function BookingModal({
                                         mode="single"
                                         selected={
                                             selectedDate
-                                                ? new Date(selectedDate)
+                                                ? new Date(
+                                                      `${selectedDate}T00:00:00`
+                                                  )
                                                 : undefined
                                         }
                                         onSelect={(date) => {
@@ -320,7 +325,7 @@ export function BookingModal({
                                         const now = new Date();
                                         const isToday =
                                             selectedDate ===
-                                            now.toISOString().split("T")[0];
+                                            format(now, "yyyy-MM-dd");
                                         if (
                                             isToday &&
                                             startHour < now.getHours() + 2
