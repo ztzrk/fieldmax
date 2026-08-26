@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminar Hasil Skripsi - FieldMax</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-canvas: #F8F5EE;
+            --text-main: #111827;
+            --text-muted: #4B5563;
+            --chapter-tag: #2563EB;
+            --table-header: #2563EB;
+            --border-color: #D1D5DB;
+            --accent-orange: #EA580C;
+            --accent-green: #16A34A;
+            --dark-box: #111827;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #18181B;
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 16:9 Presentation Frame */
+        #deck-container {
+            width: 100vw;
+            height: 56.25vw;
+            max-height: 100vh;
+            max-width: 177.78vh;
+            position: relative;
+            background-color: var(--bg-canvas);
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Slide Element */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 3.2rem 4.8rem 3.8rem 4.8rem;
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Decorative Wave SVG */
+        .deco-wave {
+            position: absolute;
+            top: 1.6rem;
+            right: 4.8rem;
+            width: 90px;
+            height: 50px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Chapter Index Breadcrumb Badge */
+        .chapter-badge {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--chapter-tag);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Main Slide Title */
+        .slide-title-main {
+            font-size: 2.7rem;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1.6rem;
+        }
+
+        .slide-subtitle-main {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: -1.1rem;
+            margin-bottom: 1.6rem;
+        }
+
+        /* Content Container */
+        .content-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.8rem;
+        }
+
+        /* Big Readable Typography */
+        .lead-text-big {
+            font-size: 1.55rem;
+            font-weight: 500;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .point-list-big {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+        }
+
+        .point-list-big li {
+            font-size: 1.45rem;
+            line-height: 1.55;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+        }
+
+        .point-list-big li strong {
+            color: #000;
+            font-weight: 800;
+        }
+
+        .point-num-big {
+            font-weight: 900;
+            font-size: 1.55rem;
+            color: var(--text-main);
+            min-width: 2.2rem;
+        }
+
+        /* Tech Badge Bar */
+        .tech-badge-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-pill {
+            background-color: #111827;
+            color: #60A5FA;
+            padding: 0.45rem 1.1rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            display: inline-block;
+        }
+
+        /* Bottom-Right Circle Badge */
+        .circle-page-badge {
+            position: absolute;
+            bottom: 2.2rem;
+            right: 4.8rem;
+            width: 48px;
+            height: 48px;
+            background-color: var(--dark-box);
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Large Clean Tables */
+        .ref-table-big {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            background: #FFFFFF;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .ref-table-big th {
+            background-color: var(--table-header);
+            color: #FFFFFF;
+            font-weight: 800;
+            padding: 0.85rem 1.1rem;
+            text-align: left;
+            border: 1px solid #1D4ED8;
+            font-size: 1.15rem;
+        }
+
+        .ref-table-big td {
+            padding: 0.75rem 1.1rem;
+            border: 1px solid #E5E7EB;
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+
+        .ref-table-big tr:nth-child(even) td {
+            background-color: #F9FAFB;
+        }
+
+        /* Big Formula Box */
+        .formula-box-big {
+            background: #111827;
+            color: #60A5FA;
+            border: 2px solid var(--chapter-tag);
+            border-radius: 12px;
+            padding: 1.3rem 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.55rem;
+            font-weight: 800;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+
+        /* Enum Grid */
+        .enum-grid-big {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .enum-box-big {
+            background-color: #111827;
+            color: #F3F4F6;
+            border-radius: 10px;
+            padding: 1.1rem 1.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .enum-box-big .enum-title {
+            color: #60A5FA;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* UI Mockup Showcase */
+        .ui-grid-3-big {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
+            flex: 1;
+            align-items: center;
+        }
+
+        .ui-card-big {
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+        }
+
+        .ui-card-big img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+        }
+
+        .ui-card-caption-big {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        /* Gantt Table */
+        .gantt-table-big {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-color);
+        }
+
+        .gantt-table-big th {
+            background-color: var(--accent-orange);
+            color: #FFFFFF;
+            text-align: center;
+            padding: 0.85rem 0.6rem;
+            border: 1px solid #C2410C;
+            font-weight: 800;
+        }
+
+        .gantt-table-big td {
+            border: 1px solid #E5E7EB;
+            padding: 0.75rem 0.6rem;
+            text-align: center;
+        }
+
+        .gantt-table-big td.filled {
+            background-color: var(--accent-orange);
+            color: #FFFFFF;
+            font-weight: 800;
+        }
+
+        .gantt-table-big td.task-name {
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Use Case Cards */
+        .uc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            flex: 1;
+            margin-top: 0.2rem;
+        }
+
+        .uc-card {
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .uc-card-header {
+            font-size: 1.35rem;
+            font-weight: 900;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #F3F4F6;
+        }
+
+        .uc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            gap: 0.45rem;
+        }
+
+        .uc-list li {
+            font-size: 1.05rem;
+            line-height: 1.4;
+            color: var(--text-main);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .uc-list li span.num {
+            font-weight: 800;
+            color: #4B5563;
+            min-width: 1.3rem;
+        }
+
+        /* Controls */
+        #nav-controls {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1000;
+            background: rgba(17, 24, 39, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #F9FAFB;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+        #notes-panel {
+            position: fixed;
+            bottom: 4.5rem;
+            left: 2rem;
+            width: 440px;
+            max-height: 280px;
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            color: #F9FAFB;
+            padding: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: none;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        #notes-panel.visible { display: block; }
+        #notes-panel h4 { color: #60A5FA; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+
+<div id="deck-container">
+    <!-- SVG Wavy Decorative Motif -->
+    <svg class="deco-wave" viewBox="0 0 100 60" fill="none" stroke="#111827" stroke-width="3">
+        <path d="M 0,15 C 25,0 25,30 50,15 C 75,0 75,30 100,15"/>
+        <path d="M 0,30 C 25,15 25,45 50,30 C 75,15 75,45 100,30"/>
+        <path d="M 0,45 C 25,30 25,60 50,45 C 75,30 75,60 100,45"/>
+    </svg>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 1: COVER -->
+    <!-- ========================================================================= -->
+    <div class="slide active" data-notes="Selamat pagi/siang Dewan Penguji. Saya Aflah Alifu Na Mappatajang Rahman mempresentasikan hasil penelitian skripsi berjudul Rancang Bangun Sistem Informasi Reservasi dan Fasilitas Olahraga Multi-Tenant Berbasis Web (Studi Kasus: Platform FieldMax).">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="images/image001.png" alt="Logo Unhas" style="height: 55px;">
+                <div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: #111827;">Sistem Informasi</div>
+                    <div style="font-size: 0.95rem; color: #4B5563;">Universitas Hasanuddin</div>
+                </div>
+            </div>
+            <div style="font-size: 1.25rem; font-weight: 900; letter-spacing: 0.05em; color: #111827;">
+                SEMINAR HASIL
+            </div>
+        </div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; margin: 1.5rem 0;">
+            <h1 style="font-size: 2.3rem; font-weight: 900; line-height: 1.25; color: #111827; letter-spacing: -0.03em; max-width: 980px; margin: 0 auto;">
+                RANCANG BANGUN SISTEM INFORMASI RESERVASI DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB (STUDI KASUS: PLATFORM FIELDMAX)
+            </h1>
+            <div style="margin-top: 2rem;">
+                <div style="font-size: 1.1rem; font-weight: 900; color: #111827;">OLEH:</div>
+                <div style="font-size: 1.55rem; font-weight: 900; color: #111827; margin-top: 0.2rem;">Aflah Alifu Na Mappatajang Rahman</div>
+                <div style="font-size: 1.25rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #4B5563;">H071211012</div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; font-size: 1.05rem;">
+            <div>
+                <strong style="color: #111827; font-size: 1.15rem;">Dosen Pembimbing</strong><br>
+                <span style="color: #4B5563;">Dr. Eng Supri Bin Hj Amir, S.Si., M.Eng.</span>
+            </div>
+            <div style="margin-right: 5.5rem;">
+                <strong style="color: #111827; font-size: 1.15rem;">Penguji</strong><br>
+                <span style="color: #4B5563;">Edy Saputra Rusdi, S.Si., M.Si.</span><br>
+                <span style="color: #4B5563;">Dr. Hendra, S.Si., M.Kom.</span>
+            </div>
+        </div>
+        <div class="circle-page-badge">1</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 2: BAB I • LATAR BELAKANG (Tren & Kebutuhan) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.1: Lonjakan minat olahraga kelompok (futsal, badminton, basket, mini soccer) belum diimbangi platform reservasi terpusat. Pengelolaan sarana masih terfragmentasi (single-venue / siloed).">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Latar Belakang: Tren & Kebutuhan Platform</h2>
+        <div class="content-box">
+            <p class="lead-text-big">
+                Lonjakan kesadaran gaya hidup sehat mendorong peningkatan pesat aktivitas olahraga kelompok (futsal, bulu tangkis, bola basket, dan mini soccer) di perkotaan.
+            </p>
+            <p class="lead-text-big">
+                Namun, mayoritas sistem yang ada saat ini bersifat <strong>terfragmentasi pada satu sarana saja (single-venue)</strong>, sehingga calon penyewa kesulitan mengeksplorasi perbandingan fasilitas, tarif, dan ketersediaan jadwal secara terpusat.
+            </p>
+        </div>
+        <div class="circle-page-badge">2</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 3: BAB I • LATAR BELAKANG (4 Masalah Krusial) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.1: Empat permasalahan mendasar proses bisnis manual (buku agenda fisik & WhatsApp) yang divalidasi oleh literatur Nadjamuddin 2023, Swastika & Khasanah 2017, Hafiz et al. 2023.">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Latar Belakang: 4 Masalah Sistem Konvensional</h2>
+        <div class="content-box">
+            <ul class="point-list-big">
+                <li>
+                    <span class="point-num-big">•</span>
+                    <span><strong>Bentrok Jadwal (Double Booking):</strong> Ketiadaan kendali konkurensi (concurrency control) memicu jadwal ganda saat jam sibuk.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">•</span>
+                    <span><strong>Manipulasi Struk Transfer:</strong> Verifikasi transfer manual lambat dan rentan terhadap pemalsuan bukti transfer fiktif.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">•</span>
+                    <span><strong>Ketiadaan Informasi Real-Time:</strong> Calon penyewa harus menunggu konfirmasi berulang kali dari admin pengelola.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">•</span>
+                    <span><strong>Inefisiensi Rekapitulasi Finansial:</strong> Mitra pemilik sarana (Renter) kesulitan merekapitulasi omzet dan riwayat sewa secara otomatis.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">3</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 4: BAB I • DIAGRAM ANALISIS MASALAH & SOLUSI (SUPPORTING IMAGE) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.1: Diagram analisis masalah, dampak inefisiensi operasional, dan usulan solusi platform web terpadu FieldMax.">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Analisis Masalah Sistem Manual vs Solusi</h2>
+        <div class="content-box" style="align-items: center; justify-content: center; padding: 0;">
+            <img src="images/gambar-analisis-masalah-tight.png" alt="Analisis Masalah Sistem Reservasi Lapangan" style="width: 100%; max-height: 520px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
+        </div>
+        <div class="circle-page-badge">4</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 5: BAB I • RUMUSAN MASALAH -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.2: Dua rumusan masalah penelitian, mencakup perancangan bangun platform terpadu dan pengujian empiris eliminasi double booking.">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Rumusan Masalah</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 2.2rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span>Bagaimana <strong>merancang dan membangun sistem informasi reservasi dan fasilitas olahraga multi-tenant berbasis web (FieldMax)</strong> yang mampu mengotomatisasi proses bisnis dan menyediakan layanan terpadu?</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span>Bagaimana <strong>menguji dan membuktikan keandalan sistem informasi FieldMax menggunakan metode Black Box Testing</strong> dalam mengeliminasi terjadinya bentrok jadwal (double booking)?</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">5</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 6: BAB I • TUJUAN PENELITIAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.3: Dua tujuan penelitian menjawab rumusan masalah secara 1-ke-1.">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Tujuan Penelitian</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 2.2rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Merancang dan mengimplementasikan platform FieldMax</strong> berbasis Full-Stack TypeScript Monorepo guna mendigitalisasi pengelolaan sarana olahraga bagi User, Renter, dan Admin.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Menguji dan membuktikan secara empiris keandalan sistem</strong> menggunakan Black Box Testing dalam mencegah dan mengeliminasi terjadinya pemesanan ganda (double booking).</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">6</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 7: BAB I • BATASAN MASALAH -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.4: Batasan teknologi (Next.js 16, Express.js 5, PostgreSQL 16, Prisma ORM, Midtrans Snap, ImageKit, Session-based auth) dan ruang lingkup pengujian Black Box.">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Batasan Masalah</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 1.8rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Arsitektur Web Responsif:</strong> Next.js 16 (App Router) pada Front End dan Express.js 5 pada Back End berbasis TypeScript.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Basis Data & Transaksi:</strong> PostgreSQL 16 dengan Prisma ORM, serta pembayaran digital Midtrans Snap (QRIS, VA, e-Wallet).</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>Layanan Pendukung:</strong> ImageKit CDN (media foto), Nodemailer SMTP (token email), dan otentikasi berbasis sesi di database.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">4.</span>
+                    <span><strong>Ruang Lingkup Uji:</strong> Fungsionalitas Black Box Testing untuk verifikasi proses bisnis dan eliminasi double booking.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">7</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 8: BAB I • MANFAAT PENELITIAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 1.5: Manfaat teoretis (DSR & Waterfall Monorepo) dan manfaat praktis bagi Pelanggan (User), Pemilik Fasilitas (Renter), Administrator (Admin), dan Peneliti.">
+        <div class="chapter-badge">BAB I • PENDAHULUAN</div>
+        <h2 class="slide-title-main">Manfaat Penelitian</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 1.8rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Bagi Pelanggan (User):</strong> Kepastian ketersediaan jadwal real-time, eksplorasi multi-cabor, dan transaksi digital mandiri 24/7.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Bagi Pemilik Sarana (Renter):</strong> Otonomi manajemen jadwal & tarif per jam, zero double booking, serta analitik omzet otomatis.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>Bagi Administrator (Admin):</strong> Kontrol terpusat moderasi legalitas venue/lapangan serta penanganan tiket pengaduan.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">4.</span>
+                    <span><strong>Bagi Teoretis & Akademik:</strong> Rujukan penerapan DSR dan Waterfall SDLC pada sistem informasi multi-tenant modern.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">8</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 9: BAB II • WAKTU DAN LOKASI PENELITIAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 2.1 & Tabel 4: Penelitian dilaksanakan pada bulan Juli 2025 sampai November 2025 di Kota Makassar, Sulawesi Selatan.">
+        <div class="chapter-badge">BAB II • METODE PENELITIAN</div>
+        <h2 class="slide-title-main">Waktu dan Lokasi Penelitian</h2>
+        <div class="content-box" style="justify-content: flex-start;">
+            <p class="lead-text-big" style="margin-bottom: 0.4rem;">
+                Penelitian dilaksanakan pada bulan <strong>Juli 2025 sampai November 2025</strong> bertempat di Kota Makassar, Sulawesi Selatan (Tabel 4 Skripsi).
+            </p>
+            <table class="gantt-table-big" style="margin-top: 0.8rem;">
+                <thead>
+                    <tr>
+                        <th style="width: 6%;">No</th>
+                        <th style="width: 39%; text-align: left;">Tahapan Penelitian</th>
+                        <th style="width: 11%;">Juli</th>
+                        <th style="width: 11%;">Agustus</th>
+                        <th style="width: 11%;">September</th>
+                        <th style="width: 11%;">Oktober</th>
+                        <th style="width: 11%;">November</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td class="task-name">Studi Literatur</td><td class="filled">✓</td><td class="filled">✓</td><td></td><td></td><td></td></tr>
+                    <tr><td>2</td><td class="task-name">Analisis Kebutuhan (Requirements)</td><td></td><td class="filled">✓</td><td></td><td></td><td></td></tr>
+                    <tr><td>3</td><td class="task-name">Desain Sistem (Design)</td><td></td><td class="filled">✓</td><td class="filled">✓</td><td></td><td></td></tr>
+                    <tr><td>4</td><td class="task-name">Implementasi Sistem (Implementation)</td><td></td><td></td><td class="filled">✓</td><td class="filled">✓</td><td></td></tr>
+                    <tr><td>5</td><td class="task-name">Pengujian Sistem (Testing)</td><td></td><td></td><td></td><td class="filled">✓</td><td class="filled">✓</td></tr>
+                    <tr><td>6</td><td class="task-name">Pemeliharaan & Dokumentasi (Maintenance)</td><td></td><td></td><td></td><td></td><td class="filled">✓</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="circle-page-badge">9</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 10: BAB II • DESIGN SCIENCE RESEARCH (SUPPORTING IMAGE) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 2.2: Kerangka DSR Hevner et al. (2004) menghubungkan Environment (People, Org, Tech), IS Research (Build & Evaluate), dan Knowledge Base (Foundations & Methodologies).">
+        <div class="chapter-badge">BAB II • METODE PENELITIAN</div>
+        <h2 class="slide-title-main">Kerangka Design Science Research (DSR)</h2>
+        <div class="content-box" style="align-items: center; justify-content: center; padding: 0;">
+            <img src="images/gambar-dsr-fieldmax-tight.png" alt="Pemetaan DSR FieldMax" style="width: 100%; max-height: 520px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
+        </div>
+        <div class="circle-page-badge">10</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 11: BAB II • METODE PENGUMPULAN DATA -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 2.3: Metode pengumpulan data melalui Studi Literatur komprehensif terhadap 3 domain rujukan ilmiah.">
+        <div class="chapter-badge">BAB II • METODE PENELITIAN</div>
+        <h2 class="slide-title-main">Metode Pengumpulan Data: Studi Literatur</h2>
+        <div class="content-box">
+            <p class="lead-text-big" style="color: var(--text-muted);">
+                Pengumpulan data dilakukan secara komprehensif melalui <strong>Studi Literatur (Literature Review)</strong> mencakup:
+            </p>
+            <ul class="point-list-big" style="gap: 1.6rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Jurnal Ilmiah Terakreditasi:</strong> Mengkaji isu konkurensi, eliminasi double booking, arsitektur multi-tenant, dan integrasi payment gateway.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Buku Teks RPL & Sistem Informasi:</strong> Teori pemodelan UML (Pressman, 2010), Waterfall SDLC (Pfleeger & Atlee, 2010), dan kerangka DSR (Hevner et al., 2004).</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>Dokumentasi Teknis Resmi:</strong> Spesifikasi Next.js 16 App Router, Express.js 5, PostgreSQL 16, Prisma ORM, Midtrans API, dan ImageKit SDK.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">11</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 12: BAB II • WATERFALL SDLC -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 2.4: 5 fase Waterfall SDLC Pfleeger & Atlee (2010) dari Requirements hingga Maintenance.">
+        <div class="chapter-badge">BAB II • METODE PENELITIAN</div>
+        <h2 class="slide-title-main">Metode Pengembangan: Waterfall SDLC</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 1.3rem;">
+                <li><span class="point-num-big">1.</span> <span><strong>Requirements:</strong> Analisis 10 kendala sistem manual dan elisitasi 22 Use Case fungsional.</span></li>
+                <li><span class="point-num-big">2.</span> <span><strong>Design:</strong> Perancangan Use Case, Activity Diagram, antarmuka Figma, dan 16 relasi ERD.</span></li>
+                <li><span class="point-num-big">3.</span> <span><strong>Implementation:</strong> Pengkodean Next.js 16, Express.js 5, Prisma ORM, & PostgreSQL 16.</span></li>
+                <li><span class="point-num-big">4.</span> <span><strong>Testing:</strong> Pengujian Black Box 76 kasus uji & 7 skenario matematis bentrok jadwal.</span></li>
+                <li><span class="point-num-big">5.</span> <span><strong>Maintenance:</strong> Optimasi performa kueri basis data dan pemeliharaan server berkala.</span></li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">12</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 13: BAB II • TAHAPAN PENELITIAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 2.5: Gambar 6 Alur Tahapan Penelitian terintegrasi DSR dan Waterfall SDLC.">
+        <div class="chapter-badge">BAB II • METODE PENELITIAN</div>
+        <h2 class="slide-title-main">Tahapan Penelitian (Alur Sistematis)</h2>
+        <div class="content-box" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 2rem;">
+            <div style="flex: 0 0 250px; text-align: center;">
+                <img src="images/gambar-4-alur-penelitian-vector.png" alt="Alur Penelitian" style="max-height: 500px; width: auto; object-fit: contain;">
+            </div>
+            <div style="flex: 1;">
+                <ul class="point-list-big" style="gap: 1.1rem; font-size: 1.15rem;">
+                    <li><span class="point-num-big">1.</span> <span><strong>Mulai & Studi Literatur:</strong> Identifikasi masalah riil & landasan teori DSR Hevner.</span></li>
+                    <li><span class="point-num-big">2.</span> <span><strong>Requirements (Analisis):</strong> Elisitasi kebutuhan fungsional 3 peran (User, Renter, Admin).</span></li>
+                    <li><span class="point-num-big">3.</span> <span><strong>Design (Perancangan):</strong> Pemodelan 22 Use Case, Activity Diagram, Figma, & 16 tabel ERD.</span></li>
+                    <li><span class="point-num-big">4.</span> <span><strong>Implementation:</strong> Next.js 16 App Router, Express.js 5, Prisma ORM, & PostgreSQL 16.</span></li>
+                    <li><span class="point-num-big">5.</span> <span><strong>Testing (Evaluasi):</strong> Uji 76 skenario Black Box & 7 formula matematis bentrok jadwal.</span></li>
+                    <li><span class="point-num-big">6.</span> <span><strong>Hasil Penelitian & Selesai:</strong> Dokumentasi naskah komprehensif, publikasi, & deployment.</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="circle-page-badge">13</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 14: BAB II • PERANCANGAN SISTEM (22 USE CASES) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 2.7: Rincian lengkap 22 Use Case yang terdistribusi ke 3 aktor utama (User: 8, Renter: 7, Admin: 7).">
+        <div class="chapter-badge">BAB II • PERANCANGAN SISTEM</div>
+        <h2 class="slide-title-main">Perancangan Sistem: 22 Use Cases Terpadu</h2>
+        <div class="uc-grid">
+            <div class="uc-card">
+                <div class="uc-card-header" style="color: var(--table-header);">1. User / Pelanggan (8)</div>
+                <ul class="uc-list">
+                    <li><span class="num">1.</span><span>Daftar dan Login Akun</span></li>
+                    <li><span class="num">2.</span><span>Cari dan Filter Lapangan</span></li>
+                    <li><span class="num">3.</span><span>Lihat Detail Venue & Lapangan</span></li>
+                    <li><span class="num">4.</span><span>Reservasi Slot Jadwal Real-Time</span></li>
+                    <li><span class="num">5.</span><span>Bayar via Midtrans Snap</span></li>
+                    <li><span class="num">6.</span><span>Lihat Riwayat Pemesanan</span></li>
+                    <li><span class="num">7.</span><span>Beri Rating Ulasan Lapangan</span></li>
+                    <li><span class="num">8.</span><span>Buat Tiket Pengaduan Kendala</span></li>
+                </ul>
+            </div>
+
+            <div class="uc-card">
+                <div class="uc-card-header" style="color: var(--accent-green);">2. Mitra Renter (7)</div>
+                <ul class="uc-list">
+                    <li><span class="num">1.</span><span>Daftar dan Login Mitra Bisnis</span></li>
+                    <li><span class="num">2.</span><span>Kelola Profil Venue & Jam Operasional</span></li>
+                    <li><span class="num">3.</span><span>Kelola Lapangan & Tarif per Jam</span></li>
+                    <li><span class="num">4.</span><span>Ajukan Venue & Lapangan ke Admin</span></li>
+                    <li><span class="num">5.</span><span>Kelola & Pantau Pemesanan Masuk</span></li>
+                    <li><span class="num">6.</span><span>Lihat Analitik Grafik Pendapatan</span></li>
+                    <li><span class="num">7.</span><span>Kirim Tiket Pengaduan ke Admin</span></li>
+                </ul>
+            </div>
+
+            <div class="uc-card">
+                <div class="uc-card-header" style="color: var(--accent-orange);">3. Administrator (7)</div>
+                <ul class="uc-list">
+                    <li><span class="num">1.</span><span>Login Panel Administrasi</span></li>
+                    <li><span class="num">2.</span><span>Lihat Dashboard Statistik Ekosistem</span></li>
+                    <li><span class="num">3.</span><span>Kelola & Verifikasi Akun Pengguna</span></li>
+                    <li><span class="num">4.</span><span>Kelola Master Data Sport Types</span></li>
+                    <li><span class="num">5.</span><span>Moderasi Venue dan Unit Lapangan</span></li>
+                    <li><span class="num">6.</span><span>Pantau Pemesanan & Pembayaran</span></li>
+                    <li><span class="num">7.</span><span>Kelola & Resolusi Tiket Pengaduan</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="circle-page-badge">14</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 15: BAB III • IMPLEMENTASI FRONT-END & ALASAN PEMILIHAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.1 & 1.6.4: Arsitektur Front-End (Next.js 16 App Router, React 19, Tailwind CSS v4, shadcn/ui, TanStack Query) dan alasan teknis pemilihannya.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Implementasi Front-End & Alasan Pemilihan</h2>
+        <div class="content-box">
+            <div class="tech-badge-bar">
+                <span class="tech-pill">Next.js 16 (App Router)</span>
+                <span class="tech-pill">React 19</span>
+                <span class="tech-pill">Tailwind CSS v4</span>
+                <span class="tech-pill">TanStack Query</span>
+            </div>
+            <ul class="point-list-big" style="gap: 1.5rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Server-Side Rendering (SSR) & App Router:</strong> Mempercepat waktu render awal (initial load) katalog venue, pemisahan rute dinamis modular, dan performa tinggi ramah SEO.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Tailwind CSS v4 & shadcn/ui:</strong> Menjamin konsistensi visual modern, komponen antarmuka yang aksesibel, serta tata letak responsif di peramban mobile dan desktop.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>TanStack React Query:</strong> Manajemen state asinkron dan caching otomatis ketersediaan jadwal slot sewa, menghemat beban lalu lintas data ke peladen.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">15</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 16: BAB III • IMPLEMENTASI BACK-END & ALASAN PEMILIHAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.1 & 1.6.4: Arsitektur Back-End (Express.js 5 Three-Tier, TypeScript, Zod, Session Auth HttpOnly) dan alasan teknis pemilihannya.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Implementasi Back-End & Alasan Pemilihan</h2>
+        <div class="content-box">
+            <div class="tech-badge-bar">
+                <span class="tech-pill">Express.js 5</span>
+                <span class="tech-pill">Three-Tier Layered</span>
+                <span class="tech-pill">Zod Validation</span>
+                <span class="tech-pill">Session-Based Auth</span>
+            </div>
+            <ul class="point-list-big" style="gap: 1.5rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Pola Three-Tier (Routes -> Controllers -> Services):</strong> Memisahkan logika bisnis dari protokol HTTP dan akses data sehingga sistem modular, terstruktur, dan mudah dirawat.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Full-Stack TypeScript & Zod:</strong> Memberikan jaminan keamanan tipe data (End-to-End Type Safety) antara front-end dan back-end guna mencegah galat tipe data API.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>Session-Based Auth (HttpOnly Cookie):</strong> Menyimpan status otentikasi aman di basis data, melindungi sesi pengguna dari serangan pencurian token (XSS).</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">16</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 17: BAB III • IMPLEMENTASI BASIS DATA & ALASAN PEMILIHAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.1, 3.2, & 1.6.4: Basis Data (PostgreSQL 16, Prisma ORM, UUID) dan alasan teknis pemilihannya.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Implementasi Basis Data & Alasan Pemilihan</h2>
+        <div class="content-box">
+            <div class="tech-badge-bar">
+                <span class="tech-pill">PostgreSQL 16</span>
+                <span class="tech-pill">Prisma ORM</span>
+                <span class="tech-pill">MVCC & ACID</span>
+                <span class="tech-pill">UUID Primary Key</span>
+            </div>
+            <ul class="point-list-big" style="gap: 1.5rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>PostgreSQL MVCC & Transaksi ACID:</strong> Menangani konkurensi reservasi secara atomik saat banyak pengguna memesan slot waktu secara serentak tanpa deadlock data.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Prisma ORM (Schema Migration & Client):</strong> Menyediakan akses data type-safe, migrasi deklaratif otomatis, serta proteksi terintegrasi dari SQL Injection.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>UUID (Universally Unique Identifier):</strong> Mengamankan entitas data dari serangan enumerasi ID berurutan dan menjamin keunikan kunci primer lintas tabel.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">17</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 18: BAB III • INTEGRASI LAYANAN PIHAK KETIGA & ALASAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.1 & 1.6.4: Layanan Pihak Ketiga (Midtrans Snap, ImageKit CDN, SMTP Nodemailer) dan alasan pemilihannya.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Integrasi Layanan Pihak Ketiga & Alasan</h2>
+        <div class="content-box">
+            <div class="tech-badge-bar">
+                <span class="tech-pill">Midtrans Snap API</span>
+                <span class="tech-pill">ImageKit CDN</span>
+                <span class="tech-pill">SMTP Nodemailer</span>
+            </div>
+            <ul class="point-list-big" style="gap: 1.5rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Midtrans Snap API (Payment Gateway):</strong> Otomasi verifikasi pembayaran digital Indonesia (QRIS, VA, e-Wallet) via Webhook Callback tanpa verifikasi manual bukti struk.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>ImageKit CDN (Media Cloud Storage):</strong> Kompresi dan pengoptimalan resolusi foto fasilitas olahraga secara real-time, mempercepat pemuatan halaman web.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>SMTP Nodemailer (Email Notification):</strong> Otomasi pengiriman kode OTP verifikasi akun 6 digit dan tautan pemulihan kata sandi (reset password) secara instan.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">18</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 19: BAB III • BASIS DATA - ERD 16 TABEL -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.2.1 & Gambar 9a: ERD 16 entitas relasional terbagi dalam 4 domain entitas dengan UUID Primary Key.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Implementasi Basis Data: 16 Tabel Relasional</h2>
+        <div class="content-box" style="align-items: center; justify-content: center; padding: 0;">
+            <img src="images/gambar-relasi-tabel.png" alt="ERD FieldMax" style="width: 100%; max-height: 520px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
+        </div>
+        <div class="circle-page-badge">19</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 20: BAB III • DAFTAR NILAI ENUM (Tabel 5 Skripsi) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.2.2 & Tabel 5: Enam tipe Enum Prisma ORM (UserRole, BookingStatus, PaymentStatus, VerificationStatus, ReportStatus, ReportCategory).">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Implementasi Basis Data: Daftar Enum (Tabel 5)</h2>
+        <div class="enum-grid-big">
+            <div class="enum-box-big">
+                <div class="enum-title">UserRole {</div>
+                &nbsp;&nbsp;USER<br>
+                &nbsp;&nbsp;RENTER<br>
+                &nbsp;&nbsp;ADMIN<br>
+                }
+            </div>
+            <div class="enum-box-big">
+                <div class="enum-title">BookingStatus {</div>
+                &nbsp;&nbsp;PENDING<br>
+                &nbsp;&nbsp;CONFIRMED<br>
+                &nbsp;&nbsp;CANCELLED<br>
+                &nbsp;&nbsp;COMPLETED<br>
+                }
+            </div>
+            <div class="enum-box-big">
+                <div class="enum-title">PaymentStatus {</div>
+                &nbsp;&nbsp;PENDING<br>
+                &nbsp;&nbsp;PAID<br>
+                &nbsp;&nbsp;EXPIRED<br>
+                &nbsp;&nbsp;FAILED<br>
+                }
+            </div>
+            <div class="enum-box-big">
+                <div class="enum-title">VerificationStatus {</div>
+                &nbsp;&nbsp;DRAFT<br>
+                &nbsp;&nbsp;PENDING<br>
+                &nbsp;&nbsp;APPROVED<br>
+                &nbsp;&nbsp;REJECTED<br>
+                }
+            </div>
+            <div class="enum-box-big">
+                <div class="enum-title">ReportStatus {</div>
+                &nbsp;&nbsp;PENDING<br>
+                &nbsp;&nbsp;RESOLVED<br>
+                }
+            </div>
+            <div class="enum-box-big">
+                <div class="enum-title">ReportCategory {</div>
+                &nbsp;&nbsp;SCAM, TECHNICAL<br>
+                &nbsp;&nbsp;PAYMENT, OTHER<br>
+                }
+            </div>
+        </div>
+        <div class="circle-page-badge">20</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 21: BAB III • STRUKTUR TABEL USERS & SESSIONS -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.2.2 & Tabel 6: Struktur kamus data tabel users untuk autentikasi dan otorisasi peran pengguna.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Struktur Tabel: users & sessions (Tabel 6)</h2>
+        <div class="content-box" style="justify-content: flex-start;">
+            <table class="ref-table-big">
+                <thead>
+                    <tr><th>Nama Field</th><th>Tipe Field</th><th>Keterangan</th><th>Default</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>id</td><td>String (UUID)</td><td>Primary Key</td><td>uuid()</td></tr>
+                    <tr><td>full_name</td><td>String</td><td>Nama lengkap pengguna</td><td>No Default</td></tr>
+                    <tr><td>email</td><td>String</td><td>Email unik untuk login</td><td>No Default</td></tr>
+                    <tr><td>password</td><td>String</td><td>Hash password akun (bcrypt)</td><td>No Default</td></tr>
+                    <tr><td>role</td><td>UserRole</td><td>Hak akses (USER/RENTER/ADMIN)</td><td>USER</td></tr>
+                    <tr><td>is_verified</td><td>Boolean</td><td>Status verifikasi OTP email</td><td>false</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="circle-page-badge">21</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 22: BAB III • STRUKTUR TABEL VENUES & BOOKINGS -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.2.2 & Tabel 11 & 16: Struktur kamus data tabel venues dan bookings untuk manajemen fasilitas dan reservasi.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Struktur Tabel: venues & bookings (Tabel 11 & 16)</h2>
+        <div class="content-box" style="justify-content: flex-start;">
+            <table class="ref-table-big">
+                <thead>
+                    <tr><th>Nama Field</th><th>Tipe Field</th><th>Keterangan</th><th>Default</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>venues.id</td><td>String (UUID)</td><td>Primary Key</td><td>uuid()</td></tr>
+                    <tr><td>venues.renter_id</td><td>String</td><td>Foreign Key ke users.id</td><td>No Default</td></tr>
+                    <tr><td>venues.status</td><td>VerificationStatus</td><td>Status persetujuan admin</td><td>DRAFT</td></tr>
+                    <tr><td>bookings.id</td><td>String (UUID)</td><td>Primary Key</td><td>uuid()</td></tr>
+                    <tr><td>bookings.field_id</td><td>String</td><td>Foreign Key ke fields.id</td><td>No Default</td></tr>
+                    <tr><td>bookings.status</td><td>BookingStatus</td><td>Status transaksi reservasi</td><td>PENDING</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="circle-page-badge">22</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 23: BAB III • LOGIKA PENCEGAHAN BENTROK JADWAL -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.5.1: Formulasi matematis kueri relasional irisan waktu dan Two-Phase Locking Webhook Midtrans Snap.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Logika Pencegahan Bentrok Jadwal</h2>
+        <div class="content-box">
+            <div class="formula-box-big">
+                Kondisi Bentrok = (Start_req &lt; End_db) ∧ (End_req &gt; Start_db)
+            </div>
+            <ul class="point-list-big" style="margin-top: 0.3rem;">
+                <li><span class="point-num-big">✓</span> <span><strong>Filter Status Kueri:</strong> Memeriksa reservasi aktif berstatus <code>PENDING</code> dan <code>CONFIRMED</code>.</span></li>
+                <li><span class="point-num-big">✓</span> <span><strong>Presisi Batas Jam:</strong> Mengizinkan jam berdampingan (Adjacent Boundary, misal 08.00–10.00 & 10.00–12.00).</span></li>
+                <li><span class="point-num-big">✓</span> <span><strong>Two-Phase Status Locking:</strong> Slot terkunci 15 menit saat checkout dan otomatis lepas (Auto-Release) bila kedaluwarsa.</span></li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">23</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 24: BAB III • HASIL UJI 7 SKENARIO BENTROK -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.5.1 & Tabel 22: Hasil pengujian empiris terhadap 7 skenario irisan waktu matematis membuktikan sistem 100% valid.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Hasil Evaluasi 7 Skenario Bentrok (Tabel 22)</h2>
+        <div class="content-box" style="justify-content: flex-start;">
+            <table class="ref-table-big">
+                <thead>
+                    <tr><th>No</th><th>Skenario Uji Bentrok (Case)</th><th>Kondisi DB vs Permintaan Baru</th><th>Hasil Evaluasi</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Exact Slot Match (Jam Sama)</td><td>Eksis: 08.00–10.00 (CONFIRMED) | Baru: 08.00–10.00</td><td><strong style="color: var(--accent-green);">100% Valid (Ditolak)</strong></td></tr>
+                    <tr><td>2</td><td>Start-Time Overlap (Tumpang Awal)</td><td>Eksis: 08.00–10.00 (CONFIRMED) | Baru: 07.00–09.00</td><td><strong style="color: var(--accent-green);">100% Valid (Ditolak)</strong></td></tr>
+                    <tr><td>3</td><td>End-Time Overlap (Tumpang Akhir)</td><td>Eksis: 08.00–10.00 (CONFIRMED) | Baru: 09.00–11.00</td><td><strong style="color: var(--accent-green);">100% Valid (Ditolak)</strong></td></tr>
+                    <tr><td>4</td><td>Enclosing Overlap (Tumpang Tengah)</td><td>Eksis: 08.00–12.00 (PENDING) | Baru: 09.00–11.00</td><td><strong style="color: var(--accent-green);">100% Valid (Ditolak)</strong></td></tr>
+                    <tr><td>5</td><td>Adjacent Boundary (Berdampingan)</td><td>Eksis: 08.00–10.00 (CONFIRMED) | Baru: 10.00–12.00</td><td><strong style="color: var(--accent-green);">100% Valid (Diterima)</strong></td></tr>
+                    <tr><td>6</td><td>Simultaneous Booking (Serentak)</td><td>Dua user memesan slot 14.00–16.00 bersamaan</td><td><strong style="color: var(--accent-green);">100% Valid (1 Terima, 1 Tolak)</strong></td></tr>
+                    <tr><td>7</td><td>Auto-Release on Expire/Cancel</td><td>Slot 16.00–18.00 PENDING kedaluwarsa</td><td><strong style="color: var(--accent-green);">100% Valid (Slot Terbuka)</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="circle-page-badge">24</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 25: BAB III • HASIL BLACK BOX TESTING (6 MODUL SISTEM) -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.5, Subbab 4.1 & Tabel 22-27: Pengujian fungsionalitas Black Box Testing pada 6 modul utama sistem terbukti 100% valid sesuai spesifikasi kebutuhan sistem.">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">Hasil Pengujian Black Box (6 Modul Sistem)</h2>
+        <div class="content-box" style="justify-content: flex-start;">
+            <table class="ref-table-big">
+                <thead>
+                    <tr>
+                        <th style="width: 6%;">No</th>
+                        <th style="width: 36%; text-align: left;">Modul Pengujian (Tabel Skripsi)</th>
+                        <th style="width: 38%; text-align: left;">Cakupan Pengujian Fungsional</th>
+                        <th style="width: 20%;">Hasil Evaluasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td style="text-align: left;">Halaman Utama & Pencarian (Tabel 22)</td><td style="text-align: left;">Filter cabor, geolokasi venue, detail tarif & ketersediaan</td><td><strong style="color: var(--accent-green);">100% Valid (Berhasil)</strong></td></tr>
+                    <tr><td>2</td><td style="text-align: left;">Otentikasi & Manajemen Akun (Tabel 23)</td><td style="text-align: left;">Registrasi, OTP email, login session, proteksi role RBAC</td><td><strong style="color: var(--accent-green);">100% Valid (Berhasil)</strong></td></tr>
+                    <tr><td>3</td><td style="text-align: left;">Reservasi & Pembayaran Midtrans (Tabel 24)</td><td style="text-align: left;">Booking slot waktu, invoice Snap Midtrans, webhook otomatis</td><td><strong style="color: var(--accent-green);">100% Valid (Berhasil)</strong></td></tr>
+                    <tr><td>4</td><td style="text-align: left;">Ulasan Lapangan & Pengaduan (Tabel 25)</td><td style="text-align: left;">Rating bintang, ulasan pengguna, tiket komplain & respon</td><td><strong style="color: var(--accent-green);">100% Valid (Berhasil)</strong></td></tr>
+                    <tr><td>5</td><td style="text-align: left;">Pengelolaan Sarana Mitra/Renter (Tabel 26)</td><td style="text-align: left;">CRUD venue, jam operasional, tarif lapangan, analitik omzet</td><td><strong style="color: var(--accent-green);">100% Valid (Berhasil)</strong></td></tr>
+                    <tr><td>6</td><td style="text-align: left;">Panel Moderasi Administrator (Tabel 27)</td><td style="text-align: left;">Verifikasi legalitas venue, moderasi lapangan, master sport</td><td><strong style="color: var(--accent-green);">100% Valid (Berhasil)</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="circle-page-badge">25</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 26: BAB III • SHOWCASE UI GUEST & USER -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.4: Showcase antarmuka pengguna (Halaman Utama, Detail Lapangan & Kalender Slot Real-Time, Riwayat Booking & Invoice).">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">User Interface: Guest & User</h2>
+        <div class="ui-grid-3-big">
+            <div class="ui-card-big">
+                <img src="images/halaman-utama.png" alt="Halaman Utama">
+                <div class="ui-card-caption-big">1. Halaman Utama (Pencarian)</div>
+            </div>
+            <div class="ui-card-big">
+                <img src="images/halaman-detail-lapangan.png" alt="Detail Lapangan">
+                <div class="ui-card-caption-big">2. Detail Lapangan & Slot Real-Time</div>
+            </div>
+            <div class="ui-card-big">
+                <img src="images/halaman-riwayat-booking.png" alt="Riwayat Booking">
+                <div class="ui-card-caption-big">3. Riwayat Sewa & Invoice</div>
+            </div>
+        </div>
+        <div class="circle-page-badge">26</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 27: BAB III • SHOWCASE UI RENTER & ADMIN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 3.4: Showcase antarmuka mitra pengelola dan administrator (Dashboard Renter, Analitik Pendapatan, Panel Moderasi Legalitas Venue).">
+        <div class="chapter-badge">BAB III • HASIL DAN PEMBAHASAN</div>
+        <h2 class="slide-title-main">User Interface: Renter & Administrator</h2>
+        <div class="ui-grid-3-big">
+            <div class="ui-card-big">
+                <img src="images/halaman-dashboard-renter.png" alt="Dashboard Renter">
+                <div class="ui-card-caption-big">1. Dashboard Mitra (Renter)</div>
+            </div>
+            <div class="ui-card-big">
+                <img src="images/halaman-pendapatan-renter.png" alt="Analitik Pendapatan">
+                <div class="ui-card-caption-big">2. Analitik Omzet & Pendapatan</div>
+            </div>
+            <div class="ui-card-big">
+                <img src="images/halaman-moderasi-venue-admin.png" alt="Moderasi Venue">
+                <div class="ui-card-caption-big">3. Panel Moderasi Legalitas (Admin)</div>
+            </div>
+        </div>
+        <div class="circle-page-badge">27</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 28: BAB IV • KESIMPULAN PENELITIAN -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 4.1: Dua kesimpulan penelitian menjawab langsung rumusan masalah (Rancang Bangun Build & Evaluasi Eliminasi Double Booking Evaluate).">
+        <div class="chapter-badge">BAB IV • KESIMPULAN & SARAN</div>
+        <h2 class="slide-title-main">Kesimpulan Penelitian</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 2rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Rancang Bangun Sistem Terpadu (Build):</strong> Platform FieldMax berhasil dibangun dengan Full-Stack TypeScript Monorepo (Next.js 16, Express.js 5, Prisma ORM, PostgreSQL 16, dan Midtrans Snap) yang mengintegrasikan 22 use cases untuk 3 peran pengguna secara efisien.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Evaluasi Eliminasi Double Booking (Evaluate):</strong> Pengujian fungsionalitas Black Box Testing pada 6 modul utama (Tabel 22–27) dan validasi empiris 7 skenario irisan waktu terbukti 100% valid mengeliminasi potensi jadwal ganda (double booking) serta membebaskan kembali slot sewa yang kedaluwarsa secara otomatis.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">28</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 29: BAB IV • SARAN & REKOMENDASI -->
+    <!-- ========================================================================= -->
+    <div class="slide" data-notes="Subbab 4.2: Lima rekomendasi pengembangan skripsi (Mobile Native/PWA, Peta Interaktif GIS, Fitur Komunitas & Sparring Matchmaking, WhatsApp Business API, dan Load/Stress Testing).">
+        <div class="chapter-badge">BAB IV • KESIMPULAN & SARAN</div>
+        <h2 class="slide-title-main">Saran & Rekomendasi Selanjutnya</h2>
+        <div class="content-box">
+            <ul class="point-list-big" style="gap: 1.5rem;">
+                <li>
+                    <span class="point-num-big">1.</span>
+                    <span><strong>Aplikasi Mobile (Native / PWA):</strong> Pengembangan aplikasi bergerak yang dilengkapi push notification jadwal bermain.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">2.</span>
+                    <span><strong>Peta Interaktif GIS (Maps API):</strong> Navigasi visual dan pencarian sarana terdekat berbasis geolokasi GPS pengguna.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">3.</span>
+                    <span><strong>Komunitas & Sparring Matchmaking:</strong> Fitur pencarian lawan tanding (sparring) dan pembagian tagihan sewa (split bill).</span>
+                </li>
+                <li>
+                    <span class="point-num-big">4.</span>
+                    <span><strong>Gateway WhatsApp Business API:</strong> Notifikasi kode booking dan bukti bayar digital instan via WhatsApp.</span>
+                </li>
+                <li>
+                    <span class="point-num-big">5.</span>
+                    <span><strong>Pengujian Beban (Stress Testing):</strong> Uji ketahanan database saat lonjakan transaksi masif pada jam-jam sibuk (peak hours).</span>
+                </li>
+            </ul>
+        </div>
+        <div class="circle-page-badge">29</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SLIDE 30: PENUTUP / THANK YOU -->
+    <!-- ========================================================================= -->
+    <div class="slide" style="justify-content: center; align-items: center; text-align: center;" data-notes="Sekian presentasi dari saya. Terima kasih kepada Bapak/Ibu Dewan Penguji. Sesi tanya jawab dipersilakan.">
+        <h1 style="font-size: 5.5rem; font-weight: 900; color: #111827; letter-spacing: -0.04em;">Thank you</h1>
+        <div style="font-size: 1.8rem; font-weight: 800; color: var(--chapter-tag); margin-top: 1rem;">
+            Sesi Tanya Jawab, Kritik & Saran Dewan Penguji
+        </div>
+        <div style="font-size: 1.25rem; font-weight: 600; color: var(--text-muted); margin-top: 2rem;">
+            Aflah Alifu Na Mappatajang Rahman • H071211012 • Sistem Informasi FMIPA Unhas 2025
+        </div>
+        <div class="circle-page-badge">30</div>
+    </div>
+</div>
+
+<!-- Speaker Notes Panel -->
+<div id="notes-panel">
+    <h4>Presenter Notes</h4>
+    <div id="notes-content"></div>
+</div>
+
+<!-- Controls -->
+<div id="nav-controls">
+    <button class="nav-btn" id="btn-prev">◀ Prev</button>
+    <button class="nav-btn" id="btn-next">Next ▶</button>
+    <button class="nav-btn" id="btn-notes">📝 Notes (N)</button>
+    <button class="nav-btn" id="btn-fs">⛶ Fullscreen (F)</button>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const notesPanel = document.getElementById('notes-panel');
+    const notesContent = document.getElementById('notes-content');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= slides.length) index = slides.length - 1;
+
+        slides.forEach((s, idx) => {
+            s.classList.toggle('active', idx === index);
+        });
+
+        currentSlide = index;
+        const notes = slides[index].getAttribute('data-notes') || 'Tidak ada catatan khusus.';
+        notesContent.innerHTML = notes;
+    }
+
+    function nextSlide() { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); }
+    function prevSlide() { if (currentSlide > 0) showSlide(currentSlide - 1); }
+    function toggleNotes() { notesPanel.classList.toggle('visible'); }
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => alert(err.message));
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    document.getElementById('btn-next').addEventListener('click', nextSlide);
+    document.getElementById('btn-prev').addEventListener('click', prevSlide);
+    document.getElementById('btn-notes').addEventListener('click', toggleNotes);
+    document.getElementById('btn-fs').addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        else if (e.key === 'n' || e.key === 'N') toggleNotes();
+        else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+        else if (e.key === 'Home') showSlide(0);
+        else if (e.key === 'End') showSlide(slides.length - 1);
+    });
+
+    showSlide(0);
+</script>
+</body>
+</html>

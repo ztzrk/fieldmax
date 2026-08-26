@@ -1,36 +1,126 @@
-<div align="center">
+﻿RANCANG BANGUN SISTEM INFORMASI RESERVASI
+DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB
 
-# RANCANG BANGUN SISTEM INFORMASI RESERVASI DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB
+ 
 
-<br>
+ 
 
-### **SKRIPSI**
+ 
 
-*Diajukan sebagai salah satu syarat untuk mencapai gelar Sarjana Komputer (S.Kom.) pada Program Studi Sistem Informasi Fakultas Matematika dan Ilmu Pengetahuan Alam Universitas Hasanuddin*
+ 
 
-<br>
+AFLAH ALIFU NA
+MAPPATAJANG RAHMAN
+
+H071211021
+
+ 
 
 ![](images/image001.png)
 
-<br>
+ 
 
-**Disusun Oleh:**
+ 
 
-### **AFLAH ALIFU NA MAPPATAJANG RAHMAN**
-**NIM: H071211012**
+ 
 
-<br>
-<br>
+ 
 
-**PROGRAM STUDI SISTEM INFORMASI**  
-**FAKULTAS MATEMATIKA DAN ILMU PENGETAHUAN ALAM**  
-**UNIVERSITAS HASANUDDIN**  
-**MAKASSAR**  
-**2025**
+ 
 
-</div>
+ 
 
----
+ 
+
+ 
+
+ 
+
+PROGRAM STUDI
+SISTEM INFORMASI
+
+FAKULTAS
+MATEMATIKA DAN ILMU PENGETAHUAN ALAM
+
+UNIVERSITAS
+HASANUDDIN
+
+MAKASSAR
+
+2025
+
+RANCANG BANGUN
+SISTEM INFORMASI RESERVASI DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB
+
+ 
+
+ 
+
+AFLAH ALIFU NA MAPPATAJANG RAHMAN
+
+H071211012
+
+ 
+
+ 
+
+ 
+
+Skripsi
+
+ 
+
+ 
+
+Sebagai salah satu
+syarat untuk mencapai gelar Sarjana
+
+ 
+
+ 
+
+Program Studi Sistem Informasi 
+
+ 
+
+ 
+
+ 
+
+Pada
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+PROGRAM STUDI
+SISTEM INFORMASI
+
+FAKULTAS
+MATEMATIKA DAN ILMU PENGETAHUAN ALAM
+
+UNIVERSITAS
+HASANUDDIN
+
+MAKASSAR
+
+2025
 
 # ABSTRAK ^abstrak
 
@@ -43,8 +133,6 @@ Minat masyarakat yang tinggi terhadap olahraga mendorong peningkatan permintaan 
 The growing public enthusiasm for sports has driven a significant increase in demand for sports facility rentals. However, conventional and manual operational management often triggers critical issues, such as double bookings, record-keeping discrepancies, payment receipt manipulation, and the lack of real-time schedule availability information. This study aims to design and develop the FieldMax platform, a web-based multi-tenant sports facility booking and management marketplace, while empirically testing the system's reliability in eliminating double-booking conflicts. The system was developed using the Design Science Research (DSR) framework and the Waterfall software development life cycle (SDLC). The system is built upon a full-stack TypeScript monorepo architecture, separating a Next.js (App Router) frontend from an Express.js backend, backed by a PostgreSQL relational database accessed through Prisma ORM. Security is managed via database-persisted session-based authentication, automated digital payment transactions are integrated through the Midtrans Snap payment gateway, media storage is optimized with ImageKit CDN, and system email notifications are delivered using SMTP Nodemailer. Functional evaluation was conducted using the Black Box Testing method covering User, Renter, and Admin roles. Testing results demonstrate that the FieldMax platform successfully automates instant booking transactions, synchronizes schedule availability in real-time, completely eliminates double bookings (100% valid test cases), and provides transparent revenue analytics for venue partners.
 
 **Keywords:** Sports Venue Reservation, Multi-Tenant Marketplace, Double Booking Prevention, Next.js, Express.js, Midtrans Snap, Design Science Research.
-
----
 
 # DAFTAR ISI ^daftar-isi
 
@@ -84,8 +172,6 @@ The growing public enthusiasm for sports has driven a significant increase in de
 | [4.2 Saran](#^saran) | 164 |
 | [DAFTAR PUSTAKA](#^daftar-pustaka) | 165 |
 | [LAMPIRAN](#^lampiran) | 167 |
-
----
 
 # DAFTAR GAMBAR ^daftar-gambar
 
@@ -160,8 +246,6 @@ The growing public enthusiasm for sports has driven a significant increase in de
 | [**Gambar 66.**](#^gambar-66) | Halaman Daftar Laporan Admin |
 | [**Gambar 67.**](#^gambar-67) | Halaman Detail Laporan Admin |
 
----
-
 # DAFTAR TABEL ^daftar-tabel
 
 | Tabel | Judul Tabel |
@@ -194,8 +278,6 @@ The growing public enthusiasm for sports has driven a significant increase in de
 | [**Tabel 25.**](#^tabel-25) | Fitur Ulasan Lapangan & Laporan Pengaduan |
 | [**Tabel 26.**](#^tabel-26) | Pengelolaan Venue & Lapangan (Renter-Side) |
 | [**Tabel 27.**](#^tabel-27) | Panel Moderasi & Administrasi (Admin-Side) |
-
----
 
 # BAB I PENDAHULUAN ^bab-1
 
@@ -374,8 +456,6 @@ Tahapan dalam model *Waterfall* meliputi:
 ### 1.6.8 *Black Box Testing*
 
 *Black Box Testing* (pengujian kotak hitam) merupakan teknik pengujian perangkat lunak yang berfokus pada evaluasi spesifikasi fungsional sistem tanpa memerlukan pengetahuan terhadap struktur kode internal atau algoritma logika program (Pressman, 2010; Uminingsih et al., 2022). Pengujian dilakukan dari sudut pandang pengguna akhir (*end-user*) dengan memberikan serangkaian nilai masukan (*input*) pada form antarmuka sistem dan memverifikasi apakah keluaran (*output*) serta perubahan status data yang dihasilkan telah sesuai dengan skenario hasil yang diharapkan (*expected results*) (Shadiq et al., 2021).
-
----
 
 # BAB II METODE PENELITIAN ^bab-2
 
@@ -847,8 +927,6 @@ Menyajikan antarmuka pengelolaan data master cabang olahraga (tambah, ubah, hapu
 ![[figma/Admin/Sport Types.jpg]]
 
 **Gambar 44.** Halaman *Sport Types* ^gambar-44
-
----
 
 # BAB III HASIL DAN PEMBAHASAN ^bab-3
 
@@ -1372,7 +1450,7 @@ Halaman login menyediakan form masuk akun dengan validasi *client-side* mengguna
 
 ![[halaman-login.png]]
 
-**Gambar 38.** Halaman *Login* ^gambar-38
+**Gambar 38.** Halaman Login ^gambar-38
 
 #### 8. Halaman Registrasi (`/register`)
 Halaman registrasi menyediakan form pendaftaran akun baru yang mencakup input nama lengkap, email, kata sandi, konfirmasi kata sandi, dan pilihan peran akun (User atau Renter). Validasi dilakukan secara *real-time* di sisi klien.
@@ -1400,7 +1478,7 @@ Halaman reset password menampilkan form pengisian kata sandi baru yang diakses m
 
 ![[halaman-reset-password.png]]
 
-**Gambar 42.** Halaman *Reset Password* ^gambar-42
+**Gambar 42.** Halaman Reset Password ^gambar-42
 
 ### 3.4.3 Dashboard Pengguna (User / Customer)
 
@@ -1446,7 +1524,7 @@ Halaman dashboard mitra menampilkan rangkuman statistik bisnis harian: total lap
 
 ![[halaman-dashboard-renter.png]]
 
-**Gambar 48.** Halaman *Dashboard Renter* ^gambar-48
+**Gambar 48.** Halaman Dashboard Renter ^gambar-48
 
 #### 18. Halaman Kelola Venue (`/renter/venues`)
 Halaman kelola venue menampilkan daftar seluruh venue milik renter. Renter dapat menambahkan venue baru, mengedit informasi venue, mengatur jadwal operasional mingguan, mengunggah galeri foto, serta mengajukan venue ke admin untuk mendapatkan persetujuan.
@@ -1511,7 +1589,7 @@ Halaman dashboard administrator menampilkan ringkasan statistik platform secara 
 
 ![[halaman-dashboard-admin.png]]
 
-**Gambar 57.** Halaman *Dashboard Admin* ^gambar-57
+**Gambar 57.** Halaman Dashboard Admin ^gambar-57
 
 #### 27. Halaman Kelola Pengguna (`/admin/users`)
 Halaman kelola pengguna menampilkan daftar seluruh akun yang terdaftar di platform, baik User, Renter, maupun Admin. Administrator dapat melihat detail profil, memverifikasi data bisnis Renter, atau menonaktifkan akun yang melanggar kebijakan.
@@ -1629,8 +1707,6 @@ Keberhasilan platform FieldMax dalam mengeliminasi bentrok jadwal sewa (*double 
 ### 3.6.3 Efisiensi Operasional dan Keamanan Transaksi Digital
 Integrasi berbagai layanan pendukung modern menghasilkan sistem yang tangguh: *session-based authentication* tersimpan di basis data dengan *cookie HttpOnly* mengamankan sesi pengguna dari kerentanan *Cross-Site Scripting* (XSS); ImageKit CDN mengoptimalkan kompresi berkas gambar fasilitas olahraga sehingga mempercepat pemuatan halaman web; serta SMTP Nodemailer mengotomatisasi pengiriman token verifikasi akun dan pemulihan kata sandi. Dengan demikian, platform FieldMax tidak hanya menyelesaikan permasalahan operasional reservasi, namun juga menyediakan standar keamanan dan kenyamanan transaksi yang memenuhi kebutuhan industri olahraga digital saat ini.
 
----
-
 # BAB IV KESIMPULAN DAN SARAN ^bab-4
 
 ## 4.1 Kesimpulan ^kesimpulan
@@ -1664,8 +1740,6 @@ Meskipun sistem informasi FieldMax telah berhasil dikembangkan dan berfungsi den
 
 5. **Pengujian Beban dan Skalabilitas Sistem (*Load & Stress Testing*)**:
    Melakukan pengujian performa sistem dalam skala beban tinggi (*load and stress testing*) guna menganalisis ketahanan basis data dan waktu respons server ketika terjadi lonjakan transaksi reservasi secara masif pada jam-jam sibuk (*peak hours*).
-
----
 
 # DAFTAR PUSTAKA ^daftar-pustaka
 
@@ -1720,3 +1794,11 @@ Sidiarta, P. (2018). Rancang Bangun Sistem Informasi Marketplace Penyewaan Lapan
 Swastika, R. H., & Khasanah, F. N. (2017). Sistem Informasi Reservasi Lapangan Futsal pada Futsal Corner Menggunakan Metode Waterfall. *Jurnal Mahasiswa Bina Insani*, 1(2), 251–266.
 
 Uminingsih, Ichsanudin, M. N., Yusuf, M., & Suraya. (2022). Pengujian Fungsional Perangkat Lunak Sistem Informasi Perpustakaan Dengan Metode Black Box Testing Bagi Pemula. *STORAGE: Jurnal Ilmiah Teknik dan Ilmu Komputer*, 1(2), 1–8.
+
+﻿# LAMPIRAN ^lampiran
+
+ 
+
+Link video pengujian *Black Box Testing*
+
+![](images/image141.jpg)
