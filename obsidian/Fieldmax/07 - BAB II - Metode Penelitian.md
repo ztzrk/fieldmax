@@ -107,62 +107,117 @@ Berdasarkan hasil sintesis studi literatur terhadap berbagai penelitian proses b
 
 ### 2.6.2 Analisis Kebutuhan Sistem
 
-Berdasarkan analisis permasalahan di atas, dirumuskan kebutuhan fungsional bagi ketiga peran pengguna, kebutuhan perangkat lunak, perangkat keras, dan profil pengguna sistem.
+Berdasarkan analisis permasalahan sistem reservasi lapangan olahraga konvensional yang telah diuraikan sebelumnya, dirumuskan kebutuhan sistem secara komprehensif yang mencakup kebutuhan fungsional bagi seluruh aktor pengguna, kebutuhan perangkat lunak, kebutuhan perangkat keras, karakteristik non-fungsional, serta profil pengguna sistem.
 
-#### 1. Kebutuhan Fungsional
+#### 1. Kebutuhan Fungsional (*Functional Requirements*)
+
+Kebutuhan fungsional mendefinisikan seluruh kapabilitas, layanan interaktif, dan fungsi operasional yang wajib disediakan oleh sistem informasi FieldMax untuk masing-masing peran aktor (*Admin*, *Renter*, dan *User*).
 
 **a. Kebutuhan Fungsional Admin:**
-1. Admin dapat meninjau, menyetujui (*approve*), atau menolak (*reject*) pengajuan pendaftaran venue dan unit lapangan dari Renter disertai alasan penolakan.
-2. Admin dapat melihat, memfilter, dan mengelola seluruh data pengguna yang terdaftar di platform.
-3. Admin dapat memantau seluruh riwayat transaksi pemesanan (*booking*) dan aliran pembayaran secara menyeluruh.
-4. Admin dapat mengelola data referensi cabang olahraga (*Sport Types*), meliputi penambahan, pengubahan, dan penghapusan kategori.
-5. Admin dapat meninjau, membalas melalui utas pesan, dan menyelesaikan tiket pengaduan (*Report*) dari User maupun Renter.
-6. Admin memiliki dasbor analitik ringkasan yang menampilkan metrik pertumbuhan platform secara keseluruhan.
+Spesifikasi kebutuhan fungsional untuk pengguna dengan hak akses Admin disajikan pada Tabel 5.
+
+**Tabel 5.** Kebutuhan Fungsional Pengguna Admin (*Admin Functional Requirements*) ^tabel-5
+
+| No | Kode Kebutuhan | Nama Kebutuhan Fungsional | Deskripsi Spesifikasi Fungsional |
+| :---: | :---: | :--- | :--- |
+| 1 | **KF-ADM-01** | Moderasi Venue & Lapangan | Meninjau, menyetujui (*approve*), atau menolak (*reject*) pengajuan pendaftaran venue dan unit lapangan dari Renter disertai pencatatan alasan penolakan. |
+| 2 | **KF-ADM-02** | Manajemen Data Pengguna | Melihat, memfilter berdasarkan peran (*role*), dan mengelola seluruh data akun pengguna yang terdaftar pada sistem. |
+| 3 | **KF-ADM-03** | Pengawasan Transaksi Pemesanan | Memantau seluruh riwayat transaksi pemesanan (*booking*) dan aliran pembayaran secara menyeluruh dan *real-time*. |
+| 4 | **KF-ADM-04** | Pengelolaan Master Cabang Olahraga | Mengelola data master kategori cabang olahraga (*Sport Types*), meliputi penambahan, pengubahan nama, dan penghapusan kategori. |
+| 5 | **KF-ADM-05** | Penanganan Tiket Pengaduan | Meninjau, membalas melalui utas pesan terintegrasi, dan menyelesaikan status tiket pengaduan (*Report*) dari User maupun Renter. |
+| 6 | **KF-ADM-06** | Dasbor Analitik Platform | Mengakses dasbor analitik ringkasan yang menyajikan metrik pertumbuhan platform, total omzet, total booking, dan statistik operasional platform. |
 
 **b. Kebutuhan Fungsional Renter:**
-1. Renter dapat mendaftarkan venue baru beserta informasi alamat, deskripsi, tautan lokasi, dan jadwal jam operasional harian (*VenueSchedule*).
-2. Renter dapat mendaftarkan unit lapangan di bawah venue miliknya, memilih cabang olahraga, menetapkan harga sewa per jam, serta mengatur status buka/tutup sementara.
-3. Renter dapat mengunggah dan mengelola galeri foto fasilitas venue dan lapangan melalui integrasi ImageKit CDN.
-4. Renter dapat mengajukan venue dan unit lapangan kepada Admin untuk proses moderasi dan verifikasi kelayakan publikasi.
-5. Renter dapat memantau daftar pemesanan masuk secara *real-time*, memverifikasi kehadiran penyewa, dan menyelesaikan status sewa.
-6. Renter dapat menganalisis grafik rekapitulasi pendapatan kotor dan tren okupansi lapangan melalui dasbor pendapatan (*Revenue*).
-7. Renter dapat membuat tiket laporan pengaduan kepada Admin jika mendapati kendala teknis atau operasional.
+Spesifikasi kebutuhan fungsional untuk pengguna dengan hak akses Renter (mitra pemilik/pengelola sarana olahraga) disajikan pada Tabel 6.
+
+**Tabel 6.** Kebutuhan Fungsional Pengguna Renter (*Renter Functional Requirements*) ^tabel-6
+
+| No | Kode Kebutuhan | Nama Kebutuhan Fungsional | Deskripsi Spesifikasi Fungsional |
+| :---: | :---: | :--- | :--- |
+| 1 | **KF-RNT-01** | Pendaftaran Profil & Jadwal Venue | Mendaftarkan venue baru beserta informasi alamat, deskripsi, tautan lokasi, dan jadwal jam operasional harian (*VenueSchedule*). |
+| 2 | **KF-RNT-02** | Pengelolaan Data Unit Lapangan | Mendaftarkan unit lapangan di bawah venue miliknya, memilih cabang olahraga, menetapkan tarif sewa per jam, serta mengatur status buka/tutup sementara. |
+| 3 | **KF-RNT-03** | Manajemen Media Fasilitas | Mengunggah dan mengelola galeri foto fasilitas venue dan lapangan melalui integrasi *Content Delivery Network* (ImageKit CDN). |
+| 4 | **KF-RNT-04** | Pengajuan Moderasi Publikasi | Mengajukan venue dan unit lapangan kepada Admin untuk proses moderasi dan verifikasi kelayakan sebelum dipublikasikan ke publik. |
+| 5 | **KF-RNT-05** | Pemantauan Pesanan Masuk | Memantau daftar reservasi masuk secara *real-time*, memverifikasi kehadiran penyewa, dan menyelesaikan status pelaksanaan sewa. |
+| 6 | **KF-RNT-06** | Analitik Rekapitulasi Pendapatan | Menganalisis grafik rekapitulasi pendapatan kotor harian/bulanan dan tren okupansi lapangan melalui dasbor pendapatan (*Revenue*). |
+| 7 | **KF-RNT-07** | Pengajuan Laporan Kendala | Membuat tiket laporan pengaduan kepada Admin apabila mendapati kendala teknis sistem atau kendala operasional reservasi. |
 
 **c. Kebutuhan Fungsional User:**
-1. User dapat melakukan pendaftaran akun, verifikasi email melalui kode OTP/token, masuk (*login*), dan pemulihan kata sandi (*forgot/reset password*).
-2. User dapat mencari dan memfilter lapangan olahraga berdasarkan nama, cabang olahraga, lokasi kota/daerah, dan rentang harga.
-3. User dapat melihat rincian detail venue dan lapangan, fasilitas pendukung, galeri foto, jadwal operasional, serta ulasan dari pengguna lain.
-4. User dapat melakukan reservasi lapangan dengan memilih tanggal dan slot jam sewa yang tersedia secara *real-time*.
-5. User dapat menyelesaikan pembayaran digital secara instan melalui Midtrans Snap (*QRIS*, *Virtual Account*, dan *e-Wallet*).
-6. User dapat melihat riwayat daftar pemesanan (*My Bookings*) beserta rincian status pembayaran dan kode reservasi.
-7. User dapat memberikan ulasan (*review*) dan penilaian bintang (rating 1–5) terhadap lapangan yang telah selesai disewa.
-8. User dapat mengajukan laporan keluhan atau kendala transaksi (*Report*) kepada Admin dan memantau respons balasannya.
+Spesifikasi kebutuhan fungsional untuk pengguna dengan hak akses User (pelanggan/penyewa fasilitas olahraga) disajikan pada Tabel 7.
 
-#### 2. Kebutuhan Perangkat Lunak
+**Tabel 7.** Kebutuhan Fungsional Pengguna User (*User Functional Requirements*) ^tabel-7
 
-Perangkat lunak yang digunakan dalam proses perancangan, implementasi, dan pengujian sistem meliputi:
-1. **Visual Studio Code**: Lingkungan pengembangan terintegrasi (*IDE*) utama.
-2. **Node.js (v20+) & pnpm (v10)**: *Runtime* JavaScript/TypeScript dan manajer paket *monorepo*.
-3. **Git & GitHub**: Sistem kendali versi (*version control system*) dan repositori kode.
-4. **Figma**: Perancangan purwarupa antarmuka pengguna (*UI/UX design*).
-5. **PostgreSQL & Prisma ORM**: Sistem basis data relasional dan generator kueri *type-safe*.
-6. **Midtrans *Sandbox***: Lingkungan pengujian simulasi transaksi pembayaran digital.
-7. **Postman**: Pengujian dan verifikasi *endpoint* RESTful API *backend*.
+| No | Kode Kebutuhan | Nama Kebutuhan Fungsional | Deskripsi Spesifikasi Fungsional |
+| :---: | :---: | :--- | :--- |
+| 1 | **KF-USR-01** | Autentikasi & Akun Pengguna | Melakukan pendaftaran akun, verifikasi email melalui kode token/OTP, masuk (*login*), dan pemulihan kata sandi (*forgot/reset password*). |
+| 2 | **KF-USR-02** | Pencarian & Filter Lapangan | Mencari dan memfilter sarana lapangan berdasarkan kata kunci nama, cabang olahraga, lokasi daerah/kota, dan rentang harga sewa. |
+| 3 | **KF-USR-03** | Eksplorasi Detail Venue & Jadwal | Melihat rincian detail venue dan lapangan, fasilitas pendukung, galeri foto, jadwal jam operasional, serta ulasan dari pengguna lain. |
+| 4 | **KF-USR-04** | Reservasi Slot Lapangan *Real-Time* | Melakukan reservasi lapangan dengan memilih tanggal dan slot jam sewa yang tersedia secara *real-time* tanpa risiko bentrok jadwal. |
+| 5 | **KF-USR-05** | Pembayaran Digital Instan | Menyelesaikan transaksi pembayaran digital secara otomatis melalui Midtrans Snap (*QRIS*, *Virtual Account*, dan *e-Wallet*). |
+| 6 | **KF-USR-06** | Manajemen Riwayat Pemesanan | Melihat riwayat daftar pemesanan (*My Bookings*) beserta rincian status pembayaran, bukti transaksi, dan kode reservasi digital. |
+| 7 | **KF-USR-07** | Ulasan & Penilaian (*Review*) | Memberikan ulasan (*review*) dan penilaian bintang (skala 1 s.d. 5) terhadap sarana lapangan yang telah selesai disewa. |
+| 8 | **KF-USR-08** | Pengaduan Layanan (*Report*) | Mengajukan tiket laporan keluhan atau kendala transaksi kepada Admin dan memantau balasan tindak lanjutnya. |
 
-#### 3. Kebutuhan Perangkat Keras
+#### 2. Kebutuhan Non-Fungsional (*Non-Functional Requirements*)
 
-Pengembangan dan pengujian sistem dilakukan menggunakan laptop dengan spesifikasi:
-- **Model**: Lenovo LOQ 15IRX9
-- **Prosesor**: Intel® Core™ i5-12450HX @ 2.40 GHz (8 Cores, 12 Threads)
-- **Memori (RAM)**: 28 GB DDR5
-- **Penyimpanan**: 512 GB NVMe PCIe SSD
-- **Sistem Operasi**: Microsoft Windows 11 Home 64-bit
+Kebutuhan non-fungsional mendefinisikan batasan arsitektural, perangkat lunak pendukung, lingkungan perangkat keras, serta atribut kualitas kinerja yang harus dipenuhi oleh sistem.
 
-#### 4. Profil Pengguna Sistem
+**a. Kebutuhan Perangkat Lunak (*Software Requirements*):**
+Kebutuhan perangkat lunak yang digunakan dalam tahap perancangan, implementasi kode sumber, basis data, dan pengujian disajikan pada Tabel 8.
 
-1. **Admin (Administrator)**: Berperan sebagai pengawas dan moderator sentral yang memastikan kepatuhan standar kualitas venue, mengelola data master, serta menjaga kelancaran operasional platform.
-2. **Renter (Mitra Pemilik/Pengelola Lapangan)**: Pihak penyedia sarana fisik olahraga yang memanfaatkan FieldMax untuk mendigitalkan jadwal sewa, memasarkan lapangan, dan mengotomatisasi pencatatan keuangan.
-3. **User (Pelanggan/Penyewa)**: Komunitas atau perorangan pecinta olahraga yang membutuhkan sarana pencarian lapangan yang cepat, transparan, dan dapat dipesan secara instan.
+**Tabel 8.** Kebutuhan Perangkat Lunak (*Software Requirements*) ^tabel-8
+
+| No | Komponen Perangkat Lunak | Spesifikasi / Alat | Peran & Kegunaan dalam Sistem |
+| :---: | :--- | :--- | :--- |
+| 1 | *Integrated Development Environment* | Visual Studio Code (v1.90+) | Editor kode sumber utama untuk pengembangan *full-stack TypeScript*. |
+| 2 | *Runtime & Package Manager* | Node.js (v20+) & pnpm (v10+) | Lingkungan eksekusi JavaScript/TypeScript dan manajer dependensi *monorepo*. |
+| 3 | *Frontend Framework & UI* | Next.js 16 (App Router), React 19, Tailwind CSS v4, shadcn/ui | Pembangunan antarmuka pengguna berbasis SSR & CSR yang responsif dan modular. |
+| 4 | *Backend Framework* | Express.js 5 & TypeScript | Peladen layanan RESTful API dengan arsitektur *Controller-Service-Route*. |
+| 5 | *Database Engine & ORM* | PostgreSQL 16 & Prisma ORM 6 | Pengelolaan basis data relasional, migrasi skema, dan generator kueri *type-safe*. |
+| 6 | *Payment Gateway Service* | Midtrans Snap API (*Sandbox*) | Otomasi pemrosesan transaksi pembayaran digital dan verifikasi *webhook*. |
+| 7 | *Media Storage & CDN* | ImageKit SDK | Layanan *cloud storage* terdistribusi dan optimasi pengiriman berkas foto fasilitas. |
+| 8 | *Email Delivery Service* | Nodemailer (SMTP Service) | Pengiriman token verifikasi email aktivasi akun dan tautan pemulihan kata sandi. |
+| 9 | *Version Control System* | Git & GitHub | Pelacakan riwayat revisi kode sumber dan sinkronisasi repositori pengembangan. |
+| 10 | *API Testing & UI Design Tool* | Postman & Figma | Pengujian integrasi *endpoint* API dan perancangan *wireframe/prototype* UI/UX. |
+
+**b. Kebutuhan Perangkat Keras (*Hardware Requirements*):**
+Spesifikasi perangkat keras yang digunakan pada proses pengembangan serta kebutuhan minimum bagi pengguna disajikan pada Tabel 9.
+
+**Tabel 9.** Kebutuhan Perangkat Keras (*Hardware Requirements*) ^tabel-9
+
+| No | Komponen Perangkat Keras | Spesifikasi Pengembang (*Development Environment*) | Spesifikasi Minimum Pengguna (*Client Side*) |
+| :---: | :--- | :--- | :--- |
+| 1 | **Perangkat Komputer** | Laptop Lenovo LOQ 15IRX9 | PC / Laptop / *Smartphone* / Tablet |
+| 2 | **Prosesor (CPU)** | Intel® Core™ i5-12450HX @ 2.40 GHz (8 Cores, 12 Threads) | Prosesor Dual Core 1.5 GHz atau lebih tinggi |
+| 3 | **Memori (RAM)** | 28 GB DDR5 4800 MHz | Minimum 2 GB (Disarankan 4 GB) |
+| 4 | **Penyimpanan (Storage)** | 512 GB NVMe PCIe SSD | Ruang kosong minimum 500 MB untuk *cache* peramban |
+| 5 | **Koneksi Jaringan** | Internet pita lebar (*Broadband*) $\ge 20\text{ Mbps}$ | Koneksi internet aktif $\ge 2\text{ Mbps}$ (4G/Wi-Fi) |
+| 6 | **Sistem Operasi** | Microsoft Windows 11 Home 64-bit | Windows 10/11, macOS, Linux, Android, atau iOS |
+
+**c. Kebutuhan Non-Fungsional Karakteristik Sistem:**
+Karakteristik kualitas dan keandalan operasional sistem informasi FieldMax dirangkum pada Tabel 10.
+
+**Tabel 10.** Kebutuhan Non-Fungsional Karakteristik Sistem ^tabel-10
+
+| No | Parameter Non-Fungsional | Kriteria & Spesifikasi Karakteristik Sistem |
+| :---: | :--- | :--- |
+| 1 | **Keandalan (*Reliability*)** | Sistem menjamin eliminasi bentrok jadwal (*zero double booking*) melalui mekanisme validasi rentang waktu ketat pada tingkat *service* dan transaksi basis data. |
+| 2 | **Kinerja (*Performance*)** | Waktu respons pemuatan halaman (*load time*) rata-rata berada di bawah 2 detik dengan pemanfaatan *Server-Side Rendering* (SSR) dan *caching* React Query. |
+| 3 | **Keamanan (*Security*)** | Menerapkan *session-based authentication* tersimpan di basis data dengan *cookie HttpOnly*, enkripsi *password* menggunakan bcrypt, dan validasi skema masukan via Zod. |
+| 4 | **Ketersediaan (*Availability*)** | Layanan reservasi dan pemantauan jadwal dapat diakses secara daring 24 jam sehari, 7 hari seminggu (24/7) dengan sinkronisasi status otomatis via *cron job*. |
+| 5 | **Kemudahan Penggunaan (*Usability*)** | Antarmuka pengguna berdesain intuitif dan adaptif (*mobile-first responsive*), menerapkan panduan desain shadcn/ui, serta menggunakan bahasa Indonesia yang lugas. |
+
+#### 3. Profil Pengguna Sistem (*User Profile*)
+
+Profil dan karakteristik dari masing-masing kategori pengguna yang berinteraksi dengan platform FieldMax dirangkum pada Tabel 11.
+
+**Tabel 11.** Profil dan Karakteristik Pengguna Sistem ^tabel-11
+
+| No | Peran Pengguna (*Actor*) | Kategori Pengguna | Hak Akses & Tanggung Jawab Utama |
+| :---: | :--- | :--- | :--- |
+| 1 | **Admin** (*Administrator*) | Pengelola Sentral Platform | Memiliki hak akses tertinggi untuk memoderasi kelayakan venue dan unit lapangan, mengelola data akun pengguna, memantau seluruh transaksi pemesanan, mengelola master *sport types*, dan menyelesaikan tiket pengaduan. |
+| 2 | **Renter** (*Mitra Pengelola*) | Penyedia Fasilitas Olahraga | Memiliki hak mengelola data profil venue, mendaftarkan unit lapangan, mengatur tarif dan jam operasional buka/tutup, memantau pesanan masuk *real-time*, memverifikasi kehadiran sewa, dan memantau analitik omzet. |
+| 3 | **User** (*Pelanggan/Penyewa*) | Masyarakat Umum / Komunitas | Memiliki hak mencari sarana olahraga, mengecek ketersediaan jadwal *real-time*, melakukan pemesanan instan, menyelesaikan pembayaran digital otomatis via Midtrans, melihat riwayat sewa, memberi ulasan/rating, dan membuat laporan pengaduan. |
 
 ## 2.7 Perancangan Sistem ^perancangan-sistem
 
@@ -172,9 +227,9 @@ Perancangan sistem dimodelkan menggunakan *Unified Modeling Language* (UML) yang
 
 **Gambar 9.** *Use Case Diagram* Platform Web FieldMax ^gambar-9
 
-Diagram pada Gambar 9 menggambarkan pembagian 22 *use case* yang terdistribusi ke dalam tiga peran aktor: Admin, Renter, dan User. Definisi peran dan batasan hak akses dari masing-masing aktor dijelaskan pada Tabel 4a.
+Diagram pada Gambar 9 menggambarkan pembagian 22 *use case* yang terdistribusi ke dalam tiga peran aktor: Admin, Renter, dan User. Definisi peran dan batasan hak akses dari masing-masing aktor dijelaskan pada Tabel 12.
 
-**Tabel 4a.** Definisi Aktor Sistem Informasi FieldMax ^tabel-4a
+**Tabel 12.** Definisi Aktor Sistem Informasi FieldMax ^tabel-12
 
 | No | Aktor | Deskripsi Peran & Hak Akses |
 |:---:|:---|:---|

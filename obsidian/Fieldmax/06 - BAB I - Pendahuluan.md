@@ -159,18 +159,18 @@ Berdasarkan Gambar 1, kerangka DSR terdiri atas tiga domain utama:
 
 ### 1.6.7 Metode Pengembangan Perangkat Lunak (*Waterfall*)
 
-Metode *Waterfall* merupakan model klasik dalam *Software Development Life Cycle* (SDLC) yang menerapkan pendekatan sekuensial dan linier dalam rekayasa perangkat lunak (Pressman, 2010). Setiap fase pengembangan harus diselesaikan dan diverifikasi secara menyeluruh sebelum melangkah ke fase berikutnya guna memastikan kejelasan spesifikasi dan pengendalian kualitas artefak secara ketat.
+Metode *Waterfall* merupakan model klasik dalam *Software Development Life Cycle* (SDLC) yang menerapkan pendekatan sekuensial dan linier dalam rekayasa perangkat lunak (Sommerville, 2011). Setiap fase pengembangan harus diselesaikan dan diverifikasi secara menyeluruh sebelum melangkah ke fase berikutnya guna memastikan kejelasan spesifikasi dan pengendalian kualitas artefak secara ketat, disertai alur umpan balik (*feedback loop*) ke tahapan sebelumnya untuk perbaikan iteratif jika ditemukan ketidaksesuaian.
 
 ![](images/image016.png)
 
 **Gambar 2.** Tahapan Metode *Waterfall* ^gambar-2
 
 Tahapan dalam model *Waterfall* meliputi:
-1. ***Requirement Analysis***: Mengidentifikasi dan menganalisis seluruh kebutuhan fungsional dan non-fungsional sistem melalui observasi proses bisnis dan studi literatur.
-2. ***System Design***: Merancang arsitektur sistem perangkat lunak, diagram alir proses (UML), struktur basis data (ERD), serta desain antarmuka pengguna (*User Interface* / UI).
-3. ***Implementation***: Mengonversi rancangan desain ke dalam bentuk baris kode program (*coding*) fungsional menggunakan bahasa pemrograman TypeScript, Next.js, Express.js, dan skema Prisma ORM.
-4. ***Testing / Verification***: Menguji seluruh fungsionalitas dan integrasi modul sistem untuk memastikan kesesuaian dengan kebutuhan yang telah didefinisikan sebelumnya.
-5. ***Maintenance***: Memperbaiki kendala teknis atau galat (*bug*) yang terdeteksi serta melakukan pembaruan berkala untuk menjaga keandalan sistem.
+1. ***Requirements Definition***: Mengidentifikasi, menganalisis, dan mendefinisikan seluruh kebutuhan fungsional dan non-fungsional sistem melalui observasi proses bisnis dan studi literatur.
+2. ***System and Software Design***: Merancang arsitektur sistem perangkat lunak, diagram alir proses (*Unified Modeling Language* / UML), struktur basis data (*Entity Relationship Diagram* / ERD), serta desain antarmuka pengguna (*User Interface* / UI).
+3. ***Implementation and Unit Testing***: Mengonversi rancangan desain ke dalam bentuk baris kode program (*coding*) fungsional pada masing-masing modul menggunakan bahasa pemrograman TypeScript, Next.js, Express.js, dan skema Prisma ORM serta melakukan pengujian unit (*unit testing*).
+4. ***Integration and System Testing***: Mengintegrasikan seluruh modul sistem dan melakukan pengujian komprehensif (*Black Box Testing*) guna memverifikasi bahwa seluruh kebutuhan fungsional telah terpenuhi secara menyeluruh.
+5. ***Operation and Maintenance***: Mengoperasikan sistem pada lingkungan operasional, menangani galat (*bug*) yang teridentifikasi, serta melaksanakan pemeliharaan dan pembaruan berkala untuk menjaga keandalan sistem.
 
 ### 1.6.8 *Black Box Testing*
 

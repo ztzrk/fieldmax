@@ -1,4 +1,4 @@
-﻿RANCANG BANGUN SISTEM INFORMASI RESERVASI
+RANCANG BANGUN SISTEM INFORMASI RESERVASI
 DAN FASILITAS OLAHRAGA MULTI-TENANT BERBASIS WEB
 
  
@@ -253,31 +253,33 @@ The growing public enthusiasm for sports has driven a significant increase in de
 | [**Tabel 1.**](#^tabel-1) | Komponen *use case diagram* |
 | [**Tabel 2.**](#^tabel-2) | Komponen *activity diagram* |
 | [**Tabel 3.**](#^tabel-3) | Komponen *Entity Relationship Diagram* |
-| [**Tabel 4.**](#^tabel-4) | Waktu Penelitian |
-| [**Tabel 4a.**](#^tabel-4a) | Definisi Aktor Sistem Informasi FieldMax |
-| [**Tabel 5.**](#^tabel-5) | Tabel daftar Enum yang digunakan beserta nilainya |
-| [**Tabel 6.**](#^tabel-6) | Tabel *users* |
-| [**Tabel 7.**](#^tabel-7) | Tabel *verification_tokens* |
-| [**Tabel 8.**](#^tabel-8) | Tabel *reset_tokens* |
-| [**Tabel 9.**](#^tabel-9) | Tabel *user_profiles* |
-| [**Tabel 10.**](#^tabel-10) | Tabel *sport_types* |
-| [**Tabel 11.**](#^tabel-11) | Tabel *venues* |
-| [**Tabel 12.**](#^tabel-12) | Tabel *venue_schedules* |
-| [**Tabel 13.**](#^tabel-13) | Tabel *venue_photos* |
-| [**Tabel 14.**](#^tabel-14) | Tabel *fields* |
-| [**Tabel 15.**](#^tabel-15) | Tabel *field_photos* |
-| [**Tabel 16.**](#^tabel-16) | Tabel *bookings* |
-| [**Tabel 17.**](#^tabel-17) | Tabel *payments* |
-| [**Tabel 18.**](#^tabel-18) | Tabel *reviews* |
-| [**Tabel 19.**](#^tabel-19) | Tabel *sessions* |
-| [**Tabel 20.**](#^tabel-20) | Tabel *reports* |
-| [**Tabel 21.**](#^tabel-21) | Tabel *report_replies* |
-| [**Tabel 22.**](#^tabel-22) | Pengujian Halaman Utama & Pencarian Venue |
-| [**Tabel 23.**](#^tabel-23) | Pengujian Fitur Otentikasi & Akun |
-| [**Tabel 24.**](#^tabel-24) | Skema Reservasi Lapangan & Pembayaran (User-Side) |
-| [**Tabel 25.**](#^tabel-25) | Fitur Ulasan Lapangan & Laporan Pengaduan |
-| [**Tabel 26.**](#^tabel-26) | Pengelolaan Venue & Lapangan (Renter-Side) |
-| [**Tabel 27.**](#^tabel-27) | Panel Moderasi & Administrasi (Admin-Side) |
+| [**Tabel 4.**](#^tabel-4) | Waktu dan Jadwal Pelaksanaan Penelitian |
+| [**Tabel 5.**](#^tabel-5) | Kebutuhan Fungsional Pengguna Admin |
+| [**Tabel 6.**](#^tabel-6) | Kebutuhan Fungsional Pengguna Renter |
+| [**Tabel 7.**](#^tabel-7) | Kebutuhan Fungsional Pengguna User |
+| [**Tabel 8.**](#^tabel-8) | Kebutuhan Perangkat Lunak (*Software Requirements*) |
+| [**Tabel 9.**](#^tabel-9) | Kebutuhan Perangkat Keras (*Hardware Requirements*) |
+| [**Tabel 10.**](#^tabel-10) | Kebutuhan Non-Fungsional Karakteristik Sistem |
+| [**Tabel 11.**](#^tabel-11) | Profil dan Karakteristik Pengguna Sistem |
+| [**Tabel 12.**](#^tabel-12) | Definisi Aktor Sistem Informasi FieldMax |
+| [**Tabel 13.**](#^tabel-13) | Tabel daftar Enum yang digunakan beserta nilainya |
+| [**Tabel 14.**](#^tabel-14) | Tabel *users* |
+| [**Tabel 15.**](#^tabel-15) | Tabel *verification_tokens* |
+| [**Tabel 16.**](#^tabel-16) | Tabel *reset_tokens* |
+| [**Tabel 17.**](#^tabel-17) | Tabel *user_profiles* |
+| [**Tabel 18.**](#^tabel-18) | Tabel *sport_types* |
+| [**Tabel 19.**](#^tabel-19) | Tabel *venues* |
+| [**Tabel 20.**](#^tabel-20) | Tabel *venue_schedules* |
+| [**Tabel 21.**](#^tabel-21) | Tabel *venue_photos* |
+| [**Tabel 22.**](#^tabel-22) | Tabel *fields* |
+| [**Tabel 23.**](#^tabel-23) | Tabel *field_photos* |
+| [**Tabel 24.**](#^tabel-24) | Tabel *bookings* |
+| [**Tabel 25.**](#^tabel-25) | Tabel *payments* |
+| [**Tabel 26.**](#^tabel-26) | Tabel *reviews* |
+| [**Tabel 27.**](#^tabel-27) | Tabel *sessions* |
+| [**Tabel 28.**](#^tabel-28) | Tabel *reports* |
+| [**Tabel 29.**](#^tabel-29) | Tabel *report_replies* |
+| [**Tabel 30.**](#^tabel-30) | Matriks Pengujian Skema Pencegahan Bentrok Jadwal (*Double Booking Prevention*) |
 
 # BAB I PENDAHULUAN ^bab-1
 
@@ -440,18 +442,18 @@ Berdasarkan Gambar 1, kerangka DSR terdiri atas tiga domain utama:
 
 ### 1.6.7 Metode Pengembangan Perangkat Lunak (*Waterfall*)
 
-Metode *Waterfall* merupakan model klasik dalam *Software Development Life Cycle* (SDLC) yang menerapkan pendekatan sekuensial dan linier dalam rekayasa perangkat lunak (Pressman, 2010). Setiap fase pengembangan harus diselesaikan dan diverifikasi secara menyeluruh sebelum melangkah ke fase berikutnya guna memastikan kejelasan spesifikasi dan pengendalian kualitas artefak secara ketat.
+Metode *Waterfall* merupakan model klasik dalam *Software Development Life Cycle* (SDLC) yang menerapkan pendekatan sekuensial dan linier dalam rekayasa perangkat lunak (Sommerville, 2011). Setiap fase pengembangan harus diselesaikan dan diverifikasi secara menyeluruh sebelum melangkah ke fase berikutnya guna memastikan kejelasan spesifikasi dan pengendalian kualitas artefak secara ketat, disertai alur umpan balik (*feedback loop*) ke tahapan sebelumnya untuk perbaikan iteratif jika ditemukan ketidaksesuaian.
 
 ![](images/image016.png)
 
 **Gambar 2.** Tahapan Metode *Waterfall* ^gambar-2
 
 Tahapan dalam model *Waterfall* meliputi:
-1. ***Requirement Analysis***: Mengidentifikasi dan menganalisis seluruh kebutuhan fungsional dan non-fungsional sistem melalui observasi proses bisnis dan studi literatur.
-2. ***System Design***: Merancang arsitektur sistem perangkat lunak, diagram alir proses (UML), struktur basis data (ERD), serta desain antarmuka pengguna (*User Interface* / UI).
-3. ***Implementation***: Mengonversi rancangan desain ke dalam bentuk baris kode program (*coding*) fungsional menggunakan bahasa pemrograman TypeScript, Next.js, Express.js, dan skema Prisma ORM.
-4. ***Testing / Verification***: Menguji seluruh fungsionalitas dan integrasi modul sistem untuk memastikan kesesuaian dengan kebutuhan yang telah didefinisikan sebelumnya.
-5. ***Maintenance***: Memperbaiki kendala teknis atau galat (*bug*) yang terdeteksi serta melakukan pembaruan berkala untuk menjaga keandalan sistem.
+1. ***Requirements Definition***: Mengidentifikasi, menganalisis, dan mendefinisikan seluruh kebutuhan fungsional dan non-fungsional sistem melalui observasi proses bisnis dan studi literatur.
+2. ***System and Software Design***: Merancang arsitektur sistem perangkat lunak, diagram alir proses (*Unified Modeling Language* / UML), struktur basis data (*Entity Relationship Diagram* / ERD), serta desain antarmuka pengguna (*User Interface* / UI).
+3. ***Implementation and Unit Testing***: Mengonversi rancangan desain ke dalam bentuk baris kode program (*coding*) fungsional pada masing-masing modul menggunakan bahasa pemrograman TypeScript, Next.js, Express.js, dan skema Prisma ORM serta melakukan pengujian unit (*unit testing*).
+4. ***Integration and System Testing***: Mengintegrasikan seluruh modul sistem dan melakukan pengujian komprehensif (*Black Box Testing*) guna memverifikasi bahwa seluruh kebutuhan fungsional telah terpenuhi secara menyeluruh.
+5. ***Operation and Maintenance***: Mengoperasikan sistem pada lingkungan operasional, menangani galat (*bug*) yang teridentifikasi, serta melaksanakan pemeliharaan dan pembaruan berkala untuk menjaga keandalan sistem.
 
 ### 1.6.8 *Black Box Testing*
 
@@ -566,62 +568,117 @@ Berdasarkan hasil sintesis studi literatur terhadap berbagai penelitian proses b
 
 ### 2.6.2 Analisis Kebutuhan Sistem
 
-Berdasarkan analisis permasalahan di atas, dirumuskan kebutuhan fungsional bagi ketiga peran pengguna, kebutuhan perangkat lunak, perangkat keras, dan profil pengguna sistem.
+Berdasarkan analisis permasalahan sistem reservasi lapangan olahraga konvensional yang telah diuraikan sebelumnya, dirumuskan kebutuhan sistem secara komprehensif yang mencakup kebutuhan fungsional bagi seluruh aktor pengguna, kebutuhan perangkat lunak, kebutuhan perangkat keras, karakteristik non-fungsional, serta profil pengguna sistem.
 
-#### 1. Kebutuhan Fungsional
+#### 1. Kebutuhan Fungsional (*Functional Requirements*)
+
+Kebutuhan fungsional mendefinisikan seluruh kapabilitas, layanan interaktif, dan fungsi operasional yang wajib disediakan oleh sistem informasi FieldMax untuk masing-masing peran aktor (*Admin*, *Renter*, dan *User*).
 
 **a. Kebutuhan Fungsional Admin:**
-1. Admin dapat meninjau, menyetujui (*approve*), atau menolak (*reject*) pengajuan pendaftaran venue dan unit lapangan dari Renter disertai alasan penolakan.
-2. Admin dapat melihat, memfilter, dan mengelola seluruh data pengguna yang terdaftar di platform.
-3. Admin dapat memantau seluruh riwayat transaksi pemesanan (*booking*) dan aliran pembayaran secara menyeluruh.
-4. Admin dapat mengelola data referensi cabang olahraga (*Sport Types*), meliputi penambahan, pengubahan, dan penghapusan kategori.
-5. Admin dapat meninjau, membalas melalui utas pesan, dan menyelesaikan tiket pengaduan (*Report*) dari User maupun Renter.
-6. Admin memiliki dasbor analitik ringkasan yang menampilkan metrik pertumbuhan platform secara keseluruhan.
+Spesifikasi kebutuhan fungsional untuk pengguna dengan hak akses Admin disajikan pada Tabel 5.
+
+**Tabel 5.** Kebutuhan Fungsional Pengguna Admin (*Admin Functional Requirements*) ^tabel-5
+
+| No | Kode Kebutuhan | Nama Kebutuhan Fungsional | Deskripsi Spesifikasi Fungsional |
+| :---: | :---: | :--- | :--- |
+| 1 | **KF-ADM-01** | Moderasi Venue & Lapangan | Meninjau, menyetujui (*approve*), atau menolak (*reject*) pengajuan pendaftaran venue dan unit lapangan dari Renter disertai pencatatan alasan penolakan. |
+| 2 | **KF-ADM-02** | Manajemen Data Pengguna | Melihat, memfilter berdasarkan peran (*role*), dan mengelola seluruh data akun pengguna yang terdaftar pada sistem. |
+| 3 | **KF-ADM-03** | Pengawasan Transaksi Pemesanan | Memantau seluruh riwayat transaksi pemesanan (*booking*) dan aliran pembayaran secara menyeluruh dan *real-time*. |
+| 4 | **KF-ADM-04** | Pengelolaan Master Cabang Olahraga | Mengelola data master kategori cabang olahraga (*Sport Types*), meliputi penambahan, pengubahan nama, dan penghapusan kategori. |
+| 5 | **KF-ADM-05** | Penanganan Tiket Pengaduan | Meninjau, membalas melalui utas pesan terintegrasi, dan menyelesaikan status tiket pengaduan (*Report*) dari User maupun Renter. |
+| 6 | **KF-ADM-06** | Dasbor Analitik Platform | Mengakses dasbor analitik ringkasan yang menyajikan metrik pertumbuhan platform, total omzet, total booking, dan statistik operasional platform. |
 
 **b. Kebutuhan Fungsional Renter:**
-1. Renter dapat mendaftarkan venue baru beserta informasi alamat, deskripsi, tautan lokasi, dan jadwal jam operasional harian (*VenueSchedule*).
-2. Renter dapat mendaftarkan unit lapangan di bawah venue miliknya, memilih cabang olahraga, menetapkan harga sewa per jam, serta mengatur status buka/tutup sementara.
-3. Renter dapat mengunggah dan mengelola galeri foto fasilitas venue dan lapangan melalui integrasi ImageKit CDN.
-4. Renter dapat mengajukan venue dan unit lapangan kepada Admin untuk proses moderasi dan verifikasi kelayakan publikasi.
-5. Renter dapat memantau daftar pemesanan masuk secara *real-time*, memverifikasi kehadiran penyewa, dan menyelesaikan status sewa.
-6. Renter dapat menganalisis grafik rekapitulasi pendapatan kotor dan tren okupansi lapangan melalui dasbor pendapatan (*Revenue*).
-7. Renter dapat membuat tiket laporan pengaduan kepada Admin jika mendapati kendala teknis atau operasional.
+Spesifikasi kebutuhan fungsional untuk pengguna dengan hak akses Renter (mitra pemilik/pengelola sarana olahraga) disajikan pada Tabel 13.
+
+**Tabel 13.** Kebutuhan Fungsional Pengguna Renter (*Renter Functional Requirements*) ^tabel-13
+
+| No | Kode Kebutuhan | Nama Kebutuhan Fungsional | Deskripsi Spesifikasi Fungsional |
+| :---: | :---: | :--- | :--- |
+| 1 | **KF-RNT-01** | Pendaftaran Profil & Jadwal Venue | Mendaftarkan venue baru beserta informasi alamat, deskripsi, tautan lokasi, dan jadwal jam operasional harian (*VenueSchedule*). |
+| 2 | **KF-RNT-02** | Pengelolaan Data Unit Lapangan | Mendaftarkan unit lapangan di bawah venue miliknya, memilih cabang olahraga, menetapkan tarif sewa per jam, serta mengatur status buka/tutup sementara. |
+| 3 | **KF-RNT-03** | Manajemen Media Fasilitas | Mengunggah dan mengelola galeri foto fasilitas venue dan lapangan melalui integrasi *Content Delivery Network* (ImageKit CDN). |
+| 4 | **KF-RNT-04** | Pengajuan Moderasi Publikasi | Mengajukan venue dan unit lapangan kepada Admin untuk proses moderasi dan verifikasi kelayakan sebelum dipublikasikan ke publik. |
+| 5 | **KF-RNT-05** | Pemantauan Pesanan Masuk | Memantau daftar reservasi masuk secara *real-time*, memverifikasi kehadiran penyewa, dan menyelesaikan status pelaksanaan sewa. |
+| 6 | **KF-RNT-06** | Analitik Rekapitulasi Pendapatan | Menganalisis grafik rekapitulasi pendapatan kotor harian/bulanan dan tren okupansi lapangan melalui dasbor pendapatan (*Revenue*). |
+| 7 | **KF-RNT-07** | Pengajuan Laporan Kendala | Membuat tiket laporan pengaduan kepada Admin apabila mendapati kendala teknis sistem atau kendala operasional reservasi. |
 
 **c. Kebutuhan Fungsional User:**
-1. User dapat melakukan pendaftaran akun, verifikasi email melalui kode OTP/token, masuk (*login*), dan pemulihan kata sandi (*forgot/reset password*).
-2. User dapat mencari dan memfilter lapangan olahraga berdasarkan nama, cabang olahraga, lokasi kota/daerah, dan rentang harga.
-3. User dapat melihat rincian detail venue dan lapangan, fasilitas pendukung, galeri foto, jadwal operasional, serta ulasan dari pengguna lain.
-4. User dapat melakukan reservasi lapangan dengan memilih tanggal dan slot jam sewa yang tersedia secara *real-time*.
-5. User dapat menyelesaikan pembayaran digital secara instan melalui Midtrans Snap (*QRIS*, *Virtual Account*, dan *e-Wallet*).
-6. User dapat melihat riwayat daftar pemesanan (*My Bookings*) beserta rincian status pembayaran dan kode reservasi.
-7. User dapat memberikan ulasan (*review*) dan penilaian bintang (rating 1–5) terhadap lapangan yang telah selesai disewa.
-8. User dapat mengajukan laporan keluhan atau kendala transaksi (*Report*) kepada Admin dan memantau respons balasannya.
+Spesifikasi kebutuhan fungsional untuk pengguna dengan hak akses User (pelanggan/penyewa fasilitas olahraga) disajikan pada Tabel 14.
 
-#### 2. Kebutuhan Perangkat Lunak
+**Tabel 14.** Kebutuhan Fungsional Pengguna User (*User Functional Requirements*) ^tabel-14
 
-Perangkat lunak yang digunakan dalam proses perancangan, implementasi, dan pengujian sistem meliputi:
-1. **Visual Studio Code**: Lingkungan pengembangan terintegrasi (*IDE*) utama.
-2. **Node.js (v20+) & pnpm (v10)**: *Runtime* JavaScript/TypeScript dan manajer paket *monorepo*.
-3. **Git & GitHub**: Sistem kendali versi (*version control system*) dan repositori kode.
-4. **Figma**: Perancangan purwarupa antarmuka pengguna (*UI/UX design*).
-5. **PostgreSQL & Prisma ORM**: Sistem basis data relasional dan generator kueri *type-safe*.
-6. **Midtrans *Sandbox***: Lingkungan pengujian simulasi transaksi pembayaran digital.
-7. **Postman**: Pengujian dan verifikasi *endpoint* RESTful API *backend*.
+| No | Kode Kebutuhan | Nama Kebutuhan Fungsional | Deskripsi Spesifikasi Fungsional |
+| :---: | :---: | :--- | :--- |
+| 1 | **KF-USR-01** | Autentikasi & Akun Pengguna | Melakukan pendaftaran akun, verifikasi email melalui kode token/OTP, masuk (*login*), dan pemulihan kata sandi (*forgot/reset password*). |
+| 2 | **KF-USR-02** | Pencarian & Filter Lapangan | Mencari dan memfilter sarana lapangan berdasarkan kata kunci nama, cabang olahraga, lokasi daerah/kota, dan rentang harga sewa. |
+| 3 | **KF-USR-03** | Eksplorasi Detail Venue & Jadwal | Melihat rincian detail venue dan lapangan, fasilitas pendukung, galeri foto, jadwal jam operasional, serta ulasan dari pengguna lain. |
+| 4 | **KF-USR-04** | Reservasi Slot Lapangan *Real-Time* | Melakukan reservasi lapangan dengan memilih tanggal dan slot jam sewa yang tersedia secara *real-time* tanpa risiko bentrok jadwal. |
+| 5 | **KF-USR-05** | Pembayaran Digital Instan | Menyelesaikan transaksi pembayaran digital secara otomatis melalui Midtrans Snap (*QRIS*, *Virtual Account*, dan *e-Wallet*). |
+| 6 | **KF-USR-06** | Manajemen Riwayat Pemesanan | Melihat riwayat daftar pemesanan (*My Bookings*) beserta rincian status pembayaran, bukti transaksi, dan kode reservasi digital. |
+| 7 | **KF-USR-07** | Ulasan & Penilaian (*Review*) | Memberikan ulasan (*review*) dan penilaian bintang (skala 1 s.d. 5) terhadap sarana lapangan yang telah selesai disewa. |
+| 8 | **KF-USR-08** | Pengaduan Layanan (*Report*) | Mengajukan tiket laporan keluhan atau kendala transaksi kepada Admin dan memantau balasan tindak lanjutnya. |
 
-#### 3. Kebutuhan Perangkat Keras
+#### 2. Kebutuhan Non-Fungsional (*Non-Functional Requirements*)
 
-Pengembangan dan pengujian sistem dilakukan menggunakan laptop dengan spesifikasi:
-- **Model**: Lenovo LOQ 15IRX9
-- **Prosesor**: Intel® Core™ i5-12450HX @ 2.40 GHz (8 Cores, 12 Threads)
-- **Memori (RAM)**: 28 GB DDR5
-- **Penyimpanan**: 512 GB NVMe PCIe SSD
-- **Sistem Operasi**: Microsoft Windows 11 Home 64-bit
+Kebutuhan non-fungsional mendefinisikan batasan arsitektural, perangkat lunak pendukung, lingkungan perangkat keras, serta atribut kualitas kinerja yang harus dipenuhi oleh sistem.
 
-#### 4. Profil Pengguna Sistem
+**a. Kebutuhan Perangkat Lunak (*Software Requirements*):**
+Kebutuhan perangkat lunak yang digunakan dalam tahap perancangan, implementasi kode sumber, basis data, dan pengujian disajikan pada Tabel 15.
 
-1. **Admin (Administrator)**: Berperan sebagai pengawas dan moderator sentral yang memastikan kepatuhan standar kualitas venue, mengelola data master, serta menjaga kelancaran operasional platform.
-2. **Renter (Mitra Pemilik/Pengelola Lapangan)**: Pihak penyedia sarana fisik olahraga yang memanfaatkan FieldMax untuk mendigitalkan jadwal sewa, memasarkan lapangan, dan mengotomatisasi pencatatan keuangan.
-3. **User (Pelanggan/Penyewa)**: Komunitas atau perorangan pecinta olahraga yang membutuhkan sarana pencarian lapangan yang cepat, transparan, dan dapat dipesan secara instan.
+**Tabel 15.** Kebutuhan Perangkat Lunak (*Software Requirements*) ^tabel-15
+
+| No | Komponen Perangkat Lunak | Spesifikasi / Alat | Peran & Kegunaan dalam Sistem |
+| :---: | :--- | :--- | :--- |
+| 1 | *Integrated Development Environment* | Visual Studio Code (v1.90+) | Editor kode sumber utama untuk pengembangan *full-stack TypeScript*. |
+| 2 | *Runtime & Package Manager* | Node.js (v20+) & pnpm (v10+) | Lingkungan eksekusi JavaScript/TypeScript dan manajer dependensi *monorepo*. |
+| 3 | *Frontend Framework & UI* | Next.js 16 (App Router), React 19, Tailwind CSS v4, shadcn/ui | Pembangunan antarmuka pengguna berbasis SSR & CSR yang responsif dan modular. |
+| 4 | *Backend Framework* | Express.js 5 & TypeScript | Peladen layanan RESTful API dengan arsitektur *Controller-Service-Route*. |
+| 5 | *Database Engine & ORM* | PostgreSQL 16 & Prisma ORM 6 | Pengelolaan basis data relasional, migrasi skema, dan generator kueri *type-safe*. |
+| 6 | *Payment Gateway Service* | Midtrans Snap API (*Sandbox*) | Otomasi pemrosesan transaksi pembayaran digital dan verifikasi *webhook*. |
+| 7 | *Media Storage & CDN* | ImageKit SDK | Layanan *cloud storage* terdistribusi dan optimasi pengiriman berkas foto fasilitas. |
+| 8 | *Email Delivery Service* | Nodemailer (SMTP Service) | Pengiriman token verifikasi email aktivasi akun dan tautan pemulihan kata sandi. |
+| 9 | *Version Control System* | Git & GitHub | Pelacakan riwayat revisi kode sumber dan sinkronisasi repositori pengembangan. |
+| 10 | *API Testing & UI Design Tool* | Postman & Figma | Pengujian integrasi *endpoint* API dan perancangan *wireframe/prototype* UI/UX. |
+
+**b. Kebutuhan Perangkat Keras (*Hardware Requirements*):**
+Spesifikasi perangkat keras yang digunakan pada proses pengembangan serta kebutuhan minimum bagi pengguna disajikan pada Tabel 16.
+
+**Tabel 16.** Kebutuhan Perangkat Keras (*Hardware Requirements*) ^tabel-16
+
+| No | Komponen Perangkat Keras | Spesifikasi Pengembang (*Development Environment*) | Spesifikasi Minimum Pengguna (*Client Side*) |
+| :---: | :--- | :--- | :--- |
+| 1 | **Perangkat Komputer** | Laptop Lenovo LOQ 15IRX9 | PC / Laptop / *Smartphone* / Tablet |
+| 2 | **Prosesor (CPU)** | Intel® Core™ i5-12450HX @ 2.40 GHz (8 Cores, 12 Threads) | Prosesor Dual Core 1.5 GHz atau lebih tinggi |
+| 3 | **Memori (RAM)** | 28 GB DDR5 4800 MHz | Minimum 2 GB (Disarankan 4 GB) |
+| 4 | **Penyimpanan (Storage)** | 512 GB NVMe PCIe SSD | Ruang kosong minimum 500 MB untuk *cache* peramban |
+| 5 | **Koneksi Jaringan** | Internet pita lebar (*Broadband*) $\ge 20\text{ Mbps}$ | Koneksi internet aktif $\ge 2\text{ Mbps}$ (4G/Wi-Fi) |
+| 6 | **Sistem Operasi** | Microsoft Windows 11 Home 64-bit | Windows 10/11, macOS, Linux, Android, atau iOS |
+
+**c. Kebutuhan Non-Fungsional Karakteristik Sistem:**
+Karakteristik kualitas dan keandalan operasional sistem informasi FieldMax dirangkum pada Tabel 17.
+
+**Tabel 17.** Kebutuhan Non-Fungsional Karakteristik Sistem ^tabel-17
+
+| No | Parameter Non-Fungsional | Kriteria & Spesifikasi Karakteristik Sistem |
+| :---: | :--- | :--- |
+| 1 | **Keandalan (*Reliability*)** | Sistem menjamin eliminasi bentrok jadwal (*zero double booking*) melalui mekanisme validasi rentang waktu ketat pada tingkat *service* dan transaksi basis data. |
+| 2 | **Kinerja (*Performance*)** | Waktu respons pemuatan halaman (*load time*) rata-rata berada di bawah 2 detik dengan pemanfaatan *Server-Side Rendering* (SSR) dan *caching* React Query. |
+| 3 | **Keamanan (*Security*)** | Menerapkan *session-based authentication* tersimpan di basis data dengan *cookie HttpOnly*, enkripsi *password* menggunakan bcrypt, dan validasi skema masukan via Zod. |
+| 4 | **Ketersediaan (*Availability*)** | Layanan reservasi dan pemantauan jadwal dapat diakses secara daring 24 jam sehari, 7 hari seminggu (24/7) dengan sinkronisasi status otomatis via *cron job*. |
+| 5 | **Kemudahan Penggunaan (*Usability*)** | Antarmuka pengguna berdesain intuitif dan adaptif (*mobile-first responsive*), menerapkan panduan desain shadcn/ui, serta menggunakan bahasa Indonesia yang lugas. |
+
+#### 3. Profil Pengguna Sistem (*User Profile*)
+
+Profil dan karakteristik dari masing-masing kategori pengguna yang berinteraksi dengan platform FieldMax dirangkum pada Tabel 18.
+
+**Tabel 18.** Profil dan Karakteristik Pengguna Sistem ^tabel-18
+
+| No | Peran Pengguna (*Actor*) | Kategori Pengguna | Hak Akses & Tanggung Jawab Utama |
+| :---: | :--- | :--- | :--- |
+| 1 | **Admin** (*Administrator*) | Pengelola Sentral Platform | Memiliki hak akses tertinggi untuk memoderasi kelayakan venue dan unit lapangan, mengelola data akun pengguna, memantau seluruh transaksi pemesanan, mengelola master *sport types*, dan menyelesaikan tiket pengaduan. |
+| 2 | **Renter** (*Mitra Pengelola*) | Penyedia Fasilitas Olahraga | Memiliki hak mengelola data profil venue, mendaftarkan unit lapangan, mengatur tarif dan jam operasional buka/tutup, memantau pesanan masuk *real-time*, memverifikasi kehadiran sewa, dan memantau analitik omzet. |
+| 3 | **User** (*Pelanggan/Penyewa*) | Masyarakat Umum / Komunitas | Memiliki hak mencari sarana olahraga, mengecek ketersediaan jadwal *real-time*, melakukan pemesanan instan, menyelesaikan pembayaran digital otomatis via Midtrans, melihat riwayat sewa, memberi ulasan/rating, dan membuat laporan pengaduan. |
 
 ## 2.7 Perancangan Sistem ^perancangan-sistem
 
@@ -631,9 +688,9 @@ Perancangan sistem dimodelkan menggunakan *Unified Modeling Language* (UML) yang
 
 **Gambar 9.** *Use Case Diagram* Platform Web FieldMax ^gambar-9
 
-Diagram pada Gambar 9 menggambarkan pembagian 22 *use case* yang terdistribusi ke dalam tiga peran aktor: Admin, Renter, dan User. Definisi peran dan batasan hak akses dari masing-masing aktor dijelaskan pada Tabel 4a.
+Diagram pada Gambar 9 menggambarkan pembagian 22 *use case* yang terdistribusi ke dalam tiga peran aktor: Admin, Renter, dan User. Definisi peran dan batasan hak akses dari masing-masing aktor dijelaskan pada Tabel 19.
 
-**Tabel 4a.** Definisi Aktor Sistem Informasi FieldMax ^tabel-4a
+**Tabel 19.** Definisi Aktor Sistem Informasi FieldMax ^tabel-19
 
 | No | Aktor | Deskripsi Peran & Hak Akses |
 |:---:|:---|:---|
@@ -976,9 +1033,9 @@ Dalam penelitian ini, terdapat beberapa entitas yang digunakan untuk menggambark
 
 ### 3.2.2 Struktur Tabel
 
-Sebelum membahas struktur tabel secara rinci, terdapat beberapa nilai bertipe *enum* yang dideklarasikan sebagai tipe data kolom basis data. Enum ini berfungsi untuk membatasi nilai yang dapat dimasukkan ke dalam suatu kolom sehingga menjaga konsistensi dan validitas data. Enam enum didefinisikan dalam sistem ini: `UserRole` untuk membedakan tingkat hak akses pengguna, `BookingStatus` untuk melacak siklus hidup pemesanan, `PaymentStatus` untuk memantau status transaksi pembayaran, `VerificationStatus` untuk mengelola alur persetujuan venue dan lapangan, `ReportStatus` untuk menandai progres penanganan pengaduan, dan `ReportCategory` untuk mengklasifikasikan jenis pengaduan yang dilaporkan. Adapun daftar enum beserta nilai-nilainya disajikan pada Tabel 5.
+Sebelum membahas struktur tabel secara rinci, terdapat beberapa nilai bertipe *enum* yang dideklarasikan sebagai tipe data kolom basis data. Enum ini berfungsi untuk membatasi nilai yang dapat dimasukkan ke dalam suatu kolom sehingga menjaga konsistensi dan validitas data. Enam enum didefinisikan dalam sistem ini: `UserRole` untuk membedakan tingkat hak akses pengguna, `BookingStatus` untuk melacak siklus hidup pemesanan, `PaymentStatus` untuk memantau status transaksi pembayaran, `VerificationStatus` untuk mengelola alur persetujuan venue dan lapangan, `ReportStatus` untuk menandai progres penanganan pengaduan, dan `ReportCategory` untuk mengklasifikasikan jenis pengaduan yang dilaporkan. Adapun daftar enum beserta nilai-nilainya disajikan pada Tabel 13.
 
-**Tabel 5.** Tabel daftar Enum yang digunakan beserta nilainya. ^tabel-5
+**Tabel 13.** Tabel daftar Enum yang digunakan beserta nilainya. ^tabel-13
 
 | Nama Enum              | Nilai / Deskripsi                                |
 | ---------------------- | ------------------------------------------------ |
@@ -992,9 +1049,9 @@ Sebelum membahas struktur tabel secara rinci, terdapat beberapa nilai bertipe *e
 Berikut adalah rincian struktur tabel dan kamus data dari basis data sistem informasi FieldMax yang dirancang sesuai dengan skema Prisma ORM:
 
 #### 1. Tabel *users*
-Tabel 6 (*users*) merupakan tabel utama yang menyimpan data autentikasi dan identitas seluruh pengguna platform FieldMax. Setiap pengguna memiliki *primary key* bertipe UUID yang dihasilkan secara otomatis melalui fungsi `uuid()`, memastikan setiap akun mendapat identitas unik yang tidak dapat ditebak. Kolom `email` memiliki constraint *unique* sehingga tidak ada dua akun yang dapat menggunakan alamat email yang sama, sementara kolom `password` menyimpan *hash* kata sandi yang dienkripsi menggunakan algoritma bcrypt untuk menjaga keamanan kredensial. Kolom `role` bertipe enum `UserRole` dengan tiga nilai (USER, RENTER, ADMIN) berfungsi sebagai mekanisme otorisasi yang menentukan halaman dan fitur apa saja yang dapat diakses oleh masing-masing pengguna. Kolom `is_verified` bertindak sebagai penanda bahwa email pengguna telah diverifikasi melalui kode aktivasi enam digit yang dikirimkan melalui layanan SMTP Nodemailer.
+Tabel 14 (*users*) merupakan tabel utama yang menyimpan data autentikasi dan identitas seluruh pengguna platform FieldMax. Setiap pengguna memiliki *primary key* bertipe UUID yang dihasilkan secara otomatis melalui fungsi `uuid()`, memastikan setiap akun mendapat identitas unik yang tidak dapat ditebak. Kolom `email` memiliki constraint *unique* sehingga tidak ada dua akun yang dapat menggunakan alamat email yang sama, sementara kolom `password` menyimpan *hash* kata sandi yang dienkripsi menggunakan algoritma bcrypt untuk menjaga keamanan kredensial. Kolom `role` bertipe enum `UserRole` dengan tiga nilai (USER, RENTER, ADMIN) berfungsi sebagai mekanisme otorisasi yang menentukan halaman dan fitur apa saja yang dapat diakses oleh masing-masing pengguna. Kolom `is_verified` bertindak sebagai penanda bahwa email pengguna telah diverifikasi melalui kode aktivasi enam digit yang dikirimkan melalui layanan SMTP Nodemailer.
 
-**Tabel 6.** *users* ^tabel-6
+**Tabel 14.** *users* ^tabel-14
 
 | Nama Field   | Tipe Field    | Keterangan              | Default    |
 | ------------ | ------------- | ----------------------- | ---------- |
@@ -1008,9 +1065,9 @@ Tabel 6 (*users*) merupakan tabel utama yang menyimpan data autentikasi dan iden
 | created_at   | DateTime      | Waktu pendaftaran       | now()      |
 
 #### 2. Tabel *verification_tokens*
-Tabel 7 (*verification_tokens*) digunakan untuk menyimpan token verifikasi email yang dikirimkan kepada pengguna setelah proses pendaftaran akun. Tabel ini memiliki *composite unique constraint* pada kombinasi kolom `identifier` dan `token`, yang memastikan bahwa setiap pasangan email dan token bersifat unik. Kolom `identifier` menyimpan alamat email pengguna yang mendaftar, sedangkan kolom `token` menyimpan kode verifikasi enam digit yang dihasilkan secara acak. Setiap token memiliki masa berlaku yang ditentukan oleh kolom `expires`, dengan durasi default selama 15 menit sejak token dibuat. Setelah pengguna berhasil memverifikasi emailnya, token akan dihapus dari tabel ini untuk mencegah penggunaan ulang.
+Tabel 15 (*verification_tokens*) digunakan untuk menyimpan token verifikasi email yang dikirimkan kepada pengguna setelah proses pendaftaran akun. Tabel ini memiliki *composite unique constraint* pada kombinasi kolom `identifier` dan `token`, yang memastikan bahwa setiap pasangan email dan token bersifat unik. Kolom `identifier` menyimpan alamat email pengguna yang mendaftar, sedangkan kolom `token` menyimpan kode verifikasi enam digit yang dihasilkan secara acak. Setiap token memiliki masa berlaku yang ditentukan oleh kolom `expires`, dengan durasi default selama 15 menit sejak token dibuat. Setelah pengguna berhasil memverifikasi emailnya, token akan dihapus dari tabel ini untuk mencegah penggunaan ulang.
 
-**Tabel 7.** *verification_tokens* ^tabel-7
+**Tabel 15.** *verification_tokens* ^tabel-15
 
 | Nama Field | Tipe Field | Keterangan             | Default    |
 | ---------- | ---------- | ---------------------- | ---------- |
@@ -1019,9 +1076,9 @@ Tabel 7 (*verification_tokens*) digunakan untuk menyimpan token verifikasi email
 | expires    | DateTime   | Waktu kedaluwarsa token | No Default |
 
 #### 3. Tabel *reset_tokens*
-Tabel 8 (*reset_tokens*) berfungsi menyimpan token yang digunakan dalam proses pengaturan ulang kata sandi (*reset password*). Setiap token dihasilkan secara acak menggunakan fungsi `randomBytes` dari modul *crypto* Node.js dan dikirimkan ke email pengguna dalam bentuk tautan pemulihan. Kolom `user_id` merupakan *foreign key* yang merujuk ke tabel *users* dengan aturan *onDelete: Cascade*, yang berarti token akan otomatis terhapus jika akun pengguna yang bersangkutan dihapus. Sebelum token baru dibuat, sistem terlebih dahulu menghapus seluruh token lama milik pengguna tersebut melalui operasi `deleteMany` untuk mencegah penumpukan token kedaluwarsa. Token memiliki masa berlaku satu jam sebagaimana ditentukan pada kolom `expires`.
+Tabel 16 (*reset_tokens*) berfungsi menyimpan token yang digunakan dalam proses pengaturan ulang kata sandi (*reset password*). Setiap token dihasilkan secara acak menggunakan fungsi `randomBytes` dari modul *crypto* Node.js dan dikirimkan ke email pengguna dalam bentuk tautan pemulihan. Kolom `user_id` merupakan *foreign key* yang merujuk ke tabel *users* dengan aturan *onDelete: Cascade*, yang berarti token akan otomatis terhapus jika akun pengguna yang bersangkutan dihapus. Sebelum token baru dibuat, sistem terlebih dahulu menghapus seluruh token lama milik pengguna tersebut melalui operasi `deleteMany` untuk mencegah penumpukan token kedaluwarsa. Token memiliki masa berlaku satu jam sebagaimana ditentukan pada kolom `expires`.
 
-**Tabel 8.** *reset_tokens* ^tabel-8
+**Tabel 16.** *reset_tokens* ^tabel-16
 
 | Nama Field | Tipe Field    | Keterangan              | Default    |
 | ---------- | ------------- | ----------------------- | ---------- |
@@ -1032,9 +1089,9 @@ Tabel 8 (*reset_tokens*) berfungsi menyimpan token yang digunakan dalam proses p
 | created_at | DateTime      | Waktu pembuatan         | now()      |
 
 #### 4. Tabel *user_profiles*
-Tabel 9 (*user_profiles*) menyimpan data profil tambahan untuk setiap pengguna, baik sebagai individu (User) maupun sebagai badan usaha (Renter). Tabel ini menggunakan `user_id` sebagai *primary key* sekaligus *foreign key* yang merujuk ke tabel *users* dengan relasi *one-to-one*, artinya setiap pengguna maksimal memiliki satu profil. Untuk pengguna dengan peran Renter, tersedia kolom-kolom khusus seperti `company_name`, `company_description`, `company_logo_url`, dan `company_website` yang digunakan untuk menampilkan informasi bisnis kepada calon penyewa di halaman profil publik. Kolom `profile_picture_url` menyimpan tautan gambar yang diunggah ke ImageKit, sedangkan kolom `bio` dan `address` menyimpan informasi pribadi pengguna. Kolom `updated_at` mencatat waktu terakhir profil diperbarui.
+Tabel 17 (*user_profiles*) menyimpan data profil tambahan untuk setiap pengguna, baik sebagai individu (User) maupun sebagai badan usaha (Renter). Tabel ini menggunakan `user_id` sebagai *primary key* sekaligus *foreign key* yang merujuk ke tabel *users* dengan relasi *one-to-one*, artinya setiap pengguna maksimal memiliki satu profil. Untuk pengguna dengan peran Renter, tersedia kolom-kolom khusus seperti `company_name`, `company_description`, `company_logo_url`, dan `company_website` yang digunakan untuk menampilkan informasi bisnis kepada calon penyewa di halaman profil publik. Kolom `profile_picture_url` menyimpan tautan gambar yang diunggah ke ImageKit, sedangkan kolom `bio` dan `address` menyimpan informasi pribadi pengguna. Kolom `updated_at` mencatat waktu terakhir profil diperbarui.
 
-**Tabel 9.** *user_profiles* ^tabel-9
+**Tabel 17.** *user_profiles* ^tabel-17
 
 | Nama Field          | Tipe Field    | Keterangan                            | Default  |
 | ------------------- | ------------- | ------------------------------------- | -------- |
@@ -1049,9 +1106,9 @@ Tabel 9 (*user_profiles*) menyimpan data profil tambahan untuk setiap pengguna, 
 | company_website     | String        | Website bisnis Renter                 | Nullable |
 
 #### 5. Tabel *sport_types*
-Tabel 10 (*sport_types*) merupakan tabel referensi (*master data*) yang menyimpan daftar jenis cabang olahraga yang tersedia di platform FieldMax. Tabel ini memiliki struktur yang sederhana dengan hanya dua kolom: `id` sebagai *primary key* UUID dan `name` sebagai nama jenis olahraga yang bersifat *unique*. Keunikan nama memastikan tidak ada duplikasi kategori olahraga dalam sistem. Data dalam tabel ini digunakan di seluruh platform, mulai dari filter pencarian lapangan di halaman publik, pemilihan kategori saat Renter menambahkan lapangan baru, hingga pengelolaan data oleh Admin. Admin memiliki kewenangan penuh untuk menambah, mengedit, atau menghapus jenis olahraga melalui halaman Sport Types di dashboard admin.
+Tabel 18 (*sport_types*) merupakan tabel referensi (*master data*) yang menyimpan daftar jenis cabang olahraga yang tersedia di platform FieldMax. Tabel ini memiliki struktur yang sederhana dengan hanya dua kolom: `id` sebagai *primary key* UUID dan `name` sebagai nama jenis olahraga yang bersifat *unique*. Keunikan nama memastikan tidak ada duplikasi kategori olahraga dalam sistem. Data dalam tabel ini digunakan di seluruh platform, mulai dari filter pencarian lapangan di halaman publik, pemilihan kategori saat Renter menambahkan lapangan baru, hingga pengelolaan data oleh Admin. Admin memiliki kewenangan penuh untuk menambah, mengedit, atau menghapus jenis olahraga melalui halaman Sport Types di dashboard admin.
 
-**Tabel 10.** *sport_types* ^tabel-10
+**Tabel 18.** *sport_types* ^tabel-18
 
 | Nama Field | Tipe Field    | Keterangan                   | Default    |
 | ---------- | ------------- | ---------------------------- | ---------- |
@@ -1059,9 +1116,9 @@ Tabel 10 (*sport_types*) merupakan tabel referensi (*master data*) yang menyimpa
 | name       | String        | Nama jenis olahraga (Unique) | No Default |
 
 #### 6. Tabel *venues*
-Tabel 11 (*venues*) menyimpan data lokasi tempat olahraga yang didaftarkan oleh Renter. Setiap venue terhubung ke satu Renter melalui *foreign key* `renter_id` yang merujuk ke tabel *users*, membentuk relasi *one-to-many* di mana satu Renter dapat memiliki banyak venue. Informasi alamat venue disimpan secara hierarkis melalui kolom `address`, `city`, `district`, `province`, dan `postal_code` untuk mendukung fitur pencarian berbasis lokasi. Kolom `status` bertipe enum `VerificationStatus` mengontrol visibilitas venue melalui alur persetujuan: DRAFT (masih dalam penyusunan), PENDING (menunggu tinjauan admin), APPROVED (telah disetujui dan tampil di halaman publik), dan REJECTED (ditolak). Apabila venue ditolak, admin wajib mengisi kolom `rejection_reason` sebagai umpan balik kepada Renter.
+Tabel 19 (*venues*) menyimpan data lokasi tempat olahraga yang didaftarkan oleh Renter. Setiap venue terhubung ke satu Renter melalui *foreign key* `renter_id` yang merujuk ke tabel *users*, membentuk relasi *one-to-many* di mana satu Renter dapat memiliki banyak venue. Informasi alamat venue disimpan secara hierarkis melalui kolom `address`, `city`, `district`, `province`, dan `postal_code` untuk mendukung fitur pencarian berbasis lokasi. Kolom `status` bertipe enum `VerificationStatus` mengontrol visibilitas venue melalui alur persetujuan: DRAFT (masih dalam penyusunan), PENDING (menunggu tinjauan admin), APPROVED (telah disetujui dan tampil di halaman publik), dan REJECTED (ditolak). Apabila venue ditolak, admin wajib mengisi kolom `rejection_reason` sebagai umpan balik kepada Renter.
 
-**Tabel 11.** *venues* ^tabel-11
+**Tabel 19.** *venues* ^tabel-19
 
 | Nama Field       | Tipe Field         | Keterangan               | Default    |
 | ---------------- | ------------------ | ------------------------ | ---------- |
@@ -1079,9 +1136,9 @@ Tabel 11 (*venues*) menyimpan data lokasi tempat olahraga yang didaftarkan oleh 
 | rejection_reason | String             | Alasan penolakan admin   | Nullable   |
 
 #### 7. Tabel *venue_schedules*
-Tabel 12 (*venue_schedules*) menyimpan jadwal operasional harian untuk setiap venue yang terdaftar. Tabel ini menggunakan *foreign key* `venue_id` yang merujuk ke tabel *venues* dengan aturan *onDelete: Cascade*, sehingga jadwal akan otomatis terhapus jika venue induknya dihapus. Kolom `day_of_week` bertipe integer menyimpan hari dalam seminggu (0 untuk Minggu hingga 6 untuk Sabtu), sementara `open_time` dan `close_time` bertipe `Time(6)` menyimpan jam buka dan tutup dengan presisi hingga mikrodetik. Renter dapat mengatur jadwal yang berbeda untuk setiap hari, misalnya jam operasional lebih panjang di akhir pekan. Data jadwal ini digunakan oleh sistem untuk memvalidasi ketersediaan slot waktu saat pengguna melakukan reservasi lapangan.
+Tabel 20 (*venue_schedules*) menyimpan jadwal operasional harian untuk setiap venue yang terdaftar. Tabel ini menggunakan *foreign key* `venue_id` yang merujuk ke tabel *venues* dengan aturan *onDelete: Cascade*, sehingga jadwal akan otomatis terhapus jika venue induknya dihapus. Kolom `day_of_week` bertipe integer menyimpan hari dalam seminggu (0 untuk Minggu hingga 6 untuk Sabtu), sementara `open_time` dan `close_time` bertipe `Time(6)` menyimpan jam buka dan tutup dengan presisi hingga mikrodetik. Renter dapat mengatur jadwal yang berbeda untuk setiap hari, misalnya jam operasional lebih panjang di akhir pekan. Data jadwal ini digunakan oleh sistem untuk memvalidasi ketersediaan slot waktu saat pengguna melakukan reservasi lapangan.
 
-**Tabel 12.** *venue_schedules* ^tabel-12
+**Tabel 20.** *venue_schedules* ^tabel-20
 
 | Nama Field  | Tipe Field    | Keterangan                                | Default    |
 | ----------- | ------------- | ----------------------------------------- | ---------- |
@@ -1092,9 +1149,9 @@ Tabel 12 (*venue_schedules*) menyimpan jadwal operasional harian untuk setiap ve
 | close_time  | Time(6)       | Jam operasional tutup                     | No Default |
 
 #### 8. Tabel *venue_photos*
-Tabel 13 (*venue_photos*) menyimpan data galeri foto untuk setiap venue yang terdaftar di platform. Setiap foto terhubung ke venue melalui *foreign key* `venue_id`, membentuk relasi *one-to-many* di mana satu venue dapat memiliki banyak foto. Kolom `url` menyimpan tautan gambar yang di-*hosting* di ImageKit CDN, yang diunggah melalui API unggahan dengan batas maksimal lima foto per permintaan. Kolom `is_featured` bertipe boolean memungkinkan Renter atau Admin menandai satu foto sebagai foto utama yang akan ditampilkan sebagai sampul di kartu venue. Foto-foto venue menjadi syarat wajib dalam proses pengajuan venue — Renter harus mengunggah minimal dua foto sebelum venue dapat diajukan ke admin untuk ditinjau.
+Tabel 21 (*venue_photos*) menyimpan data galeri foto untuk setiap venue yang terdaftar di platform. Setiap foto terhubung ke venue melalui *foreign key* `venue_id`, membentuk relasi *one-to-many* di mana satu venue dapat memiliki banyak foto. Kolom `url` menyimpan tautan gambar yang di-*hosting* di ImageKit CDN, yang diunggah melalui API unggahan dengan batas maksimal lima foto per permintaan. Kolom `is_featured` bertipe boolean memungkinkan Renter atau Admin menandai satu foto sebagai foto utama yang akan ditampilkan sebagai sampul di kartu venue. Foto-foto venue menjadi syarat wajib dalam proses pengajuan venue — Renter harus mengunggah minimal dua foto sebelum venue dapat diajukan ke admin untuk ditinjau.
 
-**Tabel 13.** *venue_photos* ^tabel-13
+**Tabel 21.** *venue_photos* ^tabel-21
 
 | Nama Field  | Tipe Field    | Keterangan                    | Default    |
 | ----------- | ------------- | ----------------------------- | ---------- |
@@ -1105,9 +1162,9 @@ Tabel 13 (*venue_photos*) menyimpan data galeri foto untuk setiap venue yang ter
 | created_at  | DateTime      | Waktu unggah                  | now()      |
 
 #### 9. Tabel *fields*
-Tabel 14 (*fields*) menyimpan data detail setiap lapangan olahraga yang disewakan di dalam suatu venue. Setiap lapangan terhubung ke satu venue melalui `venue_id` dan ke satu jenis olahraga melalui `sport_type_id`, membentuk struktur hierarkis venue → lapangan → jenis olahraga. Kolom `price_per_hour` menentukan tarif sewa per jam yang ditetapkan oleh Renter dan digunakan oleh sistem untuk menghitung total biaya pemesanan. Kolom `is_closed` merupakan sakelar (*toggle*) yang memungkinkan Renter menutup sementara lapangan untuk pemeliharaan tanpa menghapusnya. Serupa dengan venue, lapangan juga melalui alur persetujuan admin melalui kolom `status` bertipe `VerificationStatus`, dengan nilai awal PENDING. Admin dapat menolak lapangan dengan mengisi `rejection_reason` sebagai alasan penolakan.
+Tabel 22 (*fields*) menyimpan data detail setiap lapangan olahraga yang disewakan di dalam suatu venue. Setiap lapangan terhubung ke satu venue melalui `venue_id` dan ke satu jenis olahraga melalui `sport_type_id`, membentuk struktur hierarkis venue → lapangan → jenis olahraga. Kolom `price_per_hour` menentukan tarif sewa per jam yang ditetapkan oleh Renter dan digunakan oleh sistem untuk menghitung total biaya pemesanan. Kolom `is_closed` merupakan sakelar (*toggle*) yang memungkinkan Renter menutup sementara lapangan untuk pemeliharaan tanpa menghapusnya. Serupa dengan venue, lapangan juga melalui alur persetujuan admin melalui kolom `status` bertipe `VerificationStatus`, dengan nilai awal PENDING. Admin dapat menolak lapangan dengan mengisi `rejection_reason` sebagai alasan penolakan.
 
-**Tabel 14.** *fields* ^tabel-14
+**Tabel 22.** *fields* ^tabel-22
 
 | Nama Field       | Tipe Field         | Keterangan                    | Default    |
 | ---------------- | ------------------ | ----------------------------- | ---------- |
@@ -1123,9 +1180,9 @@ Tabel 14 (*fields*) menyimpan data detail setiap lapangan olahraga yang disewaka
 | created_at       | DateTime           | Tanggal penambahan            | now()      |
 
 #### 10. Tabel *field_photos*
-Tabel 15 (*field_photos*) menyimpan galeri foto untuk setiap lapangan olahraga yang terdaftar. Struktur tabel ini serupa dengan *venue_photos*, menggunakan `field_id` sebagai *foreign key* yang merujuk ke tabel *fields*. Foto-foto diunggah melalui layanan ImageKit dan disimpan sebagai tautan URL pada kolom `url`. Kolom `is_featured` menandai foto utama yang ditampilkan sebagai sampul di kartu lapangan pada halaman pencarian dan detail. Keberadaan foto lapangan membantu calon penyewa menilai kondisi dan fasilitas lapangan sebelum memutuskan untuk melakukan reservasi. Proses unggah foto lapangan diatur melalui middleware `canManageField` yang memastikan hanya Renter pemilik atau Admin yang dapat mengelola foto.
+Tabel 23 (*field_photos*) menyimpan galeri foto untuk setiap lapangan olahraga yang terdaftar. Struktur tabel ini serupa dengan *venue_photos*, menggunakan `field_id` sebagai *foreign key* yang merujuk ke tabel *fields*. Foto-foto diunggah melalui layanan ImageKit dan disimpan sebagai tautan URL pada kolom `url`. Kolom `is_featured` menandai foto utama yang ditampilkan sebagai sampul di kartu lapangan pada halaman pencarian dan detail. Keberadaan foto lapangan membantu calon penyewa menilai kondisi dan fasilitas lapangan sebelum memutuskan untuk melakukan reservasi. Proses unggah foto lapangan diatur melalui middleware `canManageField` yang memastikan hanya Renter pemilik atau Admin yang dapat mengelola foto.
 
-**Tabel 15.** *field_photos* ^tabel-15
+**Tabel 23.** *field_photos* ^tabel-23
 
 | Nama Field  | Tipe Field    | Keterangan               | Default    |
 | ----------- | ------------- | ------------------------ | ---------- |
@@ -1136,9 +1193,9 @@ Tabel 15 (*field_photos*) menyimpan galeri foto untuk setiap lapangan olahraga y
 | created_at  | DateTime      | Waktu unggah             | now()      |
 
 #### 11. Tabel *bookings*
-Tabel 16 (*bookings*) merupakan tabel inti dari proses bisnis platform FieldMax yang menyimpan seluruh data transaksi pemesanan lapangan. Setiap pemesanan menghubungkan satu pengguna (`user_id`) dengan satu lapangan (`field_id`) pada tanggal dan rentang waktu tertentu. Kolom `booking_date` menyimpan tanggal pemesanan, sementara `start_time` dan `end_time` bertipe `Time(6)` menandai jam mulai dan selesai sewa. Sistem secara otomatis menghitung `total_price` berdasarkan durasi sewa dikalikan dengan `price_per_hour` dari lapangan yang dipesan. Kolom `status` bertipe enum `BookingStatus` melacak siklus hidup pemesanan: PENDING (menunggu pembayaran), CONFIRMED (pembayaran berhasil), CANCELLED (dibatalkan), dan COMPLETED (sewa telah selesai). Cron job yang berjalan setiap jam akan otomatis mengubah status CONFIRMED menjadi COMPLETED ketika waktu sewa telah lewat.
+Tabel 24 (*bookings*) merupakan tabel inti dari proses bisnis platform FieldMax yang menyimpan seluruh data transaksi pemesanan lapangan. Setiap pemesanan menghubungkan satu pengguna (`user_id`) dengan satu lapangan (`field_id`) pada tanggal dan rentang waktu tertentu. Kolom `booking_date` menyimpan tanggal pemesanan, sementara `start_time` dan `end_time` bertipe `Time(6)` menandai jam mulai dan selesai sewa. Sistem secara otomatis menghitung `total_price` berdasarkan durasi sewa dikalikan dengan `price_per_hour` dari lapangan yang dipesan. Kolom `status` bertipe enum `BookingStatus` melacak siklus hidup pemesanan: PENDING (menunggu pembayaran), CONFIRMED (pembayaran berhasil), CANCELLED (dibatalkan), dan COMPLETED (sewa telah selesai). Cron job yang berjalan setiap jam akan otomatis mengubah status CONFIRMED menjadi COMPLETED ketika waktu sewa telah lewat.
 
-**Tabel 16.** *bookings* ^tabel-16
+**Tabel 24.** *bookings* ^tabel-24
 
 | Nama Field   | Tipe Field    | Keterangan               | Default    |
 | ------------ | ------------- | ------------------------ | ---------- |
@@ -1153,9 +1210,9 @@ Tabel 16 (*bookings*) merupakan tabel inti dari proses bisnis platform FieldMax 
 | created_at   | DateTime      | Waktu pesanan dibuat     | now()      |
 
 #### 12. Tabel *payments*
-Tabel 17 (*payments*) menyimpan informasi transaksi pembayaran yang terintegrasi dengan *payment gateway* Midtrans Snap. Setiap pembayaran memiliki relasi *one-to-one* dengan tabel *bookings* melalui *foreign key* `booking_id` yang bersifat *unique*, memastikan satu pemesanan hanya memiliki satu catatan pembayaran. Kolom `amount` mencatat jumlah pembayaran yang harus diselesaikan, sementara `snap_token` menyimpan token yang dihasilkan oleh Midtrans Snap API untuk memunculkan pop-up pembayaran di sisi klien. Kolom `status` bertipe enum `PaymentStatus` melacak status pembayaran melalui empat tahap: PENDING (menunggu pembayaran), PAID (pembayaran berhasil), EXPIRED (token kedaluwarsa), dan FAILED (pembayaran gagal). Perubahan status pembayaran dipicu oleh notifikasi webhook yang dikirimkan Midtrans ke endpoint `/api/payments/midtrans-notification` pada server FieldMax.
+Tabel 25 (*payments*) menyimpan informasi transaksi pembayaran yang terintegrasi dengan *payment gateway* Midtrans Snap. Setiap pembayaran memiliki relasi *one-to-one* dengan tabel *bookings* melalui *foreign key* `booking_id` yang bersifat *unique*, memastikan satu pemesanan hanya memiliki satu catatan pembayaran. Kolom `amount` mencatat jumlah pembayaran yang harus diselesaikan, sementara `snap_token` menyimpan token yang dihasilkan oleh Midtrans Snap API untuk memunculkan pop-up pembayaran di sisi klien. Kolom `status` bertipe enum `PaymentStatus` melacak status pembayaran melalui empat tahap: PENDING (menunggu pembayaran), PAID (pembayaran berhasil), EXPIRED (token kedaluwarsa), dan FAILED (pembayaran gagal). Perubahan status pembayaran dipicu oleh notifikasi webhook yang dikirimkan Midtrans ke endpoint `/api/payments/midtrans-notification` pada server FieldMax.
 
-**Tabel 17.** *payments* ^tabel-17
+**Tabel 25.** *payments* ^tabel-25
 
 | Nama Field           | Tipe Field    | Keterangan                          | Default    |
 | -------------------- | ------------- | ----------------------------------- | ---------- |
@@ -1169,9 +1226,9 @@ Tabel 17 (*payments*) menyimpan informasi transaksi pembayaran yang terintegrasi
 | updated_at           | DateTime      | Waktu pembaruan status              | otomatis  |
 
 #### 13. Tabel *reviews*
-Tabel 18 (*reviews*) menyimpan data ulasan dan penilaian yang diberikan oleh pengguna setelah menyelesaikan penyewaan lapangan. Setiap ulasan terikat pada satu pemesanan melalui `booking_id` yang bersifat *unique*, sehingga satu pemesanan hanya dapat memiliki satu ulasan (relasi *one-to-one*). Kolom `rating` bertipe integer menyimpan nilai bintang dari 1 hingga 5, sementara `comment` menyimpan teks ulasan yang bersifat opsional. Ulasan juga terhubung ke pengguna (`user_id`) dan lapangan (`field_id`) untuk mendukung agregasi data — sistem secara otomatis menghitung rata-rata rating per lapangan menggunakan fungsi `groupBy` Prisma. Ulasan hanya dapat dibuat jika status pemesanan telah COMPLETED atau CONFIRMED dengan waktu sewa yang telah lewat, sebagaimana divalidasi di lapisan *service*.
+Tabel 26 (*reviews*) menyimpan data ulasan dan penilaian yang diberikan oleh pengguna setelah menyelesaikan penyewaan lapangan. Setiap ulasan terikat pada satu pemesanan melalui `booking_id` yang bersifat *unique*, sehingga satu pemesanan hanya dapat memiliki satu ulasan (relasi *one-to-one*). Kolom `rating` bertipe integer menyimpan nilai bintang dari 1 hingga 5, sementara `comment` menyimpan teks ulasan yang bersifat opsional. Ulasan juga terhubung ke pengguna (`user_id`) dan lapangan (`field_id`) untuk mendukung agregasi data — sistem secara otomatis menghitung rata-rata rating per lapangan menggunakan fungsi `groupBy` Prisma. Ulasan hanya dapat dibuat jika status pemesanan telah COMPLETED atau CONFIRMED dengan waktu sewa yang telah lewat, sebagaimana divalidasi di lapisan *service*.
 
-**Tabel 18.** *reviews* ^tabel-18
+**Tabel 26.** *reviews* ^tabel-26
 
 | Nama Field | Tipe Field    | Keterangan                          | Default    |
 | ---------- | ------------- | ----------------------------------- | ---------- |
@@ -1184,9 +1241,9 @@ Tabel 18 (*reviews*) menyimpan data ulasan dan penilaian yang diberikan oleh pen
 | created_at | DateTime      | Tanggal ulasan dibuat               | now()      |
 
 #### 14. Tabel *sessions*
-Tabel 19 (*sessions*) menyimpan data sesi login aktif pengguna sebagai bagian dari sistem autentikasi berbasis sesi (*session-based authentication*). Berbeda dengan pendekatan JWT yang menyimpan token di sisi klien, sistem FieldMax menyimpan ID sesi sebagai *HttpOnly cookie* di peramban pengguna dan memvalidasinya terhadap tabel ini di setiap permintaan yang memerlukan autentikasi. Kolom `id` berfungsi sebagai *primary key* yang nilainya dihasilkan menggunakan `randomBytes(32)` dari modul *crypto*, menghasilkan string heksadesimal sepanjang 64 karakter yang sulit ditebak. Kolom `expires_at` menentukan masa berlaku sesi dengan durasi default 24 jam. *Middleware* `authMiddleware` pada setiap rute yang dilindungi akan memeriksa keberadaan dan validitas sesi sebelum mengizinkan akses.
+Tabel 27 (*sessions*) menyimpan data sesi login aktif pengguna sebagai bagian dari sistem autentikasi berbasis sesi (*session-based authentication*). Berbeda dengan pendekatan JWT yang menyimpan token di sisi klien, sistem FieldMax menyimpan ID sesi sebagai *HttpOnly cookie* di peramban pengguna dan memvalidasinya terhadap tabel ini di setiap permintaan yang memerlukan autentikasi. Kolom `id` berfungsi sebagai *primary key* yang nilainya dihasilkan menggunakan `randomBytes(32)` dari modul *crypto*, menghasilkan string heksadesimal sepanjang 64 karakter yang sulit ditebak. Kolom `expires_at` menentukan masa berlaku sesi dengan durasi default 24 jam. *Middleware* `authMiddleware` pada setiap rute yang dilindungi akan memeriksa keberadaan dan validitas sesi sebelum mengizinkan akses.
 
-**Tabel 19.** *sessions* ^tabel-19
+**Tabel 27.** *sessions* ^tabel-27
 
 | Nama Field | Tipe Field | Keterangan               | Default    |
 | ---------- | ---------- | ------------------------ | ---------- |
@@ -1195,9 +1252,9 @@ Tabel 19 (*sessions*) menyimpan data sesi login aktif pengguna sebagai bagian da
 | expires_at | DateTime   | Waktu kedaluwarsa session | No Default |
 
 #### 15. Tabel *reports*
-Tabel 20 (*reports*) menyimpan data pengaduan atau keluhan yang diajukan oleh pengguna maupun Renter kepada admin platform. Setiap laporan terhubung ke pengguna pelapor melalui `user_id` dan memiliki `subject` sebagai judul serta `description` sebagai uraian detail masalah. Kolom `category` bertipe enum `ReportCategory` mengklasifikasikan laporan ke dalam empat kategori: SCAM (penipuan), TECHNICAL (masalah teknis), PAYMENT (masalah pembayaran), dan OTHER (lainnya), yang membantu admin dalam memprioritaskan dan mengelola pengaduan. Kolom `status` bertipe `ReportStatus` menandai apakah laporan masih PENDING atau sudah RESOLVED. Laporan yang telah diselesaikan dapat ditandai sebagai RESOLVED oleh admin, namun pengguna dan admin tetap dapat melanjutkan percakapan melalui tabel *report_replies*.
+Tabel 28 (*reports*) menyimpan data pengaduan atau keluhan yang diajukan oleh pengguna maupun Renter kepada admin platform. Setiap laporan terhubung ke pengguna pelapor melalui `user_id` dan memiliki `subject` sebagai judul serta `description` sebagai uraian detail masalah. Kolom `category` bertipe enum `ReportCategory` mengklasifikasikan laporan ke dalam empat kategori: SCAM (penipuan), TECHNICAL (masalah teknis), PAYMENT (masalah pembayaran), dan OTHER (lainnya), yang membantu admin dalam memprioritaskan dan mengelola pengaduan. Kolom `status` bertipe `ReportStatus` menandai apakah laporan masih PENDING atau sudah RESOLVED. Laporan yang telah diselesaikan dapat ditandai sebagai RESOLVED oleh admin, namun pengguna dan admin tetap dapat melanjutkan percakapan melalui tabel *report_replies*.
 
-**Tabel 20.** *reports* ^tabel-20
+**Tabel 28.** *reports* ^tabel-28
 
 | Nama Field  | Tipe Field     | Keterangan                | Default    |
 | ----------- | -------------- | ------------------------- | ---------- |
@@ -1211,9 +1268,9 @@ Tabel 20 (*reports*) menyimpan data pengaduan atau keluhan yang diajukan oleh pe
 | updated_at  | DateTime       | Tanggal pembaruan laporan | now()      |
 
 #### 16. Tabel *report_replies*
-Tabel 21 (*report_replies*) menyimpan riwayat percakapan antara pengguna (atau Renter) dengan admin dalam konteks penanganan suatu laporan pengaduan. Setiap balasan terhubung ke laporan induk melalui `report_id` (relasi *one-to-many*, satu laporan dapat memiliki banyak balasan) dan ke pengirim melalui `sender_id`. Kolom `message` menyimpan isi pesan teks, sementara `created_at` mencatat waktu pengiriman untuk mengurutkan balasan secara kronologis. Sistem membatasi hak balasan berdasarkan peran: pengguna hanya dapat membalas laporannya sendiri, admin dapat membalas laporan siapa pun, dan pengguna tidak dapat membalas laporan yang telah berstatus RESOLVED. Fitur ini menyediakan saluran komunikasi dua arah yang terdokumentasi antara pengguna dan admin tanpa perlu meninggalkan platform.
+Tabel 29 (*report_replies*) menyimpan riwayat percakapan antara pengguna (atau Renter) dengan admin dalam konteks penanganan suatu laporan pengaduan. Setiap balasan terhubung ke laporan induk melalui `report_id` (relasi *one-to-many*, satu laporan dapat memiliki banyak balasan) dan ke pengirim melalui `sender_id`. Kolom `message` menyimpan isi pesan teks, sementara `created_at` mencatat waktu pengiriman untuk mengurutkan balasan secara kronologis. Sistem membatasi hak balasan berdasarkan peran: pengguna hanya dapat membalas laporannya sendiri, admin dapat membalas laporan siapa pun, dan pengguna tidak dapat membalas laporan yang telah berstatus RESOLVED. Fitur ini menyediakan saluran komunikasi dua arah yang terdokumentasi antara pengguna dan admin tanpa perlu meninggalkan platform.
 
-**Tabel 21.** *report_replies* ^tabel-21
+**Tabel 29.** *report_replies* ^tabel-29
 
 | Nama Field | Tipe Field    | Keterangan                   | Default    |
 | ---------- | ------------- | ---------------------------- | ---------- |
@@ -1672,9 +1729,9 @@ Logika komputasi validasi ketersediaan jadwal pada platform FieldMax diimplement
 
 $$\text{Kondisi Bentrok} = (\text{Start}_{\text{req}} < \text{End}_{\text{db}}) \land (\text{End}_{\text{req}} > \text{Start}_{\text{db}})$$
 
-di mana `status` reservasi yang diperiksa berada dalam kondisi `CONFIRMED` atau `PENDING`. Untuk menguji seluruh kemungkinan interaksi waktu sewa secara komprehensif, pengujian dirancang mencakup 7 skenario uji matematis dan transaksional yang disajikan pada Tabel 22.
+di mana `status` reservasi yang diperiksa berada dalam kondisi `CONFIRMED` atau `PENDING`. Untuk menguji seluruh kemungkinan interaksi waktu sewa secara komprehensif, pengujian dirancang mencakup 7 skenario uji matematis dan transaksional yang disajikan pada Tabel 30.
 
-**Tabel 22.** Matriks Pengujian Skema Pencegahan Bentrok Jadwal (*Double Booking Prevention*) ^tabel-22
+**Tabel 30.** Matriks Pengujian Skema Pencegahan Bentrok Jadwal (*Double Booking Prevention*) ^tabel-30
 
 | No | Skenario Uji Bentrok (*Case*) | Kondisi Jadwal di Database vs Permintaan Baru | Evaluasi Logika Komputasi | Hasil Pengujian |
 | --- | ------------------------------ | --------------------------------------------- | ------------------------- | --------------- |
@@ -1688,7 +1745,7 @@ di mana `status` reservasi yang diperiksa berada dalam kondisi `CONFIRMED` atau 
 
 ### 3.5.2 Evaluasi Hasil Pengujian Empiris
 
-Berdasarkan hasil pengujian pada Tabel 22, seluruh skenario uji membuktikan bahwa skema pencegahan bentrok jadwal berjalan 100% valid sesuai spesifikasi perancangan. Sistem terbukti mampu membedakan dengan presisi antara kondisi tumpang tindih terlarang (Skenario 1, 2, 3, 4, dan 6) dengan kondisi batas berdampingan yang sah (Skenario 5), serta menjamin ketersediaan kembali slot sewa yang batal secara otomatis tanpa risiko *data inconsistency* (Skenario 7).
+Berdasarkan hasil pengujian pada Tabel 30, seluruh skenario uji membuktikan bahwa skema pencegahan bentrok jadwal berjalan 100% valid sesuai spesifikasi perancangan. Sistem terbukti mampu membedakan dengan presisi antara kondisi tumpang tindih terlarang (Skenario 1, 2, 3, 4, dan 6) dengan kondisi batas berdampingan yang sah (Skenario 5), serta menjamin ketersediaan kembali slot sewa yang batal secara otomatis tanpa risiko *data inconsistency* (Skenario 7).
 
 ## 3.6 Pembahasan Hasil Penelitian ^pembahasan-hasil-penelitian
 
@@ -1702,7 +1759,7 @@ Keberhasilan platform FieldMax dalam mengeliminasi bentrok jadwal sewa (*double 
 1. **Algoritma Validasi Tumpang Tindih Waktu (*Time Overlap Query*)**: Lapisan layanan pemesanan (*bookings service*) menerapkan kueri relasional ketat pada basis data PostgreSQL yang memeriksa kondisi tumpang tindih waktu:
    $$\text{Kondisi Bentrok} = (\text{Start}_{\text{req}} < \text{End}_{\text{db}}) \land (\text{End}_{\text{req}} > \text{Start}_{\text{db}})$$
    Kueri ini mengevaluasi seluruh rekaman reservasi pada lapangan yang sama dengan status `PENDING` maupun `CONFIRMED`. Jika ditemukan kondisi tumpang tindih, sistem secara instan membatalkan proses dan mengembalikan respons penolakan ketersediaan jadwal kepada pengguna kedua.
-2. **Sinkronisasi Status Transaksi *Real-Time* via *Webhook Gateway***: Integrasi *payment gateway* Midtrans Snap memastikan status pembayaran terverifikasi tanpa intervensi manual. Ketika pengguna menginisiasi pembayaran, status pesanan dikunci sementara sebagai `PENDING`. Jika pembayaran diselesaikan, *webhook callback* secara otomatis memperbarui status menjadi `PAID` dan `CONFIRMED`. Sebaliknya, apabila masa berlaku pembayaran habis (*expired*) atau transaksi dibatalkan, sistem secara otomatis melepaskan kembali slot waktu tersebut menjadi tersedia (*available*) bagi pengguna lain. Hasil pengujian pada Tabel 22 membuktikan keandalan mekanisme ini dalam menangani pemesanan serentak tanpa terjadinya duplikasi jadwal.
+2. **Sinkronisasi Status Transaksi *Real-Time* via *Webhook Gateway***: Integrasi *payment gateway* Midtrans Snap memastikan status pembayaran terverifikasi tanpa intervensi manual. Ketika pengguna menginisiasi pembayaran, status pesanan dikunci sementara sebagai `PENDING`. Jika pembayaran diselesaikan, *webhook callback* secara otomatis memperbarui status menjadi `PAID` dan `CONFIRMED`. Sebaliknya, apabila masa berlaku pembayaran habis (*expired*) atau transaksi dibatalkan, sistem secara otomatis melepaskan kembali slot waktu tersebut menjadi tersedia (*available*) bagi pengguna lain. Hasil pengujian pada Tabel 30 membuktikan keandalan mekanisme ini dalam menangani pemesanan serentak tanpa terjadinya duplikasi jadwal.
 
 ### 3.6.3 Efisiensi Operasional dan Keamanan Transaksi Digital
 Integrasi berbagai layanan pendukung modern menghasilkan sistem yang tangguh: *session-based authentication* tersimpan di basis data dengan *cookie HttpOnly* mengamankan sesi pengguna dari kerentanan *Cross-Site Scripting* (XSS); ImageKit CDN mengoptimalkan kompresi berkas gambar fasilitas olahraga sehingga mempercepat pemuatan halaman web; serta SMTP Nodemailer mengotomatisasi pengiriman token verifikasi akun dan pemulihan kata sandi. Dengan demikian, platform FieldMax tidak hanya menyelesaikan permasalahan operasional reservasi, namun juga menyediakan standar keamanan dan kenyamanan transaksi yang memenuhi kebutuhan industri olahraga digital saat ini.
@@ -1790,6 +1847,8 @@ Shadiq, J., Safei, A., & Loly, R. W. (2021). Pengujian Aplikasi Peminjaman Kenda
 Siahaan, R. A., & Sianturi, R. A. (2024). Analisis Perbandingan Payment Gateway untuk Sistem Pembayaran Berbasis Aplikasi Dengan Comparative Study. *Jurnal Teknologi Informasi dan Ilmu Komputer (JTIIK)*, 11(2), 291–296.
 
 Sidiarta, P. (2018). Rancang Bangun Sistem Informasi Marketplace Penyewaan Lapangan Futsal Berbasis Website. *Jurnal Teknologi & Manajemen Informatika*, 4(1), 10–18.
+
+Sommerville, I. (2011). *Software Engineering* (9th ed.). Boston: Addison-Wesley.
 
 Swastika, R. H., & Khasanah, F. N. (2017). Sistem Informasi Reservasi Lapangan Futsal pada Futsal Corner Menggunakan Metode Waterfall. *Jurnal Mahasiswa Bina Insani*, 1(2), 251–266.
 

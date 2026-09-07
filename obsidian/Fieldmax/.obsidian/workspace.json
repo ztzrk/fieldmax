@@ -4,21 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "46160d71de4fe979",
+        "id": "b6834820581c9c4c",
         "type": "tabs",
         "children": [
           {
-            "id": "08ab1183b1d40a38",
+            "id": "e46ce0ebef7f85eb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "diagram-edit",
               "state": {
-                "file": "06 - BAB I - Pendahuluan.md",
-                "mode": "preview",
-                "source": false
+                "file": "images/gambar-erd-fieldmax.drawio"
               },
               "icon": "lucide-file",
-              "title": "06 - BAB I - Pendahuluan"
+              "title": "gambar-erd-fieldmax.drawio"
             }
           }
         ]
@@ -41,7 +39,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": true,
+                "searchQuery": "erd"
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -184,32 +184,36 @@
       "drawio-editor:Create new drawio diagram": false
     }
   },
-  "active": "08ab1183b1d40a38",
+  "active": "e46ce0ebef7f85eb",
   "lastOpenFiles": [
-    "08 - BAB III - Hasil dan Pembahasan.md",
-    "images/gambar-relasi-tabel.drawio",
-    "images/gambar-relasi-tabel.png",
+    "~WRL3382.tmp",
+    "~WRD3249.tmp",
+    "~$71211021_Aflah Alifu Na_Draf (28-7-2026).docx",
+    "H071211021_Aflah Alifu Na_Draf (28-7-2026).docx",
+    "~WRL2322.tmp",
+    "~WRD2158.tmp",
+    "~WRD0618.tmp",
+    "~$Presentasi_Seminar_Hasil_FieldMax.pptx",
+    "~WRL3414.tmp",
+    "~WRD3226.tmp",
+    "images/gambar-use-case-diagram.drawio",
+    "Untitled 1.md",
+    "Untitled.md",
+    "images/gambar-4-alur-penelitian-vector.png",
+    "images/gambar-4-alur-penelitian-tight.png",
+    "images/gambar-analisis-masalah-tight.png",
+    "images/gambar-dsr-fieldmax-tight.png",
+    "images/gambar-dsr-fieldmax.png",
+    "images/gambar-dsr-fieldmax.svg",
+    "waterfall.png",
+    "Skripsi Lengkap - BAB I s.d. BAB IV (Audited).md",
+    "images/gambar-4-alur-penelitian-clean.png",
+    "images/gambar-4-alur-penelitian.svg",
+    "images/gambar-4-alur-penelitian.png",
     "06 - BAB I - Pendahuluan.md",
+    "08 - BAB III - Hasil dan Pembahasan.md",
     "07 - BAB II - Metode Penelitian.md",
-    "dokumen_4846_4.pdf",
-    "halaman-detail-laporan-admin.png",
-    "images/images/halaman-detail-laporan-admin.png",
-    "images/screenshots/halaman-detail-laporan-admin.png",
-    "halaman-laporan-admin.png",
-    "images/images/halaman-laporan-admin.png",
-    "images/screenshots/halaman-laporan-admin.png",
-    "images/halaman-laporan-admin.png",
-    "attachments/halaman-pencarian.png",
-    "screenshots/halaman-pencarian.png",
-    "images/attachments",
-    "attachments",
-    "screenshots",
-    "images/images",
     "09 - BAB IV - Kesimpulan dan Saran.md",
-    "images/screenshots",
-    "images/gambar-booking-flow.drawio",
-    "images/drawio/gambar-activity-daftar.drawio",
-    "images/gambar-erd-fieldmax.drawio",
     "04 - Daftar Gambar.md",
     "03 - Daftar Isi.md",
     "10 - Daftar Pustaka.md",

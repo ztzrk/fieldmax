@@ -48,6 +48,8 @@ Siahaan, R. A., & Sianturi, R. A. (2024). Analisis Perbandingan Payment Gateway 
 
 Sidiarta, P. (2018). Rancang Bangun Sistem Informasi Marketplace Penyewaan Lapangan Futsal Berbasis Website. *Jurnal Teknologi & Manajemen Informatika*, 4(1), 10–18.
 
+Sommerville, I. (2011). *Software Engineering* (9th ed.). Boston: Addison-Wesley.
+
 Swastika, R. H., & Khasanah, F. N. (2017). Sistem Informasi Reservasi Lapangan Futsal pada Futsal Corner Menggunakan Metode Waterfall. *Jurnal Mahasiswa Bina Insani*, 1(2), 251–266.
 
 Uminingsih, Ichsanudin, M. N., Yusuf, M., & Suraya. (2022). Pengujian Fungsional Perangkat Lunak Sistem Informasi Perpustakaan Dengan Metode Black Box Testing Bagi Pemula. *STORAGE: Jurnal Ilmiah Teknik dan Ilmu Komputer*, 1(2), 1–8.
