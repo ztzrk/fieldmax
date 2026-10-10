@@ -26,8 +26,8 @@ export class VenuesService {
                 ? sortBy === "renter"
                     ? { renter: { fullName: sortOrder } }
                     : sortBy === "fields"
-                    ? { fields: { _count: sortOrder } }
-                    : { [sortBy]: sortOrder }
+                      ? { fields: { _count: sortOrder } }
+                      : { [sortBy]: sortOrder }
                 : { createdAt: "desc" };
 
         const [venues, total] = [
@@ -276,7 +276,7 @@ export class VenuesService {
         });
         if (existingVenue) {
             throw new ConflictError(
-                "A venue with this name already exists for this renter."
+                "A venue with this name already exists for this renter.",
             );
         }
 
@@ -294,14 +294,14 @@ export class VenuesService {
                                       schedule.openTime.length === 5
                                           ? schedule.openTime + ":00"
                                           : schedule.openTime
-                                  }.000Z`
+                                  }.000Z`,
                               ),
                               closeTime: new Date(
                                   `1970-01-01T${
                                       schedule.closeTime.length === 5
                                           ? schedule.closeTime + ":00"
                                           : schedule.closeTime
-                                  }.000Z`
+                                  }.000Z`,
                               ),
                           })),
                       }
@@ -341,14 +341,14 @@ export class VenuesService {
                                 schedule.openTime.length === 5
                                     ? schedule.openTime + ":00"
                                     : schedule.openTime
-                            }.000Z`
+                            }.000Z`,
                         ),
                         closeTime: new Date(
                             `1970-01-01T${
                                 schedule.closeTime.length === 5
                                     ? schedule.closeTime + ":00"
                                     : schedule.closeTime
-                            }.000Z`
+                            }.000Z`,
                         ),
                     })),
                 });
@@ -381,7 +381,7 @@ export class VenuesService {
 
             if (venues.length !== ids.length) {
                 throw new Error(
-                    "Forbidden: You do not own all the venues you are trying to delete."
+                    "Forbidden: You do not own all the venues you are trying to delete.",
                 );
             }
         }
@@ -408,7 +408,7 @@ export class VenuesService {
 
         if (venueWithPhotoCount._count.photos < 3) {
             throw new ValidationError(
-                "Venue must have at least 3 photos to be approved."
+                "Venue must have at least 3 photos to be approved.",
             );
         }
 
@@ -437,7 +437,7 @@ export class VenuesService {
 
         if (venueToUpdate.status !== "REJECTED") {
             throw new ValidationError(
-                "Only rejected venues can be resubmitted."
+                "Only rejected venues can be resubmitted.",
             );
         }
 
@@ -470,7 +470,7 @@ export class VenuesService {
 
         if (venue._count.photos < 2) {
             throw new ValidationError(
-                "Venue must have at least 2 photos to be submitted."
+                "Venue must have at least 2 photos to be submitted.",
             );
         }
 
@@ -483,7 +483,7 @@ export class VenuesService {
     public async addPhotos(
         venueId: string,
         files: Express.Multer.File[],
-        user: User
+        user: User,
     ) {
         const uploadPromises = files.map((file) => {
             const cleanOriginalName = file.originalname
@@ -501,6 +501,10 @@ export class VenuesService {
         const uploadResults = await Promise.all(uploadPromises);
 
         const photoDataToSave = uploadResults.map((result) => {
+            if (!result.url) {
+                throw new Error("Image upload did not return a URL");
+            }
+
             return {
                 venueId: venueId,
                 url: result.url,

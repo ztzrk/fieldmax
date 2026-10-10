@@ -275,7 +275,7 @@ export class FieldsService {
 
         if (venue.status !== "APPROVED") {
             throw new ValidationError(
-                "Fields can only be added to approved venues."
+                "Fields can only be added to approved venues.",
             );
         }
 
@@ -335,7 +335,7 @@ export class FieldsService {
 
             if (fieldsToCheck.length !== ids.length) {
                 throw new Error(
-                    "Forbidden: You do not own all the fields you are trying to delete."
+                    "Forbidden: You do not own all the fields you are trying to delete.",
                 );
             }
         }
@@ -362,7 +362,7 @@ export class FieldsService {
 
         if (fieldWithPhotoCount._count.photos < 1) {
             throw new ValidationError(
-                "Field must have at least 1 photo to be approved."
+                "Field must have at least 1 photo to be approved.",
             );
         }
 
@@ -391,7 +391,7 @@ export class FieldsService {
 
         if (fieldToUpdate.status !== "REJECTED") {
             throw new ValidationError(
-                "Only rejected fields can be resubmitted."
+                "Only rejected fields can be resubmitted.",
             );
         }
 
@@ -407,7 +407,7 @@ export class FieldsService {
     public async addPhotos(
         fieldId: string,
         files: Express.Multer.File[],
-        user: User
+        user: User,
     ) {
         const uploadPromises = files.map((file) => {
             const cleanName = file.originalname.trim().replace(/\s+/g, "-");
@@ -423,6 +423,10 @@ export class FieldsService {
         const uploadResults = await Promise.all(uploadPromises);
 
         const photoDataToSave = uploadResults.map((result) => {
+            if (!result.url) {
+                throw new Error("Image upload did not return a URL");
+            }
+
             return { fieldId, url: result.url };
         });
 
@@ -469,11 +473,11 @@ export class FieldsService {
         if (regularSchedule) {
             openTime = this.combineDateAndTime(
                 query.date,
-                regularSchedule.openTime
+                regularSchedule.openTime,
             );
             closeTime = this.combineDateAndTime(
                 query.date,
-                regularSchedule.closeTime
+                regularSchedule.closeTime,
             );
         }
 
@@ -506,7 +510,7 @@ export class FieldsService {
 
             // Check if this slot overlaps with any booking
             const isBooked = normalizedBookings.some((booking) =>
-                areIntervalsOverlapping(slotInterval, booking)
+                areIntervalsOverlapping(slotInterval, booking),
             );
 
             if (!isBooked) {
@@ -520,10 +524,7 @@ export class FieldsService {
         return slots;
     }
 
-    private combineDateAndTime(
-        dateString: string,
-        timeDate: Date
-    ): Date {
+    private combineDateAndTime(dateString: string, timeDate: Date): Date {
         // Extract UTC hours & minutes from the Prisma Time Date object
         const hours = timeDate.getUTCHours().toString().padStart(2, "0");
         const minutes = timeDate.getUTCMinutes().toString().padStart(2, "0");

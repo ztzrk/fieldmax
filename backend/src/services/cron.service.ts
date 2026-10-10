@@ -39,7 +39,7 @@ export class CronService {
                         .toString()
                         .padStart(2, "0");
                     const endDateTime = new Date(
-                        `${bookingDateStr}T${hours}:${minutes}:00.000+07:00`
+                        `${bookingDateStr}T${hours}:${minutes}:00.000+07:00`,
                     );
 
                     if (endDateTime <= now) {
@@ -57,36 +57,46 @@ export class CronService {
                         },
                     });
                     logger.info(
-                        `[Cron] Auto-completed ${result.count} bookings.`
+                        `[Cron] Auto-completed ${result.count} bookings.`,
                     );
                 }
 
                 // 2. Auto-cancel stale pending bookings older than 30 minutes
-                const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
-                const stalePendingBookings = await prisma.booking.findMany({
-                    where: {
-                        status: "PENDING",
-                        createdAt: {
-                            lt: thirtyMinutesAgo,
-                        },
-                    },
-                    select: { id: true },
-                });
-
-                if (stalePendingBookings.length > 0) {
-                    const staleIds = stalePendingBookings.map((b) => b.id);
-                    await prisma.$transaction([
-                        prisma.booking.updateMany({
-                            where: { id: { in: staleIds } },
-                            data: { status: "CANCELLED" },
-                        }),
-                        prisma.payment.updateMany({
-                            where: { bookingId: { in: staleIds }, status: "PENDING" },
+                const thirtyMinutesAgo = new Date(
+                    now.getTime() - 30 * 60 * 1000,
+                );
+                const { cancelledCount, expiredPaymentCount } =
+                    await prisma.$transaction(async (tx) => {
+                        const paymentUpdate = await tx.payment.updateMany({
+                            where: {
+                                status: "PENDING",
+                                booking: {
+                                    is: {
+                                        status: "PENDING",
+                                        createdAt: { lt: thirtyMinutesAgo },
+                                    },
+                                },
+                            },
                             data: { status: "EXPIRED" },
-                        }),
-                    ]);
+                        });
+
+                        const bookingUpdate = await tx.booking.updateMany({
+                            where: {
+                                status: "PENDING",
+                                createdAt: { lt: thirtyMinutesAgo },
+                            },
+                            data: { status: "CANCELLED" },
+                        });
+
+                        return {
+                            cancelledCount: bookingUpdate.count,
+                            expiredPaymentCount: paymentUpdate.count,
+                        };
+                    });
+
+                if (cancelledCount > 0) {
                     logger.info(
-                        `[Cron] Expired ${staleIds.length} stale pending bookings.`
+                        `[Cron] Expired ${cancelledCount} stale pending bookings and ${expiredPaymentCount} payments.`,
                     );
                 }
             } catch (error) {

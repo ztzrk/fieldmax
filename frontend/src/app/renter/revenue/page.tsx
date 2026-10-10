@@ -95,7 +95,7 @@ export default function RevenuePage() {
                         <p className="text-xs text-muted-foreground">
                             {stats.revenueByVenue[0]
                                 ? formatCurrency(
-                                      stats.revenueByVenue[0].totalRevenue
+                                      stats.revenueByVenue[0].totalRevenue,
                                   )
                                 : "$0"}
                         </p>
@@ -114,7 +114,7 @@ export default function RevenuePage() {
                         <p className="text-xs text-muted-foreground">
                             {stats.revenueByField[0]
                                 ? formatCurrency(
-                                      stats.revenueByField[0].totalRevenue
+                                      stats.revenueByField[0].totalRevenue,
                                   )
                                 : "$0"}
                         </p>
@@ -157,8 +157,10 @@ export default function RevenuePage() {
                                             }
                                         />
                                         <Tooltip
-                                            formatter={(value: number) =>
-                                                formatCurrency(value)
+                                            formatter={(value) =>
+                                                formatCurrency(
+                                                    Number(value ?? 0),
+                                                )
                                             }
                                         />
                                         <Bar
@@ -195,7 +197,7 @@ export default function RevenuePage() {
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 {formatCurrency(
-                                                    venue.totalRevenue
+                                                    venue.totalRevenue,
                                                 )}
                                             </TableCell>
                                         </TableRow>
@@ -245,12 +247,14 @@ export default function RevenuePage() {
                                             }
                                         />
                                         <Tooltip
-                                            formatter={(value: number) =>
-                                                formatCurrency(value)
+                                            formatter={(value) =>
+                                                formatCurrency(
+                                                    Number(value ?? 0),
+                                                )
                                             }
                                             labelFormatter={(
                                                 label,
-                                                payload
+                                                payload,
                                             ) => {
                                                 if (payload && payload[0]) {
                                                     return `${label} (${payload[0].payload.venueName})`;
@@ -296,7 +300,7 @@ export default function RevenuePage() {
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 {formatCurrency(
-                                                    field.totalRevenue
+                                                    field.totalRevenue,
                                                 )}
                                             </TableCell>
                                         </TableRow>
