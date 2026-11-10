@@ -15,4 +15,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./schemas/auth"), exports);
+__exportStar(require("./schemas/pagination"), exports);
+__exportStar(require("./schemas/sport-type"), exports);
+__exportStar(require("./schemas/profile"), exports);
+__exportStar(require("./schemas/review"), exports);
+__exportStar(require("./schemas/venue"), exports);
+__exportStar(require("./schemas/field"), exports);
+__exportStar(require("./schemas/booking"), exports);
+__exportStar(require("./schemas/user"), exports);
 __exportStar(require("./types/api"), exports);

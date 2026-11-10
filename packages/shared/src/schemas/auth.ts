@@ -20,6 +20,8 @@ export const loginSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+export const loginFormSchema = loginSchema;
+export type LoginFormSchema = LoginInput;
 
 // Register
 export const registerSchema = z
@@ -41,6 +43,8 @@ export const registerSchema = z
     });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+export const registerFormSchema = registerSchema;
+export type RegisterFormSchema = RegisterInput;
 
 // Forgot Password
 export const forgotPasswordSchema = z.object({
@@ -51,6 +55,7 @@ export const forgotPasswordSchema = z.object({
 });
 
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ForgotPasswordSchema = ForgotPasswordInput;
 
 // Reset Password
 // Reset Password
@@ -82,6 +87,7 @@ export const resetPasswordFormSchema = resetPasswordFormBase.refine(
     }
 );
 export type ResetPasswordFormInput = z.infer<typeof resetPasswordFormSchema>;
+export type ResetPasswordSchema = ResetPasswordFormInput;
 
 // Verify Email
 export const verifyEmailSchema = z.object({

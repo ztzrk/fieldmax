@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resendCodeSchema = exports.verifyEmailSchema = exports.resetPasswordFormSchema = exports.resetPasswordSchema = exports.forgotPasswordSchema = exports.registerSchema = exports.loginSchema = exports.userRoleSchema = exports.UserRole = void 0;
+exports.resendCodeSchema = exports.verifyEmailSchema = exports.resetPasswordFormSchema = exports.resetPasswordSchema = exports.forgotPasswordSchema = exports.registerFormSchema = exports.registerSchema = exports.loginFormSchema = exports.loginSchema = exports.userRoleSchema = exports.UserRole = void 0;
 const zod_1 = require("zod");
 exports.UserRole = {
     USER: "USER",
@@ -16,6 +16,7 @@ exports.loginSchema = zod_1.z.object({
         .min(1, "Email is required"),
     password: zod_1.z.string().min(1, "Password is required"),
 });
+exports.loginFormSchema = exports.loginSchema;
 // Register
 exports.registerSchema = zod_1.z
     .object({
@@ -34,6 +35,7 @@ exports.registerSchema = zod_1.z
     message: "Passwords do not match",
     path: ["confirmPassword"],
 });
+exports.registerFormSchema = exports.registerSchema;
 // Forgot Password
 exports.forgotPasswordSchema = zod_1.z.object({
     email: zod_1.z

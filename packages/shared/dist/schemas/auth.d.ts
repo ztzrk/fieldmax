@@ -21,6 +21,17 @@ export declare const loginSchema: z.ZodObject<{
     password: string;
 }>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export declare const loginFormSchema: z.ZodObject<{
+    email: z.ZodString;
+    password: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    email: string;
+    password: string;
+}, {
+    email: string;
+    password: string;
+}>;
+export type LoginFormSchema = LoginInput;
 export declare const registerSchema: z.ZodEffects<z.ZodObject<{
     fullName: z.ZodString;
     email: z.ZodString;
@@ -53,6 +64,38 @@ export declare const registerSchema: z.ZodEffects<z.ZodObject<{
     role: "USER" | "RENTER" | "ADMIN";
 }>;
 export type RegisterInput = z.infer<typeof registerSchema>;
+export declare const registerFormSchema: z.ZodEffects<z.ZodObject<{
+    fullName: z.ZodString;
+    email: z.ZodString;
+    password: z.ZodString;
+    confirmPassword: z.ZodString;
+    role: z.ZodEnum<["USER", "RENTER", "ADMIN"]>;
+}, "strip", z.ZodTypeAny, {
+    email: string;
+    password: string;
+    fullName: string;
+    confirmPassword: string;
+    role: "USER" | "RENTER" | "ADMIN";
+}, {
+    email: string;
+    password: string;
+    fullName: string;
+    confirmPassword: string;
+    role: "USER" | "RENTER" | "ADMIN";
+}>, {
+    email: string;
+    password: string;
+    fullName: string;
+    confirmPassword: string;
+    role: "USER" | "RENTER" | "ADMIN";
+}, {
+    email: string;
+    password: string;
+    fullName: string;
+    confirmPassword: string;
+    role: "USER" | "RENTER" | "ADMIN";
+}>;
+export type RegisterFormSchema = RegisterInput;
 export declare const forgotPasswordSchema: z.ZodObject<{
     email: z.ZodString;
 }, "strip", z.ZodTypeAny, {
@@ -61,6 +104,7 @@ export declare const forgotPasswordSchema: z.ZodObject<{
     email: string;
 }>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ForgotPasswordSchema = ForgotPasswordInput;
 export declare const resetPasswordSchema: z.ZodEffects<z.ZodObject<{
     token: z.ZodString;
     password: z.ZodString;
@@ -101,6 +145,7 @@ export declare const resetPasswordFormSchema: z.ZodEffects<z.ZodObject<Omit<{
     confirmPassword: string;
 }>;
 export type ResetPasswordFormInput = z.infer<typeof resetPasswordFormSchema>;
+export type ResetPasswordSchema = ResetPasswordFormInput;
 export declare const verifyEmailSchema: z.ZodObject<{
     email: z.ZodString;
     code: z.ZodString;
