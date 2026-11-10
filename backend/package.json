@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node -T src/index.ts",
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "node dist/src/index.js",
     "seed:main": "ts-node -T prisma/seeds/seed.ts",
     "seed:sim": "ts-node -T prisma/seeds/simulation.ts",
@@ -17,6 +17,7 @@
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
     "@fieldmax/shared": "workspace:*",
+    "@imagekit/nodejs": "^7.12.1",
     "@prisma/client": "^6.11.1",
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
@@ -30,7 +31,6 @@
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
-    "@imagekit/nodejs": "^7.12.1",
     "midtrans-client": "^1.4.3",
     "multer": "^2.0.1",
     "node-cron": "^4.2.1",
@@ -50,6 +50,8 @@
     "nodemon": "^3.1.10",
     "prisma": "^6.11.1",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.9.10",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   },
   "prisma": {

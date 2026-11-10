@@ -5,7 +5,7 @@ import helmet from "helmet";
 import express, { Express, Request, Response } from "express";
 import { errorMiddleware } from "./middleware/error.middleware";
 import { globalLimiter } from "./middleware/rateLimit.middleware";
-import { logger } from "./utils/logger";
+import { logger } from "@/utils/logger";
 import cookieParser from "cookie-parser";
 // Services
 import { AuthService } from "./auth/auth.service";
