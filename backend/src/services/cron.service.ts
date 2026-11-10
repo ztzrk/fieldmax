@@ -39,7 +39,7 @@ export class CronService {
                         .toString()
                         .padStart(2, "0");
                     const endDateTime = new Date(
-                        `${bookingDateStr}T${hours}:${minutes}:00.000+07:00`,
+                        `${bookingDateStr}T${hours}:${minutes}:00.000Z`,
                     );
 
                     if (endDateTime <= now) {
@@ -97,6 +97,18 @@ export class CronService {
                 if (cancelledCount > 0) {
                     logger.info(
                         `[Cron] Expired ${cancelledCount} stale pending bookings and ${expiredPaymentCount} payments.`,
+                    );
+                }
+
+                // 3. Auto-prune expired user sessions to maintain a clean database
+                const prunedSessions = await prisma.session.deleteMany({
+                    where: {
+                        expiresAt: { lt: now },
+                    },
+                });
+                if (prunedSessions.count > 0) {
+                    logger.info(
+                        `[Cron] Pruned ${prunedSessions.count} expired sessions.`,
                     );
                 }
             } catch (error) {

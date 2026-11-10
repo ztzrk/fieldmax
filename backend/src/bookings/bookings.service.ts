@@ -204,44 +204,69 @@ export class BookingsService {
 
         const totalPrice = field.pricePerHour * duration;
 
-        return prisma.$transaction(async (tx) => {
-            // Overlap check inside transaction
-            const overlappingBooking = await tx.booking.findFirst({
-                where: {
-                    fieldId: data.fieldId,
-                    bookingDate: new Date(data.bookingDate),
-                    status: { in: ["CONFIRMED", "PENDING"] },
-                    startTime: { lt: endTime },
-                    endTime: { gt: startTime },
-                },
-            });
+        // 1. Create booking inside a lean, Serializable transaction to guarantee no double-booking
+        let newBooking;
+        try {
+            newBooking = await prisma.$transaction(
+                async (tx) => {
+                    // Overlap check inside transaction
+                    const overlappingBooking = await tx.booking.findFirst({
+                        where: {
+                            fieldId: data.fieldId,
+                            bookingDate: new Date(data.bookingDate),
+                            status: { in: ["CONFIRMED", "PENDING"] },
+                            startTime: { lt: endTime },
+                            endTime: { gt: startTime },
+                        },
+                    });
 
-            if (overlappingBooking) {
+                    if (overlappingBooking) {
+                        throw new ConflictError(
+                            "This time slot (or part of it) is already booked."
+                        );
+                    }
+
+                    return tx.booking.create({
+                        data: {
+                            userId: user.id,
+                            fieldId: data.fieldId,
+                            bookingDate: new Date(data.bookingDate),
+                            startTime: startTime,
+                            endTime: endTime,
+                            totalPrice: totalPrice,
+                            status: "PENDING",
+                        },
+                        include: {
+                            field: {
+                                include: {
+                                    venue: true,
+                                },
+                            },
+                        },
+                    });
+                },
+                {
+                    isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+                    maxWait: 5000,
+                    timeout: 10000,
+                }
+            );
+        } catch (error) {
+            if (
+                error instanceof Prisma.PrismaClientKnownRequestError &&
+                error.code === "P2034"
+            ) {
                 throw new ConflictError(
-                    "This time slot (or part of it) is already booked."
+                    "This time slot was just booked by another user. Please choose another time."
                 );
             }
+            throw error;
+        }
 
-            const newBooking = await tx.booking.create({
-                data: {
-                    userId: user.id,
-                    fieldId: data.fieldId,
-                    bookingDate: new Date(data.bookingDate),
-                    startTime: startTime,
-                    endTime: endTime,
-                    totalPrice: totalPrice,
-                    status: "PENDING",
-                },
-                include: {
-                    field: {
-                        include: {
-                            venue: true,
-                        },
-                    },
-                },
-            });
-
-            // Midtrans constraints
+        // 2. Call Midtrans Snap API OUTSIDE the database transaction
+        // This prevents connection pool exhaustion when external network requests take time
+        let transactionToken: string;
+        try {
             const rawName = `${field.name} @ ${newBooking.field.venue.name}`;
             const safeName =
                 rawName.length > 50 ? rawName.substring(0, 50) : rawName;
@@ -271,22 +296,31 @@ export class BookingsService {
                 },
             };
 
-            const transactionToken = await this.snap.createTransactionToken(
+            transactionToken = await this.snap.createTransactionToken(
                 transactionDetails
             );
-
-            // Create Payment Record
-            await tx.payment.create({
-                data: {
-                    bookingId: newBooking.id,
-                    amount: totalPrice,
-                    status: "PENDING",
-                    snapToken: transactionToken,
-                },
+        } catch (error: any) {
+            // If Midtrans call fails, cancel the pending booking so the slot is freed up immediately
+            await prisma.booking.update({
+                where: { id: newBooking.id },
+                data: { status: "CANCELLED" },
             });
+            throw new ValidationError(
+                "Failed to generate payment gateway token. Please try again."
+            );
+        }
 
-            return { booking: newBooking, snapToken: transactionToken };
+        // 3. Create Payment Record linked to the new booking
+        await prisma.payment.create({
+            data: {
+                bookingId: newBooking.id,
+                amount: totalPrice,
+                status: "PENDING",
+                snapToken: transactionToken,
+            },
         });
+
+        return { booking: newBooking, snapToken: transactionToken };
     }
 
     public async updateStatus(

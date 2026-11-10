@@ -20,21 +20,26 @@ export class PaymentsService {
         const transactionStatus = notification.transaction_status;
         const fraudStatus = notification.fraud_status;
 
-        // Verify Midtrans SHA-512 signature key
-        if (signatureKey) {
-            const hash = crypto
-                .createHash("sha512")
-                .update(
-                    `${orderId}${statusCode}${grossAmount}${config.MIDTRANS_SERVER_KEY}`
-                )
-                .digest("hex");
+        // 1. Mandatory verification of Midtrans SHA-512 signature key
+        if (!signatureKey) {
+            logger.warn(
+                `[Payment Notification] Missing signature key for order ${orderId}`
+            );
+            throw new UnauthorizedError("Missing Midtrans signature.");
+        }
 
-            if (hash !== signatureKey) {
-                logger.warn(
-                    `[Payment Notification] Invalid signature for order ${orderId}`
-                );
-                throw new UnauthorizedError("Invalid Midtrans signature.");
-            }
+        const hash = crypto
+            .createHash("sha512")
+            .update(
+                `${orderId}${statusCode}${grossAmount}${config.MIDTRANS_SERVER_KEY}`
+            )
+            .digest("hex");
+
+        if (hash !== signatureKey) {
+            logger.warn(
+                `[Payment Notification] Invalid signature for order ${orderId}`
+            );
+            throw new UnauthorizedError("Invalid Midtrans signature.");
         }
 
         const booking = await prisma.booking.findUnique({
@@ -45,6 +50,14 @@ export class PaymentsService {
                 `[Payment Notification] Booking not found for order ${orderId}`
             );
             return;
+        }
+
+        // 2. Verify gross amount matches booking total price
+        if (Math.round(booking.totalPrice) !== Math.round(Number(grossAmount))) {
+            logger.warn(
+                `[Payment Notification] Gross amount mismatch for order ${orderId}. Expected ${booking.totalPrice}, received ${grossAmount}`
+            );
+            throw new UnauthorizedError("Invalid transaction amount.");
         }
 
         if (transactionStatus === "settlement") {
