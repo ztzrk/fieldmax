@@ -1,45 +1,31 @@
 import { api } from "@/lib/api";
-import { AxiosError } from "axios";
-import { BackendErrorResponse } from "@/types/error";
-import { ProfileFormSchema } from "@/lib/schema/profile.schema";
+import { ProfileFormSchema } from "@fieldmax/shared";
 
 const ProfileService = {
     getMe: async () => {
-        try {
-            const response = await api.get("/profile/me");
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError<BackendErrorResponse>;
-        }
+        const response = await api.get("/profile/me");
+        return response.data;
     },
 
     updateProfile: async (data: ProfileFormSchema) => {
-        try {
-            const response = await api.patch("/profile/me", data);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError<BackendErrorResponse>;
-        }
+        const response = await api.patch("/profile/me", data);
+        return response.data;
     },
 
     uploadProfilePicture: async (file: File) => {
-        try {
-            const formData = new FormData();
-            formData.append("photo", file);
+        const formData = new FormData();
+        formData.append("photo", file);
 
-            const response = await api.post(
-                "/uploads/profile/photo",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError<BackendErrorResponse>;
-        }
+        const response = await api.post(
+            "/uploads/profile/photo",
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        return response.data;
     },
 };
 

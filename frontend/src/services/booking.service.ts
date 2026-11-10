@@ -2,49 +2,28 @@ import { api } from "@/lib/api";
 import {
     BookingFormSchema,
     BookingQuerySchema,
-} from "@/lib/schema/booking.schema";
-import { AxiosError } from "axios";
+} from "@fieldmax/shared";
 
 const BookingService = {
     create: async (data: BookingFormSchema) => {
-        try {
-            const response = await api.post("/bookings", data);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.post("/bookings", data);
+        return response.data;
     },
     getById: async (id: string) => {
-        try {
-            const response = await api.get(`/bookings/${id}`);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.get(`/bookings/${id}`);
+        return response.data;
     },
     getAll: async (params?: BookingQuerySchema) => {
-        try {
-            const response = await api.get("/bookings", { params });
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.get("/bookings", { params });
+        return response.data;
     },
     confirm: async (id: string) => {
-        try {
-            const response = await api.post(`/bookings/${id}/confirm`);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.post(`/bookings/${id}/confirm`);
+        return response.data;
     },
     cancel: async (id: string) => {
-        try {
-            const response = await api.post(`/bookings/${id}/cancel`);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.post(`/bookings/${id}/cancel`);
+        return response.data;
     },
 };
 

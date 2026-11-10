@@ -1,6 +1,5 @@
 import { api } from "@/lib/api";
-import { VenueFormSchema, VenueQuerySchema } from "@/lib/schema/venue.schema";
-import { AxiosError } from "axios";
+import { VenueFormSchema, VenueQuerySchema } from "@fieldmax/shared";
 
 const VenueService = {
     getAll: async (params?: VenueQuerySchema) => {
@@ -9,104 +8,60 @@ const VenueService = {
     },
 
     getAllPublic: async (params?: VenueQuerySchema) => {
-        try {
-            const response = await api.get("/venues/public", { params });
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.get("/venues/public", { params });
+        return response.data;
     },
 
     getByIdPublic: async (id: string) => {
-        try {
-            const response = await api.get(`/venues/public/${id}`);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.get(`/venues/public/${id}`);
+        return response.data;
     },
 
     getById: async (id: string) => {
-        try {
-            const response = await api.get(`/venues/${id}`);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.get(`/venues/${id}`);
+        return response.data.data;
     },
 
     create: async (data: VenueFormSchema) => {
-        try {
-            const response = await api.post("/venues", data);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.post("/venues", data);
+        return response.data.data;
     },
 
     update: async (id: string, data: VenueFormSchema) => {
-        try {
-            const response = await api.put(`/venues/${id}`, data);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.put(`/venues/${id}`, data);
+        return response.data.data;
     },
 
     delete: async (id: string) => {
-        try {
-            const response = await api.delete(`/venues/${id}`);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.delete(`/venues/${id}`);
+        return response.data;
     },
 
     deleteMultiple: async (ids: string[]) => {
-        try {
-            const response = await api.post("/venues/multiple", {
-                ids: ids,
-            });
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.post("/venues/multiple", {
+            ids: ids,
+        });
+        return response.data;
     },
 
     approve: async (id: string) => {
-        try {
-            const response = await api.patch(`/venues/${id}/approve`);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.patch(`/venues/${id}/approve`);
+        return response.data.data;
     },
 
     reject: async (id: string, data: { rejectionReason: string }) => {
-        try {
-            const response = await api.patch(`/venues/${id}/reject`, data);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.patch(`/venues/${id}/reject`, data);
+        return response.data.data;
     },
 
     resubmit: async (id: string) => {
-        try {
-            const response = await api.patch(`/venues/${id}/resubmit`);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.patch(`/venues/${id}/resubmit`);
+        return response.data.data;
     },
 
     submit: async (id: string) => {
-        try {
-            const response = await api.patch(`/venues/${id}/submit`);
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.patch(`/venues/${id}/submit`);
+        return response.data.data;
     },
 
     uploadPhotos: async (venueId: string, photos: File[]) => {
@@ -115,27 +70,19 @@ const VenueService = {
             formData.append("photos", photo);
         });
 
-        try {
-            const response = await api.post(
-                `/uploads/venue/${venueId}/photos`,
-                formData,
-                {
-                    headers: { "Content-Type": "multipart/form-data" },
-                }
-            );
-            return response.data.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.post(
+            `/uploads/venue/${venueId}/photos`,
+            formData,
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            }
+        );
+        return response.data.data;
     },
 
     deletePhoto: async (photoId: string) => {
-        try {
-            const response = await api.delete(`/venues/photos/${photoId}`);
-            return response.data;
-        } catch (error) {
-            throw error as AxiosError;
-        }
+        const response = await api.delete(`/venues/photos/${photoId}`);
+        return response.data;
     },
 };
 
