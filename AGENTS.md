@@ -148,6 +148,7 @@ Configured in `opencode.json`. Available toolkits for agent use:
 | `tavily-remote-mcp` | Web search | Tavily API |
 | `memory` | Knowledge graph memory | `@modelcontextprotocol/server-memory` |
 | `filesystem` | Filesystem access | `@modelcontextprotocol/server-filesystem` |
+| `docx-mcp` | Word (.docx) document editing & inspection | `docx-mcp-server` (uvx / SecurityRonin) |
 
 ### 🔴 Disabled
 
@@ -238,9 +239,13 @@ Academic thesis in Bahasa Indonesia:
 - `01-05`: Title, abstract, ToC, figures, tables
 - `06-09`: BAB I-IV (Pendahuluan, Metode, Hasil dan Pembahasan, Kesimpulan)
 - `10-11`: References, appendices
-- `images/`: Research figures (`.drawio` + `.svg` + `.png`)
-- `Proposal Skripsi - BAB I dan BAB II (Audited).md`: Full unified audited proposal document.
-- `convert_proposal_to_docx.py`: Python conversion script to Word DOCX.
+- `images/`: Canonical research figures & screenshots (`.drawio` + `.svg` + `.png`)
+- `figma/`: UI design mockups
+- `references/`: Academic journal & book PDFs + Unhas 2023 guideline PDF
+- `data/`: Questionnaire CSV datasets & form schema
+- `exports/`: Generated `.docx`, `.pptx`, `.html`, and slide exports
+- `Proposal Skripsi - BAB I dan BAB II (Audited).md` & `Skripsi Lengkap - BAB I s.d. BAB IV (Audited).md`: Unified audited thesis documents
+- `scripts/convert_proposal_to_docx.py`: Python conversion script to Word DOCX (`scripts/` also holds `generate_seminar_hasil_ppt.py`, `generate_erd.py`, and `scripts/survey/`).
 
 Use the `obsidian` MCP server to read/write vault files.
 
