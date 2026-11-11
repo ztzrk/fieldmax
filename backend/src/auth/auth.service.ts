@@ -182,7 +182,10 @@ export class AuthService {
 
     public async forgotPassword(email: string): Promise<void> {
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user) throw new NotFoundError("User not found.");
+        if (!user) {
+            // Return silently to prevent user email enumeration (OWASP)
+            return;
+        }
 
         const resetToken = randomBytes(32).toString("hex");
         const resetTokenExpiry = new Date(

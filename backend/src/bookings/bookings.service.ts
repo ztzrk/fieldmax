@@ -192,6 +192,83 @@ export class BookingsService {
             throw new ValidationError("This field is currently closed.");
 
         const duration = data.duration || 1;
+        if (duration < 1 || duration > 12) {
+            throw new ValidationError("Durasi sewa harus antara 1 hingga 12 jam.");
+        }
+
+        // 1. Boundary & Date Validation (No bookings in the past)
+        const bookingDateOnlyStr = data.bookingDate.split("T")[0];
+        const todayStr = new Date(Date.now() + 7 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0];
+
+        if (bookingDateOnlyStr < todayStr) {
+            throw new ValidationError("Tidak dapat memesan tanggal di masa lampau.");
+        }
+
+        const startHour = parseInt(data.startTime.split(":")[0], 10);
+        const startMinute = parseInt(data.startTime.split(":")[1] || "0", 10);
+
+        if (bookingDateOnlyStr === todayStr) {
+            const currentHourMin = new Date(Date.now() + 7 * 60 * 60 * 1000)
+                .toISOString()
+                .split("T")[1]
+                .substring(0, 5);
+            const startHourMin = `${startHour.toString().padStart(2, "0")}:${startMinute.toString().padStart(2, "0")}`;
+
+            if (startHourMin <= currentHourMin) {
+                throw new ValidationError(
+                    "Tidak dapat memesan slot waktu yang sudah terlewat untuk hari ini."
+                );
+            }
+        }
+
+        // 2. Midnight crossover check (Bookings must end on the same calendar day)
+        if (startHour + duration > 24) {
+            throw new ValidationError(
+                "Pemesanan tidak dapat melintasi tengah malam (maksimal pukul 24:00)."
+            );
+        }
+
+        // 3. Venue Operational Schedule Validation
+        const targetBookingDate = new Date(data.bookingDate);
+        const dayOfWeek = targetBookingDate.getDay();
+
+        const schedule = await prisma.venueSchedule.findFirst({
+            where: {
+                venueId: field.venueId,
+                dayOfWeek: dayOfWeek,
+            },
+        });
+
+        if (!schedule) {
+            const totalSchedules = await prisma.venueSchedule.count({
+                where: { venueId: field.venueId },
+            });
+            if (totalSchedules > 0) {
+                throw new ValidationError("Venue tutup pada hari ini.");
+            }
+        } else {
+            const openH = schedule.openTime.getUTCHours();
+            const openM = schedule.openTime.getUTCMinutes();
+            const closeH = schedule.closeTime.getUTCHours();
+            const closeM = schedule.closeTime.getUTCMinutes();
+
+            const openMinutes = openH * 60 + openM;
+            const closeMinutes = closeH * 60 + closeM;
+
+            const startMinutes = startHour * 60 + startMinute;
+            const endMinutes = startMinutes + duration * 60;
+
+            if (startMinutes < openMinutes || endMinutes > closeMinutes) {
+                const formatHM = (h: number, m: number) =>
+                    `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
+                throw new ValidationError(
+                    `Waktu sewa di luar jam operasional venue (${formatHM(openH, openM)} - ${formatHM(closeH, closeM)}).`
+                );
+            }
+        }
+
         // Parse start time as UTC epoch for Postgres @db.Time(6)
         const timePart =
             data.startTime.length === 5
@@ -204,7 +281,7 @@ export class BookingsService {
 
         const totalPrice = field.pricePerHour * duration;
 
-        // 1. Create booking inside a lean, Serializable transaction to guarantee no double-booking
+        // 4. Create booking inside a lean, Serializable transaction to guarantee no double-booking
         let newBooking;
         try {
             newBooking = await prisma.$transaction(

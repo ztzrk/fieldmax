@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../utils/errors";
 import { logger } from "../utils/logger";
+import multer from "multer";
 
 export const errorMiddleware = (
     err: CustomError | Error,
@@ -9,12 +10,24 @@ export const errorMiddleware = (
     next: NextFunction
 ) => {
     try {
-        const status: number =
+        let status: number =
             err instanceof CustomError ? err.statusCode : 500;
-        const message: string = err.message || "Something went wrong";
-        const code: string =
+        let message: string = err.message || "Something went wrong";
+        let code: string =
             err instanceof CustomError ? err.code : "INTERNAL_SERVER_ERROR";
-        const details: any = err instanceof CustomError ? err.details : null;
+        let details: any = err instanceof CustomError ? err.details : null;
+
+        if (err instanceof multer.MulterError) {
+            status = 400;
+            code = "VALIDATION_ERROR";
+            if (err.code === "LIMIT_FILE_SIZE") {
+                message = "Ukuran berkas terlalu besar. Maksimal 5 MB per gambar.";
+            } else if (err.code === "LIMIT_FILE_COUNT") {
+                message = "Jumlah berkas melebihi batas maksimal (maksimal 5 foto).";
+            } else {
+                message = `Kesalahan unggah berkas: ${err.message}`;
+            }
+        }
 
         if (status === 500) {
             logger.error(

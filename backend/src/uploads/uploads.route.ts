@@ -7,7 +7,34 @@ import {
     canManageVenue,
 } from "../middleware/permission.middleware";
 
-const upload = multer({ storage: multer.memoryStorage() });
+import { ValidationError } from "../utils/errors";
+
+const ALLOWED_MIME_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/jpg",
+];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB per file
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: MAX_FILE_SIZE,
+        files: 5,
+    },
+    fileFilter: (_req, file, cb) => {
+        if (ALLOWED_MIME_TYPES.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(
+                new ValidationError(
+                    "Format berkas tidak didukung. Hanya gambar (JPEG, PNG, WebP) yang diizinkan."
+                )
+            );
+        }
+    },
+});
 
 export class UploadsRoute {
     public path = "/uploads";

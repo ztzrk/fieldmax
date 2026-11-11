@@ -57,6 +57,7 @@ import { HomeRoute } from "./home/home.route";
 
 import { config } from "./config/env";
 import { midtransSnap } from "./config/midtrans";
+import prisma from "./db";
 
 CronService.init();
 
@@ -155,6 +156,31 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use(errorMiddleware);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     logger.info(`[server]: Server is running at http://localhost:${PORT}`);
 });
+
+// Graceful Shutdown
+const gracefulShutdown = async (signal: string) => {
+    logger.info(`[server]: Received ${signal}. Starting graceful shutdown...`);
+    server.close(async () => {
+        logger.info("[server]: HTTP server closed.");
+        try {
+            await prisma.$disconnect();
+            logger.info("[server]: Database connections closed.");
+            process.exit(0);
+        } catch (err) {
+            logger.error("[server]: Error during shutdown:", err);
+            process.exit(1);
+        }
+    });
+
+    // Force close if graceful shutdown hangs
+    setTimeout(() => {
+        logger.error("[server]: Forcing shutdown after timeout.");
+        process.exit(1);
+    }, 10000);
+};
+
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));

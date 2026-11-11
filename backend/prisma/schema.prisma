@@ -170,6 +170,7 @@ model Booking {
 
   @@index([userId])
   @@index([bookingDate])
+  @@index([fieldId, bookingDate])
   @@index([createdAt])
   @@map("bookings")
 }
