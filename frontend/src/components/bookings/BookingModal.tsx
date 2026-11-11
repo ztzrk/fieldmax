@@ -154,6 +154,12 @@ export function BookingModal({
                     handleOpenChange(false);
                     const snapToken =
                         response?.data?.snapToken || response?.snapToken;
+                    const bookingId =
+                        response?.data?.booking?.id || response?.booking?.id;
+                    const targetUrl = bookingId
+                        ? `/bookings/${bookingId}`
+                        : `/bookings`;
+
                     if (
                         snapToken &&
                         typeof window !== "undefined" &&
@@ -162,23 +168,23 @@ export function BookingModal({
                         (window as any).snap.pay(snapToken, {
                             onSuccess: function () {
                                 toast.success("Pembayaran berhasil!");
-                                router.push(`/bookings`);
+                                router.push(targetUrl);
                             },
                             onPending: function () {
                                 toast.info("Menunggu pembayaran...");
-                                router.push(`/bookings`);
+                                router.push(targetUrl);
                             },
                             onError: function () {
                                 toast.error("Pembayaran gagal");
-                                router.push(`/bookings`);
+                                router.push(targetUrl);
                             },
                             onClose: function () {
                                 toast.info("Pembayaran belum diselesaikan");
-                                router.push(`/bookings`);
+                                router.push(targetUrl);
                             },
                         });
                     } else {
-                        router.push(`/bookings`);
+                        router.push(targetUrl);
                     }
                 },
             }

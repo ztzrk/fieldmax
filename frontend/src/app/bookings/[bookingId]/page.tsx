@@ -27,9 +27,11 @@ import {
     Wallet,
     Receipt,
     ArrowLeft,
+    RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -55,7 +57,18 @@ export default function BookingDetailPage({
     params: Promise<{ bookingId: string }>;
 }) {
     const { bookingId } = use(params);
-    const { data: booking, isLoading, isError } = useGetBookingById(bookingId);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const {
+        data: booking,
+        isLoading,
+        isError,
+        refetch,
+    } = useGetBookingById(bookingId, {
+        refetchInterval: (query) => {
+            const status = query.state.data?.status;
+            return status === "PENDING" ? 2500 : false;
+        },
+    });
     const [snapToken, setSnapToken] = useState<string | null>(null);
     const [isPaymentLoading, setIsPaymentLoading] = useState(false);
     const queryClient = useQueryClient();
@@ -86,23 +99,53 @@ export default function BookingDetailPage({
             return BookingService.cancel(bookingId);
         },
         onSuccess: () => {
+            toast.success("Pemesanan berhasil dibatalkan.");
             queryClient.invalidateQueries({ queryKey: ["booking", bookingId] });
         },
     });
 
+    const handleCheckPaymentStatus = async () => {
+        setIsRefreshing(true);
+        try {
+            const result = await refetch();
+            if (
+                result.data?.status === "CONFIRMED" ||
+                result.data?.payment?.status === "PAID"
+            ) {
+                toast.success("Pembayaran terkonfirmasi!", {
+                    description: "Pemesanan Anda telah berstatus CONFIRMED.",
+                });
+            } else {
+                toast.info("Status pembayaran masih PENDING", {
+                    description:
+                        "Jika baru saja menyelesaikan transaksi, mohon tunggu sesaat dan periksa kembali.",
+                });
+            }
+        } catch {
+            toast.error("Gagal memeriksa status pembayaran.");
+        } finally {
+            setIsRefreshing(false);
+        }
+    };
+
     const handlePayment = () => {
         if (snapToken && window.snap) {
             window.snap.pay(snapToken, {
-                onSuccess: function (result: unknown) {
-                    window.location.reload();
+                onSuccess: function () {
+                    toast.success("Pembayaran berhasil!");
+                    refetch();
                 },
-                onPending: function (result: unknown) {
-                    window.location.reload();
+                onPending: function () {
+                    toast.info("Menunggu penyelesaian pembayaran...");
+                    refetch();
                 },
-                onError: function (result: unknown) {
-                    window.location.reload();
+                onError: function () {
+                    toast.error("Pembayaran gagal atau dibatalkan.");
+                    refetch();
                 },
-                onClose: function () {},
+                onClose: function () {
+                    refetch();
+                },
             });
         }
     };
@@ -271,20 +314,41 @@ export default function BookingDetailPage({
 
                                 {booking.status === "PENDING" &&
                                     booking.payment?.status === "PENDING" && (
-                                         <Button
-                                             onClick={handlePayment}
-                                             disabled={isPaymentLoading}
-                                             className="w-full sm:w-auto shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
-                                         >
-                                             {isPaymentLoading ? (
-                                                 <FullScreenLoader />
-                                             ) : (
-                                                 `Pay Now ${formatPrice(
-                                                     booking.totalPrice
-                                                 )}`
-                                             )}
-                                         </Button>
-                                     )}
+                                        <>
+                                            <Button
+                                                variant="outline"
+                                                onClick={handleCheckPaymentStatus}
+                                                disabled={isRefreshing}
+                                                className="w-full sm:w-auto inline-flex items-center gap-2"
+                                            >
+                                                <RefreshCw
+                                                    className={cn(
+                                                        "h-4 w-4",
+                                                        isRefreshing &&
+                                                            "animate-spin text-primary"
+                                                    )}
+                                                />
+                                                <span>
+                                                    {isRefreshing
+                                                        ? "Memeriksa..."
+                                                        : "Cek Status"}
+                                                </span>
+                                            </Button>
+                                            <Button
+                                                onClick={handlePayment}
+                                                disabled={isPaymentLoading}
+                                                className="w-full sm:w-auto shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
+                                            >
+                                                {isPaymentLoading ? (
+                                                    <FullScreenLoader />
+                                                ) : (
+                                                    `Pay Now ${formatPrice(
+                                                        booking.totalPrice
+                                                    )}`
+                                                )}
+                                            </Button>
+                                        </>
+                                    )}
                             </div>
                         </div>
 

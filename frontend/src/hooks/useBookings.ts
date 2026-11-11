@@ -80,7 +80,15 @@ export function useGetBookings(
     });
 }
 
-export function useGetBookingById(id: string) {
+export function useGetBookingById(
+    id: string,
+    options?: {
+        refetchInterval?:
+            | number
+            | false
+            | ((query: any) => number | false);
+    }
+) {
     return useQuery({
         queryKey: queryKeys.bookings.detail(id),
         queryFn: async () => {
@@ -88,5 +96,6 @@ export function useGetBookingById(id: string) {
             return response.data;
         },
         enabled: !!id,
+        refetchInterval: options?.refetchInterval,
     });
 }

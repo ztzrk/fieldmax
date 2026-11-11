@@ -124,11 +124,11 @@ export function useVerifyEmail() {
             const response = await AuthService.verifyEmail(data);
             return response.data;
         },
-        onSuccess: () => {
-            toast.success("Email verified!", {
-                description: "You can now log in to your account.",
+        onSuccess: (_data, variables) => {
+            toast.success("Email berhasil diverifikasi!", {
+                description: "Silakan masuk ke akun Anda.",
             });
-            router.push("/login");
+            router.push(`/login?email=${encodeURIComponent(variables.email)}`);
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
             let errorMessage = "Verification failed.";

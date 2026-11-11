@@ -25,14 +25,15 @@ export class ReviewsService {
         }
 
         // 2. Verify booking is completed (or confirmed and past time)
+        const isCompleted = booking.status === "COMPLETED";
+
         const bookingDateStr = booking.bookingDate.toISOString().split("T")[0];
         const hours = booking.endTime.getUTCHours().toString().padStart(2, "0");
         const minutes = booking.endTime.getUTCMinutes().toString().padStart(2, "0");
         const endDateTime = new Date(
-            `${bookingDateStr}T${hours}:${minutes}:00.000+07:00`
+            `${bookingDateStr}T${hours}:${minutes}:00.000Z`
         );
 
-        const isCompleted = booking.status === "COMPLETED";
         const isPastAndConfirmed =
             booking.status === "CONFIRMED" && new Date() >= endDateTime;
 

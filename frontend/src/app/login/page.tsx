@@ -12,20 +12,24 @@ import {
     loginSchema as loginFormSchema,
 } from "@fieldmax/shared";
 import { AuthLayout } from "@/components/auth/AuthLayout";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 
-/**
- * LoginPage Component
- *
- * User login form with email and password validation.
- * Uses React Hook Form and Zod for validation.
- */
-export default function LoginPage() {
+function LoginForm() {
     const { mutate: login, isPending } = useLogin();
+    const searchParams = useSearchParams();
+    const emailParam = searchParams.get("email") || "";
 
     const form = useForm<LoginFormSchema>({
         resolver: zodResolver(loginFormSchema),
-        defaultValues: { email: "", password: "" },
+        defaultValues: { email: emailParam, password: "" },
     });
+
+    useEffect(() => {
+        if (emailParam) {
+            form.setValue("email", emailParam);
+        }
+    }, [emailParam, form]);
 
     function onSubmit(values: LoginFormSchema) {
         login(values);
@@ -33,8 +37,8 @@ export default function LoginPage() {
 
     return (
         <AuthLayout
-            title="Welcome back"
-            description="Enter your email to sign in to your account"
+            title="Selamat Datang Kembali"
+            description="Masukkan email dan kata sandi untuk masuk ke akun Anda"
             quote="Talent wins games, but teamwork and intelligence win championships."
             author="Michael Jordan"
             imageSrc="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop"
@@ -54,13 +58,13 @@ export default function LoginPage() {
                     <InputField
                         control={form.control}
                         name="password"
-                        label="Password"
+                        label="Kata Sandi"
                         rightLabel={
                             <Link
                                 href="/forgot-password"
-                                className="text-xs text-muted-foreground hover:text-brand hover:underline"
+                                className="text-xs text-muted-foreground hover:text-primary hover:underline"
                             >
-                                Forgot password?
+                                Lupa kata sandi?
                             </Link>
                         }
                         placeholder="••••••••"
@@ -72,7 +76,7 @@ export default function LoginPage() {
                         className="w-full h-11"
                         disabled={isPending}
                     >
-                        {isPending ? "Signing in..." : "Sign In with Email"}
+                        {isPending ? "Masuk..." : "Masuk dengan Email"}
                     </Button>
                 </form>
             </Form>
@@ -83,7 +87,7 @@ export default function LoginPage() {
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                     <span className="bg-background px-2 text-muted-foreground">
-                        Or continue with
+                        Atau
                     </span>
                 </div>
             </div>
@@ -91,11 +95,19 @@ export default function LoginPage() {
             <p className="px-8 text-center text-sm text-muted-foreground">
                 <Link
                     href="/register"
-                    className="hover:text-brand underline underline-offset-4"
+                    className="hover:text-primary underline underline-offset-4"
                 >
-                    Don&apos;t have an account? Sign Up
+                    Belum punya akun? Daftar Sekarang
                 </Link>
             </p>
         </AuthLayout>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Memuat...</div>}>
+            <LoginForm />
+        </Suspense>
     );
 }
