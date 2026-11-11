@@ -16,11 +16,11 @@ export function ValueProposition() {
             <div className="container relative z-10 mx-auto px-4 md:px-6">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                        Why Book with FieldMax
+                        Mengapa Memilih FieldMax
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        We make sports booking seamless, secure, and simple so
-                        you can focus on the game.
+                        Kami membuat proses sewa lapangan menjadi cepat, aman,
+                        dan mudah agar Anda bisa langsung fokus berolahraga.
                     </p>
                 </div>
 
@@ -28,24 +28,24 @@ export function ValueProposition() {
                     {[
                         {
                             icon: Zap,
-                            title: "Instant Booking",
-                            desc: "Real-time availability and immediate confirmation. No more phone calls or waiting.",
+                            title: "Pemesanan Instan",
+                            desc: "Jadwal langsung terkonfirmasi secara real-time. Tanpa repot telepon atau menunggu konfirmasi manual.",
                             color: "text-amber-500",
                             bg: "bg-amber-500/10",
                             border: "hover:border-amber-500/50",
                         },
                         {
                             icon: Shield,
-                            title: "Secure Payments",
-                            desc: "Your transactions are protected with top-tier security standards and encryption.",
+                            title: "Pembayaran Aman",
+                            desc: "Transaksi pembayaran terproteksi dengan gerbang pembayaran resmi dan standar enkripsi terpercaya.",
                             color: "text-violet-500",
                             bg: "bg-violet-500/10",
                             border: "hover:border-violet-500/50",
                         },
                         {
                             icon: Users,
-                            title: "Trusted Community",
-                            desc: "Join thousands of active players and verified venue owners across the country.",
+                            title: "Komunitas Terpercaya",
+                            desc: "Bergabung bersama ribuan pemain aktif dan pemilik tempat olahraga terverifikasi di seluruh wilayah.",
                             color: "text-pink-500",
                             bg: "bg-pink-500/10",
                             border: "hover:border-pink-500/50",

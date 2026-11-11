@@ -29,16 +29,16 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
                 <div className="flex items-center justify-between mb-12">
                     <div className="space-y-1">
                         <h2 className="text-3xl font-bold tracking-tight">
-                            Most Booked Venues
+                            Tempat Olahraga Terpopuler
                         </h2>
                         <p className="text-muted-foreground">
-                            Popular venues with a track record of great
-                            experiences.
+                            Venue favorit dengan fasilitas lengkap dan
+                            pengalaman bermain terbaik.
                         </p>
                     </div>
                     <Link href="/venues">
                         <Button variant="ghost" className="gap-2 group">
-                            See All{" "}
+                            Lihat Semua{" "}
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </Link>

@@ -1,15 +1,16 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { MapPin, Building2, ArrowRight } from "lucide-react";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
-import { VenuePublicSchema } from "@/lib/schema/venue.schema";
-import Link from "next/link";
-import { useState } from "react";
+import { VenuePublicSchema } from "@fieldmax/shared";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 
 interface VenueCardProps {
     venue: VenuePublicSchema;
@@ -21,30 +22,33 @@ export function VenueCard({ venue }: VenueCardProps) {
     const isRenterPage = pathname?.startsWith("/renters");
 
     return (
-        <Card className="h-full flex flex-col p-0 overflow-hidden border-border/50 bg-card hover:border-primary/50 transition-all duration-300 hover:shadow-lg group relative">
-            <Link href={`/venues/${venue.id}`} className="absolute inset-0 z-0">
-                <span className="sr-only">View {venue.name}</span>
-            </Link>
+        <Card className="h-full flex flex-col p-0 overflow-hidden border-border/50 bg-card hover:border-primary/50 transition-all duration-300 hover:shadow-lg group">
             {/* Image Section */}
             <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
-                {!imageError ? (
-                    <img
-                        src={venue.photos?.[0].url}
-                        alt={venue.name}
-                        onError={() => {
-                            setImageError(true);
-                        }}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                ) : (
-                    <ImagePlaceholder
-                        variant="pattern"
-                        icon={<Building2 className="h-8 w-8 opacity-20" />}
-                    />
-                )}
+                <Link
+                    href={`/venues/${venue.id}`}
+                    className="absolute inset-0 z-0"
+                    aria-label={`Lihat tempat ${venue.name}`}
+                >
+                    {venue.photos?.[0]?.url && !imageError ? (
+                        <Image
+                            src={venue.photos[0].url}
+                            alt={venue.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            onError={() => setImageError(true)}
+                        />
+                    ) : (
+                        <ImagePlaceholder
+                            variant="pattern"
+                            icon={<Building2 className="h-8 w-8 opacity-20" />}
+                        />
+                    )}
 
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </Link>
 
                 {/* Badge Overlay */}
                 <div className="absolute top-3 right-3 z-10 pointer-events-none">
@@ -52,7 +56,7 @@ export function VenueCard({ venue }: VenueCardProps) {
                         variant="secondary"
                         className="backdrop-blur-md bg-background/80 shadow-sm border-white/20"
                     >
-                        {venue._count?.fields || 0} Fields
+                        {venue._count?.fields || 0} Lapangan
                     </Badge>
                 </div>
 
@@ -62,46 +66,46 @@ export function VenueCard({ venue }: VenueCardProps) {
                         href={`/venues/${venue.id}`}
                         className={cn(
                             buttonVariants({ variant: "default", size: "sm" }),
-                            "bg-white text-black hover:bg-white/90 shadow-lg font-medium relative z-10 pointer-events-auto"
+                            "bg-white text-slate-900 hover:bg-white/90 shadow-lg font-medium relative z-10 pointer-events-auto"
                         )}
                     >
-                        View Venue
+                        Lihat Tempat
                     </Link>
                 </div>
             </div>
 
             {/* Content Section */}
             <CardHeader className="p-4 pb-2 space-y-1">
-                <CardTitle
-                    className="line-clamp-1 text-base font-bold group-hover:text-primary transition-colors"
-                    title={venue.name}
-                >
-                    {venue.name}
+                <CardTitle className="line-clamp-1 text-base font-bold group-hover:text-primary transition-colors">
+                    <Link
+                        href={`/venues/${venue.id}`}
+                        className="hover:underline"
+                        title={venue.name}
+                    >
+                        {venue.name}
+                    </Link>
                 </CardTitle>
             </CardHeader>
 
             <CardContent className="p-4 pt-0 flex-col flex flex-1">
                 {!isRenterPage && (
-                    <div className="text-xs text-muted-foreground mb-2 relative z-10">
-                        Managed by{" "}
+                    <div className="text-xs text-muted-foreground mb-2">
+                        Dikelola oleh{" "}
                         <Link
                             href={`/renters/${venue.renterId}`}
-                            onClick={(e) => e.stopPropagation()}
                             className="font-medium hover:underline text-primary/80 hover:text-primary transition-colors"
                         >
-                            {venue.renter == undefined
-                                ? "Unknown"
-                                : venue.renter.fullName}
+                            {venue.renter?.fullName || "Pengelola"}
                         </Link>
                     </div>
                 )}
 
-                {/* Location: Swaps between simple address and city/district on hover if available */}
+                {/* Location */}
                 <div className="flex items-start gap-2 text-sm text-muted-foreground mb-4">
                     <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-primary/70" />
                     <div className="relative flex-1 h-9">
                         <span className="line-clamp-2 transition-all duration-300 group-hover:opacity-0 absolute inset-0">
-                            {venue.address || "No address provided"}
+                            {venue.address || "Alamat belum ditambahkan"}
                         </span>
                         <span className="line-clamp-2 transition-all duration-300 opacity-0 group-hover:opacity-100 absolute inset-0">
                             {[venue.district, venue.city]
@@ -113,16 +117,16 @@ export function VenueCard({ venue }: VenueCardProps) {
 
                 <Link
                     href={`/venues/${venue.id}`}
-                    className="mt-auto pt-3 border-t border-border/50 flex items-center justify-between relative z-10"
+                    className="mt-auto pt-3 border-t border-border/50 flex items-center justify-between"
                 >
                     <span className="text-xs text-muted-foreground font-medium">
                         {venue.bookingCount !== undefined
-                            ? `${venue.bookingCount} Bookings`
-                            : "New Venue"}
+                            ? `${venue.bookingCount} Pesanan`
+                            : "Venue Baru"}
                     </span>
                     <div className="flex items-center text-xs font-semibold text-primary overflow-hidden">
                         <span className="translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
-                            Details
+                            Lihat Detail
                         </span>
                         <ArrowRight className="h-3.5 w-3.5 ml-1 -translate-x-4 group-hover:translate-x-0 transition-transform duration-300" />
                     </div>

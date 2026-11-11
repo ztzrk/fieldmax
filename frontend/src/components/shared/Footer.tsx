@@ -47,14 +47,14 @@ export function Footer() {
                             </div>
                         </div>
                         <p className="text-sm text-slate-400">
-                            The easiest way to find and book sports venues. Play
-                            more, worry less.
+                            Cara termudah mencari dan menyewa lapangan olahraga.
+                            Main lebih sering, tanpa repot.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-semibold text-white mb-4">
-                            Quick Links
+                            Tautan Cepat
                         </h3>
                         <ul className="space-y-2 text-sm text-slate-400">
                             <li>
@@ -62,7 +62,7 @@ export function Footer() {
                                     href="/about"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    About Us
+                                    Tentang Kami
                                 </Link>
                             </li>
                             <li>
@@ -70,23 +70,23 @@ export function Footer() {
                                     href="/"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Home
+                                    Beranda
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/search"
+                                    href="/fields"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Find a Field
+                                    Cari Lapangan
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/search?type=venues"
+                                    href="/venues"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Venue Directory
+                                    Direktori Tempat
                                 </Link>
                             </li>
                             <li>
@@ -94,7 +94,7 @@ export function Footer() {
                                     href="/pricing"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Pricing
+                                    Biaya & Layanan
                                 </Link>
                             </li>
                         </ul>
@@ -102,7 +102,7 @@ export function Footer() {
 
                     <div>
                         <h3 className="font-semibold text-white mb-4">
-                            Support
+                            Pusat Bantuan
                         </h3>
                         <ul className="space-y-2 text-sm text-slate-400">
                             <li>
@@ -110,7 +110,7 @@ export function Footer() {
                                     href="/reports"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Report Issue
+                                    Laporkan Kendala
                                 </Link>
                             </li>
                             <li>
@@ -118,7 +118,7 @@ export function Footer() {
                                     href="/faq"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    FAQ
+                                    Tanya Jawab (FAQ)
                                 </Link>
                             </li>
                             <li>
@@ -126,7 +126,7 @@ export function Footer() {
                                     href="/terms"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Terms of Service
+                                    Syarat & Ketentuan
                                 </Link>
                             </li>
                             <li>
@@ -134,7 +134,7 @@ export function Footer() {
                                     href="/privacy"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Privacy Policy
+                                    Kebijakan Privasi
                                 </Link>
                             </li>
                         </ul>
@@ -142,7 +142,7 @@ export function Footer() {
 
                     <div>
                         <h3 className="font-semibold text-white mb-4">
-                            Contact
+                            Hubungi Kami
                         </h3>
                         <ul className="space-y-2 text-sm text-slate-400">
                             <li className="flex items-center gap-2">
@@ -155,7 +155,7 @@ export function Footer() {
                             </li>
                             <li className="flex items-center gap-2">
                                 <MapPin className="h-4 w-4" />
-                                <span>Jakarta, Indonesia</span>
+                                <span>Makassar, Indonesia</span>
                             </li>
                         </ul>
                     </div>
@@ -163,8 +163,8 @@ export function Footer() {
 
                 <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-sm text-slate-500">
-                        © {new Date().getFullYear()} FieldMax. All rights
-                        reserved.
+                        © {new Date().getFullYear()} FieldMax. Seluruh hak cipta
+                        dilindungi undang-undang.
                     </p>
                     <div className="flex items-center gap-4">
                         <Link

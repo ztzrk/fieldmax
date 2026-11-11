@@ -29,16 +29,16 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                 <div className="flex items-center justify-between mb-12">
                     <div className="space-y-1">
                         <h2 className="text-3xl font-bold tracking-tight">
-                            Top Rated Fields
+                            Lapangan Paling Populer
                         </h2>
                         <p className="text-muted-foreground">
-                            Book the highest-rated pitches recommended by
-                            players like you.
+                            Pilihan lapangan dengan ulasan terbaik yang
+                            direkomendasikan para pemain.
                         </p>
                     </div>
                     <Link href="/fields">
                         <Button variant="ghost" className="gap-2 group">
-                            See All{" "}
+                            Lihat Semua{" "}
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </Link>

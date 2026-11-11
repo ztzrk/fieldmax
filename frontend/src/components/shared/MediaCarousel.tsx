@@ -8,6 +8,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
+import Image from "next/image";
 import { ReactNode, useState } from "react";
 
 interface Photo {
@@ -59,11 +60,14 @@ export function MediaCarousel({
                                             className="h-full w-full"
                                         />
                                     ) : (
-                                        <img
+                                        <Image
                                             src={photo.url}
                                             alt={alt}
-                                            className="absolute inset-0 w-full h-full object-cover"
-                                            onError={(e) => {
+                                            fill
+                                            priority={index === 0}
+                                            sizes="(max-width: 1024px) 100vw, 66vw"
+                                            className="object-cover"
+                                            onError={() => {
                                                 setIsError(true);
                                             }}
                                         />

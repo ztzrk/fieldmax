@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Trophy, ArrowRight } from "lucide-react";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { formatPrice } from "@/lib/utils";
-import { FieldResponseSchema } from "@/lib/schema/field.schema";
+import { FieldResponseSchema } from "@fieldmax/shared";
 import Link from "next/link";
 
 interface FieldCardProps {
@@ -26,10 +26,12 @@ export function FieldCard({ field }: FieldCardProps) {
             <Card className="h-full flex flex-col p-0 overflow-hidden border-border/50 bg-card hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
                 <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
                     {field.photos && field.photos.length > 0 && !imageError ? (
-                        <img
+                        <Image
                             src={field.photos[0].url}
                             alt={field.name}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                             onError={() => setImageError(true)}
                         />
                     ) : (
@@ -44,7 +46,7 @@ export function FieldCard({ field }: FieldCardProps) {
 
                     <div className="absolute top-3 right-3 z-10">
                         <Badge className="bg-background/90 text-foreground shadow-sm backdrop-blur-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                            {field.sportType?.name || "Sport"}
+                            {field.sportType?.name || "Olahraga"}
                         </Badge>
                     </div>
 
@@ -52,7 +54,7 @@ export function FieldCard({ field }: FieldCardProps) {
                     {!field.isClosed && (
                         <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 backdrop-blur-md border border-emerald-500/20 text-xs font-medium text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 group-hover:bg-white animate-pulse" />
-                            Available
+                            Tersedia
                         </div>
                     )}
                 </div>
@@ -77,7 +79,7 @@ export function FieldCard({ field }: FieldCardProps) {
                                     {formatPrice(field.pricePerHour)}
                                 </span>
                                 <span className="text-xs text-muted-foreground ml-1">
-                                    / hour
+                                    / jam
                                 </span>
                             </div>
                             {field.rating !== undefined && (
@@ -86,7 +88,7 @@ export function FieldCard({ field }: FieldCardProps) {
                                     <span className="text-sm font-medium">
                                         {field.rating > 0
                                             ? field.rating.toFixed(1)
-                                            : "New"}
+                                            : "Baru"}
                                     </span>
                                 </div>
                             )}
@@ -95,7 +97,7 @@ export function FieldCard({ field }: FieldCardProps) {
                         {/* Hover State: Book Button */}
                         <div className="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                             <Button className="w-full font-semibold shadow-md gap-2">
-                                Book This Field
+                                Sewa Lapangan
                                 <ArrowRight className="h-4 w-4" />
                             </Button>
                         </div>

@@ -3,7 +3,8 @@
 import { useGetAllFields } from "@/hooks/useFields";
 import { useGetHomeData } from "@/hooks/useHome";
 import { useDebounce } from "@/hooks/useDebounce";
-import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { FieldCardSkeleton } from "@/components/fields/FieldCardSkeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 
 import { HeroSection } from "./(home)/components/HeroSection";
@@ -40,8 +41,6 @@ export default function Home() {
         isSuggestionsLoading ||
         (search !== debouncedSearch && search.length > 0);
 
-    if (isHomeLoading) return <FullScreenLoader />;
-
     return (
         <div className="flex min-h-screen flex-col bg-background">
             <main className="flex-1 flex flex-col bg-background">
@@ -53,19 +52,43 @@ export default function Home() {
                     isSearching={isSearching}
                 />
 
-                <FeaturedFields fields={homeData?.featuredFields || []} />
+                {isHomeLoading ? (
+                    <section className="w-full py-24 bg-background">
+                        <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6 py-6">
+                            <div className="flex items-center justify-between mb-12">
+                                <div className="space-y-2">
+                                    <Skeleton className="h-8 w-64 rounded" />
+                                    <Skeleton className="h-4 w-96 rounded" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {[...Array(4)].map((_, i) => (
+                                    <FieldCardSkeleton key={i} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                ) : (
+                    <>
+                        <FeaturedFields
+                            fields={homeData?.featuredFields || []}
+                        />
 
-                <FeaturedVenues venues={homeData?.featuredVenues || []} />
+                        <FeaturedVenues
+                            venues={homeData?.featuredVenues || []}
+                        />
 
-                <ValueProposition />
+                        <ValueProposition />
 
-                <StatisticsBanner
-                    venueCount={homeData?.statistics?.venueCount}
-                    fieldCount={homeData?.statistics?.fieldCount}
-                    playerCount={homeData?.statistics?.playerCount}
-                />
+                        <StatisticsBanner
+                            venueCount={homeData?.statistics?.venueCount}
+                            fieldCount={homeData?.statistics?.fieldCount}
+                            playerCount={homeData?.statistics?.playerCount}
+                        />
 
-                <RenterCTA />
+                        <RenterCTA />
+                    </>
+                )}
             </main>
         </div>
     );

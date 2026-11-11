@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -49,17 +50,18 @@ export function HeroSection({
                 <div className="flex flex-col items-center space-y-8 text-center animate-in fade-in slide-in-from-bottom-8 duration-700">
                     <div className="space-y-4 max-w-3xl">
                         <div className="inline-block px-4 py-1.5 mb-2 text-sm font-semibold tracking-wide text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-lg">
-                            ✨ #1 Sports Booking Platform
+                            ✨ Platform Sewa Lapangan Olahraga #1
                         </div>
                         <h1 className="text-4xl font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white drop-shadow-sm">
-                            Find Your Perfect{" "}
+                            Temukan & Pesan{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400">
-                                Field
-                            </span>
+                                Lapangan
+                            </span>{" "}
+                            Favoritmu
                         </h1>
                         <p className="mx-auto max-w-[700px] text-blue-50 md:text-xl lg:text-2xl leading-relaxed font-medium">
-                            Discover top-rated venues, check real-time
-                            availability, and book your next game in seconds.
+                            Cari tempat olahraga terbaik, cek ketersediaan jadwal
+                            secara langsung, dan sewa lapangan dalam hitungan detik.
                         </p>
                     </div>
 
@@ -69,7 +71,7 @@ export function HeroSection({
                             <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground z-10" />
                             <Input
                                 type="search"
-                                placeholder="Search fields, venues, or sports..."
+                                placeholder="Cari nama lapangan, tempat, atau jenis olahraga..."
                                 className="pl-12 h-12 text-lg shadow-lg border-primary/20 hover:border-primary/50 transition-colors bg-background/80 backdrop-blur-sm"
                                 value={searchValue}
                                 onChange={(e) => onSearchChange(e.target.value)}
@@ -80,7 +82,7 @@ export function HeroSection({
                                     {isSearching ? (
                                         <div className="p-4 flex items-center justify-center gap-2 text-muted-foreground">
                                             <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                            <span>Searching...</span>
+                                            <span>Mencari...</span>
                                         </div>
                                     ) : suggestions &&
                                       suggestions.length > 0 ? (
@@ -100,13 +102,15 @@ export function HeroSection({
                                                     <div className="h-12 w-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center shrink-0 shadow-sm border group-hover:border-primary/50 transition-colors">
                                                         {field.photos &&
                                                         field.photos[0] ? (
-                                                            <img
+                                                            <Image
                                                                 src={
                                                                     field
                                                                         .photos[0]
                                                                         .url
                                                                 }
                                                                 alt={field.name}
+                                                                width={48}
+                                                                height={48}
                                                                 className="h-full w-full object-cover"
                                                             />
                                                         ) : (
@@ -138,7 +142,7 @@ export function HeroSection({
                                                 </div>
                                                 <div className="flex flex-col items-start text-left">
                                                     <span className="text-base font-medium text-foreground group-hover:text-primary transition-colors">
-                                                        See all results for "
+                                                        Lihat semua hasil untuk "
                                                         {searchValue}"
                                                     </span>
                                                 </div>
@@ -147,7 +151,7 @@ export function HeroSection({
                                     ) : (
                                         <div className="p-8 text-center text-muted-foreground">
                                             <p>
-                                                No results found for "
+                                                Tidak ditemukan hasil untuk "
                                                 {searchValue}"
                                             </p>
                                         </div>
@@ -163,7 +167,7 @@ export function HeroSection({
                                     size="sm"
                                     className="rounded-full px-4 hover:shadow-md transition-shadow font-medium"
                                 >
-                                    All Sports
+                                    Semua Olahraga
                                 </Button>
                             </Link>
                             {sportTypes?.slice(0, 5).map((type) => (

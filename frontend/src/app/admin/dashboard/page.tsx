@@ -31,16 +31,8 @@ export default function AdminDashboard() {
 
     if (error) {
         return (
-            <div className="text-red-500">
-                Failed to load dashboard statistics.
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="text-red-500">
-                Failed to load dashboard statistics.
+            <div className="text-destructive font-medium p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+                Gagal memuat statistik dashboard. Silakan muat ulang halaman.
             </div>
         );
     }
@@ -49,76 +41,84 @@ export default function AdminDashboard() {
 
     return (
         <AdminPageWrapper
-            title="Dashboard"
-            subtitle="Overview of your platform's performance"
+            title="Dashboard Admin"
+            subtitle="Ringkasan kinerja platform dan aktivitas persewaan"
             actions={pageActions}
         >
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="rounded-xl border-none shadow-lg bg-gradient-to-br from-blue-500 to-violet-600 text-white hover:shadow-xl transition-all">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-blue-100">
-                            Total Users
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Total Pengguna
                         </CardTitle>
-                        <Users className="h-4 w-4 text-blue-100" />
+                        <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                            <Users className="h-4 w-4" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-foreground">
                             {stats?.totalUsers || 0}
                         </div>
-                        <p className="text-xs text-blue-100/80">
-                            Registered accounts
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Akun terdaftar di platform
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="rounded-xl border-none shadow-lg bg-gradient-to-br from-violet-500 to-purple-600 text-white hover:shadow-xl transition-all">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-violet-100">
-                            Total Venues
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Total Tempat Olahraga
                         </CardTitle>
-                        <MapPin className="h-4 w-4 text-violet-100" />
+                        <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                            <MapPin className="h-4 w-4" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-foreground">
                             {stats?.totalVenues || 0}
                         </div>
-                        <p className="text-xs text-violet-100/80">
-                            All venues registered
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Venue terdaftar di platform
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="rounded-xl border-none shadow-lg bg-gradient-to-br from-emerald-500 to-green-600 text-white hover:shadow-xl transition-all">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-emerald-100">
-                            Active Fields
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Lapangan Aktif
                         </CardTitle>
-                        <Trophy className="h-4 w-4 text-emerald-100" />
+                        <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                            <Trophy className="h-4 w-4" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-foreground">
                             {stats?.totalFields || 0}
                         </div>
-                        <p className="text-xs text-emerald-100/80">
-                            Total fields available
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Total lapangan siap dipesan
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="rounded-xl border-none shadow-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white hover:shadow-xl transition-all">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-amber-100">
-                            Total Revenue
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Total Pendapatan
                         </CardTitle>
-                        <span className="text-amber-100 font-bold">Rp</span>
+                        <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+                            <span className="text-xs font-bold">Rp</span>
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-primary">
                             {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
                                 currency: "IDR",
                                 minimumFractionDigits: 0,
                             }).format(stats?.totalRevenue || 0)}
                         </div>
-                        <p className="text-xs text-amber-100/80">
-                            Lifetime revenue
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Akumulasi pendapatan transaksi
                         </p>
                     </CardContent>
                 </Card>
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
                 <div className="col-span-1 lg:col-span-4 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold tracking-tight">
-                            Revenue Overview
+                            Ikhtisar Pendapatan
                         </h2>
                     </div>
                     {isLoading ? (
@@ -139,24 +139,24 @@ export default function AdminDashboard() {
                 </div>
                 <div className="col-span-1 lg:col-span-3 space-y-4">
                     <RecentBookings bookings={stats?.recentBookings || []} />
-                    <Card className="rounded-xl border-border/50 shadow-sm">
+                    <Card className="rounded-xl border border-border/60 shadow-sm">
                         <CardHeader>
-                            <CardTitle>Quick Stats</CardTitle>
+                            <CardTitle className="text-base font-semibold">Statistik Cepat</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">
-                                    Pending Venues
+                                    Menunggu Verifikasi
                                 </span>
-                                <span className="font-bold">
+                                <span className="font-bold text-amber-600 dark:text-amber-400">
                                     {stats?.pendingVenues || 0}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">
-                                    Active Fields
+                                    Lapangan Aktif
                                 </span>
-                                <span className="font-bold">
+                                <span className="font-bold text-foreground">
                                     {stats?.totalFields || 0}
                                 </span>
                             </div>

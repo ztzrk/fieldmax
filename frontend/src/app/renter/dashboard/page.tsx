@@ -30,8 +30,8 @@ export default function RenterDashboard() {
 
     if (error) {
         return (
-            <div className="text-red-500">
-                Failed to load dashboard statistics.
+            <div className="text-destructive font-medium p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+                Gagal memuat statistik pengelola. Silakan muat ulang halaman.
             </div>
         );
     }
@@ -41,86 +41,94 @@ export default function RenterDashboard() {
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">
-                        Renter Dashboard
+                        Dashboard Pengelola
                     </h1>
                     <p className="text-muted-foreground mt-2">
-                        Welcome back,{" "}
-                        <span className="font-semibold">
-                            {user?.fullName || "Renter"}
+                        Selamat datang kembali,{" "}
+                        <span className="font-semibold text-foreground">
+                            {user?.fullName || "Pengelola"}
                         </span>
                         !
                     </p>
                 </div>
                 <ConfirmationDialog
-                    trigger={<Button variant="destructive">Logout</Button>}
-                    title="Logout Confirmation"
-                    description="You are about to log out. Are you sure you want to proceed?"
+                    trigger={<Button variant="destructive">Keluar</Button>}
+                    title="Konfirmasi Keluar"
+                    description="Anda akan keluar dari akun. Apakah Anda yakin ingin melanjutkan?"
                     onConfirm={logout}
                 />
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="hover:shadow-md transition-all">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            My Venues
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Tempat Olahraga Saya
                         </CardTitle>
-                        <MapPin className="h-4 w-4 text-violet-500" />
+                        <div className="p-2.5 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400">
+                            <MapPin className="h-4 w-4" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-foreground">
                             {stats?.totalVenues || 0}
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Venues you own
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Venue milik Anda
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="hover:shadow-md transition-all">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            My Fields
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Lapangan Saya
                         </CardTitle>
-                        <Trophy className="h-4 w-4 text-emerald-500" />
+                        <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                            <Trophy className="h-4 w-4" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-foreground">
                             {stats?.totalFields || 0}
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Fields across your venues
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Total lapangan di venue Anda
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="hover:shadow-md transition-all">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Pending Venues
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Menunggu Persetujuan
                         </CardTitle>
-                        <Clock className="h-4 w-4 text-pink-500" />
+                        <div className="p-2.5 rounded-lg bg-pink-500/10 text-pink-600 dark:text-pink-400">
+                            <Clock className="h-4 w-4" />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-foreground">
                             {stats?.pendingVenues || 0}
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Waiting for admin approval
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Menunggu verifikasi admin
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="hover:shadow-md transition-all">
+                <Card className="rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Total Revenue
+                        <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Total Pendapatan
                         </CardTitle>
-                        <span className="text-amber-500 font-bold">Rp</span>
+                        <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+                            <span className="text-xs font-bold">Rp</span>
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">
+                        <div className="text-3xl font-extrabold tracking-tight text-primary">
                             {formatCurrency(stats?.totalRevenue || 0)}
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Lifetime revenue
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Akumulasi pendapatan persewaan
                         </p>
                     </CardContent>
                 </Card>
@@ -130,7 +138,7 @@ export default function RenterDashboard() {
                 <div className="col-span-1 lg:col-span-4 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold tracking-tight">
-                            Revenue Overview
+                            Ikhtisar Pendapatan
                         </h2>
                         <DateRangeFilter value={range} onChange={setRange} />
                     </div>

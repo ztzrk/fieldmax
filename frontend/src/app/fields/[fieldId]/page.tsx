@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Trophy, ArrowLeft, CalendarDays, Star } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { FieldDetailSkeleton } from "./components/FieldDetailSkeleton";
 import { toast } from "sonner";
 import { MediaCarousel } from "@/components/shared/MediaCarousel";
 import { BookingModal } from "@/components/bookings/BookingModal";
@@ -42,13 +42,13 @@ export default function FieldDetailPage() {
         isError,
     } = useGetFieldById(fieldId, page, 10, selectedRatings);
 
-    if (isLoading) return <FullScreenLoader />;
+    if (isLoading) return <FieldDetailSkeleton />;
     if (isError || !field)
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <h2 className="text-xl font-semibold">Field not found</h2>
-                <Link href="/search">
-                    <Button variant="outline">Browse Fields</Button>
+                <h2 className="text-xl font-semibold">Lapangan tidak ditemukan</h2>
+                <Link href="/fields">
+                    <Button variant="outline">Jelajahi Lapangan Lainnya</Button>
                 </Link>
             </div>
         );

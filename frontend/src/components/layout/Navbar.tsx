@@ -44,20 +44,20 @@ export function Navbar() {
                             href="/fields"
                             className="text-sm font-medium hover:text-primary transition-colors"
                         >
-                            Fields
+                            Lapangan
                         </Link>
                         <Link
                             href="/venues"
                             className="text-sm font-medium hover:text-primary transition-colors"
                         >
-                            Venues
+                            Tempat Olahraga
                         </Link>
                         {user && (
                             <Link
                                 href="/bookings"
                                 className="text-sm font-medium hover:text-primary transition-colors"
                             >
-                                Bookings
+                                Pesanan Saya
                             </Link>
                         )}
                     </nav>
@@ -71,11 +71,11 @@ export function Navbar() {
                         <div className="flex gap-2">
                             <Link href="/login">
                                 <Button variant="ghost" size="sm">
-                                    Login
+                                    Masuk
                                 </Button>
                             </Link>
                             <Link href="/register">
-                                <Button size="sm">Register</Button>
+                                <Button size="sm">Daftar</Button>
                             </Link>
                         </div>
                     )}

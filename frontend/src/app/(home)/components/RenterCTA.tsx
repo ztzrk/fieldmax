@@ -58,12 +58,12 @@ export function RenterCTA() {
                     <div className="relative z-10 flex flex-col items-center text-center p-12 md:p-16 space-y-8 transform transition-transform duration-500 group-hover:scale-105">
                         <div className="space-y-4 max-w-2xl mx-auto">
                             <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight drop-shadow-md">
-                                Own a Sports Venue?
+                                Punya Tempat Olahraga?
                             </h2>
                             <p className="text-slate-100 text-lg md:text-xl leading-relaxed font-medium/90 text-shadow-sm">
-                                Partner with FieldMax to streamline your
-                                bookings, increase visibility, and grow your
-                                business with our powerful management tools.
+                                Bermitra dengan FieldMax untuk mengelola pemesanan
+                                secara otomatis, meningkatkan keterlihatan tempat,
+                                dan mengembangkan bisnis dengan alat manajemen terbaik.
                             </p>
                         </div>
 
@@ -76,16 +76,16 @@ export function RenterCTA() {
                                     size="lg"
                                     className="w-full bg-white text-slate-900 hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all duration-300 font-bold h-14 px-8 text-lg shadow-xl hover:shadow-2xl hover:shadow-white/20"
                                 >
-                                    Register as Renter
+                                    Daftar Sebagai Pengelola
                                 </Button>
                             </Link>
-                            <Link href="/contact" className="w-full sm:w-auto">
+                            <Link href="/about" className="w-full sm:w-auto">
                                 <Button
                                     variant="outline"
                                     size="lg"
                                     className="w-full bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-black hover:border-white h-14 px-8 backdrop-blur-sm text-lg transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
                                 >
-                                    Learn More
+                                    Pelajari Lebih Lanjut
                                 </Button>
                             </Link>
                         </div>

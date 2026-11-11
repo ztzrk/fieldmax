@@ -89,7 +89,7 @@ export function StatisticsBanner({
                             <Counter end={venueCount} />+
                         </div>
                         <div className="text-primary-foreground/90 font-medium text-lg uppercase tracking-wider">
-                            Verified Venues
+                            Venue Terverifikasi
                         </div>
                     </div>
                     <div className="p-4">
@@ -97,7 +97,7 @@ export function StatisticsBanner({
                             <Counter end={fieldCount} />+
                         </div>
                         <div className="text-primary-foreground/90 font-medium text-lg uppercase tracking-wider">
-                            Premium Fields
+                            Pilihan Lapangan
                         </div>
                     </div>
                     <div className="p-4">
@@ -105,7 +105,7 @@ export function StatisticsBanner({
                             <Counter end={playerCount} />+
                         </div>
                         <div className="text-primary-foreground/90 font-medium text-lg uppercase tracking-wider">
-                            Happy Players
+                            Pemain Bergabung
                         </div>
                     </div>
                 </div>
