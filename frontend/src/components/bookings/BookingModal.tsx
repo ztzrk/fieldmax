@@ -111,12 +111,7 @@ export function BookingModal({
               })()
             : 12;
 
-    // Adjust duration if it exceeds maxDuration
-    useEffect(() => {
-        if (duration > maxDuration) {
-            setDuration(maxDuration);
-        }
-    }, [maxDuration, duration]);
+    const effectiveDuration = maxDuration > 0 ? Math.min(duration, maxDuration) : duration;
 
     useEffect(() => {
         const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
@@ -147,7 +142,7 @@ export function BookingModal({
                 fieldId,
                 bookingDate: selectedDate,
                 startTime: selectedTime,
-                duration: duration,
+                duration: effectiveDuration,
             },
             {
                 onSuccess: (response: any) => {
@@ -191,7 +186,7 @@ export function BookingModal({
         );
     };
 
-    const totalPrice = pricePerHour * duration;
+    const totalPrice = pricePerHour * effectiveDuration;
 
     return (
         <Dialog open={actualIsOpen} onOpenChange={handleOpenChange}>
@@ -280,7 +275,7 @@ export function BookingModal({
                                 Duration
                             </label>
                             <Select
-                                value={duration.toString()}
+                                value={effectiveDuration.toString()}
                                 onValueChange={(val) =>
                                     setDuration(parseInt(val))
                                 }
@@ -339,7 +334,7 @@ export function BookingModal({
                                             return false;
 
                                         // Consecutive slots check
-                                        for (let i = 0; i < duration; i++) {
+                                        for (let i = 0; i < effectiveDuration; i++) {
                                             const checkTime = `${(startHour + i)
                                                 .toString()
                                                 .padStart(2, "0")}:00`;
@@ -393,7 +388,7 @@ export function BookingModal({
                                             {formatPrice(totalPrice)}
                                         </span>
                                         <span className="text-sm text-muted-foreground/80 font-medium">
-                                            / {duration}h
+                                            / {effectiveDuration}h
                                         </span>
                                     </div>
                                 </div>

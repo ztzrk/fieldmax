@@ -3,7 +3,7 @@ import {
     RegisterInput as RegisterUser,
     LoginInput as LoginUser,
 } from "@fieldmax/shared";
-import { randomBytes } from "crypto";
+import { randomBytes, randomInt } from "crypto";
 import prisma from "../db";
 import {
     ConflictError,
@@ -36,9 +36,7 @@ export class AuthService {
         }
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const verificationCode = Math.floor(
-            100000 + Math.random() * 900000
-        ).toString();
+        const verificationCode = randomInt(100000, 1000000).toString();
         const verificationCodeExpiresAt = new Date(
             Date.now() + config.VERIFICATION_CODE_EXPIRES_IN_MS
         );
@@ -76,8 +74,8 @@ export class AuthService {
             include: { profile: true },
         });
         if (!findUser) {
-            throw new NotFoundError(
-                `This email ${userData.email} was not found.`
+            throw new UnauthorizedError(
+                "Invalid credentials, please try again."
             );
         }
 
@@ -149,9 +147,7 @@ export class AuthService {
         if (!user) throw new NotFoundError("User not found.");
         if (user.isVerified) throw new ConflictError("Email already verified.");
 
-        const verificationCode = Math.floor(
-            100000 + Math.random() * 900000
-        ).toString();
+        const verificationCode = randomInt(100000, 1000000).toString();
         const verificationCodeExpiresAt = new Date(
             Date.now() + config.VERIFICATION_CODE_EXPIRES_IN_MS
         );

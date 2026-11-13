@@ -25,8 +25,11 @@ export class AuthController {
         const { sessionId, user } = await this.authService.login(userData);
 
         const expiresIn = config.SESSION_EXPIRES_IN_MS / 1000;
+        const isProd = config.NODE_ENV === "production";
         res.setHeader("Set-Cookie", [
-            `sessionId=${sessionId}; HttpOnly; Path=/; Max-Age=${expiresIn}; SameSite=Lax`,
+            `sessionId=${sessionId}; HttpOnly; Path=/; Max-Age=${expiresIn}; SameSite=Lax${
+                isProd ? "; Secure" : ""
+            }`,
         ]);
 
         const responseUser = {
@@ -43,7 +46,13 @@ export class AuthController {
             await this.authService.logout(sessionId);
         }
 
-        res.setHeader("Set-Cookie", "sessionId=; HttpOnly; Path=/; Max-Age=0");
+        const isProd = config.NODE_ENV === "production";
+        res.setHeader(
+            "Set-Cookie",
+            `sessionId=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax${
+                isProd ? "; Secure" : ""
+            }`
+        );
         sendSuccess(res, null, "Logout successful");
     });
 

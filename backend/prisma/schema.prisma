@@ -27,7 +27,6 @@ model User {
   reportReplies ReportReply[]
 
   @@index([fullName])
-  @@index([id])
   @@map("users")
 }
 
@@ -64,7 +63,6 @@ model UserProfile {
   companyWebsite     String?  @map("company_website")
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
   @@map("user_profiles")
 }
 
@@ -95,6 +93,7 @@ model Venue {
   renter          User               @relation(fields: [renterId], references: [id], onDelete: Cascade)
 
   @@index([renterId])
+  @@index([status])
   @@map("venues")
 }
 
@@ -139,6 +138,8 @@ model Field {
 
   @@index([venueId])
   @@index([name])
+  @@index([status])
+  @@index([sportTypeId])
   @@map("fields")
 }
 
@@ -172,6 +173,7 @@ model Booking {
   @@index([bookingDate])
   @@index([fieldId, bookingDate])
   @@index([createdAt])
+  @@index([status])
   @@map("bookings")
 }
 
@@ -258,6 +260,7 @@ model Report {
   replies     ReportReply[]
 
   @@index([userId])
+  @@index([status])
   @@map("reports")
 }
 

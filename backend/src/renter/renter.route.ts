@@ -16,6 +16,19 @@ export class RenterRoute {
 
     private initializeRoutes() {
         this.router.get(
+            `${this.path}/public/:id`,
+            this.controller.getPublicProfile
+        );
+
+        this.router.get(
+            `${this.path}/revenue`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            this.controller.getRevenueStats
+        );
+
+        // Venues routes: static paths first
+        this.router.get(
             `${this.path}/venues`,
             authMiddleware,
             renterOnlyMiddleware,
@@ -23,8 +36,18 @@ export class RenterRoute {
         );
 
         this.router.get(
-            `${this.path}/public/:id`,
-            this.controller.getPublicProfile
+            `${this.path}/venues/count`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            this.controller.countMyVenues
+        );
+
+        this.router.get(
+            `${this.path}/venues/pagination`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            validateRequest(z.object({ query: paginationSchema })),
+            this.controller.getMyVenuesWithPagination
         );
 
         this.router.get(
@@ -34,11 +57,27 @@ export class RenterRoute {
             this.controller.getMyVenueById
         );
 
+        // Bookings routes: static paths first
         this.router.get(
             `${this.path}/bookings`,
             authMiddleware,
             renterOnlyMiddleware,
             this.controller.getMyBookings
+        );
+
+        this.router.get(
+            `${this.path}/bookings/count`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            this.controller.countMyBookings
+        );
+
+        this.router.get(
+            `${this.path}/bookings/pagination`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            validateRequest(z.object({ query: paginationSchema })),
+            this.controller.getMyBookingsWithPagination
         );
 
         this.router.get(
@@ -69,25 +108,12 @@ export class RenterRoute {
             this.controller.completeBooking
         );
 
+        // Fields routes: static paths first
         this.router.get(
             `${this.path}/fields`,
             authMiddleware,
             renterOnlyMiddleware,
             this.controller.getMyFields
-        );
-
-        this.router.get(
-            `${this.path}/fields/:id`,
-            authMiddleware,
-            renterOnlyMiddleware,
-            this.controller.getMyFieldById
-        );
-
-        this.router.get(
-            `${this.path}/bookings/count`,
-            authMiddleware,
-            renterOnlyMiddleware,
-            this.controller.countMyBookings
         );
 
         this.router.get(
@@ -98,33 +124,10 @@ export class RenterRoute {
         );
 
         this.router.get(
-            `${this.path}/venues/count`,
+            `${this.path}/fields/:id`,
             authMiddleware,
             renterOnlyMiddleware,
-            this.controller.countMyVenues
-        );
-
-        this.router.get(
-            `${this.path}/venues/pagination`,
-            authMiddleware,
-            renterOnlyMiddleware,
-            validateRequest(z.object({ query: paginationSchema })),
-            this.controller.getMyVenuesWithPagination
-        );
-
-        this.router.get(
-            `${this.path}/bookings/pagination`,
-            authMiddleware,
-            renterOnlyMiddleware,
-            validateRequest(z.object({ query: paginationSchema })),
-            this.controller.getMyBookingsWithPagination
-        );
-
-        this.router.get(
-            `${this.path}/revenue`,
-            authMiddleware,
-            renterOnlyMiddleware,
-            this.controller.getRevenueStats
+            this.controller.getMyFieldById
         );
     }
 }

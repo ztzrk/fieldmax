@@ -100,6 +100,10 @@ export function useCreateField() {
     });
 }
 
+
+
+
+
 export function useUpdateField(fieldId: string) {
     const queryClient = useQueryClient();
     return useMutation({
@@ -127,6 +131,10 @@ export function useUpdateField(fieldId: string) {
     });
 }
 
+
+
+
+
 export function useDeleteField() {
     const queryClient = useQueryClient();
     return useMutation({
@@ -149,6 +157,10 @@ export function useDeleteField() {
         },
     });
 }
+
+
+
+
 
 export function useDeleteMultipleFields() {
     const queryClient = useQueryClient();
@@ -179,6 +191,10 @@ export function useDeleteMultipleFields() {
     });
 }
 
+
+
+
+
 export function useApproveField(fieldId: string) {
     const queryClient = useQueryClient();
 
@@ -206,6 +222,10 @@ export function useApproveField(fieldId: string) {
         },
     });
 }
+
+
+
+
 
 export function useRejectField(fieldId: string) {
     const queryClient = useQueryClient();
@@ -236,6 +256,10 @@ export function useRejectField(fieldId: string) {
     });
 }
 
+
+
+
+
 export function useResubmitField(fieldId: string) {
     const queryClient = useQueryClient();
 
@@ -264,6 +288,10 @@ export function useResubmitField(fieldId: string) {
     });
 }
 
+
+
+
+
 export function useUploadFieldPhotos(fieldId: string) {
     const queryClient = useQueryClient();
 
@@ -291,6 +319,10 @@ export function useUploadFieldPhotos(fieldId: string) {
     });
 }
 
+
+
+
+
 export function useDeleteFieldPhoto(fieldId: string) {
     const queryClient = useQueryClient();
 
@@ -316,3 +348,23 @@ export function useDeleteFieldPhoto(fieldId: string) {
         },
     });
 }
+
+export function useToggleFieldClosure(fieldId: string) {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (isClosed: boolean) =>
+            FieldService.toggleClosure(fieldId, isClosed),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.fields.detail(fieldId),
+            });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.fields._def,
+            });
+        },
+    });
+}
+
+
+
+

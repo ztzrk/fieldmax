@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Report, reportsService } from "@/services/reports.service";
+import { useGetReportById, useReplyReport } from "@/hooks/useReports";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,47 +20,24 @@ export interface ReportDetailViewProps {
 
 export function ReportDetailView({
     backUrl,
-    backLabel = "Back to Reports",
+    backLabel = "Kembali ke Laporan",
 }: ReportDetailViewProps) {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
     const { user } = useAuth();
-    const [report, setReport] = useState<Report | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
     const [replyMessage, setReplyMessage] = useState("");
-    const [isReplying, setIsReplying] = useState(false);
 
-    const fetchReport = async () => {
-        try {
-            setIsLoading(true);
-            const data = await reportsService.getReportById(id);
-            setReport(data || null);
-        } catch (error) {
-            console.error("Failed to fetch report", error);
-            toast.error("Failed to load report details");
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (id) {
-            fetchReport();
-        }
-    }, [id]);
+    const { data: report, isLoading } = useGetReportById(id);
+    const { mutateAsync: replyReport, isPending: isReplying } = useReplyReport(id);
 
     const handleReply = async () => {
         if (!replyMessage.trim()) return;
         try {
-            setIsReplying(true);
-            await reportsService.replyToReport(id, { message: replyMessage });
+            await replyReport({ message: replyMessage });
             setReplyMessage("");
-            fetchReport();
-            toast.success("Reply sent");
+            toast.success("Balasan berhasil dikirim");
         } catch (error) {
-            toast.error("Failed to send reply");
-        } finally {
-            setIsReplying(false);
+            toast.error("Gagal mengirim balasan");
         }
     };
 
@@ -79,8 +56,8 @@ export function ReportDetailView({
     if (!report) {
         return (
             <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
-                <p>Report not found</p>
-                <Button onClick={handleBack}>Go Back</Button>
+                <p>Laporan tidak ditemukan</p>
+                <Button onClick={handleBack}>Kembali</Button>
             </div>
         );
     }
@@ -106,13 +83,13 @@ export function ReportDetailView({
                                     : "secondary"
                             }
                         >
-                            {report.status}
+                            {report.status === "RESOLVED" ? "Selesai" : "Menunggu"}
                         </Badge>
                     </div>
                 </CardHeader>
                 <CardContent>
                     <div className="text-sm text-muted-foreground mb-4">
-                        Created on {format(new Date(report.createdAt), "PPP p")}
+                        Dibuat pada {format(new Date(report.createdAt), "PPP p")}
                     </div>
                     <div className="p-4 bg-muted/30 rounded-lg">
                         <p className="whitespace-pre-wrap">
@@ -124,7 +101,7 @@ export function ReportDetailView({
 
             {/* Conversation Thread */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Conversation</h3>
+                <h3 className="text-lg font-semibold">Percakapan</h3>
                 <div className="space-y-4">
                     {report.replies?.map((reply) => {
                         const isMe = reply.senderId === user?.id;
@@ -161,9 +138,9 @@ export function ReportDetailView({
                             </div>
                         );
                     })}
-                    {report.replies?.length === 0 && (
+                    {(!report.replies || report.replies.length === 0) && (
                         <p className="text-muted-foreground text-sm italic">
-                            No replies yet.
+                            Belum ada balasan.
                         </p>
                     )}
                 </div>
@@ -175,16 +152,16 @@ export function ReportDetailView({
                     {report.status === "RESOLVED" && user?.role !== "ADMIN" ? (
                         <div className="text-center py-6 text-muted-foreground bg-muted/30 rounded-lg border border-dashed border-gray-200 dark:border-zinc-700">
                             <p className="font-medium">
-                                This report is marked as resolved.
+                                Laporan ini telah ditandai selesai.
                             </p>
                             <p className="text-sm mt-1">
-                                You can no longer reply to this conversation.
+                                Anda tidak dapat lagi mengirim balasan pada percakapan ini.
                             </p>
                         </div>
                     ) : (
                         <div className="flex flex-col gap-4">
                             <Textarea
-                                placeholder="Type your reply here..."
+                                placeholder="Ketik balasan Anda di sini..."
                                 value={replyMessage}
                                 onChange={(e) =>
                                     setReplyMessage(e.target.value)
@@ -203,7 +180,7 @@ export function ReportDetailView({
                                     ) : (
                                         <Send className="mr-2 h-4 w-4" />
                                     )}
-                                    Send Reply
+                                    Kirim Balasan
                                 </Button>
                             </div>
                         </div>

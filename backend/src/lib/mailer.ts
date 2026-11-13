@@ -3,8 +3,6 @@ import { config } from "../config/env";
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
-    port: 587,
-    secure: true,
     auth: {
         user: config.SMTP_USER,
         pass: config.SMTP_PASS,
@@ -19,11 +17,7 @@ export const sendVerificationEmail = async (email: string, code: string) => {
         text: `Your verification code is: ${code}`,
         html: `<b>Your verification code is: ${code}</b>`,
     };
-    try {
-        await transporter.sendMail(message);
-    } finally {
-        transporter.close();
-    }
+    await transporter.sendMail(message);
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
@@ -41,10 +35,6 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
             <p>If you didn't request this, please ignore this email.</p>
         `,
     };
-    try {
-        console.log(`[MAILER] Password Reset Link: ${resetLink}`);
-        await transporter.sendMail(message);
-    } catch (error) {
-        console.error("Error sending password reset email:", error);
-    }
+    console.log(`[MAILER] Sending password reset email to: ${email}`);
+    await transporter.sendMail(message);
 };

@@ -74,6 +74,7 @@ export const queryKeys = {
     dashboard: {
         adminStats: () => ["admin-stats"] as const,
         renterStats: () => ["renter-stats"] as const,
+        revenue: () => ["renter-revenue"] as const,
     },
     reviews: {
         byField: (
@@ -83,5 +84,11 @@ export const queryKeys = {
             ratings?: number[]
         ) => ["reviews", fieldId, { page, limit, ratings }] as const,
         _def: ["reviews"] as const,
+    },
+    reports: {
+        all: (params?: any) => ["reports-all", params] as const,
+        my: () => ["reports-my"] as const,
+        detail: (id: string) => ["report", id] as const,
+        _def: ["reports"] as const,
     },
 };

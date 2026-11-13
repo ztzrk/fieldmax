@@ -14,7 +14,7 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import FieldService from "@/services/field.service";
+import { useToggleFieldClosure } from "@/hooks/useFields";
 
 interface FieldClosureSwitchProps {
     fieldId: string;
@@ -34,6 +34,7 @@ export default function FieldClosureSwitch({
     const [isClosed, setIsClosed] = useState(initialIsClosed);
     const [showConfirm, setShowConfirm] = useState(false);
     const [pendingState, setPendingState] = useState(false);
+    const { mutateAsync: toggleClosure, isPending } = useToggleFieldClosure(fieldId);
 
     const handleToggle = (checked: boolean) => {
         setPendingState(checked);
@@ -42,13 +43,13 @@ export default function FieldClosureSwitch({
 
     const confirmToggle = async () => {
         try {
-            await FieldService.toggleClosure(fieldId, pendingState);
+            await toggleClosure(pendingState);
             setIsClosed(pendingState);
             toast.success(
-                `Field successfully ${pendingState ? "closed" : "opened"}`
+                `Lapangan berhasil ${pendingState ? "ditutup" : "dibuka"}`
             );
         } catch (error) {
-            toast.error("Failed to update field closure status");
+            toast.error("Gagal memperbarui status operasional lapangan");
             console.error(error);
         } finally {
             setShowConfirm(false);
@@ -61,27 +62,28 @@ export default function FieldClosureSwitch({
                 id="field-closure"
                 checked={isClosed}
                 onCheckedChange={handleToggle}
+                disabled={isPending}
             />
             <Label htmlFor="field-closure" className="text-base font-medium">
-                {isClosed ? "Field is Closed" : "Field is Open"}
+                {isClosed ? "Lapangan Ditutup" : "Lapangan Dibuka"}
             </Label>
 
             <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {pendingState ? "Close Field?" : "Open Field?"}
+                            {pendingState ? "Tutup Lapangan?" : "Buka Lapangan?"}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
                             {pendingState
-                                ? "This will make the field unavailable for new bookings. Existing bookings may need to be cancelled manually."
-                                : "This will make the field available for bookings again based on its schedule."}
+                                ? "Tindakan ini akan membuat lapangan tidak dapat dipesan untuk jadwal baru. Pemesanan yang telah dikonfirmasi dapat dibatalkan secara manual jika perlu."
+                                : "Tindakan ini akan mengaktifkan kembali lapangan agar dapat dipesan sesuai jadwal operasional."}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={confirmToggle}>
-                            Confirm
+                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmToggle} disabled={isPending}>
+                            Konfirmasi
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

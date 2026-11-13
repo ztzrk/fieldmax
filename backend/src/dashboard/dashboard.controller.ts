@@ -28,6 +28,15 @@ export class DashboardController {
             return sendError(res, "Unauthorized", "UNAUTHORIZED", 401);
         }
 
+        if (user.role === "USER") {
+            return sendError(
+                res,
+                "Forbidden: Regular users cannot view revenue chart data",
+                "FORBIDDEN",
+                403
+            );
+        }
+
         // range validation is now handled by middleware, so we can cast safely
         const selectedRange = range as "7d" | "30d" | "12m";
 

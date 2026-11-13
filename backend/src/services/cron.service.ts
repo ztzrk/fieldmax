@@ -39,7 +39,7 @@ export class CronService {
                         .toString()
                         .padStart(2, "0");
                     const endDateTime = new Date(
-                        `${bookingDateStr}T${hours}:${minutes}:00.000Z`,
+                        `${bookingDateStr}T${hours}:${minutes}:00.000+07:00`,
                     );
 
                     if (endDateTime <= now) {

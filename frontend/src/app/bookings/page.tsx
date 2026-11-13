@@ -12,6 +12,45 @@ import { ReviewDialog } from "@/components/reviews/ReviewDialog";
 import { BookingCard } from "./components/BookingCard";
 import { EmptyBookings } from "./components/EmptyBookings";
 
+// Helper to calculate end datetime
+function getEndDateTime(booking: BookingResponseSchema) {
+    const datePart = booking.bookingDate.toString().split("T")[0];
+    let timePart = booking.endTime;
+    if (booking.endTime.toString().includes("T")) {
+        timePart = booking.endTime.toString().split("T")[1];
+    }
+    return new Date(`${datePart}T${timePart}`);
+}
+
+interface BookingListProps {
+    list: BookingResponseSchema[];
+    isPast?: boolean;
+    onReview: (id: string) => void;
+    now: Date;
+}
+
+function BookingList({
+    list,
+    isPast = false,
+    onReview,
+    now,
+}: BookingListProps) {
+    if (list.length === 0) return <EmptyBookings />;
+
+    return (
+        <div className="flex flex-col gap-4">
+            {list.map((booking) => (
+                <BookingCard
+                    key={booking.id}
+                    booking={booking}
+                    onReview={onReview}
+                    isPast={isPast || getEndDateTime(booking) <= now}
+                />
+            ))}
+        </div>
+    );
+}
+
 /**
  * BookingHistoryPage Component
  *
@@ -30,16 +69,16 @@ export default function BookingHistoryPage() {
                     <AlertCircle className="h-6 w-6 text-destructive" />
                 </div>
                 <h2 className="text-xl font-semibold">
-                    Failed to load bookings
+                    Gagal memuat pemesanan
                 </h2>
                 <p className="text-muted-foreground">
-                    We couldn't fetch your booking history. Please try again.
+                    Terjadi kesalahan saat mengambil riwayat pemesanan. Silakan coba lagi.
                 </p>
                 <Button
                     variant="outline"
                     onClick={() => window.location.reload()}
                 >
-                    Retry
+                    Coba Lagi
                 </Button>
             </div>
         );
@@ -47,16 +86,6 @@ export default function BookingHistoryPage() {
 
     const bookings = bookingsData?.data || [];
     const now = new Date();
-
-    // Helper to calculate end datetime
-    const getEndDateTime = (booking: BookingResponseSchema) => {
-        const datePart = booking.bookingDate.toString().split("T")[0];
-        let timePart = booking.endTime;
-        if (booking.endTime.toString().includes("T")) {
-            timePart = booking.endTime.toString().split("T")[1];
-        }
-        return new Date(`${datePart}T${timePart}`);
-    };
 
     const activeBookings = bookings.filter((booking: BookingResponseSchema) => {
         const endDateTime = getEndDateTime(booking);
@@ -91,29 +120,6 @@ export default function BookingHistoryPage() {
         }
     );
 
-    const BookingList = ({
-        list,
-        isPast = false,
-    }: {
-        list: BookingResponseSchema[];
-        isPast?: boolean;
-    }) => {
-        if (list.length === 0) return <EmptyBookings />;
-
-        return (
-            <div className="flex flex-col gap-4">
-                {list.map((booking) => (
-                    <BookingCard
-                        key={booking.id}
-                        booking={booking}
-                        onReview={setReviewBookingId}
-                        isPast={isPast || getEndDateTime(booking) <= now}
-                    />
-                ))}
-            </div>
-        );
-    };
-
     return (
         <div className="min-h-screen bg-muted/5">
             {/* Header Section */}
@@ -125,16 +131,16 @@ export default function BookingHistoryPage() {
                             className="inline-flex w-fit text-muted-foreground hover:text-foreground transition-colors text-sm font-medium items-center gap-2"
                         >
                             <ArrowLeft className="h-4 w-4" />
-                            Back to Home
+                            Kembali ke Beranda
                         </Link>
 
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                             <div>
                                 <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                                    My Bookings
+                                    Pemesanan Saya
                                 </h1>
                                 <p className="text-muted-foreground mt-1">
-                                    Manage your upcoming games and view history
+                                    Kelola jadwal bermain Anda dan lihat riwayat pemesanan
                                 </p>
                             </div>
                         </div>
@@ -150,14 +156,14 @@ export default function BookingHistoryPage() {
                             className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg shadow-primary/20 transition-all font-medium"
                         >
                             <Ticket className="w-4 h-4 mr-2" />
-                            Active Tickets
+                            Tiket Aktif
                         </TabsTrigger>
                         <TabsTrigger
                             value="history"
                             className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg shadow-primary/20 transition-all font-medium"
                         >
                             <History className="w-4 h-4 mr-2" />
-                            Order History
+                            Riwayat Pemesanan
                         </TabsTrigger>
                     </TabsList>
 
@@ -165,14 +171,14 @@ export default function BookingHistoryPage() {
                         value="active"
                         className="space-y-6 animate-in fade-in-50 duration-500 slide-in-from-bottom-2"
                     >
-                        <BookingList list={activeBookings} />
+                        <BookingList list={activeBookings} onReview={setReviewBookingId} now={now} />
                     </TabsContent>
 
                     <TabsContent
                         value="history"
                         className="space-y-6 animate-in fade-in-50 duration-500 slide-in-from-bottom-2"
                     >
-                        <BookingList list={historyBookings} isPast />
+                        <BookingList list={historyBookings} isPast onReview={setReviewBookingId} now={now} />
                     </TabsContent>
                 </Tabs>
 

@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../db";
 import { Pagination } from "../schemas/pagination.schema";
+import { NotFoundError } from "../utils/errors";
 
 export class RenterService {
     public async findMyVenues(renterId: string) {
@@ -76,7 +77,7 @@ export class RenterService {
             },
         });
         if (!booking) {
-            throw new Error("Booking not found or not owned by you.");
+            throw new NotFoundError("Booking not found or not owned by you.");
         }
 
         return prisma.$transaction(async (tx) => {
@@ -100,7 +101,7 @@ export class RenterService {
             },
         });
         if (!booking) {
-            throw new Error("Booking not found or not owned by you.");
+            throw new NotFoundError("Booking not found or not owned by you.");
         }
 
         return prisma.$transaction(async (tx) => {
@@ -124,7 +125,7 @@ export class RenterService {
             },
         });
         if (!booking) {
-            throw new Error("Booking not found or not owned by you.");
+            throw new NotFoundError("Booking not found or not owned by you.");
         }
 
         return prisma.booking.update({
@@ -428,7 +429,7 @@ export class RenterService {
         });
 
         if (!renter) {
-            throw new Error("Renter not found");
+            throw new NotFoundError("Renter not found");
         }
 
         const venues = await prisma.venue.findMany({

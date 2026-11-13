@@ -69,16 +69,9 @@ export default function BookingDetailPage({
             return status === "PENDING" ? 2500 : false;
         },
     });
-    const [snapToken, setSnapToken] = useState<string | null>(null);
+    const snapToken = booking?.payment?.snapToken || booking?.snapToken || null;
     const [isPaymentLoading, setIsPaymentLoading] = useState(false);
     const queryClient = useQueryClient();
-
-    useEffect(() => {
-        const token = booking?.payment?.snapToken || booking?.snapToken;
-        if (token) {
-            setSnapToken(token);
-        }
-    }, [booking]);
 
     useEffect(() => {
         const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
@@ -221,11 +214,11 @@ export default function BookingDetailPage({
                         <div className="w-8 h-8 rounded-full bg-background border flex items-center justify-center mr-2 shadow-sm group-hover:shadow-md transition-all">
                             <ArrowLeft className="h-4 w-4" />
                         </div>
-                        Back to Bookings
+                        Kembali ke Pemesanan
                     </Link>
                     <div className="flex items-center gap-2 self-start sm:self-auto">
                         <span className="text-sm text-muted-foreground">
-                            Booking ID:
+                            ID Pemesanan:
                         </span>
                         <Badge
                             variant="outline"
@@ -263,7 +256,7 @@ export default function BookingDetailPage({
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">
-                                        Booking Status
+                                        Status Pemesanan
                                     </p>
                                     <h2 className="text-xl font-bold">
                                         {statusStyle.label}
@@ -280,24 +273,21 @@ export default function BookingDetailPage({
                                                      variant="outline"
                                                      className="w-full sm:w-auto hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
                                                  >
-                                                     Cancel
+                                                     Batalkan
                                                  </Button>
                                              </AlertDialogTrigger>
                                              <AlertDialogContent>
                                                  <AlertDialogHeader>
                                                      <AlertDialogTitle>
-                                                         Are you absolutely sure?
+                                                         Apakah Anda yakin ingin membatalkan?
                                                      </AlertDialogTitle>
                                                      <AlertDialogDescription>
-                                                         This action cannot be
-                                                         undone. This will
-                                                         permanently cancel your
-                                                         booking.
+                                                         Tindakan ini tidak dapat dibatalkan. Pemesanan Anda akan dibatalkan secara permanen.
                                                      </AlertDialogDescription>
                                                  </AlertDialogHeader>
                                                  <AlertDialogFooter>
                                                      <AlertDialogCancel>
-                                                         Dismiss
+                                                         Tutup
                                                      </AlertDialogCancel>
                                                      <AlertDialogAction
                                                          onClick={() =>
@@ -305,7 +295,7 @@ export default function BookingDetailPage({
                                                          }
                                                          className="bg-destructive hover:bg-destructive/90"
                                                      >
-                                                         Yes, Cancel
+                                                         Ya, Batalkan
                                                      </AlertDialogAction>
                                                  </AlertDialogFooter>
                                              </AlertDialogContent>
@@ -342,7 +332,7 @@ export default function BookingDetailPage({
                                                 {isPaymentLoading ? (
                                                     <FullScreenLoader />
                                                 ) : (
-                                                    `Pay Now ${formatPrice(
+                                                    `Bayar Sekarang ${formatPrice(
                                                         booking.totalPrice
                                                     )}`
                                                 )}
@@ -357,7 +347,7 @@ export default function BookingDetailPage({
                             <CardHeader className="bg-muted/30 pb-4">
                                 <CardTitle className="text-lg flex items-center gap-2">
                                     <ShieldCheck className="h-5 w-5 text-primary" />
-                                    Booking Details
+                                    Detail Pemesanan
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="pt-6 grid gap-6 sm:grid-cols-2">
@@ -380,7 +370,7 @@ export default function BookingDetailPage({
 
                                 <div className="space-y-1">
                                     <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                        Field
+                                        Lapangan
                                     </label>
                                     <p className="font-medium text-lg">
                                         {booking.field.name}
@@ -394,7 +384,7 @@ export default function BookingDetailPage({
                             <CardContent className="py-6 grid gap-6 sm:grid-cols-2">
                                 <div className="space-y-1">
                                     <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                        Schedule
+                                        Jadwal
                                     </label>
                                     <div className="flex items-center gap-2 mt-1">
                                         <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -413,14 +403,14 @@ export default function BookingDetailPage({
 
                                 <div className="space-y-1">
                                     <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                        Payment Info
+                                        Informasi Pembayaran
                                     </label>
                                     <div className="flex items-center gap-2 mt-1">
                                         <Wallet className="h-4 w-4 text-muted-foreground" />
                                         <p className="font-medium">
                                             {booking.paymentStatus === "PENDING"
-                                                ? "Unpaid"
-                                                : "QRIS Payment"}
+                                                ? "Belum Dibayar"
+                                                : "Pembayaran QRIS"}
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-2 mt-1">
@@ -442,7 +432,7 @@ export default function BookingDetailPage({
                                         size={20}
                                     />
                                     <span className="font-medium text-yellow-700 dark:text-yellow-500">
-                                        Your Review
+                                        Ulasan Anda
                                     </span>
                                 </div>
                                 {booking.review.comment && (
@@ -459,13 +449,13 @@ export default function BookingDetailPage({
                         <Card className="border-border/50 shadow-sm h-fit sticky top-24">
                             <CardHeader className="bg-muted/30 pb-4">
                                 <CardTitle className="text-base text-muted-foreground">
-                                    Order Summary
+                                    Ringkasan Pesanan
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="pt-6 space-y-4">
                                 <div className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground">
-                                        Field Price
+                                        Harga Sewa Lapangan
                                     </span>
                                     <span>
                                         {formatPrice(booking.totalPrice)}
@@ -473,7 +463,7 @@ export default function BookingDetailPage({
                                 </div>
                                 <div className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground">
-                                        Service Fee
+                                        Biaya Layanan
                                     </span>
                                     <span>Rp 0</span>
                                 </div>
@@ -487,7 +477,7 @@ export default function BookingDetailPage({
 
                                 {booking.status === "CONFIRMED" && (
                                     <div className="bg-green-500/10 text-green-700 dark:text-green-400 text-xs p-3 rounded-lg text-center mt-4 border border-green-500/20">
-                                        Payment verified. Enjoy your game!
+                                        Pembayaran terverifikasi. Selamat berolahraga!
                                     </div>
                                 )}
                             </CardContent>

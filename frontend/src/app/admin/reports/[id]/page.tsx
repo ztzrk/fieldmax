@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Report, reportsService } from "@/services/reports.service";
+import { useGetReportById, useReplyReport } from "@/hooks/useReports";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,42 +23,19 @@ export default function AdminReportDetailPage() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
     const { user } = useAuth();
-    const [report, setReport] = useState<Report | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
     const [replyMessage, setReplyMessage] = useState("");
-    const [isReplying, setIsReplying] = useState(false);
 
-    const fetchReport = async () => {
-        try {
-            setIsLoading(true);
-            const data = await reportsService.getReportById(id);
-            setReport(data || null);
-        } catch (error) {
-            console.error("Failed to fetch report", error);
-            toast.error("Failed to load report details");
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (id) {
-            fetchReport();
-        }
-    }, [id]);
+    const { data: report, isLoading } = useGetReportById(id);
+    const { mutateAsync: replyReport, isPending: isReplying } = useReplyReport(id);
 
     const handleReply = async () => {
         if (!replyMessage.trim()) return;
         try {
-            setIsReplying(true);
-            await reportsService.replyToReport(id, { message: replyMessage });
+            await replyReport({ message: replyMessage });
             setReplyMessage("");
-            fetchReport(); // Refresh to see new reply
-            toast.success("Reply sent");
+            toast.success("Balasan berhasil dikirim");
         } catch (error) {
-            toast.error("Failed to send reply");
-        } finally {
-            setIsReplying(false);
+            toast.error("Gagal mengirim balasan");
         }
     };
 
@@ -69,8 +46,8 @@ export default function AdminReportDetailPage() {
     if (!report) {
         return (
             <div className="flex flex-col items-center justify-center gap-4 py-20">
-                <p>Report not found</p>
-                <Button onClick={() => router.back()}>Go Back</Button>
+                <p>Laporan tidak ditemukan</p>
+                <Button onClick={() => router.back()}>Kembali</Button>
             </div>
         );
     }

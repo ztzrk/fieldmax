@@ -33,23 +33,24 @@ export default function EditFieldPage() {
     const searchParams = useSearchParams();
     const fromVenueId = searchParams.get("fromVenue");
 
-    if (!fieldId) {
-        return <FullScreenLoader />;
-    }
-
     const backHref = fromVenueId
         ? `/admin/venues/${fromVenueId}/edit`
         : "/admin/venues";
+
     const {
         data: field,
         isLoading,
         isError,
-    } = useGetFieldById(fieldId as string);
+    } = useGetFieldById(fieldId || "");
     const { mutate: updateField, isPending } = useUpdateField(
-        fieldId as string
+        fieldId || ""
     );
     const { mutateAsync: uploadPhotos, isPending: isUploading } =
-        useUploadFieldPhotos(fieldId as string);
+        useUploadFieldPhotos(fieldId || "");
+
+    if (!fieldId) {
+        return <FullScreenLoader />;
+    }
 
     const handleFormSubmit = (data: FieldFormSchema) => {
         updateField(data);

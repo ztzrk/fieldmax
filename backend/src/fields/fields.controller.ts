@@ -24,7 +24,7 @@ export class FieldsController {
             );
             sendSuccess(res, data.data, "Fields retrieved", 200, data.meta);
         } else {
-            if (!req.user) {
+            if (!req.user || req.user.role === "USER") {
                 query.status = "APPROVED";
             }
             const data = await this.service.findAll(query);

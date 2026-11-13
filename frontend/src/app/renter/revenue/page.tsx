@@ -1,7 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import RenterService from "@/services/renter.service";
+import { useRenterRevenue } from "@/hooks/useDashboard";
 import { formatCurrency } from "@/lib/utils";
 import {
     Card,
@@ -30,14 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 
 export default function RevenuePage() {
-    const {
-        data: stats,
-        isLoading,
-        error,
-    } = useQuery({
-        queryKey: ["renter-revenue"],
-        queryFn: RenterService.getRevenueStats,
-    });
+    const { data: stats, isLoading, error } = useRenterRevenue();
 
     if (isLoading) {
         return <FullScreenLoader />;
@@ -46,7 +38,7 @@ export default function RevenuePage() {
     if (error) {
         return (
             <div className="flex h-[50vh] items-center justify-center text-red-500">
-                Failed to load revenue data.
+                Gagal memuat data pendapatan.
             </div>
         );
     }
@@ -58,10 +50,10 @@ export default function RevenuePage() {
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">
-                        Revenue
+                        Pendapatan
                     </h2>
                     <p className="text-muted-foreground">
-                        Overview of your earning from venues and fields
+                        Ringkasan pendapatan dari venue dan lapangan Anda
                     </p>
                 </div>
             </div>
@@ -70,7 +62,7 @@ export default function RevenuePage() {
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
-                            Total Revenue
+                            Total Pendapatan
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -78,45 +70,45 @@ export default function RevenuePage() {
                             {formatCurrency(stats.totalRevenue)}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            Lifetime earnings
+                            Total akumulasi pendapatan
                         </p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
-                            Top Performing Venue
+                            Venue Berperforma Terbaik
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {stats.revenueByVenue[0]?.venueName || "N/A"}
+                            {stats.revenueByVenue[0]?.venueName || "-"}
                         </div>
                         <p className="text-xs text-muted-foreground">
                             {stats.revenueByVenue[0]
                                 ? formatCurrency(
                                       stats.revenueByVenue[0].totalRevenue,
                                   )
-                                : "$0"}
+                                : formatCurrency(0)}
                         </p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
-                            Top Performing Field
+                            Lapangan Berperforma Terbaik
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {stats.revenueByField[0]?.fieldName || "N/A"}
+                            {stats.revenueByField[0]?.fieldName || "-"}
                         </div>
                         <p className="text-xs text-muted-foreground">
                             {stats.revenueByField[0]
                                 ? formatCurrency(
                                       stats.revenueByField[0].totalRevenue,
                                   )
-                                : "$0"}
+                                : formatCurrency(0)}
                         </p>
                     </CardContent>
                 </Card>
@@ -124,16 +116,16 @@ export default function RevenuePage() {
 
             <Tabs defaultValue="venue" className="space-y-4">
                 <TabsList>
-                    <TabsTrigger value="venue">Revenue by Venue</TabsTrigger>
-                    <TabsTrigger value="field">Revenue by Field</TabsTrigger>
+                    <TabsTrigger value="venue">Pendapatan per Venue</TabsTrigger>
+                    <TabsTrigger value="field">Pendapatan per Lapangan</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="venue" className="space-y-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Revenue by Venue</CardTitle>
+                            <CardTitle>Pendapatan per Venue</CardTitle>
                             <CardDescription>
-                                Performance overview of your venues
+                                Ringkasan performa pendapatan venue Anda
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -153,7 +145,7 @@ export default function RevenuePage() {
                                             tickLine={false}
                                             axisLine={false}
                                             tickFormatter={(value) =>
-                                                `$${value}`
+                                                formatCurrency(value)
                                             }
                                         />
                                         <Tooltip
@@ -177,15 +169,15 @@ export default function RevenuePage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Details</CardTitle>
+                            <CardTitle>Rincian</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Venue Name</TableHead>
+                                        <TableHead>Nama Venue</TableHead>
                                         <TableHead className="text-right">
-                                            Total Revenue
+                                            Total Pendapatan
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -208,7 +200,7 @@ export default function RevenuePage() {
                                                 colSpan={2}
                                                 className="text-center h-24"
                                             >
-                                                No revenue data available
+                                                Belum ada data pendapatan
                                             </TableCell>
                                         </TableRow>
                                     )}
@@ -221,9 +213,9 @@ export default function RevenuePage() {
                 <TabsContent value="field" className="space-y-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Revenue by Field</CardTitle>
+                            <CardTitle>Pendapatan per Lapangan</CardTitle>
                             <CardDescription>
-                                Performance overview of your fields
+                                Ringkasan performa pendapatan lapangan Anda
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -243,7 +235,7 @@ export default function RevenuePage() {
                                             tickLine={false}
                                             axisLine={false}
                                             tickFormatter={(value) =>
-                                                `$${value}`
+                                                formatCurrency(value)
                                             }
                                         />
                                         <Tooltip
@@ -276,16 +268,16 @@ export default function RevenuePage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Details</CardTitle>
+                            <CardTitle>Rincian</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Field Name</TableHead>
-                                        <TableHead>Venue Name</TableHead>
+                                        <TableHead>Nama Lapangan</TableHead>
+                                        <TableHead>Nama Venue</TableHead>
                                         <TableHead className="text-right">
-                                            Total Revenue
+                                            Total Pendapatan
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -311,7 +303,7 @@ export default function RevenuePage() {
                                                 colSpan={3}
                                                 className="text-center h-24"
                                             >
-                                                No revenue data available
+                                                Belum ada data pendapatan
                                             </TableCell>
                                         </TableRow>
                                     )}

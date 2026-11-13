@@ -3,7 +3,7 @@ import prisma from "../db";
 import { CreateVenue, UpdateVenue } from "../schemas/venues.schema";
 import imagekit from "../lib/imagekit";
 import { Pagination } from "../schemas/pagination.schema";
-import { ConflictError, NotFoundError, ValidationError } from "../utils/errors";
+import { ConflictError, CustomError, ForbiddenError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class VenuesService {
     public async findAllAdmin(query: Pagination) {
@@ -259,6 +259,12 @@ export class VenuesService {
     }
 
     public async create(data: CreateVenue, creatingUser: User) {
+        if (creatingUser.role === "USER") {
+            throw new ForbiddenError(
+                "Forbidden: Regular users cannot create venues."
+            );
+        }
+
         if (creatingUser.role === "RENTER") {
             data.renterId = creatingUser.id;
         }
@@ -370,7 +376,13 @@ export class VenuesService {
     }
 
     public async deleteMultiple(ids: string[], user?: User) {
-        if (user && user.role === "RENTER") {
+        if (!user || user.role === "USER") {
+            throw new ForbiddenError(
+                "Forbidden: Regular users cannot delete venues."
+            );
+        }
+
+        if (user.role === "RENTER") {
             const venues = await prisma.venue.findMany({
                 where: {
                     id: { in: ids },
@@ -380,7 +392,7 @@ export class VenuesService {
             });
 
             if (venues.length !== ids.length) {
-                throw new Error(
+                throw new ForbiddenError(
                     "Forbidden: You do not own all the venues you are trying to delete.",
                 );
             }
@@ -502,7 +514,7 @@ export class VenuesService {
 
         const photoDataToSave = uploadResults.map((result) => {
             if (!result.url) {
-                throw new Error("Image upload did not return a URL");
+                throw new CustomError("Image upload did not return a URL", 500, "UPLOAD_FAILED");
             }
 
             return {

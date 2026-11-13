@@ -58,9 +58,15 @@ export class ProfileService {
 
         const hashedPassword = await bcrypt.hash(data.newPassword, 10);
 
-        return prisma.user.update({
-            where: { id: userId },
-            data: { password: hashedPassword },
+        return prisma.$transaction(async (tx) => {
+            const updatedUser = await tx.user.update({
+                where: { id: userId },
+                data: { password: hashedPassword },
+            });
+            await tx.session.deleteMany({
+                where: { userId },
+            });
+            return updatedUser;
         });
     }
 

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { DashboardService } from "@/services/dashboard.service";
+import RenterService from "@/services/renter.service";
 import { queryKeys } from "@/lib/queryKeys";
 
 export const useAdminStats = () => {
@@ -15,6 +16,14 @@ export const useRenterStats = () => {
         queryFn: DashboardService.getRenterStats,
     });
 };
+
+export const useRenterRevenue = () => {
+    return useQuery({
+        queryKey: queryKeys.dashboard.revenue(),
+        queryFn: RenterService.getRevenueStats,
+    });
+};
+
 export const useChartData = (range: string) => {
     return useQuery({
         queryKey: ["dashboard-chart", range],

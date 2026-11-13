@@ -9,7 +9,7 @@ import {
     GetAvailability,
 } from "../schemas/fields.schema";
 import { Pagination } from "../schemas/pagination.schema";
-import { NotFoundError, ValidationError } from "../utils/errors";
+import { CustomError, ForbiddenError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
     public async findAll(query: Pagination) {
@@ -246,7 +246,7 @@ export class FieldsService {
                 }),
             ]);
 
-        if (!field) throw new Error("Field not found");
+        if (!field) throw new NotFoundError("Field not found");
 
         const totalPages = Math.ceil(totalReviews / limit);
 
@@ -271,7 +271,7 @@ export class FieldsService {
         const venue = await prisma.venue.findUnique({
             where: { id: data.venueId },
         });
-        if (!venue) throw new Error("Venue not found.");
+        if (!venue) throw new NotFoundError("Venue not found.");
 
         if (venue.status !== "APPROVED") {
             throw new ValidationError(
@@ -280,7 +280,7 @@ export class FieldsService {
         }
 
         if (user.role === "RENTER" && venue.renterId !== user.id) {
-            throw new Error("Forbidden: You do not own this venue.");
+            throw new ForbiddenError("Forbidden: You do not own this venue.");
         }
 
         return prisma.field.create({ data: data });
@@ -291,13 +291,13 @@ export class FieldsService {
             where: { id: fieldId },
             select: { venue: { select: { renterId: true } } },
         });
-        if (!fieldToUpdate) throw new Error("Field not found.");
+        if (!fieldToUpdate) throw new NotFoundError("Field not found.");
 
         if (
             user.role === "RENTER" &&
             fieldToUpdate.venue.renterId !== user.id
         ) {
-            throw new Error("Forbidden: You do not own this field.");
+            throw new ForbiddenError("Forbidden: You do not own this field.");
         }
 
         return prisma.field.update({
@@ -311,20 +311,26 @@ export class FieldsService {
             where: { id: fieldId },
             select: { venue: { select: { renterId: true } } },
         });
-        if (!fieldToDelete) throw new Error("Field not found.");
+        if (!fieldToDelete) throw new NotFoundError("Field not found.");
 
         if (
             user.role === "RENTER" &&
             fieldToDelete.venue.renterId !== user.id
         ) {
-            throw new Error("Forbidden: You do not own this field.");
+            throw new ForbiddenError("Forbidden: You do not own this field.");
         }
 
         return prisma.field.delete({ where: { id: fieldId } });
     }
 
     public async deleteMultiple(ids: string[], user?: User) {
-        if (user && user.role === "RENTER") {
+        if (!user || user.role === "USER") {
+            throw new ForbiddenError(
+                "Forbidden: Regular users cannot delete fields."
+            );
+        }
+
+        if (user.role === "RENTER") {
             const fieldsToCheck = await prisma.field.findMany({
                 where: {
                     id: { in: ids },
@@ -334,7 +340,7 @@ export class FieldsService {
             });
 
             if (fieldsToCheck.length !== ids.length) {
-                throw new Error(
+                throw new ForbiddenError(
                     "Forbidden: You do not own all the fields you are trying to delete.",
                 );
             }
@@ -424,7 +430,7 @@ export class FieldsService {
 
         const photoDataToSave = uploadResults.map((result) => {
             if (!result.url) {
-                throw new Error("Image upload did not return a URL");
+                throw new CustomError("Image upload did not return a URL", 500, "UPLOAD_FAILED");
             }
 
             return { fieldId, url: result.url };
@@ -437,7 +443,7 @@ export class FieldsService {
         const photo = await prisma.fieldPhoto.findUnique({
             where: { id: photoId },
         });
-        if (!photo) throw new Error("Photo not found");
+        if (!photo) throw new NotFoundError("Photo not found");
 
         // Similar to venue photos, we're skipping actual deletion from ImageKit
         // as we lack the fileId in the schema.
@@ -542,7 +548,7 @@ export class FieldsService {
         if (!field) throw new NotFoundError("Field not found.");
 
         if (user.role === "RENTER" && field.venue.renterId !== user.id) {
-            throw new Error("Forbidden: You do not own this field.");
+            throw new ForbiddenError("Forbidden: You do not own this field.");
         }
 
         return prisma.field.update({

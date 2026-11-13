@@ -12,6 +12,36 @@ import { VenueCard } from "@/components/venues/VenueCard";
 import { SearchHeader } from "./components/SearchHeader";
 import { Search, MapPin, Trophy } from "lucide-react";
 
+function ResultsGrid({ children }: { children: React.ReactNode }) {
+    return (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+            {children}
+        </div>
+    );
+}
+
+function EmptyState({
+    icon: Icon,
+    title,
+    description,
+}: {
+    icon: typeof Search;
+    title: string;
+    description: string;
+}) {
+    return (
+        <div className="flex flex-col items-center justify-center p-8 text-center bg-muted/20 border border-border/50 rounded-xl my-4">
+            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                <Icon className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <h3 className="text-base font-semibold text-foreground">{title}</h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+                {description}
+            </p>
+        </div>
+    );
+}
+
 function SearchContent() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams ? searchParams.get("q") || "" : "";
@@ -59,32 +89,6 @@ function SearchContent() {
             router.push(`/search?${newParams.toString()}`);
         }
     };
-
-    const ResultsGrid = ({ children }: { children: React.ReactNode }) => (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-            {children}
-        </div>
-    );
-
-    const EmptyState = ({
-        icon: Icon,
-        title,
-        description,
-    }: {
-        icon: typeof Search;
-        title: string;
-        description: string;
-    }) => (
-        <div className="flex flex-col items-center justify-center p-8 text-center bg-muted/20 border border-border/50 rounded-xl my-4">
-            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                <Icon className="h-6 w-6 text-muted-foreground" />
-            </div>
-            <h3 className="text-base font-semibold text-foreground">{title}</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-                {description}
-            </p>
-        </div>
-    );
 
     return (
         <div className="flex min-h-screen flex-col bg-background">

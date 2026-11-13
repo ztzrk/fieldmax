@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Report, reportsService } from "@/services/reports.service";
+import { useState } from "react";
+import { Report } from "@/services/reports.service";
+import { useGetMyReports } from "@/hooks/useReports";
 import { CreateReportForm } from "@/app/reports/components/create-report-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,31 +34,14 @@ export interface ReportsViewProps {
 }
 
 export function ReportsView({
-    title = "Help & Support",
-    subtitle = "Track your reports or submit a new issue. We're here to help.",
+    title = "Bantuan & Dukungan",
+    subtitle = "Pantau status laporan Anda atau ajukan kendala baru. Tim kami siap membantu.",
     basePath = "/reports",
 }: ReportsViewProps) {
-    const [reports, setReports] = useState<Report[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const { data: reports = [], isLoading, refetch } = useGetMyReports();
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("ALL");
     const router = useRouter();
-
-    const fetchReports = async () => {
-        try {
-            setIsLoading(true);
-            const data = await reportsService.getMyReports();
-            setReports(data || []);
-        } catch (error) {
-            console.error("Failed to fetch reports", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchReports();
-    }, []);
 
     const filteredReports = reports.filter((report) => {
         const matchesSearch = report.subject
@@ -89,7 +73,7 @@ export function ReportsView({
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Search reports..."
+                                placeholder="Cari laporan..."
                                 className="pl-9 bg-white dark:bg-zinc-800"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -101,13 +85,13 @@ export function ReportsView({
                         >
                             <SelectTrigger className="w-full sm:w-[180px] bg-white dark:bg-zinc-800">
                                 <Filter className="mr-2 h-4 w-4 text-muted-foreground" />
-                                <SelectValue placeholder="Filter by status" />
+                                <SelectValue placeholder="Filter status" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="ALL">All Status</SelectItem>
-                                <SelectItem value="PENDING">Pending</SelectItem>
+                                <SelectItem value="ALL">Semua Status</SelectItem>
+                                <SelectItem value="PENDING">Menunggu</SelectItem>
                                 <SelectItem value="RESOLVED">
-                                    Resolved
+                                    Selesai
                                 </SelectItem>
                             </SelectContent>
                         </Select>
@@ -122,12 +106,12 @@ export function ReportsView({
                                 <MessageSquare className="h-8 w-8 text-muted-foreground" />
                             </div>
                             <h3 className="text-xl font-semibold mb-2">
-                                No reports found
+                                Tidak ada laporan ditemukan
                             </h3>
                             <p className="text-muted-foreground max-w-sm mx-auto">
                                 {searchTerm || statusFilter !== "ALL"
-                                    ? "Try adjusting your filters to find what you're looking for."
-                                    : "You haven't submitted any reports yet. Use the form to create one."}
+                                    ? "Coba sesuaikan filter pencarian Anda."
+                                    : "Anda belum membuat laporan apa pun. Gunakan formulir untuk membuat laporan baru."}
                             </p>
                             {(searchTerm || statusFilter !== "ALL") && (
                                 <Button
@@ -138,7 +122,7 @@ export function ReportsView({
                                         setStatusFilter("ALL");
                                     }}
                                 >
-                                    Clear Filters
+                                    Reset Filter
                                 </Button>
                             )}
                         </div>
@@ -171,7 +155,7 @@ export function ReportsView({
                                                         ) : (
                                                             <Clock className="h-3.5 w-3.5" />
                                                         )}
-                                                        {report.status}
+                                                        {report.status === "RESOLVED" ? "Selesai" : "Menunggu"}
                                                     </Badge>
                                                     <Badge
                                                         variant="secondary"
@@ -191,7 +175,7 @@ export function ReportsView({
                                         </div>
                                         <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-700 flex items-center justify-between text-xs text-muted-foreground">
                                             <span>
-                                                Created{" "}
+                                                Dibuat{" "}
                                                 {format(
                                                     new Date(report.createdAt),
                                                     "PPP"
@@ -200,7 +184,7 @@ export function ReportsView({
                                             {report.updatedAt !==
                                                 report.createdAt && (
                                                 <span>
-                                                    Updated{" "}
+                                                    Diperbarui{" "}
                                                     {format(
                                                         new Date(
                                                             report.updatedAt
@@ -219,7 +203,7 @@ export function ReportsView({
 
                 {/* Right Column: Create Form */}
                 <div>
-                    <CreateReportForm onSuccess={fetchReports} />
+                    <CreateReportForm onSuccess={refetch} />
                 </div>
             </div>
         </div>

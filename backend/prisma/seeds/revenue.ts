@@ -4,7 +4,7 @@ import {
     PaymentStatus,
     BookingStatus,
 } from "@prisma/client";
-import { hash } from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ async function main() {
     console.log("Seeding Revenue Data...");
 
     // 1. Target "Renter Owner 1" or fallback
-    const password = await hash("password123", 10);
+    const password = await bcrypt.hash("password123", 10);
     let email = "renter1@simulation.com"; // Common seed email
 
     let renter = await prisma.user.findUnique({ where: { email } });

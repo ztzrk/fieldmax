@@ -24,15 +24,17 @@ export function AuthLayout({
                 href="/"
                 className="absolute right-4 top-4 md:right-8 md:top-8 z-20 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
             >
-                Back to Home
+                Kembali ke Beranda
             </Link>
 
             <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r overflow-hidden">
                 <div className="absolute inset-0 bg-zinc-900" />
-                <img
+                <Image
                     src={imageSrc}
                     alt="Sport Field"
-                    className="object-cover opacity-60 w-full h-full scale-105"
+                    fill
+                    priority
+                    className="object-cover opacity-60 scale-105"
                 />
 
                 {/* Enhanced Gradient Overlay */}

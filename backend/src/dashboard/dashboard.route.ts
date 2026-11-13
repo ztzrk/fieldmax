@@ -2,6 +2,7 @@ import { Router } from "express";
 import { DashboardController } from "./dashboard.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
+import { renterOnlyMiddleware } from "../middleware/permission.middleware";
 import { validateRequest } from "../middleware/validate.middleware";
 import { z } from "zod";
 
@@ -24,6 +25,7 @@ export class DashboardRoute {
         this.router.get(
             "/dashboard/renter-stats",
             authMiddleware,
+            renterOnlyMiddleware,
             this.controller.getRenterStats
         );
 

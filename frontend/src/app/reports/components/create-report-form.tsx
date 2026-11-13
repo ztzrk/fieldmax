@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useCreateReport } from "@/hooks/useReports";
 import {
     Form,
     FormControl,
@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { reportsService } from "@/services/reports.service";
 import { toast } from "sonner";
 import {
     Select,
@@ -35,10 +34,10 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { Send } from "lucide-react";
 
 const createReportSchema = z.object({
-    subject: z.string().min(1, "Subject is required").max(100),
-    description: z.string().min(1, "Description is required"),
+    subject: z.string().min(1, "Judul laporan harus diisi").max(100),
+    description: z.string().min(1, "Deskripsi harus diisi"),
     category: z.enum(["SCAM", "TECHNICAL", "PAYMENT", "OTHER"], {
-        required_error: "Category is required",
+        required_error: "Kategori harus dipilih",
     }),
 });
 
@@ -47,7 +46,7 @@ interface CreateReportFormProps {
 }
 
 export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
-    const [isLoading, setIsLoading] = useState(false);
+    const { mutateAsync: createReport, isPending: isLoading } = useCreateReport();
 
     const form = useForm<z.infer<typeof createReportSchema>>({
         resolver: zodResolver(createReportSchema),
@@ -60,16 +59,13 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
 
     async function onSubmit(values: z.infer<typeof createReportSchema>) {
         try {
-            setIsLoading(true);
-            await reportsService.createReport(values);
-            toast.success("Report created successfully");
+            await createReport(values);
+            toast.success("Laporan berhasil dibuat");
             form.reset();
             onSuccess();
         } catch (error) {
-            toast.error("Failed to create report");
+            toast.error("Gagal membuat laporan");
             console.error(error);
-        } finally {
-            setIsLoading(false);
         }
     }
 

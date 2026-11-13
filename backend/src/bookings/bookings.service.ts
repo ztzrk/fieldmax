@@ -73,7 +73,15 @@ export class BookingsService {
                         venue: true,
                     },
                 },
-                user: true,
+                user: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        phoneNumber: true,
+                        role: true,
+                    },
+                },
                 review: true,
                 payment: true,
             },
@@ -118,7 +126,15 @@ export class BookingsService {
                         venue: true,
                     },
                 },
-                user: true,
+                user: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        phoneNumber: true,
+                        role: true,
+                    },
+                },
                 review: true,
                 payment: true,
             },
@@ -190,6 +206,11 @@ export class BookingsService {
         if (!field) throw new NotFoundError("Field not found");
         if (field.isClosed)
             throw new ValidationError("This field is currently closed.");
+        if (field.status !== "APPROVED" || field.venue.status !== "APPROVED") {
+            throw new ValidationError(
+                "Cannot book an unapproved or inactive field/venue."
+            );
+        }
 
         const duration = data.duration || 1;
         if (duration < 1 || duration > 12) {
