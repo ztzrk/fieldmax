@@ -33,10 +33,10 @@ export default function RenterRegisterPage() {
 
     return (
         <AuthLayout
-            title="Partner with FieldMax"
-            description="Create a Venue Owner account to manage your fields and bookings."
+            title="Bermitra dengan FieldMax"
+            description="Buat akun Pemilik Venue untuk mengelola lapangan dan pemesanan Anda."
             imageSrc="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop"
-            quote="Great things in business are never done by one person."
+            quote="Hal besar dalam bisnis tidak pernah dilakukan oleh satu orang saja."
             author="Steve Jobs"
         >
             <Form {...form}>
@@ -47,21 +47,21 @@ export default function RenterRegisterPage() {
                     <InputField
                         control={form.control}
                         name="fullName"
-                        label="Full Name / Business Name"
-                        placeholder="Venue Owner Name"
+                        label="Nama Lengkap / Nama Bisnis"
+                        placeholder="Nama Pemilik Venue"
                         required
                     />
                     <InputField
                         control={form.control}
                         name="email"
-                        label="Business Email"
-                        placeholder="owner@venue.com"
+                        label="Email Bisnis"
+                        placeholder="pemilik@venue.com"
                         required
                     />
                     <InputField
                         control={form.control}
                         name="password"
-                        label="Password"
+                        label="Kata Sandi"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -69,7 +69,7 @@ export default function RenterRegisterPage() {
                     <InputField
                         control={form.control}
                         name="confirmPassword"
-                        label="Confirm Password"
+                        label="Konfirmasi Kata Sandi"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -80,8 +80,8 @@ export default function RenterRegisterPage() {
                         disabled={isPending}
                     >
                         {isPending
-                            ? "Creating Account..."
-                            : "Register as Venue Owner"}
+                            ? "Membuat Akun..."
+                            : "Daftar sebagai Pemilik Venue"}
                     </Button>
                 </form>
             </Form>
@@ -91,17 +91,17 @@ export default function RenterRegisterPage() {
                     href="/login"
                     className="hover:text-brand underline underline-offset-4"
                 >
-                    Already have an account? Log in
+                    Sudah punya akun? Masuk
                 </Link>
             </p>
 
             <div className="text-center text-xs text-muted-foreground mt-4">
-                Not a venue owner?{" "}
+                Bukan pemilik venue?{" "}
                 <Link
                     href="/register"
                     className="hover:text-primary font-medium underline underline-offset-4"
                 >
-                    Register as Player
+                    Daftar sebagai Pemain
                 </Link>
             </div>
         </AuthLayout>

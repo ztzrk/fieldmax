@@ -40,15 +40,15 @@ export default function RenterFieldsPage() {
     if (isError || !data)
         return (
             <div className="flex items-center justify-center p-8 text-red-500">
-                Failed to load fields.
+                Gagal memuat data lapangan.
             </div>
         );
 
     return (
         <div className="space-y-6">
             <PageHeader
-                title="My Fields"
-                description="View and manage all your fields across all venues."
+                title="Lapangan Saya"
+                description="Lihat dan kelola seluruh lapangan Anda di semua venue."
             />
             <DataTable
                 columns={renterAllFieldColumns}

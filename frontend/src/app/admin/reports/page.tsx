@@ -26,14 +26,14 @@ export default function AdminReportsPage() {
     );
 
     if (isLoading) return <FullScreenLoader />;
-    if (isError) return <p className="text-red-500">Error loading data.</p>;
+    if (isError) return <p className="text-red-500">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
         <AdminPageWrapper
-            title="Manage Reports"
-            subtitle="View and resolve user reports."
+            title="Kelola Laporan"
+            subtitle="Tinjau dan selesaikan laporan pengguna."
         >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent className="p-6">

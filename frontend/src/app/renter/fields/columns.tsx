@@ -30,10 +30,10 @@ const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link href={`/renter/fields/${field.id}`}>
-                        Edit Details
+                        Edit Detail
                     </Link>
                 </DropdownMenuItem>
                 <ConfirmationDialog
@@ -42,11 +42,11 @@ const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
                             className="text-red-500"
                             onSelect={(e) => e.preventDefault()}
                         >
-                            Delete
+                            Hapus
                         </DropdownMenuItem>
                     }
-                    title="Are you sure?"
-                    description={`This will permanently delete the "${field.name}" field.`}
+                    title="Apakah Anda yakin?"
+                    description={`Tindakan ini akan menghapus lapangan "${field.name}" secara permanen.`}
                     onConfirm={() => deleteField(field.id)}
                 />
             </DropdownMenuContent>
@@ -72,14 +72,14 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,
@@ -103,11 +103,11 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "name",
-        header: "Field Name",
+        header: "Nama Lapangan",
     },
     {
         accessorKey: "sportType.name",
-        header: "Sport Type",
+        header: "Cabang Olahraga",
     },
     {
         accessorKey: "venue.name",
@@ -115,7 +115,7 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "pricePerHour",
-        header: "Price / Hour",
+        header: "Harga / Jam",
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
             const formatted = new Intl.NumberFormat("id-ID", {
@@ -130,13 +130,13 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "isClosed",
-        header: () => <div className="text-center">Availability</div>,
+        header: () => <div className="text-center">Ketersediaan</div>,
         cell: ({ row }) => {
             const isClosed = row.getValue("isClosed");
             return (
                 <div className="flex justify-center">
                     <Badge variant={isClosed ? "destructive" : "outline"}>
-                        {isClosed ? "Closed" : "Open"}
+                        {isClosed ? "Tutup" : "Buka"}
                     </Badge>
                 </div>
             );
@@ -163,7 +163,7 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell field={row.original} />

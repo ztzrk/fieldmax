@@ -82,16 +82,16 @@ export function useCreateField() {
     return useMutation({
         mutationFn: (data: FieldFormSchema) => FieldService.create(data),
         onSuccess: () => {
-            toast.success("Field created successfully!");
+            toast.success("Lapangan berhasil dibuat!");
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to create field.";
+            let errorMessage = "Gagal membuat lapangan.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -110,19 +110,19 @@ export function useUpdateField(fieldId: string) {
         mutationFn: (data: FieldFormSchema) =>
             FieldService.update(fieldId, data),
         onSuccess: () => {
-            toast.success("Field updated successfully!");
+            toast.success("Lapangan berhasil diperbarui!");
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.fields.detail(fieldId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to update field.";
+            let errorMessage = "Gagal memperbarui lapangan.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -140,16 +140,16 @@ export function useDeleteField() {
     return useMutation({
         mutationFn: (id: string) => FieldService.delete(id),
         onSuccess: () => {
-            toast.success("Field deleted successfully.");
+            toast.success("Lapangan berhasil dihapus.");
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete field.";
+            let errorMessage = "Gagal menghapus lapangan.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -169,19 +169,19 @@ export function useDeleteMultipleFields() {
         mutationFn: (ids: string[]) => FieldService.deleteMultiple(ids),
 
         onSuccess: () => {
-            toast.success("Fields deleted successfully.");
+            toast.success("Lapangan berhasil dihapus.");
 
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
         },
 
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete fields.";
+            let errorMessage = "Gagal menghapus lapangan.";
 
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -202,7 +202,7 @@ export function useApproveField(fieldId: string) {
         mutationFn: () => FieldService.approve(fieldId),
 
         onSuccess: () => {
-            toast.success("Field approved successfully!");
+            toast.success("Lapangan berhasil disetujui!");
 
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
 
@@ -212,7 +212,7 @@ export function useApproveField(fieldId: string) {
         },
 
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to approve field.";
+            let errorMessage = "Gagal menyetujui lapangan.";
 
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
@@ -235,7 +235,7 @@ export function useRejectField(fieldId: string) {
             FieldService.reject(fieldId, rejectionReason),
 
         onSuccess: () => {
-            toast.success("Field rejected successfully!");
+            toast.success("Lapangan berhasil ditolak!");
 
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
 
@@ -245,7 +245,7 @@ export function useRejectField(fieldId: string) {
         },
 
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to reject field.";
+            let errorMessage = "Gagal menolak lapangan.";
 
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
@@ -267,7 +267,7 @@ export function useResubmitField(fieldId: string) {
         mutationFn: () => FieldService.resubmit(fieldId),
 
         onSuccess: () => {
-            toast.success("Field resubmitted successfully!");
+            toast.success("Lapangan berhasil diajukan ulang!");
 
             queryClient.invalidateQueries({ queryKey: queryKeys.fields._def });
 
@@ -277,7 +277,7 @@ export function useResubmitField(fieldId: string) {
         },
 
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to resubmit field.";
+            let errorMessage = "Gagal mengajukan ulang lapangan.";
 
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
@@ -300,7 +300,7 @@ export function useUploadFieldPhotos(fieldId: string) {
             FieldService.uploadPhotos(fieldId, files),
 
         onSuccess: () => {
-            toast.success("Photos uploaded successfully!");
+            toast.success("Foto berhasil diunggah!");
 
             queryClient.invalidateQueries({
                 queryKey: queryKeys.fields.detail(fieldId),
@@ -308,7 +308,7 @@ export function useUploadFieldPhotos(fieldId: string) {
         },
 
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to upload photos.";
+            let errorMessage = "Gagal mengunggah foto.";
 
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
@@ -330,7 +330,7 @@ export function useDeleteFieldPhoto(fieldId: string) {
         mutationFn: (photoId: string) => FieldService.deletePhoto(photoId),
 
         onSuccess: () => {
-            toast.success("Photo deleted successfully.");
+            toast.success("Foto berhasil dihapus.");
 
             queryClient.invalidateQueries({
                 queryKey: queryKeys.fields.detail(fieldId),
@@ -338,7 +338,7 @@ export function useDeleteFieldPhoto(fieldId: string) {
         },
 
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete photo.";
+            let errorMessage = "Gagal menghapus foto.";
 
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;

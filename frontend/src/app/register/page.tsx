@@ -39,9 +39,9 @@ export default function UserRegisterPage() {
 
     return (
         <AuthLayout
-            title="Create an account"
-            description="Enter your details to get started"
-            quote="You miss 100% of the shots you don't take."
+            title="Buat Akun"
+            description="Masukkan data Anda untuk memulai"
+            quote="Anda melewatkan 100% tembakan yang tidak Anda ambil."
             author="Wayne Gretzky"
             imageSrc="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop"
         >
@@ -53,21 +53,21 @@ export default function UserRegisterPage() {
                     <InputField
                         control={form.control}
                         name="fullName"
-                        label="Full Name"
-                        placeholder="John Doe"
+                        label="Nama Lengkap"
+                        placeholder="Budi Santoso"
                         required
                     />
                     <InputField
                         control={form.control}
                         name="email"
                         label="Email"
-                        placeholder="name@example.com"
+                        placeholder="nama@contoh.com"
                         required
                     />
                     <InputField
                         control={form.control}
                         name="password"
-                        label="Password"
+                        label="Kata Sandi"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -75,7 +75,7 @@ export default function UserRegisterPage() {
                     <InputField
                         control={form.control}
                         name="confirmPassword"
-                        label="Confirm Password"
+                        label="Konfirmasi Kata Sandi"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -85,7 +85,7 @@ export default function UserRegisterPage() {
                         className="w-full h-11 mt-2"
                         disabled={isPending}
                     >
-                        {isPending ? "Creating Account..." : "Create Account"}
+                        {isPending ? "Membuat Akun..." : "Buat Akun"}
                     </Button>
                 </form>
             </Form>
@@ -95,17 +95,17 @@ export default function UserRegisterPage() {
                     href="/login"
                     className="hover:text-brand underline underline-offset-4"
                 >
-                    Already have an account? Sign In
+                    Sudah punya akun? Masuk
                 </Link>
             </p>
 
             <div className="text-center text-xs text-muted-foreground mt-4">
-                Own a sports venue?{" "}
+                Punya venue olahraga?{" "}
                 <Link
                     href="/register/renter"
                     className="hover:text-primary font-medium underline underline-offset-4"
                 >
-                    Register as Partner
+                    Daftar sebagai Mitra
                 </Link>
             </div>
         </AuthLayout>

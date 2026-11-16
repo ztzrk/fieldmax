@@ -95,9 +95,9 @@ async function runConcurrencyTest() {
     if (resultA.status === "fulfilled") {
         successCount++;
         console.log(`✅ [User A - ${userA.fullName}]: BERHASIL`);
-        console.log(`   └─ Booking ID : ${resultA.value.id}`);
-        console.log(`   └─ Status     : ${resultA.value.status}`);
-        console.log(`   └─ Total Bayar: Rp ${resultA.value.totalPrice.toLocaleString("id-ID")}`);
+        console.log(`   └─ Booking ID : ${resultA.value.booking.id}`);
+        console.log(`   └─ Status     : ${resultA.value.booking.status}`);
+        console.log(`   └─ Total Bayar: Rp ${resultA.value.booking.totalPrice.toLocaleString("id-ID")}`);
     } else {
         conflictCount++;
         console.log(`❌ [User A - ${userA.fullName}]: DITOLAK (DICEGAH)`);
@@ -108,9 +108,9 @@ async function runConcurrencyTest() {
     if (resultB.status === "fulfilled") {
         successCount++;
         console.log(`✅ [User B - ${userB.fullName}]: BERHASIL`);
-        console.log(`   └─ Booking ID : ${resultB.value.id}`);
-        console.log(`   └─ Status     : ${resultB.value.status}`);
-        console.log(`   └─ Total Bayar: Rp ${resultB.value.totalPrice.toLocaleString("id-ID")}`);
+        console.log(`   └─ Booking ID : ${resultB.value.booking.id}`);
+        console.log(`   └─ Status     : ${resultB.value.booking.status}`);
+        console.log(`   └─ Total Bayar: Rp ${resultB.value.booking.totalPrice.toLocaleString("id-ID")}`);
     } else {
         conflictCount++;
         console.log(`❌ [User B - ${userB.fullName}]: DITOLAK (DICEGAH)`);

@@ -31,10 +31,10 @@ const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link href={`/admin/fields/${field.id}/edit`}>
-                        Edit Details
+                        Edit Detail
                     </Link>
                 </DropdownMenuItem>
                 <ConfirmationDialog
@@ -43,11 +43,11 @@ const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
                             className="text-red-500"
                             onSelect={(e) => e.preventDefault()}
                         >
-                            Delete
+                            Hapus
                         </DropdownMenuItem>
                     }
-                    title="Are you sure?"
-                    description={`This will permanently delete the "${field.name}" field.`}
+                    title="Apakah Anda yakin?"
+                    description={`Tindakan ini akan menghapus lapangan "${field.name}" secara permanen.`}
                     onConfirm={() => deleteField(field.id)}
                 />
             </DropdownMenuContent>
@@ -71,14 +71,14 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,

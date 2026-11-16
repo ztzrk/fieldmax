@@ -20,27 +20,27 @@ export const renterNavItems: NavItem[] = [
         icon: LayoutDashboard,
     },
     {
-        title: "My Venues",
+        title: "Tempat Olahraga Saya",
         url: "/renter/venues",
         icon: Building,
     },
     {
-        title: "My Fields",
+        title: "Lapangan Saya",
         url: "/renter/fields",
         icon: List,
     },
     {
-        title: "Bookings",
+        title: "Pemesanan",
         url: "/renter/bookings",
         icon: FileText,
     },
     {
-        title: "Revenue",
+        title: "Pendapatan",
         url: "/renter/revenue",
         icon: DollarSign,
     },
     {
-        title: "Support",
+        title: "Bantuan",
         url: "/renter/reports",
         icon: MessageSquareWarning,
     },

@@ -20,11 +20,11 @@ export function CreateUserButton() {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>Create User</Button>
+                <Button>Tambah Pengguna</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Create New User</DialogTitle>
+                    <DialogTitle>Tambah Pengguna Baru</DialogTitle>
                 </DialogHeader>
                 <UserForm
                     key={isOpen ? "open" : "closed"}

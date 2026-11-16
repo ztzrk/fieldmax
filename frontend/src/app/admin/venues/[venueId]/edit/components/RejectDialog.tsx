@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 const rejectionSchema = z.object({
     rejectionReason: z
         .string()
-        .min(10, { message: "Reason must be at least 10 characters." }),
+        .min(10, { message: "Alasan minimal 10 karakter." }),
 });
 
 /**
@@ -57,15 +57,15 @@ export function RejectDialog({ venueId }: { venueId: string }) {
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button variant="destructive" size="sm">
-                    Reject
+                    Tolak
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Reject this venue?</DialogTitle>
+                    <DialogTitle>Tolak venue ini?</DialogTitle>
                     <DialogDescription>
-                        Please provide a reason for rejecting this venue. The
-                        renter will be notified.
+                        Harap berikan alasan penolakan untuk venue ini. Mitra
+                        akan menerima pemberitahuan.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -78,10 +78,10 @@ export function RejectDialog({ venueId }: { venueId: string }) {
                             name="rejectionReason"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Rejection Reason</FormLabel>
+                                    <FormLabel>Alasan Penolakan</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                            placeholder="e.g., Photos are blurry, address is not clear..."
+                                            placeholder="cth. Foto buram, alamat kurang jelas..."
                                             {...field}
                                         />
                                     </FormControl>
@@ -96,8 +96,8 @@ export function RejectDialog({ venueId }: { venueId: string }) {
                                 disabled={isPending}
                             >
                                 {isPending
-                                    ? "Rejecting..."
-                                    : "Confirm Rejection"}
+                                    ? "Menolak..."
+                                    : "Konfirmasi Penolakan"}
                             </Button>
                         </DialogFooter>
                     </form>

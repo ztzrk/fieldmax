@@ -20,32 +20,32 @@ export const adminNavItems: NavItem[] = [
         icon: LayoutDashboard,
     },
     {
-        title: "Users",
+        title: "Pengguna",
         url: "/admin/users",
         icon: Users,
     },
     {
-        title: "Sport Types",
+        title: "Cabang Olahraga",
         url: "/admin/sport-types",
         icon: Swords,
     },
     {
-        title: "Venues",
+        title: "Tempat Olahraga",
         url: "/admin/venues",
         icon: Building,
     },
     {
-        title: "Fields",
+        title: "Lapangan",
         url: "/admin/fields",
         icon: Swords,
     },
     {
-        title: "Bookings",
+        title: "Pemesanan",
         url: "/admin/bookings",
         icon: FileText,
     },
     {
-        title: "Reports",
+        title: "Laporan",
         url: "/admin/reports",
         icon: MessageSquareWarning,
     },

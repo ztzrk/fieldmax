@@ -93,7 +93,7 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                 <InputField
                     control={form.control}
                     name="fullName"
-                    label="Full Name"
+                    label="Nama Lengkap"
                     placeholder="Budi Setiawan"
                     required
                 />
@@ -101,30 +101,30 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                     control={form.control}
                     name="email"
                     label="Email"
-                    placeholder="budi@example.com"
+                    placeholder="budi@contoh.com"
                     type="email"
                     required
                 />
                 <InputField
                     control={form.control}
                     name="password"
-                    label="Password"
+                    label="Kata Sandi"
                     placeholder="********"
                     type="password"
                 />
                 <SelectField
                     control={form.control}
                     name="role"
-                    label="Role"
+                    label="Peran"
                     options={[
-                        { value: "USER", label: "User" },
-                        { value: "RENTER", label: "Renter" },
+                        { value: "USER", label: "Pengguna" },
+                        { value: "RENTER", label: "Mitra" },
                         { value: "ADMIN", label: "Admin" },
                     ]}
                     required
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
-                    {isPending ? "Saving..." : "Save Changes"}
+                    {isPending ? "Menyimpan..." : "Simpan Perubahan"}
                 </Button>
             </form>
         </Form>

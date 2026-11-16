@@ -44,7 +44,7 @@ const ActionsCell = ({ sportType }: { sportType: SportType }) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                     <DialogTrigger asChild>
                         <DropdownMenuItem>Edit</DropdownMenuItem>
                     </DialogTrigger>
@@ -54,18 +54,18 @@ const ActionsCell = ({ sportType }: { sportType: SportType }) => {
                                 className="text-red-500"
                                 onSelect={(e) => e.preventDefault()}
                             >
-                                Delete
+                                Hapus
                             </DropdownMenuItem>
                         }
-                        title="Are you sure?"
-                        description={`This will permanently delete the "${sportType.name}" sport type.`}
+                        title="Apakah Anda yakin?"
+                        description={`Tindakan ini akan menghapus cabang olahraga "${sportType.name}" secara permanen.`}
                         onConfirm={() => deleteSportType(sportType.id)}
                     />
                 </DropdownMenuContent>
             </DropdownMenu>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Edit Sport Type</DialogTitle>
+                    <DialogTitle>Edit Cabang Olahraga</DialogTitle>
                 </DialogHeader>
                 <SportTypeForm
                     initialData={{
@@ -100,14 +100,14 @@ export const columns: ColumnDef<SportType>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,
@@ -141,7 +141,7 @@ export const columns: ColumnDef<SportType>[] = [
                     }
                     className="p-0 hover:bg-transparent"
                 >
-                    Name
+                    Nama
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -156,7 +156,7 @@ export const columns: ColumnDef<SportType>[] = [
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         size: 80,
         cell: ({ row }) => (
             <div className="flex justify-center">

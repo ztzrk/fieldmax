@@ -56,18 +56,18 @@ export function VenueActions({
                                             size="sm"
                                             disabled={!isApprovable}
                                         >
-                                            Approve
+                                            Setujui
                                         </Button>
                                     }
-                                    title="Approve this venue?"
-                                    description="This venue will become public and bookable."
+                                    title="Setujui venue ini?"
+                                    description="Venue ini akan tampil publik dan dapat dipesan."
                                     onConfirm={() => approveVenue()}
                                 />
                             </span>
                         </TooltipTrigger>
                         {!isApprovable && (
                             <TooltipContent>
-                                <p>Requires at least 3 photos to approve.</p>
+                                <p>Memerlukan minimal 3 foto untuk disetujui.</p>
                             </TooltipContent>
                         )}
                     </Tooltip>
@@ -82,16 +82,16 @@ export function VenueActions({
             <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="secondary" size="sm">
-                        View Rejection Reason
+                        Lihat Alasan Penolakan
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
-                            <AlertCircle /> Venue Rejected
+                            <AlertCircle /> Venue Ditolak
                         </DialogTitle>
                         <DialogDescription className="pt-4 text-foreground">
-                            {venue.rejectionReason || "No reason provided."}
+                            {venue.rejectionReason || "Tidak ada alasan yang diberikan."}
                         </DialogDescription>
                     </DialogHeader>
                 </DialogContent>

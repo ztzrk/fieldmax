@@ -32,16 +32,16 @@ export default function VenueDetailPage() {
     if (isError || !venue)
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <h2 className="text-xl font-semibold">Venue not found</h2>
+                <h2 className="text-xl font-semibold">Tempat olahraga tidak ditemukan</h2>
                 <Link href="/">
-                    <Button variant="outline">Back to Home</Button>
+                    <Button variant="outline">Kembali ke Beranda</Button>
                 </Link>
             </div>
         );
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
-        toast.success("Link copied to clipboard!");
+        toast.success("Tautan berhasil disalin!");
     };
 
     return (
@@ -54,7 +54,7 @@ export default function VenueDetailPage() {
                     className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
                 >
                     <ArrowLeft className="h-4 w-4" />
-                    Back
+                    Kembali
                 </Button>
             </div>
 
@@ -81,10 +81,10 @@ export default function VenueDetailPage() {
                                         variant="secondary"
                                         className="text-primary bg-primary/10 hover:bg-primary/20"
                                     >
-                                        In {venue.city || "City"}
+                                        Di {venue.city || "Kota"}
                                     </Badge>
                                     <Badge variant="outline">
-                                        {venue.fields.length} Fields Available
+                                        {venue.fields.length} Lapangan Tersedia
                                     </Badge>
                                 </div>
                                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
@@ -106,7 +106,7 @@ export default function VenueDetailPage() {
                                 size="icon"
                                 onClick={handleShare}
                                 className="shrink-0 rounded-full"
-                                title="Share Venue"
+                                title="Bagikan Tempat Olahraga"
                             >
                                 <Share2 className="h-4 w-4" />
                             </Button>
@@ -114,11 +114,11 @@ export default function VenueDetailPage() {
 
                         <div className="prose prose-slate max-w-none text-muted-foreground">
                             <h3 className="text-xl font-semibold text-foreground mb-3">
-                                About this Venue
+                                Tentang Tempat Olahraga Ini
                             </h3>
                             <p className="leading-relaxed whitespace-pre-line">
                                 {venue.description ||
-                                    "No description available for this venue."}
+                                    "Belum ada deskripsi untuk tempat olahraga ini."}
                             </p>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default function VenueDetailPage() {
                     {/* Available Fields Section */}
                     <section>
                         <h2 className="text-2xl font-bold tracking-tight mb-6">
-                            Available Fields ({venue.fields.length})
+                            Lapangan Tersedia ({venue.fields.length})
                         </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                             {venue.fields.map((field) => (
@@ -161,7 +161,7 @@ export default function VenueDetailPage() {
                             <div className="text-center py-12 text-muted-foreground bg-muted/20 rounded-xl border border-dashed">
                                 <Trophy className="h-10 w-10 mx-auto mb-3 opacity-20" />
                                 <p>
-                                    No fields available in this venue currently.
+                                    Belum ada lapangan tersedia di tempat olahraga ini.
                                 </p>
                             </div>
                         )}

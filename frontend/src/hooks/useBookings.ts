@@ -31,18 +31,18 @@ export function useCreateBooking() {
             return response.data;
         },
         onSuccess: () => {
-            toast.success("Booking created. Please complete payment.");
+            toast.success("Pemesanan dibuat. Silakan selesaikan pembayaran.");
             queryClient.invalidateQueries({
                 queryKey: queryKeys.bookings._def,
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to create booking.";
+            let errorMessage = "Gagal membuat pemesanan.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }

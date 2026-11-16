@@ -42,18 +42,18 @@ export default function VenuesPage() {
                         <div>
                             <h1 className="text-2xl font-bold">
                                 {search
-                                    ? `Venues matching "${search}"`
-                                    : "All Venues"}
+                                    ? `Tempat Olahraga untuk "${search}"`
+                                    : "Semua Tempat Olahraga"}
                             </h1>
                             <span className="text-muted-foreground text-sm">
-                                {venuesData?.meta?.total || 0} venues found
+                                {venuesData?.meta?.total || 0} tempat olahraga ditemukan
                             </span>
                         </div>
                         <div className="relative w-full md:w-72">
                             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 type="search"
-                                placeholder="Search venues..."
+                                placeholder="Cari tempat olahraga..."
                                 className="pl-8 w-full"
                                 value={search}
                                 onChange={(e) => {
@@ -77,9 +77,9 @@ export default function VenuesPage() {
 
                         {!isVenuesLoading && venuesData?.data?.length === 0 && (
                             <div className="text-center py-20 text-muted-foreground bg-muted/20 rounded-lg">
-                                <p className="text-xl">No venues found.</p>
+                                <p className="text-xl">Tempat olahraga tidak ditemukan.</p>
                                 <p className="text-sm mt-2">
-                                    Try adjusting your search terms.
+                                    Coba ubah kata kunci pencarian Anda.
                                 </p>
                             </div>
                         )}
@@ -95,10 +95,10 @@ export default function VenuesPage() {
                                     }
                                     disabled={page === 1}
                                 >
-                                    Previous
+                                    Sebelumnya
                                 </Button>
                                 <span className="text-sm text-muted-foreground mx-2">
-                                    Page {page} of {totalPages}
+                                    Halaman {page} dari {totalPages}
                                 </span>
                                 <Button
                                     variant="outline"
@@ -110,7 +110,7 @@ export default function VenuesPage() {
                                     }
                                     disabled={page === totalPages}
                                 >
-                                    Next
+                                    Selanjutnya
                                 </Button>
                             </div>
                         )}

@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({
             <div className="flex items-center py-4 justify-between flex-wrap gap-2">
                 {onSearch && (
                     <Input
-                        placeholder="Search..."
+                        placeholder="Cari..."
                         value={searchValue ?? ""}
                         onChange={(event) => onSearch(event.target.value)}
                     />
@@ -133,14 +133,14 @@ export function DataTable<TData, TValue>({
                                 size="sm"
                                 className="mr-4"
                             >
-                                Delete {Object.keys(rowSelection).length}{" "}
-                                selected
+                                Hapus {Object.keys(rowSelection).length}{" "}
+                                dipilih
                             </Button>
                         }
-                        title={`Are you sure you want to delete ${
+                        title={`Yakin ingin menghapus ${
                             Object.keys(rowSelection).length
-                        } item(s)?`}
-                        description="This action cannot be undone."
+                        } item?`}
+                        description="Tindakan ini tidak dapat dibatalkan."
                         onConfirm={handleDelete}
                     />
                 )}
@@ -206,7 +206,7 @@ export function DataTable<TData, TValue>({
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    Tidak ada hasil.
                                 </TableCell>
                             </TableRow>
                         )}
@@ -215,12 +215,12 @@ export function DataTable<TData, TValue>({
             </div>
             <div className="flex flex-col md:flex-row items-center justify-between px-2 mt-4 gap-4">
                 <div className="flex-1 text-sm text-muted-foreground text-center md:text-left">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                    {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+                    {table.getFilteredRowModel().rows.length} baris dipilih.
                 </div>
                 <div className="flex items-center space-x-4 lg:space-x-8">
                     <div className="flex items-center space-x-2">
-                        <p className="text-sm font-medium">Rows per page</p>
+                        <p className="text-sm font-medium">Baris per halaman</p>
                         <Select
                             value={`${table.getState().pagination.pageSize}`}
                             onValueChange={(value) => {
@@ -246,8 +246,8 @@ export function DataTable<TData, TValue>({
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                        Page {table.getState().pagination.pageIndex + 1} of{" "}
+                    <div className="flex w-[130px] items-center justify-center text-sm font-medium">
+                        Hal {table.getState().pagination.pageIndex + 1} dari{" "}
                         {table.getPageCount()}
                     </div>
                     <div className="flex items-center space-x-2">
@@ -257,7 +257,7 @@ export function DataTable<TData, TValue>({
                             onClick={() => table.setPageIndex(0)}
                             disabled={!table.getCanPreviousPage()}
                         >
-                            <span className="sr-only">Go to first page</span>
+                            <span className="sr-only">Ke halaman pertama</span>
                             <ChevronsLeft className="h-4 w-4" />
                         </Button>
                         <Button
@@ -266,7 +266,7 @@ export function DataTable<TData, TValue>({
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
                         >
-                            <span className="sr-only">Go to previous page</span>
+                            <span className="sr-only">Ke halaman sebelumnya</span>
                             <ChevronLeft className="h-4 w-4" />
                         </Button>
                         <Button
@@ -275,7 +275,7 @@ export function DataTable<TData, TValue>({
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
                         >
-                            <span className="sr-only">Go to next page</span>
+                            <span className="sr-only">Ke halaman berikutnya</span>
                             <ChevronRight className="h-4 w-4" />
                         </Button>
                         <Button
@@ -286,7 +286,7 @@ export function DataTable<TData, TValue>({
                             }
                             disabled={!table.getCanNextPage()}
                         >
-                            <span className="sr-only">Go to last page</span>
+                            <span className="sr-only">Ke halaman terakhir</span>
                             <ChevronsRight className="h-4 w-4" />
                         </Button>
                     </div>

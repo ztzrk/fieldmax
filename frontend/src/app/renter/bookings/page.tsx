@@ -39,9 +39,9 @@ export default function RenterBookingsPage() {
             <div className="flex h-[50vh] flex-col items-center justify-center gap-4">
                 <AlertCircle className="h-10 w-10 text-destructive" />
                 <h2 className="text-xl font-semibold">
-                    Failed to load bookings
+                    Gagal memuat pemesanan
                 </h2>
-                <Button onClick={() => window.location.reload()}>Retry</Button>
+                <Button onClick={() => window.location.reload()}>Coba Lagi</Button>
             </div>
         );
     }
@@ -52,8 +52,8 @@ export default function RenterBookingsPage() {
 
     return (
         <AdminPageWrapper
-            title="Bookings Management"
-            subtitle="View and manage bookings for your venues"
+            title="Manajemen Pemesanan"
+            subtitle="Lihat dan kelola pemesanan untuk tempat olahraga Anda"
         >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent>

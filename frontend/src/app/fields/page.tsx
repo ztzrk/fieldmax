@@ -63,18 +63,18 @@ function FieldsContent() {
                         <div>
                             <h1 className="text-2xl font-bold">
                                 {search
-                                    ? `Fields matching "${search}"`
-                                    : "All Fields"}
+                                    ? `Lapangan untuk "${search}"`
+                                    : "Semua Lapangan"}
                             </h1>
                             <span className="text-muted-foreground text-sm">
-                                {fieldsData?.meta?.total || 0} fields found
+                                {fieldsData?.meta?.total || 0} lapangan ditemukan
                             </span>
                         </div>
                         <div className="relative w-full md:w-72">
                             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 type="search"
-                                placeholder="Search Fields..."
+                                placeholder="Cari lapangan..."
                                 className="pl-8 w-full"
                                 value={search}
                                 onChange={(e) => {
@@ -100,7 +100,7 @@ function FieldsContent() {
                                 router.push(`/fields`);
                             }}
                         >
-                            All Sports
+                            Semua Olahraga
                         </Button>
                         {sportTypes?.map((type) => (
                             <Button
@@ -138,9 +138,9 @@ function FieldsContent() {
 
                         {!isFieldsLoading && fieldsData?.data?.length === 0 && (
                             <div className="text-center py-20 text-muted-foreground bg-muted/20 rounded-lg">
-                                <p className="text-xl">No fields found.</p>
+                                <p className="text-xl">Lapangan tidak ditemukan.</p>
                                 <p className="text-sm mt-2">
-                                    Try adjusting your filters.
+                                    Coba sesuaikan filter pencarian Anda.
                                 </p>
                             </div>
                         )}
@@ -156,10 +156,10 @@ function FieldsContent() {
                                     }
                                     disabled={page === 1}
                                 >
-                                    Previous
+                                    Sebelumnya
                                 </Button>
                                 <span className="text-sm text-muted-foreground mx-2">
-                                    Page {page} of {totalPages}
+                                    Halaman {page} dari {totalPages}
                                 </span>
                                 <Button
                                     variant="outline"
@@ -171,7 +171,7 @@ function FieldsContent() {
                                     }
                                     disabled={page === totalPages}
                                 >
-                                    Next
+                                    Selanjutnya
                                 </Button>
                             </div>
                         )}

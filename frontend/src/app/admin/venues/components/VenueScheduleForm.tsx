@@ -13,13 +13,13 @@ import {
 } from "@/components/ui/form";
 
 const DAYS = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
 ];
 
 /**
@@ -61,7 +61,7 @@ export function VenueScheduleForm() {
 
     return (
         <div className="space-y-4 border p-4 rounded-md">
-            <h3 className="font-medium">Operating Hours</h3>
+            <h3 className="font-medium">Jam Operasional</h3>
             <div className="space-y-2">
                 {DAYS.map((dayName, dayIndex) => {
                     const scheduleIndex = schedules.findIndex(
@@ -107,7 +107,7 @@ export function VenueScheduleForm() {
                                             </FormItem>
                                         )}
                                     />
-                                    <span>to</span>
+                                    <span>s/d</span>
                                     <FormField
                                         control={control}
                                         name={`schedules.${scheduleIndex}.closeTime`}

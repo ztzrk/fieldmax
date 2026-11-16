@@ -2,7 +2,7 @@ import crypto from "crypto";
 import prisma from "../db";
 import { BookingsService } from "../bookings/bookings.service";
 import { config } from "../config/env";
-import { UnauthorizedError } from "../utils/errors";
+import { UnauthorizedError, ValidationError } from "../utils/errors";
 import { logger } from "../utils/logger";
 
 export class PaymentsService {
@@ -13,12 +13,23 @@ export class PaymentsService {
     }
 
     public async handleMidtransNotification(notification: any) {
+        if (!notification || typeof notification !== "object") {
+            throw new ValidationError("Invalid Midtrans notification payload.");
+        }
+
         const orderId = notification.order_id;
         const statusCode = notification.status_code;
         const grossAmount = notification.gross_amount;
         const signatureKey = notification.signature_key;
         const transactionStatus = notification.transaction_status;
         const fraudStatus = notification.fraud_status;
+
+        if (!orderId || typeof orderId !== "string" || !statusCode || grossAmount === undefined || grossAmount === null) {
+            logger.warn(
+                `[Payment Notification] Missing required notification fields for order ${orderId}`
+            );
+            throw new ValidationError("Missing required Midtrans notification fields.");
+        }
 
         // 1. Mandatory verification of Midtrans SHA-512 signature key
         if (!signatureKey) {

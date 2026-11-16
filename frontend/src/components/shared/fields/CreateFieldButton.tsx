@@ -41,11 +41,11 @@ export function CreateFieldButton({ venueId }: CreateFieldButtonProps) {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>Create Field</Button>
+                <Button>Tambah Lapangan</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create New Field</DialogTitle>
+                    <DialogTitle>Tambah Lapangan Baru</DialogTitle>
                 </DialogHeader>
                 <FieldForm onSubmit={handleSubmit} isPending={isPending} />
             </DialogContent>

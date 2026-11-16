@@ -105,10 +105,10 @@ export default function ProfilePage() {
         return (
             <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
                 <p className="text-muted-foreground">
-                    Failed to load profile. Please make sure you are logged in.
+                    Gagal memuat profil. Pastikan Anda sudah masuk.
                 </p>
                 <Link href="/login">
-                    <Button>Go to Login</Button>
+                    <Button>Ke Halaman Login</Button>
                 </Link>
             </div>
         );
@@ -134,13 +134,13 @@ export default function ProfilePage() {
                                     variant="ghost"
                                     size="icon"
                                     className="h-10 w-10 rounded-full hover:bg-accent"
-                                    title="Back to Home"
+                                    title="Kembali ke Beranda"
                                     type="button"
                                 >
                                     <ArrowLeft className="h-6 w-6" />
                                 </Button>
                             </Link>
-                            <h1 className="text-3xl font-bold">My Profile</h1>
+                            <h1 className="text-3xl font-bold">Profil Saya</h1>
                         </div>
 
                         <div className="flex gap-2">
@@ -152,7 +152,7 @@ export default function ProfilePage() {
                                         onClick={toggleEdit}
                                         disabled={isUpdating}
                                     >
-                                        <X className="w-4 h-4 mr-2" /> Cancel
+                                        <X className="w-4 h-4 mr-2" /> Batal
                                     </Button>
                                     <Button type="submit" disabled={isUpdating}>
                                         {isUpdating ? (
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                                         ) : (
                                             <Save className="w-4 h-4 mr-2" />
                                         )}
-                                        Save Changes
+                                        Simpan Perubahan
                                     </Button>
                                 </>
                             ) : (
@@ -171,7 +171,7 @@ export default function ProfilePage() {
                                     className="group"
                                 >
                                     <Pencil className="w-4 h-4 mr-2 group-hover:text-primary transition-colors" />
-                                    Edit Profile
+                                    Edit Profil
                                 </Button>
                             )}
                         </div>
@@ -231,7 +231,7 @@ export default function ProfilePage() {
                                                 control={form.control}
                                                 name="fullName"
                                                 label=""
-                                                placeholder="Your Full Name"
+                                                placeholder="Nama Lengkap Anda"
                                             />
                                         </div>
                                     ) : (
@@ -250,7 +250,7 @@ export default function ProfilePage() {
                                         <span>{user.email}</span>
                                         <span className="flex items-center gap-1.5 text-green-600 dark:text-green-400">
                                             <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-                                            Active
+                                            Aktif
                                         </span>
                                     </div>
                                 </div>
@@ -263,7 +263,7 @@ export default function ProfilePage() {
                                 <div className="lg:col-span-2 space-y-6">
                                     <div className="space-y-4">
                                         <h3 className="text-lg font-semibold flex items-center gap-2">
-                                            About Me
+                                            Tentang Saya
                                         </h3>
 
                                         {isEditing ? (
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                                                 control={form.control}
                                                 name="bio"
                                                 label=""
-                                                placeholder="Tell us a little bit about yourself..."
+                                                placeholder="Ceritakan sedikit tentang diri Anda..."
                                                 className="min-h-[150px] resize-none"
                                             />
                                         ) : (
@@ -282,8 +282,8 @@ export default function ProfilePage() {
                                                     </p>
                                                 ) : (
                                                     <p className="text-muted-foreground/50 italic">
-                                                        No bio yet. Click edit
-                                                        to add one.
+                                                        Belum ada bio. Klik edit
+                                                        untuk menambahkan.
                                                     </p>
                                                 )}
                                             </div>
@@ -295,7 +295,7 @@ export default function ProfilePage() {
                                 <div className="space-y-6">
                                     <div className="space-y-4">
                                         <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                                            Contact Information
+                                            Informasi Kontak
                                         </h3>
 
                                         <div className="space-y-4">
@@ -305,7 +305,7 @@ export default function ProfilePage() {
                                                 </div>
                                                 <div className="flex-1 space-y-1">
                                                     <p className="font-medium text-sm">
-                                                        Phone Number
+                                                        Nomor Telepon
                                                     </p>
                                                     {isEditing ? (
                                                         <InputField
@@ -314,7 +314,7 @@ export default function ProfilePage() {
                                                             }
                                                             name="phoneNumber"
                                                             label=""
-                                                            placeholder="+1 234 567 890"
+                                                            placeholder="+62 812 3456 7890"
                                                         />
                                                     ) : (
                                                         <p className="text-muted-foreground text-sm">
@@ -331,7 +331,7 @@ export default function ProfilePage() {
                                                 </div>
                                                 <div className="flex-1 space-y-1">
                                                     <p className="font-medium text-sm">
-                                                        Address
+                                                        Alamat
                                                     </p>
                                                     {isEditing ? (
                                                         <InputField
@@ -340,7 +340,7 @@ export default function ProfilePage() {
                                                             }
                                                             name="address"
                                                             label=""
-                                                            placeholder="123 Main St, City, Country"
+                                                            placeholder="Jl. Contoh No. 123, Kota"
                                                         />
                                                     ) : (
                                                         <p className="text-muted-foreground text-sm">
@@ -356,17 +356,17 @@ export default function ProfilePage() {
 
                                     <div className="space-y-4 pt-4 border-t">
                                         <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                                            Account Info
+                                            Info Akun
                                         </h3>
                                         <div className="flex justify-between text-sm py-2">
                                             <span className="text-muted-foreground">
-                                                Member Since
+                                                Anggota Sejak
                                             </span>
                                             <span className="font-medium">
                                                 {new Date(
                                                     user.createdAt
                                                 ).toLocaleDateString(
-                                                    undefined,
+                                                    "id-ID",
                                                     {
                                                         year: "numeric",
                                                         month: "long",

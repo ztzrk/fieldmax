@@ -23,12 +23,12 @@ function CreateSportTypeButton() {
     const handleSubmit = async (data: SportTypeFormSchema) => {
         createSportType(data, {
             onSuccess: () => {
-                toast.success(`${data.name} created successfully`);
+                toast.success(`${data.name} berhasil dibuat`);
                 setIsOpen(false);
             },
             onError: (error) => {
                 toast.error(
-                    `Failed to create ${data.name} error: ${error.message}`
+                    `Gagal membuat ${data.name}: ${error.message}`
                 );
             },
         });
@@ -37,11 +37,11 @@ function CreateSportTypeButton() {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>Create Sport Type</Button>
+                <Button>Tambah Cabang Olahraga</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Create New Sport Type</DialogTitle>
+                    <DialogTitle>Tambah Cabang Olahraga Baru</DialogTitle>
                 </DialogHeader>
                 <SportTypeForm onSubmit={handleSubmit} isPending={isPending} />
             </DialogContent>

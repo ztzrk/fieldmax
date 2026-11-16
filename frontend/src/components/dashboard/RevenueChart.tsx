@@ -16,14 +16,14 @@ interface RevenueChartProps {
 
 const chartConfig = {
     total: {
-        label: "Revenue",
+        label: "Pendapatan",
         color: "hsl(var(--primary))",
     },
 } satisfies ChartConfig;
 
 export function RevenueChart({
     data,
-    title = "Revenue Overview",
+    title = "Ringkasan Pendapatan",
 }: RevenueChartProps) {
     return (
         <Card>

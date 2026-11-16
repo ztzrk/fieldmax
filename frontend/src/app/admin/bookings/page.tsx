@@ -47,9 +47,9 @@ export default function AdminBookingsPage() {
             <div className="flex h-[50vh] flex-col items-center justify-center gap-4">
                 <AlertCircle className="h-10 w-10 text-destructive" />
                 <h2 className="text-xl font-semibold">
-                    Failed to load bookings
+                    Gagal memuat pemesanan
                 </h2>
-                <Button onClick={() => window.location.reload()}>Retry</Button>
+                <Button onClick={() => window.location.reload()}>Coba Lagi</Button>
             </div>
         );
     }
@@ -60,8 +60,8 @@ export default function AdminBookingsPage() {
 
     return (
         <AdminPageWrapper
-            title="Bookings"
-            subtitle="Manage all venue reservations"
+            title="Pemesanan"
+            subtitle="Kelola seluruh reservasi venue"
         >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent>

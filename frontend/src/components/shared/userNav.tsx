@@ -81,13 +81,13 @@ export function UserNav() {
                             <DropdownMenuItem asChild>
                                 <Link href="/profile">
                                     <User className="mr-2 h-4 w-4" />
-                                    <span>Profile</span>
+                                    <span>Profil</span>
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
                                 <Link href="/bookings">
                                     <Calendar className="mr-2 h-4 w-4" />
-                                    <span>Bookings</span>
+                                    <span>Pemesanan</span>
                                 </Link>
                             </DropdownMenuItem>
                         </>
@@ -108,7 +108,7 @@ export function UserNav() {
                                     }
                                 >
                                     <MapPin className="mr-2 h-4 w-4" />
-                                    <span>Venues</span>
+                                    <span>Tempat Olahraga</span>
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
@@ -120,7 +120,7 @@ export function UserNav() {
                                     }
                                 >
                                     <Trophy className="mr-2 h-4 w-4" />
-                                    <span>Fields</span>
+                                    <span>Lapangan</span>
                                 </Link>
                             </DropdownMenuItem>
                         </>
@@ -134,13 +134,13 @@ export function UserNav() {
                             }
                         >
                             <MessageSquareWarning className="mr-2 h-4 w-4" />
-                            <span>Support</span>
+                            <span>Bantuan</span>
                         </Link>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
-                    Log out
+                    Keluar
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

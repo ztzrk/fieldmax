@@ -37,7 +37,7 @@ export function RenterVenueActions({
     const { mutate: submitVenue } = useSubmitVenue(venue.id);
 
     const photoCount = venue.photos?.length || 0;
-    const isSubmittable = photoCount >= 2;
+    const isSubmittable = photoCount >= 3;
 
     if (venue.status === "DRAFT") {
         return (
@@ -48,18 +48,18 @@ export function RenterVenueActions({
                             <ConfirmationDialog
                                 trigger={
                                     <Button disabled={!isSubmittable}>
-                                        Submit for Review
+                                        Ajukan Peninjauan
                                     </Button>
                                 }
-                                title="Submit Venue?"
-                                description="Once submitted, you cannot edit it until it is reviewed by the admin."
+                                title="Ajukan Venue?"
+                                description="Setelah diajukan, Anda tidak dapat mengeditnya hingga ditinjau oleh admin."
                                 onConfirm={() => submitVenue()}
                             />
                         </span>
                     </TooltipTrigger>
                     {!isSubmittable && (
                         <TooltipContent>
-                            <p>Add at least 2 photos to submit.</p>
+                            <p>Tambahkan minimal 3 foto untuk mengajukan.</p>
                         </TooltipContent>
                     )}
                 </Tooltip>
@@ -73,16 +73,16 @@ export function RenterVenueActions({
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="secondary" size="sm">
-                            View Rejection Reason
+                            Lihat Alasan Penolakan
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle className="flex items-center gap-2">
-                                <AlertCircle className="text-destructive" /> Venue Rejected
+                                <AlertCircle className="text-destructive" /> Venue Ditolak
                             </DialogTitle>
                             <DialogDescription className="pt-4 text-foreground">
-                                {venue.rejectionReason || "No reason provided."}
+                                {venue.rejectionReason || "Tidak ada alasan yang diberikan."}
                             </DialogDescription>
                         </DialogHeader>
                     </DialogContent>
@@ -91,11 +91,11 @@ export function RenterVenueActions({
                 <ConfirmationDialog
                     trigger={
                         <Button size="sm">
-                            Reapply (Resubmit)
+                            Ajukan Ulang
                         </Button>
                     }
-                    title="Resubmit Venue?"
-                    description="This will change the status back to PENDING for admin review. Make sure you have addressed the rejection reason."
+                    title="Ajukan Ulang Venue?"
+                    description="Status akan berubah kembali menjadi PENDING untuk ditinjau admin. Pastikan Anda telah memperbaiki alasan penolakan."
                     onConfirm={() => resubmitVenue()}
                 />
             </div>

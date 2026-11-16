@@ -36,10 +36,10 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                     <DropdownMenuItem asChild>
                         <Link href={`/renter/venues/${venue.id}`}>
-                            View & Edit Details
+                            Lihat & Edit Detail
                         </Link>
                     </DropdownMenuItem>
 
@@ -49,11 +49,11 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
                                 <DropdownMenuItem
                                     onSelect={(e) => e.preventDefault()}
                                 >
-                                    Reapply (Resubmit)
+                                    Ajukan Ulang
                                 </DropdownMenuItem>
                             }
-                            title="Resubmit Venue?"
-                            description="This will change the status back to PENDING for admin review."
+                            title="Ajukan Ulang Venue?"
+                            description="Status akan kembali menjadi PENDING untuk ditinjau admin."
                             onConfirm={() => resubmitVenue()}
                         />
                     )}
@@ -64,11 +64,11 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
                                 className="text-red-500"
                                 onSelect={(e) => e.preventDefault()}
                             >
-                                Delete
+                                Hapus
                             </DropdownMenuItem>
                         }
-                        title="Are you sure?"
-                        description={`This will permanently delete the "${venue.name}" venue.`}
+                        title="Apakah Anda yakin?"
+                        description={`Tindakan ini akan menghapus venue "${venue.name}" secara permanen.`}
                         onConfirm={() => deleteVenue(venue.id)}
                     />
                 </DropdownMenuContent>
@@ -93,14 +93,14 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,
@@ -122,10 +122,10 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
         enableSorting: false,
         enableHiding: false,
     },
-    { accessorKey: "name", header: "Name" },
+    { accessorKey: "name", header: "Nama" },
     {
         accessorKey: "address",
-        header: "Address",
+        header: "Alamat",
         size: 250,
         cell: ({ row }) => {
             const address = row.original.address;
@@ -136,7 +136,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
             );
         },
     },
-    { accessorKey: "renter.fullName", header: "Renter" },
+    { accessorKey: "renter.fullName", header: "Mitra" },
     {
         accessorKey: "status",
         header: () => <div className="text-center">Status</div>,
@@ -170,7 +170,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell venue={row.original} />

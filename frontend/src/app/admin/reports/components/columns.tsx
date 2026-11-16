@@ -20,7 +20,7 @@ export const columns: ColumnDef<Report>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Subject
+                    Subjek
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -35,7 +35,7 @@ export const columns: ColumnDef<Report>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Category
+                Kategori
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -52,7 +52,7 @@ export const columns: ColumnDef<Report>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                User
+                Pengguna
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),

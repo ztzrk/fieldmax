@@ -18,17 +18,17 @@ export default function FAQPage() {
             <section className="w-full py-16 md:py-24 bg-muted/30">
                 <div className="container mx-auto px-4 md:px-6 text-center">
                     <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                        Frequently Asked Questions
+                        Pertanyaan yang Sering Diajukan (FAQ)
                     </h1>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-                        Have questions? We're here to help. Search for answers
-                        or browse our categories below.
+                        Punya pertanyaan? Kami siap membantu. Cari jawaban atau
+                        jelajahi kategori di bawah ini.
                     </p>
 
                     <div className="relative max-w-lg mx-auto">
                         <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                         <Input
-                            placeholder="Search for answers..."
+                            placeholder="Cari jawaban..."
                             className="pl-10 h-12 bg-background shadow-sm"
                         />
                     </div>
@@ -41,42 +41,43 @@ export default function FAQPage() {
                     {/* Booking Category */}
                     <div className="space-y-6">
                         <h2 className="text-2xl font-bold tracking-tight border-b pb-2">
-                            Booking & Reservations
+                            Pemesanan &amp; Reservasi
                         </h2>
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="item-1">
                                 <AccordionTrigger>
-                                    How do I book a field?
+                                    Bagaimana cara memesan lapangan?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Booking is simple! Just browse for a venue,
-                                    select your desired date and time, and click
-                                    "Book Now". You'll receive an instant
-                                    confirmation once your reservation is
-                                    complete.
+                                    Sangat mudah! Cukup pilih tempat olahraga
+                                    dan lapangan yang diinginkan, tentukan
+                                    tanggal serta slot jam, lalu klik konfirmasi
+                                    pemesanan. Anda akan menerima konfirmasi
+                                    instan setelah pembayaran selesai.
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem value="item-2">
                                 <AccordionTrigger>
-                                    Can I cancel or reschedule my booking?
+                                    Apakah saya bisa membatalkan pemesanan?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Yes, you can cancel or reschedule up to 24
-                                    hours before your reservation time through
-                                    your "My Bookings" dashboard. Cancellations
-                                    within 24 hours are subject to the venue's
-                                    specific policy.
+                                    Ya, Anda dapat membatalkan pemesanan yang
+                                    masih berstatus menunggu pembayaran melalui
+                                    halaman Riwayat Pemesanan. Untuk pemesanan
+                                    yang sudah dibayar, ketentuan mengacu pada
+                                    kebijakan masing-masing tempat olahraga.
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem value="item-3">
                                 <AccordionTrigger>
-                                    Do I need to pay in advance?
+                                    Apakah saya harus membayar di muka?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Most venues require online payment to secure
-                                    your slot. However, some venues offer a "Pay
-                                    at Venue" option, which will be clearly
-                                    indicated during the booking process.
+                                    Ya, pembayaran dilakukan secara online
+                                    melalui Midtrans Snap (QRIS, Virtual
+                                    Account, atau e-Wallet) untuk mengunci slot
+                                    jadwal agar tidak bentrok dengan pengguna
+                                    lain.
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -85,28 +86,30 @@ export default function FAQPage() {
                     {/* Account Category */}
                     <div className="space-y-6">
                         <h2 className="text-2xl font-bold tracking-tight border-b pb-2">
-                            Account & Profile
+                            Akun &amp; Profil
                         </h2>
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="item-4">
                                 <AccordionTrigger>
-                                    How do I create an account?
+                                    Bagaimana cara membuat akun?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Click the "Sign Up" button in the top right
-                                    corner. You can register using your email or
-                                    connect via Google/Facebook for quick
-                                    access.
+                                    Klik tombol &quot;Daftar&quot; di pojok
+                                    kanan atas, isi data diri dan email Anda,
+                                    lalu masukkan kode verifikasi 6 digit yang
+                                    dikirimkan ke email Anda.
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem value="item-5">
                                 <AccordionTrigger>
-                                    I forgot my password. What should I do?
+                                    Saya lupa kata sandi. Apa yang harus saya
+                                    lakukan?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Go to the Login page and click "Forgot
-                                    Password". We'll send you a link to reset
-                                    your password securely.
+                                    Buka halaman Masuk dan klik &quot;Lupa kata
+                                    sandi?&quot;. Kami akan mengirimkan tautan ke
+                                    email Anda untuk mengatur ulang kata sandi
+                                    dengan aman.
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -115,30 +118,31 @@ export default function FAQPage() {
                     {/* Venue Owners Category */}
                     <div className="space-y-6">
                         <h2 className="text-2xl font-bold tracking-tight border-b pb-2">
-                            For Venue Owners
+                            Untuk Pemilik Tempat Olahraga
                         </h2>
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="item-6">
                                 <AccordionTrigger>
-                                    How can I list my venue on FieldMax?
+                                    Bagaimana cara mendaftarkan tempat olahraga
+                                    di FieldMax?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Becoming a partner is easy! Click "Own a
-                                    Sports Venue?" on our homepage or footer to
-                                    register as a Renter. Once approved, you can
-                                    start listing your fields and managing
-                                    bookings immediately.
+                                    Klik &quot;Daftar sebagai Mitra&quot; pada
+                                    halaman pendaftaran. Setelah akun aktif,
+                                    Anda dapat menambahkan data tempat olahraga,
+                                    foto, jadwal operasional, serta unit
+                                    lapangan untuk ditinjau oleh admin.
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem value="item-7">
                                 <AccordionTrigger>
-                                    What are the fees for listing?
+                                    Apakah ada biaya pendaftaran tempat
+                                    olahraga?
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Listing your venue is free. We charge a
-                                    small commission only on successful bookings
-                                    made through our platform. Contact our sales
-                                    team for detailed pricing structures.
+                                    Pendaftaran tempat olahraga gratis. Kami
+                                    hanya mengenakan komisi kecil pada setiap
+                                    pemesanan yang berhasil melalui platform.
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -147,14 +151,14 @@ export default function FAQPage() {
                     {/* Still Stuck Section */}
                     <div className="bg-muted/50 rounded-2xl p-8 text-center space-y-4 mt-12">
                         <h3 className="text-xl font-semibold">
-                            Still have questions?
+                            Masih punya pertanyaan?
                         </h3>
                         <p className="text-muted-foreground">
-                            Can't find the answer you're looking for? Our
-                            friendly support team is here to chat.
+                            Tidak menemukan jawaban yang Anda cari? Tim bantuan
+                            kami siap membantu Anda.
                         </p>
-                        <Link href="/contact">
-                            <Button>Contact Support</Button>
+                        <Link href="/reports">
+                            <Button>Hubungi Bantuan</Button>
                         </Link>
                     </div>
                 </div>

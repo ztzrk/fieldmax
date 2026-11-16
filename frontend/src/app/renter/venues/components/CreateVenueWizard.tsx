@@ -33,11 +33,11 @@ export function CreateVenueWizard() {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>Create New Venue</Button>
+                <Button>Tambah Tempat Olahraga Baru</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-2xl">
                 <DialogHeader>
-                    <DialogTitle>Create a New Venue</DialogTitle>
+                    <DialogTitle>Tambah Tempat Olahraga Baru</DialogTitle>
                 </DialogHeader>
 
                 <div className="p-4">

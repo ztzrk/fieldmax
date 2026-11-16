@@ -13,13 +13,13 @@ interface ScheduleDisplayProps {
 }
 
 const DAYS = [
-    { name: "Monday", value: 1 },
-    { name: "Tuesday", value: 2 },
-    { name: "Wednesday", value: 3 },
-    { name: "Thursday", value: 4 },
-    { name: "Friday", value: 5 },
-    { name: "Saturday", value: 6 },
-    { name: "Sunday", value: 0 },
+    { name: "Senin", value: 1 },
+    { name: "Selasa", value: 2 },
+    { name: "Rabu", value: 3 },
+    { name: "Kamis", value: 4 },
+    { name: "Jumat", value: 5 },
+    { name: "Sabtu", value: 6 },
+    { name: "Minggu", value: 0 },
 ];
 
 /**
@@ -44,7 +44,7 @@ export function ScheduleDisplay({ schedules }: ScheduleDisplayProps) {
     if (!schedules || schedules.length === 0) {
         return (
             <p className="text-sm text-muted-foreground italic">
-                No schedule set for this field.
+                Belum ada jadwal untuk lapangan ini.
             </p>
         );
     }
@@ -71,7 +71,7 @@ export function ScheduleDisplay({ schedules }: ScheduleDisplayProps) {
                             </div>
                         ) : (
                             <span className="text-destructive font-medium uppercase text-[10px] tracking-wider">
-                                Closed
+                                Tutup
                             </span>
                         )}
                     </div>

@@ -480,9 +480,9 @@ export class VenuesService {
             throw new ValidationError("Only draft venues can be submitted.");
         }
 
-        if (venue._count.photos < 2) {
+        if (venue._count.photos < 3) {
             throw new ValidationError(
-                "Venue must have at least 2 photos to be submitted.",
+                "Venue must have at least 3 photos to be submitted.",
             );
         }
 

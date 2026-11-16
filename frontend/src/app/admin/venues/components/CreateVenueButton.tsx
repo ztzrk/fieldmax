@@ -36,11 +36,11 @@ export function CreateVenueButton() {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>Create Venue</Button>
+                <Button>Tambah Tempat Olahraga</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create New Venue</DialogTitle>
+                    <DialogTitle>Tambah Tempat Olahraga Baru</DialogTitle>
                 </DialogHeader>
                 <VenueForm onSubmit={handleSubmit} isPending={isPending} />
             </DialogContent>

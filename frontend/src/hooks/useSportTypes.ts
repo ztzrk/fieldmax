@@ -61,7 +61,7 @@ export function useCreateSportType() {
         mutationFn: (data: SportTypeFormSchema) =>
             SportTypeService.create(data),
         onSuccess: () => {
-            toast.success("Sport Type created successfully!");
+            toast.success("Cabang olahraga berhasil dibuat!");
             queryClient.invalidateQueries({
                 queryKey: queryKeys.sportTypes._def,
             });
@@ -72,12 +72,12 @@ export function useCreateSportType() {
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to create sport type.";
+            let errorMessage = "Gagal membuat cabang olahraga.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -92,19 +92,19 @@ export function useUpdateSportType() {
         mutationFn: ({ id, data }: { id: string; data: { name: string } }) =>
             SportTypeService.update(id, data),
         onSuccess: () => {
-            toast.success("Sport Type updated successfully!");
+            toast.success("Cabang olahraga berhasil diperbarui!");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.sportTypes.all(),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to update sport type.";
+            let errorMessage = "Gagal memperbarui cabang olahraga.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -118,19 +118,19 @@ export function useDeleteSportType() {
     return useMutation({
         mutationFn: (id: string) => SportTypeService.delete(id),
         onSuccess: () => {
-            toast.success("Sport Type deleted successfully.");
+            toast.success("Cabang olahraga berhasil dihapus.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.sportTypes.all(),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete sport type.";
+            let errorMessage = "Gagal menghapus cabang olahraga.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -144,19 +144,19 @@ export function useDeleteMultipleSportTypes() {
     return useMutation({
         mutationFn: (ids: string[]) => SportTypeService.deleteMultiple(ids),
         onSuccess: () => {
-            toast.success("Sport Types deleted successfully.");
+            toast.success("Cabang olahraga berhasil dihapus.");
             queryClient.invalidateQueries({ queryKey: ["sport-types"] });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.sportTypes.all(),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete sport types.";
+            let errorMessage = "Gagal menghapus cabang olahraga.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }

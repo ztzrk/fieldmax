@@ -24,10 +24,10 @@ export function ReportActions({ report }: ReportActionsProps) {
     const handleResolve = () => {
         resolveReport(report.id, {
             onSuccess: () => {
-                toast.success("Report resolved successfully");
+                toast.success("Laporan berhasil diselesaikan");
             },
             onError: (error) => {
-                toast.error("Failed to resolve report");
+                toast.error("Gagal menyelesaikan laporan");
                 console.error(error);
             },
         });
@@ -37,15 +37,15 @@ export function ReportActions({ report }: ReportActionsProps) {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
+                    <span className="sr-only">Buka menu</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link href={`/admin/reports/${report.id}`}>
-                        View Details
+                        Lihat Detail
                     </Link>
                 </DropdownMenuItem>
                 {report.status === "PENDING" && (
@@ -55,7 +55,7 @@ export function ReportActions({ report }: ReportActionsProps) {
                         className="text-green-600 focus:text-green-700 focus:bg-green-50"
                     >
                         <CheckCircle className="mr-2 h-4 w-4" />
-                        Mark as Resolved
+                        Tandai Selesai
                     </DropdownMenuItem>
                 )}
             </DropdownMenuContent>

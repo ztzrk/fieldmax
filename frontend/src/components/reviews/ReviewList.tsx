@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
 import { StarRating } from "./StarRating";
 
 interface ReviewListProps {
@@ -31,7 +32,7 @@ export function ReviewList({
         <div className="space-y-6">
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-2 pb-4 border-b">
-                <span className="text-sm font-medium mr-2">Filter by:</span>
+                <span className="text-sm font-medium mr-2">Filter berdasarkan:</span>
                 {[5, 4, 3, 2, 1].map((rating) => (
                     <Button
                         key={rating}
@@ -55,7 +56,7 @@ export function ReviewList({
                         onClick={onClearFilter}
                         className="text-muted-foreground h-8"
                     >
-                        Clear
+                        Hapus Filter
                     </Button>
                 )}
             </div>
@@ -63,8 +64,8 @@ export function ReviewList({
             {reviews.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                     {selectedRatings.length > 0
-                        ? "No reviews found with selected filters."
-                        : "No reviews yet."}
+                        ? "Tidak ada ulasan dengan filter yang dipilih."
+                        : "Belum ada ulasan."}
                 </div>
             ) : (
                 <div className="space-y-6">
@@ -89,7 +90,7 @@ export function ReviewList({
                                     <span className="text-xs text-muted-foreground">
                                         {formatDistanceToNow(
                                             new Date(review.createdAt),
-                                            { addSuffix: true }
+                                            { addSuffix: true, locale: idLocale }
                                         )}
                                     </span>
                                 </div>
@@ -114,10 +115,10 @@ export function ReviewList({
                         onClick={() => onPageChange(Math.max(1, meta.page - 1))}
                         disabled={meta.page === 1}
                     >
-                        Previous
+                        Sebelumnya
                     </Button>
                     <span className="flex items-center text-sm text-muted-foreground px-2">
-                        Page {meta.page} of {meta.totalPages}
+                        Halaman {meta.page} dari {meta.totalPages}
                     </span>
                     <Button
                         variant="outline"
@@ -129,7 +130,7 @@ export function ReviewList({
                         }
                         disabled={meta.page === meta.totalPages}
                     >
-                        Next
+                        Selanjutnya
                     </Button>
                 </div>
             )}

@@ -66,8 +66,8 @@ export function ImageUploader({ onUpload, isUploading }: ImageUploaderProps) {
             try {
                 await onUpload(files);
             } catch (error) {
-                toast.error(`Upload failed ${error}`, {
-                    description: "Please try again later.",
+                toast.error(`Gagal mengunggah ${error}`, {
+                    description: "Silakan coba lagi nanti.",
                 });
             } finally {
                 setFiles([]);
@@ -87,14 +87,14 @@ export function ImageUploader({ onUpload, isUploading }: ImageUploaderProps) {
                 <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
                 <p className="text-center text-muted-foreground">
                     {isDragActive
-                        ? "Drop the files here ..."
-                        : "Drag & drop some files here, or click to select files"}
+                        ? "Lepaskan file di sini..."
+                        : "Seret & lepaskan file di sini, atau klik untuk memilih file"}
                 </p>
             </div>
 
             {files.length > 0 && (
                 <div className="space-y-2">
-                    <h4 className="font-medium">Selected Files:</h4>
+                    <h4 className="font-medium">File Terpilih:</h4>
                     <ul className="space-y-2">
                         {files.map((file, index) => (
                             <li
@@ -138,8 +138,8 @@ export function ImageUploader({ onUpload, isUploading }: ImageUploaderProps) {
                 className="w-full"
             >
                 {isUploading
-                    ? `Uploading ${files.length} files...`
-                    : `Upload ${files.length} Image(s)`}
+                    ? `Mengunggah ${files.length} file...`
+                    : `Unggah ${files.length} Gambar`}
             </Button>
         </div>
     );

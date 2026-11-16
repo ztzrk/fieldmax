@@ -66,16 +66,16 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Field Status</CardTitle>
+                <CardTitle>Status Lapangan</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="flex items-center space-x-2">
-                    <p>Current Status:</p>
+                    <p>Status Saat Ini:</p>
                     <StatusBadge status={field.status} />
                 </div>
                 {field.status === "REJECTED" && field.rejectionReason && (
                     <div className="text-red-500">
-                        <p className="font-semibold">Rejection Reason:</p>
+                        <p className="font-semibold">Alasan Penolakan:</p>
                         <p>{field.rejectionReason}</p>
                     </div>
                 )}
@@ -88,7 +88,7 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
                                 disabled={isApproving}
                                 variant="outline"
                             >
-                                {isApproving ? "Approving..." : "Approve"}
+                                {isApproving ? "Menyetujui..." : "Setujui"}
                             </Button>
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
@@ -96,23 +96,22 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
                                         variant="destructive"
                                         disabled={isRejecting}
                                     >
-                                        Reject
+                                        Tolak
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Are you sure you want to reject this
-                                            field?
+                                            Yakin ingin menolak lapangan ini?
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            Please provide a reason for
-                                            rejection. This will be shown to the
-                                            renter.
+                                            Harap berikan alasan penolakan.
+                                            Alasan ini akan ditampilkan kepada
+                                            mitra.
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <Textarea
-                                        placeholder="Type your message here."
+                                        placeholder="Tulis alasan penolakan di sini."
                                         value={rejectionReason}
                                         onChange={(e) =>
                                             setRejectionReason(e.target.value)
@@ -120,7 +119,7 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
                                     />
                                     <AlertDialogFooter>
                                         <AlertDialogCancel>
-                                            Cancel
+                                            Batal
                                         </AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={handleReject}
@@ -130,8 +129,8 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
                                             }
                                         >
                                             {isRejecting
-                                                ? "Rejecting..."
-                                                : "Confirm Reject"}
+                                                ? "Menolak..."
+                                                : "Konfirmasi Penolakan"}
                                         </AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
@@ -144,10 +143,10 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
                             disabled={isResubmitting}
                         >
                             {isResubmitting
-                                ? "Resubmitting..."
+                                ? "Mengajukan Ulang..."
                                 : role === "ADMIN"
-                                ? "Mark as Pending"
-                                : "Resubmit for Review"}
+                                ? "Tandai Menunggu"
+                                : "Ajukan Ulang untuk Ditinjau"}
                         </Button>
                     )}
                 </div>

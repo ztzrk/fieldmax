@@ -43,14 +43,14 @@ export default function AdminFieldsPage() {
     if (isError || !data)
         return (
             <div className="flex items-center justify-center p-8 text-red-500">
-                Failed to load fields.
+                Gagal memuat data lapangan.
             </div>
         );
 
     return (
         <AdminPageWrapper
-            title="Manage Fields"
-            subtitle="View and manage all fields in the system."
+            title="Kelola Lapangan"
+            subtitle="Lihat dan kelola seluruh lapangan di dalam sistem."
         >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent className="p-6">

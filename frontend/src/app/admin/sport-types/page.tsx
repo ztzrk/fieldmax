@@ -39,14 +39,14 @@ export default function AdminSportTypesPage() {
     };
 
     if (isLoading || isDeleting) return <FullScreenLoader />;
-    if (isError) return <p className="text-red-500">Error loading data.</p>;
+    if (isError) return <p className="text-red-500">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
         <AdminPageWrapper
-            title="Sport Types"
-            subtitle="Manage available sport types."
+            title="Cabang Olahraga"
+            subtitle="Kelola daftar cabang olahraga yang tersedia."
             actions={<CreateSportTypeButton />}
         >
             <Card className="rounded-xl border-border/50 shadow-sm">

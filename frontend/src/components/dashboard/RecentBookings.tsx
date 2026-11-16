@@ -38,16 +38,16 @@ export function RecentBookings({ bookings }: RecentBookingsProps) {
     return (
         <Card className="col-span-1 lg:col-span-2">
             <CardHeader>
-                <CardTitle>Recent Bookings</CardTitle>
+                <CardTitle>Pemesanan Terbaru</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>User</TableHead>
-                                <TableHead>Venue/Field</TableHead>
-                                <TableHead>Amount</TableHead>
+                                <TableHead>Pengguna</TableHead>
+                                <TableHead>Tempat Olahraga / Lapangan</TableHead>
+                                <TableHead>Total</TableHead>
                                 <TableHead>Status</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -98,7 +98,7 @@ export function RecentBookings({ bookings }: RecentBookingsProps) {
                                         colSpan={4}
                                         className="text-center h-24 text-muted-foreground"
                                     >
-                                        No recent bookings found.
+                                        Belum ada pemesanan terbaru.
                                     </TableCell>
                                 </TableRow>
                             )}

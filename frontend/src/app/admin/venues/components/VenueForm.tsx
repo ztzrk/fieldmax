@@ -83,29 +83,29 @@ export function VenueForm({
                 <InputField
                     control={form.control}
                     name="name"
-                    label="Venue Name"
+                    label="Nama Tempat Olahraga"
                     placeholder="Bintang Futsal"
                     required
                 />
                 <InputField
                     control={form.control}
                     name="address"
-                    label="Address"
-                    placeholder="Kalibaru Street No. 10"
+                    label="Alamat"
+                    placeholder="Jl. Kalibaru No. 10"
                     required
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         control={form.control}
                         name="city"
-                        label="City"
+                        label="Kota"
                         placeholder="Surabaya"
                         required
                     />
                     <InputField
                         control={form.control}
                         name="district"
-                        label="District"
+                        label="Kecamatan"
                         placeholder="Rungkut"
                         required
                     />
@@ -114,14 +114,14 @@ export function VenueForm({
                     <InputField
                         control={form.control}
                         name="province"
-                        label="Province"
-                        placeholder="East Java"
+                        label="Provinsi"
+                        placeholder="Jawa Timur"
                         required
                     />
                     <InputField
                         control={form.control}
                         name="postalCode"
-                        label="Postal Code"
+                        label="Kode Pos"
                         placeholder="60293"
                         required
                     />
@@ -130,22 +130,22 @@ export function VenueForm({
                 <InputField
                     control={form.control}
                     name="description"
-                    label="Description"
-                    placeholder="A brief description about the venue"
+                    label="Deskripsi"
+                    placeholder="Deskripsi singkat tentang tempat olahraga"
                 />
                 {isAdmin && (
                     <ComboboxField
                         control={form.control}
                         name="renterId"
-                        label="Renter"
-                        placeholder="Select a renter"
+                        label="Mitra"
+                        placeholder="Pilih mitra"
                         options={renters}
                         onSearchChange={setRenterSearch}
                     />
                 )}
                 <VenueScheduleForm />
                 <Button type="submit" disabled={isPending} className="w-full">
-                    {isPending ? "Saving..." : "Save"}
+                    {isPending ? "Menyimpan..." : "Simpan"}
                 </Button>
             </form>
         </Form>

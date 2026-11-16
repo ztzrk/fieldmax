@@ -37,12 +37,12 @@ export function SportTypeForm({
                 <InputField
                     control={form.control}
                     name="name"
-                    label="Name"
-                    placeholder="e.g. Football"
+                    label="Nama"
+                    placeholder="cth. Sepak Bola"
                     required
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
-                    {isPending ? "Saving..." : "Save"}
+                    {isPending ? "Menyimpan..." : "Simpan"}
                 </Button>
             </form>
         </Form>

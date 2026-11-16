@@ -11,8 +11,8 @@ export function RenterSidebar() {
     return (
         <AppSidebar
             items={renterNavItems}
-            consoleTitle="Renter Console"
-            userRoleLabel="Renter"
+            consoleTitle="Panel Mitra"
+            userRoleLabel="Mitra"
         />
     );
 }

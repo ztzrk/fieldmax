@@ -62,7 +62,7 @@ export default function FieldDetailPage() {
         }
 
         if (user.role !== "USER") {
-            toast.error("Booking is restricted to Users only.");
+            toast.error("Pemesanan hanya dapat dilakukan oleh pengguna (User).");
             return;
         }
 
@@ -84,7 +84,7 @@ export default function FieldDetailPage() {
                     className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
                 >
                     <ArrowLeft className="h-4 w-4" />
-                    Back
+                    Kembali
                 </Button>
             </div>
 
@@ -101,7 +101,7 @@ export default function FieldDetailPage() {
                                 {field.sportType.name}
                             </Badge>
                             {field.isClosed && (
-                                <Badge variant="destructive">Closed</Badge>
+                                <Badge variant="destructive">Tutup</Badge>
                             )}
                         </div>
                         <h1 className="text-3xl font-bold tracking-tight">
@@ -148,7 +148,7 @@ export default function FieldDetailPage() {
                                                 variant="destructive"
                                                 className="rounded-full px-3 py-1"
                                             >
-                                                Closed
+                                                Tutup
                                             </Badge>
                                         )}
                                         <div className="flex items-center gap-1 text-sm text-foreground font-medium ml-2">
@@ -159,7 +159,7 @@ export default function FieldDetailPage() {
                                             </span>
                                             <span className="text-muted-foreground">
                                                 ({field.reviewCount || 0}{" "}
-                                                reviews)
+                                                ulasan)
                                             </span>
                                         </div>
                                     </div>
@@ -187,11 +187,11 @@ export default function FieldDetailPage() {
                         {/* Description */}
                         <div className="space-y-4">
                             <h3 className="text-xl font-semibold border-b pb-2">
-                                About this Field
+                                Tentang Lapangan Ini
                             </h3>
                             <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
                                 {field.description ||
-                                    "No description available for this field."}
+                                    "Belum ada deskripsi untuk lapangan ini."}
                             </p>
                         </div>
 
@@ -200,7 +200,7 @@ export default function FieldDetailPage() {
                             <div className="flex items-center gap-2 mb-2">
                                 <CalendarDays className="h-5 w-5 text-primary" />
                                 <h3 className="text-xl font-semibold">
-                                    Weekly Schedule
+                                    Jadwal Mingguan
                                 </h3>
                             </div>
                             <Card className="bg-muted/30 border-none shadow-none">
@@ -216,7 +216,7 @@ export default function FieldDetailPage() {
                         <div className="space-y-6 pt-6 border-t">
                             <div className="flex items-center justify-between">
                                 <h3 className="text-2xl font-semibold">
-                                    Reviews & Ratings
+                                    Ulasan & Penilaian
                                 </h3>
                             </div>
                             <ReviewList

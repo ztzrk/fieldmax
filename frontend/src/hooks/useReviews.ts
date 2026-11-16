@@ -33,7 +33,7 @@ export function useCreateReview() {
     return useMutation({
         mutationFn: (data: ReviewFormSchema) => ReviewService.create(data),
         onSuccess: () => {
-            toast.success("Review submitted successfully!");
+            toast.success("Ulasan berhasil dikirim!");
             queryClient.invalidateQueries({
                 queryKey: queryKeys.reviews._def,
             });
@@ -45,12 +45,12 @@ export function useCreateReview() {
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to submit review.";
+            let errorMessage = "Gagal mengirim ulasan.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }

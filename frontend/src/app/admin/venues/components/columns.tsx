@@ -35,10 +35,10 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                     <DropdownMenuItem asChild>
                         <Link href={`/admin/venues/${venue.id}/edit`}>
-                            View & Edit Details
+                            Lihat & Edit Detail
                         </Link>
                     </DropdownMenuItem>
 
@@ -48,11 +48,11 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
                                 className="text-red-500"
                                 onSelect={(e) => e.preventDefault()}
                             >
-                                Delete
+                                Hapus
                             </DropdownMenuItem>
                         }
-                        title="Are you sure?"
-                        description={`This will permanently delete the "${venue.name}" venue.`}
+                        title="Apakah Anda yakin?"
+                        description={`Tindakan ini akan menghapus venue "${venue.name}" secara permanen.`}
                         onConfirm={() => deleteVenue(venue.id)}
                     />
                 </DropdownMenuContent>
@@ -77,14 +77,14 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,

@@ -37,14 +37,14 @@ export default function RenterVenuesPage() {
     };
 
     if (isLoading || isDeleting) return <FullScreenLoader />;
-    if (isError) return <p className="text-destructive">Error loading data.</p>;
+    if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
         <AdminPageWrapper
-            title="My Venues"
-            subtitle="Manage all your venues and their fields."
+            title="Tempat Olahraga Saya"
+            subtitle="Kelola seluruh tempat olahraga dan lapangan Anda."
             actions={<CreateVenueWizard />}
         >
             <Card className="rounded-xl border-border/50 shadow-sm">

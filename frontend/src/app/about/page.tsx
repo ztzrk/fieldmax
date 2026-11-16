@@ -18,18 +18,19 @@ export default function AboutPage() {
                 <div className="container relative z-10 mx-auto px-4 md:px-6 text-center">
                     <div className="max-w-3xl mx-auto space-y-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
                         <div className="inline-block px-3 py-1 mb-2 text-sm font-medium bg-white/10 rounded-full backdrop-blur-sm border border-white/20">
-                            Our Story
+                            Tentang Kami
                         </div>
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                            Empowering Your <br className="hidden sm:inline" />
+                            Maksimalkan{" "}
+                            <br className="hidden sm:inline" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
-                                Game
+                                Permainan Anda
                             </span>
                         </h1>
                         <p className="mx-auto max-w-[700px] text-primary-foreground/80 md:text-xl lg:text-2xl leading-relaxed">
-                            We're on a mission to simplify sports access and
-                            build a thriving community of players and venue
-                            owners.
+                            Kami memiliki misi untuk mempermudah akses olahraga
+                            dan membangun komunitas pemain serta pemilik tempat
+                            olahraga yang solid.
                         </p>
                     </div>
                 </div>
@@ -47,20 +48,20 @@ export default function AboutPage() {
                         </div>
                         <div className="space-y-6">
                             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                                Bridging the Gap Between Players and Pitches
+                                Menjembatani Pemain dengan Lapangan Terbaik
                             </h2>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                FieldMax was born from a simple frustration:
-                                finding a quality place to play shouldn't be
-                                hard. Whether you're a casual weekend warrior or
-                                a competitive league player, the joy of the game
-                                starts with the perfect field.
+                                FieldMax lahir dari keresahan sederhana: mencari
+                                tempat bermain yang berkualitas seharusnya tidak
+                                sulit. Baik Anda pemain santai di akhir pekan
+                                maupun pemain liga kompetitif, keseruan bermain
+                                berawal dari lapangan yang tepat.
                             </p>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                We've built a platform that connects players
-                                with top-tier verified venues, streamlining the
-                                booking process so you can spend less time
-                                organizing and more time playing.
+                                Kami membangun platform yang menghubungkan
+                                pemain dengan tempat olahraga terverifikasi,
+                                menyederhanakan proses pemesanan agar Anda lebih
+                                fokus bermain daripada mengurus jadwal.
                             </p>
                             <div className="flex gap-4 pt-4">
                                 <div className="flex flex-col">
@@ -68,7 +69,7 @@ export default function AboutPage() {
                                         10k+
                                     </span>
                                     <span className="text-sm text-muted-foreground">
-                                        Bookings
+                                        Pemesanan
                                     </span>
                                 </div>
                                 <div className="w-px h-12 bg-border" />
@@ -77,7 +78,7 @@ export default function AboutPage() {
                                         500+
                                     </span>
                                     <span className="text-sm text-muted-foreground">
-                                        Venues
+                                        Tempat Olahraga
                                     </span>
                                 </div>
                                 <div className="w-px h-12 bg-border" />
@@ -86,7 +87,7 @@ export default function AboutPage() {
                                         100%
                                     </span>
                                     <span className="text-sm text-muted-foreground">
-                                        Passion
+                                        Dedikasi
                                     </span>
                                 </div>
                             </div>
@@ -100,11 +101,11 @@ export default function AboutPage() {
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-16 space-y-4">
                         <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                            Our Core Values
+                            Nilai Utama Kami
                         </h2>
                         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                            The principles that guide every feature we build and
-                            every interaction we have.
+                            Prinsip yang menuntun setiap fitur yang kami bangun
+                            dan setiap interaksi yang kami jalin.
                         </p>
                     </div>
 
@@ -112,22 +113,22 @@ export default function AboutPage() {
                         {[
                             {
                                 icon: Users,
-                                title: "Community First",
-                                desc: "We believe sport brings people together. Our platform is designed to foster connection and fair play.",
+                                title: "Utamakan Komunitas",
+                                desc: "Kami percaya olahraga menyatukan banyak orang. Platform kami dirancang untuk mempererat kebersamaan dan sportivitas.",
                                 color: "text-blue-500",
                                 bg: "bg-blue-500/10",
                             },
                             {
                                 icon: Target,
-                                title: "Excellence",
-                                desc: "We strive for high quality in everything, from the venues we verify to the code we write.",
+                                title: "Keunggulan",
+                                desc: "Kami menjaga standar kualitas tinggi pada setiap aspek, mulai dari verifikasi tempat olahraga hingga keandalan sistem.",
                                 color: "text-rose-500",
                                 bg: "bg-rose-500/10",
                             },
                             {
                                 icon: Heart,
-                                title: "Passion",
-                                desc: "We are players too. We build the tools we want to use, with genuine love for the game.",
+                                title: "Semangat Olahraga",
+                                desc: "Kami juga pemain. Kami membangun layanan yang benar-benar dibutuhkan dengan kecintaan tulus terhadap olahraga.",
                                 color: "text-amber-500",
                                 bg: "bg-amber-500/10",
                             },
@@ -160,26 +161,26 @@ export default function AboutPage() {
                 <div className="container mx-auto px-4 md:px-6 text-center">
                     <div className="max-w-2xl mx-auto space-y-8">
                         <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                            Ready to join the game?
+                            Siap memulai permainan?
                         </h2>
                         <p className="text-lg text-muted-foreground">
-                            Whether you're looking to book a court or manage
-                            one, FieldMax is here to help you succeed.
+                            Baik Anda ingin menyewa lapangan maupun mengelola
+                            tempat olahraga, FieldMax siap membantu Anda.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link href="/search">
                                 <Button size="lg" className="gap-2 h-12 px-8">
-                                    Find a Field{" "}
+                                    Cari Lapangan{" "}
                                     <ArrowRight className="h-4 w-4" />
                                 </Button>
                             </Link>
-                            <Link href="/contact">
+                            <Link href="/reports">
                                 <Button
                                     size="lg"
                                     variant="outline"
                                     className="h-12 px-8"
                                 >
-                                    Contact Us
+                                    Hubungi Kami
                                 </Button>
                             </Link>
                         </div>

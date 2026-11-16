@@ -23,13 +23,13 @@ export default function ForgotPasswordPage() {
         mutationFn: (email: string) => AuthService.forgotPassword(email),
         onSuccess: () => {
             toast.success(
-                "Password reset email sent. Please check your inbox."
+                "Email atur ulang kata sandi terkirim. Silakan periksa kotak masuk Anda."
             );
             router.push("/login"); // Redirect to login after success
         },
         onError: (error: any) => {
             toast.error(
-                error.response?.data?.message || "Something went wrong"
+                error.response?.data?.message || "Terjadi kesalahan"
             );
         },
     });
@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
         <div className="flex items-center justify-center min-h-screen relative">
             <Card className="w-[350px]">
                 <CardHeader>
-                    <CardTitle>Forgot Password</CardTitle>
+                    <CardTitle>Lupa Kata Sandi</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
                                 control={form.control}
                                 name="email"
                                 label="Email"
-                                placeholder="name@example.com"
+                                placeholder="nama@contoh.com"
                                 required
                             />
                             <Button
@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
                                 className="w-full"
                                 disabled={isPending}
                             >
-                                {isPending ? "Processing..." : "Reset Password"}
+                                {isPending ? "Memproses..." : "Atur Ulang Kata Sandi"}
                             </Button>
                         </form>
                     </Form>
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
                         href="/login"
                         className="text-sm text-muted-foreground hover:underline"
                     >
-                        Back to Login
+                        Kembali ke Login
                     </Link>
                 </div>
             </Card>

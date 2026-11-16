@@ -63,9 +63,9 @@ export function ReviewDialog({
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Write a Review</DialogTitle>
+                    <DialogTitle>Tulis Ulasan</DialogTitle>
                     <DialogDescription>
-                        Share your experience with this field.
+                        Bagikan pengalaman Anda bermain di lapangan ini.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -98,10 +98,10 @@ export function ReviewDialog({
                             name="comment"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Comment (Optional)</FormLabel>
+                                    <FormLabel>Komentar (Opsional)</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                            placeholder="Tell us more about your experience..."
+                                            placeholder="Ceritakan pengalaman Anda..."
                                             className="resize-none"
                                             {...field}
                                         />
@@ -116,10 +116,10 @@ export function ReviewDialog({
                                 variant="ghost"
                                 onClick={onClose}
                             >
-                                Cancel
+                                Batal
                             </Button>
                             <Button type="submit" disabled={isPending}>
-                                {isPending ? "Submitting..." : "Submit Review"}
+                                {isPending ? "Mengirim..." : "Kirim Ulasan"}
                             </Button>
                         </div>
                     </form>

@@ -27,8 +27,8 @@ export function useLogin() {
             setIsRedirecting(true);
             login(user);
 
-            toast.success("Login Success", {
-                description: `Welcome back, ${user.fullName}.`,
+            toast.success("Login Berhasil", {
+                description: `Selamat datang kembali, ${user.fullName}.`,
             });
 
             let targetDashboard = "/";
@@ -45,15 +45,15 @@ export function useLogin() {
             variables: LoginFormSchema
         ) => {
             setIsRedirecting(false);
-            let errorMessage = "Login failed.";
+            let errorMessage = "Login gagal.";
 
             if (
                 error.response?.status === 403 &&
                 error.response?.data?.error?.message ===
                     "Email not verified. Please verify your email."
             ) {
-                toast.error("Account not verified", {
-                    description: "Redirecting to verification page...",
+                toast.error("Akun belum diverifikasi", {
+                    description: "Mengalihkan ke halaman verifikasi...",
                 });
                 router.push(
                     `/verify-email?email=${encodeURIComponent(variables.email)}`
@@ -69,11 +69,11 @@ export function useLogin() {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
-            toast.error("Login Error", { description: errorMessage });
+            toast.error("Gagal Masuk", { description: errorMessage });
         },
     });
 
@@ -92,24 +92,24 @@ export function useRegister() {
             return response.data;
         },
         onSuccess: (variables) => {
-            toast.success("Account created successfully!", {
-                description: "A verification code has been sent to your email.",
+            toast.success("Akun berhasil dibuat!", {
+                description: "Kode verifikasi telah dikirim ke email Anda.",
             });
             router.push(
                 `/verify-email?email=${encodeURIComponent(variables.email)}`
             );
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Registration failed.";
+            let errorMessage = "Pendaftaran gagal.";
             if (error.response?.data?.error?.message) {
                 errorMessage = error.response.data.error.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
-            toast.error("Registration Error", { description: errorMessage });
+            toast.error("Gagal Mendaftar", { description: errorMessage });
         },
     });
 
@@ -131,13 +131,13 @@ export function useVerifyEmail() {
             router.push(`/login?email=${encodeURIComponent(variables.email)}`);
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Verification failed.";
+            let errorMessage = "Verifikasi gagal.";
             if (error.response?.data?.error?.message) {
                 errorMessage = error.response.data.error.message;
             } else {
                 errorMessage = error.message;
             }
-            toast.error("Verification Error", { description: errorMessage });
+            toast.error("Gagal Verifikasi", { description: errorMessage });
         },
     });
 
@@ -151,19 +151,19 @@ export function useResendCode() {
             return response.data;
         },
         onSuccess: () => {
-            toast.success("New code sent!", {
+            toast.success("Kode baru terkirim!", {
                 description:
-                    "Please check your email for the verification code.",
+                    "Silakan periksa email Anda untuk melihat kode verifikasi.",
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to resend code.";
+            let errorMessage = "Gagal mengirim ulang kode.";
             if (error.response?.data?.error?.message) {
                 errorMessage = error.response.data.error.message;
             } else {
                 errorMessage = error.message;
             }
-            toast.error("Error", { description: errorMessage });
+            toast.error("Terjadi Kesalahan", { description: errorMessage });
         },
     });
 

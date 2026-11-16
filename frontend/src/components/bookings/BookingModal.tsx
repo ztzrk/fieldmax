@@ -133,7 +133,7 @@ export function BookingModal({
         if (!selectedTime) return;
 
         if (user?.role !== "USER") {
-            toast.error("Booking is restricted to Users only.");
+            toast.error("Pemesanan hanya dapat dilakukan oleh pengguna (User).");
             return;
         }
 
@@ -196,7 +196,7 @@ export function BookingModal({
                 <div className="p-6 border-b border-border/10 bg-muted/20">
                     <DialogHeader>
                         <DialogTitle className="text-2xl font-light tracking-tight">
-                            Book{" "}
+                            Pesan{" "}
                             <span className="font-semibold text-primary">
                                 {fieldName}
                             </span>
@@ -212,7 +212,7 @@ export function BookingModal({
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
                             <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-                                Date
+                                Tanggal
                             </label>
                             <Popover>
                                 <PopoverTrigger asChild>
@@ -233,7 +233,7 @@ export function BookingModal({
                                                 "PPP"
                                             )
                                         ) : (
-                                            <span>Pick a date</span>
+                                            <span>Pilih tanggal</span>
                                         )}
                                     </Button>
                                 </PopoverTrigger>
@@ -272,7 +272,7 @@ export function BookingModal({
 
                         <div className="space-y-2">
                             <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-                                Duration
+                                Durasi
                             </label>
                             <Select
                                 value={effectiveDuration.toString()}
@@ -281,7 +281,7 @@ export function BookingModal({
                                 }
                             >
                                 <SelectTrigger className="h-11 rounded-xl border-border/50 bg-background/50 hover:bg-muted/30 transition-all">
-                                    <SelectValue placeholder="Duration" />
+                                    <SelectValue placeholder="Durasi" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {Array.from(
@@ -292,7 +292,7 @@ export function BookingModal({
                                             key={h}
                                             value={h.toString()}
                                         >
-                                            {h} Hour{h > 1 ? "s" : ""}
+                                            {h} Jam
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -303,7 +303,7 @@ export function BookingModal({
                     {/* Time Selection */}
                     <div className="space-y-3">
                         <label className="text-xs uppercase tracking-wider font-semibold text-muted-foreground flex justify-between">
-                            <span>Available Slots</span>
+                            <span>Slot Tersedia</span>
                             {selectedTime && (
                                 <span className="text-primary font-bold">
                                     {selectedTime}
@@ -369,7 +369,7 @@ export function BookingModal({
                         ) : (
                             <div className="flex flex-col items-center justify-center p-8 border border-dashed rounded-xl text-muted-foreground/50 bg-muted/5">
                                 <Clock className="h-8 w-8 mb-2 opacity-20" />
-                                <p className="text-sm">No slots available</p>
+                                <p className="text-sm">Tidak ada slot tersedia</p>
                             </div>
                         )}
                     </div>
@@ -388,19 +388,19 @@ export function BookingModal({
                                             {formatPrice(totalPrice)}
                                         </span>
                                         <span className="text-sm text-muted-foreground/80 font-medium">
-                                            / {effectiveDuration}h
+                                            / {effectiveDuration} jam
                                         </span>
                                     </div>
                                 </div>
                                 <div className="text-right relative">
                                     <p className="text-xs text-muted-foreground mb-1">
-                                        {pricePerHour.toLocaleString()} / hr
+                                        {pricePerHour.toLocaleString()} / jam
                                     </p>
                                 </div>
                             </div>
                         ) : (
                             <div className="h-[88px] flex items-center justify-center text-muted-foreground/40 text-sm italic">
-                                Select a time to calculate price
+                                Pilih waktu untuk menghitung harga
                             </div>
                         )}
 
@@ -410,7 +410,7 @@ export function BookingModal({
                                 onClick={() => handleOpenChange(false)}
                                 className="h-12 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground"
                             >
-                                Cancel
+                                Batal
                             </Button>
                             <Button
                                 disabled={!selectedTime || isCreatingBooking}
@@ -418,8 +418,8 @@ export function BookingModal({
                                 className="h-12 rounded-xl text-base font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all"
                             >
                                 {isCreatingBooking
-                                    ? "Processing..."
-                                    : "Confirm Booking"}
+                                    ? "Memproses..."
+                                    : "Konfirmasi Pemesanan"}
                             </Button>
                         </div>
                     </div>

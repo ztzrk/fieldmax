@@ -40,11 +40,11 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem
                     onClick={() => navigator.clipboard.writeText(booking.id)}
                 >
-                    Copy Booking ID
+                    Salin ID Pemesanan
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -54,7 +54,7 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
 export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "id",
-        header: "Booking ID",
+        header: "ID Pemesanan",
         cell: ({ row }) => {
             const id = row.getValue("id") as string;
             return (
@@ -69,16 +69,16 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         id: "venue_field",
-        header: "Venue / Field",
+        header: "Tempat Olahraga / Lapangan",
         cell: ({ row }) => {
             const field = row.original.field;
             return (
                 <div className="flex flex-col">
                     <span className="font-medium">
-                        {field?.venue?.name || "Unknown"}
+                        {field?.venue?.name || "Tidak diketahui"}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                        {field?.name || "Field"}
+                        {field?.name || "Lapangan"}
                     </span>
                 </div>
             );
@@ -86,7 +86,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         id: "customer",
-        header: "Customer",
+        header: "Pelanggan",
         cell: ({ row }) => {
             // Check if user object exists on the booking type.
             // The Booking type in schema might need updating if it doesn't have user info nested for list views,
@@ -114,7 +114,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         accessorKey: "bookingDate",
-        header: "Date & Time",
+        header: "Tanggal & Waktu",
         cell: ({ row }) => {
             const bookingDate = row.getValue("bookingDate") as string;
             const startTime = row.original.startTime;
@@ -139,7 +139,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         accessorKey: "paymentStatus",
-        header: "Payment",
+        header: "Pembayaran",
         cell: ({ row }) => {
             const status = row.getValue("paymentStatus") as string;
             return <Badge variant={getStatusVariant(status)}>{status}</Badge>;
@@ -147,7 +147,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         accessorKey: "totalPrice",
-        header: "Amount",
+        header: "Total",
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("totalPrice"));
             const formatted = new Intl.NumberFormat("id-ID", {

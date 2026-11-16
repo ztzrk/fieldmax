@@ -26,10 +26,10 @@ export function useUpdateProfile() {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.auth.profile(),
             });
-            toast.success("Profile updated successfully");
+            toast.success("Profil berhasil diperbarui");
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let message = "Failed to update profile";
+            let message = "Gagal memperbarui profil";
             if (error.response?.data?.message) {
                 message = error.response.data.message;
             }
@@ -47,10 +47,10 @@ export function useUploadProfilePicture() {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.auth.profile(),
             });
-            toast.success("Profile picture updated successfully");
+            toast.success("Foto profil berhasil diperbarui");
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let message = "Failed to upload profile picture";
+            let message = "Gagal mengunggah foto profil";
             if (error.response?.data?.message) {
                 message = error.response.data.message;
             }

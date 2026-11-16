@@ -40,14 +40,14 @@ export default function VenuesAndFieldsPage() {
     };
 
     if (isLoading || isDeleting) return <FullScreenLoader />;
-    if (isError) return <p className="text-destructive">Error loading data.</p>;
+    if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
         <AdminPageWrapper
-            title="Venues"
-            subtitle="Manage all venues in the system."
+            title="Tempat Olahraga"
+            subtitle="Kelola seluruh tempat olahraga di dalam sistem."
             actions={<CreateVenueButton />}
         >
             <Card className="rounded-xl border-border/50 shadow-sm">

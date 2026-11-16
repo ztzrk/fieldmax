@@ -24,12 +24,12 @@ export default function RenterProfilePage() {
     if (isError || !profileData)
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <h2 className="text-xl font-semibold">Renter Not Found</h2>
+                <h2 className="text-xl font-semibold">Mitra Tidak Ditemukan</h2>
                 <p className="text-muted-foreground">
-                    The renter profile you are looking for does not exist.
+                    Profil mitra yang Anda cari tidak tersedia.
                 </p>
                 <Link href="/">
-                    <Button variant="outline">Back to Home</Button>
+                    <Button variant="outline">Kembali ke Beranda</Button>
                 </Link>
             </div>
         );
@@ -47,7 +47,7 @@ export default function RenterProfilePage() {
                     className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors pl-0"
                 >
                     <ArrowLeft className="h-4 w-4" />
-                    Back
+                    Kembali
                 </Button>
             </div>
 
@@ -104,13 +104,13 @@ export default function RenterProfilePage() {
                                             rel="noopener noreferrer"
                                             className="hover:underline hover:text-primary transition-colors"
                                         >
-                                            Visit Website
+                                            Kunjungi Situs Web
                                         </a>
                                     </div>
                                 )}
                                 <div className="flex items-center gap-2">
                                     <Building2 className="h-4 w-4" />
-                                    <span>{venues.length} Venues</span>
+                                    <span>{venues.length} Tempat Olahraga</span>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@ export default function RenterProfilePage() {
                 {/* Venues Grid */}
                 <div className="space-y-6">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold">Available Venues</h2>
+                        <h2 className="text-2xl font-bold">Tempat Olahraga Tersedia</h2>
                     </div>
 
                     {venues.length > 0 ? (
@@ -131,7 +131,7 @@ export default function RenterProfilePage() {
                         </div>
                     ) : (
                         <div className="text-center py-12 bg-muted/30 rounded-lg border border-dashed text-muted-foreground">
-                            <p>No venues available at the moment.</p>
+                            <p>Belum ada tempat olahraga tersedia saat ini.</p>
                         </div>
                     )}
                 </div>

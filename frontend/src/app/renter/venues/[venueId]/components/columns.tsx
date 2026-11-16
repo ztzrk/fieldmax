@@ -36,12 +36,12 @@ const ActionsCell = ({
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link
                         href={`/renter/fields/${field.id}?fromVenue=${venueId}`}
                     >
-                        Edit Details
+                        Edit Detail
                     </Link>
                 </DropdownMenuItem>
                 <ConfirmationDialog
@@ -50,11 +50,11 @@ const ActionsCell = ({
                             className="text-red-500"
                             onSelect={(e) => e.preventDefault()}
                         >
-                            Delete
+                            Hapus
                         </DropdownMenuItem>
                     }
-                    title="Are you sure?"
-                    description={`This will permanently delete the "${field.name}" field.`}
+                    title="Apakah Anda yakin?"
+                    description={`Tindakan ini akan menghapus lapangan "${field.name}" secara permanen.`}
                     onConfirm={() => deleteField(field.id)}
                 />
             </DropdownMenuContent>
@@ -82,14 +82,14 @@ export const getRenterFieldColumns = (
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,
@@ -113,15 +113,15 @@ export const getRenterFieldColumns = (
     },
     {
         accessorKey: "name",
-        header: "Field Name",
+        header: "Nama Lapangan",
     },
     {
         accessorKey: "sportTypeName",
-        header: "Sport Type",
+        header: "Cabang Olahraga",
     },
     {
         accessorKey: "pricePerHour",
-        header: "Price / Hour",
+        header: "Harga / Jam",
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
             const formatted = new Intl.NumberFormat("id-ID", {
@@ -155,7 +155,7 @@ export const getRenterFieldColumns = (
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell field={row.original} venueId={venueId} />

@@ -122,7 +122,7 @@ export function VenueCard({ venue }: VenueCardProps) {
                     <span className="text-xs text-muted-foreground font-medium">
                         {venue.bookingCount !== undefined
                             ? `${venue.bookingCount} Pesanan`
-                            : "Venue Baru"}
+                            : "Tempat Baru"}
                     </span>
                     <div className="flex items-center text-xs font-semibold text-primary overflow-hidden">
                         <span className="translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">

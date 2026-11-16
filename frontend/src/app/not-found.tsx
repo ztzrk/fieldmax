@@ -14,14 +14,14 @@ export default function NotFound() {
     return (
         <div className="flex h-screen w-full flex-col items-center justify-center space-y-4 bg-background text-center relative">
             <h1 className="text-4xl font-bold">404</h1>
-            <h2 className="text-2xl font-semibold">Page Not Found</h2>
+            <h2 className="text-2xl font-semibold">Halaman Tidak Ditemukan</h2>
             <p className="text-muted-foreground">
-                Sorry, the page you are looking for does not exist.
+                Maaf, halaman yang Anda cari tidak tersedia.
             </p>
 
             <div className="pt-4">
                 <Button size="lg" onClick={() => router.back()}>
-                    Go Back
+                    Kembali
                 </Button>
             </div>
         </div>

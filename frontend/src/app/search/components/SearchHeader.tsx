@@ -42,13 +42,13 @@ export function SearchHeader({
                             href="/fields"
                             className="text-sm font-medium hover:text-primary transition-colors"
                         >
-                            Fields
+                            Lapangan
                         </Link>
                         <Link
                             href="/venues"
                             className="text-sm font-medium hover:text-primary transition-colors"
                         >
-                            Venues
+                            Tempat Olahraga
                         </Link>
                     </nav>
                 </div>
@@ -58,7 +58,7 @@ export function SearchHeader({
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
                             type="search"
-                            placeholder="Search fields max..."
+                            placeholder="Cari lapangan atau tempat olahraga..."
                             className="pl-8 w-full"
                             value={search}
                             onChange={(e) => onSearchChange(e.target.value)}
@@ -75,10 +75,10 @@ export function SearchHeader({
                     ) : (
                         <div className="flex gap-2">
                             <Link href="/login">
-                                <Button variant="ghost">Log In</Button>
+                                <Button variant="ghost">Masuk</Button>
                             </Link>
                             <Link href="/register">
-                                <Button>Get Started</Button>
+                                <Button>Daftar</Button>
                             </Link>
                         </div>
                     )}

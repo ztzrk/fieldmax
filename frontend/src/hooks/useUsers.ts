@@ -66,16 +66,16 @@ export function useCreateUser() {
         mutationFn: (userData: UserFormSchema) =>
             UserService.createUser(userData),
         onSuccess: () => {
-            toast.success("User created successfully!");
+            toast.success("Pengguna berhasil dibuat!");
             queryClient.invalidateQueries({ queryKey: queryKeys.users._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to create user.";
+            let errorMessage = "Gagal membuat pengguna.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -95,16 +95,16 @@ export function useUpdateUser() {
             userData: UserFormSchema;
         }) => UserService.updateUser(userId, userData),
         onSuccess: () => {
-            toast.success("User updated successfully!");
+            toast.success("Pengguna berhasil diperbarui!");
             queryClient.invalidateQueries({ queryKey: queryKeys.users._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to update user.";
+            let errorMessage = "Gagal memperbarui pengguna.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -118,16 +118,16 @@ export function useDeleteUser() {
     return useMutation({
         mutationFn: UserService.deleteUser,
         onSuccess: () => {
-            toast.success("User deleted successfully.");
+            toast.success("Pengguna berhasil dihapus.");
             queryClient.invalidateQueries({ queryKey: queryKeys.users._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete user.";
+            let errorMessage = "Gagal menghapus pengguna.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -141,16 +141,16 @@ export function useDeleteMultipleUsers() {
     return useMutation({
         mutationFn: UserService.deleteMultipleUsers,
         onSuccess: () => {
-            toast.success("Users deleted successfully.");
+            toast.success("Pengguna berhasil dihapus.");
             queryClient.invalidateQueries({ queryKey: queryKeys.users._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete users.";
+            let errorMessage = "Gagal menghapus pengguna.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }

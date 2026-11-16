@@ -28,7 +28,7 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 const formSchema = z.object({
     code: z
         .string()
-        .length(6, { message: "Verification code must be 6 digits." }),
+        .length(6, { message: "Kode verifikasi harus 6 digit." }),
 });
 
 function VerifyEmailContent() {
@@ -62,9 +62,9 @@ function VerifyEmailContent() {
         <div className="flex items-center justify-center min-h-screen relative bg-muted/20">
             <Card className="w-[400px]">
                 <CardHeader>
-                    <CardTitle>Verify Your Email</CardTitle>
+                    <CardTitle>Verifikasi Email Anda</CardTitle>
                     <CardDescription>
-                        We've sent a 6-digit verification code to{" "}
+                        Kami telah mengirimkan kode verifikasi 6 digit ke{" "}
                         <span className="font-semibold text-foreground">
                             {email}
                         </span>
@@ -82,7 +82,7 @@ function VerifyEmailContent() {
                                 name="code"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Verification Code</FormLabel>
+                                        <FormLabel>Kode Verifikasi</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="123456"
@@ -103,10 +103,10 @@ function VerifyEmailContent() {
                                 {isVerifying ? (
                                     <>
                                         <FullScreenLoader />
-                                        Verifying...
+                                        Memverifikasi...
                                     </>
                                 ) : (
-                                    "Verify Email"
+                                    "Verifikasi Email"
                                 )}
                             </Button>
                         </form>
@@ -114,14 +114,14 @@ function VerifyEmailContent() {
 
                     <div className="mt-6 text-center">
                         <p className="text-sm text-muted-foreground">
-                            Didn't receive a code?{" "}
+                            Tidak menerima kode?{" "}
                             <Button
                                 variant="link"
                                 className="p-0 h-auto font-normal"
                                 onClick={() => resend(email)}
                                 disabled={isResending}
                             >
-                                {isResending ? "Resending..." : "Resend code"}
+                                {isResending ? "Mengirim ulang..." : "Kirim ulang kode"}
                             </Button>
                         </p>
                     </div>

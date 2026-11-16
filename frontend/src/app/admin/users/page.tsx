@@ -54,14 +54,14 @@ export default function AdminUsersPage() {
     };
 
     if (isLoading || isDeleting) return <FullScreenLoader />;
-    if (isError) return <p className="text-red-500">Error loading data.</p>;
+    if (isError) return <p className="text-red-500">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
     return (
         <AdminPageWrapper
-            title="Users"
-            subtitle={`Total ${data?.meta?.total || 0} users registered.`}
+            title="Pengguna"
+            subtitle={`Total ${data?.meta?.total || 0} pengguna terdaftar.`}
             actions={<CreateUserButton />}
         >
             <Card className="rounded-xl border-border/50 shadow-sm">
@@ -90,17 +90,17 @@ export default function AdminUsersPage() {
                                     }
                                 >
                                     <SelectTrigger className="w-[150px]">
-                                        <SelectValue placeholder="Filter Role" />
+                                        <SelectValue placeholder="Filter Peran" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="ALL">
-                                            All Roles
+                                            Semua Peran
                                         </SelectItem>
                                         <SelectItem value="USER">
-                                            User
+                                            Pengguna
                                         </SelectItem>
                                         <SelectItem value="RENTER">
-                                            Renter
+                                            Mitra
                                         </SelectItem>
                                         <SelectItem value="ADMIN">
                                             Admin
@@ -117,15 +117,15 @@ export default function AdminUsersPage() {
                                     }
                                 >
                                     <SelectTrigger className="w-[150px]">
-                                        <SelectValue placeholder="Verification" />
+                                        <SelectValue placeholder="Verifikasi" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="ALL">All</SelectItem>
+                                        <SelectItem value="ALL">Semua</SelectItem>
                                         <SelectItem value="true">
-                                            Verified
+                                            Terverifikasi
                                         </SelectItem>
                                         <SelectItem value="false">
-                                            Unverified
+                                            Belum Verifikasi
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>

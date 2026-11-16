@@ -35,7 +35,7 @@ function ConfirmationDialog({
                 {trigger ? (
                     trigger
                 ) : (
-                    <Button variant="destructive">Delete</Button>
+                    <Button variant="destructive">Hapus</Button>
                 )}
             </AlertDialogTrigger>
 
@@ -47,9 +47,9 @@ function ConfirmationDialog({
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>Batal</AlertDialogCancel>
                     <AlertDialogAction onClick={onConfirm}>
-                        Continue
+                        Lanjutkan
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

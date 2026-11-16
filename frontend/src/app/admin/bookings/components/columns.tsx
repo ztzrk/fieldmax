@@ -42,10 +42,10 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link href={`/admin/bookings/${booking.id}`}>
-                        View Details
+                        Lihat Detail
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuContent>
@@ -63,7 +63,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Booking ID
+                ID Pemesanan
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -84,7 +84,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                User
+                Pengguna
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),

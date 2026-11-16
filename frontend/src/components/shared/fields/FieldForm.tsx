@@ -71,14 +71,14 @@ export function FieldForm({
                 <InputField
                     control={form.control}
                     name="name"
-                    label="Field Name"
-                    placeholder="Field A"
+                    label="Nama Lapangan"
+                    placeholder="Lapangan A"
                     required
                 />
                 <InputField
                     control={form.control}
                     name="pricePerHour"
-                    label="Price per Hour"
+                    label="Harga per Jam"
                     type="number"
                     placeholder="100000"
                     required
@@ -86,19 +86,19 @@ export function FieldForm({
                 <ComboboxField
                     control={form.control}
                     name="sportTypeId"
-                    label="Sport Type"
-                    placeholder="Select a sport type"
+                    label="Cabang Olahraga"
+                    placeholder="Pilih cabang olahraga"
                     options={sportTypeOptions}
                     required
                 />
                 <InputField
                     control={form.control}
                     name="description"
-                    label="Description (Optional)"
-                    placeholder="A brief description about the field"
+                    label="Deskripsi (Opsional)"
+                    placeholder="Deskripsi singkat tentang lapangan"
                 />
                 <Button type="submit" disabled={isPending} className="w-full">
-                    {isPending ? "Saving..." : "Save"}
+                    {isPending ? "Menyimpan..." : "Simpan"}
                 </Button>
             </form>
         </Form>

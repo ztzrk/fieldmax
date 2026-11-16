@@ -55,15 +55,15 @@ const ActionsCell = ({ user }: { user: User }) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                     <DropdownMenuItem
                         onClick={() => navigator.clipboard.writeText(user.id)}
                     >
-                        Copy user ID
+                        Salin ID pengguna
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DialogTrigger asChild>
-                        <DropdownMenuItem>Edit User</DropdownMenuItem>
+                        <DropdownMenuItem>Edit Pengguna</DropdownMenuItem>
                     </DialogTrigger>
                     <ConfirmationDialog
                         trigger={
@@ -71,18 +71,18 @@ const ActionsCell = ({ user }: { user: User }) => {
                                 className="text-red-500"
                                 onSelect={(e) => e.preventDefault()}
                             >
-                                Delete User
+                                Hapus Pengguna
                             </DropdownMenuItem>
                         }
-                        title="Are you absolutely sure?"
-                        description="This action cannot be undone. This will permanently delete the user account."
+                        title="Apakah Anda benar-benar yakin?"
+                        description="Tindakan ini tidak dapat dibatalkan. Akun pengguna akan dihapus secara permanen."
                         onConfirm={handleDelete}
                     />
                 </DropdownMenuContent>
             </DropdownMenu>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Edit User</DialogTitle>
+                    <DialogTitle>Edit Pengguna</DialogTitle>
                 </DialogHeader>
                 <UserForm
                     key={user.id}

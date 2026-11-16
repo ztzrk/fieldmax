@@ -4,83 +4,85 @@ export default function TermsPage() {
             <div className="container mx-auto px-4 md:px-6 max-w-4xl">
                 <div className="space-y-4 mb-12">
                     <h1 className="text-4xl font-extrabold tracking-tight">
-                        Terms of Service
+                        Syarat &amp; Ketentuan Layanan
                     </h1>
                     <p className="text-muted-foreground text-lg">
-                        Last updated: January 1, 2026
+                        Terakhir diperbarui: 1 Januari 2026
                     </p>
                 </div>
 
                 <div className="prose prose-slate dark:prose-invert max-w-none space-y-8">
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            1. Acceptance of Terms
+                            1. Penerimaan Ketentuan
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            By accessing or using FieldMax ("the Platform"), you
-                            agree to be bound by these Terms of Service. If you
-                            do not agree to these terms, please do not use our
-                            services.
+                            Dengan mengakses atau menggunakan FieldMax
+                            (&quot;Platform&quot;), Anda setuju untuk terikat
+                            oleh Syarat &amp; Ketentuan Layanan ini. Jika Anda
+                            tidak menyetujui ketentuan ini, harap tidak
+                            menggunakan layanan kami.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            2. User Accounts
+                            2. Akun Pengguna
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            To access certain features of the Platform, you may
-                            be required to create an account. You are
-                            responsible for maintaining the confidentiality of
-                            your account credentials and for all activities that
-                            occur under your account.
+                            Untuk mengakses fitur tertentu pada Platform, Anda
+                            mungkin diminta membuat akun. Anda bertanggung jawab
+                            penuh menjaga kerahasiaan kredensial akun Anda serta
+                            seluruh aktivitas yang terjadi di dalamnya.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            3. Booking and Payments
+                            3. Pemesanan dan Pembayaran
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            FieldMax facilitates bookings between players and
-                            venue owners. By making a booking, you agree to the
-                            specific venue's terms and conditions, including
-                            their cancellation policy. All payments are
-                            processed securely through our trusted payment
-                            partners.
+                            FieldMax memfasilitasi pemesanan antara pemain dan
+                            pemilik tempat olahraga. Dengan melakukan pemesanan,
+                            Anda menyetujui syarat dan ketentuan masing-masing
+                            tempat olahraga, termasuk kebijakan pembatalan yang
+                            berlaku. Seluruh pembayaran diproses secara aman
+                            melalui mitra pembayaran terpercaya kami.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            4. Usage Guidelines
+                            4. Pedoman Penggunaan
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            You agree explicitly not to:
-                            <ul className="list-disc pl-6 mt-2 space-y-2">
-                                <li>
-                                    Use the Platform for any illegal purpose.
-                                </li>
-                                <li>
-                                    Attempt to gain unauthorized access to any
-                                    portion of the Platform.
-                                </li>
-                                <li>
-                                    Harass or harm other users of the Platform.
-                                </li>
-                            </ul>
+                            Anda secara tegas menyetujui untuk tidak:
                         </p>
+                        <ul className="list-disc pl-6 mt-2 space-y-2 text-muted-foreground leading-relaxed">
+                            <li>
+                                Menggunakan Platform untuk tujuan yang melanggar
+                                hukum.
+                            </li>
+                            <li>
+                                Mencoba memperoleh akses tidak sah ke bagian mana
+                                pun dari Platform.
+                            </li>
+                            <li>
+                                Mengganggu atau merugikan pengguna lain pada
+                                Platform.
+                            </li>
+                        </ul>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            5. Limitation of Liability
+                            5. Batasan Tanggung Jawab
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            FieldMax is not liable for any indirect, incidental,
-                            special, consequential, or punitive damages
-                            resulting from your use of or inability to use the
-                            Platform.
+                            FieldMax tidak bertanggung jawab atas kerugian tidak
+                            langsung, insidental, khusus, atau konsekuensial
+                            yang timbul dari penggunaan atau ketidakmampuan Anda
+                            dalam menggunakan Platform.
                         </p>
                     </section>
                 </div>

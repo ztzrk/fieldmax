@@ -6,8 +6,8 @@ export default function RenterReportsPage() {
     return (
         <ReportsView
             basePath="/renter/reports"
-            title="Support Tickets"
-            subtitle="Manage your support requests and issues."
+            title="Tiket Bantuan"
+            subtitle="Kelola permintaan bantuan dan kendala Anda."
         />
     );
 }

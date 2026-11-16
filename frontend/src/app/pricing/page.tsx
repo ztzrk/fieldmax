@@ -11,42 +11,42 @@ export default function PricingPage() {
                 <div className="container mx-auto px-4 md:px-6 text-center">
                     <div className="max-w-3xl mx-auto space-y-4 mb-16">
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-                            Simple, Transparent Pricing
+                            Harga Sederhana &amp; Transparan
                         </h1>
                         <p className="text-xl text-muted-foreground">
-                            We believe in fair play. No hidden fees, no
-                            subscriptions for players.
+                            Tanpa biaya tersembunyi, tanpa biaya berlangganan
+                            untuk pemain.
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {/* Player Plan */}
                         <div className="flex flex-col p-8 bg-card border rounded-3xl shadow-sm hover:shadow-md transition-shadow">
-                            <h3 className="text-2xl font-bold">For Players</h3>
+                            <h3 className="text-2xl font-bold">Untuk Pemain</h3>
                             <div className="mt-4 mb-8">
                                 <span className="text-5xl font-extrabold">
-                                    Free
+                                    Gratis
                                 </span>
                                 <span className="text-muted-foreground ml-2">
-                                    / forever
+                                    / selamanya
                                 </span>
                             </div>
                             <ul className="space-y-4 mb-8 flex-1 text-left">
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Search unlimited venues</span>
+                                    <span>Cari tempat olahraga tanpa batas</span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Real-time availability check</span>
+                                    <span>Cek ketersediaan jadwal real-time</span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Instant booking confirmation</span>
+                                    <span>Konfirmasi pemesanan instan</span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Secure payments</span>
+                                    <span>Pembayaran digital aman</span>
                                 </li>
                             </ul>
                             <Link href="/search">
@@ -54,7 +54,7 @@ export default function PricingPage() {
                                     className="w-full h-12 text-lg"
                                     size="lg"
                                 >
-                                    Start Booking
+                                    Mulai Memesan
                                 </Button>
                             </Link>
                         </div>
@@ -62,41 +62,42 @@ export default function PricingPage() {
                         {/* Venue Owner Plan */}
                         <div className="flex flex-col p-8 bg-slate-950 text-slate-50 border border-slate-800 rounded-3xl shadow-xl relative overflow-hidden">
                             <div className="absolute top-0 right-0 px-3 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-bl-xl">
-                                POPULAR
+                                POPULER
                             </div>
                             <h3 className="text-2xl font-bold">
-                                For Venue Owners
+                                Untuk Pemilik Tempat Olahraga
                             </h3>
                             <div className="mt-4 mb-8">
                                 <span className="text-5xl font-extrabold">
                                     5%
                                 </span>
                                 <span className="text-slate-400 ml-2">
-                                    commission
+                                    komisi
                                 </span>
                             </div>
                             <p className="text-sm text-slate-400 mb-6 text-left">
-                                We only make money when you do. No listing fees
-                                or monthly subscriptions.
+                                Kami hanya mengenakan komisi saat Anda menerima
+                                pemesanan. Tanpa biaya pendaftaran atau langganan
+                                bulanan.
                             </p>
                             <ul className="space-y-4 mb-8 flex-1 text-left text-slate-200">
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Unlimited venue listings</span>
+                                    <span>Daftar tempat olahraga tanpa batas</span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
                                     <span>
-                                        Advanced booking management dashboard
+                                        Dashboard manajemen pemesanan lengkap
                                     </span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Automated scheduling</span>
+                                    <span>Penjadwalan otomatis</span>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Check className="h-5 w-5 text-primary" />
-                                    <span>Marketing & promotion</span>
+                                    <span>Pemasaran &amp; promosi</span>
                                 </li>
                             </ul>
                             <Link href="/register/renter">
@@ -104,7 +105,7 @@ export default function PricingPage() {
                                     className="w-full h-12 text-lg bg-white text-slate-950 hover:bg-slate-200"
                                     size="lg"
                                 >
-                                    List Your Venue
+                                    Daftarkan Tempat Olahraga
                                 </Button>
                             </Link>
                         </div>

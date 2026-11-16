@@ -11,7 +11,7 @@ export function AdminSidebar() {
     return (
         <AppSidebar
             items={adminNavItems}
-            consoleTitle="Admin Console"
+            consoleTitle="Panel Admin"
             userRoleLabel="Admin"
         />
     );

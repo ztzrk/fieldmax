@@ -24,7 +24,7 @@ function ResetPasswordForm() {
 
     useEffect(() => {
         if (!token) {
-            toast.error("Invalid or missing token");
+            toast.error("Token tidak valid atau tidak ditemukan");
             router.push("/login");
         }
     }, [token, router]);
@@ -32,12 +32,12 @@ function ResetPasswordForm() {
     const { mutate: resetPassword, isPending } = useMutation({
         mutationFn: (data: any) => AuthService.resetPassword(data),
         onSuccess: () => {
-            toast.success("Password reset successfully. Please login.");
+            toast.success("Kata sandi berhasil diatur ulang. Silakan masuk.");
             router.push("/login");
         },
         onError: (error: any) => {
             toast.error(
-                error.response?.data?.message || "Something went wrong"
+                error.response?.data?.message || "Terjadi kesalahan"
             );
         },
     });
@@ -57,7 +57,7 @@ function ResetPasswordForm() {
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Reset Password</CardTitle>
+                <CardTitle>Atur Ulang Kata Sandi</CardTitle>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
@@ -68,7 +68,7 @@ function ResetPasswordForm() {
                         <InputField
                             control={form.control}
                             name="password"
-                            label="New Password"
+                            label="Kata Sandi Baru"
                             placeholder="••••••••"
                             type="password"
                             required
@@ -76,7 +76,7 @@ function ResetPasswordForm() {
                         <InputField
                             control={form.control}
                             name="confirmPassword"
-                            label="Confirm Password"
+                            label="Konfirmasi Kata Sandi"
                             placeholder="••••••••"
                             type="password"
                             required
@@ -86,7 +86,7 @@ function ResetPasswordForm() {
                             className="w-full"
                             disabled={isPending}
                         >
-                            {isPending ? "Processing..." : "Reset Password"}
+                            {isPending ? "Memproses..." : "Atur Ulang Kata Sandi"}
                         </Button>
                     </form>
                 </Form>
@@ -96,7 +96,7 @@ function ResetPasswordForm() {
                     href="/login"
                     className="text-sm text-muted-foreground hover:underline"
                 >
-                    Back to Login
+                    Kembali ke Login
                 </Link>
             </div>
         </Card>
@@ -106,7 +106,7 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
     return (
         <div className="flex items-center justify-center min-h-screen relative">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Memuat...</div>}>
                 <ResetPasswordForm />
             </Suspense>
         </div>

@@ -4,81 +4,88 @@ export default function PrivacyPage() {
             <div className="container mx-auto px-4 md:px-6 max-w-4xl">
                 <div className="space-y-4 mb-12">
                     <h1 className="text-4xl font-extrabold tracking-tight">
-                        Privacy Policy
+                        Kebijakan Privasi
                     </h1>
                     <p className="text-muted-foreground text-lg">
-                        Last updated: January 1, 2026
+                        Terakhir diperbarui: 1 Januari 2026
                     </p>
                 </div>
 
                 <div className="prose prose-slate dark:prose-invert max-w-none space-y-8">
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            1. Information We Collect
+                            1. Informasi yang Kami Kumpulkan
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            We collect information you provide directly to us,
-                            such as when you create an account, make a booking,
-                            or contact support. This may include your name,
-                            email address, phone number, and payment
-                            information.
+                            Kami mengumpulkan informasi yang Anda berikan secara
+                            langsung kepada kami, seperti saat Anda membuat
+                            akun, melakukan pemesanan, atau menghubungi layanan
+                            bantuan. Informasi ini dapat mencakup nama, alamat
+                            email, nomor telepon, dan informasi pembayaran Anda.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            2. How We Use Your Information
+                            2. Cara Kami Menggunakan Informasi Anda
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            We use your information to:
-                            <ul className="list-disc pl-6 mt-2 space-y-2">
-                                <li>
-                                    Facilitate bookings and process payments.
-                                </li>
-                                <li>
-                                    Send you booking confirmations and updates.
-                                </li>
-                                <li>Improve and optimize our Platform.</li>
-                                <li>
-                                    Communicate with you about services and
-                                    promotions.
-                                </li>
-                            </ul>
+                            Kami menggunakan informasi Anda untuk:
+                        </p>
+                        <ul className="list-disc pl-6 mt-2 space-y-2 text-muted-foreground leading-relaxed">
+                            <li>
+                                Memfasilitasi pemesanan dan memproses
+                                pembayaran.
+                            </li>
+                            <li>
+                                Mengirimkan konfirmasi dan pembaruan status
+                                pemesanan Anda.
+                            </li>
+                            <li>
+                                Meningkatkan dan mengoptimalkan kinerja
+                                Platform kami.
+                            </li>
+                            <li>
+                                Berkomunikasi dengan Anda terkait layanan dan
+                                informasi promosi.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">
+                            3. Pembagian Informasi
+                        </h2>
+                        <p className="text-muted-foreground leading-relaxed">
+                            Kami membagikan informasi Anda kepada Pemilik Tempat
+                            Olahraga saat Anda melakukan pemesanan untuk
+                            memfasilitasi layanan. Kami tidak menjual data
+                            pribadi Anda kepada pihak ketiga.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            3. Information Sharing
+                            4. Keamanan Data
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            We share your information with Venue Owners when you
-                            make a booking to facilitate the service. We do not
-                            sell your personal data to third parties.
+                            Kami menerapkan langkah-langkah teknis dan
+                            organisasi yang tepat untuk melindungi informasi
+                            pribadi Anda dari akses, perubahan, pengungkapan,
+                            atau perusakan yang tidak sah.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold mb-4">
-                            4. Data Security
+                            5. Hak Anda
                         </h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            We implement appropriate technical and
-                            organizational measures to protect your personal
-                            information against unauthorized access, alteration,
-                            disclosure, or destruction.
-                        </p>
-                    </section>
-
-                    <section>
-                        <h2 className="text-2xl font-bold mb-4">
-                            5. Your Rights
-                        </h2>
-                        <p className="text-muted-foreground leading-relaxed">
-                            You have the right to access, correct, or delete
-                            your personal information. You can manage your
-                            account settings directly through the Platform or
-                            contact us for assistance.
+                            Anda berhak untuk mengakses, memperbaiki, atau
+                            menghapus informasi pribadi Anda. Anda dapat
+                            mengelola pengaturan akun secara langsung melalui
+                            Platform atau menghubungi kami untuk mendapatkan
+                            bantuan.
                         </p>
                     </section>
                 </div>

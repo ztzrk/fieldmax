@@ -72,9 +72,9 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
     return (
         <Card className="h-fit sticky top-24">
             <CardHeader>
-                <CardTitle>Create New Report</CardTitle>
+                <CardTitle>Buat Laporan Baru</CardTitle>
                 <CardDescription>
-                    Submit a new issue and we'll get back to you.
+                    Kirimkan kendala atau keluhan baru dan tim kami akan segera menindaklanjutinya.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -88,28 +88,28 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
                             name="category"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Category</FormLabel>
+                                    <FormLabel>Kategori</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a category" />
+                                                <SelectValue placeholder="Pilih kategori" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectItem value="SCAM">
-                                                Scam / Fraud
+                                                Penipuan / Kecurangan
                                             </SelectItem>
                                             <SelectItem value="TECHNICAL">
-                                                Technical Issue
+                                                Masalah Teknis
                                             </SelectItem>
                                             <SelectItem value="PAYMENT">
-                                                Payment Issue
+                                                Masalah Pembayaran
                                             </SelectItem>
                                             <SelectItem value="OTHER">
-                                                Other
+                                                Lainnya
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -122,10 +122,10 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
                             name="subject"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Subject</FormLabel>
+                                    <FormLabel>Subjek</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Brief summary of the issue"
+                                            placeholder="Ringkasan singkat masalah"
                                             {...field}
                                         />
                                     </FormControl>
@@ -138,10 +138,10 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
                             name="description"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Description</FormLabel>
+                                    <FormLabel>Deskripsi</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                            placeholder="Provide detailed information..."
+                                            placeholder="Berikan informasi lengkap mengenai kendala Anda..."
                                             className="min-h-[120px]"
                                             {...field}
                                         />
@@ -160,7 +160,7 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
                             ) : (
                                 <Send className="mr-2 h-4 w-4" />
                             )}
-                            Submit Report
+                            Kirim Laporan
                         </Button>
                     </form>
                 </Form>

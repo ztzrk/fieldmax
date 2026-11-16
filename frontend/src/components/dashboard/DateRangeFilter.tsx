@@ -17,12 +17,12 @@ export function DateRangeFilter({ value, onChange }: DateRangeFilterProps) {
     return (
         <Select value={value} onValueChange={onChange}>
             <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select range" />
+                <SelectValue placeholder="Pilih rentang" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="7d">Last 7 Days</SelectItem>
-                <SelectItem value="30d">Last 30 Days</SelectItem>
-                <SelectItem value="12m">Last 12 Months</SelectItem>
+                <SelectItem value="7d">7 Hari Terakhir</SelectItem>
+                <SelectItem value="30d">30 Hari Terakhir</SelectItem>
+                <SelectItem value="12m">12 Bulan Terakhir</SelectItem>
             </SelectContent>
         </Select>
     );

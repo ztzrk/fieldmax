@@ -92,17 +92,17 @@ export function useCreateVenue() {
     return useMutation({
         mutationFn: (data: VenueFormSchema) => VenueService.create(data),
         onSuccess: (newVenue: VenueResponseSchema) => {
-            toast.success("Venue created successfully!");
+            toast.success("Venue berhasil dibuat!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             return newVenue;
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to create venue.";
+            let errorMessage = "Gagal membuat venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -117,19 +117,19 @@ export function useUpdateVenue(venueId: string) {
         mutationFn: (data: VenueFormSchema) =>
             VenueService.update(venueId, data),
         onSuccess: () => {
-            toast.success("Venue updated successfully!");
+            toast.success("Venue berhasil diperbarui!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to update venue.";
+            let errorMessage = "Gagal memperbarui venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -143,16 +143,16 @@ export function useDeleteVenue() {
     return useMutation({
         mutationFn: (id: string) => VenueService.delete(id),
         onSuccess: () => {
-            toast.success("Venue deleted successfully.");
+            toast.success("Venue berhasil dihapus.");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete venue.";
+            let errorMessage = "Gagal menghapus venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -166,16 +166,16 @@ export function useDeleteMultipleVenues() {
     return useMutation({
         mutationFn: (ids: string[]) => VenueService.deleteMultiple(ids),
         onSuccess: (data, variables) => {
-            toast.success(`${variables.length} venue(s) deleted successfully.`);
+            toast.success(`${variables.length} venue berhasil dihapus.`);
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete venues.";
+            let errorMessage = "Gagal menghapus venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -189,19 +189,19 @@ export function useApproveVenue(venueId: string) {
     return useMutation({
         mutationFn: () => VenueService.approve(venueId),
         onSuccess: () => {
-            toast.success("Venue approved successfully!");
+            toast.success("Venue berhasil disetujui!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to approve venue.";
+            let errorMessage = "Gagal menyetujui venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -216,19 +216,19 @@ export function useRejectVenue(venueId: string) {
         mutationFn: (data: { rejectionReason: string }) =>
             VenueService.reject(venueId, data),
         onSuccess: () => {
-            toast.success("Venue rejected successfully!");
+            toast.success("Venue berhasil ditolak!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to reject venue.";
+            let errorMessage = "Gagal menolak venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -242,19 +242,19 @@ export function useResubmitVenue(venueId: string) {
     return useMutation({
         mutationFn: () => VenueService.resubmit(venueId),
         onSuccess: () => {
-            toast.success("Venue resubmitted successfully!");
+            toast.success("Venue berhasil diajukan ulang!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to resubmit venue.";
+            let errorMessage = "Gagal mengajukan ulang venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -268,19 +268,19 @@ export function useSubmitVenue(venueId: string) {
     return useMutation({
         mutationFn: () => VenueService.submit(venueId),
         onSuccess: () => {
-            toast.success("Venue submitted to admin successfully!");
+            toast.success("Venue berhasil diajukan ke admin!");
             queryClient.invalidateQueries({ queryKey: queryKeys.venues._def });
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to submit venue.";
+            let errorMessage = "Gagal mengajukan venue.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -295,18 +295,18 @@ export function useUploadVenuePhotos(venueId: string) {
         mutationFn: (photos: File[]) =>
             VenueService.uploadPhotos(venueId, photos),
         onSuccess: () => {
-            toast.success("Photos uploaded successfully!");
+            toast.success("Foto berhasil diunggah!");
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to upload photos.";
+            let errorMessage = "Gagal mengunggah foto.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
@@ -320,18 +320,18 @@ export function useDeleteVenuePhoto(venueId: string) {
     return useMutation({
         mutationFn: (photoId: string) => VenueService.deletePhoto(photoId),
         onSuccess: () => {
-            toast.success("Photo deleted successfully.");
+            toast.success("Foto berhasil dihapus.");
             queryClient.invalidateQueries({
                 queryKey: queryKeys.venues.detail(venueId),
             });
         },
         onError: (error: AxiosError<BackendErrorResponse>) => {
-            let errorMessage = "Failed to delete photo.";
+            let errorMessage = "Gagal menghapus foto.";
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             } else if (error.request) {
                 errorMessage =
-                    "Cannot connect to server. Please check your connection.";
+                    "Tidak dapat terhubung ke server. Periksa koneksi Anda.";
             } else {
                 errorMessage = error.message;
             }
