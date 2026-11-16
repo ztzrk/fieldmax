@@ -115,13 +115,31 @@ export class VenuesService {
     }
 
     public async findAllPublic(query: Pagination) {
-        const { page = 1, limit = 10, search, sortBy, sortOrder } = query;
+        const {
+            page = 1,
+            limit = 10,
+            search,
+            sportTypeId,
+            sortBy,
+            sortOrder,
+        } = query;
         const pageNum = Number(page);
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.VenueWhereInput = {
             status: "APPROVED",
+            ...(sportTypeId
+                ? {
+                      fields: {
+                          some: {
+                              sportTypeId,
+                              status: "APPROVED",
+                              isClosed: false,
+                          },
+                      },
+                  }
+                : {}),
             AND: search
                 ? [
                       {

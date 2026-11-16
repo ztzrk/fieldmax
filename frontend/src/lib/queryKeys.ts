@@ -18,6 +18,7 @@ export const queryKeys = {
             page: number;
             limit: number;
             search?: string;
+            sportTypeId?: string;
             sortBy?: string;
             sortOrder?: "asc" | "desc";
         }) => ["venues", params] as const,
@@ -34,6 +35,8 @@ export const queryKeys = {
             status?: string;
             isClosed?: boolean;
             sportTypeId?: string;
+            minPrice?: number;
+            maxPrice?: number;
             sortBy?: string;
             sortOrder?: "asc" | "desc";
         }) => ["fields", params] as const,

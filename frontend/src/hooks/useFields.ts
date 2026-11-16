@@ -23,7 +23,9 @@ export function useGetAllFields(
     isClosed?: boolean,
     sportTypeId?: string,
     sortBy?: string,
-    sortOrder?: "asc" | "desc"
+    sortOrder?: "asc" | "desc",
+    minPrice?: number,
+    maxPrice?: number
 ) {
     return useQuery({
         queryKey: queryKeys.fields.list({
@@ -35,6 +37,8 @@ export function useGetAllFields(
             sportTypeId,
             sortBy,
             sortOrder,
+            minPrice,
+            maxPrice,
         }),
         queryFn: async () => {
             const data = await FieldService.getAll({
@@ -46,6 +50,8 @@ export function useGetAllFields(
                 sportTypeId,
                 sortBy,
                 sortOrder,
+                minPrice,
+                maxPrice,
             });
             return fieldsPaginatedResponseSchema.parse(data);
         },

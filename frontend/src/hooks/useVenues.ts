@@ -49,15 +49,28 @@ export function useGetAllVenues(
 export function useGetPublicVenues(
     page: number = 1,
     limit: number = 30,
-    search?: string
+    search?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc",
+    sportTypeId?: string
 ) {
     return useQuery({
-        queryKey: queryKeys.venues.list({ page, limit, search }),
+        queryKey: queryKeys.venues.list({
+            page,
+            limit,
+            search,
+            sortBy,
+            sortOrder,
+            sportTypeId,
+        }),
         queryFn: async () => {
             const data = await VenueService.getAllPublic({
                 page,
                 limit,
                 search,
+                sortBy,
+                sortOrder,
+                sportTypeId,
             });
             return venuesPublicPaginatedResponseSchema.parse(data);
         },

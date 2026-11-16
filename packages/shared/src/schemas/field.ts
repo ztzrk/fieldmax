@@ -65,6 +65,8 @@ export const fieldQuerySchema = z.object({
     search: z.string().optional(),
     sportTypeId: z.string().optional(),
     venueId: z.string().optional(),
+    minPrice: z.coerce.number().min(0).optional(),
+    maxPrice: z.coerce.number().min(0).optional(),
     status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]).optional(),
     isClosed: z.boolean().optional(),
     sortBy: z.string().optional(),

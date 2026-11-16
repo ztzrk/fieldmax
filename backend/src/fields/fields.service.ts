@@ -20,6 +20,8 @@ export class FieldsService {
             status,
             isClosed,
             sportTypeId,
+            minPrice,
+            maxPrice,
         } = query;
         const pageNum = Number(page);
         const limitNum = Number(limit);
@@ -27,15 +29,35 @@ export class FieldsService {
         const whereCondition: Prisma.FieldWhereInput = {
             ...(search
                 ? {
-                      name: {
-                          contains: search,
-                          mode: "insensitive",
-                      },
+                      OR: [
+                          {
+                              name: {
+                                  contains: search,
+                                  mode: "insensitive",
+                              },
+                          },
+                          {
+                              venue: {
+                                  name: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                          },
+                      ],
                   }
                 : {}),
             ...(status ? { status } : {}),
             ...(typeof isClosed === "boolean" ? { isClosed } : {}),
             ...(sportTypeId ? { sportTypeId } : {}),
+            ...(minPrice !== undefined || maxPrice !== undefined
+                ? {
+                      pricePerHour: {
+                          ...(minPrice !== undefined ? { gte: Number(minPrice) } : {}),
+                          ...(maxPrice !== undefined ? { lte: Number(maxPrice) } : {}),
+                      },
+                  }
+                : {}),
         };
         const [fields, total] = [
             await prisma.field.findMany({

@@ -15,6 +15,8 @@ export const paginationSchema = z.object({
         return val;
     }, z.boolean().optional()),
     sportTypeId: z.string().optional(),
+    minPrice: z.coerce.number().min(0).optional(),
+    maxPrice: z.coerce.number().min(0).optional(),
     role: z.enum(["ADMIN", "USER", "RENTER"]).optional(),
     isVerified: z.preprocess((val) => {
         if (typeof val === "string") {
