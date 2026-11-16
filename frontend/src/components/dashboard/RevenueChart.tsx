@@ -1,6 +1,7 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { useMemo } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     ChartConfig,
@@ -8,10 +9,13 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
+import { formatCurrency } from "@/lib/utils";
+import { TrendingUp } from "lucide-react";
 
 interface RevenueChartProps {
     data: { date: string; total: number }[];
     title?: string;
+    headerAction?: React.ReactNode;
 }
 
 const chartConfig = {
@@ -21,19 +25,47 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
+function formatCompactRp(value: number) {
+    if (value >= 1_000_000) {
+        return `Rp ${(value / 1_000_000).toFixed(1).replace(".0", "")}jt`;
+    }
+    if (value >= 1_000) {
+        return `Rp ${Math.round(value / 1_000)}rb`;
+    }
+    return `Rp ${value}`;
+}
+
 export function RevenueChart({
     data,
     title = "Ringkasan Pendapatan",
+    headerAction,
 }: RevenueChartProps) {
+    const periodTotal = useMemo(
+        () => data.reduce((acc, item) => acc + (Number(item.total) || 0), 0),
+        [data]
+    );
+
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>{title}</CardTitle>
+        <Card className="rounded-2xl border-border/70 shadow-sm">
+            <CardHeader className="pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="space-y-1">
+                    <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                        <TrendingUp className="h-4 w-4 text-primary" />
+                        {title}
+                    </CardTitle>
+                    <p className="text-xs text-muted-foreground">
+                        Total periode:{" "}
+                        <span className="font-semibold text-foreground">
+                            {formatCurrency(periodTotal)}
+                        </span>
+                    </p>
+                </div>
+                {headerAction}
             </CardHeader>
             <CardContent>
                 <ChartContainer
                     config={chartConfig}
-                    className="min-h-[200px] w-full"
+                    className="min-h-[240px] max-h-[280px] w-full"
                 >
                     <BarChart accessibilityLayer data={data}>
                         <defs>
@@ -47,16 +79,20 @@ export function RevenueChart({
                                 <stop
                                     offset="5%"
                                     stopColor="#f59e0b"
-                                    stopOpacity={0.8}
+                                    stopOpacity={0.9}
                                 />
                                 <stop
                                     offset="95%"
                                     stopColor="#ea580c"
-                                    stopOpacity={0.8}
+                                    stopOpacity={0.85}
                                 />
                             </linearGradient>
                         </defs>
-                        <CartesianGrid vertical={false} />
+                        <CartesianGrid
+                            vertical={false}
+                            strokeDasharray="3 3"
+                            className="stroke-border/60"
+                        />
                         <XAxis
                             dataKey="date"
                             tickLine={false}
@@ -64,14 +100,22 @@ export function RevenueChart({
                             axisLine={false}
                             tickFormatter={(value) => value}
                         />
+                        <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            width={68}
+                            tickFormatter={(value) =>
+                                formatCompactRp(Number(value))
+                            }
+                        />
                         <ChartTooltip
-                            cursor={false}
+                            cursor={{ fill: "rgba(0,0,0,0.04)" }}
                             content={<ChartTooltipContent hideLabel />}
                         />
                         <Bar
                             dataKey="total"
                             fill="url(#fillTotal)"
-                            radius={8}
+                            radius={[6, 6, 0, 0]}
                         />
                     </BarChart>
                 </ChartContainer>

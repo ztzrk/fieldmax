@@ -4,20 +4,59 @@ import { ApiResponse } from "@fieldmax/shared";
 export interface VenueRevenue {
     venueId: string;
     venueName: string;
+    fieldCount: number;
+    bookingCount: number;
     totalRevenue: number;
 }
 
 export interface FieldRevenue {
     fieldId: string;
     fieldName: string;
+    venueId: string;
     venueName: string;
+    pricePerHour: number;
+    isClosed: boolean;
+    bookingCount: number;
+    averageRating: number;
+    reviewCount: number;
     totalRevenue: number;
+}
+
+export interface RevenueTransaction {
+    id: string;
+    bookingDate: string;
+    startTime: string;
+    endTime: string;
+    totalPrice: number;
+    status: string;
+    checkedInAt: string | null;
+    createdAt: string;
+    user: {
+        fullName: string;
+        email: string;
+    };
+    payment?: {
+        status: string;
+        paymentMethod?: string | null;
+    } | null;
+    field: {
+        id: string;
+        name: string;
+        venue: {
+            id: string;
+            name: string;
+        };
+    };
 }
 
 export interface RevenueStats {
     totalRevenue: number;
+    monthlyRevenue: number;
+    totalPaidBookings: number;
+    averageOrderValue: number;
     revenueByVenue: VenueRevenue[];
     revenueByField: FieldRevenue[];
+    transactions: RevenueTransaction[];
 }
 
 const RenterService = {

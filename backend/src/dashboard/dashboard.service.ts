@@ -49,24 +49,56 @@ export class DashboardService {
     }
 
     async getRenterStats(renterId: string) {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const startOfToday = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            0,
+            0,
+            0,
+            0
+        );
+        const endOfToday = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            23,
+            59,
+            59,
+            999
+        );
+
         const [
             totalVenues,
             totalFields,
+            activeFieldsCount,
             pendingVenues,
             totalBookings,
-            recentBookings,
+            recentBookingsRaw,
             totalRevenue,
+            monthlyRevenue,
+            todaySchedule,
         ] = await Promise.all([
             prisma.venue.count({ where: { renterId } }),
             prisma.field.count({ where: { venue: { renterId } } }),
+            prisma.field.count({
+                where: {
+                    venue: { renterId },
+                    status: "APPROVED",
+                    isClosed: false,
+                },
+            }),
             prisma.venue.count({ where: { renterId, status: "PENDING" } }),
             prisma.booking.count({ where: { field: { venue: { renterId } } } }),
             prisma.booking.findMany({
-                take: 5,
+                take: 6,
                 where: { field: { venue: { renterId } } },
                 orderBy: { createdAt: "desc" },
                 include: {
                     user: { select: { fullName: true, email: true } },
+                    payment: { select: { status: true } },
                     field: {
                         select: {
                             name: true,
@@ -82,15 +114,60 @@ export class DashboardService {
                     payment: { status: "PAID" },
                 },
             }),
+            prisma.booking.aggregate({
+                _sum: { totalPrice: true },
+                where: {
+                    field: { venue: { renterId } },
+                    payment: { status: "PAID" },
+                    bookingDate: { gte: startOfMonth },
+                },
+            }),
+            prisma.booking.findMany({
+                where: {
+                    field: { venue: { renterId } },
+                    bookingDate: {
+                        gte: startOfToday,
+                        lte: endOfToday,
+                    },
+                    status: {
+                        in: ["CONFIRMED", "COMPLETED", "NO_SHOW"],
+                    },
+                },
+                orderBy: { startTime: "asc" },
+                take: 10,
+                include: {
+                    user: { select: { fullName: true, phoneNumber: true } },
+                    field: {
+                        select: {
+                            name: true,
+                            venue: { select: { name: true } },
+                        },
+                    },
+                },
+            }),
         ]);
+
+        const recentBookings = recentBookingsRaw.map((b) => ({
+            ...b,
+            paymentStatus: b.payment?.status || "PENDING",
+        }));
+
+        const checkedInTodayCount = todaySchedule.filter(
+            (b) => b.checkedInAt !== null
+        ).length;
 
         return {
             totalVenues,
             totalFields,
+            activeFieldsCount,
             pendingVenues,
             totalBookings,
             recentBookings,
             totalRevenue: totalRevenue._sum.totalPrice || 0,
+            monthlyRevenue: monthlyRevenue._sum.totalPrice || 0,
+            todayBookingsCount: todaySchedule.length,
+            checkedInTodayCount,
+            todaySchedule,
         };
     }
     async getChartData(

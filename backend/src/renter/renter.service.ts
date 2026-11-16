@@ -464,44 +464,94 @@ export class RenterService {
     }
 
     public async getRevenueStats(renterId: string) {
-        // 1. Total Revenue
-        const totalRevenueResult = await prisma.booking.aggregate({
-            _sum: {
-                totalPrice: true,
-            },
-            where: {
-                payment: {
-                    status: "PAID",
-                },
-                field: {
-                    venue: {
-                        renterId,
-                    },
-                },
-            },
-        });
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-        // 2. Revenue Breakdown
-        const venues = await prisma.venue.findMany({
-            where: { renterId },
-            include: {
-                fields: {
-                    include: {
-                        bookings: {
-                            where: {
-                                payment: {
-                                    status: "PAID",
+        const [
+            totalRevenueResult,
+            monthlyRevenueResult,
+            venues,
+            transactions,
+        ] = await Promise.all([
+            prisma.booking.aggregate({
+                _sum: { totalPrice: true },
+                _count: { id: true },
+                where: {
+                    payment: { status: "PAID" },
+                    field: { venue: { renterId } },
+                },
+            }),
+            prisma.booking.aggregate({
+                _sum: { totalPrice: true },
+                where: {
+                    payment: { status: "PAID" },
+                    bookingDate: { gte: startOfMonth },
+                    field: { venue: { renterId } },
+                },
+            }),
+            prisma.venue.findMany({
+                where: { renterId },
+                include: {
+                    fields: {
+                        include: {
+                            bookings: {
+                                where: {
+                                    payment: { status: "PAID" },
                                 },
+                                select: { totalPrice: true },
                             },
-                            select: { totalPrice: true },
                         },
                     },
                 },
-            },
-        });
+            }),
+            prisma.booking.findMany({
+                where: {
+                    field: { venue: { renterId } },
+                },
+                orderBy: [{ bookingDate: "desc" }, { startTime: "desc" }],
+                take: 100,
+                include: {
+                    user: { select: { fullName: true, email: true } },
+                    payment: {
+                        select: { status: true },
+                    },
+                    field: {
+                        select: {
+                            id: true,
+                            name: true,
+                            venue: { select: { id: true, name: true } },
+                        },
+                    },
+                },
+            }),
+        ]);
+
+        const allFieldIds = venues.flatMap((v) => v.fields.map((f) => f.id));
+        const reviewStats = allFieldIds.length
+            ? await prisma.review.groupBy({
+                  by: ["fieldId"],
+                  _avg: { rating: true },
+                  _count: { rating: true },
+                  where: { fieldId: { in: allFieldIds } },
+              })
+            : [];
+
+        const reviewMap = new Map(
+            reviewStats.map((r) => [
+                r.fieldId,
+                {
+                    avg: r._avg.rating || 0,
+                    count: r._count.rating || 0,
+                },
+            ])
+        );
 
         const revenueByVenue = venues
             .map((venue) => {
+                const bookingCount = venue.fields.reduce(
+                    (acc, field) => acc + field.bookings.length,
+                    0
+                );
                 const venueRevenue = venue.fields.reduce((acc, field) => {
                     const fieldRevenue = field.bookings.reduce(
                         (sum, booking) => sum + booking.totalPrice,
@@ -513,31 +563,50 @@ export class RenterService {
                 return {
                     venueId: venue.id,
                     venueName: venue.name,
+                    fieldCount: venue.fields.length,
+                    bookingCount,
                     totalRevenue: venueRevenue,
                 };
             })
-            .filter((v) => v.totalRevenue > 0)
             .sort((a, b) => b.totalRevenue - a.totalRevenue);
 
         const revenueByField = venues
             .flatMap((venue) =>
-                venue.fields.map((field) => ({
-                    fieldId: field.id,
-                    fieldName: field.name,
-                    venueName: venue.name,
-                    totalRevenue: field.bookings.reduce(
-                        (sum, booking) => sum + booking.totalPrice,
-                        0
-                    ),
-                }))
+                venue.fields.map((field) => {
+                    const rev = reviewMap.get(field.id);
+                    return {
+                        fieldId: field.id,
+                        fieldName: field.name,
+                        venueId: venue.id,
+                        venueName: venue.name,
+                        pricePerHour: field.pricePerHour,
+                        isClosed: field.isClosed,
+                        bookingCount: field.bookings.length,
+                        averageRating: rev ? Number(rev.avg.toFixed(1)) : 0,
+                        reviewCount: rev?.count ?? 0,
+                        totalRevenue: field.bookings.reduce(
+                            (sum, booking) => sum + booking.totalPrice,
+                            0
+                        ),
+                    };
+                })
             )
-            .filter((f) => f.totalRevenue > 0)
             .sort((a, b) => b.totalRevenue - a.totalRevenue);
 
+        const totalRevenue = totalRevenueResult._sum.totalPrice || 0;
+        const totalPaidBookings = totalRevenueResult._count.id || 0;
+
         return {
-            totalRevenue: totalRevenueResult._sum.totalPrice || 0,
+            totalRevenue,
+            monthlyRevenue: monthlyRevenueResult._sum.totalPrice || 0,
+            totalPaidBookings,
+            averageOrderValue:
+                totalPaidBookings > 0
+                    ? Math.round(totalRevenue / totalPaidBookings)
+                    : 0,
             revenueByVenue,
             revenueByField,
+            transactions,
         };
     }
     public async getPublicProfile(renterId: string) {
