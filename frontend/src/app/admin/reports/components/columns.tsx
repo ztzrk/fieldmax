@@ -4,25 +4,46 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Report } from "@/services/reports.service";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, CheckCircle2, Clock } from "lucide-react";
 import { format } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
 import Link from "next/link";
 import { ReportActions } from "./ReportActions";
+import {
+    REPORT_CATEGORY_LABELS,
+    REPORT_CATEGORY_STYLES,
+    REPORT_STATUS_LABELS,
+    REPORT_STATUS_STYLES,
+} from "@/app/reports/constants";
 
 export const columns: ColumnDef<Report>[] = [
     {
         accessorKey: "subject",
-        header: ({ column }) => {
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
+                }
+            >
+                Subjek
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
+        cell: ({ row }) => {
+            const report = row.original;
             return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
+                <Link
+                    href={`/admin/reports/${report.id}`}
+                    className="group flex flex-col max-w-[280px]"
                 >
-                    Subjek
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                    <span className="font-medium text-foreground group-hover:text-primary group-hover:underline truncate">
+                        {report.subject}
+                    </span>
+                    <span className="text-xs font-mono text-muted-foreground">
+                        #{report.id.slice(0, 8)}
+                    </span>
+                </Link>
             );
         },
     },
@@ -40,7 +61,15 @@ export const columns: ColumnDef<Report>[] = [
             </Button>
         ),
         cell: ({ row }) => {
-            return <Badge variant="outline">{row.getValue("category")}</Badge>;
+            const category = row.getValue("category") as Report["category"];
+            return (
+                <Badge
+                    variant="outline"
+                    className={REPORT_CATEGORY_STYLES[category]}
+                >
+                    {REPORT_CATEGORY_LABELS[category] ?? category}
+                </Badge>
+            );
         },
     },
     {
@@ -60,9 +89,9 @@ export const columns: ColumnDef<Report>[] = [
             const user = row.original.user;
             return (
                 <div className="flex flex-col">
-                    <span className="font-medium">{user?.fullName}</span>
+                    <span className="font-medium">{user?.fullName || "-"}</span>
                     <span className="text-xs text-muted-foreground">
-                        {user?.email}
+                        {user?.email || "-"}
                     </span>
                 </div>
             );
@@ -82,12 +111,18 @@ export const columns: ColumnDef<Report>[] = [
             </Button>
         ),
         cell: ({ row }) => {
-            const status = row.getValue("status") as string;
+            const status = row.getValue("status") as Report["status"];
             return (
                 <Badge
-                    variant={status === "RESOLVED" ? "default" : "secondary"}
+                    variant="outline"
+                    className={`gap-1.5 ${REPORT_STATUS_STYLES[status]}`}
                 >
-                    {status}
+                    {status === "RESOLVED" ? (
+                        <CheckCircle2 className="h-3.5 w-3.5" />
+                    ) : (
+                        <Clock className="h-3.5 w-3.5" />
+                    )}
+                    {REPORT_STATUS_LABELS[status] ?? status}
                 </Badge>
             );
         },
@@ -101,13 +136,14 @@ export const columns: ColumnDef<Report>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Date
+                Tanggal
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
-        cell: ({ row }) => {
-            return format(new Date(row.getValue("createdAt")), "dd MMM yyyy");
-        },
+        cell: ({ row }) =>
+            format(new Date(row.getValue("createdAt")), "dd MMM yyyy", {
+                locale: idLocale,
+            }),
     },
     {
         id: "actions",

@@ -28,7 +28,19 @@ import {
     Receipt,
     ArrowLeft,
     RefreshCw,
+    QrCode,
+    CheckCircle2,
+    HelpCircle,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -202,6 +214,13 @@ export default function BookingDetailPage({
                     glow: "bg-blue-500",
                     label: "Selesai",
                 };
+            case "NO_SHOW":
+                return {
+                    badge: "bg-zinc-500/10 text-zinc-600 border-zinc-200 dark:border-zinc-800",
+                    icon: "text-zinc-600 bg-zinc-100 dark:bg-zinc-800",
+                    glow: "bg-zinc-500",
+                    label: "Tidak Hadir",
+                };
             default:
                 return {
                     badge: "bg-gray-500/10 text-gray-600 border-gray-200 dark:border-gray-800",
@@ -213,7 +232,9 @@ export default function BookingDetailPage({
     };
 
     const statusKey =
-        booking.status === "CANCELLED" || booking.status === "COMPLETED"
+        booking.status === "CANCELLED" ||
+        booking.status === "COMPLETED" ||
+        booking.status === "NO_SHOW"
             ? booking.status
             : booking.paymentStatus || booking.status;
 
@@ -484,8 +505,167 @@ export default function BookingDetailPage({
                         )}
                     </div>
 
-                    {/* Sidebar / Summary */}
+                    {/* Sidebar / Summary & QR Ticket */}
                     <div className="space-y-6">
+                        {(booking.status === "CONFIRMED" ||
+                            booking.status === "COMPLETED") && (
+                            <Card className="border-border/60 shadow-sm rounded-2xl py-0 overflow-hidden">
+                                <CardHeader className="bg-muted/30 border-b border-border/50 py-4 px-6">
+                                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                                        <QrCode className="h-4 w-4 text-primary" />
+                                        QR Tiket Masuk
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-6 flex flex-col items-center text-center gap-4">
+                                    <div className="p-3 bg-white rounded-2xl border shadow-xs">
+                                        <QRCodeSVG
+                                            value={`FIELDMAX:${booking.id}`}
+                                            size={168}
+                                            level="M"
+                                        />
+                                    </div>
+                                    {booking.checkedInAt ? (
+                                        <div className="w-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs p-3 rounded-xl border border-emerald-500/20 font-medium flex items-center justify-center gap-2">
+                                            <CheckCircle2 className="h-4 w-4 shrink-0" />
+                                            <span>
+                                                Sudah Check-In pada{" "}
+                                                {new Date(
+                                                    booking.checkedInAt
+                                                ).toLocaleTimeString("id-ID", {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })}
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <p className="text-xs text-muted-foreground leading-relaxed">
+                                            Tunjukkan QR Code ini kepada petugas
+                                            tempat olahraga saat tiba di lokasi
+                                            untuk verifikasi kehadiran.
+                                        </p>
+                                    )}
+
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="w-full rounded-xl gap-2 text-xs"
+                                            >
+                                                <HelpCircle className="h-3.5 w-3.5 text-primary" />
+                                                Cara Check-In &amp; Aturan
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent className="sm:max-w-md">
+                                            <DialogHeader>
+                                                <DialogTitle className="flex items-center gap-2">
+                                                    <QrCode className="h-5 w-5 text-primary" />
+                                                    Panduan &amp; Aturan
+                                                    Check-In
+                                                </DialogTitle>
+                                                <DialogDescription>
+                                                    Ikuti langkah berikut saat
+                                                    tiba di lokasi tempat
+                                                    olahraga.
+                                                </DialogDescription>
+                                            </DialogHeader>
+
+                                            <div className="space-y-5 text-sm">
+                                                <div className="space-y-2.5">
+                                                    <h4 className="font-semibold text-foreground">
+                                                        Cara Melakukan Check-In
+                                                    </h4>
+                                                    <ol className="list-decimal pl-5 space-y-1.5 text-muted-foreground">
+                                                        <li>
+                                                            Datang ke tempat
+                                                            olahraga sesuai
+                                                            tanggal dan jam
+                                                            bermain pada tiket.
+                                                        </li>
+                                                        <li>
+                                                            Buka halaman detail
+                                                            tiket ini dan
+                                                            tunjukkan{" "}
+                                                            <strong className="text-foreground">
+                                                                QR Tiket Masuk
+                                                            </strong>{" "}
+                                                            (atau sebutkan Kode
+                                                            Tiket{" "}
+                                                            <span className="font-mono">
+                                                                #
+                                                                {booking.id
+                                                                    .slice(0, 8)
+                                                                    .toUpperCase()}
+                                                            </span>
+                                                            ) kepada petugas.
+                                                        </li>
+                                                        <li>
+                                                            Petugas akan
+                                                            memindai QR Code
+                                                            Anda dan status
+                                                            tiket otomatis
+                                                            berubah menjadi{" "}
+                                                            <strong className="text-foreground">
+                                                                Sudah Check-In
+                                                            </strong>
+                                                            .
+                                                        </li>
+                                                    </ol>
+                                                </div>
+
+                                                <Separator />
+
+                                                <div className="space-y-2.5">
+                                                    <h4 className="font-semibold text-foreground">
+                                                        Aturan Check-In
+                                                    </h4>
+                                                    <ul className="list-disc pl-5 space-y-1.5 text-muted-foreground">
+                                                        <li>
+                                                            <strong className="text-foreground">
+                                                                Waktu Check-In:
+                                                            </strong>{" "}
+                                                            Dibuka mulai{" "}
+                                                            <strong className="text-foreground">
+                                                                15 menit sebelum
+                                                                sesi dimulai
+                                                            </strong>{" "}
+                                                            hingga sesi bermain
+                                                            berakhir.
+                                                        </li>
+                                                        <li>
+                                                            <strong className="text-foreground">
+                                                                1x Penggunaan:
+                                                            </strong>{" "}
+                                                            Setiap tiket hanya
+                                                            berlaku untuk satu
+                                                            kali check-in.
+                                                        </li>
+                                                        <li>
+                                                            <strong className="text-foreground">
+                                                                Ketidakhadiran
+                                                                (No-Show):
+                                                            </strong>{" "}
+                                                            Jika tidak melakukan
+                                                            check-in sampai sesi
+                                                            berakhir, status
+                                                            otomatis menjadi{" "}
+                                                            <strong className="text-foreground">
+                                                                Tidak Hadir
+                                                            </strong>
+                                                            , pembayaran tidak
+                                                            dapat dikembalikan,
+                                                            dan Anda tidak dapat
+                                                            memberikan ulasan.
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
+                                </CardContent>
+                            </Card>
+                        )}
+
                         <Card className="border-border/60 shadow-sm rounded-2xl h-fit py-0 overflow-hidden">
                             <CardHeader className="bg-muted/30 border-b border-border/50 py-4 px-6">
                                 <CardTitle className="text-base font-semibold">

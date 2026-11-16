@@ -70,6 +70,15 @@ export class RenterController {
         }
     );
 
+    public checkInBooking = asyncHandler(
+        async (req: Request, res: Response) => {
+            const renterId = req.user!.id;
+            const { code } = req.body;
+            const data = await this.service.checkInBooking(renterId, code);
+            sendSuccess(res, data, "Check-in berhasil");
+        }
+    );
+
     public getMyFields = asyncHandler(async (req: Request, res: Response) => {
         const renterId = req.user!.id;
         const data = await this.service.findMyFields(renterId);

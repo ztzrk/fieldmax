@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../db";
 import { Pagination } from "../schemas/pagination.schema";
-import { NotFoundError } from "../utils/errors";
+import { NotFoundError, ValidationError } from "../utils/errors";
 
 export class RenterService {
     public async findMyVenues(renterId: string) {
@@ -131,6 +131,129 @@ export class RenterService {
         return prisma.booking.update({
             where: { id: bookingId },
             data: { status: "COMPLETED" },
+        });
+    }
+
+    public async checkInBooking(renterId: string, rawCode: string) {
+        const normalized = rawCode
+            .trim()
+            .replace(/^FIELDMAX:/i, "")
+            .replace(/^#/, "")
+            .toLowerCase();
+
+        if (!normalized) {
+            throw new ValidationError("Kode tiket tidak boleh kosong.");
+        }
+
+        const isUuid =
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+                normalized
+            );
+
+        const booking = isUuid
+            ? await prisma.booking.findFirst({
+                  where: {
+                      id: normalized,
+                      field: { venue: { renterId } },
+                  },
+                  include: {
+                      user: {
+                          select: { id: true, fullName: true, email: true },
+                      },
+                      field: { include: { venue: true } },
+                      payment: true,
+                  },
+              })
+            : await prisma.booking.findFirst({
+                  where: {
+                      id: { startsWith: normalized },
+                      field: { venue: { renterId } },
+                  },
+                  include: {
+                      user: {
+                          select: { id: true, fullName: true, email: true },
+                      },
+                      field: { include: { venue: true } },
+                      payment: true,
+                  },
+              });
+
+        if (!booking) {
+            throw new NotFoundError(
+                "Tiket tidak ditemukan atau bukan milik tempat olahraga Anda."
+            );
+        }
+
+        if (booking.status === "PENDING") {
+            throw new ValidationError(
+                "Tiket belum dibayar. Selesaikan pembayaran terlebih dahulu."
+            );
+        }
+
+        if (booking.status === "CANCELLED" || booking.status === "NO_SHOW") {
+            throw new ValidationError(
+                `Tiket berstatus ${booking.status} dan tidak dapat check-in.`
+            );
+        }
+
+        if (booking.checkedInAt) {
+            throw new ValidationError("Tiket ini sudah melakukan check-in sebelumnya.");
+        }
+
+        const now = new Date();
+        const bookingDateStr = booking.bookingDate.toISOString().split("T")[0];
+        const startH = booking.startTime
+            .getUTCHours()
+            .toString()
+            .padStart(2, "0");
+        const startM = booking.startTime
+            .getUTCMinutes()
+            .toString()
+            .padStart(2, "0");
+        const endH = booking.endTime
+            .getUTCHours()
+            .toString()
+            .padStart(2, "0");
+        const endM = booking.endTime
+            .getUTCMinutes()
+            .toString()
+            .padStart(2, "0");
+
+        const startDateTime = new Date(
+            `${bookingDateStr}T${startH}:${startM}:00.000+07:00`
+        );
+        const endDateTime = new Date(
+            `${bookingDateStr}T${endH}:${endM}:00.000+07:00`
+        );
+        const earliestCheckIn = new Date(
+            startDateTime.getTime() - 15 * 60 * 1000
+        );
+
+        if (now < earliestCheckIn) {
+            const openCheckInWib = new Date(
+                earliestCheckIn.getTime() + 7 * 60 * 60 * 1000
+            )
+                .toISOString()
+                .slice(11, 16);
+            throw new ValidationError(
+                `Check-in baru dapat dilakukan mulai 15 menit sebelum sesi dimulai (${bookingDateStr} pukul ${openCheckInWib}).`
+            );
+        }
+
+        if (now > endDateTime) {
+            throw new ValidationError(
+                "Sesi bermain sudah berakhir, check-in tidak dapat dilakukan."
+            );
+        }
+
+        return prisma.booking.update({
+            where: { id: booking.id },
+            data: { checkedInAt: new Date() },
+            include: {
+                user: { select: { id: true, fullName: true, email: true } },
+                field: { include: { venue: true } },
+                payment: true,
+            },
         });
     }
 

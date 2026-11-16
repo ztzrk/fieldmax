@@ -24,14 +24,14 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
     if (!fields || fields.length === 0) return null;
 
     return (
-        <section className="w-full py-24 bg-background">
-            <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6 py-6">
-                <div className="flex items-center justify-between mb-12">
+        <section className="w-full py-10 bg-background">
+            <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
+                <div className="flex items-center justify-between mb-6">
                     <div className="space-y-1">
-                        <h2 className="text-3xl font-bold tracking-tight">
+                        <h2 className="text-2xl font-bold tracking-tight">
                             Lapangan Paling Populer
                         </h2>
-                        <p className="text-muted-foreground">
+                        <p className="text-sm text-muted-foreground">
                             Pilihan lapangan dengan ulasan terbaik yang
                             direkomendasikan para pemain.
                         </p>
@@ -44,7 +44,7 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                     </Link>
                 </div>
 
-                <div className="px-10 py-6">
+                <div className="px-10">
                     <Carousel
                         opts={{
                             align: "start",

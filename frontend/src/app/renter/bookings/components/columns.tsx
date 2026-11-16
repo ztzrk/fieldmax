@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { formatDate, formatTime } from "@/lib/utils";
+import { useCheckInBooking } from "@/hooks/useBookings";
 import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 
 const getStatusVariant = (status: string) => {
@@ -32,6 +33,8 @@ const getStatusVariant = (status: string) => {
 };
 
 const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
+    const { mutate: checkIn } = useCheckInBooking();
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -41,6 +44,11 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                {booking.status === "CONFIRMED" && !booking.checkedInAt && (
+                    <DropdownMenuItem onClick={() => checkIn(booking.id)}>
+                        Konfirmasi Hadir (Check-In)
+                    </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                     onClick={() => navigator.clipboard.writeText(booking.id)}
                 >
@@ -135,6 +143,29 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         cell: ({ row }) => {
             const status = row.getValue("status") as string;
             return <Badge variant={getStatusVariant(status)}>{status}</Badge>;
+        },
+    },
+    {
+        id: "checkedInAt",
+        header: "Kehadiran",
+        cell: ({ row }) => {
+            const { status, checkedInAt } = row.original;
+            if (checkedInAt) {
+                return (
+                    <Badge variant="default" className="bg-emerald-600">
+                        Hadir (
+                        {new Date(checkedInAt).toLocaleTimeString("id-ID", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })}
+                        )
+                    </Badge>
+                );
+            }
+            if (status === "NO_SHOW") {
+                return <Badge variant="destructive">Tidak Hadir</Badge>;
+            }
+            return <Badge variant="outline">Belum Hadir</Badge>;
         },
     },
     {

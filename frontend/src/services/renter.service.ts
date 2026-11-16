@@ -31,6 +31,10 @@ const RenterService = {
         const response = await api.get(`/renter/public/${renterId}`);
         return response.data.data;
     },
+    checkInBooking: async (code: string) => {
+        const response = await api.post("/renter/bookings/check-in", { code });
+        return response.data;
+    },
 };
 
 export default RenterService;

@@ -163,6 +163,7 @@ model Booking {
   endTime     DateTime      @map("end_time") @db.Time(6)
   totalPrice  Float         @map("total_price")
   status      BookingStatus @default(PENDING)
+  checkedInAt DateTime?     @map("checked_in_at")
   createdAt   DateTime      @default(now()) @map("created_at")
   field       Field         @relation(fields: [fieldId], references: [id])
   user        User          @relation(fields: [userId], references: [id])
@@ -231,6 +232,7 @@ enum BookingStatus {
   CONFIRMED
   CANCELLED
   COMPLETED
+  NO_SHOW
 }
 
 enum PaymentStatus {

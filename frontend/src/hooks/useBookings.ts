@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import BookingService from "@/services/booking.service";
 import FieldService from "@/services/field.service";
+import RenterService from "@/services/renter.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
@@ -97,5 +98,25 @@ export function useGetBookingById(
         },
         enabled: !!id,
         refetchInterval: options?.refetchInterval,
+    });
+}
+
+export function useCheckInBooking() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (code: string) => RenterService.checkInBooking(code),
+        onSuccess: () => {
+            toast.success("Check-in berhasil! Kehadiran pengguna tercatat.");
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.bookings._def,
+            });
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            const msg =
+                error.response?.data?.error?.message ||
+                error.response?.data?.message ||
+                "Gagal melakukan check-in.";
+            toast.error(msg);
+        },
     });
 }

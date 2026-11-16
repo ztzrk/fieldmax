@@ -24,7 +24,13 @@ export class ReviewsService {
             throw new ForbiddenError("Unauthorized to review this booking");
         }
 
-        // 2. Verify booking is completed (or confirmed and past time)
+        // 2. Verify booking is completed (or confirmed + checked in + past time)
+        if (booking.status === "NO_SHOW") {
+            throw new ValidationError(
+                "Tidak dapat memberi ulasan karena pemesanan berstatus tidak hadir (No-Show)."
+            );
+        }
+
         const isCompleted = booking.status === "COMPLETED";
 
         const bookingDateStr = booking.bookingDate.toISOString().split("T")[0];
@@ -35,7 +41,9 @@ export class ReviewsService {
         );
 
         const isPastAndConfirmed =
-            booking.status === "CONFIRMED" && new Date() >= endDateTime;
+            booking.status === "CONFIRMED" &&
+            !!booking.checkedInAt &&
+            new Date() >= endDateTime;
 
         if (!isCompleted && !isPastAndConfirmed) {
             throw new ValidationError("Cannot review an incomplete booking");

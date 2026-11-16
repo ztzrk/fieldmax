@@ -9,7 +9,7 @@ export class CronService {
             try {
                 const now = new Date();
 
-                // 1. Auto-complete past confirmed bookings
+                // 1. Auto-complete checked-in or mark no-show for past confirmed bookings
                 const confirmedBookings = await prisma.booking.findMany({
                     where: {
                         status: "CONFIRMED",
@@ -21,10 +21,12 @@ export class CronService {
                         id: true,
                         bookingDate: true,
                         endTime: true,
+                        checkedInAt: true,
                     },
                 });
 
                 const completedBookingIds: string[] = [];
+                const noShowBookingIds: string[] = [];
 
                 for (const booking of confirmedBookings) {
                     const bookingDateStr = booking.bookingDate
@@ -43,7 +45,11 @@ export class CronService {
                     );
 
                     if (endDateTime <= now) {
-                        completedBookingIds.push(booking.id);
+                        if (booking.checkedInAt) {
+                            completedBookingIds.push(booking.id);
+                        } else {
+                            noShowBookingIds.push(booking.id);
+                        }
                     }
                 }
 
@@ -57,7 +63,21 @@ export class CronService {
                         },
                     });
                     logger.info(
-                        `[Cron] Auto-completed ${result.count} bookings.`,
+                        `[Cron] Auto-completed ${result.count} checked-in bookings.`,
+                    );
+                }
+
+                if (noShowBookingIds.length > 0) {
+                    const result = await prisma.booking.updateMany({
+                        where: {
+                            id: { in: noShowBookingIds },
+                        },
+                        data: {
+                            status: "NO_SHOW",
+                        },
+                    });
+                    logger.info(
+                        `[Cron] Auto-marked ${result.count} bookings as NO_SHOW.`,
                     );
                 }
 

@@ -31,52 +31,69 @@ export function HeroSection({
 }: HeroSectionProps) {
     const router = useRouter();
 
+    const triggerSearch = () => {
+        if (searchValue.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchValue.trim())}`);
+        } else {
+            router.push("/fields");
+        }
+    };
+
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && searchValue.trim()) {
-            router.push(`/search?q=${encodeURIComponent(searchValue)}`);
+            triggerSearch();
         }
     };
 
     return (
-        <section className="relative w-full py-20 md:py-32 lg:py-48">
-            {/* Background enhancement */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-600 to-amber-600 opacity-95" />
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-black/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
+        <section className="relative w-full py-12 md:py-16 lg:py-20 border-b border-border/40">
+            {/* Background */}
+            <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-600/90 via-primary/85 to-amber-600/90" />
+                <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
+                <div className="absolute -top-24 right-0 w-[420px] h-[420px] bg-white/15 rounded-full blur-[110px] pointer-events-none" />
+                <div className="absolute -bottom-24 left-0 w-[420px] h-[420px] bg-black/25 rounded-full blur-[110px] pointer-events-none" />
             </div>
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center space-y-8 text-center animate-in fade-in slide-in-from-bottom-8 duration-700">
-                    <div className="space-y-4 max-w-3xl">
-                        <div className="inline-block px-4 py-1.5 mb-2 text-sm font-semibold tracking-wide text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-lg">
-                            ✨ Platform Sewa Lapangan Olahraga #1
-                        </div>
-                        <h1 className="text-4xl font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white drop-shadow-sm">
-                            Temukan & Pesan{" "}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400">
+                <div className="flex flex-col items-center space-y-6 text-center animate-in fade-in slide-in-from-bottom-6 duration-500">
+                    <div className="space-y-3 max-w-3xl">
+                        <h1 className="text-3xl font-black tracking-tight sm:text-5xl md:text-6xl text-white drop-shadow-sm">
+                            Temukan &amp; Pesan{" "}
+                            <span className="text-amber-200">
                                 Lapangan
                             </span>{" "}
                             Favoritmu
                         </h1>
-                        <p className="mx-auto max-w-[700px] text-blue-50 md:text-xl lg:text-2xl leading-relaxed font-medium">
+                        <p className="mx-auto max-w-[640px] text-white/90 text-base md:text-lg leading-relaxed">
                             Cari tempat olahraga terbaik, cek ketersediaan jadwal
-                            secara langsung, dan sewa lapangan dalam hitungan detik.
+                            secara langsung, dan sewa lapangan dalam hitungan
+                            detik.
                         </p>
                     </div>
 
-                    <div className="w-full max-w-lg space-y-2 relative">
-                        <div className="relative group">
-                            <div className="absolute inset-0 bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full" />
-                            <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground z-10" />
-                            <Input
-                                type="search"
-                                placeholder="Cari nama lapangan, tempat, atau jenis olahraga..."
-                                className="pl-12 h-12 text-lg shadow-lg border-primary/20 hover:border-primary/50 transition-colors bg-background/80 backdrop-blur-sm"
-                                value={searchValue}
-                                onChange={(e) => onSearchChange(e.target.value)}
-                                onKeyDown={handleSearch}
-                            />
+                    <div className="w-full max-w-2xl space-y-4 relative z-30">
+                        <div className="relative z-30">
+                            <div className="relative flex items-center rounded-2xl bg-background/95 p-1.5 shadow-2xl ring-1 ring-white/20 backdrop-blur-md">
+                                <Search className="ml-3.5 h-5 w-5 text-muted-foreground shrink-0" />
+                                <Input
+                                    type="search"
+                                    placeholder="Cari nama lapangan, tempat olahraga, atau cabang olahraga..."
+                                    className="border-0 bg-transparent shadow-none focus-visible:ring-0 h-11 text-base px-3"
+                                    value={searchValue}
+                                    onChange={(e) =>
+                                        onSearchChange(e.target.value)
+                                    }
+                                    onKeyDown={handleSearch}
+                                />
+                                <Button
+                                    type="button"
+                                    onClick={triggerSearch}
+                                    className="h-10 px-6 rounded-xl font-semibold shrink-0"
+                                >
+                                    Cari
+                                </Button>
+                            </div>
                             {searchValue.length > 0 && (
                                 <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-background/95 backdrop-blur-md text-foreground rounded-xl border shadow-2xl animate-in fade-in-0 zoom-in-95 overflow-hidden ring-1 ring-black/5">
                                     {isSearching ? (
@@ -160,25 +177,25 @@ export function HeroSection({
                             )}
                         </div>
                         {/* Sport Type Filters */}
-                        <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+                        <div className="relative z-10 flex flex-wrap items-center justify-center gap-2 pt-1">
                             <Link href="/fields">
                                 <Button
                                     variant="secondary"
                                     size="sm"
-                                    className="rounded-full px-4 hover:shadow-md transition-shadow font-medium"
+                                    className="rounded-full px-4 h-8 text-xs font-semibold shadow-sm"
                                 >
                                     Semua Olahraga
                                 </Button>
                             </Link>
-                            {sportTypes?.slice(0, 5).map((type) => (
+                            {sportTypes?.slice(0, 6).map((type) => (
                                 <Link
                                     key={type.id}
                                     href={`/fields?sport=${type.id}`}
                                 >
                                     <Button
-                                        variant="outline"
+                                        variant="ghost"
                                         size="sm"
-                                        className="rounded-full px-4 border-muted-foreground/20 hover:border-primary/50 hover:text-primary transition-all bg-background/50 backdrop-blur-sm"
+                                        className="rounded-full px-4 h-8 text-xs font-medium text-white bg-white/15 hover:bg-white/25 hover:text-white border border-white/20 backdrop-blur-sm transition-all"
                                     >
                                         {type.name}
                                     </Button>

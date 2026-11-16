@@ -6,6 +6,7 @@ export const BookingStatus = {
     CONFIRMED: "CONFIRMED",
     CANCELLED: "CANCELLED",
     COMPLETED: "COMPLETED",
+    NO_SHOW: "NO_SHOW",
 } as const;
 
 export type BookingStatusType = (typeof BookingStatus)[keyof typeof BookingStatus];
@@ -42,7 +43,9 @@ export const bookingQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional(),
     limit: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
-    status: z.enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"]).optional(),
+    status: z
+        .enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED", "NO_SHOW"])
+        .optional(),
     sortBy: z.string().optional(),
     sortOrder: z.enum(["asc", "desc"]).optional(),
 });
@@ -63,7 +66,14 @@ export const bookingResponseSchema = z.object({
     startTime: z.string(),
     endTime: z.string(),
     totalPrice: z.number(),
-    status: z.enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"]),
+    status: z.enum([
+        "PENDING",
+        "CONFIRMED",
+        "CANCELLED",
+        "COMPLETED",
+        "NO_SHOW",
+    ]),
+    checkedInAt: z.string().nullable().optional(),
     snapToken: z.string().nullable().optional(),
     paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]),
     createdAt: z.string(),

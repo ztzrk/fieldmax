@@ -24,15 +24,15 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
     if (!venues || venues.length === 0) return null;
 
     return (
-        <section className="w-full py-24 bg-muted/30">
+        <section className="w-full py-10 bg-muted/30">
             <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6">
-                <div className="flex items-center justify-between mb-12">
+                <div className="flex items-center justify-between mb-6">
                     <div className="space-y-1">
-                        <h2 className="text-3xl font-bold tracking-tight">
+                        <h2 className="text-2xl font-bold tracking-tight">
                             Tempat Olahraga Terpopuler
                         </h2>
-                        <p className="text-muted-foreground">
-                            Venue favorit dengan fasilitas lengkap dan
+                        <p className="text-sm text-muted-foreground">
+                            Tempat olahraga favorit dengan fasilitas lengkap dan
                             pengalaman bermain terbaik.
                         </p>
                     </div>
@@ -64,7 +64,7 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
                                             venue.bookingCount > 0 && (
                                                 <div className="absolute top-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm z-10 pointer-events-none">
                                                     {venue.bookingCount}{" "}
-                                                    Bookings
+                                                    Pesanan
                                                 </div>
                                             )}
                                     </div>

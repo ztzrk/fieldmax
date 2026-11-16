@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Report } from "@/services/reports.service";
+import { useMemo, useState } from "react";
 import { useGetMyReports } from "@/hooks/useReports";
 import { CreateReportForm } from "@/app/reports/components/create-report-form";
 import { Badge } from "@/components/ui/badge";
@@ -14,8 +13,11 @@ import {
     ChevronRight,
     Search,
     Filter,
+    Inbox,
+    Tag,
 } from "lucide-react";
 import { format } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,7 +27,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { FullScreenLoader } from "@/components/FullScreenLoader";
+import {
+    REPORT_CATEGORY_LABELS,
+    REPORT_CATEGORY_STYLES,
+    REPORT_STATUS_LABELS,
+    REPORT_STATUS_STYLES,
+} from "../constants";
 
 export interface ReportsViewProps {
     title?: string;
@@ -41,85 +48,207 @@ export function ReportsView({
     const { data: reports = [], isLoading, refetch } = useGetMyReports();
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("ALL");
+    const [categoryFilter, setCategoryFilter] = useState("ALL");
     const router = useRouter();
 
-    const filteredReports = reports.filter((report) => {
-        const matchesSearch = report.subject
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        const matchesStatus =
-            statusFilter === "ALL" || report.status === statusFilter;
-        return matchesSearch && matchesStatus;
-    });
+    const stats = useMemo(() => {
+        const total = reports.length;
+        const pending = reports.filter((r) => r.status === "PENDING").length;
+        const resolved = reports.filter((r) => r.status === "RESOLVED").length;
+        return { total, pending, resolved };
+    }, [reports]);
+
+    const filteredReports = useMemo(() => {
+        const q = searchTerm.trim().toLowerCase();
+        return reports.filter((report) => {
+            const matchesSearch =
+                !q ||
+                report.subject.toLowerCase().includes(q) ||
+                report.description.toLowerCase().includes(q);
+            const matchesStatus =
+                statusFilter === "ALL" || report.status === statusFilter;
+            const matchesCategory =
+                categoryFilter === "ALL" || report.category === categoryFilter;
+            return matchesSearch && matchesStatus && matchesCategory;
+        });
+    }, [reports, searchTerm, statusFilter, categoryFilter]);
+
+    const hasActiveFilters =
+        Boolean(searchTerm.trim()) ||
+        statusFilter !== "ALL" ||
+        categoryFilter !== "ALL";
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
                         {title}
                     </h1>
-                    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+                    <p className="mt-2 text-base md:text-lg text-muted-foreground">
                         {subtitle}
                     </p>
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            {/* Summary Stat Pills */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <button
+                    type="button"
+                    onClick={() => setStatusFilter("ALL")}
+                    className={`text-left rounded-xl border p-4 transition-all ${
+                        statusFilter === "ALL"
+                            ? "border-primary bg-primary/5 ring-1 ring-primary/20"
+                            : "border-border/70 bg-card hover:border-border"
+                    }`}
+                >
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                            Total Laporan
+                        </span>
+                        <Inbox className="h-4 w-4 text-primary" />
+                    </div>
+                    <p className="mt-2 text-2xl font-bold text-foreground">
+                        {stats.total}
+                    </p>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setStatusFilter("PENDING")}
+                    className={`text-left rounded-xl border p-4 transition-all ${
+                        statusFilter === "PENDING"
+                            ? "border-amber-500 bg-amber-50/70 dark:bg-amber-950/30 ring-1 ring-amber-500/20"
+                            : "border-border/70 bg-card hover:border-border"
+                    }`}
+                >
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                            Menunggu Tanggapan
+                        </span>
+                        <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <p className="mt-2 text-2xl font-bold text-foreground">
+                        {stats.pending}
+                    </p>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setStatusFilter("RESOLVED")}
+                    className={`text-left rounded-xl border p-4 transition-all ${
+                        statusFilter === "RESOLVED"
+                            ? "border-emerald-500 bg-emerald-50/70 dark:bg-emerald-950/30 ring-1 ring-emerald-500/20"
+                            : "border-border/70 bg-card hover:border-border"
+                    }`}
+                >
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                            Selesai
+                        </span>
+                        <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <p className="mt-2 text-2xl font-bold text-foreground">
+                        {stats.resolved}
+                    </p>
+                </button>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-8">
                 {/* Left Column: Report List */}
-                <div className="md:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-5">
                     {/* Filters */}
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row gap-3">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Cari laporan..."
-                                className="pl-9 bg-white dark:bg-zinc-800"
+                                placeholder="Cari subjek atau isi laporan..."
+                                className="pl-9"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <Select
+                            value={categoryFilter}
+                            onValueChange={setCategoryFilter}
+                        >
+                            <SelectTrigger className="w-full sm:w-[190px] bg-card">
+                                <Tag className="mr-2 h-4 w-4 text-muted-foreground" />
+                                <SelectValue placeholder="Semua Kategori" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="ALL">
+                                    Semua Kategori
+                                </SelectItem>
+                                {(
+                                    Object.keys(
+                                        REPORT_CATEGORY_LABELS
+                                    ) as Array<
+                                        keyof typeof REPORT_CATEGORY_LABELS
+                                    >
+                                ).map((key) => (
+                                    <SelectItem key={key} value={key}>
+                                        {REPORT_CATEGORY_LABELS[key]}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <Select
                             value={statusFilter}
                             onValueChange={setStatusFilter}
                         >
-                            <SelectTrigger className="w-full sm:w-[180px] bg-white dark:bg-zinc-800">
+                            <SelectTrigger className="w-full sm:w-[165px] bg-card">
                                 <Filter className="mr-2 h-4 w-4 text-muted-foreground" />
                                 <SelectValue placeholder="Filter status" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="ALL">Semua Status</SelectItem>
                                 <SelectItem value="PENDING">Menunggu</SelectItem>
-                                <SelectItem value="RESOLVED">
-                                    Selesai
-                                </SelectItem>
+                                <SelectItem value="RESOLVED">Selesai</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
 
                     {/* Content */}
                     {isLoading ? (
-                        <FullScreenLoader />
+                        <div className="grid gap-4">
+                            {[1, 2, 3].map((i) => (
+                                <Card
+                                    key={i}
+                                    className="border-border/60 animate-pulse"
+                                >
+                                    <CardContent className="p-6 space-y-3">
+                                        <div className="flex gap-2">
+                                            <div className="h-5 w-20 rounded-full bg-muted" />
+                                            <div className="h-5 w-28 rounded-full bg-muted" />
+                                        </div>
+                                        <div className="h-5 w-2/3 rounded bg-muted" />
+                                        <div className="h-4 w-full rounded bg-muted" />
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
                     ) : filteredReports.length === 0 ? (
-                        <div className="text-center py-20 px-4 border-2 border-dashed rounded-xl bg-white/50 dark:bg-zinc-800/50">
-                            <div className="mx-auto bg-gray-100 dark:bg-zinc-700 h-16 w-16 rounded-full flex items-center justify-center mb-4">
-                                <MessageSquare className="h-8 w-8 text-muted-foreground" />
+                        <div className="text-center py-16 px-4 border-2 border-dashed border-border rounded-xl bg-card/60">
+                            <div className="mx-auto bg-muted h-14 w-14 rounded-full flex items-center justify-center mb-4">
+                                <MessageSquare className="h-7 w-7 text-muted-foreground" />
                             </div>
-                            <h3 className="text-xl font-semibold mb-2">
+                            <h3 className="text-lg font-semibold mb-1.5">
                                 Tidak ada laporan ditemukan
                             </h3>
-                            <p className="text-muted-foreground max-w-sm mx-auto">
-                                {searchTerm || statusFilter !== "ALL"
-                                    ? "Coba sesuaikan filter pencarian Anda."
-                                    : "Anda belum membuat laporan apa pun. Gunakan formulir untuk membuat laporan baru."}
+                            <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+                                {hasActiveFilters
+                                    ? "Coba sesuaikan kata kunci atau filter pencarian Anda."
+                                    : "Anda belum membuat laporan apa pun. Gunakan formulir di samping untuk membuat laporan baru."}
                             </p>
-                            {(searchTerm || statusFilter !== "ALL") && (
+                            {hasActiveFilters && (
                                 <Button
                                     variant="outline"
+                                    size="sm"
                                     className="mt-4"
                                     onClick={() => {
                                         setSearchTerm("");
                                         setStatusFilter("ALL");
+                                        setCategoryFilter("ALL");
                                     }}
                                 >
                                     Reset Filter
@@ -131,23 +260,18 @@ export function ReportsView({
                             {filteredReports.map((report) => (
                                 <Card
                                     key={report.id}
-                                    className="group hover:shadow-md transition-all duration-200 cursor-pointer bg-white dark:bg-zinc-800 border-gray-200 dark:border-zinc-700"
+                                    className="group hover:shadow-md hover:border-primary/40 transition-all duration-200 cursor-pointer border-border/70"
                                     onClick={() =>
                                         router.push(`${basePath}/${report.id}`)
                                     }
                                 >
-                                    <CardContent className="p-6">
+                                    <CardContent className="p-5 sm:p-6">
                                         <div className="flex items-start justify-between gap-4">
-                                            <div className="space-y-1 flex-1">
-                                                <div className="flex items-center gap-3 mb-2">
+                                            <div className="space-y-1.5 flex-1 min-w-0">
+                                                <div className="flex flex-wrap items-center gap-2 mb-2">
                                                     <Badge
                                                         variant="outline"
-                                                        className={`gap-1.5 pl-1.5 pr-2.5 py-0.5 font-medium ${
-                                                            report.status ===
-                                                            "RESOLVED"
-                                                                ? "border-green-200 text-green-700 bg-green-50 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800"
-                                                                : "border-yellow-200 text-yellow-700 bg-yellow-50 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800"
-                                                        }`}
+                                                        className={`gap-1.5 pl-2 pr-2.5 py-0.5 font-medium ${REPORT_STATUS_STYLES[report.status]}`}
                                                     >
                                                         {report.status ===
                                                         "RESOLVED" ? (
@@ -155,30 +279,42 @@ export function ReportsView({
                                                         ) : (
                                                             <Clock className="h-3.5 w-3.5" />
                                                         )}
-                                                        {report.status === "RESOLVED" ? "Selesai" : "Menunggu"}
+                                                        {
+                                                            REPORT_STATUS_LABELS[
+                                                                report.status
+                                                            ]
+                                                        }
                                                     </Badge>
                                                     <Badge
-                                                        variant="secondary"
-                                                        className="text-xs font-normal"
+                                                        variant="outline"
+                                                        className={`text-xs font-medium ${REPORT_CATEGORY_STYLES[report.category]}`}
                                                     >
-                                                        {report.category}
+                                                        {
+                                                            REPORT_CATEGORY_LABELS[
+                                                                report.category
+                                                            ]
+                                                        }
                                                     </Badge>
+                                                    <span className="text-xs font-mono text-muted-foreground">
+                                                        #{report.id.slice(0, 8)}
+                                                    </span>
                                                 </div>
-                                                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors">
+                                                <h3 className="font-semibold text-base sm:text-lg text-foreground group-hover:text-primary transition-colors truncate">
                                                     {report.subject}
                                                 </h3>
-                                                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                                                <p className="text-sm text-muted-foreground line-clamp-2">
                                                     {report.description}
                                                 </p>
                                             </div>
-                                            <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-primary transition-colors mt-2" />
+                                            <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-1" />
                                         </div>
-                                        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-700 flex items-center justify-between text-xs text-muted-foreground">
+                                        <div className="mt-4 pt-3.5 border-t border-border/60 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
                                             <span>
                                                 Dibuat{" "}
                                                 {format(
                                                     new Date(report.createdAt),
-                                                    "PPP"
+                                                    "dd MMM yyyy, HH:mm",
+                                                    { locale: idLocale }
                                                 )}
                                             </span>
                                             {report.updatedAt !==
@@ -189,7 +325,8 @@ export function ReportsView({
                                                         new Date(
                                                             report.updatedAt
                                                         ),
-                                                        "PPP"
+                                                        "dd MMM yyyy, HH:mm",
+                                                        { locale: idLocale }
                                                     )}
                                                 </span>
                                             )}

@@ -80,6 +80,20 @@ export class RenterRoute {
             this.controller.getMyBookingsWithPagination
         );
 
+        this.router.post(
+            `${this.path}/bookings/check-in`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            validateRequest(
+                z.object({
+                    body: z.object({
+                        code: z.string().min(1, "Kode tiket wajib diisi"),
+                    }),
+                })
+            ),
+            this.controller.checkInBooking
+        );
+
         this.router.get(
             `${this.path}/bookings/:id`,
             authMiddleware,

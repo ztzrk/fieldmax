@@ -10,8 +10,7 @@ import { useState } from "react";
 import { HeroSection } from "./(home)/components/HeroSection";
 import { FeaturedFields } from "./(home)/components/FeaturedFields";
 import { FeaturedVenues } from "./(home)/components/FeaturedVenues";
-import { ValueProposition } from "./(home)/components/ValueProposition";
-import { StatisticsBanner } from "./(home)/components/StatisticsBanner";
+import { ExploreFieldsSection } from "./(home)/components/ExploreFieldsSection";
 import { RenterCTA } from "./(home)/components/RenterCTA";
 
 /**
@@ -78,12 +77,8 @@ export default function Home() {
                             venues={homeData?.featuredVenues || []}
                         />
 
-                        <ValueProposition />
-
-                        <StatisticsBanner
-                            venueCount={homeData?.statistics?.venueCount}
-                            fieldCount={homeData?.statistics?.fieldCount}
-                            playerCount={homeData?.statistics?.playerCount}
+                        <ExploreFieldsSection
+                            sportTypes={homeData?.sportTypes || []}
                         />
 
                         <RenterCTA />

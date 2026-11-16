@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/shared/DataTable";
+import { CheckInScannerDialog } from "./components/CheckInScannerDialog";
 
 /**
  * Renter Bookings Page.
@@ -54,6 +55,7 @@ export default function RenterBookingsPage() {
         <AdminPageWrapper
             title="Manajemen Pemesanan"
             subtitle="Lihat dan kelola pemesanan untuk tempat olahraga Anda"
+            actions={<CheckInScannerDialog />}
         >
             <Card className="rounded-xl border-border/50 shadow-sm">
                 <CardContent>

@@ -68,16 +68,26 @@ const STATUS_CONFIG: Record<
         dotClass: "bg-zinc-400",
         stubAccent: "from-muted/50 to-transparent",
     },
+    NO_SHOW: {
+        label: "Tidak Hadir",
+        badgeClass:
+            "bg-zinc-500/10 text-zinc-600 border-zinc-500/20 dark:text-zinc-400",
+        dotClass: "bg-zinc-500",
+        stubAccent: "from-zinc-500/10 via-muted/30 to-transparent",
+    },
 };
 
 export function BookingCard({ booking, onReview, isPast }: BookingCardProps) {
     const canReview =
-        (booking.status === "COMPLETED" || booking.status === "CONFIRMED") &&
+        (booking.status === "COMPLETED" ||
+            (booking.status === "CONFIRMED" && !!booking.checkedInAt)) &&
         !booking.review &&
         isPast;
 
     const statusKey =
-        booking.status === "CANCELLED" || booking.status === "COMPLETED"
+        booking.status === "CANCELLED" ||
+        booking.status === "COMPLETED" ||
+        booking.status === "NO_SHOW"
             ? booking.status
             : booking.paymentStatus || booking.status;
 

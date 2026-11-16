@@ -111,7 +111,8 @@ export default function BookingHistoryPage() {
             const isFutureActive =
                 isFuture &&
                 booking.status !== "CANCELLED" &&
-                booking.status !== "COMPLETED";
+                booking.status !== "COMPLETED" &&
+                booking.status !== "NO_SHOW";
 
             return isFutureActive || isPending;
         })
@@ -127,6 +128,7 @@ export default function BookingHistoryPage() {
             const isCompletedOrCancelled =
                 booking.status === "COMPLETED" ||
                 booking.status === "CANCELLED" ||
+                booking.status === "NO_SHOW" ||
                 (booking as any).payment?.status === "FAILED" ||
                 (booking as any).payment?.status === "EXPIRED" ||
                 booking.paymentStatus === "FAILED" ||
