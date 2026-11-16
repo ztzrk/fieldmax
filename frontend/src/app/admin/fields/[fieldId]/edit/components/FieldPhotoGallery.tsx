@@ -35,8 +35,14 @@ export function FieldPhotoGallery({ photos, fieldId }: PhotoGalleryProps) {
 
     if (photos.length === 0) {
         return (
-            <div className="text-center text-muted-foreground py-8">
-                No photos uploaded yet.
+            <div className="flex flex-col items-center justify-center text-center text-muted-foreground py-12 px-4 rounded-xl border border-dashed border-border bg-muted/20">
+                <ImageOff className="h-8 w-8 mb-2 opacity-60" />
+                <p className="text-sm font-medium text-foreground">
+                    Belum ada foto yang diunggah
+                </p>
+                <p className="text-xs mt-1">
+                    Tambahkan foto lapangan agar lebih menarik bagi pelanggan.
+                </p>
             </div>
         );
     }

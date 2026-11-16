@@ -57,16 +57,33 @@ export default function FieldClosureSwitch({
     };
 
     return (
-        <div className="flex items-center space-x-2 rounded-lg border p-4 shadow-sm">
+        <div className="flex items-center justify-between gap-4 rounded-xl border border-border/70 bg-background/60 p-4">
+            <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                    <span
+                        className={`h-2.5 w-2.5 rounded-full ${
+                            isClosed ? "bg-red-500" : "bg-emerald-500"
+                        }`}
+                    />
+                    <Label
+                        htmlFor="field-closure"
+                        className="text-sm font-semibold cursor-pointer"
+                    >
+                        {isClosed ? "Lapangan Ditutup" : "Lapangan Dibuka"}
+                    </Label>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                    {isClosed
+                        ? "Sementara tidak dapat dipesan pelanggan."
+                        : "Aktif dan siap menerima pemesanan."}
+                </p>
+            </div>
             <Switch
                 id="field-closure"
                 checked={isClosed}
                 onCheckedChange={handleToggle}
                 disabled={isPending}
             />
-            <Label htmlFor="field-closure" className="text-base font-medium">
-                {isClosed ? "Lapangan Ditutup" : "Lapangan Dibuka"}
-            </Label>
 
             <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
                 <AlertDialogContent>

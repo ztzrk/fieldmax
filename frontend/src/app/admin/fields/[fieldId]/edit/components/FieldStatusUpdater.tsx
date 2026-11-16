@@ -33,13 +33,31 @@ function StatusBadge({
 }: {
     status: "PENDING" | "APPROVED" | "REJECTED";
 }) {
-    const statusVariantMap = {
-        PENDING: "secondary",
-        APPROVED: "default",
-        REJECTED: "destructive",
+    const statusMap = {
+        PENDING: {
+            label: "Menunggu Verifikasi",
+            className:
+                "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300",
+        },
+        APPROVED: {
+            label: "Disetujui",
+            className:
+                "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300",
+        },
+        REJECTED: {
+            label: "Ditolak",
+            className:
+                "border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300",
+        },
     } as const;
 
-    return <Badge variant={statusVariantMap[status]}>{status}</Badge>;
+    const current = statusMap[status];
+
+    return (
+        <Badge variant="outline" className={current.className}>
+            {current.label}
+        </Badge>
+    );
 }
 
 /**
@@ -64,18 +82,20 @@ export function FieldStatusUpdater({ field, role }: FieldStatusUpdaterProps) {
     };
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Status Lapangan</CardTitle>
+        <Card className="rounded-xl border-border/60 shadow-sm">
+            <CardHeader className="pb-3">
+                <CardTitle className="text-base">Status Persetujuan</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="flex items-center space-x-2">
-                    <p>Status Saat Ini:</p>
+                <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm text-muted-foreground">
+                        Status Saat Ini
+                    </span>
                     <StatusBadge status={field.status} />
                 </div>
                 {field.status === "REJECTED" && field.rejectionReason && (
-                    <div className="text-red-500">
-                        <p className="font-semibold">Alasan Penolakan:</p>
+                    <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+                        <p className="font-semibold mb-1">Alasan Penolakan:</p>
                         <p>{field.rejectionReason}</p>
                     </div>
                 )}
