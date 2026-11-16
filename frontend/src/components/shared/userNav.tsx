@@ -20,7 +20,15 @@ import {
     Trophy,
     Calendar,
     MessageSquareWarning,
+    ChevronDown,
+    LogOut,
 } from "lucide-react";
+
+const ROLE_LABELS: Record<string, string> = {
+    ADMIN: "Admin",
+    RENTER: "Pemilik Venue",
+    USER: "Pengguna",
+};
 
 /**
  * UserNav Component
@@ -40,36 +48,50 @@ export function UserNav() {
     const dashboardLink =
         user.role === "ADMIN" ? "/admin/dashboard" : "/renter/dashboard";
 
+    const initials = user.fullName
+        .split(" ")
+        .filter(Boolean)
+        .map((name) => name.charAt(0))
+        .join("")
+        .toUpperCase()
+        .substring(0, 2);
+
+    const firstName = user.fullName.split(" ")[0] || user.email.split("@")[0];
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
+                    className="relative h-9 rounded-full pl-1 pr-2.5 gap-2 border border-border/70 bg-background/70 hover:bg-muted/80"
                 >
-                    <Avatar className="h-8 w-8">
+                    <Avatar className="h-7 w-7">
                         {user.profilePictureUrl ? (
                             <AvatarImage src={user.profilePictureUrl} />
                         ) : (
-                            <AvatarFallback>
-                                {user.fullName
-                                    .split(" ")
-                                    .map((name) => name.charAt(0))
-                                    .join("")
-                                    .toUpperCase()
-                                    .substring(0, 2)}
+                            <AvatarFallback className="bg-primary/15 text-primary text-xs font-semibold">
+                                {initials}
                             </AvatarFallback>
                         )}
                     </Avatar>
+                    <span className="hidden sm:inline-block text-sm font-medium max-w-[110px] truncate">
+                        {firstName}
+                    </span>
+                    <ChevronDown className="h-3.5 w-3.5 text-muted-foreground hidden sm:block" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuContent className="w-60" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                            {user.email.split("@")[0]}
-                        </p>
-                        <p className="text-xs leading-none text-muted-foreground">
+                        <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-semibold leading-none truncate">
+                                {user.fullName}
+                            </p>
+                            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-primary/10 text-primary shrink-0">
+                                {ROLE_LABELS[user.role] ?? user.role}
+                            </span>
+                        </div>
+                        <p className="text-xs leading-none text-muted-foreground truncate">
                             {user.email}
                         </p>
                     </div>
@@ -87,7 +109,7 @@ export function UserNav() {
                             <DropdownMenuItem asChild>
                                 <Link href="/bookings">
                                     <Calendar className="mr-2 h-4 w-4" />
-                                    <span>Pemesanan</span>
+                                    <span>Pesanan Saya</span>
                                 </Link>
                             </DropdownMenuItem>
                         </>
@@ -139,8 +161,12 @@ export function UserNav() {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                    Keluar
+                <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="text-destructive focus:text-destructive"
+                >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Keluar</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

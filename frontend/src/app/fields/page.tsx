@@ -24,8 +24,9 @@ import { Suspense } from "react";
 function FieldsContent() {
     const searchParams = useSearchParams();
     const initialSportType = searchParams.get("sport");
+    const initialSearch = searchParams.get("search") ?? "";
 
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(initialSearch);
     const debouncedSearch = useDebounce(search, 300);
     const [selectedSportType, setSelectedSportType] = useState<
         string | undefined
