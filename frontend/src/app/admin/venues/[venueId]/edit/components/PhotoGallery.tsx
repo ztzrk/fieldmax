@@ -50,7 +50,7 @@ export function PhotoGallery({ photos, venueId }: PhotoGalleryProps) {
                 >
                     <Dialog>
                         <DialogTrigger asChild>
-                            <button className="w-full h-full flex items-center justify-center bg-muted">
+                            <button className="relative w-full h-full flex items-center justify-center bg-muted">
                                 {imageErrors[photo.id] ? (
                                     <div className="flex items-center justify-center w-full h-full text-muted-foreground">
                                         <ImageOff className="h-1/3 w-1/3 text-gray-400" />
@@ -60,6 +60,7 @@ export function PhotoGallery({ photos, venueId }: PhotoGalleryProps) {
                                         src={photo.url}
                                         alt="Venue Photo"
                                         fill
+                                        loading="eager"
                                         unoptimized={true}
                                         className="object-cover cursor-pointer transition-transform group-hover:scale-105"
                                         onError={() =>

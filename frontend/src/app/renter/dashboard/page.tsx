@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { useRenterStats, useChartData } from "@/hooks/useDashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Trophy, Clock, Calendar, Sparkles, ArrowRight } from "lucide-react";
+import { MapPin, Trophy, Clock, Sparkles, ArrowRight, QrCode, Wallet } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/lib/utils";
@@ -39,25 +39,39 @@ export default function RenterDashboard() {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">
                         Dashboard Pengelola
                     </h1>
-                    <p className="text-muted-foreground mt-2">
+                    <p className="text-muted-foreground mt-1.5">
                         Selamat datang kembali,{" "}
                         <span className="font-semibold text-foreground">
                             {user?.fullName || "Pengelola"}
                         </span>
-                        !
+                        ! Pantau performa venue dan pesanan Anda di sini.
                     </p>
                 </div>
-                <ConfirmationDialog
-                    trigger={<Button variant="destructive">Keluar</Button>}
-                    title="Konfirmasi Keluar"
-                    description="Anda akan keluar dari akun. Apakah Anda yakin ingin melanjutkan?"
-                    onConfirm={logout}
-                />
+                <div className="flex flex-wrap items-center gap-2">
+                    <Link href="/renter/bookings">
+                        <Button variant="outline" size="sm" className="gap-1.5 rounded-full bg-card">
+                            <QrCode className="h-4 w-4 text-primary" />
+                            Cek Pesanan & Scan QR
+                        </Button>
+                    </Link>
+                    <Link href="/renter/revenue">
+                        <Button variant="outline" size="sm" className="gap-1.5 rounded-full bg-card">
+                            <Wallet className="h-4 w-4 text-emerald-600" />
+                            Pendapatan
+                        </Button>
+                    </Link>
+                    <ConfirmationDialog
+                        trigger={<Button variant="destructive" size="sm" className="rounded-full">Keluar</Button>}
+                        title="Konfirmasi Keluar"
+                        description="Anda akan keluar dari akun. Apakah Anda yakin ingin melanjutkan?"
+                        onConfirm={logout}
+                    />
+                </div>
             </div>
 
             {stats?.totalVenues === 0 && (

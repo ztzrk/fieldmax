@@ -7,7 +7,6 @@ import {
     useUploadFieldPhotos,
 } from "@/hooks/useFields";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
-import { Separator } from "@/components/ui/separator";
 import { PageHeader } from "@/app/admin/components/PageHeader";
 import {
     FieldDetailResponseSchema,
@@ -20,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldPhotoGallery } from "@/app/admin/fields/[fieldId]/edit/components/FieldPhotoGallery";
 import { ImageUploader } from "@/components/shared/form/ImageUploader";
 import FieldClosureSwitch from "@/components/shared/fields/FieldClosureSwitch";
+import { ImageIcon, Images, Power, Trophy } from "lucide-react";
 
 /**
  * Renter Field Detail Page.
@@ -64,24 +64,30 @@ export default function EditFieldPage() {
 
     if (isLoading) return <FullScreenLoader />;
     if (isError || !field)
-        return <p className="text-red-500">Error: Field not found.</p>;
+        return (
+            <p className="text-center text-destructive font-medium py-10">
+                Lapangan tidak ditemukan.
+            </p>
+        );
 
     return (
         <div className="space-y-8">
             <PageHeader
                 backHref={backHref}
-                title={`Edit Field: ${field.name}`}
+                title={`Edit Lapangan: ${field.name}`}
+                description="Perbarui informasi lapangan, harga sewa, status operasional, dan galeri foto."
             />
 
-            <Separator />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="md:col-span-2 space-y-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Field Details</CardTitle>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 space-y-6">
+                    <Card className="rounded-xl border-border/60 shadow-sm">
+                        <CardHeader className="pb-4 border-b border-border/50">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <Trophy className="h-4 w-4 text-primary" />
+                                Detail Lapangan
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             <FieldForm
                                 key={field.id}
                                 initialData={{
@@ -93,11 +99,15 @@ export default function EditFieldPage() {
                             />
                         </CardContent>
                     </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Photo Gallery</CardTitle>
+
+                    <Card className="rounded-xl border-border/60 shadow-sm">
+                        <CardHeader className="pb-4 border-b border-border/50">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <Images className="h-4 w-4 text-primary" />
+                                Galeri Foto
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             <FieldPhotoGallery
                                 photos={field.photos || []}
                                 fieldId={fieldId}
@@ -105,6 +115,7 @@ export default function EditFieldPage() {
                         </CardContent>
                     </Card>
                 </div>
+
                 <div className="space-y-6">
                     {user?.role === "RENTER" && (
                         <div className="space-y-6">
@@ -112,11 +123,14 @@ export default function EditFieldPage() {
                                 field={field as FieldDetailResponseSchema}
                                 role="RENTER"
                             />
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Field Status</CardTitle>
+                            <Card className="rounded-xl border-border/60 shadow-sm">
+                                <CardHeader className="pb-4 border-b border-border/50">
+                                    <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                        <Power className="h-4 w-4 text-primary" />
+                                        Status Operasional
+                                    </CardTitle>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="pt-6">
                                     <FieldClosureSwitch
                                         fieldId={field.id}
                                         initialIsClosed={field.isClosed}
@@ -125,26 +139,21 @@ export default function EditFieldPage() {
                             </Card>
                         </div>
                     )}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Add New Photos</CardTitle>
-                        </CardHeader>
 
-                        <CardContent>
+                    <Card className="rounded-xl border-border/60 shadow-sm">
+                        <CardHeader className="pb-4 border-b border-border/50">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <ImageIcon className="h-4 w-4 text-primary" />
+                                Tambah Foto Baru
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-6">
                             <ImageUploader
                                 onUpload={handleUpload}
                                 isUploading={isUploading}
                             />
                         </CardContent>
                     </Card>
-                    <div>
-                        <h2 className="text-lg font-semibold mb-4">
-                            Weekly Schedule
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                            Coming soon...
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>

@@ -57,8 +57,8 @@ export default function RenterBookingsPage() {
             subtitle="Lihat dan kelola pemesanan untuk tempat olahraga Anda"
             actions={<CheckInScannerDialog />}
         >
-            <Card className="rounded-xl border-border/50 shadow-sm">
-                <CardContent>
+            <Card className="rounded-xl border-border/60 shadow-sm">
+                <CardContent className="p-6">
                     <DataTable
                         columns={columns}
                         data={bookings}

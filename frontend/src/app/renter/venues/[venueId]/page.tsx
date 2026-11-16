@@ -26,6 +26,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import { getRenterFieldColumns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
+import { Building2, ImageIcon, Images, Trophy } from "lucide-react";
 
 /**
  * Renter Venue Detail Page.
@@ -64,8 +65,8 @@ export default function EditVenuePage() {
     if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError || !venue)
         return (
-            <p className="text-center text-red-500 py-10">
-                Error: Venue not found.
+            <p className="text-center text-destructive font-medium py-10">
+                Tempat olahraga tidak ditemukan.
             </p>
         );
 
@@ -88,19 +89,22 @@ export default function EditVenuePage() {
         <div className="space-y-8">
             <PageHeader
                 title={venue.name}
-                description="Update venue details, photos, and fields."
+                description="Perbarui detail tempat olahraga, galeri foto, dan daftar lapangan."
                 backHref="/renter/venues"
             >
                 <RenterVenueActions venue={venue} />
             </PageHeader>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Venue Details</CardTitle>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 space-y-6">
+                    <Card className="rounded-xl border-border/60 shadow-sm">
+                        <CardHeader className="pb-4 border-b border-border/50">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <Building2 className="h-4 w-4 text-primary" />
+                                Detail Tempat Olahraga
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             <VenueForm
                                 initialData={venue}
                                 onSubmit={handleFormSubmit}
@@ -108,11 +112,15 @@ export default function EditVenuePage() {
                             />
                         </CardContent>
                     </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Photo Gallery</CardTitle>
+
+                    <Card className="rounded-xl border-border/60 shadow-sm">
+                        <CardHeader className="pb-4 border-b border-border/50">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <Images className="h-4 w-4 text-primary" />
+                                Galeri Foto
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             <PhotoGallery
                                 photos={venue.photos || []}
                                 venueId={venueId}
@@ -120,12 +128,16 @@ export default function EditVenuePage() {
                         </CardContent>
                     </Card>
                 </div>
-                <div className="space-y-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Add New Photos</CardTitle>
+
+                <div className="space-y-6">
+                    <Card className="rounded-xl border-border/60 shadow-sm">
+                        <CardHeader className="pb-4 border-b border-border/50">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <ImageIcon className="h-4 w-4 text-primary" />
+                                Tambah Foto Baru
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             <ImageUploader
                                 onUpload={handleUpload}
                                 isUploading={isUploading}
@@ -135,26 +147,29 @@ export default function EditVenuePage() {
                 </div>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <div className="flex justify-between items-center">
+            <Card className="rounded-xl border-border/60 shadow-sm">
+                <CardHeader className="pb-4 border-b border-border/50">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <CardTitle>Fields in this Venue</CardTitle>
-                            <CardDescription>
-                                Manage all fields for {venue.name}
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <Trophy className="h-4 w-4 text-primary" />
+                                Lapangan di Tempat Ini
+                            </CardTitle>
+                            <CardDescription className="mt-1">
+                                Kelola semua unit lapangan untuk {venue.name}
                             </CardDescription>
                         </div>
                         {venue.status === "APPROVED" ? (
                             <CreateFieldButton venueId={venueId} />
                         ) : (
-                            <p className="text-sm text-muted-foreground">
-                                This venue must be approved before you can add
-                                fields.
+                            <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 rounded-lg px-3 py-2">
+                                Tempat olahraga harus disetujui admin terlebih
+                                dahulu sebelum Anda dapat menambahkan lapangan.
                             </p>
                         )}
                     </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                     <DataTable
                         columns={getRenterFieldColumns(venueId)}
                         data={paginatedFields}

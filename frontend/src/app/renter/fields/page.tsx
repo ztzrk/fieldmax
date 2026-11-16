@@ -4,7 +4,8 @@ import { useGetAllFields, useDeleteMultipleFields } from "@/hooks/useFields";
 import { useDebounce } from "@/hooks/useDebounce";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
-import { PageHeader } from "@/app/admin/components/PageHeader";
+import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
+import { Card, CardContent } from "@/components/ui/card";
 import { renterAllFieldColumns } from "./columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
@@ -23,7 +24,6 @@ export default function RenterFieldsPage() {
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 500);
 
-    // This hook will now return filtered fields because the backend is updated
     const { data, isLoading, isError } = useGetAllFields(
         pageIndex + 1,
         pageSize,
@@ -39,27 +39,30 @@ export default function RenterFieldsPage() {
     if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError || !data)
         return (
-            <div className="flex items-center justify-center p-8 text-red-500">
+            <div className="flex items-center justify-center p-8 text-destructive font-medium">
                 Gagal memuat data lapangan.
             </div>
         );
 
     return (
-        <div className="space-y-6">
-            <PageHeader
-                title="Lapangan Saya"
-                description="Lihat dan kelola seluruh lapangan Anda di semua venue."
-            />
-            <DataTable
-                columns={renterAllFieldColumns}
-                data={data.data}
-                onDeleteSelected={handleDeleteSelected}
-                pageCount={data.meta.totalPages}
-                pagination={{ pageIndex, pageSize }}
-                onPaginationChange={setPagination}
-                onSearch={setSearch}
-                searchValue={search}
-            />
-        </div>
+        <AdminPageWrapper
+            title="Lapangan Saya"
+            subtitle="Lihat dan kelola seluruh lapangan Anda di semua tempat olahraga."
+        >
+            <Card className="rounded-xl border-border/60 shadow-sm">
+                <CardContent className="p-6">
+                    <DataTable
+                        columns={renterAllFieldColumns}
+                        data={data.data}
+                        onDeleteSelected={handleDeleteSelected}
+                        pageCount={data.meta.totalPages}
+                        pagination={{ pageIndex, pageSize }}
+                        onPaginationChange={setPagination}
+                        onSearch={setSearch}
+                        searchValue={search}
+                    />
+                </CardContent>
+            </Card>
+        </AdminPageWrapper>
     );
 }
