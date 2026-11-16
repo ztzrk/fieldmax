@@ -9,7 +9,8 @@
     "start": "node dist/src/index.js",
     "seed:main": "ts-node -T prisma/seeds/seed.ts",
     "seed:sim": "ts-node -T prisma/seeds/simulation.ts",
-    "seed:large": "ts-node -T prisma/seeds/large-dataset.ts"
+    "seed:large": "ts-node -T prisma/seeds/large-dataset.ts",
+    "test:concurrency": "ts-node -T prisma/seeds/test-concurrency.ts"
   },
   "keywords": [],
   "author": "",
