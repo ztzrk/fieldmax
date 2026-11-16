@@ -18,7 +18,7 @@ export function FullScreenLoader() {
                 </div>
             </div>
             <p className="mt-8 text-sm font-medium text-muted-foreground animate-pulse tracking-widest uppercase">
-                Loading
+                Memuat
             </p>
         </div>
     );

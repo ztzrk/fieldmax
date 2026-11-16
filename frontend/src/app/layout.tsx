@@ -10,6 +10,7 @@ import { QueryProvider } from "@/components/QueryClientProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/components/shared/ModeToggle";
 import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { Footer } from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
                 >
                     <QueryProvider>
                         <AuthProvider>
+                            <ScrollToTop />
                             <NavbarWrapper />
                             <main className="min-h-screen bg-background">
                                 {children}
