@@ -13,9 +13,10 @@ import Link from "next/link";
 
 interface FieldCardProps {
     field: FieldResponseSchema;
+    priority?: boolean;
 }
 
-export function FieldCard({ field }: FieldCardProps) {
+export function FieldCard({ field, priority = false }: FieldCardProps) {
     const [imageError, setImageError] = useState(false);
 
     return (
@@ -31,6 +32,7 @@ export function FieldCard({ field }: FieldCardProps) {
                             alt={field.name}
                             fill
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            loading="eager"
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             onError={() => setImageError(true)}
                         />

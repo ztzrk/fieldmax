@@ -166,7 +166,6 @@ const photos = [
     "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1000&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1000&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1622163642998-1ea7dad51b47?q=80&w=1000&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=1000&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1546519638-68e109498ee3?q=80&w=1000&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1593341646782-e0b495cffd32?q=80&w=1000&auto=format&fit=crop",

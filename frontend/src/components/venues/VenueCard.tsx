@@ -14,9 +14,10 @@ import { cn } from "@/lib/utils";
 
 interface VenueCardProps {
     venue: VenuePublicSchema;
+    priority?: boolean;
 }
 
-export function VenueCard({ venue }: VenueCardProps) {
+export function VenueCard({ venue, priority = false }: VenueCardProps) {
     const [imageError, setImageError] = useState(false);
     const pathname = usePathname();
     const isRenterPage = pathname?.startsWith("/renters");
@@ -36,6 +37,7 @@ export function VenueCard({ venue }: VenueCardProps) {
                             alt={venue.name}
                             fill
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            loading="eager"
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             onError={() => setImageError(true)}
                         />

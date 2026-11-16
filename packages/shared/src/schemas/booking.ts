@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { fieldResponseSchema } from "./field";
+import { fieldResponseSchema } from "./field.js";
 
 export const BookingStatus = {
     PENDING: "PENDING",

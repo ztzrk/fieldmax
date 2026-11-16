@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UserRole } from "./auth";
+import { UserRole } from "./auth.js";
 
 export const createUserSchema = z.object({
     fullName: z.string().min(2, "Full name must be at least 2 characters"),

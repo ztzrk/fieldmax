@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { reviewResponseSchema } from "./review";
+import { reviewResponseSchema } from "./review.js";
 
 export const fieldPhotoSchema = z.object({
     id: z.string().uuid().optional(),

@@ -70,8 +70,12 @@ export default function VenuesPage() {
                 ) : (
                     <>
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-                            {venuesData?.data?.map((venue) => (
-                                <VenueCard key={venue.id} venue={venue} />
+                            {venuesData?.data?.map((venue, index) => (
+                                <VenueCard
+                                    key={venue.id}
+                                    venue={venue}
+                                    priority={index < 12}
+                                />
                             ))}
                         </div>
 

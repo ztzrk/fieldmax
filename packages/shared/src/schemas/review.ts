@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { paginationSchema } from "./pagination";
+import { paginationSchema } from "./pagination.js";
 
 export const createReviewSchema = z.object({
     bookingId: z.string().uuid("Invalid booking ID"),
