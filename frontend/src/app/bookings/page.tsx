@@ -12,14 +12,25 @@ import { ReviewDialog } from "@/components/reviews/ReviewDialog";
 import { BookingCard } from "./components/BookingCard";
 import { EmptyBookings } from "./components/EmptyBookings";
 
-// Helper to calculate end datetime
-function getEndDateTime(booking: BookingResponseSchema) {
-    const datePart = booking.bookingDate.toString().split("T")[0];
-    let timePart = booking.endTime;
-    if (booking.endTime.toString().includes("T")) {
-        timePart = booking.endTime.toString().split("T")[1];
+// Helper to calculate start/end datetime
+function getBookingDateTime(
+    bookingDate: string | Date,
+    timeValue: string | Date
+) {
+    const datePart = bookingDate.toString().split("T")[0];
+    let timePart = timeValue.toString();
+    if (timePart.includes("T")) {
+        timePart = timePart.split("T")[1];
     }
     return new Date(`${datePart}T${timePart}`);
+}
+
+function getStartDateTime(booking: BookingResponseSchema) {
+    return getBookingDateTime(booking.bookingDate, booking.startTime);
+}
+
+function getEndDateTime(booking: BookingResponseSchema) {
+    return getBookingDateTime(booking.bookingDate, booking.endTime);
 }
 
 interface BookingListProps {
@@ -87,25 +98,30 @@ export default function BookingHistoryPage() {
     const bookings = bookingsData?.data || [];
     const now = new Date();
 
-    const activeBookings = bookings.filter((booking: BookingResponseSchema) => {
-        const endDateTime = getEndDateTime(booking);
-        const isFuture = endDateTime > now;
-        const isPending =
-            (booking.status === "PENDING" ||
-                (booking as any).payment?.status === "PENDING" ||
-                booking.paymentStatus === "PENDING") &&
-            booking.status !== "CANCELLED";
+    const activeBookings = bookings
+        .filter((booking: BookingResponseSchema) => {
+            const endDateTime = getEndDateTime(booking);
+            const isFuture = endDateTime > now;
+            const isPending =
+                (booking.status === "PENDING" ||
+                    (booking as any).payment?.status === "PENDING" ||
+                    booking.paymentStatus === "PENDING") &&
+                booking.status !== "CANCELLED";
 
-        const isFutureActive =
-            isFuture &&
-            booking.status !== "CANCELLED" &&
-            booking.status !== "COMPLETED";
+            const isFutureActive =
+                isFuture &&
+                booking.status !== "CANCELLED" &&
+                booking.status !== "COMPLETED";
 
-        return isFutureActive || isPending;
-    });
+            return isFutureActive || isPending;
+        })
+        .sort(
+            (a: BookingResponseSchema, b: BookingResponseSchema) =>
+                getStartDateTime(a).getTime() - getStartDateTime(b).getTime()
+        );
 
-    const historyBookings = bookings.filter(
-        (booking: BookingResponseSchema) => {
+    const historyBookings = bookings
+        .filter((booking: BookingResponseSchema) => {
             const endDateTime = getEndDateTime(booking);
             const isPast = endDateTime <= now;
             const isCompletedOrCancelled =
@@ -116,16 +132,22 @@ export default function BookingHistoryPage() {
                 booking.paymentStatus === "FAILED" ||
                 booking.paymentStatus === "EXPIRED";
 
-            return isCompletedOrCancelled || (isPast && booking.status !== "PENDING");
-        }
-    );
+            return (
+                isCompletedOrCancelled ||
+                (isPast && booking.status !== "PENDING")
+            );
+        })
+        .sort(
+            (a: BookingResponseSchema, b: BookingResponseSchema) =>
+                getStartDateTime(b).getTime() - getStartDateTime(a).getTime()
+        );
 
     return (
-        <div className="min-h-screen bg-muted/5">
-            {/* Header Section */}
-            <div className="bg-background border-b sticky top-16 z-10 pt-8 pb-4">
+        <div className="min-h-screen bg-background">
+            {/* Clean Non-Sticky Header Section */}
+            <div className="border-b bg-gradient-to-b from-muted/40 to-background pt-8 pb-6">
                 <div className="container max-w-5xl mx-auto px-4 sm:px-6">
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-5">
                         <Link
                             href="/"
                             className="inline-flex w-fit text-muted-foreground hover:text-foreground transition-colors text-sm font-medium items-center gap-2"
@@ -136,12 +158,23 @@ export default function BookingHistoryPage() {
 
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                                <h1 className="text-3xl font-bold tracking-tight">
                                     Pemesanan Saya
                                 </h1>
                                 <p className="text-muted-foreground mt-1">
-                                    Kelola jadwal bermain Anda dan lihat riwayat pemesanan
+                                    Kelola jadwal bermain Anda dan lihat riwayat
+                                    pemesanan
                                 </p>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs font-medium">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                                    <Ticket className="w-3.5 h-3.5" />
+                                    {activeBookings.length} Tiket Aktif
+                                </span>
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-muted-foreground border border-border/60">
+                                    <History className="w-3.5 h-3.5" />
+                                    {historyBookings.length} Riwayat
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -150,20 +183,20 @@ export default function BookingHistoryPage() {
 
             <div className="container max-w-5xl mx-auto px-4 sm:px-6 py-8">
                 <Tabs defaultValue="active" className="w-full">
-                    <TabsList className="w-full sm:w-auto grid grid-cols-2 h-12 p-1 bg-muted/50 rounded-full mb-8">
+                    <TabsList className="w-full sm:w-auto grid grid-cols-2 h-11 p-1 bg-muted/60 rounded-xl mb-8">
                         <TabsTrigger
                             value="active"
-                            className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg shadow-primary/20 transition-all font-medium"
+                            className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all font-medium"
                         >
                             <Ticket className="w-4 h-4 mr-2" />
-                            Tiket Aktif
+                            Tiket Aktif ({activeBookings.length})
                         </TabsTrigger>
                         <TabsTrigger
                             value="history"
-                            className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg shadow-primary/20 transition-all font-medium"
+                            className="rounded-lg data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all font-medium"
                         >
                             <History className="w-4 h-4 mr-2" />
-                            Riwayat Pemesanan
+                            Riwayat Pemesanan ({historyBookings.length})
                         </TabsTrigger>
                     </TabsList>
 
