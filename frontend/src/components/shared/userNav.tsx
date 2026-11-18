@@ -98,21 +98,29 @@ export function UserNav() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={
+                                user.role === "RENTER"
+                                    ? "/renter/profile"
+                                    : "/profile"
+                            }
+                        >
+                            <User className="mr-2 h-4 w-4" />
+                            <span>
+                                {user.role === "RENTER"
+                                    ? "Profil Mitra"
+                                    : "Profil"}
+                            </span>
+                        </Link>
+                    </DropdownMenuItem>
                     {user.role === "USER" ? (
-                        <>
-                            <DropdownMenuItem asChild>
-                                <Link href="/profile">
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>Profil</span>
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/bookings">
-                                    <Calendar className="mr-2 h-4 w-4" />
-                                    <span>Pesanan Saya</span>
-                                </Link>
-                            </DropdownMenuItem>
-                        </>
+                        <DropdownMenuItem asChild>
+                            <Link href="/bookings">
+                                <Calendar className="mr-2 h-4 w-4" />
+                                <span>Pesanan Saya</span>
+                            </Link>
+                        </DropdownMenuItem>
                     ) : (
                         <>
                             <DropdownMenuItem asChild>

@@ -15,6 +15,51 @@ import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
 
+export function useGetPublicFields(
+    page: number,
+    limit: number,
+    search?: string,
+    isClosed?: boolean,
+    sportTypeId?: string,
+    sortBy?: string,
+    sortOrder?: "asc" | "desc",
+    minPrice?: number,
+    maxPrice?: number
+) {
+    return useQuery({
+        queryKey: [
+            "public-fields",
+            {
+                page,
+                limit,
+                search,
+                isClosed,
+                sportTypeId,
+                sortBy,
+                sortOrder,
+                minPrice,
+                maxPrice,
+            },
+        ],
+        queryFn: async () => {
+            const data = await FieldService.getAllPublic({
+                page,
+                limit,
+                search,
+                status: "APPROVED",
+                isClosed,
+                sportTypeId,
+                sortBy,
+                sortOrder,
+                minPrice,
+                maxPrice,
+            });
+            return fieldsPaginatedResponseSchema.parse(data);
+        },
+        placeholderData: keepPreviousData,
+    });
+}
+
 export function useGetAllFields(
     page: number,
     limit: number,

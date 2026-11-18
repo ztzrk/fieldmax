@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/utils";
 interface FieldBookingSidebarProps {
     pricePerHour: number;
     isClosed: boolean;
+    isRoleRestricted?: boolean;
     onBook: () => void;
 }
 
@@ -17,51 +18,66 @@ interface FieldBookingSidebarProps {
 export function FieldBookingSidebar({
     pricePerHour,
     isClosed,
+    isRoleRestricted = false,
     onBook,
 }: FieldBookingSidebarProps) {
     return (
         <div className="sticky top-24 space-y-6">
-            <Card className="border-border shadow-lg overflow-hidden rounded-xl">
-                <CardHeader className="bg-muted/40 pb-6 border-b">
+            <Card className="border-border/70 shadow-lg overflow-hidden rounded-2xl bg-card">
+                <div className="h-1.5 w-full bg-gradient-to-r from-primary via-orange-500 to-amber-500" />
+                <CardHeader className="bg-muted/30 pb-5 border-b border-border/60">
                     <div className="space-y-1">
                         <p className="text-sm font-medium text-muted-foreground">
-                            Price per hour
+                            Harga sewa
                         </p>
-                        <div className="flex items-baseline gap-1">
-                            <span className="text-3xl font-bold text-primary">
+                        <div className="flex items-baseline gap-1.5">
+                            <span className="text-3xl font-bold tracking-tight text-primary">
                                 {formatPrice(pricePerHour)}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                                / jam
                             </span>
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className="pt-6 space-y-6">
-                    <div className="space-y-2">
+                <CardContent className="pt-6 space-y-5">
+                    <div>
                         {isClosed ? (
-                            <div className="p-3 bg-destructive/10 text-destructive rounded-md text-sm font-medium text-center border border-destructive/20">
-                                This field is currently closed.
+                            <div className="p-3 bg-destructive/10 text-destructive rounded-xl text-sm font-medium text-center border border-destructive/20">
+                                Lapangan ini sedang ditutup sementara.
                             </div>
                         ) : (
-                            <div className="p-3 bg-green-500/10 text-green-600 dark:text-green-400 rounded-md text-sm font-medium text-center border border-green-500/20">
-                                Available for booking
+                            <div className="p-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl text-sm font-medium text-center border border-emerald-500/20">
+                                Tersedia untuk dipesan
                             </div>
                         )}
                     </div>
 
                     <Button
                         size="lg"
-                        className="w-full text-lg h-14 font-semibold shadow-md transition-all hover:shadow-lg"
+                        className="w-full text-base h-12 rounded-xl font-semibold shadow-md transition-all hover:shadow-lg"
                         onClick={onBook}
-                        disabled={isClosed}
+                        disabled={isClosed || isRoleRestricted}
                     >
-                        {isClosed ? "Unavailable" : "Book Now"}
-                        {!isClosed && <ArrowRight className="ml-2 h-5 w-5" />}
+                        {isClosed
+                            ? "Tidak Tersedia"
+                            : isRoleRestricted
+                              ? "Khusus Akun Pengguna"
+                              : "Pesan Sekarang"}
+                        {!isClosed && !isRoleRestricted && (
+                            <ArrowRight className="ml-2 h-5 w-5" />
+                        )}
                     </Button>
+                    {isRoleRestricted && !isClosed && (
+                        <p className="text-xs text-center text-muted-foreground">
+                            Pemesanan hanya dapat dilakukan menggunakan akun
+                            Pengguna (User).
+                        </p>
+                    )}
 
-                    <div className="pt-2 flex flex-col items-center gap-2">
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <ShieldCheck className="h-4 w-4 text-green-600" />
-                            <span>Secure Booking & Payment</span>
-                        </div>
+                    <div className="pt-2 border-t border-border/60 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                        <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        <span>Pemesanan &amp; Pembayaran Aman</span>
                     </div>
                 </CardContent>
             </Card>

@@ -6,6 +6,10 @@ const FieldService = {
         const response = await api.get("/fields", { params });
         return response.data;
     },
+    getAllPublic: async (params?: FieldQuerySchema) => {
+        const response = await api.get("/fields/public", { params });
+        return response.data;
+    },
     getById: async (
         id: string,
         params?: URLSearchParams | Record<string, any>

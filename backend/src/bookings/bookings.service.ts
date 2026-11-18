@@ -199,6 +199,12 @@ export class BookingsService {
     }
 
     public async createBooking(data: CreateBooking, user: User) {
+        if (user.role !== "USER") {
+            throw new ForbiddenError(
+                "Pemesanan hanya dapat dilakukan oleh pengguna (User)."
+            );
+        }
+
         const field = await prisma.field.findUnique({
             where: { id: data.fieldId },
             include: { venue: true },

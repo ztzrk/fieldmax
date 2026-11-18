@@ -15,7 +15,7 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { ChevronsUpDown, LogOut } from "lucide-react";
+import { ChevronsUpDown, ExternalLink, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import {
     DropdownMenu,
@@ -86,6 +86,24 @@ export function AppSidebar({
                                     </SidebarMenuItem>
                                 );
                             })}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Situs Publik</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    asChild
+                                    tooltip="Lihat Situs Publik"
+                                >
+                                    <Link href="/">
+                                        <ExternalLink />
+                                        <span>Lihat Situs Publik</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

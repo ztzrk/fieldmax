@@ -16,6 +16,12 @@ export class RenterRoute {
 
     private initializeRoutes() {
         this.router.get(
+            `${this.path}/public`,
+            validateRequest(z.object({ query: paginationSchema })),
+            this.controller.getPublicRenters
+        );
+
+        this.router.get(
             `${this.path}/public/:id`,
             this.controller.getPublicProfile
         );

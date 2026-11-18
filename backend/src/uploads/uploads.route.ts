@@ -5,6 +5,7 @@ import multer from "multer";
 import {
     canManageField,
     canManageVenue,
+    renterOnlyMiddleware,
 } from "../middleware/permission.middleware";
 
 import { ValidationError } from "../utils/errors";
@@ -66,6 +67,14 @@ export class UploadsRoute {
             authMiddleware,
             upload.single("photo"),
             this.controller.uploadProfilePhoto
+        );
+
+        this.router.post(
+            `${this.path}/company-logo`,
+            authMiddleware,
+            renterOnlyMiddleware,
+            upload.single("logo"),
+            this.controller.uploadCompanyLogo
         );
 
         this.router.post(

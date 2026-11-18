@@ -11,6 +11,7 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { ReviewDialog } from "@/components/reviews/ReviewDialog";
 import { BookingCard } from "./components/BookingCard";
 import { EmptyBookings } from "./components/EmptyBookings";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 // Helper to calculate start/end datetime
 function getBookingDateTime(
@@ -68,6 +69,14 @@ function BookingList({
  * Displays a list of user bookings, separated into active tickets and order history.
  */
 export default function BookingHistoryPage() {
+    return (
+        <RoleGuard role="USER">
+            <BookingHistoryContent />
+        </RoleGuard>
+    );
+}
+
+function BookingHistoryContent() {
     const { data: bookingsData, isLoading, isError } = useGetBookings(1, 100);
     const [reviewBookingId, setReviewBookingId] = useState<string | null>(null);
 

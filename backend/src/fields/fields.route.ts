@@ -30,6 +30,11 @@ export class FieldsRoute {
 
     private initializeRoutes() {
         this.router.get(
+            `${this.path}/public`,
+            validateRequest(z.object({ query: paginationSchema })),
+            this.controller.getAllPublic
+        );
+        this.router.get(
             `${this.path}`,
             optionalAuthMiddleware,
             validateRequest(z.object({ query: paginationSchema })),

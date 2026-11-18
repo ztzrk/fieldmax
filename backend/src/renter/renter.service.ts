@@ -609,6 +609,79 @@ export class RenterService {
             transactions,
         };
     }
+    public async getPublicRenters(query: Partial<Pagination>) {
+        const pageNum = Number(query.page) || 1;
+        const limitNum = Number(query.limit) || 12;
+        const skip = (pageNum - 1) * limitNum;
+        const search = query.search?.trim();
+
+        const whereCondition: Prisma.UserWhereInput = {
+            role: "RENTER",
+            isVerified: true,
+            ...(search
+                ? {
+                      OR: [
+                          {
+                              fullName: {
+                                  contains: search,
+                                  mode: "insensitive",
+                              },
+                          },
+                          {
+                              profile: {
+                                  companyName: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                          },
+                      ],
+                  }
+                : {}),
+        };
+
+        const [renters, total] = await prisma.$transaction([
+            prisma.user.findMany({
+                where: whereCondition,
+                skip,
+                take: limitNum,
+                orderBy: { createdAt: "desc" },
+                select: {
+                    id: true,
+                    fullName: true,
+                    createdAt: true,
+                    profile: {
+                        select: {
+                            profilePictureUrl: true,
+                            companyName: true,
+                            companyDescription: true,
+                            companyLogoUrl: true,
+                            companyWebsite: true,
+                        },
+                    },
+                    _count: {
+                        select: {
+                            venues: {
+                                where: { status: "APPROVED" },
+                            },
+                        },
+                    },
+                },
+            }),
+            prisma.user.count({ where: whereCondition }),
+        ]);
+
+        return {
+            data: renters,
+            meta: {
+                total,
+                page: pageNum,
+                limit: limitNum,
+                totalPages: Math.ceil(total / limitNum),
+            },
+        };
+    }
+
     public async getPublicProfile(renterId: string) {
         const renter = await prisma.user.findUnique({
             where: { id: renterId, role: "RENTER" },

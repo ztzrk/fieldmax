@@ -4,7 +4,6 @@ import { useGetPublicVenueById } from "@/hooks/useVenues";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, ArrowLeft, Building2, Share2, MapPin } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
@@ -47,90 +46,97 @@ export default function VenueDetailPage() {
     return (
         <div className="container max-w-[1400px] mx-auto py-8 px-4 md:px-6 min-h-screen bg-background pb-20">
             {/* Breadcrumb Navigation */}
-            <div className="mb-6">
+            <div className="mb-6 flex items-center justify-between">
                 <Button
-                    variant="link"
+                    variant="ghost"
+                    size="sm"
                     onClick={() => router.back()}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground -ml-2"
                 >
                     <ArrowLeft className="h-4 w-4" />
                     Kembali
                 </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleShare}
+                    className="gap-2 rounded-full"
+                    title="Bagikan Tempat Olahraga"
+                >
+                    <Share2 className="h-4 w-4" />
+                    Bagikan
+                </Button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-10">
                 {/* Main Content - Left Column */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Image Gallery */}
-                    <MediaCarousel
-                        photos={venue.photos || []}
-                        alt={venue.name}
-                        placeholderIcon={
-                            <Building2 className="h-24 w-24 text-muted-foreground/20" />
-                        }
-                        showGradient
-                        hoverControls
-                    />
+                    <div className="rounded-2xl overflow-hidden border border-border/60 shadow-md bg-muted/20">
+                        <MediaCarousel
+                            photos={venue.photos || []}
+                            alt={venue.name}
+                            placeholderIcon={
+                                <Building2 className="h-24 w-24 text-muted-foreground/20" />
+                            }
+                            showGradient
+                            hoverControls
+                        />
+                    </div>
 
                     {/* Venue Header & Description */}
-                    <div>
-                        <div className="flex items-start justify-between gap-4 mb-4">
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
+                    <div className="space-y-6">
+                        <div className="space-y-3">
+                            <div className="flex flex-wrap items-center gap-2">
+                                {venue.city && (
                                     <Badge
                                         variant="secondary"
-                                        className="text-primary bg-primary/10 hover:bg-primary/20"
+                                        className="text-primary bg-primary/10 hover:bg-primary/20 rounded-full px-3 py-1"
                                     >
-                                        Di {venue.city || "Kota"}
+                                        {venue.city}
                                     </Badge>
-                                    <Badge variant="outline">
-                                        {venue.fields.length} Lapangan Tersedia
-                                    </Badge>
-                                </div>
-                                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-                                    {venue.name}
-                                </h1>
-                                <div className="flex items-center gap-2 text-muted-foreground mt-2">
-                                    <MapPin className="h-4 w-4 shrink-0" />
-                                    <span className="text-lg">
-                                        {venue.address}
-                                        {venue.district
-                                            ? `, ${venue.district}`
-                                            : ""}
-                                        {venue.city ? `, ${venue.city}` : ""}
-                                    </span>
-                                </div>
+                                )}
+                                <Badge
+                                    variant="outline"
+                                    className="rounded-full px-3 py-1"
+                                >
+                                    {venue.fields.length} Lapangan Tersedia
+                                </Badge>
                             </div>
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={handleShare}
-                                className="shrink-0 rounded-full"
-                                title="Bagikan Tempat Olahraga"
-                            >
-                                <Share2 className="h-4 w-4" />
-                            </Button>
+                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                                {venue.name}
+                            </h1>
+                            <div className="flex items-start gap-2 text-muted-foreground">
+                                <MapPin className="h-4 w-4 shrink-0 text-primary mt-1" />
+                                <span className="text-base">
+                                    {venue.address}
+                                    {venue.district
+                                        ? `, ${venue.district}`
+                                        : ""}
+                                    {venue.city ? `, ${venue.city}` : ""}
+                                </span>
+                            </div>
                         </div>
 
-                        <div className="prose prose-slate max-w-none text-muted-foreground">
-                            <h3 className="text-xl font-semibold text-foreground mb-3">
+                        <div className="rounded-2xl border border-border/60 bg-card/60 p-6 space-y-3">
+                            <h3 className="text-lg font-semibold text-foreground">
                                 Tentang Tempat Olahraga Ini
                             </h3>
-                            <p className="leading-relaxed whitespace-pre-line">
+                            <p className="text-muted-foreground leading-relaxed whitespace-pre-line text-sm sm:text-base">
                                 {venue.description ||
                                     "Belum ada deskripsi untuk tempat olahraga ini."}
                             </p>
                         </div>
                     </div>
 
-                    <Separator />
-
                     {/* Available Fields Section */}
-                    <section>
-                        <h2 className="text-2xl font-bold tracking-tight mb-6">
-                            Lapangan Tersedia ({venue.fields.length})
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <section className="space-y-5">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-bold tracking-tight">
+                                Lapangan Tersedia ({venue.fields.length})
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {venue.fields.map((field) => (
                                 <FieldCard
                                     key={field.id}

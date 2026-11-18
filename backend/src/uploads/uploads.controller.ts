@@ -86,6 +86,43 @@ export class UploadsController {
         }
     );
 
+    public uploadCompanyLogo = asyncHandler(
+        async (req: Request, res: Response) => {
+            const userId = req.user!.id;
+            const file = req.file;
+
+            if (!file) {
+                return sendError(res, "No file uploaded.", "BAD_REQUEST", 400);
+            }
+
+            const imagekit = require("../lib/imagekit").default;
+
+            const cleanOriginalName = file.originalname
+                .trim()
+                .replace(/\s+/g, "-");
+            const fileName = `company-logo-${userId}-${Date.now()}-${cleanOriginalName}`;
+
+            const uploadResult = await imagekit.upload({
+                file: file.buffer,
+                fileName: fileName,
+                folder: "company-logos",
+            });
+
+            const updatedProfile = await this.profileService.updateProfile(
+                userId,
+                {
+                    companyLogoUrl: uploadResult.url,
+                }
+            );
+
+            sendSuccess(
+                res,
+                updatedProfile,
+                "Company logo updated successfully"
+            );
+        }
+    );
+
     public uploadReportAttachment = asyncHandler(
         async (req: Request, res: Response) => {
             const userId = req.user!.id;

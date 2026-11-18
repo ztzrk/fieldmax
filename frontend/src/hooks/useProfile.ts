@@ -58,3 +58,24 @@ export function useUploadProfilePicture() {
         },
     });
 }
+
+export function useUploadCompanyLogo() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ProfileService.uploadCompanyLogo,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.auth.profile(),
+            });
+            toast.success("Logo mitra berhasil diperbarui");
+        },
+        onError: (error: AxiosError<BackendErrorResponse>) => {
+            let message = "Gagal mengunggah logo mitra";
+            if (error.response?.data?.message) {
+                message = error.response.data.message;
+            }
+            toast.error(message);
+        },
+    });
+}

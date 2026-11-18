@@ -59,12 +59,37 @@ export interface RevenueStats {
     transactions: RevenueTransaction[];
 }
 
+export interface PublicRenterItem {
+    id: string;
+    fullName: string;
+    createdAt: string;
+    profile?: {
+        profilePictureUrl?: string | null;
+        companyName?: string | null;
+        companyDescription?: string | null;
+        companyLogoUrl?: string | null;
+        companyWebsite?: string | null;
+        address?: string | null;
+    } | null;
+    _count?: {
+        venues: number;
+    };
+}
+
 const RenterService = {
     getRevenueStats: async () => {
         const response = await api.get<ApiResponse<RevenueStats>>(
             "/renter/revenue"
         );
         return response.data.data;
+    },
+    getPublicRenters: async (params?: {
+        page?: number;
+        limit?: number;
+        search?: string;
+    }) => {
+        const response = await api.get("/renter/public", { params });
+        return response.data;
     },
     getPublicProfile: async (renterId: string) => {
         const response = await api.get(`/renter/public/${renterId}`);

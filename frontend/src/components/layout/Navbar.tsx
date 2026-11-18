@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { UserNav } from "@/components/shared/UserNav";
 import { Button } from "@/components/ui/button";
 import {
+    Building2,
     CalendarCheck,
     LayoutDashboard,
     LifeBuoy,
@@ -45,14 +46,24 @@ export function Navbar() {
             icon: MapPin,
             active: pathname.startsWith("/venues"),
         },
+        {
+            href: "/renters",
+            label: "Mitra",
+            icon: Building2,
+            active: pathname.startsWith("/renters"),
+        },
         ...(user
             ? [
-                  {
-                      href: "/bookings",
-                      label: "Pesanan Saya",
-                      icon: CalendarCheck,
-                      active: pathname.startsWith("/bookings"),
-                  },
+                  ...(user.role === "USER"
+                      ? [
+                            {
+                                href: "/bookings",
+                                label: "Pesanan Saya",
+                                icon: CalendarCheck,
+                                active: pathname.startsWith("/bookings"),
+                            },
+                        ]
+                      : []),
                   {
                       href:
                           user.role === "ADMIN"

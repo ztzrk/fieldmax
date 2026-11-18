@@ -164,6 +164,19 @@ export class RenterController {
         }
     );
 
+    public getPublicRenters = asyncHandler(
+        async (req: Request, res: Response) => {
+            const result = await this.service.getPublicRenters(req.query);
+            sendSuccess(
+                res,
+                result.data,
+                "Public renters retrieved",
+                200,
+                result.meta
+            );
+        }
+    );
+
     public getPublicProfile = asyncHandler(
         async (req: Request, res: Response) => {
             const renterId = req.params.id;

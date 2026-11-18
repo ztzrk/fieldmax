@@ -5,6 +5,7 @@ import {
     List,
     DollarSign,
     MessageSquareWarning,
+    UserCog,
 } from "lucide-react";
 
 export type NavItem = {
@@ -38,6 +39,11 @@ export const renterNavItems: NavItem[] = [
         title: "Pendapatan",
         url: "/renter/revenue",
         icon: DollarSign,
+    },
+    {
+        title: "Profil Mitra",
+        url: "/renter/profile",
+        icon: UserCog,
     },
     {
         title: "Bantuan",

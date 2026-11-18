@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useGetAllFields } from "@/hooks/useFields";
+import { useGetPublicFields } from "@/hooks/useFields";
 import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { useDebounce } from "@/hooks/useDebounce";
 import { FieldCard } from "@/components/fields/FieldCard";
@@ -75,11 +75,10 @@ function FieldsContent() {
     const { data: sportTypes = [] } = useGetAllSportTypesWithoutPagination();
     const { sortBy, sortOrder } = SORT_MAPPING[sortOption];
 
-    const { data: fieldsData, isLoading: isFieldsLoading } = useGetAllFields(
+    const { data: fieldsData, isLoading: isFieldsLoading } = useGetPublicFields(
         page,
         pageSize,
         debouncedSearch.length > 0 ? debouncedSearch : undefined,
-        "APPROVED",
         false,
         selectedSportType,
         sortBy,
