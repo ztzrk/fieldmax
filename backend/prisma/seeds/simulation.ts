@@ -336,7 +336,7 @@ export async function seedSimulation(scale: Scale = "LARGE") {
     let totalVenues = 0;
     let totalBookings = 0;
 
-    await processInChunks(rentersToCreate, 10, async () => {
+    await processInChunks(rentersToCreate, 2, async () => {
         const firstName = pickRandom(idFirstNames);
         const lastName = pickRandom(idLastNames);
         const randId = randomInt(100, 9999);
@@ -464,7 +464,7 @@ export async function seedSimulation(scale: Scale = "LARGE") {
                     SETTINGS.bookingsPerField.max
                 );
 
-                const bookingPromises = [];
+                const bookingPayloads: any[] = [];
 
                 for (let b = 0; b < numBookings; b++) {
                     const customer = pickRandom(customers);
@@ -556,12 +556,15 @@ export async function seedSimulation(scale: Scale = "LARGE") {
                         };
                     }
 
-                    bookingPromises.push(
-                        prisma.booking.create({ data: bookingData })
-                    );
+                    bookingPayloads.push(bookingData);
                 }
 
-                await Promise.all(bookingPromises);
+                for (let i = 0; i < bookingPayloads.length; i += 5) {
+                    const batch = bookingPayloads.slice(i, i + 5);
+                    await Promise.all(
+                        batch.map((data) => prisma.booking.create({ data }))
+                    );
+                }
                 totalBookings += numBookings;
             }
         }
