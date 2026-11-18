@@ -55,14 +55,17 @@ export function Navbar() {
                   },
                   {
                       href:
-                          user.role === "RENTER"
-                              ? "/renter/reports"
-                              : "/reports",
+                          user.role === "ADMIN"
+                              ? "/admin/reports"
+                              : user.role === "RENTER"
+                                ? "/renter/reports"
+                                : "/reports",
                       label: "Bantuan",
                       icon: LifeBuoy,
                       active:
                           pathname.startsWith("/reports") ||
-                          pathname.startsWith("/renter/reports"),
+                          pathname.startsWith("/renter/reports") ||
+                          pathname.startsWith("/admin/reports"),
                   },
               ]
             : []),

@@ -85,4 +85,35 @@ export class UploadsController {
             );
         }
     );
+
+    public uploadReportAttachment = asyncHandler(
+        async (req: Request, res: Response) => {
+            const userId = req.user!.id;
+            const file = req.file;
+
+            if (!file) {
+                return sendError(res, "No file uploaded.", "BAD_REQUEST", 400);
+            }
+
+            const imagekit = require("../lib/imagekit").default;
+
+            const cleanOriginalName = file.originalname
+                .trim()
+                .replace(/\s+/g, "-");
+            const fileName = `report-${userId}-${Date.now()}-${cleanOriginalName}`;
+
+            const uploadResult = await imagekit.upload({
+                file: file.buffer,
+                fileName: fileName,
+                folder: "reports",
+            });
+
+            sendSuccess(
+                res,
+                { url: uploadResult.url },
+                "Report attachment uploaded successfully",
+                201
+            );
+        }
+    );
 }

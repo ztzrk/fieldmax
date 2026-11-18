@@ -5,10 +5,12 @@ export interface CreateReportData {
     subject: string;
     description: string;
     category: "SCAM" | "TECHNICAL" | "PAYMENT" | "OTHER";
+    attachmentUrl?: string;
 }
 
 export interface CreateReplyData {
     message: string;
+    attachmentUrl?: string;
 }
 
 export interface ReportReply {
@@ -16,6 +18,7 @@ export interface ReportReply {
     reportId: string;
     senderId: string;
     message: string;
+    attachmentUrl?: string | null;
     createdAt: string;
     sender?: {
         id: string;
@@ -29,8 +32,9 @@ export interface Report {
     userId: string;
     subject: string;
     description: string;
+    attachmentUrl?: string | null;
     category: "SCAM" | "TECHNICAL" | "PAYMENT" | "OTHER";
-    status: "PENDING" | "RESOLVED";
+    status: "PENDING" | "IN_PROGRESS" | "RESOLVED";
     createdAt: string;
     updatedAt: string;
     user?: {
@@ -39,6 +43,19 @@ export interface Report {
         email: string;
     };
     replies?: ReportReply[];
+    _count?: {
+        replies: number;
+    };
+}
+
+export interface GetAllReportsParams {
+    page?: number;
+    limit?: number;
+    search?: string;
+    status?: string;
+    category?: string;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
 }
 
 class ReportsService {
@@ -62,7 +79,25 @@ class ReportsService {
         return response.data.data;
     }
 
-    async getAllReports(params?: any) {
+    async uploadAttachment(file: File): Promise<{ url: string }> {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await api.post<ApiResponse<{ url: string }>>(
+            "/uploads/report-attachment",
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        if (!response.data.data) {
+            throw new Error("Gagal mengunggah lampiran");
+        }
+        return response.data.data;
+    }
+
+    async getAllReports(params?: GetAllReportsParams) {
         const response = await api.get<ApiResponse<any>>("/admin/reports", {
             params,
         });
@@ -71,6 +106,11 @@ class ReportsService {
 
     async resolve(id: string) {
         const response = await api.patch(`/admin/reports/${id}/resolve`);
+        return response.data.data;
+    }
+
+    async reopen(id: string) {
+        const response = await api.patch(`/admin/reports/${id}/reopen`);
         return response.data.data;
     }
 }

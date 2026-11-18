@@ -18,9 +18,19 @@ export function useGetAllReports(
     limit: number = 10,
     search?: string,
     sortBy?: string,
-    sortOrder?: "asc" | "desc"
+    sortOrder?: "asc" | "desc",
+    status?: string,
+    category?: string
 ) {
-    const params = { page, limit, search, sortBy, sortOrder };
+    const params = {
+        page,
+        limit,
+        search: search || undefined,
+        status: status && status !== "ALL" ? status : undefined,
+        category: category && category !== "ALL" ? category : undefined,
+        sortBy,
+        sortOrder,
+    };
     return useQuery({
         queryKey: queryKeys.reports.all(params),
         queryFn: () => reportsService.getAllReports(params),
@@ -32,6 +42,7 @@ export function useGetReportById(id: string) {
         queryKey: queryKeys.reports.detail(id),
         queryFn: () => reportsService.getReportById(id),
         enabled: !!id,
+        refetchInterval: 15000,
     });
 }
 
@@ -76,5 +87,31 @@ export function useResolveReport(defaultId?: string) {
             }
             queryClient.invalidateQueries({ queryKey: queryKeys.reports._def });
         },
+    });
+}
+
+export function useReopenReport(defaultId?: string) {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id?: string) => {
+            const targetId = id || defaultId;
+            if (!targetId) throw new Error("Report ID is required");
+            return reportsService.reopen(targetId);
+        },
+        onSuccess: (_data, id) => {
+            const targetId = id || defaultId;
+            if (targetId) {
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.reports.detail(targetId),
+                });
+            }
+            queryClient.invalidateQueries({ queryKey: queryKeys.reports._def });
+        },
+    });
+}
+
+export function useUploadReportAttachment() {
+    return useMutation({
+        mutationFn: (file: File) => reportsService.uploadAttachment(file),
     });
 }

@@ -54,8 +54,11 @@ export function ReportsView({
     const stats = useMemo(() => {
         const total = reports.length;
         const pending = reports.filter((r) => r.status === "PENDING").length;
+        const inProgress = reports.filter(
+            (r) => r.status === "IN_PROGRESS"
+        ).length;
         const resolved = reports.filter((r) => r.status === "RESOLVED").length;
-        return { total, pending, resolved };
+        return { total, pending, inProgress, resolved };
     }, [reports]);
 
     const filteredReports = useMemo(() => {
@@ -93,7 +96,7 @@ export function ReportsView({
             </div>
 
             {/* Summary Stat Pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <button
                     type="button"
                     onClick={() => setStatusFilter("ALL")}
@@ -130,6 +133,25 @@ export function ReportsView({
                     </div>
                     <p className="mt-2 text-2xl font-bold text-foreground">
                         {stats.pending}
+                    </p>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setStatusFilter("IN_PROGRESS")}
+                    className={`text-left rounded-xl border p-4 transition-all ${
+                        statusFilter === "IN_PROGRESS"
+                            ? "border-blue-500 bg-blue-50/70 dark:bg-blue-950/30 ring-1 ring-blue-500/20"
+                            : "border-border/70 bg-card hover:border-border"
+                    }`}
+                >
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                            Sedang Ditangani
+                        </span>
+                        <MessageSquare className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <p className="mt-2 text-2xl font-bold text-foreground">
+                        {stats.inProgress}
                     </p>
                 </button>
                 <button
@@ -203,6 +225,9 @@ export function ReportsView({
                             <SelectContent>
                                 <SelectItem value="ALL">Semua Status</SelectItem>
                                 <SelectItem value="PENDING">Menunggu</SelectItem>
+                                <SelectItem value="IN_PROGRESS">
+                                    Sedang Ditangani
+                                </SelectItem>
                                 <SelectItem value="RESOLVED">Selesai</SelectItem>
                             </SelectContent>
                         </Select>
@@ -276,6 +301,9 @@ export function ReportsView({
                                                         {report.status ===
                                                         "RESOLVED" ? (
                                                             <CheckCircle2 className="h-3.5 w-3.5" />
+                                                        ) : report.status ===
+                                                          "IN_PROGRESS" ? (
+                                                            <MessageSquare className="h-3.5 w-3.5" />
                                                         ) : (
                                                             <Clock className="h-3.5 w-3.5" />
                                                         )}
@@ -309,14 +337,26 @@ export function ReportsView({
                                             <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-1" />
                                         </div>
                                         <div className="mt-4 pt-3.5 border-t border-border/60 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
-                                            <span>
-                                                Dibuat{" "}
-                                                {format(
-                                                    new Date(report.createdAt),
-                                                    "dd MMM yyyy, HH:mm",
-                                                    { locale: idLocale }
+                                            <div className="flex flex-wrap items-center gap-3">
+                                                <span>
+                                                    Dibuat{" "}
+                                                    {format(
+                                                        new Date(
+                                                            report.createdAt
+                                                        ),
+                                                        "dd MMM yyyy, HH:mm",
+                                                        { locale: idLocale }
+                                                    )}
+                                                </span>
+                                                {(report.replies?.length ?? 0) >
+                                                    0 && (
+                                                    <span className="inline-flex items-center gap-1 font-medium text-foreground">
+                                                        <MessageSquare className="h-3.5 w-3.5 text-primary" />
+                                                        {report.replies!.length}{" "}
+                                                        balasan
+                                                    </span>
                                                 )}
-                                            </span>
+                                            </div>
                                             {report.updatedAt !==
                                                 report.createdAt && (
                                                 <span>

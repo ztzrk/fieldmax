@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useGetReportById, useReplyReport } from "@/hooks/useReports";
+import {
+    useGetReportById,
+    useReplyReport,
+    useUploadReportAttachment,
+} from "@/hooks/useReports";
+import {
+    ReportAttachmentInput,
+    ReportAttachmentPreview,
+} from "./ReportAttachmentInput";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,16 +59,30 @@ export function ReportDetailView({
     const router = useRouter();
     const { user } = useAuth();
     const [replyMessage, setReplyMessage] = useState("");
+    const [replyAttachment, setReplyAttachment] = useState<File | null>(null);
 
     const { data: report, isLoading } = useGetReportById(id);
     const { mutateAsync: replyReport, isPending: isReplying } =
         useReplyReport(id);
+    const { mutateAsync: uploadAttachment, isPending: isUploading } =
+        useUploadReportAttachment();
+    const isSending = isReplying || isUploading;
 
     const handleReply = async () => {
-        if (!replyMessage.trim() || isReplying) return;
+        if ((!replyMessage.trim() && !replyAttachment) || isSending) return;
+        if (!replyMessage.trim()) {
+            toast.error("Ketik pesan balasan terlebih dahulu");
+            return;
+        }
         try {
-            await replyReport({ message: replyMessage });
+            let attachmentUrl: string | undefined;
+            if (replyAttachment) {
+                const uploaded = await uploadAttachment(replyAttachment);
+                attachmentUrl = uploaded.url;
+            }
+            await replyReport({ message: replyMessage.trim(), attachmentUrl });
             setReplyMessage("");
+            setReplyAttachment(null);
             toast.success("Balasan berhasil dikirim");
         } catch {
             toast.error("Gagal mengirim balasan");
@@ -124,6 +146,8 @@ export function ReportDetailView({
                             >
                                 {report.status === "RESOLVED" ? (
                                     <CheckCircle2 className="h-3.5 w-3.5" />
+                                ) : report.status === "IN_PROGRESS" ? (
+                                    <MessageSquare className="h-3.5 w-3.5" />
                                 ) : (
                                     <Clock className="h-3.5 w-3.5" />
                                 )}
@@ -159,6 +183,7 @@ export function ReportDetailView({
                         <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed text-foreground">
                             {report.description}
                         </p>
+                        <ReportAttachmentPreview url={report.attachmentUrl} />
                     </div>
                 </CardContent>
             </Card>
@@ -229,6 +254,10 @@ export function ReportDetailView({
                                                 <p className="whitespace-pre-wrap text-sm leading-relaxed">
                                                     {reply.message}
                                                 </p>
+                                                <ReportAttachmentPreview
+                                                    url={reply.attachmentUrl}
+                                                    compact
+                                                />
                                             </div>
                                             <div className="flex flex-wrap items-center gap-1.5 mt-1.5 px-1">
                                                 <span className="text-xs font-medium text-muted-foreground">
@@ -298,22 +327,26 @@ export function ReportDetailView({
                                 rows={4}
                                 className="resize-none"
                             />
+                            <ReportAttachmentInput
+                                file={replyAttachment}
+                                onFileChange={setReplyAttachment}
+                                disabled={isSending}
+                                compact
+                            />
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                 <span className="text-xs text-muted-foreground">
                                     Tekan Ctrl + Enter untuk mengirim cepat
                                 </span>
                                 <Button
                                     onClick={handleReply}
-                                    disabled={
-                                        isReplying || !replyMessage.trim()
-                                    }
+                                    disabled={isSending || !replyMessage.trim()}
                                 >
-                                    {isReplying ? (
+                                    {isSending ? (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     ) : (
                                         <Send className="mr-2 h-4 w-4" />
                                     )}
-                                    {isReplying
+                                    {isSending
                                         ? "Mengirim..."
                                         : "Kirim Balasan"}
                                 </Button>

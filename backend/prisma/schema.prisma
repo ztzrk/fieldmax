@@ -250,16 +250,17 @@ enum VerificationStatus {
 }
 
 model Report {
-  id          String         @id @default(uuid())
-  userId      String         @map("user_id")
-  subject     String
-  description String
-  category    ReportCategory @default(OTHER)
-  status      ReportStatus   @default(PENDING)
-  createdAt   DateTime       @default(now()) @map("created_at")
-  updatedAt   DateTime       @default(now()) @updatedAt @map("updated_at")
-  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  replies     ReportReply[]
+  id            String         @id @default(uuid())
+  userId        String         @map("user_id")
+  subject       String
+  description   String
+  attachmentUrl String?        @map("attachment_url")
+  category      ReportCategory @default(OTHER)
+  status        ReportStatus   @default(PENDING)
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at")
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replies       ReportReply[]
 
   @@index([userId])
   @@index([status])
@@ -267,11 +268,12 @@ model Report {
 }
 
 model ReportReply {
-  id        String   @id @default(uuid())
-  reportId  String   @map("report_id")
-  senderId  String   @map("sender_id")
-  message   String
-  createdAt DateTime @default(now()) @map("created_at")
+  id            String   @id @default(uuid())
+  reportId      String   @map("report_id")
+  senderId      String   @map("sender_id")
+  message       String
+  attachmentUrl String?  @map("attachment_url")
+  createdAt     DateTime @default(now()) @map("created_at")
 
   report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
   sender User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
@@ -283,6 +285,7 @@ model ReportReply {
 
 enum ReportStatus {
   PENDING
+  IN_PROGRESS
   RESOLVED
 }
 

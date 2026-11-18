@@ -1,8 +1,20 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../db";
-import { CreateReport, CreateReply } from "./reports.schema";
-import { Pagination } from "../schemas/pagination.schema";
-import { NotFoundError, ForbiddenError } from "../utils/errors";
+import {
+    CreateReport,
+    CreateReply,
+    GetAllReportsQuery,
+} from "./reports.schema";
+import {
+    NotFoundError,
+    ForbiddenError,
+    ValidationError,
+} from "../utils/errors";
+import {
+    sendReportReplyEmail,
+    sendReportResolvedEmail,
+} from "../lib/mailer";
+import { logger } from "../utils/logger";
 
 export class ReportsService {
     public async createReport(userId: string, data: CreateReport) {
@@ -26,40 +38,82 @@ export class ReportsService {
         });
     }
 
-    public async getAllReports(query: Partial<Pagination>) {
-        const { page, limit, search, sortBy, sortOrder } = query;
+    public async getAllReports(query: GetAllReportsQuery) {
+        const { page, limit, search, status, category, sortBy, sortOrder } =
+            query;
         const pageNum = page ? Number(page) : undefined;
         const limitNum = limit ? Number(limit) : undefined;
         const isPaginated = pageNum !== undefined && limitNum !== undefined;
         const skip = isPaginated ? (pageNum! - 1) * limitNum! : 0;
 
-        const whereCondition: Prisma.ReportWhereInput = search
-            ? {
-                  OR: [
-                      { subject: { contains: search, mode: "insensitive" } },
-                      {
-                          user: {
-                              fullName: {
+        const whereCondition: Prisma.ReportWhereInput = {
+            ...(status ? { status } : {}),
+            ...(category ? { category } : {}),
+            ...(search
+                ? {
+                      OR: [
+                          {
+                              subject: {
                                   contains: search,
                                   mode: "insensitive",
                               },
                           },
-                      },
-                      {
-                          user: {
-                              email: { contains: search, mode: "insensitive" },
+                          {
+                              user: {
+                                  fullName: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
                           },
-                      },
-                  ],
-              }
-            : {};
+                          {
+                              user: {
+                                  email: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                          },
+                      ],
+                  }
+                : {}),
+        };
 
-        const orderByCondition: Prisma.ReportOrderByWithRelationInput =
-            sortBy && sortOrder
-                ? sortBy === "user"
-                    ? { user: { fullName: sortOrder } }
-                    : { [sortBy]: sortOrder }
-                : { createdAt: "desc" };
+        const orderDir: Prisma.SortOrder =
+            sortOrder === "asc" ? "asc" : "desc";
+        let orderByCondition: Prisma.ReportOrderByWithRelationInput = {
+            createdAt: "desc",
+        };
+        if (sortBy) {
+            if (sortBy === "user" || sortBy === "user_fullName") {
+                orderByCondition = { user: { fullName: orderDir } };
+            } else if (
+                [
+                    "subject",
+                    "category",
+                    "status",
+                    "createdAt",
+                    "updatedAt",
+                ].includes(sortBy)
+            ) {
+                orderByCondition = { [sortBy]: orderDir };
+            }
+        }
+
+        const includeConfig = {
+            user: {
+                select: {
+                    id: true,
+                    fullName: true,
+                    email: true,
+                },
+            },
+            _count: {
+                select: {
+                    replies: true,
+                },
+            },
+        };
 
         if (isPaginated) {
             const [reports, total] = await prisma.$transaction([
@@ -68,16 +122,7 @@ export class ReportsService {
                     skip: skip,
                     take: limitNum,
                     orderBy: orderByCondition,
-                    include: {
-                        user: {
-                            select: {
-                                id: true,
-                                fullName: true,
-                                email: true,
-                            },
-                        },
-                        replies: true,
-                    },
+                    include: includeConfig,
                 }),
                 prisma.report.count({ where: whereCondition }),
             ]);
@@ -91,16 +136,7 @@ export class ReportsService {
             const reports = await prisma.report.findMany({
                 where: whereCondition,
                 orderBy: orderByCondition,
-                include: {
-                    user: {
-                        select: {
-                            id: true,
-                            fullName: true,
-                            email: true,
-                        },
-                    },
-                    replies: true,
-                },
+                include: includeConfig,
             });
             return { data: reports };
         }
@@ -155,6 +191,14 @@ export class ReportsService {
     ) {
         const report = await prisma.report.findUnique({
             where: { id: reportId },
+            include: {
+                user: {
+                    select: {
+                        email: true,
+                        fullName: true,
+                    },
+                },
+            },
         });
 
         if (!report) {
@@ -169,20 +213,39 @@ export class ReportsService {
             throw new ForbiddenError("You cannot reply to a resolved report.");
         }
 
-        const reply = await prisma.reportReply.create({
-            data: {
-                reportId,
-                senderId,
-                message: data.message,
-            },
-        });
+        const nextStatus =
+            isAdmin && report.status === "PENDING"
+                ? "IN_PROGRESS"
+                : report.status;
 
-        // Optionally update report status or notify user
-        if (isAdmin && report.status === "PENDING") {
-            // await prisma.report.update({
-            //     where: { id: reportId },
-            //     data: { status: "RESOLVED" }, // Example logic
-            // });
+        const [reply] = await prisma.$transaction([
+            prisma.reportReply.create({
+                data: {
+                    reportId,
+                    senderId,
+                    message: data.message,
+                    attachmentUrl: data.attachmentUrl,
+                },
+            }),
+            prisma.report.update({
+                where: { id: reportId },
+                data: {
+                    status: nextStatus,
+                    updatedAt: new Date(),
+                },
+            }),
+        ]);
+
+        if (isAdmin && report.user?.email) {
+            sendReportReplyEmail(
+                report.user.email,
+                report.user.fullName,
+                report.id,
+                report.subject,
+                data.message
+            ).catch((err) => {
+                logger.error("Failed to send report reply email", err);
+            });
         }
 
         return reply;
@@ -191,15 +254,55 @@ export class ReportsService {
     public async resolveReport(reportId: string) {
         const report = await prisma.report.findUnique({
             where: { id: reportId },
+            include: {
+                user: {
+                    select: {
+                        email: true,
+                        fullName: true,
+                    },
+                },
+            },
         });
 
         if (!report) {
             throw new NotFoundError("Report not found");
         }
 
-        return prisma.report.update({
+        const updated = await prisma.report.update({
             where: { id: reportId },
             data: { status: "RESOLVED" },
+        });
+
+        if (report.user?.email) {
+            sendReportResolvedEmail(
+                report.user.email,
+                report.user.fullName,
+                report.id,
+                report.subject
+            ).catch((err) => {
+                logger.error("Failed to send report resolved email", err);
+            });
+        }
+
+        return updated;
+    }
+
+    public async reopenReport(reportId: string) {
+        const report = await prisma.report.findUnique({
+            where: { id: reportId },
+        });
+
+        if (!report) {
+            throw new NotFoundError("Report not found");
+        }
+
+        if (report.status !== "RESOLVED") {
+            throw new ValidationError("Only resolved reports can be reopened");
+        }
+
+        return prisma.report.update({
+            where: { id: reportId },
+            data: { status: "IN_PROGRESS" },
         });
     }
 }

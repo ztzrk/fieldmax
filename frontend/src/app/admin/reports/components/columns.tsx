@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Report } from "@/services/reports.service";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, CheckCircle2, Clock } from "lucide-react";
+import { ArrowUpDown, CheckCircle2, Clock, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import Link from "next/link";
@@ -32,6 +32,7 @@ export const columns: ColumnDef<Report>[] = [
         ),
         cell: ({ row }) => {
             const report = row.original;
+            const replyCount = report._count?.replies ?? 0;
             return (
                 <Link
                     href={`/admin/reports/${report.id}`}
@@ -40,9 +41,17 @@ export const columns: ColumnDef<Report>[] = [
                     <span className="font-medium text-foreground group-hover:text-primary group-hover:underline truncate">
                         {report.subject}
                     </span>
-                    <span className="text-xs font-mono text-muted-foreground">
-                        #{report.id.slice(0, 8)}
-                    </span>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="font-mono">
+                            #{report.id.slice(0, 8)}
+                        </span>
+                        {replyCount > 0 && (
+                            <span className="inline-flex items-center gap-1">
+                                • <MessageSquare className="h-3 w-3" />{" "}
+                                {replyCount}
+                            </span>
+                        )}
+                    </div>
                 </Link>
             );
         },
@@ -73,6 +82,7 @@ export const columns: ColumnDef<Report>[] = [
         },
     },
     {
+        id: "user",
         accessorKey: "user.fullName",
         header: ({ column }) => (
             <Button
@@ -119,6 +129,8 @@ export const columns: ColumnDef<Report>[] = [
                 >
                     {status === "RESOLVED" ? (
                         <CheckCircle2 className="h-3.5 w-3.5" />
+                    ) : status === "IN_PROGRESS" ? (
+                        <MessageSquare className="h-3.5 w-3.5" />
                     ) : (
                         <Clock className="h-3.5 w-3.5" />
                     )}

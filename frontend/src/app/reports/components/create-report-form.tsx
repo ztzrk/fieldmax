@@ -1,9 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useCreateReport } from "@/hooks/useReports";
+import {
+    useCreateReport,
+    useUploadReportAttachment,
+} from "@/hooks/useReports";
+import { ReportAttachmentInput } from "./ReportAttachmentInput";
 import {
     Form,
     FormControl,
@@ -52,8 +57,12 @@ interface CreateReportFormProps {
 }
 
 export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
-    const { mutateAsync: createReport, isPending: isLoading } =
+    const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
+    const { mutateAsync: createReport, isPending: isCreating } =
         useCreateReport();
+    const { mutateAsync: uploadAttachment, isPending: isUploading } =
+        useUploadReportAttachment();
+    const isLoading = isCreating || isUploading;
 
     const form = useForm<z.infer<typeof createReportSchema>>({
         resolver: zodResolver(createReportSchema),
@@ -69,13 +78,22 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
 
     async function onSubmit(values: z.infer<typeof createReportSchema>) {
         try {
-            await createReport(values);
+            let attachmentUrl: string | undefined;
+            if (attachmentFile) {
+                const uploaded = await uploadAttachment(attachmentFile);
+                attachmentUrl = uploaded.url;
+            }
+            await createReport({
+                ...values,
+                attachmentUrl,
+            });
             toast.success("Laporan berhasil dikirim");
             form.reset({
                 subject: "",
                 description: "",
                 category: undefined,
             });
+            setAttachmentFile(null);
             onSuccess();
         } catch (error) {
             toast.error("Gagal membuat laporan");
@@ -209,6 +227,14 @@ export function CreateReportForm({ onSuccess }: CreateReportFormProps) {
                                 </FormItem>
                             )}
                         />
+                        <div className="space-y-1.5">
+                            <FormLabel>Lampiran</FormLabel>
+                            <ReportAttachmentInput
+                                file={attachmentFile}
+                                onFileChange={setAttachmentFile}
+                                disabled={isLoading}
+                            />
+                        </div>
                         <Button
                             type="submit"
                             disabled={isLoading}

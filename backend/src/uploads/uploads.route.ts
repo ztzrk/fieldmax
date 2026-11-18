@@ -67,5 +67,12 @@ export class UploadsRoute {
             upload.single("photo"),
             this.controller.uploadProfilePhoto
         );
+
+        this.router.post(
+            `${this.path}/report-attachment`,
+            authMiddleware,
+            upload.single("file"),
+            this.controller.uploadReportAttachment
+        );
     }
 }

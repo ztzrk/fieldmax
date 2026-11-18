@@ -3,7 +3,11 @@ import { ReportsController } from "./reports.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { adminOnlyMiddleware } from "../middleware/admin.middleware";
 import { validateRequest } from "../middleware/validate.middleware";
-import { CreateReportSchema, CreateReplySchema } from "./reports.schema";
+import {
+    CreateReportSchema,
+    CreateReplySchema,
+    GetAllReportsQuerySchema,
+} from "./reports.schema";
 import { z } from "zod";
 
 export class ReportsRoute {
@@ -44,6 +48,7 @@ export class ReportsRoute {
             "/admin/reports",
             authMiddleware,
             adminOnlyMiddleware,
+            validateRequest(z.object({ query: GetAllReportsQuerySchema })),
             this.reportsController.getAllReports
         );
 
@@ -52,6 +57,13 @@ export class ReportsRoute {
             authMiddleware,
             adminOnlyMiddleware,
             this.reportsController.resolveReport
+        );
+
+        this.router.patch(
+            "/admin/reports/:id/reopen",
+            authMiddleware,
+            adminOnlyMiddleware,
+            this.reportsController.reopenReport
         );
     }
 }

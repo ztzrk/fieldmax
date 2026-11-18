@@ -6,7 +6,14 @@ import {
     useGetReportById,
     useReplyReport,
     useResolveReport,
+    useReopenReport,
+    useUploadReportAttachment,
 } from "@/hooks/useReports";
+import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
+import {
+    ReportAttachmentInput,
+    ReportAttachmentPreview,
+} from "@/app/reports/components/ReportAttachmentInput";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,6 +31,7 @@ import {
     Loader2,
     Mail,
     MessageSquare,
+    RotateCcw,
     Send,
     ShieldCheck,
     User as UserIcon,
@@ -55,18 +63,34 @@ export default function AdminReportDetailPage() {
     const router = useRouter();
     const { user } = useAuth();
     const [replyMessage, setReplyMessage] = useState("");
+    const [replyAttachment, setReplyAttachment] = useState<File | null>(null);
 
     const { data: report, isLoading } = useGetReportById(id);
     const { mutateAsync: replyReport, isPending: isReplying } =
         useReplyReport(id);
+    const { mutateAsync: uploadAttachment, isPending: isUploading } =
+        useUploadReportAttachment();
     const { mutateAsync: resolveReport, isPending: isResolving } =
         useResolveReport(id);
+    const { mutateAsync: reopenReport, isPending: isReopening } =
+        useReopenReport(id);
+    const isSending = isReplying || isUploading;
 
     const handleReply = async () => {
-        if (!replyMessage.trim() || isReplying) return;
+        if ((!replyMessage.trim() && !replyAttachment) || isSending) return;
+        if (!replyMessage.trim()) {
+            toast.error("Ketik pesan balasan terlebih dahulu");
+            return;
+        }
         try {
-            await replyReport({ message: replyMessage });
+            let attachmentUrl: string | undefined;
+            if (replyAttachment) {
+                const uploaded = await uploadAttachment(replyAttachment);
+                attachmentUrl = uploaded.url;
+            }
+            await replyReport({ message: replyMessage.trim(), attachmentUrl });
             setReplyMessage("");
+            setReplyAttachment(null);
             toast.success("Balasan berhasil dikirim");
         } catch {
             toast.error("Gagal mengirim balasan");
@@ -79,6 +103,15 @@ export default function AdminReportDetailPage() {
             toast.success("Laporan berhasil ditandai selesai");
         } catch {
             toast.error("Gagal menyelesaikan laporan");
+        }
+    };
+
+    const handleReopen = async () => {
+        try {
+            await reopenReport(id);
+            toast.success("Laporan berhasil dibuka kembali");
+        } catch {
+            toast.error("Gagal membuka kembali laporan");
         }
     };
 
@@ -126,19 +159,43 @@ export default function AdminReportDetailPage() {
                     Kembali ke Daftar Laporan
                 </Button>
 
-                {report.status === "PENDING" && (
-                    <Button
-                        onClick={handleResolve}
-                        disabled={isResolving}
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                    >
-                        {isResolving ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                            <CheckCircle2 className="mr-2 h-4 w-4" />
-                        )}
-                        {isResolving ? "Memproses..." : "Tandai Selesai"}
-                    </Button>
+                {report.status !== "RESOLVED" ? (
+                    <ConfirmationDialog
+                        title="Tandai Laporan Selesai?"
+                        description="Pelapor tidak akan dapat mengirim balasan baru setelah laporan ditandai selesai."
+                        onConfirm={handleResolve}
+                        trigger={
+                            <Button
+                                disabled={isResolving}
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                            >
+                                {isResolving ? (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                                )}
+                                {isResolving ? "Memproses..." : "Tandai Selesai"}
+                            </Button>
+                        }
+                    />
+                ) : (
+                    <ConfirmationDialog
+                        title="Buka Kembali Laporan?"
+                        description="Laporan akan dibuka kembali dengan status Sedang Ditangani agar percakapan dapat dilanjutkan."
+                        onConfirm={handleReopen}
+                        trigger={
+                            <Button variant="outline" disabled={isReopening}>
+                                {isReopening ? (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                    <RotateCcw className="mr-2 h-4 w-4" />
+                                )}
+                                {isReopening
+                                    ? "Memproses..."
+                                    : "Buka Kembali Tiket"}
+                            </Button>
+                        }
+                    />
                 )}
             </div>
 
@@ -156,6 +213,8 @@ export default function AdminReportDetailPage() {
                                     >
                                         {report.status === "RESOLVED" ? (
                                             <CheckCircle2 className="h-3.5 w-3.5" />
+                                        ) : report.status === "IN_PROGRESS" ? (
+                                            <MessageSquare className="h-3.5 w-3.5" />
                                         ) : (
                                             <Clock className="h-3.5 w-3.5" />
                                         )}
@@ -195,6 +254,9 @@ export default function AdminReportDetailPage() {
                                 <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">
                                     {report.description}
                                 </p>
+                                <ReportAttachmentPreview
+                                    url={report.attachmentUrl}
+                                />
                             </div>
                         </CardContent>
                     </Card>
@@ -265,6 +327,12 @@ export default function AdminReportDetailPage() {
                                                         <p className="whitespace-pre-wrap text-sm leading-relaxed">
                                                             {reply.message}
                                                         </p>
+                                                        <ReportAttachmentPreview
+                                                            url={
+                                                                reply.attachmentUrl
+                                                            }
+                                                            compact
+                                                        />
                                                     </div>
                                                     <div className="flex flex-wrap items-center gap-1.5 mt-1.5 px-1">
                                                         <span className="text-xs text-muted-foreground font-medium">
@@ -322,6 +390,12 @@ export default function AdminReportDetailPage() {
                                     rows={4}
                                     className="resize-none"
                                 />
+                                <ReportAttachmentInput
+                                    file={replyAttachment}
+                                    onFileChange={setReplyAttachment}
+                                    disabled={isSending}
+                                    compact
+                                />
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                     <span className="text-xs text-muted-foreground">
                                         Tekan Ctrl + Enter untuk mengirim cepat
@@ -329,15 +403,15 @@ export default function AdminReportDetailPage() {
                                     <Button
                                         onClick={handleReply}
                                         disabled={
-                                            isReplying || !replyMessage.trim()
+                                            isSending || !replyMessage.trim()
                                         }
                                     >
-                                        {isReplying ? (
+                                        {isSending ? (
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         ) : (
                                             <Send className="mr-2 h-4 w-4" />
                                         )}
-                                        {isReplying
+                                        {isSending
                                             ? "Mengirim..."
                                             : "Kirim Balasan"}
                                     </Button>
