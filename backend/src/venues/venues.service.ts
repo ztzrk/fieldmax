@@ -177,7 +177,11 @@ export class VenuesService {
                         select: {
                             fullName: true,
                             email: true,
-                            // Use dummy logic if needed or just return basic info
+                            profile: {
+                                select: {
+                                    companyName: true,
+                                },
+                            },
                         },
                     },
                     photos: {

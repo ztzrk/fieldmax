@@ -70,6 +70,11 @@ export class HomeService {
                             select: {
                                 fullName: true,
                                 email: true,
+                                profile: {
+                                    select: {
+                                        companyName: true,
+                                    },
+                                },
                             },
                         },
                         photos: true,

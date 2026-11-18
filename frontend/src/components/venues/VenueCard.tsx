@@ -91,25 +91,35 @@ export function VenueCard({ venue, priority = false }: VenueCardProps) {
 
             <CardContent className="p-4 pt-0 flex-col flex flex-1">
                 {!isRenterPage && (
-                    <div className="text-xs text-muted-foreground mb-2">
-                        Dikelola oleh{" "}
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2 min-w-0">
+                        <span className="shrink-0">Dikelola oleh</span>
                         <Link
                             href={`/renters/${venue.renterId}`}
-                            className="font-medium hover:underline text-primary/80 hover:text-primary transition-colors"
+                            className="font-medium hover:underline text-primary/80 hover:text-primary transition-colors truncate"
+                            title={
+                                venue.renter?.profile?.companyName ||
+                                venue.renter?.fullName ||
+                                "Pengelola"
+                            }
                         >
-                            {venue.renter?.fullName || "Pengelola"}
+                            {venue.renter?.profile?.companyName ||
+                                venue.renter?.fullName ||
+                                "Pengelola"}
                         </Link>
                     </div>
                 )}
 
                 {/* Location */}
-                <div className="flex items-start gap-2 text-sm text-muted-foreground mb-4">
-                    <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-primary/70" />
-                    <div className="relative flex-1 h-9">
-                        <span className="line-clamp-2 transition-all duration-300 group-hover:opacity-0 absolute inset-0">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 min-w-0">
+                    <MapPin className="h-4 w-4 shrink-0 text-primary/70" />
+                    <div className="relative flex-1 h-5 min-w-0">
+                        <span
+                            className="truncate transition-all duration-300 group-hover:opacity-0 absolute inset-0"
+                            title={venue.address || undefined}
+                        >
                             {venue.address || "Alamat belum ditambahkan"}
                         </span>
-                        <span className="line-clamp-2 transition-all duration-300 opacity-0 group-hover:opacity-100 absolute inset-0">
+                        <span className="truncate transition-all duration-300 opacity-0 group-hover:opacity-100 absolute inset-0">
                             {[venue.district, venue.city]
                                 .filter(Boolean)
                                 .join(", ") || venue.address}

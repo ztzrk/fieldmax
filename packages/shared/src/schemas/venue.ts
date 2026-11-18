@@ -96,6 +96,12 @@ export const venueResponseSchema = z.object({
     renter: z.object({
         fullName: z.string(),
         email: z.string().email(),
+        profile: z
+            .object({
+                companyName: z.string().nullable().optional(),
+            })
+            .nullable()
+            .optional(),
     }),
     photos: z.array(venuePhotoSchema).optional(),
     _count: z
@@ -173,6 +179,12 @@ export const venuePublicSchema = z.object({
     renter: z.object({
         fullName: z.string(),
         email: z.string().email(),
+        profile: z
+            .object({
+                companyName: z.string().nullable().optional(),
+            })
+            .nullable()
+            .optional(),
     }),
     photos: z.array(venuePublicPhotoSchema).optional(),
     _count: z
