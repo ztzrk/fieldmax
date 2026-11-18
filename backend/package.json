@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node -T src/index.ts",
+    "prebuild": "prisma generate",
     "build": "tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "node dist/src/index.js",
     "seed:main": "ts-node -T prisma/seeds/seed.ts",
