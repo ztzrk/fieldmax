@@ -1,0 +1,11 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "version": 2,
+    "buildCommand": "cd .. && pnpm --filter @fieldmax/shared build && pnpm --filter fieldmax-backend exec prisma generate && pnpm --filter fieldmax-backend build",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/api/index"
+        }
+    ]
+}

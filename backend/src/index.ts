@@ -59,7 +59,9 @@ import { config } from "./config/env";
 import { midtransSnap } from "./config/midtrans";
 import prisma from "./db";
 
-CronService.init();
+if (process.env.VERCEL !== "1") {
+    CronService.init();
+}
 
 const app: Express = express();
 const PORT = config.PORT;
@@ -170,31 +172,37 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use(errorMiddleware);
 
-const server = app.listen(PORT, () => {
-    logger.info(`[server]: Server is running at http://localhost:${PORT}`);
-});
-
-// Graceful Shutdown
-const gracefulShutdown = async (signal: string) => {
-    logger.info(`[server]: Received ${signal}. Starting graceful shutdown...`);
-    server.close(async () => {
-        logger.info("[server]: HTTP server closed.");
-        try {
-            await prisma.$disconnect();
-            logger.info("[server]: Database connections closed.");
-            process.exit(0);
-        } catch (err) {
-            logger.error("[server]: Error during shutdown:", err);
-            process.exit(1);
-        }
+if (process.env.VERCEL !== "1") {
+    const server = app.listen(PORT, () => {
+        logger.info(`[server]: Server is running at http://localhost:${PORT}`);
     });
 
-    // Force close if graceful shutdown hangs
-    setTimeout(() => {
-        logger.error("[server]: Forcing shutdown after timeout.");
-        process.exit(1);
-    }, 10000);
-};
+    // Graceful Shutdown
+    const gracefulShutdown = async (signal: string) => {
+        logger.info(
+            `[server]: Received ${signal}. Starting graceful shutdown...`
+        );
+        server.close(async () => {
+            logger.info("[server]: HTTP server closed.");
+            try {
+                await prisma.$disconnect();
+                logger.info("[server]: Database connections closed.");
+                process.exit(0);
+            } catch (err) {
+                logger.error("[server]: Error during shutdown:", err);
+                process.exit(1);
+            }
+        });
 
-process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
-process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+        // Force close if graceful shutdown hangs
+        setTimeout(() => {
+            logger.error("[server]: Forcing shutdown after timeout.");
+            process.exit(1);
+        }, 10000);
+    };
+
+    process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+    process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+}
+
+export default app;
