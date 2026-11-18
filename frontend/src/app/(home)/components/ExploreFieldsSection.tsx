@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/carousel";
 import { FieldCard } from "@/components/fields/FieldCard";
 import { FieldCardSkeleton } from "@/components/fields/FieldCardSkeleton";
-import { useGetAllFields } from "@/hooks/useFields";
+import { useGetPublicFields } from "@/hooks/useFields";
 import { SportType } from "@/lib/schema/sportType.schema";
 import { FieldResponseSchema } from "@fieldmax/shared";
 
@@ -31,11 +31,10 @@ export function ExploreFieldsSection({
         undefined
     );
 
-    const { data: fieldsData, isLoading } = useGetAllFields(
+    const { data: fieldsData, isLoading } = useGetPublicFields(
         1,
         15,
         undefined,
-        "APPROVED",
         false,
         selectedSportType,
         sortOrder ? "pricePerHour" : undefined,
