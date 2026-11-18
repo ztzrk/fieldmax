@@ -1,0 +1,5 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "framework": "nextjs",
+    "buildCommand": "cd .. && pnpm --filter @fieldmax/shared build && pnpm --filter fieldmax-frontend build"
+}

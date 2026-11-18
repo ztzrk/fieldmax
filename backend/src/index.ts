@@ -64,6 +64,20 @@ CronService.init();
 const app: Express = express();
 const PORT = config.PORT;
 
+// Trust reverse proxy (Render, Koyeb, etc.) for accurate client IP in rate limiter
+app.set("trust proxy", 1);
+
+// Health check & DB keep-alive endpoint (placed before rate limiter)
+app.get("/api/health", async (_req: Request, res: Response) => {
+    try {
+        await prisma.$queryRaw`SELECT 1`;
+        res.status(200).json({ status: "ok", db: "connected" });
+    } catch (error) {
+        logger.error("[health]: Database connection failed", error);
+        res.status(503).json({ status: "error", db: "disconnected" });
+    }
+});
+
 // Middleware
 app.use(helmet());
 app.use(globalLimiter);
