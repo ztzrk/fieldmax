@@ -149,6 +149,8 @@ Configured in `opencode.json`. Available toolkits for agent use:
 | `memory` | Knowledge graph memory | `@modelcontextprotocol/server-memory` |
 | `filesystem` | Filesystem access | `@modelcontextprotocol/server-filesystem` |
 | `docx-mcp` | Word (.docx) document editing & inspection | `docx-mcp-server` (uvx / SecurityRonin) |
+| `wordcraft` | WordCraft `.docx`/`.pdf` document editing & rendering | `C:/Program Files/ArtCraft/WordCraft/wordcraft-cli.exe mcp` (scoped to repo) |
+| `deckcraft` | DeckCraft `.deckcraft`/`.pptx` slide editing & rendering | `C:/Program Files/ArtCraft/DeckCraft/deckcraft-cli.exe mcp` (scoped to repo) |
 
 ### 🔴 Disabled
 

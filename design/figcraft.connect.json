@@ -1,0 +1,47 @@
+{
+  "links": [
+    {
+      "component": "BookingCard",
+      "importPath": "@/app/bookings/components/BookingCard",
+      "language": "react",
+      "name": "BookingCard",
+      "template": "<BookingCard booking={booking} />"
+    },
+    {
+      "component": "FieldCard",
+      "importPath": "@/components/fields/FieldCard",
+      "language": "react",
+      "name": "FieldCard",
+      "template": "<FieldCard field={field} />"
+    },
+    {
+      "component": "Navbar/Guest",
+      "importPath": "@/components/layout/Navbar",
+      "language": "react",
+      "name": "Navbar",
+      "template": "<Navbar />"
+    },
+    {
+      "component": "RevenueChart",
+      "importPath": "@/components/dashboard/RevenueChart",
+      "language": "react",
+      "name": "RevenueChart",
+      "template": "<RevenueChart data={data} />"
+    },
+    {
+      "component": "StatCard",
+      "importPath": "@/components/ui/card",
+      "language": "react",
+      "name": "Card",
+      "template": "<Card>{/* KPI */}</Card>"
+    },
+    {
+      "component": "VenueCard",
+      "importPath": "@/components/venues/VenueCard",
+      "language": "react",
+      "name": "VenueCard",
+      "template": "<VenueCard venue={venue} />"
+    }
+  ],
+  "version": 1
+}
