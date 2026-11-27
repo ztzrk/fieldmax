@@ -38,7 +38,7 @@ export const FIELD_PRICE_PRESETS: PricePreset[] = [
     { id: "UNDER_100", label: "< Rp 100 rb", maxPrice: 99999 },
     {
         id: "100_200",
-        label: "Rp 100 rb – 200 rb",
+        label: "Rp 100–200 rb",
         minPrice: 100000,
         maxPrice: 200000,
     },
@@ -208,7 +208,7 @@ export function PriceFilter({
                             key={preset.id}
                             type="button"
                             onClick={() => handlePresetClick(preset)}
-                            className={`rounded-lg border px-2.5 py-2 text-xs font-medium transition-all text-center ${
+                            className={`rounded-lg border px-2 py-2 text-xs font-medium transition-all text-center whitespace-nowrap ${
                                 isActive
                                     ? "border-primary bg-primary/10 text-primary"
                                     : "border-border bg-background/60 text-foreground/80 hover:bg-muted"

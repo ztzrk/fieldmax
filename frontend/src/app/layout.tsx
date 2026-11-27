@@ -16,6 +16,10 @@ import { Footer } from "@/components/shared/Footer";
 export const metadata: Metadata = {
     title: "FieldMax",
     description: "Sewa Lapangan Olahraga",
+    icons: {
+        icon: "/logo.svg",
+        shortcut: "/logo.svg",
+    },
 };
 
 /**

@@ -55,9 +55,9 @@ export default function Home() {
                     <section className="w-full py-24 bg-background">
                         <div className="w-full max-w-[1400px] mx-auto px-4 md:px-6 py-6">
                             <div className="flex items-center justify-between mb-12">
-                                <div className="space-y-2">
-                                    <Skeleton className="h-8 w-64 rounded" />
-                                    <Skeleton className="h-4 w-96 rounded" />
+                                <div className="space-y-2 w-full min-w-0">
+                                    <Skeleton className="h-8 w-full max-w-64 rounded" />
+                                    <Skeleton className="h-4 w-full max-w-96 rounded" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
