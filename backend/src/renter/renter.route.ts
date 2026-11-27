@@ -30,6 +30,23 @@ export class RenterRoute {
             `${this.path}/revenue`,
             authMiddleware,
             renterOnlyMiddleware,
+            validateRequest(
+                z.object({
+                    query: z.object({
+                        period: z
+                            .enum([
+                                "all",
+                                "7d",
+                                "30d",
+                                "this_month",
+                                "last_month",
+                            ])
+                            .optional()
+                            .default("this_month"),
+                        venueId: z.string().optional(),
+                    }),
+                })
+            ),
             this.controller.getRevenueStats
         );
 

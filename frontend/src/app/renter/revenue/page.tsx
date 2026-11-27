@@ -3,19 +3,38 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
-import { id as idLocale } from "date-fns/locale";
-import { useRenterRevenue } from "@/hooks/useDashboard";
-import { formatCurrency } from "@/lib/utils";
-import { FullScreenLoader } from "@/components/FullScreenLoader";
-import { Badge } from "@/components/ui/badge";
+import type { PaginationState } from "@tanstack/react-table";
+import {
+    ArrowUpRight,
+    Building2,
+    CalendarRange,
+    Clock,
+    Download,
+    Info,
+    Receipt,
+    RefreshCw,
+    Star,
+    TrendingUp,
+    Trophy,
+    Wallet,
+} from "lucide-react";
+import { DashboardKpiCard } from "@/components/dashboard/DashboardKpiCard";
+import {
+    type ActiveFilterChip,
+    DataTable,
+} from "@/components/shared/DataTable";
+import {
+    DataTableFacetedFilter,
+    type FacetedFilterOption,
+} from "@/components/shared/DataTableFacetedFilter";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
     Card,
     CardContent,
+    CardDescription,
     CardHeader,
     CardTitle,
-    CardDescription,
 } from "@/components/ui/card";
 import {
     Select,
@@ -24,6 +43,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
     Table,
     TableBody,
@@ -33,73 +53,88 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRenterRevenue } from "@/hooks/useDashboard";
 import {
-    Bar,
-    BarChart,
-    CartesianGrid,
-    ResponsiveContainer,
-    XAxis,
-    YAxis,
-    Tooltip,
-} from "recharts";
-import {
-    ArrowUpRight,
-    Building2,
-    CalendarCheck,
-    CheckCircle2,
-    Download,
-    Filter,
-    Receipt,
-    Search,
-    Star,
-    TrendingUp,
-    Trophy,
-    Wallet,
-} from "lucide-react";
+    BOOKING_STATUS_OPTIONS,
+    PAYMENT_STATUS_OPTIONS,
+    REVENUE_TRANSACTION_COLUMN_LABELS,
+} from "@/lib/table-filter-options";
+import { cn, formatCurrency, formatDate, formatTime } from "@/lib/utils";
+import type {
+    RevenuePeriod,
+    RevenueTransaction,
+} from "@/services/renter.service";
+import { getRevenueTransactionColumns } from "./components/columns";
+import { RevenueBreakdownChart } from "./components/RevenueBreakdownChart";
+import { TransactionDetailSheet } from "./components/TransactionDetailSheet";
 
-const STATUS_BADGE: Record<string, { label: string; className: string }> = {
-    CONFIRMED: {
-        label: "Terkonfirmasi",
-        className:
-            "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300",
-    },
-    COMPLETED: {
-        label: "Selesai",
-        className:
-            "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300",
-    },
-    PENDING: {
-        label: "Menunggu Bayar",
-        className:
-            "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300",
-    },
-    CANCELLED: {
-        label: "Dibatalkan",
-        className:
-            "border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300",
-    },
-    NO_SHOW: {
-        label: "Tidak Hadir",
-        className:
-            "border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300",
-    },
+const PERIOD_OPTIONS: { value: RevenuePeriod; label: string }[] = [
+    { value: "this_month", label: "Bulan Ini" },
+    { value: "7d", label: "7 Hari Terakhir" },
+    { value: "30d", label: "30 Hari Terakhir" },
+    { value: "last_month", label: "Bulan Lalu" },
+    { value: "all", label: "Semua Waktu" },
+];
+
+const PERIOD_LABEL_MAP: Record<RevenuePeriod, string> = {
+    this_month: "Bulan Ini",
+    "7d": "7 Hari Terakhir",
+    "30d": "30 Hari Terakhir",
+    last_month: "Bulan Lalu",
+    all: "Semua Waktu",
 };
 
-function formatCompactRp(value: number) {
-    if (value >= 1_000_000) {
-        return `Rp ${(value / 1_000_000).toFixed(1).replace(".0", "")}jt`;
-    }
-    if (value >= 1_000) {
-        return `Rp ${Math.round(value / 1_000)}rb`;
-    }
-    return `Rp ${value}`;
+/**
+ * Escapes CSV fields safely including formula-injection mitigation.
+ */
+function sanitizeCsvCell(value: string | number): string {
+    const raw = String(value ?? "");
+    const safe = /^[=+\-@]/.test(raw) ? `'${raw}` : raw;
+    return `"${safe.replace(/"/g, '""')}"`;
 }
 
+/**
+ * Renter Financial & Revenue Reporting Page.
+ * Displays cash position KPIs, period & venue scoping, interactive breakdown charts,
+ * faceted multi-filter transaction ledger, slide-over detail sheet, and safe CSV export.
+ */
 export default function RevenuePage() {
-    const { data: stats, isLoading, error } = useRenterRevenue();
+    const [period, setPeriod] = useState<RevenuePeriod>("this_month");
     const [selectedVenueId, setSelectedVenueId] = useState<string>("ALL");
+
+    // Local ledger filters & pagination
     const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState<string>("ALL");
+    const [bookingStatuses, setBookingStatuses] = useState<string[]>([]);
+    const [paymentStatuses, setPaymentStatuses] = useState<string[]>([]);
+    const [venueFilters, setVenueFilters] = useState<string[]>([]);
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    // Slide-over inspection state
+    const [inspectedTransaction, setInspectedTransaction] =
+        useState<RevenueTransaction | null>(null);
+
+    const {
+        data: stats,
+        isLoading,
+        isFetching,
+        error,
+        refetch,
+    } = useRenterRevenue({
+        period,
+        venueId: selectedVenueId === "ALL" ? undefined : selectedVenueId,
+    });
+
+    const venueFacetOptions: FacetedFilterOption[] = useMemo(
+        () =>
+            (stats?.venueOptions || []).map((v) => ({
+                value: v.venueId,
+                label: v.venueName,
+            })),
+        [stats?.venueOptions]
+    );
 
     const filteredFields = useMemo(() => {
         if (!stats) return [];
@@ -120,97 +155,259 @@ export default function RevenuePage() {
     const filteredTransactions = useMemo(() => {
         if (!stats?.transactions) return [];
         const q = searchQuery.trim().toLowerCase();
+
         return stats.transactions.filter((tx) => {
-            const matchesVenue =
-                selectedVenueId === "ALL" ||
-                tx.field.venue.id === selectedVenueId;
-            const matchesStatus =
-                statusFilter === "ALL" || tx.status === statusFilter;
-            const matchesSearch =
-                !q ||
-                tx.user.fullName.toLowerCase().includes(q) ||
-                tx.user.email.toLowerCase().includes(q) ||
-                tx.field.name.toLowerCase().includes(q) ||
-                tx.field.venue.name.toLowerCase().includes(q);
-            return matchesVenue && matchesStatus && matchesSearch;
+            if (
+                bookingStatuses.length > 0 &&
+                !bookingStatuses.includes(tx.status)
+            ) {
+                return false;
+            }
+            const payStatus = tx.payment?.status || "PENDING";
+            if (
+                paymentStatuses.length > 0 &&
+                !paymentStatuses.includes(payStatus)
+            ) {
+                return false;
+            }
+            if (
+                venueFilters.length > 0 &&
+                !venueFilters.includes(tx.field.venue.id)
+            ) {
+                return false;
+            }
+            if (q) {
+                const haystacks = [
+                    tx.id.toLowerCase(),
+                    tx.id.slice(0, 8).toLowerCase(),
+                    tx.user.fullName.toLowerCase(),
+                    tx.user.email.toLowerCase(),
+                    tx.field.name.toLowerCase(),
+                    tx.field.venue.name.toLowerCase(),
+                ];
+                if (!haystacks.some((item) => item.includes(q))) {
+                    return false;
+                }
+            }
+            return true;
         });
-    }, [stats, selectedVenueId, statusFilter, searchQuery]);
+    }, [
+        stats?.transactions,
+        searchQuery,
+        bookingStatuses,
+        paymentStatuses,
+        venueFilters,
+    ]);
+
+    const paginatedTransactions = useMemo(() => {
+        const start = pagination.pageIndex * pagination.pageSize;
+        return filteredTransactions.slice(start, start + pagination.pageSize);
+    }, [filteredTransactions, pagination]);
+
+    const pageCount = useMemo(
+        () =>
+            Math.max(
+                1,
+                Math.ceil(filteredTransactions.length / pagination.pageSize)
+            ),
+        [filteredTransactions.length, pagination.pageSize]
+    );
+
+    const activeFilterChips: ActiveFilterChip[] = useMemo(() => {
+        const chips: ActiveFilterChip[] = [];
+
+        bookingStatuses.forEach((val) => {
+            const label =
+                BOOKING_STATUS_OPTIONS.find((opt) => opt.value === val)
+                    ?.label || val;
+            chips.push({
+                key: `booking-${val}`,
+                label: "Pesanan",
+                valueLabel: label,
+                onRemove: () => {
+                    setBookingStatuses((prev) => prev.filter((x) => x !== val));
+                    setPagination((p) => ({ ...p, pageIndex: 0 }));
+                },
+            });
+        });
+
+        paymentStatuses.forEach((val) => {
+            const label =
+                PAYMENT_STATUS_OPTIONS.find((opt) => opt.value === val)
+                    ?.label || val;
+            chips.push({
+                key: `payment-${val}`,
+                label: "Pembayaran",
+                valueLabel: label,
+                onRemove: () => {
+                    setPaymentStatuses((prev) => prev.filter((x) => x !== val));
+                    setPagination((p) => ({ ...p, pageIndex: 0 }));
+                },
+            });
+        });
+
+        venueFilters.forEach((val) => {
+            const label =
+                venueFacetOptions.find((opt) => opt.value === val)?.label ||
+                val;
+            chips.push({
+                key: `venue-${val}`,
+                label: "Tempat",
+                valueLabel: label,
+                onRemove: () => {
+                    setVenueFilters((prev) => prev.filter((x) => x !== val));
+                    setPagination((p) => ({ ...p, pageIndex: 0 }));
+                },
+            });
+        });
+
+        return chips;
+    }, [bookingStatuses, paymentStatuses, venueFilters, venueFacetOptions]);
+
+    const columns = useMemo(
+        () => getRevenueTransactionColumns((tx) => setInspectedTransaction(tx)),
+        []
+    );
+
+    const handleResetLedgerFilters = () => {
+        setSearchQuery("");
+        setBookingStatuses([]);
+        setPaymentStatuses([]);
+        setVenueFilters([]);
+        setPagination((p) => ({ ...p, pageIndex: 0 }));
+    };
+
+    const handlePeriodChange = (nextPeriod: RevenuePeriod) => {
+        setPeriod(nextPeriod);
+        setPagination((p) => ({ ...p, pageIndex: 0 }));
+    };
+
+    const handleGlobalVenueChange = (nextVenueId: string) => {
+        setSelectedVenueId(nextVenueId);
+        setVenueFilters([]);
+        setPagination((p) => ({ ...p, pageIndex: 0 }));
+    };
 
     const handleExportCsv = () => {
         if (filteredTransactions.length === 0) return;
+
         const headers = [
             "ID Pesanan",
             "Tanggal Main",
-            "Jam",
+            "Jam Mulai",
+            "Jam Selesai",
             "Pelanggan",
             "Email",
             "Tempat Olahraga",
             "Lapangan",
-            "Status",
-            "Pembayaran",
-            "Total (Rp)",
+            "Status Pesanan",
+            "Status Pembayaran",
+            "Kehadiran",
+            "Nominal (Rp)",
         ];
+
         const rows = filteredTransactions.map((tx) => [
-            tx.id,
-            format(new Date(tx.bookingDate), "yyyy-MM-dd"),
-            `${format(new Date(tx.startTime), "HH:mm")} - ${format(new Date(tx.endTime), "HH:mm")}`,
-            `"${tx.user.fullName}"`,
-            tx.user.email,
-            `"${tx.field.venue.name}"`,
-            `"${tx.field.name}"`,
-            tx.status,
-            tx.payment?.status || "PENDING",
-            tx.totalPrice,
+            sanitizeCsvCell(tx.id),
+            sanitizeCsvCell(formatDate(tx.bookingDate)),
+            sanitizeCsvCell(formatTime(tx.startTime)),
+            sanitizeCsvCell(formatTime(tx.endTime)),
+            sanitizeCsvCell(tx.user.fullName),
+            sanitizeCsvCell(tx.user.email),
+            sanitizeCsvCell(tx.field.venue.name),
+            sanitizeCsvCell(tx.field.name),
+            sanitizeCsvCell(tx.status),
+            sanitizeCsvCell(tx.payment?.status || "PENDING"),
+            sanitizeCsvCell(tx.checkedInAt ? "Check-In" : "-"),
+            String(tx.totalPrice),
         ]);
-        const csvContent = [
-            headers.join(","),
-            ...rows.map((r) => r.join(",")),
-        ].join("\n");
+
+        const csvContent =
+            "\uFEFF" +
+            [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+
         const blob = new Blob([csvContent], {
             type: "text/csv;charset=utf-8;",
         });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `laporan-pendapatan-${format(new Date(), "yyyy-MM-dd")}.csv`;
+        link.download = `laporan-keuangan-${period}-${format(new Date(), "yyyy-MM-dd")}.csv`;
         link.click();
         URL.revokeObjectURL(url);
     };
 
     if (isLoading) {
-        return <FullScreenLoader />;
+        return <RevenueSkeleton />;
     }
 
-    if (error) {
+    if (error || !stats) {
         return (
-            <div className="flex h-[50vh] items-center justify-center text-destructive font-medium">
-                Gagal memuat data pendapatan.
+            <div className="text-destructive font-medium p-4 rounded-xl bg-destructive/10 border border-destructive/20">
+                Gagal memuat data keuangan. Silakan muat ulang halaman.
             </div>
         );
     }
 
-    if (!stats) return null;
+    const updatedTimeLabel = stats.generatedAt
+        ? format(new Date(stats.generatedAt), "HH:mm")
+        : "--:--";
 
     return (
-        <div className="space-y-8">
-            {/* Header + Global Venue Filter + CSV Export */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Pendapatan & Performa
+        <div className="space-y-6">
+            {/* Financial Header & Global Scope Controls */}
+            <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                <div className="space-y-1">
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                        Pendapatan & Laporan Keuangan
                     </h1>
-                    <p className="text-muted-foreground mt-1">
-                        Analisis pendapatan, pantau seluruh pesanan, dan
-                        evaluasi performa tiap lapangan Anda.
-                    </p>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+                        <span>
+                            Pantau posisi kas lunas, tagihan tertunda, dan
+                            riwayat transaksi persewaan.
+                        </span>
+                        <span
+                            aria-hidden="true"
+                            className="hidden sm:inline text-border"
+                        >
+                            •
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs tabular-nums">
+                            Diperbarui pukul {updatedTimeLabel}
+                        </span>
+                    </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2.5">
+                <div className="flex flex-wrap items-center gap-2">
+                    <Select
+                        value={period}
+                        onValueChange={(v) =>
+                            handlePeriodChange(v as RevenuePeriod)
+                        }
+                    >
+                        <SelectTrigger
+                            className="w-[175px] bg-card"
+                            aria-label="Filter periode laporan"
+                        >
+                            <CalendarRange className="mr-2 h-4 w-4 text-muted-foreground shrink-0" />
+                            <SelectValue placeholder="Pilih Periode" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {PERIOD_OPTIONS.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
                     <Select
                         value={selectedVenueId}
-                        onValueChange={setSelectedVenueId}
+                        onValueChange={handleGlobalVenueChange}
                     >
-                        <SelectTrigger className="w-[220px] bg-card">
+                        <SelectTrigger
+                            className="w-[210px] bg-card"
+                            aria-label="Filter tempat olahraga"
+                        >
                             <Building2 className="mr-2 h-4 w-4 text-muted-foreground shrink-0" />
                             <SelectValue placeholder="Semua Tempat Olahraga" />
                         </SelectTrigger>
@@ -218,7 +415,7 @@ export default function RevenuePage() {
                             <SelectItem value="ALL">
                                 Semua Tempat Olahraga
                             </SelectItem>
-                            {stats.revenueByVenue.map((v) => (
+                            {stats.venueOptions.map((v) => (
                                 <SelectItem key={v.venueId} value={v.venueId}>
                                     {v.venueName}
                                 </SelectItem>
@@ -227,392 +424,252 @@ export default function RevenuePage() {
                     </Select>
 
                     <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => refetch()}
+                        disabled={isFetching}
+                        className="bg-card"
+                        aria-label="Muat ulang data keuangan"
+                        title="Muat ulang data keuangan"
+                    >
+                        <RefreshCw
+                            className={cn(
+                                "h-4 w-4",
+                                isFetching && "animate-spin"
+                            )}
+                        />
+                    </Button>
+
+                    <Button
+                        type="button"
                         variant="outline"
                         onClick={handleExportCsv}
                         disabled={filteredTransactions.length === 0}
                         className="gap-2 bg-card"
                     >
                         <Download className="h-4 w-4" />
-                        Ekspor CSV
+                        Ekspor CSV ({filteredTransactions.length})
                     </Button>
                 </div>
             </div>
 
-            {/* 4 KPI Cards */}
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <Card className="rounded-2xl border-border/70 shadow-sm hover:border-primary/40 transition-all">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">
-                            Total Pendapatan
-                        </CardTitle>
-                        <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
-                            <Wallet className="h-4 w-4" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary">
-                            {formatCurrency(stats.totalRevenue)}
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                            Akumulasi seluruh pembayaran lunas
-                        </p>
-                    </CardContent>
-                </Card>
+            {/* Tier 1: Cash Position & Performance KPI Cards */}
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+                <DashboardKpiCard
+                    title={`Pendapatan Lunas (${PERIOD_LABEL_MAP[period]})`}
+                    value={formatCurrency(stats.totalRevenue)}
+                    valueTone="primary"
+                    icon={Wallet}
+                    iconTone="primary"
+                    subtitle={
+                        <span>
+                            <strong className="text-foreground tabular-nums">
+                                {stats.totalPaidBookings}
+                            </strong>{" "}
+                            transaksi berhasil dibayar
+                        </span>
+                    }
+                />
 
-                <Card className="rounded-2xl border-border/70 shadow-sm hover:border-primary/40 transition-all">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">
-                            Pendapatan Bulan Ini
-                        </CardTitle>
-                        <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                            <TrendingUp className="h-4 w-4" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                            {formatCurrency(stats.monthlyRevenue)}
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                            Periode bulan berjalan
-                        </p>
-                    </CardContent>
-                </Card>
+                <DashboardKpiCard
+                    title="Pendapatan Bulan Ini"
+                    value={formatCurrency(stats.monthlyRevenue)}
+                    icon={TrendingUp}
+                    iconTone="success"
+                    deltaPct={stats.revenueDeltaPct}
+                    subtitle={
+                        <span>
+                            Bulan lalu:{" "}
+                            <strong className="text-foreground tabular-nums">
+                                {formatCurrency(stats.lastMonthRevenue)}
+                            </strong>
+                        </span>
+                    }
+                />
 
-                <Card className="rounded-2xl border-border/70 shadow-sm hover:border-primary/40 transition-all">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">
-                            Pesanan Lunas
-                        </CardTitle>
-                        <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                            <CalendarCheck className="h-4 w-4" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                            {stats.totalPaidBookings}
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                            Total transaksi berhasil dibayar
-                        </p>
-                    </CardContent>
-                </Card>
+                <DashboardKpiCard
+                    title="Pembayaran Tertunda"
+                    value={formatCurrency(stats.pendingRevenue)}
+                    icon={Clock}
+                    iconTone="warning"
+                    subtitle={
+                        <span>
+                            <strong className="text-foreground tabular-nums">
+                                {stats.pendingCount}
+                            </strong>{" "}
+                            tagihan menunggu pembayaran
+                        </span>
+                    }
+                />
 
-                <Card className="rounded-2xl border-border/70 shadow-sm hover:border-primary/40 transition-all">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">
-                            Rata-rata per Pesanan
-                        </CardTitle>
-                        <div className="p-2.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
-                            <Receipt className="h-4 w-4" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                            {formatCurrency(stats.averageOrderValue)}
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                            Nilai rata-rata setiap pemesanan
-                        </p>
-                    </CardContent>
-                </Card>
+                <DashboardKpiCard
+                    title="Rata-rata per Pesanan"
+                    value={formatCurrency(stats.averageOrderValue)}
+                    icon={Receipt}
+                    iconTone="info"
+                    subtitle={
+                        <span>
+                            Tingkat kelunasan:{" "}
+                            <strong className="text-foreground tabular-nums">
+                                {stats.paidRatePct}%
+                            </strong>{" "}
+                            ({stats.totalPaidBookings}/{stats.totalOrdersCount})
+                        </span>
+                    }
+                />
             </div>
 
-            {/* 3 Interactive Tabs */}
-            <Tabs defaultValue="orders" className="space-y-6">
+            {/* Tier 2: Ledger Table & Performance Breakdowns */}
+            <Tabs defaultValue="orders" className="space-y-4">
                 <TabsList className="bg-card border border-border/70 p-1 h-auto flex-wrap justify-start">
-                    <TabsTrigger value="orders" className="gap-2 py-2 px-4">
+                    <TabsTrigger
+                        value="orders"
+                        className="gap-2 py-1.5 px-3.5 text-sm"
+                    >
                         <Receipt className="h-4 w-4" />
-                        Semua Pesanan ({filteredTransactions.length})
+                        Riwayat Transaksi ({filteredTransactions.length})
                     </TabsTrigger>
-                    <TabsTrigger value="field" className="gap-2 py-2 px-4">
+                    <TabsTrigger
+                        value="field"
+                        className="gap-2 py-1.5 px-3.5 text-sm"
+                    >
                         <Trophy className="h-4 w-4" />
                         Performa Lapangan ({filteredFields.length})
                     </TabsTrigger>
-                    <TabsTrigger value="venue" className="gap-2 py-2 px-4">
+                    <TabsTrigger
+                        value="venue"
+                        className="gap-2 py-1.5 px-3.5 text-sm"
+                    >
                         <Building2 className="h-4 w-4" />
                         Performa Tempat Olahraga ({filteredVenues.length})
                     </TabsTrigger>
                 </TabsList>
 
-                {/* Tab 1: All Orders / Transactions */}
+                {/* Tab 1: Interactive Multi-Filter Financial Ledger */}
                 <TabsContent value="orders" className="space-y-4">
-                    <Card className="rounded-2xl border-border/70 shadow-sm">
-                        <CardHeader className="pb-4 space-y-4">
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                                <div>
-                                    <CardTitle className="text-lg">
-                                        Riwayat Semua Pesanan
-                                    </CardTitle>
-                                    <CardDescription>
-                                        Cari pelanggan, filter status, dan klik
-                                        lapangan untuk optimasi langsung.
-                                    </CardDescription>
-                                </div>
-                            </div>
+                    {stats.totalTransactionsCount > stats.transactions.length && (
+                        <div className="flex items-center gap-2 rounded-xl border border-border/70 bg-muted/30 px-4 py-2.5 text-xs text-muted-foreground">
+                            <Info className="h-4 w-4 shrink-0 text-primary" />
+                            <span>
+                                Menampilkan{" "}
+                                <strong className="text-foreground tabular-nums">
+                                    {stats.transactions.length}
+                                </strong>{" "}
+                                transaksi terbaru dari total{" "}
+                                <strong className="text-foreground tabular-nums">
+                                    {stats.totalTransactionsCount}
+                                </strong>{" "}
+                                transaksi pada periode ini. Gunakan filter
+                                periode untuk mempersempit rentang waktu.
+                            </span>
+                        </div>
+                    )}
 
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="search"
-                                        placeholder="Cari nama pelanggan, email, lapangan, atau venue..."
-                                        value={searchQuery}
-                                        onChange={(e) =>
-                                            setSearchQuery(e.target.value)
-                                        }
-                                        className="pl-9"
-                                    />
-                                </div>
-                                <Select
-                                    value={statusFilter}
-                                    onValueChange={setStatusFilter}
-                                >
-                                    <SelectTrigger className="w-full sm:w-[200px] bg-card">
-                                        <Filter className="mr-2 h-4 w-4 text-muted-foreground shrink-0" />
-                                        <SelectValue placeholder="Semua Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Status
-                                        </SelectItem>
-                                        <SelectItem value="CONFIRMED">
-                                            Terkonfirmasi
-                                        </SelectItem>
-                                        <SelectItem value="COMPLETED">
-                                            Selesai
-                                        </SelectItem>
-                                        <SelectItem value="PENDING">
-                                            Menunggu Bayar
-                                        </SelectItem>
-                                        <SelectItem value="CANCELLED">
-                                            Dibatalkan
-                                        </SelectItem>
-                                        <SelectItem value="NO_SHOW">
-                                            Tidak Hadir
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                    <Card className="rounded-xl border border-border/70 bg-card">
+                        <CardHeader className="pb-3 border-b border-border/50">
+                            <CardTitle className="text-base font-semibold">
+                                Buku Besar Transaksi
+                            </CardTitle>
+                            <CardDescription className="text-xs">
+                                Klik kode referensi atau ikon mata pada baris
+                                transaksi untuk melihat rincian lengkap.
+                            </CardDescription>
                         </CardHeader>
-                        <CardContent>
-                            <div className="overflow-x-auto">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Jadwal Main</TableHead>
-                                            <TableHead>Pelanggan</TableHead>
-                                            <TableHead>
-                                                Lapangan & Venue
-                                            </TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead>Kehadiran</TableHead>
-                                            <TableHead className="text-right">
-                                                Nominal
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {filteredTransactions.map((tx) => {
-                                            const badge = STATUS_BADGE[
-                                                tx.status
-                                            ] ?? {
-                                                label: tx.status,
-                                                className: "",
-                                            };
-                                            return (
-                                                <TableRow
-                                                    key={tx.id}
-                                                    className="hover:bg-muted/40"
-                                                >
-                                                    <TableCell>
-                                                        <div className="flex flex-col">
-                                                            <span className="font-medium text-sm">
-                                                                {format(
-                                                                    new Date(
-                                                                        tx.bookingDate
-                                                                    ),
-                                                                    "dd MMM yyyy",
-                                                                    {
-                                                                        locale: idLocale,
-                                                                    }
-                                                                )}
-                                                            </span>
-                                                            <span className="text-xs text-muted-foreground">
-                                                                {format(
-                                                                    new Date(
-                                                                        tx.startTime
-                                                                    ),
-                                                                    "HH:mm"
-                                                                )}{" "}
-                                                                –{" "}
-                                                                {format(
-                                                                    new Date(
-                                                                        tx.endTime
-                                                                    ),
-                                                                    "HH:mm"
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div className="flex flex-col">
-                                                            <span className="font-medium text-sm">
-                                                                {
-                                                                    tx.user
-                                                                        .fullName
-                                                                }
-                                                            </span>
-                                                            <span className="text-xs text-muted-foreground">
-                                                                {tx.user.email}
-                                                            </span>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Link
-                                                            href={`/renter/fields/${tx.field.id}?fromVenue=${tx.field.venue.id}`}
-                                                            className="group flex flex-col"
-                                                        >
-                                                            <span className="font-medium text-sm group-hover:text-primary group-hover:underline">
-                                                                {tx.field.name}
-                                                            </span>
-                                                            <span className="text-xs text-muted-foreground">
-                                                                {
-                                                                    tx.field
-                                                                        .venue
-                                                                        .name
-                                                                }
-                                                            </span>
-                                                        </Link>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Badge
-                                                            variant="outline"
-                                                            className={
-                                                                badge.className
-                                                            }
-                                                        >
-                                                            {badge.label}
-                                                        </Badge>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {tx.checkedInAt ? (
-                                                            <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                                                                <CheckCircle2 className="h-3.5 w-3.5" />
-                                                                Check-In
-                                                            </span>
-                                                        ) : (
-                                                            <span className="text-xs text-muted-foreground">
-                                                                -
-                                                            </span>
-                                                        )}
-                                                    </TableCell>
-                                                    <TableCell className="text-right font-semibold tabular-nums">
-                                                        {formatCurrency(
-                                                            tx.totalPrice
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
-                                        {filteredTransactions.length === 0 && (
-                                            <TableRow>
-                                                <TableCell
-                                                    colSpan={6}
-                                                    className="text-center h-28 text-muted-foreground"
-                                                >
-                                                    Tidak ada pesanan yang
-                                                    sesuai dengan filter.
-                                                </TableCell>
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </div>
+                        <CardContent className="pt-4">
+                            <DataTable
+                                columns={columns}
+                                data={paginatedTransactions}
+                                pageCount={pageCount}
+                                pagination={pagination}
+                                onPaginationChange={setPagination}
+                                searchValue={searchQuery}
+                                onSearch={(val) => {
+                                    setSearchQuery(val);
+                                    setPagination((p) => ({
+                                        ...p,
+                                        pageIndex: 0,
+                                    }));
+                                }}
+                                searchPlaceholder="Cari ID referensi, pelanggan, atau lapangan..."
+                                isFetching={isFetching}
+                                columnLabels={
+                                    REVENUE_TRANSACTION_COLUMN_LABELS
+                                }
+                                activeFilterChips={activeFilterChips}
+                                onResetFilters={handleResetLedgerFilters}
+                                filters={
+                                    <>
+                                        <DataTableFacetedFilter
+                                            title="Status Pesanan"
+                                            options={BOOKING_STATUS_OPTIONS}
+                                            values={bookingStatuses}
+                                            onChange={(vals) => {
+                                                setBookingStatuses(vals);
+                                                setPagination((p) => ({
+                                                    ...p,
+                                                    pageIndex: 0,
+                                                }));
+                                            }}
+                                        />
+                                        <DataTableFacetedFilter
+                                            title="Pembayaran"
+                                            options={PAYMENT_STATUS_OPTIONS}
+                                            values={paymentStatuses}
+                                            onChange={(vals) => {
+                                                setPaymentStatuses(vals);
+                                                setPagination((p) => ({
+                                                    ...p,
+                                                    pageIndex: 0,
+                                                }));
+                                            }}
+                                        />
+                                        {selectedVenueId === "ALL" &&
+                                            venueFacetOptions.length > 1 && (
+                                                <DataTableFacetedFilter
+                                                    title="Tempat Olahraga"
+                                                    options={venueFacetOptions}
+                                                    values={venueFilters}
+                                                    onChange={(vals) => {
+                                                        setVenueFilters(vals);
+                                                        setPagination((p) => ({
+                                                            ...p,
+                                                            pageIndex: 0,
+                                                        }));
+                                                    }}
+                                                />
+                                            )}
+                                    </>
+                                }
+                            />
                         </CardContent>
                     </Card>
                 </TabsContent>
 
-                {/* Tab 2: Field Performance (with direct optimization links) */}
+                {/* Tab 2: Field Revenue Breakdown */}
                 <TabsContent value="field" className="space-y-4">
-                    <Card className="rounded-2xl border-border/70 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Grafik Pendapatan per Lapangan</CardTitle>
-                            <CardDescription>
-                                Bandingkan kontribusi pendapatan tiap unit
-                                lapangan Anda
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="h-[300px] w-full">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={filteredFields}>
-                                        <CartesianGrid
-                                            strokeDasharray="3 3"
-                                            vertical={false}
-                                            className="stroke-border/60"
-                                        />
-                                        <XAxis
-                                            dataKey="fieldName"
-                                            stroke="#888888"
-                                            fontSize={12}
-                                            tickLine={false}
-                                            axisLine={false}
-                                        />
-                                        <YAxis
-                                            stroke="#888888"
-                                            fontSize={12}
-                                            tickLine={false}
-                                            axisLine={false}
-                                            width={68}
-                                            tickFormatter={(value) =>
-                                                formatCompactRp(Number(value))
-                                            }
-                                        />
-                                        <Tooltip
-                                            cursor={{
-                                                fill: "rgba(0,0,0,0.04)",
-                                            }}
-                                            contentStyle={{
-                                                borderRadius: "10px",
-                                                border: "1px solid var(--border)",
-                                                backgroundColor: "var(--card)",
-                                            }}
-                                            formatter={(value) =>
-                                                formatCurrency(
-                                                    Number(value ?? 0)
-                                                )
-                                            }
-                                            labelFormatter={(
-                                                label,
-                                                payload
-                                            ) => {
-                                                if (payload && payload[0]) {
-                                                    return `${label} (${payload[0].payload.venueName})`;
-                                                }
-                                                return label;
-                                            }}
-                                        />
-                                        <Bar
-                                            dataKey="totalRevenue"
-                                            fill="currentColor"
-                                            radius={[6, 6, 0, 0]}
-                                            className="fill-primary"
-                                        />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <RevenueBreakdownChart
+                        title="Grafik Pendapatan per Lapangan"
+                        description={`Kontribusi pendapatan unit lapangan (${PERIOD_LABEL_MAP[period]})`}
+                        data={filteredFields.map((f) => ({
+                            name: f.fieldName,
+                            subtitle: f.venueName,
+                            totalRevenue: f.totalRevenue,
+                            bookingCount: f.bookingCount,
+                        }))}
+                    />
 
-                    <Card className="rounded-2xl border-border/70 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Evaluasi & Optimasi Lapangan</CardTitle>
-                            <CardDescription>
-                                Klik tombol Kelola untuk mengubah tarif, foto,
-                                atau status buka-tutup lapangan.
+                    <Card className="rounded-xl border border-border/70 bg-card">
+                        <CardHeader className="pb-3 border-b border-border/50">
+                            <CardTitle className="text-base font-semibold">
+                                Evaluasi & Optimasi Lapangan
+                            </CardTitle>
+                            <CardDescription className="text-xs">
+                                Klik tombol Kelola untuk mengatur tarif, foto,
+                                atau status buka-tutup unit lapangan.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-4">
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
@@ -632,10 +689,13 @@ export default function RevenuePage() {
                                     </TableHeader>
                                     <TableBody>
                                         {filteredFields.map((field) => (
-                                            <TableRow key={field.fieldId}>
+                                            <TableRow
+                                                key={field.fieldId}
+                                                className="hover:bg-muted/40"
+                                            >
                                                 <TableCell>
                                                     <div className="flex flex-col">
-                                                        <span className="font-medium">
+                                                        <span className="font-medium text-sm">
                                                             {field.fieldName}
                                                         </span>
                                                         <span className="text-xs text-muted-foreground">
@@ -643,12 +703,12 @@ export default function RevenuePage() {
                                                         </span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell className="tabular-nums">
+                                                <TableCell className="tabular-nums text-sm">
                                                     {formatCurrency(
                                                         field.pricePerHour
                                                     )}
                                                 </TableCell>
-                                                <TableCell className="tabular-nums">
+                                                <TableCell className="tabular-nums text-sm">
                                                     {field.bookingCount} pesanan
                                                 </TableCell>
                                                 <TableCell>
@@ -660,18 +720,19 @@ export default function RevenuePage() {
                                                     </span>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Badge
-                                                        variant="outline"
-                                                        className={
+                                                    <StatusBadge
+                                                        label={
                                                             field.isClosed
-                                                                ? "border-destructive/25 bg-destructive/10 text-destructive"
-                                                                : "border-status-success/25 bg-status-success/10 text-status-success"
+                                                                ? "Tutup"
+                                                                : "Aktif"
                                                         }
-                                                    >
-                                                        {field.isClosed
-                                                            ? "Tutup"
-                                                            : "Aktif"}
-                                                    </Badge>
+                                                        tone={
+                                                            field.isClosed
+                                                                ? "destructive"
+                                                                : "success"
+                                                        }
+                                                        dot
+                                                    />
                                                 </TableCell>
                                                 <TableCell className="text-right font-semibold tabular-nums">
                                                     {formatCurrency(
@@ -701,7 +762,7 @@ export default function RevenuePage() {
                                                     colSpan={7}
                                                     className="text-center h-24 text-muted-foreground"
                                                 >
-                                                    Belum ada data lapangan
+                                                    Belum ada data lapangan.
                                                 </TableCell>
                                             </TableRow>
                                         )}
@@ -712,76 +773,26 @@ export default function RevenuePage() {
                     </Card>
                 </TabsContent>
 
-                {/* Tab 3: Venue Performance */}
+                {/* Tab 3: Venue Revenue Breakdown */}
                 <TabsContent value="venue" className="space-y-4">
-                    <Card className="rounded-2xl border-border/70 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>
-                                Grafik Pendapatan per Tempat Olahraga
-                            </CardTitle>
-                            <CardDescription>
-                                Ringkasan performa pendapatan tempat olahraga
-                                Anda
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="h-[300px] w-full">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={filteredVenues}>
-                                        <CartesianGrid
-                                            strokeDasharray="3 3"
-                                            vertical={false}
-                                            className="stroke-border/60"
-                                        />
-                                        <XAxis
-                                            dataKey="venueName"
-                                            stroke="#888888"
-                                            fontSize={12}
-                                            tickLine={false}
-                                            axisLine={false}
-                                        />
-                                        <YAxis
-                                            stroke="#888888"
-                                            fontSize={12}
-                                            tickLine={false}
-                                            axisLine={false}
-                                            width={68}
-                                            tickFormatter={(value) =>
-                                                formatCompactRp(Number(value))
-                                            }
-                                        />
-                                        <Tooltip
-                                            cursor={{
-                                                fill: "rgba(0,0,0,0.04)",
-                                            }}
-                                            contentStyle={{
-                                                borderRadius: "10px",
-                                                border: "1px solid var(--border)",
-                                                backgroundColor: "var(--card)",
-                                            }}
-                                            formatter={(value) =>
-                                                formatCurrency(
-                                                    Number(value ?? 0)
-                                                )
-                                            }
-                                        />
-                                        <Bar
-                                            dataKey="totalRevenue"
-                                            fill="currentColor"
-                                            radius={[6, 6, 0, 0]}
-                                            className="fill-primary"
-                                        />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <RevenueBreakdownChart
+                        title="Grafik Pendapatan per Tempat Olahraga"
+                        description={`Perbandingan kinerja seluruh venue (${PERIOD_LABEL_MAP[period]})`}
+                        data={filteredVenues.map((v) => ({
+                            name: v.venueName,
+                            subtitle: `${v.fieldCount} unit lapangan`,
+                            totalRevenue: v.totalRevenue,
+                            bookingCount: v.bookingCount,
+                        }))}
+                    />
 
-                    <Card className="rounded-2xl border-border/70 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Rincian per Tempat Olahraga</CardTitle>
+                    <Card className="rounded-xl border border-border/70 bg-card">
+                        <CardHeader className="pb-3 border-b border-border/50">
+                            <CardTitle className="text-base font-semibold">
+                                Rincian per Tempat Olahraga
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-4">
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
@@ -803,17 +814,20 @@ export default function RevenuePage() {
                                     </TableHeader>
                                     <TableBody>
                                         {filteredVenues.map((venue) => (
-                                            <TableRow key={venue.venueId}>
-                                                <TableCell className="font-medium">
+                                            <TableRow
+                                                key={venue.venueId}
+                                                className="hover:bg-muted/40"
+                                            >
+                                                <TableCell className="font-medium text-sm">
                                                     {venue.venueName}
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell className="tabular-nums text-sm">
                                                     {venue.fieldCount} unit
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell className="tabular-nums text-sm">
                                                     {venue.bookingCount} pesanan
                                                 </TableCell>
-                                                <TableCell className="text-right font-semibold">
+                                                <TableCell className="text-right font-semibold tabular-nums">
                                                     {formatCurrency(
                                                         venue.totalRevenue
                                                     )}
@@ -841,7 +855,7 @@ export default function RevenuePage() {
                                                     colSpan={5}
                                                     className="text-center h-24 text-muted-foreground"
                                                 >
-                                                    Belum ada data pendapatan
+                                                    Belum ada data pendapatan.
                                                 </TableCell>
                                             </TableRow>
                                         )}
@@ -852,6 +866,45 @@ export default function RevenuePage() {
                     </Card>
                 </TabsContent>
             </Tabs>
+
+            <TransactionDetailSheet
+                transaction={inspectedTransaction}
+                open={Boolean(inspectedTransaction)}
+                onOpenChange={(open) => {
+                    if (!open) setInspectedTransaction(null);
+                }}
+            />
+        </div>
+    );
+}
+
+/**
+ * Loading skeleton matching the Revenue Page layout to avoid CLS.
+ */
+function RevenueSkeleton() {
+    return (
+        <div className="space-y-6">
+            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
+                <div className="space-y-2">
+                    <Skeleton className="h-8 w-[300px]" />
+                    <Skeleton className="h-4 w-[420px] max-w-full" />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                    <Skeleton className="h-9 w-[175px] rounded-md" />
+                    <Skeleton className="h-9 w-[210px] rounded-md" />
+                    <Skeleton className="h-9 w-9 rounded-md" />
+                    <Skeleton className="h-9 w-[140px] rounded-md" />
+                </div>
+            </div>
+
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+                {[...Array(4)].map((_, i) => (
+                    <Skeleton key={i} className="h-[132px] rounded-xl" />
+                ))}
+            </div>
+
+            <Skeleton className="h-10 w-[460px] max-w-full rounded-lg" />
+            <Skeleton className="h-[440px] rounded-xl" />
         </div>
     );
 }

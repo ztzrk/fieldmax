@@ -159,7 +159,14 @@ export class RenterController {
     public getRevenueStats = asyncHandler(
         async (req: Request, res: Response) => {
             const renterId = req.user!.id;
-            const data = await this.service.getRevenueStats(renterId);
+            const { period, venueId } = req.query as {
+                period?: "all" | "7d" | "30d" | "this_month" | "last_month";
+                venueId?: string;
+            };
+            const data = await this.service.getRevenueStats(renterId, {
+                period,
+                venueId,
+            });
             sendSuccess(res, data, "Revenue stats retrieved");
         }
     );

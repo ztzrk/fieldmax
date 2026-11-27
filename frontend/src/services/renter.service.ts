@@ -22,6 +22,13 @@ export interface FieldRevenue {
     totalRevenue: number;
 }
 
+export type RevenuePeriod =
+    | "this_month"
+    | "7d"
+    | "30d"
+    | "last_month"
+    | "all";
+
 export interface RevenueTransaction {
     id: string;
     bookingDate: string;
@@ -34,6 +41,7 @@ export interface RevenueTransaction {
     user: {
         fullName: string;
         email: string;
+        phoneNumber?: string | null;
     };
     payment?: {
         status: string;
@@ -50,13 +58,23 @@ export interface RevenueTransaction {
 }
 
 export interface RevenueStats {
+    period: RevenuePeriod;
+    generatedAt: string;
     totalRevenue: number;
     monthlyRevenue: number;
+    lastMonthRevenue: number;
+    revenueDeltaPct: number | null;
+    pendingRevenue: number;
+    pendingCount: number;
     totalPaidBookings: number;
+    totalOrdersCount: number;
+    paidRatePct: number;
     averageOrderValue: number;
+    venueOptions: { venueId: string; venueName: string }[];
     revenueByVenue: VenueRevenue[];
     revenueByField: FieldRevenue[];
     transactions: RevenueTransaction[];
+    totalTransactionsCount: number;
 }
 
 export interface PublicRenterItem {
@@ -77,9 +95,13 @@ export interface PublicRenterItem {
 }
 
 const RenterService = {
-    getRevenueStats: async () => {
+    getRevenueStats: async (params?: {
+        period?: RevenuePeriod;
+        venueId?: string;
+    }) => {
         const response = await api.get<ApiResponse<RevenueStats>>(
-            "/renter/revenue"
+            "/renter/revenue",
+            { params }
         );
         return response.data.data;
     },

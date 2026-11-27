@@ -80,7 +80,8 @@ export const queryKeys = {
     dashboard: {
         adminStats: () => ["admin-stats"] as const,
         renterStats: () => ["renter-stats"] as const,
-        revenue: () => ["renter-revenue"] as const,
+        revenue: (params?: { period?: string; venueId?: string }) =>
+            ["renter-revenue", params ?? {}] as const,
     },
     reviews: {
         byField: (

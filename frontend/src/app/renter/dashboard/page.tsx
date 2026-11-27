@@ -4,61 +4,48 @@ import { useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
-import { useAuth } from "@/context/AuthContext";
-import { useRenterStats, useChartData } from "@/hooks/useDashboard";
-import { formatCurrency } from "@/lib/utils";
-import { RevenueChart } from "@/components/dashboard/RevenueChart";
-import { RecentBookings } from "@/components/dashboard/RecentBookings";
-import { CheckInScannerDialog } from "@/app/renter/bookings/components/CheckInScannerDialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
+    AlertCircle,
     ArrowRight,
-    Building2,
     CalendarClock,
-    CheckCircle2,
     Clock,
-    LifeBuoy,
-    MapPin,
     Plus,
     Sparkles,
+    Star,
     Trophy,
     Wallet,
 } from "lucide-react";
+import { CheckInScannerDialog } from "@/app/renter/bookings/components/CheckInScannerDialog";
+import { DashboardKpiCard } from "@/components/dashboard/DashboardKpiCard";
+import { RecentBookings } from "@/components/dashboard/RecentBookings";
+import {
+    type ChartRange,
+    RevenueChart,
+} from "@/components/dashboard/RevenueChart";
+import { StatusBadge } from "@/components/shared/StatusBadge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/context/AuthContext";
+import { useChartData, useRenterStats } from "@/hooks/useDashboard";
+import { cn, formatCurrency, formatTime } from "@/lib/utils";
 
-interface TodayScheduleItem {
-    id: string;
-    startTime: string;
-    endTime: string;
-    status: string;
-    checkedInAt: string | null;
-    user: {
-        fullName: string;
-        phoneNumber?: string | null;
-    };
-    field: {
-        name: string;
-        venue: {
-            name: string;
-        };
-    };
+/**
+ * Returns minutes since midnight from HH:mm formatted string.
+ */
+function parseMinutes(hhmm: string): number {
+    const [h, m] = hhmm.split(":").map((part) => parseInt(part, 10));
+    if (Number.isNaN(h) || Number.isNaN(m)) return -1;
+    return h * 60 + m;
 }
-
-const RANGE_OPTIONS = [
-    { value: "7d", label: "7 Hari" },
-    { value: "30d", label: "30 Hari" },
-    { value: "12m", label: "12 Bulan" },
-];
 
 /**
  * Renter Dashboard page.
- * Interactive operations & analytics command center for venue owners.
+ * Operational command center & revenue analytics for venue owners.
  */
 export default function RenterDashboard() {
     const { user } = useAuth();
-    const [range, setRange] = useState("7d");
+    const [range, setRange] = useState<ChartRange>("7d");
     const { data: stats, isLoading, error } = useRenterStats();
     const { data: chartData, isLoading: chartLoading } = useChartData(range);
 
@@ -66,38 +53,47 @@ export default function RenterDashboard() {
         return <DashboardSkeleton />;
     }
 
-    if (error) {
+    if (error || !stats) {
         return (
             <div className="text-destructive font-medium p-4 rounded-xl bg-destructive/10 border border-destructive/20">
-                Gagal memuat statistik pengelola. Silakan muat ulang halaman.
+                Gagal memuat statistik mitra. Silakan muat ulang halaman.
             </div>
         );
     }
 
-    const todaySchedule: TodayScheduleItem[] = stats?.todaySchedule || [];
+    const todaySchedule = stats.todaySchedule || [];
+    const topFields = stats.topFields || [];
     const todayFormatted = format(new Date(), "EEEE, dd MMMM yyyy", {
         locale: idLocale,
     });
 
+    const now = new Date();
+    const currentMinutesOfDay = now.getHours() * 60 + now.getMinutes();
+
+    const needsAttentionCount =
+        stats.pendingVenues +
+        stats.rejectedVenues +
+        stats.pendingFields +
+        stats.rejectedFields +
+        stats.openReports;
+
     return (
-        <div className="space-y-8">
-            {/* Command Header */}
+        <div className="space-y-6">
+            {/* Operate Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                <div>
-                    <div className="inline-flex items-center gap-2 text-xs font-medium text-primary bg-primary/10 px-3 py-1 rounded-full mb-2">
-                        <CalendarClock className="h-3.5 w-3.5" />
-                        <span>{todayFormatted}</span>
-                    </div>
+                <div className="space-y-1">
                     <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                         Halo, {user?.fullName || "Pengelola"}!
                     </h1>
-                    <p className="text-muted-foreground text-sm sm:text-base mt-1">
-                        Pantau jadwal bermain hari ini, pendapatan, dan performa
-                        tempat olahraga Anda.
+                    <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">
+                            {todayFormatted}
+                        </span>{" "}
+                        — Pantau jadwal bermain hari ini, check-in pelanggan, dan
+                        performa venue Anda.
                     </p>
                 </div>
 
-                {/* Operational Quick Actions */}
                 <div className="flex flex-wrap items-center gap-2.5">
                     <CheckInScannerDialog />
                     <Button
@@ -114,19 +110,18 @@ export default function RenterDashboard() {
             </div>
 
             {/* Onboarding Guide for New Renters */}
-            {stats?.totalVenues === 0 && (
-                <Card className="rounded-2xl border border-primary/30 bg-primary/5 p-6 shadow-sm">
+            {stats.totalVenues === 0 && (
+                <Card className="rounded-xl border border-primary/30 bg-primary/5 p-6">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <div className="space-y-1">
-                            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+                            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
                                 <Sparkles className="h-5 w-5 text-primary" />
-                                Panduan Memulai: Daftarkan Fasilitas Olahraga
-                                Anda
-                            </h3>
+                                Panduan Memulai: Daftarkan Fasilitas Olahraga Anda
+                            </h2>
                             <p className="text-sm text-muted-foreground max-w-2xl">
-                                Selamat bergabung di FieldMax! Agar lapangan
-                                Anda dapat ditemukan dan dipesan oleh pelanggan,
-                                ikuti 3 langkah mudah berikut:
+                                Selamat bergabung di FieldMax! Agar lapangan Anda
+                                dapat ditemukan dan dipesan oleh pelanggan, ikuti 3
+                                langkah berikut:
                             </p>
                         </div>
                         <Button asChild className="shrink-0 font-medium">
@@ -137,48 +132,48 @@ export default function RenterDashboard() {
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-primary/10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5 pt-5 border-t border-primary/15">
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 text-primary font-bold flex items-center justify-center shrink-0">
+                            <div className="w-7 h-7 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center shrink-0">
                                 1
                             </div>
                             <div>
-                                <h4 className="font-semibold text-sm">
+                                <h3 className="font-semibold text-sm">
                                     Buat Profil Venue
-                                </h4>
+                                </h3>
                                 <p className="text-xs text-muted-foreground mt-0.5">
                                     Isi nama tempat, alamat lengkap, dan jam
-                                    operasional buka-tutup mingguan.
+                                    operasional mingguan.
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 text-primary font-bold flex items-center justify-center shrink-0">
+                            <div className="w-7 h-7 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center shrink-0">
                                 2
                             </div>
                             <div>
-                                <h4 className="font-semibold text-sm">
+                                <h3 className="font-semibold text-sm">
                                     Unggah Foto & Lapangan
-                                </h4>
+                                </h3>
                                 <p className="text-xs text-muted-foreground mt-0.5">
-                                    Upload minimal 2 foto venue terbaik dan
-                                    daftarkan unit lapangan yang disewakan.
+                                    Upload minimal 2 foto venue dan daftarkan
+                                    unit lapangan beserta tarif per jam.
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 text-primary font-bold flex items-center justify-center shrink-0">
+                            <div className="w-7 h-7 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center shrink-0">
                                 3
                             </div>
                             <div>
-                                <h4 className="font-semibold text-sm">
+                                <h3 className="font-semibold text-sm">
                                     Verifikasi Admin & Mulai
-                                </h4>
+                                </h3>
                                 <p className="text-xs text-muted-foreground mt-0.5">
-                                    Ajukan ke tim admin untuk diverifikasi agar
-                                    langsung aktif dan siap menerima booking.
+                                    Ajukan verifikasi ke admin agar lapangan siap
+                                    menerima booking online.
                                 </p>
                             </div>
                         </div>
@@ -186,165 +181,184 @@ export default function RenterDashboard() {
                 </Card>
             )}
 
-            {/* 4 Interactive KPI Cards */}
+            {/* Actionable Verification / Support Alerts */}
+            {stats.totalVenues > 0 && needsAttentionCount > 0 && (
+                <div className="flex flex-wrap items-center gap-2.5 rounded-xl border border-border/70 bg-card px-4 py-3">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-foreground mr-1">
+                        <AlertCircle
+                            className="h-4 w-4 text-status-warning shrink-0"
+                            aria-hidden="true"
+                        />
+                        <span>Perlu Perhatian:</span>
+                    </div>
+
+                    {stats.rejectedVenues > 0 && (
+                        <Link
+                            href="/renter/venues?status=REJECTED"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-destructive/25 bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive hover:bg-destructive/15 transition-colors"
+                        >
+                            {stats.rejectedVenues} venue ditolak
+                            <ArrowRight className="h-3 w-3" />
+                        </Link>
+                    )}
+
+                    {stats.pendingVenues > 0 && (
+                        <Link
+                            href="/renter/venues?status=PENDING"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-status-warning/25 bg-status-warning/10 px-2.5 py-1 text-xs font-medium text-status-warning hover:bg-status-warning/15 transition-colors"
+                        >
+                            {stats.pendingVenues} venue menunggu verifikasi
+                            <ArrowRight className="h-3 w-3" />
+                        </Link>
+                    )}
+
+                    {stats.rejectedFields > 0 && (
+                        <Link
+                            href="/renter/fields?status=REJECTED"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-destructive/25 bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive hover:bg-destructive/15 transition-colors"
+                        >
+                            {stats.rejectedFields} lapangan ditolak
+                            <ArrowRight className="h-3 w-3" />
+                        </Link>
+                    )}
+
+                    {stats.pendingFields > 0 && (
+                        <Link
+                            href="/renter/fields?status=PENDING"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-status-warning/25 bg-status-warning/10 px-2.5 py-1 text-xs font-medium text-status-warning hover:bg-status-warning/15 transition-colors"
+                        >
+                            {stats.pendingFields} lapangan menunggu verifikasi
+                            <ArrowRight className="h-3 w-3" />
+                        </Link>
+                    )}
+
+                    {stats.openReports > 0 && (
+                        <Link
+                            href="/renter/reports"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-status-info/25 bg-status-info/10 px-2.5 py-1 text-xs font-medium text-status-info hover:bg-status-info/15 transition-colors"
+                        >
+                            {stats.openReports} tiket bantuan aktif
+                            <ArrowRight className="h-3 w-3" />
+                        </Link>
+                    )}
+                </div>
+            )}
+
+            {/* Tier 1: 4 Operational KPI Cards */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
-                <Link href="/renter/revenue" className="group block">
-                    <Card className="h-full rounded-2xl border-border/70 bg-card group-hover:border-primary/50 group-hover:shadow-md transition-all duration-200">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Total Pendapatan
-                            </CardTitle>
-                            <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
-                                <Wallet className="h-4 w-4" />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary">
-                                {formatCurrency(stats?.totalRevenue || 0)}
-                            </div>
-                            <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                                <span>
-                                    Bulan ini:{" "}
-                                    <strong className="text-foreground">
-                                        {formatCurrency(
-                                            stats?.monthlyRevenue || 0
-                                        )}
-                                    </strong>
-                                </span>
-                                <ArrowRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-primary" />
-                            </div>
-                        </CardContent>
-                    </Card>
-                </Link>
+                <DashboardKpiCard
+                    title="Total Pendapatan"
+                    value={formatCurrency(stats.totalRevenue)}
+                    valueTone="primary"
+                    icon={Wallet}
+                    iconTone="primary"
+                    deltaPct={stats.revenueDeltaPct}
+                    subtitle={
+                        <span>
+                            Bulan ini:{" "}
+                            <strong className="text-foreground tabular-nums">
+                                {formatCurrency(stats.monthlyRevenue)}
+                            </strong>
+                        </span>
+                    }
+                    href="/renter/revenue"
+                />
 
-                <Link href="/renter/bookings" className="group block">
-                    <Card className="h-full rounded-2xl border-border/70 bg-card group-hover:border-primary/50 group-hover:shadow-md transition-all duration-200">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Jadwal Bermain Hari Ini
-                            </CardTitle>
-                            <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                                <CalendarClock className="h-4 w-4" />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-                                {stats?.todayBookingsCount || 0}{" "}
-                                <span className="text-sm font-normal text-muted-foreground">
-                                    sesi
-                                </span>
-                            </div>
-                            <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                                <span>
-                                    <strong className="text-emerald-600 dark:text-emerald-400">
-                                        {stats?.checkedInTodayCount || 0}
-                                    </strong>{" "}
-                                    sudah check-in
-                                </span>
-                                <ArrowRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-primary" />
-                            </div>
-                        </CardContent>
-                    </Card>
-                </Link>
+                <DashboardKpiCard
+                    title="Jadwal Bermain Hari Ini"
+                    value={stats.todayBookingsCount}
+                    unit="sesi"
+                    icon={CalendarClock}
+                    iconTone="info"
+                    subtitle={
+                        <span>
+                            <strong className="text-status-success tabular-nums">
+                                {stats.checkedInTodayCount}
+                            </strong>{" "}
+                            dari{" "}
+                            <strong className="text-foreground tabular-nums">
+                                {stats.todayBookingsCount}
+                            </strong>{" "}
+                            sudah check-in
+                        </span>
+                    }
+                    href="/renter/bookings"
+                />
 
-                <Link href="/renter/fields" className="group block">
-                    <Card className="h-full rounded-2xl border-border/70 bg-card group-hover:border-primary/50 group-hover:shadow-md transition-all duration-200">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Lapangan Aktif
-                            </CardTitle>
-                            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                                <Trophy className="h-4 w-4" />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-                                {stats?.activeFieldsCount ??
-                                    stats?.totalFields ??
-                                    0}
-                                <span className="text-sm font-normal text-muted-foreground">
-                                    {" "}
-                                    / {stats?.totalFields || 0} unit
-                                </span>
-                            </div>
-                            <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                                <span>Total {stats?.totalBookings || 0} pesanan</span>
-                                <ArrowRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-primary" />
-                            </div>
-                        </CardContent>
-                    </Card>
-                </Link>
+                <DashboardKpiCard
+                    title="Lapangan Aktif"
+                    value={stats.activeFieldsCount}
+                    unit={`/ ${stats.totalFields} unit`}
+                    icon={Trophy}
+                    iconTone="success"
+                    deltaPct={stats.bookingDeltaPct}
+                    subtitle={
+                        <span>
+                            Total{" "}
+                            <strong className="text-foreground tabular-nums">
+                                {stats.totalBookings}
+                            </strong>{" "}
+                            pesanan tercatat
+                        </span>
+                    }
+                    href="/renter/fields?status=APPROVED&isClosed=false"
+                />
 
-                <Link href="/renter/venues" className="group block">
-                    <Card className="h-full rounded-2xl border-border/70 bg-card group-hover:border-primary/50 group-hover:shadow-md transition-all duration-200">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Tempat Olahraga Saya
-                            </CardTitle>
-                            <div className="p-2.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
-                                <MapPin className="h-4 w-4" />
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-                                {stats?.totalVenues || 0}
-                            </div>
-                            <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                                {stats?.pendingVenues ? (
-                                    <span className="text-amber-600 dark:text-amber-400 font-medium">
-                                        {stats.pendingVenues} menunggu verifikasi
-                                    </span>
-                                ) : (
-                                    <span>Semua venue terkelola</span>
-                                )}
-                                <ArrowRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-primary" />
-                            </div>
-                        </CardContent>
-                    </Card>
-                </Link>
+                <DashboardKpiCard
+                    title="Rating & Reputasi"
+                    value={
+                        stats.totalReviews > 0
+                            ? stats.averageRating.toFixed(1)
+                            : "—"
+                    }
+                    unit={stats.totalReviews > 0 ? "/ 5.0" : undefined}
+                    icon={Star}
+                    iconTone="warning"
+                    subtitle={
+                        <span>
+                            <strong className="text-foreground tabular-nums">
+                                {stats.totalReviews}
+                            </strong>{" "}
+                            ulasan •{" "}
+                            <strong className="text-foreground tabular-nums">
+                                {stats.approvedVenues}/{stats.totalVenues}
+                            </strong>{" "}
+                            venue aktif
+                        </span>
+                    }
+                    href="/renter/venues"
+                />
             </div>
 
-            {/* Middle Row: Interactive Revenue Chart + Today's Live Schedule */}
-            <div className="grid gap-6 grid-cols-1 lg:grid-cols-7">
-                <div className="lg:col-span-4">
+            {/* Tier 2: Interactive Revenue Chart + Today's Live Schedule */}
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
+                <div className="lg:col-span-7">
                     {chartLoading ? (
-                        <Skeleton className="h-[340px] w-full rounded-2xl" />
+                        <Skeleton className="h-[370px] w-full rounded-xl" />
                     ) : (
                         <RevenueChart
                             data={chartData || []}
-                            title="Ikhtisar Pendapatan"
-                            headerAction={
-                                <div className="inline-flex items-center rounded-full bg-background p-1 border border-border">
-                                    {RANGE_OPTIONS.map((opt) => (
-                                        <button
-                                            key={opt.value}
-                                            type="button"
-                                            onClick={() => setRange(opt.value)}
-                                            className={`rounded-full px-3 py-1 text-xs font-medium transition-all ${
-                                                range === opt.value
-                                                    ? "bg-primary text-primary-foreground shadow-2xs"
-                                                    : "text-muted-foreground hover:text-foreground"
-                                            }`}
-                                        >
-                                            {opt.label}
-                                        </button>
-                                    ))}
-                                </div>
-                            }
+                            title="Grafik Pendapatan"
+                            range={range}
+                            onRangeChange={setRange}
                         />
                     )}
                 </div>
 
                 {/* Today's Live Schedule */}
-                <Card className="lg:col-span-3 rounded-2xl border-border/70 shadow-sm flex flex-col">
+                <Card className="lg:col-span-5 rounded-xl border border-border/70 bg-card flex flex-col">
                     <CardHeader className="pb-3 flex flex-row items-center justify-between gap-2 border-b border-border/50">
                         <div>
-                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                                <Clock className="h-4 w-4 text-primary" />
+                            <CardTitle className="text-base font-semibold flex items-center gap-2">
+                                <Clock
+                                    className="h-4 w-4 text-primary"
+                                    aria-hidden="true"
+                                />
                                 Jadwal Bermain Hari Ini
                             </CardTitle>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                                Pantau kedatangan pelanggan hari ini
+                            <p className="text-xs text-muted-foreground mt-0.5 tabular-nums">
+                                {stats.checkedInTodayCount} hadir dari{" "}
+                                {stats.todayBookingsCount} sesi terkonfirmasi
                             </p>
                         </div>
                         <Button
@@ -356,42 +370,54 @@ export default function RenterDashboard() {
                             <Link href="/renter/bookings">Semua</Link>
                         </Button>
                     </CardHeader>
+
                     <CardContent className="pt-4 flex-1">
                         {todaySchedule.length === 0 ? (
-                            <div className="h-full min-h-[220px] flex flex-col items-center justify-center text-center px-4">
-                                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                                    <CalendarClock className="h-6 w-6 text-muted-foreground" />
+                            <div className="h-full min-h-[250px] flex flex-col items-center justify-center text-center rounded-lg border border-dashed border-border/80 bg-muted/20 px-4 py-8">
+                                <div className="h-11 w-11 rounded-full bg-muted flex items-center justify-center mb-3">
+                                    <CalendarClock
+                                        className="h-5 w-5 text-muted-foreground"
+                                        aria-hidden="true"
+                                    />
                                 </div>
                                 <p className="text-sm font-medium text-foreground">
                                     Belum ada jadwal bermain hari ini
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1 max-w-[240px]">
                                     Pesanan terkonfirmasi untuk hari ini akan
-                                    otomatis muncul di sini.
+                                    otomatis muncul di daftar ini.
                                 </p>
                             </div>
                         ) : (
-                            <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1">
+                            <div className="space-y-2.5 max-h-[290px] overflow-y-auto pr-1">
                                 {todaySchedule.map((item) => {
-                                    const start = format(
-                                        new Date(item.startTime),
-                                        "HH:mm"
-                                    );
-                                    const end = format(
-                                        new Date(item.endTime),
-                                        "HH:mm"
-                                    );
+                                    const start = formatTime(item.startTime);
+                                    const end = formatTime(item.endTime);
+                                    const startMin = parseMinutes(start);
+                                    const endMin = parseMinutes(end);
+                                    const isOngoing =
+                                        startMin >= 0 &&
+                                        endMin >= 0 &&
+                                        currentMinutesOfDay >= startMin &&
+                                        currentMinutesOfDay < endMin;
                                     const isCheckedIn = Boolean(
                                         item.checkedInAt
                                     );
+
                                     return (
-                                        <div
+                                        <Link
                                             key={item.id}
-                                            className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background/60 p-3 hover:border-primary/40 transition-colors"
+                                            href={`/renter/bookings?search=${encodeURIComponent(item.user.fullName)}`}
+                                            className={cn(
+                                                "flex items-center justify-between gap-3 rounded-lg border p-3 transition-colors",
+                                                isOngoing
+                                                    ? "border-primary/40 bg-primary/5 hover:border-primary/60"
+                                                    : "border-border/60 bg-background/60 hover:border-primary/40"
+                                            )}
                                         >
                                             <div className="min-w-0 space-y-0.5">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded tabular-nums shrink-0">
                                                         {start} – {end}
                                                     </span>
                                                     <span className="font-semibold text-sm truncate">
@@ -401,25 +427,35 @@ export default function RenterDashboard() {
                                                 <p className="text-xs text-muted-foreground truncate">
                                                     {item.field.venue.name} •{" "}
                                                     {item.field.name}
+                                                    {item.user.phoneNumber
+                                                        ? ` • ${item.user.phoneNumber}`
+                                                        : ""}
                                                 </p>
                                             </div>
-                                            {isCheckedIn ? (
-                                                <Badge
-                                                    variant="outline"
-                                                    className="shrink-0 gap-1 border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300"
-                                                >
-                                                    <CheckCircle2 className="h-3 w-3" />
-                                                    Hadir
-                                                </Badge>
-                                            ) : (
-                                                <Badge
-                                                    variant="outline"
-                                                    className="shrink-0 border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300"
-                                                >
-                                                    Belum Check-In
-                                                </Badge>
-                                            )}
-                                        </div>
+
+                                            <div className="flex items-center gap-1.5 shrink-0">
+                                                {isOngoing && !isCheckedIn && (
+                                                    <StatusBadge
+                                                        label="Berlangsung"
+                                                        tone="info"
+                                                        dot
+                                                        pulseDot
+                                                    />
+                                                )}
+                                                {isCheckedIn ? (
+                                                    <StatusBadge
+                                                        label="Hadir"
+                                                        tone="success"
+                                                        dot
+                                                    />
+                                                ) : (
+                                                    <StatusBadge
+                                                        label="Belum Check-In"
+                                                        tone="warning"
+                                                    />
+                                                )}
+                                            </div>
+                                        </Link>
                                     );
                                 })}
                             </div>
@@ -428,101 +464,130 @@ export default function RenterDashboard() {
                 </Card>
             </div>
 
-            {/* Bottom Row: Recent Bookings + Quick Shortcuts */}
-            <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
-                <div className="lg:col-span-2">
+            {/* Tier 3: Recent Bookings + Top Performing Fields */}
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
+                <div className="lg:col-span-7">
                     <RecentBookings
-                        bookings={stats?.recentBookings || []}
+                        bookings={stats.recentBookings || []}
                         viewAllHref="/renter/bookings"
+                        getDetailHref={(booking) =>
+                            `/renter/bookings?search=${encodeURIComponent(booking.user.fullName)}`
+                        }
                     />
                 </div>
 
-                <Card className="rounded-2xl border-border/70 shadow-sm h-fit">
-                    <CardHeader className="pb-3">
-                        <CardTitle className="text-base sm:text-lg">
-                            Akses Cepat Mitra
-                        </CardTitle>
+                <Card className="lg:col-span-5 rounded-xl border border-border/70 bg-card flex flex-col">
+                    <CardHeader className="pb-3 flex flex-row items-center justify-between gap-2 border-b border-border/50">
+                        <div>
+                            <CardTitle className="text-base font-semibold flex items-center gap-2">
+                                <Trophy
+                                    className="h-4 w-4 text-primary"
+                                    aria-hidden="true"
+                                />
+                                Performa Lapangan Teratas
+                            </CardTitle>
+                            <p className="text-xs text-muted-foreground mt-0.5">
+                                Kontributor pendapatan tertinggi milik Anda
+                            </p>
+                        </div>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            asChild
+                            className="h-8 gap-1 text-xs text-primary hover:text-primary"
+                        >
+                            <Link href="/renter/revenue">
+                                Rincian
+                                <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                        </Button>
                     </CardHeader>
-                    <CardContent className="grid gap-2.5">
-                        <Link
-                            href="/renter/venues"
-                            className="flex items-center justify-between rounded-xl border border-border/60 bg-background/60 p-3.5 hover:border-primary/50 hover:bg-primary/5 transition-all group"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400">
-                                    <Building2 className="h-4 w-4" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold">
-                                        Tempat Olahraga
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        Kelola jadwal & foto venue
-                                    </p>
-                                </div>
-                            </div>
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                        </Link>
 
-                        <Link
-                            href="/renter/fields"
-                            className="flex items-center justify-between rounded-xl border border-border/60 bg-background/60 p-3.5 hover:border-primary/50 hover:bg-primary/5 transition-all group"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                                    <Trophy className="h-4 w-4" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold">
-                                        Unit Lapangan
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        Atur tarif & buka-tutup lapangan
-                                    </p>
-                                </div>
+                    <CardContent className="pt-4 flex-1">
+                        {topFields.length === 0 ? (
+                            <div className="min-h-[200px] flex flex-col items-center justify-center text-center rounded-lg border border-dashed border-border/80 bg-muted/20 px-4 py-6">
+                                <Trophy
+                                    className="h-5 w-5 text-muted-foreground mb-2"
+                                    aria-hidden="true"
+                                />
+                                <p className="text-sm font-medium text-foreground">
+                                    Belum ada unit lapangan terdaftar
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1 max-w-[240px]">
+                                    Tambahkan lapangan pada venue Anda untuk mulai
+                                    memantau performa pendapatan.
+                                </p>
                             </div>
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                        </Link>
+                        ) : (
+                            <div className="space-y-2.5">
+                                {topFields.map((field) => (
+                                    <Link
+                                        key={field.id}
+                                        href={`/renter/fields?search=${encodeURIComponent(field.name)}`}
+                                        className="flex items-center justify-between gap-3 rounded-lg border border-border/60 bg-background/60 p-3 hover:border-primary/40 transition-colors"
+                                    >
+                                        <div className="min-w-0 space-y-1">
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-semibold text-sm text-foreground truncate">
+                                                    {field.name}
+                                                </span>
+                                                {field.isClosed ? (
+                                                    <StatusBadge
+                                                        label="Tutup"
+                                                        tone="neutral"
+                                                    />
+                                                ) : field.status !== "APPROVED" ? (
+                                                    <StatusBadge
+                                                        label={
+                                                            field.status ===
+                                                            "PENDING"
+                                                                ? "Menunggu"
+                                                                : "Ditolak"
+                                                        }
+                                                        tone={
+                                                            field.status ===
+                                                            "PENDING"
+                                                                ? "warning"
+                                                                : "destructive"
+                                                        }
+                                                    />
+                                                ) : null}
+                                            </div>
+                                            <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                                                <span className="truncate">
+                                                    {field.venueName}
+                                                </span>
+                                                <span aria-hidden="true">•</span>
+                                                <span className="tabular-nums">
+                                                    {field.bookingCount} transaksi
+                                                </span>
+                                                {field.reviewCount > 0 && (
+                                                    <>
+                                                        <span aria-hidden="true">
+                                                            •
+                                                        </span>
+                                                        <span className="inline-flex items-center gap-0.5 tabular-nums text-foreground font-medium">
+                                                            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                                            {field.avgRating}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
 
-                        <Link
-                            href="/renter/revenue"
-                            className="flex items-center justify-between rounded-xl border border-border/60 bg-background/60 p-3.5 hover:border-primary/50 hover:bg-primary/5 transition-all group"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                                    <Wallet className="h-4 w-4" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold">
-                                        Laporan Pendapatan
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        Rincian pemasukan per venue
-                                    </p>
-                                </div>
+                                        <div className="text-right shrink-0">
+                                            <p className="text-sm font-bold text-primary tabular-nums">
+                                                {formatCurrency(field.revenue)}
+                                            </p>
+                                            <p className="text-[11px] text-muted-foreground tabular-nums">
+                                                {formatCurrency(field.pricePerHour)}
+                                                /jam
+                                            </p>
+                                        </div>
+                                    </Link>
+                                ))}
                             </div>
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-
-                        <Link
-                            href="/renter/reports"
-                            className="flex items-center justify-between rounded-xl border border-border/60 bg-background/60 p-3.5 hover:border-primary/50 hover:bg-primary/5 transition-all group"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                                    <LifeBuoy className="h-4 w-4" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold">
-                                        Tiket Bantuan
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        Hubungi tim dukungan FieldMax
-                                    </p>
-                                </div>
-                            </div>
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                        </Link>
+                        )}
                     </CardContent>
                 </Card>
             </div>
@@ -531,30 +596,36 @@ export default function RenterDashboard() {
 }
 
 /**
- * Loading skeleton for the Renter Dashboard.
+ * Loading skeleton matching the 3-tier Renter Dashboard layout.
  */
 function DashboardSkeleton() {
     return (
-        <div className="space-y-8">
-            <div className="flex justify-between items-center">
+        <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                 <div className="space-y-2">
-                    <Skeleton className="h-6 w-[180px] rounded-full" />
                     <Skeleton className="h-8 w-[240px]" />
-                    <Skeleton className="h-4 w-[320px]" />
+                    <Skeleton className="h-4 w-[380px] max-w-full" />
                 </div>
                 <div className="flex gap-2">
-                    <Skeleton className="h-10 w-[140px]" />
-                    <Skeleton className="h-10 w-[120px]" />
+                    <Skeleton className="h-10 w-[140px] rounded-md" />
+                    <Skeleton className="h-10 w-[130px] rounded-md" />
                 </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
                 {[...Array(4)].map((_, i) => (
-                    <Skeleton key={i} className="h-[130px] rounded-2xl" />
+                    <Skeleton key={i} className="h-[132px] rounded-xl" />
                 ))}
             </div>
-            <div className="grid gap-6 lg:grid-cols-7">
-                <Skeleton className="lg:col-span-4 h-[340px] rounded-2xl" />
-                <Skeleton className="lg:col-span-3 h-[340px] rounded-2xl" />
+
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
+                <Skeleton className="lg:col-span-7 h-[370px] rounded-xl" />
+                <Skeleton className="lg:col-span-5 h-[370px] rounded-xl" />
+            </div>
+
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
+                <Skeleton className="lg:col-span-7 h-[310px] rounded-xl" />
+                <Skeleton className="lg:col-span-5 h-[310px] rounded-xl" />
             </div>
         </div>
     );

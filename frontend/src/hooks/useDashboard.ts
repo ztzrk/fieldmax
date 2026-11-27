@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { DashboardService } from "@/services/dashboard.service";
-import RenterService from "@/services/renter.service";
+import RenterService, { type RevenuePeriod } from "@/services/renter.service";
 import { queryKeys } from "@/lib/queryKeys";
 
 export const useAdminStats = () => {
     return useQuery({
-        queryKey: ["admin-stats"],
+        queryKey: queryKeys.dashboard.adminStats(),
         queryFn: DashboardService.getAdminStats,
     });
 };
@@ -17,10 +17,14 @@ export const useRenterStats = () => {
     });
 };
 
-export const useRenterRevenue = () => {
+export const useRenterRevenue = (params?: {
+    period?: RevenuePeriod;
+    venueId?: string;
+}) => {
     return useQuery({
-        queryKey: queryKeys.dashboard.revenue(),
-        queryFn: RenterService.getRevenueStats,
+        queryKey: queryKeys.dashboard.revenue(params),
+        queryFn: () => RenterService.getRevenueStats(params),
+        placeholderData: keepPreviousData,
     });
 };
 

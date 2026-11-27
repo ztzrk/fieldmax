@@ -463,13 +463,63 @@ export class RenterService {
         return { data: fields, meta: { total, page, limit, totalPages } };
     }
 
-    public async getRevenueStats(renterId: string) {
-        const now = new Date();
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    public async getRevenueStats(
+        renterId: string,
+        options?: {
+            period?: "all" | "7d" | "30d" | "this_month" | "last_month";
+            venueId?: string;
+        }
+    ) {
+        const period = options?.period || "this_month";
+        const scopedVenueId =
+            options?.venueId && options.venueId !== "ALL"
+                ? options.venueId
+                : undefined;
+
+        const wibOffsetMs = 7 * 60 * 60 * 1000;
+        const wibNow = new Date(Date.now() + wibOffsetMs);
+        const year = wibNow.getUTCFullYear();
+        const month = wibNow.getUTCMonth();
+        const day = wibNow.getUTCDate();
+
+        const startOfThisMonth = new Date(Date.UTC(year, month, 1, 0, 0, 0, 0));
+        const startOfLastMonth = new Date(
+            Date.UTC(year, month - 1, 1, 0, 0, 0, 0)
+        );
+        const endOfLastMonth = new Date(
+            Date.UTC(year, month, 0, 23, 59, 59, 999)
+        );
+
+        let periodDateFilter: Prisma.DateTimeFilter<"Booking"> | undefined;
+        if (period === "this_month") {
+            periodDateFilter = { gte: startOfThisMonth };
+        } else if (period === "last_month") {
+            periodDateFilter = { gte: startOfLastMonth, lte: endOfLastMonth };
+        } else if (period === "7d") {
+            periodDateFilter = {
+                gte: new Date(Date.UTC(year, month, day - 6, 0, 0, 0, 0)),
+            };
+        } else if (period === "30d") {
+            periodDateFilter = {
+                gte: new Date(Date.UTC(year, month, day - 29, 0, 0, 0, 0)),
+            };
+        }
+
+        const venueWhere: Prisma.VenueWhereInput = scopedVenueId
+            ? { id: scopedVenueId, renterId }
+            : { renterId };
+
+        const periodBookingWhere: Prisma.BookingWhereInput = {
+            field: { venue: venueWhere },
+            ...(periodDateFilter ? { bookingDate: periodDateFilter } : {}),
+        };
 
         const [
             totalRevenueResult,
             monthlyRevenueResult,
+            lastMonthRevenueResult,
+            pendingRevenueResult,
+            totalOrdersCount,
             venues,
             transactions,
         ] = await Promise.all([
@@ -477,17 +527,43 @@ export class RenterService {
                 _sum: { totalPrice: true },
                 _count: { id: true },
                 where: {
+                    ...periodBookingWhere,
                     payment: { status: "PAID" },
-                    field: { venue: { renterId } },
                 },
             }),
             prisma.booking.aggregate({
                 _sum: { totalPrice: true },
                 where: {
                     payment: { status: "PAID" },
-                    bookingDate: { gte: startOfMonth },
-                    field: { venue: { renterId } },
+                    bookingDate: { gte: startOfThisMonth },
+                    field: { venue: venueWhere },
                 },
+            }),
+            prisma.booking.aggregate({
+                _sum: { totalPrice: true },
+                where: {
+                    payment: { status: "PAID" },
+                    bookingDate: {
+                        gte: startOfLastMonth,
+                        lte: endOfLastMonth,
+                    },
+                    field: { venue: venueWhere },
+                },
+            }),
+            prisma.booking.aggregate({
+                _sum: { totalPrice: true },
+                _count: { id: true },
+                where: {
+                    ...periodBookingWhere,
+                    status: { not: "CANCELLED" },
+                    OR: [
+                        { payment: { is: { status: "PENDING" } } },
+                        { payment: { is: null } },
+                    ],
+                },
+            }),
+            prisma.booking.count({
+                where: periodBookingWhere,
             }),
             prisma.venue.findMany({
                 where: { renterId },
@@ -497,6 +573,9 @@ export class RenterService {
                             bookings: {
                                 where: {
                                     payment: { status: "PAID" },
+                                    ...(periodDateFilter
+                                        ? { bookingDate: periodDateFilter }
+                                        : {}),
                                 },
                                 select: { totalPrice: true },
                             },
@@ -505,13 +584,21 @@ export class RenterService {
                 },
             }),
             prisma.booking.findMany({
-                where: {
-                    field: { venue: { renterId } },
-                },
-                orderBy: [{ bookingDate: "desc" }, { startTime: "desc" }],
-                take: 100,
+                where: periodBookingWhere,
+                orderBy: [
+                    { bookingDate: "desc" },
+                    { startTime: "desc" },
+                    { createdAt: "desc" },
+                ],
+                take: 500,
                 include: {
-                    user: { select: { fullName: true, email: true } },
+                    user: {
+                        select: {
+                            fullName: true,
+                            email: true,
+                            phoneNumber: true,
+                        },
+                    },
                     payment: {
                         select: { status: true },
                     },
@@ -595,18 +682,49 @@ export class RenterService {
 
         const totalRevenue = totalRevenueResult._sum.totalPrice || 0;
         const totalPaidBookings = totalRevenueResult._count.id || 0;
+        const monthlyRevenue = monthlyRevenueResult._sum.totalPrice || 0;
+        const lastMonthRevenue = lastMonthRevenueResult._sum.totalPrice || 0;
+        const revenueDeltaPct =
+            lastMonthRevenue > 0
+                ? Number(
+                      (
+                          ((monthlyRevenue - lastMonthRevenue) /
+                              lastMonthRevenue) *
+                          100
+                      ).toFixed(1)
+                  )
+                : null;
+        const pendingRevenue = pendingRevenueResult._sum.totalPrice || 0;
+        const pendingCount = pendingRevenueResult._count.id || 0;
+        const paidRatePct =
+            totalOrdersCount > 0
+                ? Number(((totalPaidBookings / totalOrdersCount) * 100).toFixed(1))
+                : 0;
 
         return {
+            period,
+            generatedAt: new Date().toISOString(),
             totalRevenue,
-            monthlyRevenue: monthlyRevenueResult._sum.totalPrice || 0,
+            monthlyRevenue,
+            lastMonthRevenue,
+            revenueDeltaPct,
+            pendingRevenue,
+            pendingCount,
             totalPaidBookings,
+            totalOrdersCount,
+            paidRatePct,
             averageOrderValue:
                 totalPaidBookings > 0
                     ? Math.round(totalRevenue / totalPaidBookings)
                     : 0,
+            venueOptions: venues.map((v) => ({
+                venueId: v.id,
+                venueName: v.name,
+            })),
             revenueByVenue,
             revenueByField,
             transactions,
+            totalTransactionsCount: totalOrdersCount,
         };
     }
     public async getPublicRenters(query: Partial<Pagination>) {
