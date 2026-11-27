@@ -5,6 +5,18 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+export function toCsvParam(
+    value?: string | string[] | boolean | boolean[]
+): string | undefined {
+    if (value === undefined || value === null) return undefined;
+    if (Array.isArray(value)) {
+        const cleaned = value.map((v) => String(v).trim()).filter(Boolean);
+        return cleaned.length > 0 ? cleaned.join(",") : undefined;
+    }
+    const str = String(value).trim();
+    return str.length > 0 && str !== "ALL" ? str : undefined;
+}
+
 export function formatCurrency(amount: number) {
     return new Intl.NumberFormat("id-ID", {
         style: "currency",

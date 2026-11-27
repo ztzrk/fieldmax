@@ -2,11 +2,11 @@ import { api } from "@/lib/api";
 import { FieldFormSchema, FieldQuerySchema } from "@fieldmax/shared";
 
 const FieldService = {
-    getAll: async (params?: FieldQuerySchema) => {
+    getAll: async (params?: FieldQuerySchema | Record<string, any>) => {
         const response = await api.get("/fields", { params });
         return response.data;
     },
-    getAllPublic: async (params?: FieldQuerySchema) => {
+    getAllPublic: async (params?: FieldQuerySchema | Record<string, any>) => {
         const response = await api.get("/fields/public", { params });
         return response.data;
     },

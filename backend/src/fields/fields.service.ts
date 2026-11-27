@@ -52,6 +52,9 @@ export class FieldsService {
         const pageNum = Number(page);
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
+        const validStatuses = status?.filter(
+            (s): s is "PENDING" | "APPROVED" | "REJECTED" => s !== "DRAFT"
+        );
         const whereCondition: Prisma.FieldWhereInput = {
             ...(search
                 ? {
@@ -73,9 +76,11 @@ export class FieldsService {
                       ],
                   }
                 : {}),
-            ...(status ? { status } : {}),
-            ...(typeof isClosed === "boolean" ? { isClosed } : {}),
-            ...(sportTypeId ? { sportTypeId } : {}),
+            ...(validStatuses?.length ? { status: { in: validStatuses } } : {}),
+            ...(isClosed?.length === 1 ? { isClosed: isClosed[0] } : {}),
+            ...(sportTypeId?.length
+                ? { sportTypeId: { in: sportTypeId } }
+                : {}),
             ...(minPrice !== undefined || maxPrice !== undefined
                 ? {
                       pricePerHour: {
@@ -165,6 +170,9 @@ export class FieldsService {
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
 
+        const validStatuses = status?.filter(
+            (s): s is "PENDING" | "APPROVED" | "REJECTED" => s !== "DRAFT"
+        );
         const whereCondition: Prisma.FieldWhereInput = {
             venue: {
                 renterId: renterId,
@@ -192,9 +200,11 @@ export class FieldsService {
                       ],
                   }
                 : {}),
-            ...(status ? { status } : {}),
-            ...(typeof isClosed === "boolean" ? { isClosed } : {}),
-            ...(sportTypeId ? { sportTypeId } : {}),
+            ...(validStatuses?.length ? { status: { in: validStatuses } } : {}),
+            ...(isClosed?.length === 1 ? { isClosed: isClosed[0] } : {}),
+            ...(sportTypeId?.length
+                ? { sportTypeId: { in: sportTypeId } }
+                : {}),
         };
 
         const [fields, total] = [

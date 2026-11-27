@@ -15,6 +15,7 @@ import {
     BookingQuerySchema,
 } from "@/lib/schema/booking.schema";
 import { queryKeys } from "@/lib/queryKeys";
+import { toCsvParam } from "@/lib/utils";
 
 export function useFieldAvailability(fieldId: string, date: string) {
     return useQuery({
@@ -61,16 +62,19 @@ export function useGetBookings(
     search?: string,
     sortBy?: string,
     sortOrder?: "asc" | "desc",
-    status?: BookingQuerySchema["status"],
-    paymentStatus?: BookingQuerySchema["paymentStatus"]
+    status?: string | string[],
+    paymentStatus?: string | string[]
 ) {
+    const statusParam = toCsvParam(status);
+    const paymentStatusParam = toCsvParam(paymentStatus);
+
     return useQuery({
         queryKey: queryKeys.bookings.list({
             page,
             limit,
             search,
-            status,
-            paymentStatus,
+            status: statusParam,
+            paymentStatus: paymentStatusParam,
             sortBy,
             sortOrder,
         }),
@@ -79,8 +83,8 @@ export function useGetBookings(
                 page,
                 limit,
                 search,
-                status,
-                paymentStatus,
+                status: statusParam,
+                paymentStatus: paymentStatusParam,
                 sortBy,
                 sortOrder,
             });

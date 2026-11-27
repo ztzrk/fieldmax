@@ -14,23 +14,27 @@ import {
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
+import { toCsvParam } from "@/lib/utils";
 
 export function useGetAllUsers(
     page: number,
     limit: number,
     search?: string,
-    role?: "ADMIN" | "USER" | "RENTER",
-    isVerified?: string,
+    role?: string | string[],
+    isVerified?: string | string[],
     sortBy?: string,
     sortOrder?: "asc" | "desc"
 ) {
+    const roleParam = toCsvParam(role);
+    const isVerifiedParam = toCsvParam(isVerified);
+
     return useQuery({
         queryKey: queryKeys.users.list({
             page,
             limit,
             search,
-            role,
-            isVerified,
+            role: roleParam,
+            isVerified: isVerifiedParam,
             sortBy,
             sortOrder,
         }),
@@ -39,8 +43,8 @@ export function useGetAllUsers(
                 page,
                 limit,
                 search,
-                role,
-                isVerified,
+                role: roleParam,
+                isVerified: isVerifiedParam,
                 sortBy,
                 sortOrder,
             });

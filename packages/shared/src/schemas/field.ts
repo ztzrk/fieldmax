@@ -1,4 +1,9 @@
 import { z } from "zod";
+import {
+    csvBooleanArray,
+    csvEnumArray,
+    csvStringArray,
+} from "./pagination.js";
 import { reviewResponseSchema } from "./review.js";
 
 export const fieldPhotoSchema = z.object({
@@ -63,12 +68,12 @@ export const fieldQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional(),
     limit: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
-    sportTypeId: z.string().optional(),
+    sportTypeId: csvStringArray(),
     venueId: z.string().optional(),
     minPrice: z.coerce.number().min(0).optional(),
     maxPrice: z.coerce.number().min(0).optional(),
-    status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]).optional(),
-    isClosed: z.boolean().optional(),
+    status: csvEnumArray(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
+    isClosed: csvBooleanArray(),
     sortBy: z.string().optional(),
     sortOrder: z.enum(["asc", "desc"]).optional(),
 });

@@ -1,47 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense } from "react";
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/shared/DataTable";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { useGetAllUsers, useDeleteMultipleUsers } from "@/hooks/useUsers";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTableQueryState } from "@/hooks/useTableQueryState";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { CreateUserButton } from "./components/createUserButton";
-import { PaginationState, SortingState } from "@tanstack/react-table";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
+import {
+    USER_COLUMN_LABELS,
+    USER_ROLE_OPTIONS,
+    USER_VERIFIED_OPTIONS,
+} from "@/lib/table-filter-options";
 
-/**
- * Admin Users Page.
- * Displays a paginated list of all registered users.
- * Allows filtering by name/email and bulk deletion.
- */
-export default function AdminUsersPage() {
-    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
+const USER_FILTER_KEYS = ["role", "isVerified"] as const;
+
+function AdminUsersContent() {
+    const {
+        pagination,
+        setPagination,
+        sorting,
+        setSorting,
+        searchInput,
+        setSearchInput,
+        debouncedSearch,
+        filters,
+        setFilter,
+        resetAll,
+        hasActiveFilters,
+        buildChips,
+    } = useTableQueryState({
+        filterKeys: USER_FILTER_KEYS,
     });
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 400);
-    const [role, setRole] = useState<"ADMIN" | "USER" | "RENTER" | undefined>(
-        undefined
-    );
-    const [isVerified, setIsVerified] = useState<string | undefined>(undefined);
 
     const { data, isLoading, isFetching, isError } = useGetAllUsers(
-        pageIndex + 1,
-        pageSize,
+        pagination.pageIndex + 1,
+        pagination.pageSize,
         debouncedSearch || undefined,
-        role,
-        isVerified,
+        filters.role,
+        filters.isVerified,
         sorting.length > 0 ? sorting[0].id : undefined,
         sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined
     );
@@ -55,22 +55,14 @@ export default function AdminUsersPage() {
         } catch (error) {}
     };
 
-    const handleSearch = (val: string) => {
-        setSearch(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleResetFilters = () => {
-        setSearch("");
-        setRole(undefined);
-        setIsVerified(undefined);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
     if ((isLoading && !data) || isDeleting) return <FullScreenLoader />;
     if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
+    const chips = buildChips({
+        role: { label: "Peran", options: USER_ROLE_OPTIONS },
+        isVerified: { label: "Verifikasi", options: USER_VERIFIED_OPTIONS },
+    });
 
     return (
         <AdminPageWrapper
@@ -85,81 +77,50 @@ export default function AdminUsersPage() {
                         data={data?.data || []}
                         onDeleteSelected={handleDeleteUsers}
                         pageCount={pageCount}
-                        pagination={{ pageIndex, pageSize }}
+                        pagination={pagination}
                         onPaginationChange={setPagination}
-                        onSearch={handleSearch}
-                        searchValue={search}
+                        onSearch={setSearchInput}
+                        searchValue={searchInput}
                         searchPlaceholder="Cari nama lengkap atau email..."
                         sorting={sorting}
                         onSortingChange={setSorting}
                         isFetching={isFetching && !isLoading}
-                        hasActiveFilters={Boolean(role || isVerified)}
-                        onResetFilters={handleResetFilters}
+                        hasActiveFilters={hasActiveFilters}
+                        activeFilterChips={chips}
+                        onResetFilters={resetAll}
+                        columnLabels={USER_COLUMN_LABELS}
                         filters={
                             <>
-                                <Select
-                                    value={role || "ALL"}
-                                    onValueChange={(val) => {
-                                        setRole(
-                                            val === "ALL"
-                                                ? undefined
-                                                : (val as any)
-                                        );
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                >
-                                    <SelectTrigger className="h-9 w-[150px]">
-                                        <SelectValue placeholder="Filter Peran" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Peran
-                                        </SelectItem>
-                                        <SelectItem value="USER">
-                                            Pengguna
-                                        </SelectItem>
-                                        <SelectItem value="RENTER">
-                                            Mitra
-                                        </SelectItem>
-                                        <SelectItem value="ADMIN">
-                                            Admin
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-
-                                <Select
-                                    value={isVerified || "ALL"}
-                                    onValueChange={(val) => {
-                                        setIsVerified(
-                                            val === "ALL" ? undefined : val
-                                        );
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                >
-                                    <SelectTrigger className="h-9 w-[165px]">
-                                        <SelectValue placeholder="Verifikasi" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">Semua</SelectItem>
-                                        <SelectItem value="true">
-                                            Terverifikasi
-                                        </SelectItem>
-                                        <SelectItem value="false">
-                                            Belum Verifikasi
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <DataTableFacetedFilter
+                                    title="Peran"
+                                    options={USER_ROLE_OPTIONS}
+                                    values={filters.role}
+                                    onChange={(vals) => setFilter("role", vals)}
+                                />
+                                <DataTableFacetedFilter
+                                    title="Verifikasi"
+                                    options={USER_VERIFIED_OPTIONS}
+                                    values={filters.isVerified}
+                                    onChange={(vals) =>
+                                        setFilter("isVerified", vals)
+                                    }
+                                />
                             </>
                         }
                     />
                 </CardContent>
             </Card>
         </AdminPageWrapper>
+    );
+}
+
+/**
+ * Admin Users Page.
+ */
+export default function AdminUsersPage() {
+    return (
+        <Suspense fallback={<FullScreenLoader />}>
+            <AdminUsersContent />
+        </Suspense>
     );
 }

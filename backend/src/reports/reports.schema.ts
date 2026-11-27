@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { csvEnumArray } from "@fieldmax/shared";
 
 export const CreateReportSchema = z.object({
     subject: z.string().trim().min(1, "Subject is required").max(100),
@@ -16,8 +17,8 @@ export const GetAllReportsQuerySchema = z.object({
     page: z.coerce.number().int().positive().optional(),
     limit: z.coerce.number().int().positive().max(100).optional(),
     search: z.string().trim().optional(),
-    status: z.enum(["PENDING", "IN_PROGRESS", "RESOLVED"]).optional(),
-    category: z.enum(["SCAM", "TECHNICAL", "PAYMENT", "OTHER"]).optional(),
+    status: csvEnumArray(["PENDING", "IN_PROGRESS", "RESOLVED"]),
+    category: csvEnumArray(["SCAM", "TECHNICAL", "PAYMENT", "OTHER"]),
     sortBy: z
         .enum([
             "subject",

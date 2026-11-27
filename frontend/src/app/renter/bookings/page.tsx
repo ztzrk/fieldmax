@@ -1,72 +1,58 @@
 "use client";
 
+import { Suspense } from "react";
 import { columns } from "./components/columns";
-import {
-    BookingQuerySchema,
-    BookingResponseSchema,
-} from "@/lib/schema/booking.schema";
-import { useState } from "react";
-import { PaginationState, SortingState } from "@tanstack/react-table";
+import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 import { useGetBookings } from "@/hooks/useBookings";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTableQueryState } from "@/hooks/useTableQueryState";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/shared/DataTable";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { CheckInScannerDialog } from "./components/CheckInScannerDialog";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+    BOOKING_COLUMN_LABELS,
+    BOOKING_STATUS_OPTIONS,
+    PAYMENT_STATUS_OPTIONS,
+} from "@/lib/table-filter-options";
 
-/**
- * Renter Bookings Page.
- * Displays a list of bookings for the renter's filtered view (handled by backend usually).
- */
-export default function RenterBookingsPage() {
-    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
+const RENTER_BOOKING_FILTER_KEYS = ["status", "paymentStatus"] as const;
+
+function RenterBookingsContent() {
+    const {
+        pagination,
+        setPagination,
+        sorting,
+        setSorting,
+        searchInput,
+        setSearchInput,
+        debouncedSearch,
+        filters,
+        setFilter,
+        resetAll,
+        hasActiveFilters,
+        buildChips,
+    } = useTableQueryState({
+        filterKeys: RENTER_BOOKING_FILTER_KEYS,
     });
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 400);
-    const [status, setStatus] = useState<BookingQuerySchema["status"]>();
-    const [paymentStatus, setPaymentStatus] =
-        useState<BookingQuerySchema["paymentStatus"]>();
 
-    // API uses 1-based page index
     const {
         data: bookingsData,
         isLoading,
         isFetching,
         isError,
     } = useGetBookings(
-        pageIndex + 1,
-        pageSize,
+        pagination.pageIndex + 1,
+        pagination.pageSize,
         debouncedSearch || undefined,
         sorting.length > 0 ? sorting[0].id : undefined,
         sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
-        status,
-        paymentStatus
+        filters.status,
+        filters.paymentStatus
     );
-
-    const handleSearch = (val: string) => {
-        setSearch(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleResetFilters = () => {
-        setSearch("");
-        setStatus(undefined);
-        setPaymentStatus(undefined);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
 
     if (isLoading && !bookingsData) {
         return <FullScreenLoader />;
@@ -85,8 +71,15 @@ export default function RenterBookingsPage() {
     }
 
     const bookings = (bookingsData?.data || []) as BookingResponseSchema[];
-    const meta = bookingsData?.meta;
-    const pageCount = meta?.totalPages ?? 0;
+    const pageCount = bookingsData?.meta?.totalPages ?? 0;
+
+    const chips = buildChips({
+        status: { label: "Status", options: BOOKING_STATUS_OPTIONS },
+        paymentStatus: {
+            label: "Pembayaran",
+            options: PAYMENT_STATUS_OPTIONS,
+        },
+    });
 
     return (
         <AdminPageWrapper
@@ -100,94 +93,52 @@ export default function RenterBookingsPage() {
                         columns={columns}
                         data={bookings}
                         pageCount={pageCount}
-                        pagination={{ pageIndex, pageSize }}
+                        pagination={pagination}
                         onPaginationChange={setPagination}
-                        onSearch={handleSearch}
-                        searchValue={search}
+                        onSearch={setSearchInput}
+                        searchValue={searchInput}
                         searchPlaceholder="Cari ID, pelanggan, atau lapangan..."
                         sorting={sorting}
                         onSortingChange={setSorting}
                         isFetching={isFetching && !isLoading}
-                        hasActiveFilters={Boolean(status || paymentStatus)}
-                        onResetFilters={handleResetFilters}
+                        hasActiveFilters={hasActiveFilters}
+                        activeFilterChips={chips}
+                        onResetFilters={resetAll}
+                        columnLabels={BOOKING_COLUMN_LABELS}
                         filters={
                             <>
-                                <Select
-                                    value={status || "ALL"}
-                                    onValueChange={(val) => {
-                                        setStatus(
-                                            val === "ALL"
-                                                ? undefined
-                                                : (val as BookingQuerySchema["status"])
-                                        );
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                >
-                                    <SelectTrigger className="h-9 w-[170px]">
-                                        <SelectValue placeholder="Status Pesanan" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Status
-                                        </SelectItem>
-                                        <SelectItem value="PENDING">
-                                            Menunggu
-                                        </SelectItem>
-                                        <SelectItem value="CONFIRMED">
-                                            Dikonfirmasi
-                                        </SelectItem>
-                                        <SelectItem value="COMPLETED">
-                                            Selesai
-                                        </SelectItem>
-                                        <SelectItem value="CANCELLED">
-                                            Dibatalkan
-                                        </SelectItem>
-                                        <SelectItem value="NO_SHOW">
-                                            Tidak Hadir
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <Select
-                                    value={paymentStatus || "ALL"}
-                                    onValueChange={(val) => {
-                                        setPaymentStatus(
-                                            val === "ALL"
-                                                ? undefined
-                                                : (val as BookingQuerySchema["paymentStatus"])
-                                        );
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                >
-                                    <SelectTrigger className="h-9 w-[180px]">
-                                        <SelectValue placeholder="Pembayaran" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Pembayaran
-                                        </SelectItem>
-                                        <SelectItem value="PAID">Lunas</SelectItem>
-                                        <SelectItem value="PENDING">
-                                            Menunggu Pembayaran
-                                        </SelectItem>
-                                        <SelectItem value="EXPIRED">
-                                            Kedaluwarsa
-                                        </SelectItem>
-                                        <SelectItem value="FAILED">
-                                            Gagal
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <DataTableFacetedFilter
+                                    title="Status"
+                                    options={BOOKING_STATUS_OPTIONS}
+                                    values={filters.status}
+                                    onChange={(vals) =>
+                                        setFilter("status", vals)
+                                    }
+                                />
+                                <DataTableFacetedFilter
+                                    title="Pembayaran"
+                                    options={PAYMENT_STATUS_OPTIONS}
+                                    values={filters.paymentStatus}
+                                    onChange={(vals) =>
+                                        setFilter("paymentStatus", vals)
+                                    }
+                                />
                             </>
                         }
                     />
                 </CardContent>
             </Card>
         </AdminPageWrapper>
+    );
+}
+
+/**
+ * Renter Bookings Page.
+ */
+export default function RenterBookingsPage() {
+    return (
+        <Suspense fallback={<FullScreenLoader />}>
+            <RenterBookingsContent />
+        </Suspense>
     );
 }

@@ -47,8 +47,8 @@ export class ReportsService {
         const skip = isPaginated ? (pageNum! - 1) * limitNum! : 0;
 
         const whereCondition: Prisma.ReportWhereInput = {
-            ...(status ? { status } : {}),
-            ...(category ? { category } : {}),
+            ...(status?.length ? { status: { in: status } } : {}),
+            ...(category?.length ? { category: { in: category } } : {}),
             ...(search
                 ? {
                       OR: [

@@ -1,48 +1,48 @@
 "use client";
 
+import { Suspense } from "react";
 import { DataTable } from "@/components/shared/DataTable";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { columns } from "./components/columns";
 import { CreateVenueButton } from "./components/CreateVenueButton";
-import {
-    VenueQuerySchema,
-    VenueResponseSchema,
-} from "@/lib/schema/venue.schema";
-import { useState } from "react";
+import { VenueResponseSchema } from "@/lib/schema/venue.schema";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { useGetAllVenues, useDeleteMultipleVenues } from "@/hooks/useVenues";
-import { PaginationState, SortingState } from "@tanstack/react-table";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTableQueryState } from "@/hooks/useTableQueryState";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+    VENUE_COLUMN_LABELS,
+    VENUE_STATUS_OPTIONS,
+} from "@/lib/table-filter-options";
 
-/**
- * Admin Venues Page.
- * Displays a list of all venues.
- */
-export default function VenuesAndFieldsPage() {
-    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
+const VENUE_FILTER_KEYS = ["status"] as const;
+
+function AdminVenuesContent() {
+    const {
+        pagination,
+        setPagination,
+        sorting,
+        setSorting,
+        searchInput,
+        setSearchInput,
+        debouncedSearch,
+        filters,
+        setFilter,
+        resetAll,
+        hasActiveFilters,
+        buildChips,
+    } = useTableQueryState({
+        filterKeys: VENUE_FILTER_KEYS,
     });
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [search, setSearch] = useState("");
-    const [status, setStatus] = useState<VenueQuerySchema["status"]>();
-    const debouncedSearch = useDebounce(search, 400);
 
     const { data, isLoading, isFetching, isError } = useGetAllVenues(
-        pageIndex + 1,
-        pageSize,
+        pagination.pageIndex + 1,
+        pagination.pageSize,
         debouncedSearch || undefined,
         sorting.length > 0 ? sorting[0].id : undefined,
         sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
-        status
+        filters.status
     );
     const { mutate: deleteMultiple, isPending: isDeleting } =
         useDeleteMultipleVenues();
@@ -51,21 +51,13 @@ export default function VenuesAndFieldsPage() {
         deleteMultiple(selectedIds);
     };
 
-    const handleSearch = (val: string) => {
-        setSearch(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleResetFilters = () => {
-        setSearch("");
-        setStatus(undefined);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
     if ((isLoading && !data) || isDeleting) return <FullScreenLoader />;
     if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
+    const chips = buildChips({
+        status: { label: "Status", options: VENUE_STATUS_OPTIONS },
+    });
 
     return (
         <AdminPageWrapper
@@ -80,54 +72,40 @@ export default function VenuesAndFieldsPage() {
                         data={(data?.data || []) as VenueResponseSchema[]}
                         onDeleteSelected={handleDeleteSelected}
                         pageCount={pageCount}
-                        pagination={{ pageIndex, pageSize }}
+                        pagination={pagination}
                         onPaginationChange={setPagination}
-                        onSearch={handleSearch}
-                        searchValue={search}
+                        onSearch={setSearchInput}
+                        searchValue={searchInput}
                         searchPlaceholder="Cari nama, alamat, kota, atau mitra..."
                         sorting={sorting}
                         onSortingChange={setSorting}
                         isFetching={isFetching && !isLoading}
-                        hasActiveFilters={Boolean(status)}
-                        onResetFilters={handleResetFilters}
+                        hasActiveFilters={hasActiveFilters}
+                        activeFilterChips={chips}
+                        onResetFilters={resetAll}
+                        columnLabels={VENUE_COLUMN_LABELS}
                         filters={
-                            <Select
-                                value={status || "ALL"}
-                                onValueChange={(val) => {
-                                    setStatus(
-                                        val === "ALL"
-                                            ? undefined
-                                            : (val as VenueQuerySchema["status"])
-                                    );
-                                    setPagination((prev) => ({
-                                        ...prev,
-                                        pageIndex: 0,
-                                    }));
-                                }}
-                            >
-                                <SelectTrigger className="h-9 w-[180px]">
-                                    <SelectValue placeholder="Filter Status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="ALL">
-                                        Semua Status
-                                    </SelectItem>
-                                    <SelectItem value="DRAFT">Draf</SelectItem>
-                                    <SelectItem value="PENDING">
-                                        Menunggu Verifikasi
-                                    </SelectItem>
-                                    <SelectItem value="APPROVED">
-                                        Disetujui
-                                    </SelectItem>
-                                    <SelectItem value="REJECTED">
-                                        Ditolak
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <DataTableFacetedFilter
+                                title="Status"
+                                options={VENUE_STATUS_OPTIONS}
+                                values={filters.status}
+                                onChange={(vals) => setFilter("status", vals)}
+                            />
                         }
                     />
                 </CardContent>
             </Card>
         </AdminPageWrapper>
+    );
+}
+
+/**
+ * Admin Venues Page.
+ */
+export default function VenuesAndFieldsPage() {
+    return (
+        <Suspense fallback={<FullScreenLoader />}>
+            <AdminVenuesContent />
+        </Suspense>
     );
 }

@@ -2,7 +2,7 @@ import { api } from "@/lib/api";
 import { UserFormSchema, UserQuerySchema } from "@fieldmax/shared";
 
 const UserService = {
-    getAllUsers: async (params?: UserQuerySchema) => {
+    getAllUsers: async (params?: UserQuerySchema | Record<string, any>) => {
         const response = await api.get("/users", { params });
         return response.data;
     },

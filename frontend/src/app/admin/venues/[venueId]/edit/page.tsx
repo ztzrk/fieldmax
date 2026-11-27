@@ -23,16 +23,14 @@ import { VenueActions } from "./components/VenueActions";
 import { PageHeader } from "@/app/admin/components/PageHeader";
 import { VenueFormSchema } from "@/lib/schema/venue.schema";
 import { DataTable } from "@/components/shared/DataTable";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { columns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+    FIELD_COLUMN_LABELS,
+    FIELD_STATUS_OPTIONS,
+} from "@/lib/table-filter-options";
 
 /**
  * Admin Venue Edit Page.
@@ -44,7 +42,7 @@ export default function EditVenuePage() {
         pageSize: 10,
     });
     const [fieldSearch, setFieldSearch] = useState("");
-    const [fieldStatus, setFieldStatus] = useState<string>("ALL");
+    const [fieldStatuses, setFieldStatuses] = useState<string[]>([]);
 
     const params = useParams();
     const venueId = Array.isArray(params.venueId)
@@ -94,7 +92,8 @@ export default function EditVenuePage() {
                 .toLowerCase()
                 .includes(fieldSearch.toLowerCase());
         const matchesStatus =
-            fieldStatus === "ALL" || field.status === fieldStatus;
+            fieldStatuses.length === 0 ||
+            (field.status ? fieldStatuses.includes(field.status) : false);
         return matchesSearch && matchesStatus;
     });
     const pageCount = Math.ceil(filteredFields.length / pageSize);
@@ -102,6 +101,16 @@ export default function EditVenuePage() {
         pageIndex * pageSize,
         (pageIndex + 1) * pageSize
     );
+    const statusChips = fieldStatuses.map((val) => ({
+        key: `status:${val}`,
+        label: "Status",
+        valueLabel:
+            FIELD_STATUS_OPTIONS.find((o) => o.value === val)?.label || val,
+        onRemove: () => {
+            setFieldStatuses((prev) => prev.filter((item) => item !== val));
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+        },
+    }));
 
     return (
         <div className="space-y-8">
@@ -186,41 +195,27 @@ export default function EditVenuePage() {
                         }}
                         searchValue={fieldSearch}
                         searchPlaceholder="Cari nama atau cabang olahraga..."
-                        hasActiveFilters={fieldStatus !== "ALL"}
+                        hasActiveFilters={fieldStatuses.length > 0}
+                        activeFilterChips={statusChips}
+                        columnLabels={FIELD_COLUMN_LABELS}
                         onResetFilters={() => {
                             setFieldSearch("");
-                            setFieldStatus("ALL");
+                            setFieldStatuses([]);
                             setPagination((prev) => ({ ...prev, pageIndex: 0 }));
                         }}
                         filters={
-                            <Select
-                                value={fieldStatus}
-                                onValueChange={(val) => {
-                                    setFieldStatus(val);
+                            <DataTableFacetedFilter
+                                title="Status"
+                                options={FIELD_STATUS_OPTIONS}
+                                values={fieldStatuses}
+                                onChange={(vals) => {
+                                    setFieldStatuses(vals);
                                     setPagination((prev) => ({
                                         ...prev,
                                         pageIndex: 0,
                                     }));
                                 }}
-                            >
-                                <SelectTrigger className="h-9 w-[180px]">
-                                    <SelectValue placeholder="Filter Status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="ALL">
-                                        Semua Status
-                                    </SelectItem>
-                                    <SelectItem value="PENDING">
-                                        Menunggu Verifikasi
-                                    </SelectItem>
-                                    <SelectItem value="APPROVED">
-                                        Disetujui
-                                    </SelectItem>
-                                    <SelectItem value="REJECTED">
-                                        Ditolak
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+                            />
                         }
                     />
                 </CardContent>

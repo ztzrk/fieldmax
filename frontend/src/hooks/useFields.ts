@@ -14,18 +14,22 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
+import { toCsvParam } from "@/lib/utils";
 
 export function useGetPublicFields(
     page: number,
     limit: number,
     search?: string,
-    isClosed?: boolean,
-    sportTypeId?: string,
+    isClosed?: boolean | string | string[],
+    sportTypeId?: string | string[],
     sortBy?: string,
     sortOrder?: "asc" | "desc",
     minPrice?: number,
     maxPrice?: number
 ) {
+    const isClosedParam = toCsvParam(isClosed);
+    const sportTypeIdParam = toCsvParam(sportTypeId);
+
     return useQuery({
         queryKey: [
             "public-fields",
@@ -33,8 +37,8 @@ export function useGetPublicFields(
                 page,
                 limit,
                 search,
-                isClosed,
-                sportTypeId,
+                isClosed: isClosedParam,
+                sportTypeId: sportTypeIdParam,
                 sortBy,
                 sortOrder,
                 minPrice,
@@ -47,8 +51,8 @@ export function useGetPublicFields(
                 limit,
                 search,
                 status: "APPROVED",
-                isClosed,
-                sportTypeId,
+                isClosed: isClosedParam,
+                sportTypeId: sportTypeIdParam,
                 sortBy,
                 sortOrder,
                 minPrice,
@@ -64,22 +68,26 @@ export function useGetAllFields(
     page: number,
     limit: number,
     search?: string,
-    status?: "PENDING" | "APPROVED" | "REJECTED",
-    isClosed?: boolean,
-    sportTypeId?: string,
+    status?: string | string[],
+    isClosed?: boolean | string | string[],
+    sportTypeId?: string | string[],
     sortBy?: string,
     sortOrder?: "asc" | "desc",
     minPrice?: number,
     maxPrice?: number
 ) {
+    const statusParam = toCsvParam(status);
+    const isClosedParam = toCsvParam(isClosed);
+    const sportTypeIdParam = toCsvParam(sportTypeId);
+
     return useQuery({
         queryKey: queryKeys.fields.list({
             page,
             limit,
             search,
-            status,
-            isClosed,
-            sportTypeId,
+            status: statusParam,
+            isClosed: isClosedParam,
+            sportTypeId: sportTypeIdParam,
             sortBy,
             sortOrder,
             minPrice,
@@ -90,9 +98,9 @@ export function useGetAllFields(
                 page,
                 limit,
                 search,
-                status,
-                isClosed,
-                sportTypeId,
+                status: statusParam,
+                isClosed: isClosedParam,
+                sportTypeId: sportTypeIdParam,
                 sortBy,
                 sortOrder,
                 minPrice,

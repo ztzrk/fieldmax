@@ -17,7 +17,7 @@ export class FieldsController {
 
     public getAllPublic = asyncHandler(async (req: Request, res: Response) => {
         const query = req.query as unknown as Pagination;
-        query.status = "APPROVED";
+        query.status = ["APPROVED"];
         const data = await this.service.findAll(query);
         sendSuccess(res, data.data, "Public fields retrieved", 200, data.meta);
     });
@@ -32,7 +32,7 @@ export class FieldsController {
             sendSuccess(res, data.data, "Fields retrieved", 200, data.meta);
         } else {
             if (!req.user || req.user.role === "USER") {
-                query.status = "APPROVED";
+                query.status = ["APPROVED"];
             }
             const data = await this.service.findAll(query);
             sendSuccess(res, data.data, "Fields retrieved", 200, data.meta);

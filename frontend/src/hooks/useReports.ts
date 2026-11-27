@@ -1,5 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    keepPreviousData,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
 import { queryKeys } from "@/lib/queryKeys";
+import { toCsvParam } from "@/lib/utils";
 import {
     reportsService,
     CreateReportData,
@@ -19,21 +25,22 @@ export function useGetAllReports(
     search?: string,
     sortBy?: string,
     sortOrder?: "asc" | "desc",
-    status?: string,
-    category?: string
+    status?: string | string[],
+    category?: string | string[]
 ) {
     const params = {
         page,
         limit,
         search: search || undefined,
-        status: status && status !== "ALL" ? status : undefined,
-        category: category && category !== "ALL" ? category : undefined,
+        status: toCsvParam(status),
+        category: toCsvParam(category),
         sortBy,
         sortOrder,
     };
     return useQuery({
         queryKey: queryKeys.reports.all(params),
         queryFn: () => reportsService.getAllReports(params),
+        placeholderData: keepPreviousData,
     });
 }
 

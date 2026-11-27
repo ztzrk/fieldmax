@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { fieldResponseSchema } from "./field.js";
+import { csvEnumArray } from "./pagination.js";
 
 export const BookingStatus = {
     PENDING: "PENDING",
@@ -45,10 +46,14 @@ export const bookingQuerySchema = z.object({
     cursor: z.string().optional(),
     take: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
-    status: z
-        .enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED", "NO_SHOW"])
-        .optional(),
-    paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]).optional(),
+    status: csvEnumArray([
+        "PENDING",
+        "CONFIRMED",
+        "CANCELLED",
+        "COMPLETED",
+        "NO_SHOW",
+    ]),
+    paymentStatus: csvEnumArray(["PENDING", "PAID", "EXPIRED", "FAILED"]),
     sortBy: z.string().optional(),
     sortOrder: z.enum(["asc", "desc"]).optional(),
 });

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { UserRole } from "./auth.js";
+import { csvBooleanArray, csvEnumArray } from "./pagination.js";
 
 export const createUserSchema = z.object({
     fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -68,8 +69,8 @@ export const userQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional(),
     limit: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
-    role: z.nativeEnum(UserRole).optional(),
-    isVerified: z.string().optional(),
+    role: csvEnumArray(["USER", "RENTER", "ADMIN"]),
+    isVerified: csvBooleanArray(),
     sortBy: z.string().optional(),
     sortOrder: z.enum(["asc", "desc"]).optional(),
 });

@@ -1,49 +1,54 @@
 "use client";
 
+import { Suspense, useMemo } from "react";
 import { useGetAllFields, useDeleteMultipleFields } from "@/hooks/useFields";
 import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTableQueryState } from "@/hooks/useTableQueryState";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
-import { SearchableFilterCombobox } from "@/components/shared/SearchableFilterCombobox";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { columns } from "./components/columns";
-import { PaginationState, SortingState } from "@tanstack/react-table";
-import { useState } from "react";
+import {
+    AVAILABILITY_OPTIONS,
+    FIELD_COLUMN_LABELS,
+    FIELD_STATUS_OPTIONS,
+} from "@/lib/table-filter-options";
 
-/**
- * Admin Fields Page.
- * Displays a list of all fields in the system.
- * Allows filtering, bulk deletion, and detailed view.
- */
-export default function AdminFieldsPage() {
-    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
+const FIELD_FILTER_KEYS = ["status", "isClosed", "sportTypeId"] as const;
+
+function AdminFieldsContent() {
+    const {
+        pagination,
+        setPagination,
+        sorting,
+        setSorting,
+        searchInput,
+        setSearchInput,
+        debouncedSearch,
+        filters,
+        setFilter,
+        resetAll,
+        hasActiveFilters,
+        buildChips,
+    } = useTableQueryState({
+        filterKeys: FIELD_FILTER_KEYS,
     });
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 400);
-    const [status, setStatus] = useState<"PENDING" | "APPROVED" | "REJECTED">();
-    const [isClosed, setIsClosed] = useState<boolean>();
-    const [sportTypeId, setSportTypeId] = useState<string>();
 
     const { data: sportTypes } = useGetAllSportTypesWithoutPagination();
+    const sportOptions = useMemo(
+        () => (sportTypes || []).map((st) => ({ value: st.id, label: st.name })),
+        [sportTypes]
+    );
+
     const { data, isLoading, isFetching, isError } = useGetAllFields(
-        pageIndex + 1,
-        pageSize,
+        pagination.pageIndex + 1,
+        pagination.pageSize,
         debouncedSearch || undefined,
-        status,
-        isClosed,
-        sportTypeId,
+        filters.status,
+        filters.isClosed,
+        filters.sportTypeId,
         sorting.length > 0 ? sorting[0].id : undefined,
         sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined
     );
@@ -54,19 +59,6 @@ export default function AdminFieldsPage() {
         deleteMultiple(selectedIds);
     };
 
-    const handleSearch = (val: string) => {
-        setSearch(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleResetFilters = () => {
-        setSearch("");
-        setStatus(undefined);
-        setIsClosed(undefined);
-        setSportTypeId(undefined);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
     if ((isLoading && !data) || isDeleting) return <FullScreenLoader />;
     if (isError || !data)
         return (
@@ -74,6 +66,12 @@ export default function AdminFieldsPage() {
                 Gagal memuat data lapangan.
             </div>
         );
+
+    const chips = buildChips({
+        status: { label: "Status", options: FIELD_STATUS_OPTIONS },
+        isClosed: { label: "Ketersediaan", options: AVAILABILITY_OPTIONS },
+        sportTypeId: { label: "Olahraga", options: sportOptions },
+    });
 
     return (
         <AdminPageWrapper
@@ -87,112 +85,46 @@ export default function AdminFieldsPage() {
                         data={data.data}
                         onDeleteSelected={handleDeleteSelected}
                         pageCount={data.meta.totalPages}
-                        pagination={{ pageIndex, pageSize }}
+                        pagination={pagination}
                         onPaginationChange={setPagination}
-                        onSearch={handleSearch}
-                        searchValue={search}
+                        onSearch={setSearchInput}
+                        searchValue={searchInput}
                         searchPlaceholder="Cari nama lapangan atau tempat..."
                         sorting={sorting}
                         onSortingChange={setSorting}
                         isFetching={isFetching && !isLoading}
-                        hasActiveFilters={Boolean(
-                            status ||
-                                isClosed !== undefined ||
-                                sportTypeId
-                        )}
-                        onResetFilters={handleResetFilters}
+                        hasActiveFilters={hasActiveFilters}
+                        activeFilterChips={chips}
+                        onResetFilters={resetAll}
+                        columnLabels={FIELD_COLUMN_LABELS}
                         filters={
                             <>
-                                <Select
-                                    value={status || "ALL"}
-                                    onValueChange={(val) => {
-                                        setStatus(
-                                            val === "ALL"
-                                                ? undefined
-                                                : (val as
-                                                      | "PENDING"
-                                                      | "APPROVED"
-                                                      | "REJECTED")
-                                        );
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                >
-                                    <SelectTrigger className="h-9 w-[170px]">
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Status
-                                        </SelectItem>
-                                        <SelectItem value="PENDING">
-                                            Menunggu Verifikasi
-                                        </SelectItem>
-                                        <SelectItem value="APPROVED">
-                                            Disetujui
-                                        </SelectItem>
-                                        <SelectItem value="REJECTED">
-                                            Ditolak
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-
-                                <Select
-                                    value={
-                                        isClosed === undefined
-                                            ? "ALL"
-                                            : isClosed
-                                            ? "true"
-                                            : "false"
+                                <DataTableFacetedFilter
+                                    title="Status"
+                                    options={FIELD_STATUS_OPTIONS}
+                                    values={filters.status}
+                                    onChange={(vals) =>
+                                        setFilter("status", vals)
                                     }
-                                    onValueChange={(val) => {
-                                        setIsClosed(
-                                            val === "ALL"
-                                                ? undefined
-                                                : val === "true"
-                                        );
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                >
-                                    <SelectTrigger className="h-9 w-[160px]">
-                                        <SelectValue placeholder="Ketersediaan" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Kondisi
-                                        </SelectItem>
-                                        <SelectItem value="false">
-                                            Buka
-                                        </SelectItem>
-                                        <SelectItem value="true">
-                                            Tutup
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-
-                                <SearchableFilterCombobox
-                                    options={(sportTypes || []).map((st) => ({
-                                        value: st.id,
-                                        label: st.name,
-                                    }))}
-                                    value={sportTypeId}
-                                    onChange={(val) => {
-                                        setSportTypeId(val);
-                                        setPagination((prev) => ({
-                                            ...prev,
-                                            pageIndex: 0,
-                                        }));
-                                    }}
-                                    allLabel="Semua Olahraga"
-                                    placeholder="Cabang Olahraga"
+                                />
+                                <DataTableFacetedFilter
+                                    title="Ketersediaan"
+                                    options={AVAILABILITY_OPTIONS}
+                                    values={filters.isClosed}
+                                    onChange={(vals) =>
+                                        setFilter("isClosed", vals)
+                                    }
+                                />
+                                <DataTableFacetedFilter
+                                    title="Olahraga"
+                                    options={sportOptions}
+                                    values={filters.sportTypeId}
+                                    onChange={(vals) =>
+                                        setFilter("sportTypeId", vals)
+                                    }
+                                    searchable
                                     searchPlaceholder="Cari cabang olahraga..."
                                     emptyText="Olahraga tidak ditemukan."
-                                    className="w-[190px]"
                                 />
                             </>
                         }
@@ -200,5 +132,16 @@ export default function AdminFieldsPage() {
                 </CardContent>
             </Card>
         </AdminPageWrapper>
+    );
+}
+
+/**
+ * Admin Fields Page.
+ */
+export default function AdminFieldsPage() {
+    return (
+        <Suspense fallback={<FullScreenLoader />}>
+            <AdminFieldsContent />
+        </Suspense>
     );
 }

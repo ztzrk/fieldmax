@@ -34,7 +34,7 @@ export const queryKeys = {
             limit: number;
             search?: string;
             status?: string;
-            isClosed?: boolean;
+            isClosed?: string | boolean;
             sportTypeId?: string;
             minPrice?: number;
             maxPrice?: number;

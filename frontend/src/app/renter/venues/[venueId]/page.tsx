@@ -18,7 +18,12 @@ import { CreateFieldButton } from "@/components/shared/fields/CreateFieldButton"
 import { RenterVenueActions } from "./components/RenterVenueActions";
 import { VenueFormSchema } from "@/lib/schema/venue.schema";
 import { DataTable } from "@/components/shared/DataTable";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { getRenterFieldColumns } from "./components/columns";
+import {
+    FIELD_COLUMN_LABELS,
+    FIELD_STATUS_OPTIONS,
+} from "@/lib/table-filter-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,13 +34,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import {
     ArrowLeft,
     Building2,
@@ -81,7 +79,7 @@ export default function EditVenuePage() {
         pageSize: 10,
     });
     const [fieldSearch, setFieldSearch] = useState("");
-    const [fieldStatus, setFieldStatus] = useState<string>("ALL");
+    const [fieldStatuses, setFieldStatuses] = useState<string[]>([]);
 
     const params = useParams();
     const venueId = Array.isArray(params.venueId)
@@ -131,7 +129,8 @@ export default function EditVenuePage() {
                 .toLowerCase()
                 .includes(fieldSearch.toLowerCase());
         const matchesStatus =
-            fieldStatus === "ALL" || field.status === fieldStatus;
+            fieldStatuses.length === 0 ||
+            (field.status ? fieldStatuses.includes(field.status) : false);
         return matchesSearch && matchesStatus;
     });
     const pageCount = Math.ceil(filteredFields.length / pageSize);
@@ -139,6 +138,16 @@ export default function EditVenuePage() {
         pageIndex * pageSize,
         (pageIndex + 1) * pageSize
     );
+    const statusChips = fieldStatuses.map((val) => ({
+        key: `status:${val}`,
+        label: "Status",
+        valueLabel:
+            FIELD_STATUS_OPTIONS.find((o) => o.value === val)?.label || val,
+        onRemove: () => {
+            setFieldStatuses((prev) => prev.filter((item) => item !== val));
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+        },
+    }));
     const statusBadge = VENUE_STATUS_BADGE[venue.status] ?? {
         label: venue.status,
         className: "",
@@ -324,44 +333,30 @@ export default function EditVenuePage() {
                                 }}
                                 searchValue={fieldSearch}
                                 searchPlaceholder="Cari nama atau cabang olahraga..."
-                                hasActiveFilters={fieldStatus !== "ALL"}
+                                hasActiveFilters={fieldStatuses.length > 0}
+                                activeFilterChips={statusChips}
+                                columnLabels={FIELD_COLUMN_LABELS}
                                 onResetFilters={() => {
                                     setFieldSearch("");
-                                    setFieldStatus("ALL");
+                                    setFieldStatuses([]);
                                     setPagination((prev) => ({
                                         ...prev,
                                         pageIndex: 0,
                                     }));
                                 }}
                                 filters={
-                                    <Select
-                                        value={fieldStatus}
-                                        onValueChange={(val) => {
-                                            setFieldStatus(val);
+                                    <DataTableFacetedFilter
+                                        title="Status"
+                                        options={FIELD_STATUS_OPTIONS}
+                                        values={fieldStatuses}
+                                        onChange={(vals) => {
+                                            setFieldStatuses(vals);
                                             setPagination((prev) => ({
                                                 ...prev,
                                                 pageIndex: 0,
                                             }));
                                         }}
-                                    >
-                                        <SelectTrigger className="h-9 w-[180px]">
-                                            <SelectValue placeholder="Filter Status" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="ALL">
-                                                Semua Status
-                                            </SelectItem>
-                                            <SelectItem value="PENDING">
-                                                Menunggu Verifikasi
-                                            </SelectItem>
-                                            <SelectItem value="APPROVED">
-                                                Disetujui
-                                            </SelectItem>
-                                            <SelectItem value="REJECTED">
-                                                Ditolak
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    />
                                 }
                             />
                         </CardContent>

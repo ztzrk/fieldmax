@@ -63,9 +63,9 @@ export class BookingsService {
         const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.BookingWhereInput = {
-            ...(status ? { status } : {}),
-            ...(paymentStatus
-                ? { payment: { is: { status: paymentStatus } } }
+            ...(status?.length ? { status: { in: status } } : {}),
+            ...(paymentStatus?.length
+                ? { payment: { is: { status: { in: paymentStatus } } } }
                 : {}),
             ...(search && {
                 OR: [

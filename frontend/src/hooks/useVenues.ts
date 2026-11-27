@@ -17,6 +17,7 @@ import {
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
 import { queryKeys } from "@/lib/queryKeys";
+import { toCsvParam } from "@/lib/utils";
 
 export function useGetAllVenues(
     page: number,
@@ -24,14 +25,16 @@ export function useGetAllVenues(
     search?: string,
     sortBy?: string,
     sortOrder?: "asc" | "desc",
-    status?: VenueQuerySchema["status"]
+    status?: string | string[]
 ) {
+    const statusParam = toCsvParam(status);
+
     return useQuery({
         queryKey: queryKeys.venues.list({
             page,
             limit,
             search,
-            status,
+            status: statusParam,
             sortBy,
             sortOrder,
         }),
@@ -40,7 +43,7 @@ export function useGetAllVenues(
                 page,
                 limit,
                 search,
-                status,
+                status: statusParam,
                 sortBy,
                 sortOrder,
             });

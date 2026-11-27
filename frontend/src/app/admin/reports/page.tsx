@@ -1,73 +1,80 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useMemo } from "react";
 import { useGetAllReports } from "@/hooks/useReports";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTableQueryState } from "@/hooks/useTableQueryState";
 import { DataTable } from "@/components/shared/DataTable";
+import { DataTableFacetedFilter } from "@/components/shared/DataTableFacetedFilter";
 import { columns } from "./components/columns";
-import { PaginationState, SortingState } from "@tanstack/react-table";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import {
     REPORT_CATEGORY_LABELS,
     REPORT_STATUS_LABELS,
 } from "@/app/reports/constants";
+import { REPORT_COLUMN_LABELS } from "@/lib/table-filter-options";
 
-export default function AdminReportsPage() {
-    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
+const REPORT_FILTER_KEYS = ["status", "category"] as const;
+
+function AdminReportsContent() {
+    const {
+        pagination,
+        setPagination,
+        sorting,
+        setSorting,
+        searchInput,
+        setSearchInput,
+        debouncedSearch,
+        filters,
+        setFilter,
+        resetAll,
+        hasActiveFilters,
+        buildChips,
+    } = useTableQueryState({
+        filterKeys: REPORT_FILTER_KEYS,
     });
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 400);
-    const [statusFilter, setStatusFilter] = useState("ALL");
-    const [categoryFilter, setCategoryFilter] = useState("ALL");
+
+    const statusOptions = useMemo(
+        () =>
+            (
+                Object.keys(REPORT_STATUS_LABELS) as Array<
+                    keyof typeof REPORT_STATUS_LABELS
+                >
+            ).map((key) => ({ value: key, label: REPORT_STATUS_LABELS[key] })),
+        []
+    );
+    const categoryOptions = useMemo(
+        () =>
+            (
+                Object.keys(REPORT_CATEGORY_LABELS) as Array<
+                    keyof typeof REPORT_CATEGORY_LABELS
+                >
+            ).map((key) => ({
+                value: key,
+                label: REPORT_CATEGORY_LABELS[key],
+            })),
+        []
+    );
 
     const { data, isLoading, isFetching, isError } = useGetAllReports(
-        pageIndex + 1,
-        pageSize,
+        pagination.pageIndex + 1,
+        pagination.pageSize,
         debouncedSearch || undefined,
         sorting.length > 0 ? sorting[0].id : undefined,
         sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
-        statusFilter,
-        categoryFilter
+        filters.status,
+        filters.category
     );
 
     if (isLoading && !data) return <FullScreenLoader />;
     if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
-
-    const handleSearch = (val: string) => {
-        setSearch(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleStatusChange = (val: string) => {
-        setStatusFilter(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleCategoryChange = (val: string) => {
-        setCategoryFilter(val);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
-
-    const handleResetFilters = () => {
-        setSearch("");
-        setStatusFilter("ALL");
-        setCategoryFilter("ALL");
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    };
+    const chips = buildChips({
+        status: { label: "Status", options: statusOptions },
+        category: { label: "Kategori", options: categoryOptions },
+    });
 
     return (
         <AdminPageWrapper
@@ -80,73 +87,49 @@ export default function AdminReportsPage() {
                         columns={columns}
                         data={data?.data || []}
                         pageCount={pageCount}
-                        pagination={{ pageIndex, pageSize }}
+                        pagination={pagination}
                         onPaginationChange={setPagination}
-                        onSearch={handleSearch}
-                        searchValue={search}
+                        onSearch={setSearchInput}
+                        searchValue={searchInput}
                         searchPlaceholder="Cari subjek, nama, atau email..."
                         sorting={sorting}
                         onSortingChange={setSorting}
                         isFetching={isFetching && !isLoading}
-                        hasActiveFilters={
-                            statusFilter !== "ALL" || categoryFilter !== "ALL"
-                        }
-                        onResetFilters={handleResetFilters}
+                        hasActiveFilters={hasActiveFilters}
+                        activeFilterChips={chips}
+                        onResetFilters={resetAll}
+                        columnLabels={REPORT_COLUMN_LABELS}
                         filters={
                             <>
-                                <Select
-                                    value={statusFilter}
-                                    onValueChange={handleStatusChange}
-                                >
-                                    <SelectTrigger className="h-9 w-[170px]">
-                                        <SelectValue placeholder="Semua Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Status
-                                        </SelectItem>
-                                        {(
-                                            Object.keys(
-                                                REPORT_STATUS_LABELS
-                                            ) as Array<
-                                                keyof typeof REPORT_STATUS_LABELS
-                                            >
-                                        ).map((key) => (
-                                            <SelectItem key={key} value={key}>
-                                                {REPORT_STATUS_LABELS[key]}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <Select
-                                    value={categoryFilter}
-                                    onValueChange={handleCategoryChange}
-                                >
-                                    <SelectTrigger className="h-9 w-[190px]">
-                                        <SelectValue placeholder="Semua Kategori" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Kategori
-                                        </SelectItem>
-                                        {(
-                                            Object.keys(
-                                                REPORT_CATEGORY_LABELS
-                                            ) as Array<
-                                                keyof typeof REPORT_CATEGORY_LABELS
-                                            >
-                                        ).map((key) => (
-                                            <SelectItem key={key} value={key}>
-                                                {REPORT_CATEGORY_LABELS[key]}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <DataTableFacetedFilter
+                                    title="Status"
+                                    options={statusOptions}
+                                    values={filters.status}
+                                    onChange={(vals) =>
+                                        setFilter("status", vals)
+                                    }
+                                />
+                                <DataTableFacetedFilter
+                                    title="Kategori"
+                                    options={categoryOptions}
+                                    values={filters.category}
+                                    onChange={(vals) =>
+                                        setFilter("category", vals)
+                                    }
+                                />
                             </>
                         }
                     />
                 </CardContent>
             </Card>
         </AdminPageWrapper>
+    );
+}
+
+export default function AdminReportsPage() {
+    return (
+        <Suspense fallback={<FullScreenLoader />}>
+            <AdminReportsContent />
+        </Suspense>
     );
 }

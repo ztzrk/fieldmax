@@ -39,9 +39,9 @@ export class UserService {
                       ],
                   }
                 : {}),
-            ...(role ? { role: role } : {}),
-            ...(query.isVerified !== undefined
-                ? { isVerified: query.isVerified }
+            ...(role?.length ? { role: { in: role } } : {}),
+            ...(query.isVerified?.length === 1
+                ? { isVerified: query.isVerified[0] }
                 : {}),
         };
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { csvEnumArray, csvStringArray } from "./pagination.js";
 
 export const venueScheduleSchema = z.object({
     id: z.string().uuid().optional(),
@@ -72,10 +73,10 @@ export const venueQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional(),
     limit: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
-    sportTypeId: z.string().optional(),
+    sportTypeId: csvStringArray(),
     sortBy: z.string().optional(),
     sortOrder: z.enum(["asc", "desc"]).optional(),
-    status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]).optional(),
+    status: csvEnumArray(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
 });
 
 export type VenueQuerySchema = z.infer<typeof venueQuerySchema>;

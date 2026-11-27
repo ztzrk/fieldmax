@@ -13,7 +13,7 @@ const BookingService = {
         const response = await api.get(`/bookings/${id}`);
         return response.data;
     },
-    getAll: async (params?: BookingQuerySchema) => {
+    getAll: async (params?: BookingQuerySchema | Record<string, any>) => {
         const response = await api.get("/bookings", { params });
         return response.data;
     },

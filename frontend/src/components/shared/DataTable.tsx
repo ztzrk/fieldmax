@@ -9,10 +9,13 @@ import {
     getSortedRowModel,
     SortingState,
     RowSelectionState,
+    VisibilityState,
     getPaginationRowModel,
     PaginationState,
     OnChangeFn,
 } from "@tanstack/react-table";
+import { DataTableViewOptions } from "@/components/shared/DataTableViewOptions";
+import { Badge } from "@/components/ui/badge";
 import {
     Table,
     TableBody,
@@ -97,6 +100,13 @@ export function SortableHeader<TData, TValue>({
     );
 }
 
+export interface ActiveFilterChip {
+    key: string;
+    label: string;
+    valueLabel: string;
+    onRemove: () => void;
+}
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -108,16 +118,19 @@ interface DataTableProps<TData, TValue> {
     searchValue?: string;
     searchPlaceholder?: string;
     filters?: React.ReactNode;
+    activeFilterChips?: ActiveFilterChip[];
     hasActiveFilters?: boolean;
     onResetFilters?: () => void;
     isFetching?: boolean;
+    showViewOptions?: boolean;
+    columnLabels?: Record<string, string>;
 }
 
 /**
  * DataTable Component
  *
  * Reusable table component built on Tanstack Table.
- * Supports sorting, pagination, row selection, filters, and bulk deletion.
+ * Supports sorting, pagination, row selection, filters, column visibility, and bulk deletion.
  */
 export function DataTable<TData, TValue>({
     columns,
@@ -130,9 +143,12 @@ export function DataTable<TData, TValue>({
     searchValue,
     searchPlaceholder = "Cari data...",
     filters,
+    activeFilterChips = [],
     hasActiveFilters = false,
     onResetFilters,
     isFetching = false,
+    showViewOptions = true,
+    columnLabels,
     sorting,
     onSortingChange,
 }: DataTableProps<TData, TValue> & {
@@ -141,6 +157,8 @@ export function DataTable<TData, TValue>({
 }) {
     const [internalSorting, setInternalSorting] = useState<SortingState>([]);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+    const [columnVisibility, setColumnVisibility] =
+        useState<VisibilityState>({});
 
     const table = useReactTable({
         data,
@@ -149,6 +167,7 @@ export function DataTable<TData, TValue>({
         onSortingChange: onSortingChange || setInternalSorting,
         getSortedRowModel: getSortedRowModel(),
         onRowSelectionChange: setRowSelection,
+        onColumnVisibilityChange: setColumnVisibility,
         getPaginationRowModel: getPaginationRowModel(),
         pageCount,
         onPaginationChange: (updater) => {
@@ -161,6 +180,7 @@ export function DataTable<TData, TValue>({
         state: {
             sorting: onSortingChange ? sorting : internalSorting,
             rowSelection,
+            columnVisibility,
             pagination,
         },
     });
@@ -176,12 +196,15 @@ export function DataTable<TData, TValue>({
         }
     };
 
+    const effectiveHasActiveFilters =
+        hasActiveFilters || activeFilterChips.length > 0;
     const showResetButton =
-        Boolean(onResetFilters) && (hasActiveFilters || Boolean(searchValue));
+        Boolean(onResetFilters) &&
+        (effectiveHasActiveFilters || Boolean(searchValue));
 
     return (
         <div className="w-full min-w-0">
-            <div className="flex flex-col gap-3 pb-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-3 pb-3 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex flex-1 flex-wrap items-center gap-2">
                     {onSearch && (
                         <div className="relative w-full sm:w-64 lg:w-72">
@@ -224,7 +247,7 @@ export function DataTable<TData, TValue>({
                     )}
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-end gap-2">
                     {isFetching && (
                         <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                             <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -246,8 +269,40 @@ export function DataTable<TData, TValue>({
                             onConfirm={handleDelete}
                         />
                     )}
+                    {showViewOptions && (
+                        <DataTableViewOptions
+                            table={table}
+                            columnLabels={columnLabels}
+                        />
+                    )}
                 </div>
             </div>
+            {activeFilterChips.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5 pb-3">
+                    {activeFilterChips.map((chip) => (
+                        <Badge
+                            key={chip.key}
+                            variant="secondary"
+                            className="h-7 gap-1.5 rounded-md pl-2.5 pr-1.5 font-normal"
+                        >
+                            <span className="text-muted-foreground">
+                                {chip.label}:
+                            </span>
+                            <span className="font-medium text-foreground">
+                                {chip.valueLabel}
+                            </span>
+                            <button
+                                type="button"
+                                onClick={chip.onRemove}
+                                aria-label={`Hapus filter ${chip.label} ${chip.valueLabel}`}
+                                className="ml-0.5 rounded-sm p-0.5 text-muted-foreground hover:bg-muted-foreground/20 hover:text-foreground"
+                            >
+                                <X className="h-3 w-3" />
+                            </button>
+                        </Badge>
+                    ))}
+                </div>
+            )}
             <div
                 className={cn(
                     "rounded-md border overflow-x-auto w-full max-w-[calc(100vw-4rem)] md:max-w-full transition-opacity duration-150",

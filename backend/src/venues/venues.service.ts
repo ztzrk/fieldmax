@@ -75,7 +75,7 @@ export class VenuesService {
 
         const searchWhere = this.buildSearchWhere(search, true);
         const whereCondition: Prisma.VenueWhereInput = {
-            ...(status ? { status } : {}),
+            ...(status?.length ? { status: { in: status } } : {}),
             ...(searchWhere ?? {}),
         };
 
@@ -126,7 +126,7 @@ export class VenuesService {
         const searchWhere = this.buildSearchWhere(search, false);
         const whereCondition: Prisma.VenueWhereInput = {
             renterId: renterId,
-            ...(status ? { status } : {}),
+            ...(status?.length ? { status: { in: status } } : {}),
             ...(searchWhere ?? {}),
         };
 
@@ -175,11 +175,11 @@ export class VenuesService {
 
         const whereCondition: Prisma.VenueWhereInput = {
             status: "APPROVED",
-            ...(sportTypeId
+            ...(sportTypeId?.length
                 ? {
                       fields: {
                           some: {
-                              sportTypeId,
+                              sportTypeId: { in: sportTypeId },
                               status: "APPROVED",
                               isClosed: false,
                           },

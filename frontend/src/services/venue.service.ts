@@ -2,12 +2,12 @@ import { api } from "@/lib/api";
 import { VenueFormSchema, VenueQuerySchema } from "@fieldmax/shared";
 
 const VenueService = {
-    getAll: async (params?: VenueQuerySchema) => {
+    getAll: async (params?: VenueQuerySchema | Record<string, any>) => {
         const response = await api.get("/venues", { params });
         return response.data;
     },
 
-    getAllPublic: async (params?: VenueQuerySchema) => {
+    getAllPublic: async (params?: VenueQuerySchema | Record<string, any>) => {
         const response = await api.get("/venues/public", { params });
         return response.data;
     },
