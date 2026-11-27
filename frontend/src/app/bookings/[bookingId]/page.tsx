@@ -677,7 +677,7 @@ export default function BookingDetailPage({
                                     <span className="text-muted-foreground">
                                         Harga Sewa Lapangan
                                     </span>
-                                    <span className="font-medium">
+                                    <span className="font-medium tabular-nums">
                                         {formatPrice(booking.totalPrice)}
                                     </span>
                                 </div>
@@ -685,20 +685,20 @@ export default function BookingDetailPage({
                                     <span className="text-muted-foreground">
                                         Biaya Layanan
                                     </span>
-                                    <span className="font-medium text-emerald-600">
+                                    <span className="font-medium text-status-success">
                                         Gratis
                                     </span>
                                 </div>
                                 <Separator />
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold">Total</span>
-                                    <span className="text-2xl font-bold text-primary">
+                                    <span className="text-2xl font-bold text-primary tabular-nums">
                                         {formatPrice(booking.totalPrice)}
                                     </span>
                                 </div>
 
                                 {booking.status === "CONFIRMED" && (
-                                    <div className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs p-3.5 rounded-xl text-center border border-emerald-500/20 font-medium">
+                                    <div className="bg-status-success/10 text-status-success text-xs p-3.5 rounded-xl text-center border border-status-success/25 font-medium">
                                         Pembayaran terverifikasi. Tunjukkan
                                         tiket ini saat tiba di lokasi!
                                     </div>

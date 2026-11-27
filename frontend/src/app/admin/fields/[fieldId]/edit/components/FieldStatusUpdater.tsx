@@ -8,7 +8,10 @@ import {
 } from "@/hooks/useFields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+    APPROVAL_STATUS_META,
+    StatusBadge as SharedStatusBadge,
+} from "@/components/shared/StatusBadge";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -33,31 +36,8 @@ function StatusBadge({
 }: {
     status: "PENDING" | "APPROVED" | "REJECTED";
 }) {
-    const statusMap = {
-        PENDING: {
-            label: "Menunggu Verifikasi",
-            className:
-                "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300",
-        },
-        APPROVED: {
-            label: "Disetujui",
-            className:
-                "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300",
-        },
-        REJECTED: {
-            label: "Ditolak",
-            className:
-                "border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300",
-        },
-    } as const;
-
-    const current = statusMap[status];
-
-    return (
-        <Badge variant="outline" className={current.className}>
-            {current.label}
-        </Badge>
-    );
+    const current = APPROVAL_STATUS_META[status];
+    return <SharedStatusBadge label={current.label} tone={current.tone} />;
 }
 
 /**

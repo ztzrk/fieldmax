@@ -51,16 +51,16 @@ export default function AdminBookingDetailPage({
         switch (status) {
             case "CONFIRMED":
             case "PAID":
-                return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
+                return "border-status-success/25 bg-status-success/10 text-status-success";
             case "PENDING":
-                return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
+                return "border-status-warning/25 bg-status-warning/10 text-status-warning";
             case "CANCELLED":
             case "FAILED":
-                return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+                return "border-destructive/25 bg-destructive/10 text-destructive";
             case "COMPLETED":
-                return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
+                return "border-status-info/25 bg-status-info/10 text-status-info";
             default:
-                return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400";
+                return "border-border bg-muted text-muted-foreground";
         }
     };
 
@@ -106,7 +106,7 @@ export default function AdminBookingDetailPage({
                             <p className="text-sm text-muted-foreground mb-1">
                                 Total Amount
                             </p>
-                            <p className="text-2xl font-bold text-primary">
+                            <p className="text-2xl font-bold text-primary tabular-nums">
                                 {formatPrice(booking.totalPrice)}
                             </p>
                         </div>
@@ -119,10 +119,10 @@ export default function AdminBookingDetailPage({
                                 <div
                                     className={`p-2 rounded-full ${
                                         booking.status === "CONFIRMED"
-                                            ? "bg-green-100 text-green-600"
+                                            ? "bg-status-success/10 text-status-success"
                                             : booking.status === "PENDING"
-                                            ? "bg-yellow-100 text-yellow-600"
-                                            : "bg-red-100 text-red-600"
+                                            ? "bg-status-warning/10 text-status-warning"
+                                            : "bg-destructive/10 text-destructive"
                                     }`}
                                 >
                                     {booking.status === "CONFIRMED" ? (

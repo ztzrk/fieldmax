@@ -31,7 +31,7 @@ export function FieldBookingSidebar({
                             Harga sewa
                         </p>
                         <div className="flex items-baseline gap-1.5">
-                            <span className="text-3xl font-bold tracking-tight text-primary">
+                            <span className="text-3xl font-bold tracking-tight text-primary tabular-nums">
                                 {formatPrice(pricePerHour)}
                             </span>
                             <span className="text-sm text-muted-foreground">
@@ -47,7 +47,7 @@ export function FieldBookingSidebar({
                                 Lapangan ini sedang ditutup sementara.
                             </div>
                         ) : (
-                            <div className="p-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl text-sm font-medium text-center border border-emerald-500/20">
+                            <div className="p-3 bg-status-success/10 text-status-success rounded-xl text-sm font-medium text-center border border-status-success/25">
                                 Tersedia untuk dipesan
                             </div>
                         )}
@@ -76,7 +76,7 @@ export function FieldBookingSidebar({
                     )}
 
                     <div className="pt-2 border-t border-border/60 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                        <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        <ShieldCheck className="h-4 w-4 text-status-success" />
                         <span>Pemesanan &amp; Pembayaran Aman</span>
                     </div>
                 </CardContent>

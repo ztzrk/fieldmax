@@ -53,8 +53,8 @@ export function FieldCard({ field, priority = false }: FieldCardProps) {
 
                     {/* Status Indicator */}
                     {!field.isClosed && (
-                        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 backdrop-blur-md border border-emerald-500/20 text-xs font-medium text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 group-hover:bg-white animate-pulse" />
+                        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur-md border border-status-success/30 text-xs font-medium text-status-success shadow-xs">
+                            <div className="w-1.5 h-1.5 rounded-full bg-status-success animate-pulse motion-reduce:animate-none" />
                             Tersedia
                         </div>
                     )}

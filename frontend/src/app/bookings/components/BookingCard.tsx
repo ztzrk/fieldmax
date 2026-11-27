@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { BookingResponseSchema } from "@/lib/schema/booking.schema";
 import { formatTime, cn } from "@/lib/utils";
 import { StarRating } from "@/components/reviews/StarRating";
+import {
+    STATUS_DOT_STYLES,
+    STATUS_TONE_STYLES,
+} from "@/components/shared/StatusBadge";
 
 interface BookingCardProps {
     booking: BookingResponseSchema;
@@ -21,59 +25,51 @@ const STATUS_CONFIG: Record<
 > = {
     PAID: {
         label: "Lunas",
-        badgeClass:
-            "bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:text-emerald-400",
-        dotClass: "bg-emerald-500",
-        stubAccent: "from-emerald-500/10 via-primary/5 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.success,
+        dotClass: STATUS_DOT_STYLES.success,
+        stubAccent: "from-status-success/10 via-primary/5 to-transparent",
     },
     CONFIRMED: {
         label: "Dikonfirmasi",
-        badgeClass:
-            "bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:text-emerald-400",
-        dotClass: "bg-emerald-500",
-        stubAccent: "from-emerald-500/10 via-primary/5 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.success,
+        dotClass: STATUS_DOT_STYLES.success,
+        stubAccent: "from-status-success/10 via-primary/5 to-transparent",
     },
     PENDING: {
         label: "Menunggu Pembayaran",
-        badgeClass:
-            "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:text-amber-400",
-        dotClass: "bg-amber-500 animate-pulse",
-        stubAccent: "from-amber-500/10 via-amber-500/5 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.warning,
+        dotClass: `${STATUS_DOT_STYLES.warning} animate-pulse motion-reduce:animate-none`,
+        stubAccent: "from-status-warning/10 via-status-warning/5 to-transparent",
     },
     COMPLETED: {
         label: "Selesai",
-        badgeClass:
-            "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400",
-        dotClass: "bg-blue-500",
-        stubAccent: "from-blue-500/10 via-muted/40 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.info,
+        dotClass: STATUS_DOT_STYLES.info,
+        stubAccent: "from-status-info/10 via-muted/40 to-transparent",
     },
     CANCELLED: {
         label: "Dibatalkan",
-        badgeClass:
-            "bg-red-500/10 text-red-600 border-red-500/20 dark:text-red-400",
-        dotClass: "bg-red-500",
-        stubAccent: "from-red-500/10 via-muted/30 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.destructive,
+        dotClass: STATUS_DOT_STYLES.destructive,
+        stubAccent: "from-destructive/10 via-muted/30 to-transparent",
     },
     FAILED: {
         label: "Gagal",
-        badgeClass:
-            "bg-red-500/10 text-red-600 border-red-500/20 dark:text-red-400",
-        dotClass: "bg-red-500",
-        stubAccent: "from-red-500/10 via-muted/30 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.destructive,
+        dotClass: STATUS_DOT_STYLES.destructive,
+        stubAccent: "from-destructive/10 via-muted/30 to-transparent",
     },
     EXPIRED: {
         label: "Kedaluwarsa",
-        badgeClass:
-            "bg-zinc-500/10 text-zinc-600 border-zinc-500/20 dark:text-zinc-400",
-        dotClass: "bg-zinc-400",
+        badgeClass: STATUS_TONE_STYLES.neutral,
+        dotClass: STATUS_DOT_STYLES.neutral,
         stubAccent: "from-muted/50 to-transparent",
     },
     NO_SHOW: {
         label: "Tidak Hadir",
-        badgeClass:
-            "bg-zinc-500/10 text-zinc-600 border-zinc-500/20 dark:text-zinc-400",
-        dotClass: "bg-zinc-500",
-        stubAccent: "from-zinc-500/10 via-muted/30 to-transparent",
+        badgeClass: STATUS_TONE_STYLES.neutral,
+        dotClass: STATUS_DOT_STYLES.neutral,
+        stubAccent: "from-muted/50 to-transparent",
     },
 };
 

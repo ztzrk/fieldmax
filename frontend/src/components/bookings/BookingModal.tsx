@@ -384,7 +384,7 @@ export function BookingModal({
                                         Total
                                     </p>
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-3xl font-bold text-foreground tracking-tight">
+                                        <span className="text-3xl font-bold text-foreground tracking-tight tabular-nums">
                                             {formatPrice(totalPrice)}
                                         </span>
                                         <span className="text-sm text-muted-foreground/80 font-medium">
@@ -393,7 +393,7 @@ export function BookingModal({
                                     </div>
                                 </div>
                                 <div className="text-right relative">
-                                    <p className="text-xs text-muted-foreground mb-1">
+                                    <p className="text-xs text-muted-foreground mb-1 tabular-nums">
                                         {pricePerHour.toLocaleString()} / jam
                                     </p>
                                 </div>

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { STATUS_TONE_STYLES } from "@/components/shared/StatusBadge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, CalendarCheck } from "lucide-react";
@@ -44,23 +45,19 @@ const PAYMENT_STATUS_BADGE: Record<
 > = {
     PAID: {
         label: "Lunas",
-        className:
-            "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300",
+        className: STATUS_TONE_STYLES.success,
     },
     PENDING: {
         label: "Menunggu",
-        className:
-            "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300",
+        className: STATUS_TONE_STYLES.warning,
     },
     FAILED: {
         label: "Gagal",
-        className:
-            "border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300",
+        className: STATUS_TONE_STYLES.destructive,
     },
     EXPIRED: {
         label: "Kedaluwarsa",
-        className:
-            "border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300",
+        className: STATUS_TONE_STYLES.neutral,
     },
 };
 
@@ -142,7 +139,7 @@ export function RecentBookings({
                                                     </span>
                                                 </div>
                                             </TableCell>
-                                            <TableCell className="font-semibold text-sm">
+                                            <TableCell className="font-semibold text-sm tabular-nums">
                                                 {formatCurrency(
                                                     booking.totalPrice
                                                 )}
