@@ -5,6 +5,7 @@ import { useGetAllSportTypesWithoutPagination } from "@/hooks/useSportTypes";
 import { useDebounce } from "@/hooks/useDebounce";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { DataTable } from "@/components/shared/DataTable";
+import { SearchableFilterCombobox } from "@/components/shared/SearchableFilterCombobox";
 import { AdminPageWrapper } from "@/components/shared/pages/AdminPageWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -174,35 +175,25 @@ export default function RenterFieldsPage() {
                                     </SelectContent>
                                 </Select>
 
-                                <Select
-                                    value={sportTypeId || "ALL"}
-                                    onValueChange={(val) => {
-                                        setSportTypeId(
-                                            val === "ALL" ? undefined : val
-                                        );
+                                <SearchableFilterCombobox
+                                    options={(sportTypes || []).map((st) => ({
+                                        value: st.id,
+                                        label: st.name,
+                                    }))}
+                                    value={sportTypeId}
+                                    onChange={(val) => {
+                                        setSportTypeId(val);
                                         setPagination((prev) => ({
                                             ...prev,
                                             pageIndex: 0,
                                         }));
                                     }}
-                                >
-                                    <SelectTrigger className="h-9 w-[170px]">
-                                        <SelectValue placeholder="Cabang Olahraga" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ALL">
-                                            Semua Olahraga
-                                        </SelectItem>
-                                        {sportTypes?.map((st) => (
-                                            <SelectItem
-                                                key={st.id}
-                                                value={st.id}
-                                            >
-                                                {st.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                    allLabel="Semua Olahraga"
+                                    placeholder="Cabang Olahraga"
+                                    searchPlaceholder="Cari cabang olahraga..."
+                                    emptyText="Olahraga tidak ditemukan."
+                                    className="w-[190px]"
+                                />
                             </>
                         }
                     />
