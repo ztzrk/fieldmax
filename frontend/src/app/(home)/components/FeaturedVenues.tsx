@@ -58,15 +58,8 @@ export function FeaturedVenues({ venues }: FeaturedVenuesProps) {
                                     key={venue.id}
                                     className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                                 >
-                                    <div className="relative h-full p-2">
+                                    <div className="h-full p-2">
                                         <VenueCard venue={venue} />
-                                        {venue.bookingCount !== undefined &&
-                                            venue.bookingCount > 0 && (
-                                                <div className="absolute top-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm z-10 pointer-events-none">
-                                                    {venue.bookingCount}{" "}
-                                                    Pesanan
-                                                </div>
-                                            )}
                                     </div>
                                 </CarouselItem>
                             ))}

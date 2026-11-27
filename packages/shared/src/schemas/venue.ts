@@ -138,6 +138,14 @@ export const venueDetailResponseSchema = z.object({
     description: z.string().nullable().optional(),
     status: z.enum(["DRAFT", "PENDING", "APPROVED", "REJECTED"]),
     rejectionReason: z.string().nullable().optional(),
+    renterId: z.string().uuid().optional(),
+    renter: z
+        .object({
+            fullName: z.string(),
+            email: z.string().optional(),
+        })
+        .nullable()
+        .optional(),
     photos: z.array(venuePhotoSchema).optional().default([]),
     schedules: z.array(venueScheduleResponseSchema).optional().default([]),
     fields: z.array(fieldNestedResponseSchema).optional().default([]),

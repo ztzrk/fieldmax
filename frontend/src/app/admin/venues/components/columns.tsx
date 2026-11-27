@@ -14,10 +14,13 @@ import { Dialog } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useDeleteVenue } from "@/hooks/useVenues";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { VenueResponseSchema } from "@/lib/schema/venue.schema";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+    APPROVAL_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 
 /**
  * Component for rendering action buttons (View/Edit Details, Delete) for a venue row.
@@ -31,6 +34,7 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Buka menu aksi</span>
                         <MoreHorizontal className="h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>
@@ -45,7 +49,7 @@ const ActionsCell = ({ venue }: { venue: VenueResponseSchema }) => {
                     <ConfirmationDialog
                         trigger={
                             <DropdownMenuItem
-                                className="text-red-500"
+                                className="text-destructive"
                                 onSelect={(e) => e.preventDefault()}
                             >
                                 Hapus
@@ -116,7 +120,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Name
+                Nama
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -130,7 +134,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Address
+                Alamat
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -152,7 +156,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                District
+                Kecamatan
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -166,7 +170,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                City
+                Kota
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -180,7 +184,7 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Renter
+                Mitra
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -203,26 +207,28 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;
+            const rejectionReason = row.original.rejectionReason;
+            const meta = APPROVAL_STATUS_META[status] ?? {
+                label: status,
+                tone: "neutral" as const,
+            };
             return (
-                <div className="flex justify-center">
-                    <Badge
-                        variant={
-                            status === "APPROVED"
-                                ? "default"
-                                : status === "REJECTED"
-                                ? "destructive"
-                                : "secondary"
-                        }
-                    >
-                        {status}
-                    </Badge>
+                <div
+                    className="flex justify-center"
+                    title={
+                        status === "REJECTED" && rejectionReason
+                            ? rejectionReason
+                            : undefined
+                    }
+                >
+                    <StatusBadge label={meta.label} tone={meta.tone} />
                 </div>
             );
         },
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         size: 80,
         cell: ({ row }) => (
             <div className="flex justify-center">

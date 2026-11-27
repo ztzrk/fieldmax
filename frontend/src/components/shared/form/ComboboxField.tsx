@@ -72,33 +72,38 @@ export function ComboboxField<T extends FieldValues>({
                                     variant="outline"
                                     role="combobox"
                                     className={cn(
-                                        "w-full justify-between font-normal",
+                                        "w-full justify-between font-normal min-w-0",
                                         !field.value && "text-muted-foreground"
                                     )}
                                     disabled={disabled}
                                 >
-                                    {field.value
-                                        ? options.find(
-                                              (option) =>
-                                                  option.value === field.value
-                                          )?.label
-                                        : placeholder || "Select option"}
+                                    <span className="truncate text-left">
+                                        {field.value
+                                            ? options.find(
+                                                  (option) =>
+                                                      option.value ===
+                                                      field.value
+                                              )?.label ||
+                                              placeholder ||
+                                              "Pilih opsi"
+                                            : placeholder || "Pilih opsi"}
+                                    </span>
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
                         <PopoverContent
-                            className="w-[--radix-popover-trigger-width] p-0"
+                            className="w-(--radix-popover-trigger-width) p-0"
                             align="start"
                         >
                             <Command>
                                 <CommandInput
-                                    placeholder={`Search ${label.toLowerCase()}...`}
+                                    placeholder={`Cari ${label.toLowerCase()}...`}
                                     onValueChange={onSearchChange}
                                 />
                                 <CommandList>
                                     <CommandEmpty>
-                                        No {label.toLowerCase()} found.
+                                        {label} tidak ditemukan.
                                     </CommandEmpty>
                                     <CommandGroup>
                                         {options.map((option) => (

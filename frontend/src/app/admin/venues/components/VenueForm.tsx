@@ -6,19 +6,23 @@ import {
     VenueFormSchema,
     venueSchema,
     VenueResponseSchema,
+    VenueDetailResponseSchema,
 } from "@/lib/schema/venue.schema";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/shared/form/InputField";
+import { TextareaField } from "@/components/shared/form/TextareaField";
 import { useAuth } from "@/context/AuthContext";
-import { formatTime } from "@/lib/utils";
 import { VenueScheduleForm } from "./VenueScheduleForm";
 import { ComboboxField } from "@/components/shared/form/ComboboxField";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useGetRenters } from "@/hooks/useUsers";
 
 interface VenueFormProps {
-    initialData?: Partial<VenueFormSchema> | (Partial<VenueResponseSchema> & { schedules?: any[] });
+    initialData?:
+        | Partial<VenueFormSchema>
+        | Partial<VenueDetailResponseSchema>
+        | (Partial<VenueResponseSchema> & { schedules?: any[] });
     onSubmit: (values: VenueFormSchema) => void;
     isPending: boolean;
 }
@@ -48,11 +52,30 @@ export function VenueForm({
     const [renterSearch, setRenterSearch] = useState("");
     const { data: rentersData } = useGetRenters(renterSearch);
 
-    const renters =
-        rentersData?.map((renter: any) => ({
-            label: `${renter.fullName} (${renter.email})`,
-            value: renter.id,
-        })) || [];
+    const renters = useMemo(() => {
+        const fetched =
+            rentersData?.map((renter: any) => ({
+                label: `${renter.fullName} (${renter.email})`,
+                value: renter.id,
+            })) || [];
+
+        const initialRenterId = initialData?.renterId;
+        const initialRenter =
+            initialData && "renter" in initialData ? initialData.renter : null;
+
+        if (
+            initialRenterId &&
+            initialRenter &&
+            !fetched.some((opt: any) => opt.value === initialRenterId)
+        ) {
+            const label = initialRenter.email
+                ? `${initialRenter.fullName} (${initialRenter.email})`
+                : initialRenter.fullName;
+            return [{ label, value: initialRenterId }, ...fetched];
+        }
+
+        return fetched;
+    }, [rentersData, initialData]);
 
     const formattedSchedules =
         initialData?.schedules?.map((s) => ({
@@ -127,11 +150,12 @@ export function VenueForm({
                     />
                 </div>
 
-                <InputField
+                <TextareaField
                     control={form.control}
                     name="description"
                     label="Deskripsi"
-                    placeholder="Deskripsi singkat tentang tempat olahraga"
+                    placeholder="Deskripsi singkat tentang tempat olahraga, fasilitas, dan keunggulannya"
+                    className="min-h-[100px]"
                 />
                 {isAdmin && (
                     <ComboboxField

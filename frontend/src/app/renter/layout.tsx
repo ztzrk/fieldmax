@@ -17,7 +17,7 @@ export default function RenterLayout({ children }: { children: ReactNode }) {
                 <SidebarProvider>
                     <RenterSidebar />
 
-                    <div className="flex flex-1 flex-col sm:border-l">
+                    <div className="flex flex-1 flex-col min-w-0 w-full overflow-x-hidden sm:border-l">
                         <Header />
                         <main className="flex-1 p-4 pt-6 md:p-8">
                             {children}

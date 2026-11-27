@@ -506,7 +506,7 @@ export default function RevenuePage() {
                                                             </span>
                                                         )}
                                                     </TableCell>
-                                                    <TableCell className="text-right font-semibold">
+                                                    <TableCell className="text-right font-semibold tabular-nums">
                                                         {formatCurrency(
                                                             tx.totalPrice
                                                         )}
@@ -643,16 +643,16 @@ export default function RevenuePage() {
                                                         </span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell className="tabular-nums">
                                                     {formatCurrency(
                                                         field.pricePerHour
                                                     )}
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell className="tabular-nums">
                                                     {field.bookingCount} pesanan
                                                 </TableCell>
                                                 <TableCell>
-                                                    <span className="inline-flex items-center gap-1 text-sm">
+                                                    <span className="inline-flex items-center gap-1 text-sm tabular-nums">
                                                         <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                                                         {field.averageRating > 0
                                                             ? `${field.averageRating} (${field.reviewCount})`
@@ -664,8 +664,8 @@ export default function RevenuePage() {
                                                         variant="outline"
                                                         className={
                                                             field.isClosed
-                                                                ? "border-red-200 bg-red-50 text-red-700"
-                                                                : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                                                                ? "border-destructive/25 bg-destructive/10 text-destructive"
+                                                                : "border-status-success/25 bg-status-success/10 text-status-success"
                                                         }
                                                     >
                                                         {field.isClosed
@@ -673,7 +673,7 @@ export default function RevenuePage() {
                                                             : "Aktif"}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="text-right font-semibold">
+                                                <TableCell className="text-right font-semibold tabular-nums">
                                                     {formatCurrency(
                                                         field.totalRevenue
                                                     )}

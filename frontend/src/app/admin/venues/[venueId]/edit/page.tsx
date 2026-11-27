@@ -64,8 +64,8 @@ export default function EditVenuePage() {
     if (isLoading || isDeleting) return <FullScreenLoader />;
     if (isError || !venue)
         return (
-            <p className="text-center text-red-500 py-10">
-                Error: Venue not found.
+            <p className="text-center text-destructive py-10">
+                Gagal memuat: Tempat olahraga tidak ditemukan.
             </p>
         );
 
@@ -83,7 +83,7 @@ export default function EditVenuePage() {
         <div className="space-y-8">
             <PageHeader
                 title={venue.name}
-                description="Update venue details, photos, and fields."
+                description="Perbarui detail tempat olahraga, foto, dan daftar lapangan."
             >
                 <VenueActions venue={venue} />
             </PageHeader>
@@ -92,7 +92,7 @@ export default function EditVenuePage() {
                 <div className="lg:col-span-2 space-y-8">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Venue Details</CardTitle>
+                            <CardTitle>Detail Tempat Olahraga</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <VenueForm
@@ -104,7 +104,7 @@ export default function EditVenuePage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Photo Gallery</CardTitle>
+                            <CardTitle>Galeri Foto</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <PhotoGallery
@@ -117,7 +117,7 @@ export default function EditVenuePage() {
                 <div className="space-y-8">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Add New Photos</CardTitle>
+                            <CardTitle>Tambah Foto Baru</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <ImageUploader
@@ -131,19 +131,19 @@ export default function EditVenuePage() {
 
             <Card>
                 <CardHeader>
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <CardTitle>Fields in this Venue</CardTitle>
+                            <CardTitle>Daftar Lapangan di Tempat Ini</CardTitle>
                             <CardDescription>
-                                Manage all fields for {venue.name}
+                                Kelola seluruh lapangan untuk {venue.name}
                             </CardDescription>
                         </div>
                         {venue.status === "APPROVED" ? (
                             <CreateFieldButton venueId={venueId} />
                         ) : (
                             <p className="text-sm text-muted-foreground">
-                                This venue must be approved before you can add
-                                fields.
+                                Tempat olahraga harus disetujui terlebih dahulu
+                                sebelum menambahkan lapangan.
                             </p>
                         )}
                     </div>

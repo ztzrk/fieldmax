@@ -10,27 +10,14 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { formatDate, formatTime } from "@/lib/utils";
+import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import { useCheckInBooking } from "@/hooks/useBookings";
 import { BookingResponseSchema } from "@/lib/schema/booking.schema";
-
-const getStatusVariant = (status: string) => {
-    switch (status) {
-        case "CONFIRMED":
-        case "PAID":
-            return "default";
-        case "PENDING":
-            return "secondary";
-        case "CANCELLED":
-        case "FAILED":
-            return "destructive";
-        case "COMPLETED":
-            return "outline";
-        default:
-            return "secondary";
-    }
-};
+import {
+    BOOKING_STATUS_META,
+    PAYMENT_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 
 const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
     const { mutate: checkIn } = useCheckInBooking();
@@ -39,6 +26,7 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Buka menu aksi</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
@@ -111,7 +99,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
             return (
                 <div className="flex flex-col">
                     <span className="font-medium">
-                        {user?.fullName || "Guest"}
+                        {user?.fullName || "Tamu"}
                     </span>
                     <span className="text-xs text-muted-foreground">
                         {user?.email || ""}
@@ -130,8 +118,8 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
             return (
                 <div className="flex flex-col">
                     <span>{formatDate(bookingDate)}</span>
-                    <span className="text-xs text-muted-foreground">
-                        {formatTime(startTime)} - {formatTime(endTime)}
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                        {formatTime(startTime)} – {formatTime(endTime)}
                     </span>
                 </div>
             );
@@ -142,7 +130,11 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         header: "Status",
         cell: ({ row }) => {
             const status = row.getValue("status") as string;
-            return <Badge variant={getStatusVariant(status)}>{status}</Badge>;
+            const meta = BOOKING_STATUS_META[status] ?? {
+                label: status || "-",
+                tone: "neutral" as const,
+            };
+            return <StatusBadge label={meta.label} tone={meta.tone} />;
         },
     },
     {
@@ -151,44 +143,46 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         cell: ({ row }) => {
             const { status, checkedInAt } = row.original;
             if (checkedInAt) {
+                const formatted = formatTime(checkedInAt);
                 return (
-                    <Badge variant="default" className="bg-emerald-600">
-                        Hadir (
-                        {new Date(checkedInAt).toLocaleTimeString("id-ID", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        })}
-                        )
-                    </Badge>
+                    <StatusBadge
+                        label={`Hadir (${formatted})`}
+                        tone="success"
+                    />
                 );
             }
             if (status === "NO_SHOW") {
-                return <Badge variant="destructive">Tidak Hadir</Badge>;
+                return <StatusBadge label="Tidak Hadir" tone="destructive" />;
             }
-            return <Badge variant="outline">Belum Hadir</Badge>;
+            return <StatusBadge label="Belum Hadir" tone="neutral" />;
         },
     },
     {
-        accessorKey: "paymentStatus",
+        id: "paymentStatus",
+        accessorFn: (row) => row.payment?.status ?? row.paymentStatus,
         header: "Pembayaran",
         cell: ({ row }) => {
-            const status = row.getValue("paymentStatus") as string;
-            return <Badge variant={getStatusVariant(status)}>{status}</Badge>;
+            const paymentStatus =
+                row.original.payment?.status ?? row.original.paymentStatus;
+            const meta = paymentStatus
+                ? PAYMENT_STATUS_META[paymentStatus] ?? {
+                      label: paymentStatus,
+                      tone: "neutral" as const,
+                  }
+                : { label: "Belum Ada", tone: "neutral" as const };
+            return <StatusBadge label={meta.label} tone={meta.tone} />;
         },
     },
     {
         accessorKey: "totalPrice",
-        header: "Total",
+        header: () => <div className="text-right">Total</div>,
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("totalPrice"));
-            const formatted = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-            }).format(amount);
-
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="text-right font-medium tabular-nums">
+                    {formatPrice(amount)}
+                </div>
+            );
         },
     },
     // {

@@ -74,14 +74,16 @@ export function ReportAttachmentInput({
                     onClick={() => inputRef.current?.click()}
                     className={
                         compact
-                            ? "gap-2 text-muted-foreground"
-                            : "w-full gap-2 text-muted-foreground border-dashed"
+                            ? "gap-2 text-muted-foreground whitespace-normal h-auto min-h-8 py-1.5"
+                            : "w-full gap-2 text-muted-foreground border-dashed whitespace-normal h-auto min-h-10 py-2.5 px-3 text-center leading-snug"
                     }
                 >
-                    <ImagePlus className="h-4 w-4" />
-                    {compact
-                        ? "Lampirkan Gambar"
-                        : "Lampirkan Bukti Gambar (Opsional, maks. 5 MB)"}
+                    <ImagePlus className="h-4 w-4 shrink-0" />
+                    <span>
+                        {compact
+                            ? "Lampirkan Gambar"
+                            : "Lampirkan Bukti Gambar (Opsional, maks. 5 MB)"}
+                    </span>
                 </Button>
             ) : (
                 <div className="flex items-center gap-3 p-2.5 rounded-lg border border-border bg-muted/40">

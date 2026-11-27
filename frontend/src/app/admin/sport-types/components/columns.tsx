@@ -40,6 +40,7 @@ const ActionsCell = ({ sportType }: { sportType: SportType }) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Buka menu aksi</span>
                         <MoreHorizontal className="h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>
@@ -51,7 +52,7 @@ const ActionsCell = ({ sportType }: { sportType: SportType }) => {
                     <ConfirmationDialog
                         trigger={
                             <DropdownMenuItem
-                                className="text-red-500"
+                                className="text-destructive"
                                 onSelect={(e) => e.preventDefault()}
                             >
                                 Hapus

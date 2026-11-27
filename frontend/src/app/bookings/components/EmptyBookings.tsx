@@ -8,17 +8,17 @@ export function EmptyBookings() {
             <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                 <Ticket className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">No bookings yet</h3>
+            <h3 className="text-xl font-semibold mb-2">Belum ada pemesanan</h3>
             <p className="text-muted-foreground max-w-sm mb-6">
-                You haven't made any bookings. Find your perfect field and start
-                playing today!
+                Anda belum memiliki riwayat pemesanan. Temukan lapangan terbaik
+                dan mulai bermain hari ini!
             </p>
             <Button
                 size="lg"
                 asChild
                 className="rounded-full px-8 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
             >
-                <Link href="/fields">Find a Field</Link>
+                <Link href="/fields">Cari Lapangan</Link>
             </Button>
         </div>
     );

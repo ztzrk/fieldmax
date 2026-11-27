@@ -10,12 +10,16 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { FieldResponseSchema } from "@/lib/schema/field.schema";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
+import { formatPrice } from "@/lib/utils";
+import {
+    APPROVAL_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 
 /**
  * Component for rendering action buttons (Edit, Delete) for a field row.
@@ -27,6 +31,7 @@ const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Buka menu aksi</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
@@ -40,7 +45,7 @@ const ActionsCell = ({ field }: { field: FieldResponseSchema }) => {
                 <ConfirmationDialog
                     trigger={
                         <DropdownMenuItem
-                            className="text-red-500"
+                            className="text-destructive"
                             onSelect={(e) => e.preventDefault()}
                         >
                             Hapus
@@ -108,7 +113,7 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Field Name
+                Nama Lapangan
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -122,7 +127,7 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Venue
+                Tempat Olahraga
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -136,7 +141,7 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Sport
+                Cabang Olahraga
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -151,21 +156,18 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Price / Hour
+                    Harga / Jam
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             </div>
         ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
-            const formatted = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-            }).format(amount);
-
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="text-right font-medium tabular-nums">
+                    {formatPrice(amount)}
+                </div>
+            );
         },
     },
     {
@@ -178,7 +180,7 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Availability
+                    Ketersediaan
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             </div>
@@ -187,9 +189,10 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
             const isClosed = row.getValue("isClosed");
             return (
                 <div className="flex justify-center">
-                    <Badge variant={isClosed ? "destructive" : "outline"}>
-                        {isClosed ? "Closed" : "Open"}
-                    </Badge>
+                    <StatusBadge
+                        label={isClosed ? "Tutup" : "Buka"}
+                        tone={isClosed ? "destructive" : "success"}
+                    />
                 </div>
             );
         },
@@ -212,22 +215,20 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;
+            const meta = APPROVAL_STATUS_META[status] ?? {
+                label: status,
+                tone: "neutral" as const,
+            };
             return (
                 <div className="flex justify-center">
-                    <Badge
-                        variant={
-                            status === "APPROVED" ? "default" : "secondary"
-                        }
-                    >
-                        {status}
-                    </Badge>
+                    <StatusBadge label={meta.label} tone={meta.tone} />
                 </div>
             );
         },
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell field={row.original} />

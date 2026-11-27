@@ -10,34 +10,21 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { formatDate, formatTime } from "@/lib/utils";
+import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import Link from "next/link";
-
+import {
+    BOOKING_STATUS_META,
+    PAYMENT_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 import { BookingResponseSchema } from "@/lib/schema/booking.schema";
-
-const getStatusVariant = (status: string) => {
-    switch (status) {
-        case "CONFIRMED":
-        case "PAID":
-            return "default";
-        case "PENDING":
-            return "secondary";
-        case "CANCELLED":
-        case "FAILED":
-            return "destructive";
-        case "COMPLETED":
-            return "outline";
-        default:
-            return "secondary";
-    }
-};
 
 const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Buka menu aksi</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
@@ -69,9 +56,14 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         ),
         cell: ({ row }) => {
             const id = row.getValue("id") as string;
-            // Using a monospace font or ensuring it breaks/scrolls might be good if IDs are long UUIDs,
-            // but the request is just to show full.
-            return <div className="font-medium text-sm font-mono">{id}</div>;
+            return (
+                <div
+                    className="font-medium text-sm font-mono truncate max-w-[100px]"
+                    title={id}
+                >
+                    #{id.slice(0, 8)}
+                </div>
+            );
         },
     },
     {
@@ -93,10 +85,10 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
             return (
                 <div className="flex flex-col">
                     <span className="font-medium">
-                        {user?.fullName || "N/A"}
+                        {user?.fullName || "-"}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                        {user?.email || "N/A"}
+                        {user?.email || "-"}
                     </span>
                 </div>
             );
@@ -112,7 +104,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Venue / Field
+                Tempat Olahraga / Lapangan
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -121,10 +113,10 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
             return (
                 <div className="flex flex-col">
                     <span className="font-medium">
-                        {field?.venue?.name || "Unknown"}
+                        {field?.venue?.name || "Tidak diketahui"}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                        {field?.name || "Field"}
+                        {field?.name || "Lapangan"}
                     </span>
                 </div>
             );
@@ -139,7 +131,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Date & Time
+                Tanggal & Waktu
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -150,8 +142,8 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
             return (
                 <div className="flex flex-col">
                     <span>{formatDate(bookingDate)}</span>
-                    <span className="text-xs text-muted-foreground">
-                        {formatTime(startTime)} - {formatTime(endTime)}
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                        {formatTime(startTime)} – {formatTime(endTime)}
                     </span>
                 </div>
             );
@@ -172,11 +164,16 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         ),
         cell: ({ row }) => {
             const status = row.getValue("status") as string;
-            return <Badge variant={getStatusVariant(status)}>{status}</Badge>;
+            const meta = BOOKING_STATUS_META[status] ?? {
+                label: status || "-",
+                tone: "neutral" as const,
+            };
+            return <StatusBadge label={meta.label} tone={meta.tone} />;
         },
     },
     {
-        accessorKey: "paymentStatus",
+        id: "paymentStatus",
+        accessorFn: (row) => row.payment?.status ?? row.paymentStatus,
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -184,43 +181,49 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Payment
+                Pembayaran
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
         cell: ({ row }) => {
-            const status = row.getValue("paymentStatus") as string;
-            return <Badge variant={getStatusVariant(status)}>{status}</Badge>;
+            const paymentStatus =
+                row.original.payment?.status ?? row.original.paymentStatus;
+            const meta = paymentStatus
+                ? PAYMENT_STATUS_META[paymentStatus] ?? {
+                      label: paymentStatus,
+                      tone: "neutral" as const,
+                  }
+                : { label: "Belum Ada", tone: "neutral" as const };
+            return <StatusBadge label={meta.label} tone={meta.tone} />;
         },
     },
     {
         accessorKey: "totalPrice",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Amount
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <div className="text-right">
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Total
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            </div>
         ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("totalPrice"));
-            const formatted = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-            }).format(amount);
-
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="text-right font-medium tabular-nums">
+                    {formatPrice(amount)}
+                </div>
+            );
         },
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell booking={row.original} />

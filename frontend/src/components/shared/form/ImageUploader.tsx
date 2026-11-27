@@ -99,28 +99,34 @@ export function ImageUploader({ onUpload, isUploading }: ImageUploaderProps) {
                         {files.map((file, index) => (
                             <li
                                 key={index}
-                                className="flex items-center justify-between p-2 border rounded-md"
+                                className="flex items-center justify-between gap-2 p-2 border rounded-md"
                             >
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 min-w-0 flex-1">
                                     <Image
                                         src={previewUrls[index]}
                                         alt={file.name}
                                         width={40}
                                         height={40}
-                                        className="w-10 h-10 object-cover rounded-md"
+                                        className="w-10 h-10 object-cover rounded-md shrink-0"
                                     />
-                                    <div className="flex flex-col">
-                                        <span className="text-sm font-medium">
+                                    <div className="flex flex-col min-w-0">
+                                        <span
+                                            className="text-sm font-medium truncate"
+                                            title={file.name}
+                                        >
                                             {file.name}
                                         </span>
-                                        <span className="text-xs text-muted-foreground">
+                                        <span className="text-xs text-muted-foreground tabular-nums">
                                             {formatFileSize(file.size)}
                                         </span>
                                     </div>
                                 </div>
                                 <Button
+                                    type="button"
                                     variant="ghost"
                                     size="icon"
+                                    className="shrink-0"
+                                    aria-label={`Hapus ${file.name}`}
                                     onClick={() => removeFile(index)}
                                 >
                                     <X className="h-4 w-4" />

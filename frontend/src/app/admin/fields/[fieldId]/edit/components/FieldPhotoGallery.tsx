@@ -101,17 +101,21 @@ export function FieldPhotoGallery({ photos, fieldId }: PhotoGalleryProps) {
                     </Dialog>
 
                     <div
-                        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-2 right-2 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100 transition-opacity"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <ConfirmationDialog
                             trigger={
-                                <Button variant="destructive" size="icon">
+                                <Button
+                                    variant="destructive"
+                                    size="icon"
+                                    aria-label="Hapus foto"
+                                >
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                             }
-                            title="Delete this photo?"
-                            description="This action cannot be undone."
+                            title="Hapus foto ini?"
+                            description="Tindakan ini tidak dapat dibatalkan."
                             onConfirm={() => deletePhoto(photo.id)}
                         />
                     </div>

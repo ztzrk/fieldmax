@@ -116,6 +116,8 @@ export function DataTable<TData, TValue>({
                 {onSearch && (
                     <Input
                         placeholder="Cari..."
+                        aria-label="Cari data tabel"
+                        className="max-w-sm"
                         value={searchValue ?? ""}
                         onChange={(event) => onSearch(event.target.value)}
                     />
@@ -218,7 +220,7 @@ export function DataTable<TData, TValue>({
                     {table.getFilteredSelectedRowModel().rows.length} dari{" "}
                     {table.getFilteredRowModel().rows.length} baris dipilih.
                 </div>
-                <div className="flex items-center space-x-4 lg:space-x-8">
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:gap-6">
                     <div className="flex items-center space-x-2">
                         <p className="text-sm font-medium">Baris per halaman</p>
                         <Select

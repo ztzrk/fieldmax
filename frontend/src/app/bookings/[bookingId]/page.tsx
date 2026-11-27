@@ -236,7 +236,7 @@ export default function BookingDetailPage({
         booking.status === "COMPLETED" ||
         booking.status === "NO_SHOW"
             ? booking.status
-            : booking.paymentStatus || booking.status;
+            : booking.payment?.status || booking.paymentStatus || booking.status;
 
     const statusStyle = getStatusStyles(statusKey);
 
@@ -467,7 +467,9 @@ export default function BookingDetailPage({
                                             <Wallet className="h-4 w-4" />
                                         </div>
                                         <span className="font-medium">
-                                            {booking.paymentStatus === "PENDING"
+                                            {(booking.payment?.status ||
+                                                booking.paymentStatus) ===
+                                            "PENDING"
                                                 ? "Menunggu Pembayaran"
                                                 : "Midtrans Digital Payment"}
                                         </span>

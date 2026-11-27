@@ -25,10 +25,12 @@ export function formatPrice(price: number): string {
 
 export function formatDate(
     date: string | Date,
-    dateFormat: string = "PPP"
+    _dateFormat: string = "PPP"
 ): string {
-    if (!date) return "N/A";
-    return new Date(date).toLocaleDateString("en-US", {
+    if (!date) return "-";
+    const parsed = new Date(date);
+    if (isNaN(parsed.getTime())) return "-";
+    return parsed.toLocaleDateString("id-ID", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -36,45 +38,35 @@ export function formatDate(
 }
 
 export function formatTime(time: string | Date): string {
-    if (!time) return "N/A";
+    if (!time) return "-";
 
     if (time instanceof Date) {
-        if (isNaN(time.getTime())) return "N/A";
-        return time.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-        });
+        if (isNaN(time.getTime())) return "-";
+        const hours = time.getHours().toString().padStart(2, "0");
+        const minutes = time.getMinutes().toString().padStart(2, "0");
+        return `${hours}:${minutes}`;
     }
 
     const str = String(time).trim();
     const timeMatch = str.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
     if (timeMatch) {
-        const h = parseInt(timeMatch[1], 10);
+        const h = timeMatch[1].padStart(2, "0");
         const m = timeMatch[2];
-        const period = h >= 12 ? "PM" : "AM";
-        const displayH = h % 12 || 12;
-        return `${displayH}:${m} ${period}`;
+        return `${h}:${m}`;
     }
 
     if (str.includes("T")) {
         const timePartMatch = str.match(/T(\d{2}):(\d{2})/);
         if (timePartMatch) {
-            const h = parseInt(timePartMatch[1], 10);
-            const m = timePartMatch[2];
-            const period = h >= 12 ? "PM" : "AM";
-            const displayH = h % 12 || 12;
-            return `${displayH}:${m} ${period}`;
+            return `${timePartMatch[1]}:${timePartMatch[2]}`;
         }
     }
 
     const parsed = new Date(str);
     if (!isNaN(parsed.getTime())) {
-        return parsed.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-        });
+        const hours = parsed.getHours().toString().padStart(2, "0");
+        const minutes = parsed.getMinutes().toString().padStart(2, "0");
+        return `${hours}:${minutes}`;
     }
 
     return str;

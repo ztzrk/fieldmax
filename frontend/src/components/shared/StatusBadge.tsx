@@ -31,12 +31,43 @@ export const STATUS_DOT_STYLES: Record<StatusTone, string> = {
 };
 
 export const APPROVAL_STATUS_META: Record<
-    "PENDING" | "APPROVED" | "REJECTED",
+    "DRAFT" | "PENDING" | "APPROVED" | "REJECTED",
     { label: string; tone: StatusTone }
 > = {
+    DRAFT: { label: "Draf", tone: "neutral" },
     PENDING: { label: "Menunggu Verifikasi", tone: "warning" },
     APPROVED: { label: "Disetujui", tone: "success" },
     REJECTED: { label: "Ditolak", tone: "destructive" },
+};
+
+export const BOOKING_STATUS_META: Record<
+    string,
+    { label: string; tone: StatusTone }
+> = {
+    PENDING: { label: "Menunggu", tone: "warning" },
+    CONFIRMED: { label: "Dikonfirmasi", tone: "success" },
+    COMPLETED: { label: "Selesai", tone: "info" },
+    CANCELLED: { label: "Dibatalkan", tone: "destructive" },
+    NO_SHOW: { label: "Tidak Hadir", tone: "neutral" },
+};
+
+export const PAYMENT_STATUS_META: Record<
+    string,
+    { label: string; tone: StatusTone }
+> = {
+    PAID: { label: "Lunas", tone: "success" },
+    PENDING: { label: "Menunggu Pembayaran", tone: "warning" },
+    EXPIRED: { label: "Kedaluwarsa", tone: "neutral" },
+    FAILED: { label: "Gagal", tone: "destructive" },
+};
+
+export const USER_ROLE_META: Record<
+    string,
+    { label: string; tone: StatusTone }
+> = {
+    ADMIN: { label: "Admin", tone: "info" },
+    RENTER: { label: "Mitra", tone: "success" },
+    USER: { label: "Pengguna", tone: "neutral" },
 };
 
 interface StatusBadgeProps {

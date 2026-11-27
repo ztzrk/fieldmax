@@ -23,6 +23,8 @@ import { useDeleteUser } from "@/hooks/useUsers";
 import { Checkbox } from "@/components/ui/checkbox";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { UserForm } from "./userForm";
+import { StatusBadge, USER_ROLE_META } from "@/components/shared/StatusBadge";
+import { formatDate } from "@/lib/utils";
 
 /**
  * User type definition matching the backend response.
@@ -51,6 +53,7 @@ const ActionsCell = ({ user }: { user: User }) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Buka menu aksi</span>
                         <MoreHorizontal className="h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>
@@ -68,7 +71,7 @@ const ActionsCell = ({ user }: { user: User }) => {
                     <ConfirmationDialog
                         trigger={
                             <DropdownMenuItem
-                                className="text-red-500"
+                                className="text-destructive"
                                 onSelect={(e) => e.preventDefault()}
                             >
                                 Hapus Pengguna
@@ -110,14 +113,14 @@ export const columns: ColumnDef<User>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,
@@ -147,7 +150,7 @@ export const columns: ColumnDef<User>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Full Name
+                Nama Lengkap
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
@@ -175,10 +178,18 @@ export const columns: ColumnDef<User>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Role
+                Peran
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
+        cell: ({ row }) => {
+            const role = row.getValue("role") as string;
+            const meta = USER_ROLE_META[role] ?? {
+                label: role,
+                tone: "neutral" as const,
+            };
+            return <StatusBadge label={meta.label} tone={meta.tone} />;
+        },
     },
     {
         accessorKey: "createdAt",
@@ -189,22 +200,21 @@ export const columns: ColumnDef<User>[] = [
                     column.toggleSorting(column.getIsSorted() === "asc")
                 }
             >
-                Joined At
+                Bergabung
                 <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
         cell: ({ row }) => {
-            const date = new Date(row.getValue("createdAt"));
             return (
                 <div className="font-medium">
-                    {date.toLocaleDateString("id-ID")}
+                    {formatDate(row.getValue("createdAt"))}
                 </div>
             );
         },
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell user={row.original} />

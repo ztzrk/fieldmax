@@ -16,6 +16,11 @@ import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import { AlertCircle, Calendar, Clock, MapPin, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
+import {
+    BOOKING_STATUS_META,
+    PAYMENT_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 
 /**
  * AdminBookingDetailPage Component
@@ -39,30 +44,28 @@ export default function AdminBookingDetailPage({
         return (
             <div className="flex flex-col items-center justify-center gap-4 py-10">
                 <AlertCircle className="h-10 w-10 text-destructive" />
-                <h2 className="text-xl font-semibold">Booking not found</h2>
+                <h2 className="text-xl font-semibold">
+                    Pemesanan tidak ditemukan
+                </h2>
                 <Button variant="outline" asChild>
-                    <Link href="/admin/bookings">Back to Bookings</Link>
+                    <Link href="/admin/bookings">Kembali ke Pemesanan</Link>
                 </Button>
             </div>
         );
     }
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case "CONFIRMED":
-            case "PAID":
-                return "border-status-success/25 bg-status-success/10 text-status-success";
-            case "PENDING":
-                return "border-status-warning/25 bg-status-warning/10 text-status-warning";
-            case "CANCELLED":
-            case "FAILED":
-                return "border-destructive/25 bg-destructive/10 text-destructive";
-            case "COMPLETED":
-                return "border-status-info/25 bg-status-info/10 text-status-info";
-            default:
-                return "border-border bg-muted text-muted-foreground";
-        }
+    const bookingStatusMeta = BOOKING_STATUS_META[booking.status] ?? {
+        label: booking.status,
+        tone: "neutral" as const,
     };
+    const resolvedPaymentStatus =
+        booking.payment?.status ?? booking.paymentStatus;
+    const paymentStatusMeta = resolvedPaymentStatus
+        ? PAYMENT_STATUS_META[resolvedPaymentStatus] ?? {
+              label: resolvedPaymentStatus,
+              tone: "neutral" as const,
+          }
+        : bookingStatusMeta;
 
     return (
         <div className="max-w-3xl mx-auto space-y-6">
@@ -79,32 +82,33 @@ export default function AdminBookingDetailPage({
                 </Button>
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                        Booking Details
+                        Detail Pemesanan
                     </h2>
                     <p className="text-muted-foreground">
-                        View details for booking #{booking.id.slice(0, 8)}
+                        Informasi lengkap untuk pemesanan #{booking.id.slice(0, 8)}
                     </p>
                 </div>
             </div>
 
             <Card className="overflow-hidden">
                 <CardHeader className="bg-muted/20 pb-8">
-                    <div className="flex justify-between items-start">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                         <div>
-                            <Badge variant="outline" className="mb-2">
-                                Booking #{booking.id.slice(0, 8)}...
+                            <Badge variant="outline" className="mb-2 font-mono">
+                                Pemesanan #{booking.id.slice(0, 8)}
                             </Badge>
                             <CardTitle className="text-2xl font-bold">
-                                {booking.field.name || "Field"}
+                                {booking.field.name || "Lapangan"}
                             </CardTitle>
                             <CardDescription className="flex items-center gap-1 mt-1">
-                                <MapPin className="h-4 w-4" />
-                                {booking.field.venue.location}
+                                <MapPin className="h-4 w-4 shrink-0" />
+                                {booking.field.venue.location ||
+                                    booking.field.venue.address}
                             </CardDescription>
                         </div>
-                        <div className="text-right">
+                        <div className="sm:text-right">
                             <p className="text-sm text-muted-foreground mb-1">
-                                Total Amount
+                                Total Pembayaran
                             </p>
                             <p className="text-2xl font-bold text-primary tabular-nums">
                                 {formatPrice(booking.totalPrice)}
@@ -114,7 +118,7 @@ export default function AdminBookingDetailPage({
                 </CardHeader>
                 <CardContent className="-mt-4 pt-6 bg-card rounded-t-xl border-t">
                     <div className="grid gap-6">
-                        <div className="flex items-center justify-between p-4 bg-muted/10 rounded-lg border">
+                        <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-muted/10 rounded-lg border">
                             <div className="flex items-center gap-3">
                                 <div
                                     className={`p-2 rounded-full ${
@@ -135,18 +139,15 @@ export default function AdminBookingDetailPage({
                                 </div>
                                 <div>
                                     <p className="font-medium">Status</p>
-                                    <p className="text-sm text-muted-foreground capitalize">
-                                        {booking.status.toLowerCase()}
+                                    <p className="text-sm text-muted-foreground">
+                                        {bookingStatusMeta.label}
                                     </p>
                                 </div>
                             </div>
-                            <Badge
-                                className={getStatusColor(
-                                    booking.paymentStatus || booking.status
-                                )}
-                            >
-                                {booking.paymentStatus || booking.status}
-                            </Badge>
+                            <StatusBadge
+                                label={paymentStatusMeta.label}
+                                tone={paymentStatusMeta.tone}
+                            />
                         </div>
 
                         <Separator />
@@ -155,12 +156,12 @@ export default function AdminBookingDetailPage({
                             <div>
                                 <h3 className="font-semibold flex items-center gap-2 mb-4">
                                     <ShieldCheck className="h-4 w-4 text-primary" />
-                                    Booking Details
+                                    Detail Pemesanan
                                 </h3>
                                 <div className="space-y-4 text-sm">
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            Venue
+                                            Tempat Olahraga
                                         </p>
                                         <p className="font-medium">
                                             {booking.field.venue.name}
@@ -168,7 +169,7 @@ export default function AdminBookingDetailPage({
                                     </div>
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            Field
+                                            Lapangan
                                         </p>
                                         <p className="font-medium">
                                             {booking.field.name}
@@ -179,7 +180,7 @@ export default function AdminBookingDetailPage({
                                     </div>
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            Date
+                                            Tanggal
                                         </p>
                                         <p className="font-medium">
                                             {formatDate(booking.bookingDate)}
@@ -187,21 +188,23 @@ export default function AdminBookingDetailPage({
                                     </div>
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            Time
+                                            Waktu
                                         </p>
-                                        <p className="font-medium">
-                                            {formatTime(booking.startTime)} -{" "}
+                                        <p className="font-medium tabular-nums">
+                                            {formatTime(booking.startTime)} –{" "}
                                             {formatTime(booking.endTime)}
                                         </p>
                                     </div>
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            Payment Method
+                                            Metode Pembayaran
                                         </p>
                                         <p className="font-medium">
-                                            {booking.paymentStatus === "PENDING"
-                                                ? "Waiting for payment"
-                                                : "QRIS"}
+                                            {resolvedPaymentStatus === "PENDING"
+                                                ? "Menunggu pembayaran"
+                                                : booking.payment
+                                                      ?.paymentMethod ||
+                                                  "Midtrans Digital Payment"}
                                         </p>
                                     </div>
                                 </div>
@@ -210,15 +213,15 @@ export default function AdminBookingDetailPage({
                             <div>
                                 <h3 className="font-semibold flex items-center gap-2 mb-4">
                                     <UserIcon className="h-4 w-4 text-primary" />
-                                    User Information
+                                    Informasi Pengguna
                                 </h3>
                                 <div className="space-y-4 text-sm">
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            Full Name
+                                            Nama Lengkap
                                         </p>
                                         <p className="font-medium">
-                                            {booking.user?.fullName || "N/A"}
+                                            {booking.user?.fullName || "-"}
                                         </p>
                                     </div>
                                     <div className="space-y-1">
@@ -226,14 +229,14 @@ export default function AdminBookingDetailPage({
                                             Email
                                         </p>
                                         <p className="font-medium">
-                                            {booking.user?.email || "N/A"}
+                                            {booking.user?.email || "-"}
                                         </p>
                                     </div>
                                     <div className="space-y-1">
                                         <p className="text-muted-foreground">
-                                            User ID
+                                            ID Pengguna
                                         </p>
-                                        <p className="font-medium text-xs font-mono">
+                                        <p className="font-medium text-xs font-mono break-all">
                                             {booking.userId}
                                         </p>
                                     </div>

@@ -10,11 +10,16 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { FieldNestedResponseSchema } from "@/lib/schema/venue.schema";
 import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
+import { formatPrice } from "@/lib/utils";
+import {
+    APPROVAL_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 
 /**
  * Component for rendering action buttons (Edit, Delete) for a field row within a venue.
@@ -32,6 +37,7 @@ const ActionsCell = ({
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Buka menu aksi</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
@@ -47,7 +53,7 @@ const ActionsCell = ({
                 <ConfirmationDialog
                     trigger={
                         <DropdownMenuItem
-                            className="text-red-500"
+                            className="text-destructive"
                             onSelect={(e) => e.preventDefault()}
                         >
                             Hapus
@@ -61,8 +67,6 @@ const ActionsCell = ({
         </DropdownMenu>
     );
 };
-
-import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Column definitions for the "Fields in this Venue" table.
@@ -121,17 +125,14 @@ export const getRenterFieldColumns = (
     },
     {
         accessorKey: "pricePerHour",
-        header: "Harga / Jam",
+        header: () => <div className="text-right">Harga / Jam</div>,
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
-            const formatted = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-            }).format(amount);
-
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="text-right font-medium tabular-nums">
+                    {formatPrice(amount)}
+                </div>
+            );
         },
     },
     {
@@ -140,15 +141,15 @@ export const getRenterFieldColumns = (
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;
+            const meta = status
+                ? APPROVAL_STATUS_META[status] ?? {
+                      label: status,
+                      tone: "neutral" as const,
+                  }
+                : { label: "-", tone: "neutral" as const };
             return (
                 <div className="flex justify-center">
-                    <Badge
-                        variant={
-                            status === "APPROVED" ? "default" : "secondary"
-                        }
-                    >
-                        {status}
-                    </Badge>
+                    <StatusBadge label={meta.label} tone={meta.tone} />
                 </div>
             );
         },

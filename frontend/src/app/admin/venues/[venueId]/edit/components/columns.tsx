@@ -10,11 +10,16 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { useDeleteField } from "@/hooks/useFields";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { FieldNestedResponseSchema } from "@/lib/schema/venue.schema";
 import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
+import { formatPrice } from "@/lib/utils";
+import {
+    APPROVAL_STATUS_META,
+    StatusBadge,
+} from "@/components/shared/StatusBadge";
 
 /**
  * Component for rendering action buttons for a field within a venue.
@@ -26,33 +31,34 @@ const ActionsCell = ({ field }: { field: FieldNestedResponseSchema }) => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Buka menu aksi</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
-                    <Link href={`/admin/fields/${field.id}`}>Edit Details</Link>
+                    <Link href={`/admin/fields/${field.id}/edit`}>
+                        Edit Detail
+                    </Link>
                 </DropdownMenuItem>
                 <ConfirmationDialog
                     trigger={
                         <DropdownMenuItem
-                            className="text-red-500"
+                            className="text-destructive"
                             onSelect={(e) => e.preventDefault()}
                         >
-                            Delete
+                            Hapus
                         </DropdownMenuItem>
                     }
-                    title="Are you sure?"
-                    description={`This will permanently delete the "${field.name}" field.`}
+                    title="Apakah Anda yakin?"
+                    description={`Tindakan ini akan menghapus lapangan "${field.name}" secara permanen.`}
                     onConfirm={() => deleteField(field.id)}
                 />
             </DropdownMenuContent>
         </DropdownMenu>
     );
 };
-
-import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Column definitions for the Fields table within a Venue Edit page.
@@ -69,14 +75,14 @@ export const columns: ColumnDef<FieldNestedResponseSchema>[] = [
                 onCheckedChange={(value) =>
                     table.toggleAllPageRowsSelected(!!value)
                 }
-                aria-label="Select all"
+                aria-label="Pilih semua"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                aria-label="Pilih baris"
             />
         ),
         enableSorting: false,
@@ -100,24 +106,22 @@ export const columns: ColumnDef<FieldNestedResponseSchema>[] = [
     },
     {
         accessorKey: "name",
-        header: "Field Name",
+        header: "Nama Lapangan",
     },
     {
         accessorKey: "sportTypeName",
-        header: "Sport Type",
+        header: "Cabang Olahraga",
     },
     {
         accessorKey: "pricePerHour",
-        header: "Price / Hour",
+        header: () => <div className="text-right">Harga / Jam</div>,
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
-            const formatted = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-            }).format(amount);
-
-            return <div className="font-medium">{formatted}</div>;
+            return (
+                <div className="text-right font-medium tabular-nums">
+                    {formatPrice(amount)}
+                </div>
+            );
         },
     },
     {
@@ -126,22 +130,22 @@ export const columns: ColumnDef<FieldNestedResponseSchema>[] = [
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;
+            const meta = status
+                ? APPROVAL_STATUS_META[status] ?? {
+                      label: status,
+                      tone: "neutral" as const,
+                  }
+                : { label: "-", tone: "neutral" as const };
             return (
                 <div className="flex justify-center">
-                    <Badge
-                        variant={
-                            status === "APPROVED" ? "default" : "secondary"
-                        }
-                    >
-                        {status}
-                    </Badge>
+                    <StatusBadge label={meta.label} tone={meta.tone} />
                 </div>
             );
         },
     },
     {
         id: "actions",
-        header: () => <div className="text-center">Actions</div>,
+        header: () => <div className="text-center">Aksi</div>,
         cell: ({ row }) => (
             <div className="flex justify-center">
                 <ActionsCell field={row.original} />

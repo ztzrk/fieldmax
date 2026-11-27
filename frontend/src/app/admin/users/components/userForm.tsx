@@ -42,9 +42,9 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
         const mutationOptions = {
             onSuccess: () => {
                 toast.success(
-                    `${data.fullName} ${
-                        initialData ? "updated" : "created"
-                    } successfully`
+                    `${data.fullName} berhasil ${
+                        initialData ? "diperbarui" : "dibuat"
+                    }`
                 );
                 dialogClose();
             },
@@ -66,7 +66,7 @@ export function UserForm({ initialData, dialogClose }: UserFormProps) {
                     toast.error(error.response.data.message);
                 } else if (error.request) {
                     toast.error(
-                        "Cannot connect to server. Please check your connection."
+                        "Tidak dapat terhubung ke server. Periksa koneksi Anda."
                     );
                 } else {
                     toast.error(error.message);

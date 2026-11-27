@@ -85,7 +85,7 @@ export function BookingCard({ booking, onReview, isPast }: BookingCardProps) {
         booking.status === "COMPLETED" ||
         booking.status === "NO_SHOW"
             ? booking.status
-            : booking.paymentStatus || booking.status;
+            : booking.payment?.status || booking.paymentStatus || booking.status;
 
     const statusInfo = STATUS_CONFIG[statusKey] || {
         label: statusKey,

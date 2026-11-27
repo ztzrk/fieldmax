@@ -75,7 +75,17 @@ export const bookingResponseSchema = z.object({
     ]),
     checkedInAt: z.string().nullable().optional(),
     snapToken: z.string().nullable().optional(),
-    paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]),
+    paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]).optional(),
+    payment: z
+        .object({
+            id: z.string().uuid().optional(),
+            status: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]),
+            amount: z.number().optional(),
+            paymentMethod: z.string().nullable().optional(),
+            snapToken: z.string().nullable().optional(),
+        })
+        .nullable()
+        .optional(),
     createdAt: z.string(),
     field: fieldResponseSchema,
     review: z

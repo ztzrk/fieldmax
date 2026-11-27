@@ -62,13 +62,17 @@ export default function EditFieldPage() {
 
     if (isLoading) return <FullScreenLoader />;
     if (isError || !field)
-        return <p className="text-red-500">Error: Field not found.</p>;
+        return (
+            <p className="text-destructive">
+                Gagal memuat: Lapangan tidak ditemukan.
+            </p>
+        );
 
     return (
         <div className="space-y-8">
             <PageHeader
                 backHref={backHref}
-                title={`Edit Field: ${field.name}`}
+                title={`Edit Lapangan: ${field.name}`}
             />
 
             <Separator />
@@ -77,7 +81,7 @@ export default function EditFieldPage() {
                 <div className="md:col-span-2 space-y-8">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Field Details</CardTitle>
+                            <CardTitle>Detail Lapangan</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <FieldForm
@@ -90,7 +94,7 @@ export default function EditFieldPage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Photo Gallery</CardTitle>
+                            <CardTitle>Galeri Foto</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <FieldPhotoGallery
@@ -107,7 +111,7 @@ export default function EditFieldPage() {
                     />
                     <Card>
                         <CardHeader>
-                            <CardTitle>Add New Photos</CardTitle>
+                            <CardTitle>Tambah Foto Baru</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <ImageUploader
@@ -118,7 +122,7 @@ export default function EditFieldPage() {
                     </Card>
                     <div>
                         <h2 className="text-lg font-semibold mb-4">
-                            Weekly Schedule
+                            Jadwal Mingguan
                         </h2>
                         <Card>
                             <CardContent className="pt-6">

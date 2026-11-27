@@ -394,7 +394,7 @@ export function BookingModal({
                                 </div>
                                 <div className="text-right relative">
                                     <p className="text-xs text-muted-foreground mb-1 tabular-nums">
-                                        {pricePerHour.toLocaleString()} / jam
+                                        {formatPrice(pricePerHour)} / jam
                                     </p>
                                 </div>
                             </div>
