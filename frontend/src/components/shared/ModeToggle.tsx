@@ -25,22 +25,23 @@ export function ModeToggle() {
                 <Button
                     variant="outline"
                     size="icon"
-                    className="h-12 w-12 rounded-full shadow-xl bg-background border-2 border-primary/20 hover:border-primary hover:bg-accent hover:scale-110 transition-all duration-300 focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label="Ubah tema tampilan"
+                    className="h-11 w-11 rounded-full shadow-lg bg-background/95 backdrop-blur-sm border-border hover:border-primary/60 hover:bg-accent transition-colors duration-200 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                    <Sun className="h-[1.5rem] w-[1.5rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-orange-500" />
-                    <Moon className="absolute h-[1.5rem] w-[1.5rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-500" />
-                    <span className="sr-only">Toggle theme</span>
+                    <Sun className="h-5 w-5 rotate-0 scale-100 transition-all motion-reduce:transition-none dark:-rotate-90 dark:scale-0 text-primary" />
+                    <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all motion-reduce:transition-none dark:rotate-0 dark:scale-100 text-primary" />
+                    <span className="sr-only">Ubah tema tampilan</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
-                    Light
+                    Terang
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
-                    Dark
+                    Gelap
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
-                    System
+                    Sistem
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

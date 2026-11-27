@@ -12,9 +12,9 @@ export function RenterCTA() {
     return (
         <section className="w-full py-24 bg-background px-4 md:px-6">
             <div className="container mx-auto max-w-5xl">
-                <div className="relative rounded-3xl overflow-hidden bg-primary shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <div className="relative rounded-3xl overflow-hidden bg-orange-700 shadow-xl transition-shadow duration-300 hover:shadow-2xl">
                     {/* Background effects */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-700 to-amber-800" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-700 via-orange-600 to-amber-800" />
                     <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-full blur-[80px] pointer-events-none" />
                     <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-black/20 rounded-full blur-[80px] pointer-events-none" />
 

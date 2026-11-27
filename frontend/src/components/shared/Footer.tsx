@@ -162,26 +162,29 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-slate-400">
                         © {new Date().getFullYear()} FieldMax. Seluruh hak cipta
                         dilindungi undang-undang.
                     </p>
                     <div className="flex items-center gap-4">
                         <Link
                             href="#"
-                            className="p-2 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white"
+                            aria-label="Facebook FieldMax"
+                            className="p-2 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-slate-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <Facebook className="h-4 w-4" />
                         </Link>
                         <Link
                             href="#"
-                            className="p-2 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white"
+                            aria-label="X (Twitter) FieldMax"
+                            className="p-2 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-slate-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <Twitter className="h-4 w-4" />
                         </Link>
                         <Link
                             href="#"
-                            className="p-2 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-slate-400 hover:text-white"
+                            aria-label="Instagram FieldMax"
+                            className="p-2 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-slate-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <Instagram className="h-4 w-4" />
                         </Link>

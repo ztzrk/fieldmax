@@ -10,7 +10,7 @@ export default function AboutPage() {
     return (
         <div className="flex flex-col min-h-screen bg-background">
             {/* Hero Section */}
-            <section className="relative w-full py-20 md:py-32 lg:py-48 overflow-hidden bg-primary text-primary-foreground">
+            <section className="relative w-full py-20 md:py-32 lg:py-48 overflow-hidden bg-gradient-to-br from-orange-700 via-orange-600 to-amber-700 text-white">
                 <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-black/10 rounded-full blur-[100px] pointer-events-none" />
@@ -27,7 +27,7 @@ export default function AboutPage() {
                                 Permainan Anda
                             </span>
                         </h1>
-                        <p className="mx-auto max-w-[700px] text-primary-foreground/80 md:text-xl lg:text-2xl leading-relaxed">
+                        <p className="mx-auto max-w-[700px] text-white/90 md:text-xl lg:text-2xl leading-relaxed">
                             Kami memiliki misi untuk mempermudah akses olahraga
                             dan membangun komunitas pemain serta pemilik tempat
                             olahraga yang solid.
