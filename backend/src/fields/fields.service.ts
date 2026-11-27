@@ -12,6 +12,32 @@ import { Pagination } from "../schemas/pagination.schema";
 import { CustomError, ForbiddenError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class FieldsService {
+    private buildOrderBy(
+        sortBy?: string,
+        sortOrder?: "asc" | "desc"
+    ): Prisma.FieldOrderByWithRelationInput {
+        if (!sortBy || !sortOrder) {
+            return { venue: { name: "asc" } };
+        }
+        if (sortBy === "venue.name" || sortBy === "venue_name") {
+            return { venue: { name: sortOrder } };
+        }
+        if (sortBy === "sportType.name" || sortBy === "sportType_name") {
+            return { sportType: { name: sortOrder } };
+        }
+        const allowedFields = [
+            "name",
+            "pricePerHour",
+            "isClosed",
+            "status",
+            "createdAt",
+        ];
+        if (allowedFields.includes(sortBy)) {
+            return { [sortBy]: sortOrder };
+        }
+        return { venue: { name: "asc" } };
+    }
+
     public async findAll(query: Pagination) {
         const {
             page = 1,
@@ -86,23 +112,7 @@ export class FieldsService {
                         },
                     },
                 },
-                orderBy:
-                    query.sortBy && query.sortOrder
-                        ? query.sortBy.includes(".") &&
-                          (query.sortBy.split(".")[0] === "venue" ||
-                              query.sortBy.split(".")[0] === "sportType")
-                            ? {
-                                  [query.sortBy.split(".")[0]]: {
-                                      [query.sortBy.split(".")[1]]:
-                                          query.sortOrder,
-                                  },
-                              }
-                            : { [query.sortBy]: query.sortOrder }
-                        : {
-                              venue: {
-                                  name: "asc",
-                              },
-                          },
+                orderBy: this.buildOrderBy(query.sortBy, query.sortOrder),
                 skip: skip,
                 take: limitNum,
             }),
@@ -141,7 +151,16 @@ export class FieldsService {
     }
 
     public async findAllForRenter(renterId: string, query: Pagination) {
-        const { page = 1, limit = 10, search, sportTypeId } = query;
+        const {
+            page = 1,
+            limit = 10,
+            search,
+            status,
+            isClosed,
+            sportTypeId,
+            sortBy,
+            sortOrder,
+        } = query;
         const pageNum = Number(page);
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
@@ -152,12 +171,29 @@ export class FieldsService {
             },
             ...(search
                 ? {
-                      name: {
-                          contains: search,
-                          mode: "insensitive",
-                      },
+                      OR: [
+                          { name: { contains: search, mode: "insensitive" } },
+                          {
+                              venue: {
+                                  name: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                          },
+                          {
+                              sportType: {
+                                  name: {
+                                      contains: search,
+                                      mode: "insensitive",
+                                  },
+                              },
+                          },
+                      ],
                   }
                 : {}),
+            ...(status ? { status } : {}),
+            ...(typeof isClosed === "boolean" ? { isClosed } : {}),
             ...(sportTypeId ? { sportTypeId } : {}),
         };
 
@@ -172,6 +208,7 @@ export class FieldsService {
                     status: true,
                     sportType: {
                         select: {
+                            id: true,
                             name: true,
                         },
                     },
@@ -187,11 +224,7 @@ export class FieldsService {
                         },
                     },
                 },
-                orderBy: {
-                    venue: {
-                        name: "asc",
-                    },
-                },
+                orderBy: this.buildOrderBy(sortBy, sortOrder),
                 skip,
                 take: limitNum,
             }),

@@ -18,6 +18,7 @@ export const queryKeys = {
             page: number;
             limit: number;
             search?: string;
+            status?: string;
             sportTypeId?: string;
             sortBy?: string;
             sortOrder?: "asc" | "desc";
@@ -66,6 +67,8 @@ export const queryKeys = {
             page: number;
             limit: number;
             search?: string;
+            status?: string;
+            paymentStatus?: string;
             sortBy?: string;
             sortOrder?: "asc" | "desc";
         }) => ["bookings", params] as const,

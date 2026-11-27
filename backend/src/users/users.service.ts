@@ -45,6 +45,20 @@ export class UserService {
                 : {}),
         };
 
+        const allowedSortFields = [
+            "fullName",
+            "email",
+            "role",
+            "isVerified",
+            "createdAt",
+        ];
+        const orderByCondition: Prisma.UserOrderByWithRelationInput =
+            query.sortBy &&
+            query.sortOrder &&
+            allowedSortFields.includes(query.sortBy)
+                ? { [query.sortBy]: query.sortOrder }
+                : { createdAt: "desc" };
+
         if (isPaginated) {
             const [users, total] = await prisma.$transaction([
                 prisma.user.findMany({
@@ -54,14 +68,12 @@ export class UserService {
                         fullName: true,
                         email: true,
                         role: true,
+                        isVerified: true,
                         createdAt: true,
                     },
                     skip: skip,
                     take: limitNum,
-                    orderBy:
-                        query.sortBy && query.sortOrder
-                            ? { [query.sortBy]: query.sortOrder }
-                            : { createdAt: "desc" },
+                    orderBy: orderByCondition,
                 }),
                 prisma.user.count({ where: whereCondition }),
             ]);
@@ -85,12 +97,10 @@ export class UserService {
                     fullName: true,
                     email: true,
                     role: true,
+                    isVerified: true,
                     createdAt: true,
                 },
-                orderBy:
-                    query.sortBy && query.sortOrder
-                        ? { [query.sortBy]: query.sortOrder }
-                        : { createdAt: "desc" },
+                orderBy: orderByCondition,
             });
             return { data: users };
         }

@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -50,22 +51,30 @@ const ActionsCell = ({ booking }: { booking: BookingResponseSchema }) => {
 export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "id",
-        header: "ID Pemesanan",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="ID Pemesanan" />
+        ),
         cell: ({ row }) => {
             const id = row.getValue("id") as string;
             return (
                 <div
-                    className="font-medium text-sm font-mono truncate max-w-[80px]"
+                    className="font-medium text-sm font-mono truncate max-w-[100px]"
                     title={id}
                 >
-                    {id.substring(0, 8)}...
+                    #{id.slice(0, 8)}
                 </div>
             );
         },
     },
     {
         id: "venue_field",
-        header: "Tempat Olahraga / Lapangan",
+        accessorFn: (row) => row.field?.venue?.name,
+        header: ({ column }) => (
+            <SortableHeader
+                column={column}
+                title="Tempat Olahraga / Lapangan"
+            />
+        ),
         cell: ({ row }) => {
             const field = row.original.field;
             return (
@@ -81,19 +90,12 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         },
     },
     {
-        id: "customer",
-        header: "Pelanggan",
+        id: "user",
+        accessorFn: (row) => row.user?.fullName,
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Pelanggan" />
+        ),
         cell: ({ row }) => {
-            // Check if user object exists on the booking type.
-            // The Booking type in schema might need updating if it doesn't have user info nested for list views,
-            // but admin columns showed it. The schema file showed:
-            // export type Booking = z.infer<typeof bookingSchema> & { field?: ... };
-            // It didn't explicitly show 'user' in the extended type in schema file we read earlier (step 1014),
-            // only field. However, Admin columns (step 1020) typed it locally.
-            // I will default to "N/A" if missing to strict type safety.
-            // Actually I should probably check if backend sends it.
-            // Admin columns used: user?: { fullName, email }.
-            // I'll type cast or rely on 'any' safely if needed, but let's try to be safe.
             const user = row.original.user;
 
             return (
@@ -110,7 +112,9 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         accessorKey: "bookingDate",
-        header: "Tanggal & Waktu",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Tanggal & Waktu" />
+        ),
         cell: ({ row }) => {
             const bookingDate = row.getValue("bookingDate") as string;
             const startTime = row.original.startTime;
@@ -127,7 +131,9 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Status" />
+        ),
         cell: ({ row }) => {
             const status = row.getValue("status") as string;
             const meta = BOOKING_STATUS_META[status] ?? {
@@ -160,7 +166,9 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         id: "paymentStatus",
         accessorFn: (row) => row.payment?.status ?? row.paymentStatus,
-        header: "Pembayaran",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Pembayaran" />
+        ),
         cell: ({ row }) => {
             const paymentStatus =
                 row.original.payment?.status ?? row.original.paymentStatus;
@@ -175,7 +183,9 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     },
     {
         accessorKey: "totalPrice",
-        header: () => <div className="text-right">Total</div>,
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Total" align="right" />
+        ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("totalPrice"));
             return (

@@ -6,29 +6,80 @@ import { Pagination } from "../schemas/pagination.schema";
 import { ConflictError, CustomError, ForbiddenError, NotFoundError, ValidationError } from "../utils/errors";
 
 export class VenuesService {
+    private buildOrderBy(
+        sortBy?: string,
+        sortOrder?: "asc" | "desc"
+    ): Prisma.VenueOrderByWithRelationInput {
+        if (!sortBy || !sortOrder) {
+            return { createdAt: "desc" };
+        }
+        if (sortBy === "renter" || sortBy === "renter_fullName") {
+            return { renter: { fullName: sortOrder } };
+        }
+        if (sortBy === "fields") {
+            return { fields: { _count: sortOrder } };
+        }
+        const allowedFields = [
+            "name",
+            "address",
+            "district",
+            "city",
+            "status",
+            "createdAt",
+        ];
+        if (allowedFields.includes(sortBy)) {
+            return { [sortBy]: sortOrder };
+        }
+        return { createdAt: "desc" };
+    }
+
+    private buildSearchWhere(
+        search?: string,
+        includeRenterSearch = false
+    ): Prisma.VenueWhereInput | undefined {
+        if (!search) return undefined;
+        return {
+            OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                { address: { contains: search, mode: "insensitive" } },
+                { district: { contains: search, mode: "insensitive" } },
+                { city: { contains: search, mode: "insensitive" } },
+                ...(includeRenterSearch
+                    ? [
+                          {
+                              renter: {
+                                  fullName: {
+                                      contains: search,
+                                      mode: "insensitive" as const,
+                                  },
+                              },
+                          },
+                      ]
+                    : []),
+            ],
+        };
+    }
+
     public async findAllAdmin(query: Pagination) {
-        const { page = 1, limit = 10, search, sortBy, sortOrder } = query;
+        const {
+            page = 1,
+            limit = 10,
+            search,
+            status,
+            sortBy,
+            sortOrder,
+        } = query;
         const pageNum = Number(page);
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
 
-        const whereCondition: Prisma.VenueWhereInput = search
-            ? {
-                  name: {
-                      contains: search,
-                      mode: "insensitive",
-                  },
-              }
-            : {};
+        const searchWhere = this.buildSearchWhere(search, true);
+        const whereCondition: Prisma.VenueWhereInput = {
+            ...(status ? { status } : {}),
+            ...(searchWhere ?? {}),
+        };
 
-        const orderByCondition: Prisma.VenueOrderByWithRelationInput =
-            sortBy && sortOrder
-                ? sortBy === "renter"
-                    ? { renter: { fullName: sortOrder } }
-                    : sortBy === "fields"
-                      ? { fields: { _count: sortOrder } }
-                      : { [sortBy]: sortOrder }
-                : { createdAt: "desc" };
+        const orderByCondition = this.buildOrderBy(sortBy, sortOrder);
 
         const [venues, total] = [
             await prisma.venue.findMany({
@@ -60,31 +111,26 @@ export class VenuesService {
     }
 
     public async findAllForRenter(renterId: string, query: Pagination) {
-        const { page = 1, limit = 10, search, sortBy, sortOrder } = query;
+        const {
+            page = 1,
+            limit = 10,
+            search,
+            status,
+            sortBy,
+            sortOrder,
+        } = query;
         const pageNum = Number(page);
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
 
+        const searchWhere = this.buildSearchWhere(search, false);
         const whereCondition: Prisma.VenueWhereInput = {
             renterId: renterId,
-            AND: search
-                ? [
-                      {
-                          name: {
-                              contains: search,
-                              mode: "insensitive",
-                          },
-                      },
-                  ]
-                : [],
+            ...(status ? { status } : {}),
+            ...(searchWhere ?? {}),
         };
 
-        const orderByCondition: Prisma.VenueOrderByWithRelationInput =
-            sortBy && sortOrder
-                ? sortBy === "fields"
-                    ? { fields: { _count: sortOrder } }
-                    : { [sortBy]: sortOrder }
-                : { createdAt: "desc" };
+        const orderByCondition = this.buildOrderBy(sortBy, sortOrder);
 
         const [venues, total] = [
             await prisma.venue.findMany({

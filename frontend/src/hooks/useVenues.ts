@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import {
     VenueResponseSchema,
     VenueFormSchema,
+    VenueQuerySchema,
     venueDetailResponseSchema,
     venuesPaginatedResponseSchema,
     venuesPublicPaginatedResponseSchema,
@@ -22,13 +23,15 @@ export function useGetAllVenues(
     limit: number,
     search?: string,
     sortBy?: string,
-    sortOrder?: "asc" | "desc"
+    sortOrder?: "asc" | "desc",
+    status?: VenueQuerySchema["status"]
 ) {
     return useQuery({
         queryKey: queryKeys.venues.list({
             page,
             limit,
             search,
+            status,
             sortBy,
             sortOrder,
         }),
@@ -37,6 +40,7 @@ export function useGetAllVenues(
                 page,
                 limit,
                 search,
+                status,
                 sortBy,
                 sortOrder,
             });

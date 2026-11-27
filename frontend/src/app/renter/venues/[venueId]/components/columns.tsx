@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -117,15 +118,25 @@ export const getRenterFieldColumns = (
     },
     {
         accessorKey: "name",
-        header: "Nama Lapangan",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Nama Lapangan" />
+        ),
     },
     {
         accessorKey: "sportTypeName",
-        header: "Cabang Olahraga",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Cabang Olahraga" />
+        ),
     },
     {
         accessorKey: "pricePerHour",
-        header: () => <div className="text-right">Harga / Jam</div>,
+        header: ({ column }) => (
+            <SortableHeader
+                column={column}
+                title="Harga / Jam"
+                align="right"
+            />
+        ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
             return (
@@ -137,7 +148,9 @@ export const getRenterFieldColumns = (
     },
     {
         accessorKey: "status",
-        header: () => <div className="text-center">Status</div>,
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Status" align="center" />
+        ),
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;

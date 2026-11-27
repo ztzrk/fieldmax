@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BookingsService } from "./bookings.service";
-import { CreateBooking } from "../schemas/bookings.schema";
+import { BookingQuerySchema, CreateBooking } from "../schemas/bookings.schema";
 import { asyncHandler } from "../utils/asyncHandler";
 import { sendSuccess } from "../utils/response";
 
@@ -8,8 +8,7 @@ export class BookingsController {
     constructor(private service: BookingsService) {}
 
     public findAll = asyncHandler(async (req: Request, res: Response) => {
-        const query =
-            req.query as unknown as import("../schemas/pagination.schema").Pagination;
+        const query = req.query as unknown as BookingQuerySchema;
         const result = await this.service.findAllBookings(query, req.user!);
         sendSuccess(res, result.data, "Bookings retrieved", 200, result.meta);
     });

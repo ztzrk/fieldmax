@@ -26,6 +26,13 @@ import { DataTable } from "@/components/shared/DataTable";
 import { columns } from "./components/columns";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 /**
  * Admin Venue Edit Page.
@@ -36,6 +43,8 @@ export default function EditVenuePage() {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [fieldSearch, setFieldSearch] = useState("");
+    const [fieldStatus, setFieldStatus] = useState<string>("ALL");
 
     const params = useParams();
     const venueId = Array.isArray(params.venueId)
@@ -77,7 +86,22 @@ export default function EditVenuePage() {
         await uploadPhotos(Array.from(files));
     };
 
-    const pageCount = venue.fields.length;
+    const filteredFields = (venue.fields || []).filter((field) => {
+        const matchesSearch =
+            !fieldSearch ||
+            field.name.toLowerCase().includes(fieldSearch.toLowerCase()) ||
+            (field.sportTypeName || "")
+                .toLowerCase()
+                .includes(fieldSearch.toLowerCase());
+        const matchesStatus =
+            fieldStatus === "ALL" || field.status === fieldStatus;
+        return matchesSearch && matchesStatus;
+    });
+    const pageCount = Math.ceil(filteredFields.length / pageSize);
+    const paginatedFields = filteredFields.slice(
+        pageIndex * pageSize,
+        (pageIndex + 1) * pageSize
+    );
 
     return (
         <div className="space-y-8">
@@ -151,11 +175,53 @@ export default function EditVenuePage() {
                 <CardContent>
                     <DataTable
                         columns={columns}
-                        data={venue.fields || []}
+                        data={paginatedFields}
                         onDeleteSelected={handleDeleteSelected}
                         pageCount={pageCount}
                         pagination={{ pageIndex, pageSize }}
                         onPaginationChange={setPagination}
+                        onSearch={(val) => {
+                            setFieldSearch(val);
+                            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                        }}
+                        searchValue={fieldSearch}
+                        searchPlaceholder="Cari nama atau cabang olahraga..."
+                        hasActiveFilters={fieldStatus !== "ALL"}
+                        onResetFilters={() => {
+                            setFieldSearch("");
+                            setFieldStatus("ALL");
+                            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+                        }}
+                        filters={
+                            <Select
+                                value={fieldStatus}
+                                onValueChange={(val) => {
+                                    setFieldStatus(val);
+                                    setPagination((prev) => ({
+                                        ...prev,
+                                        pageIndex: 0,
+                                    }));
+                                }}
+                            >
+                                <SelectTrigger className="h-9 w-[180px]">
+                                    <SelectValue placeholder="Filter Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="ALL">
+                                        Semua Status
+                                    </SelectItem>
+                                    <SelectItem value="PENDING">
+                                        Menunggu Verifikasi
+                                    </SelectItem>
+                                    <SelectItem value="APPROVED">
+                                        Disetujui
+                                    </SelectItem>
+                                    <SelectItem value="REJECTED">
+                                        Ditolak
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        }
                     />
                 </CardContent>
             </Card>

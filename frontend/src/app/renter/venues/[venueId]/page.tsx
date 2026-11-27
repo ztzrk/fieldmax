@@ -30,6 +30,13 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
     ArrowLeft,
     Building2,
     ImageIcon,
@@ -73,6 +80,8 @@ export default function EditVenuePage() {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [fieldSearch, setFieldSearch] = useState("");
+    const [fieldStatus, setFieldStatus] = useState<string>("ALL");
 
     const params = useParams();
     const venueId = Array.isArray(params.venueId)
@@ -114,8 +123,19 @@ export default function EditVenuePage() {
 
     const photos = venue.photos || [];
     const totalFields = venue.fields?.length || 0;
-    const pageCount = Math.ceil(totalFields / pageSize);
-    const paginatedFields = (venue.fields || []).slice(
+    const filteredFields = (venue.fields || []).filter((field) => {
+        const matchesSearch =
+            !fieldSearch ||
+            field.name.toLowerCase().includes(fieldSearch.toLowerCase()) ||
+            (field.sportTypeName || "")
+                .toLowerCase()
+                .includes(fieldSearch.toLowerCase());
+        const matchesStatus =
+            fieldStatus === "ALL" || field.status === fieldStatus;
+        return matchesSearch && matchesStatus;
+    });
+    const pageCount = Math.ceil(filteredFields.length / pageSize);
+    const paginatedFields = filteredFields.slice(
         pageIndex * pageSize,
         (pageIndex + 1) * pageSize
     );
@@ -295,6 +315,54 @@ export default function EditVenuePage() {
                                 pageCount={pageCount}
                                 pagination={{ pageIndex, pageSize }}
                                 onPaginationChange={setPagination}
+                                onSearch={(val) => {
+                                    setFieldSearch(val);
+                                    setPagination((prev) => ({
+                                        ...prev,
+                                        pageIndex: 0,
+                                    }));
+                                }}
+                                searchValue={fieldSearch}
+                                searchPlaceholder="Cari nama atau cabang olahraga..."
+                                hasActiveFilters={fieldStatus !== "ALL"}
+                                onResetFilters={() => {
+                                    setFieldSearch("");
+                                    setFieldStatus("ALL");
+                                    setPagination((prev) => ({
+                                        ...prev,
+                                        pageIndex: 0,
+                                    }));
+                                }}
+                                filters={
+                                    <Select
+                                        value={fieldStatus}
+                                        onValueChange={(val) => {
+                                            setFieldStatus(val);
+                                            setPagination((prev) => ({
+                                                ...prev,
+                                                pageIndex: 0,
+                                            }));
+                                        }}
+                                    >
+                                        <SelectTrigger className="h-9 w-[180px]">
+                                            <SelectValue placeholder="Filter Status" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="ALL">
+                                                Semua Status
+                                            </SelectItem>
+                                            <SelectItem value="PENDING">
+                                                Menunggu Verifikasi
+                                            </SelectItem>
+                                            <SelectItem value="APPROVED">
+                                                Disetujui
+                                            </SelectItem>
+                                            <SelectItem value="REJECTED">
+                                                Ditolak
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                }
                             />
                         </CardContent>
                     </Card>

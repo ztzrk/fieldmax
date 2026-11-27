@@ -1,8 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -114,29 +115,13 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Nama
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Nama" />
         ),
     },
     {
         accessorKey: "address",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Alamat
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Alamat" />
         ),
         cell: ({ row }) => (
             <div
@@ -150,59 +135,25 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
     {
         accessorKey: "district",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Kecamatan
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Kecamatan" />
         ),
     },
     {
         accessorKey: "city",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Kota
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Kota" />
         ),
     },
     {
         accessorKey: "renter.fullName",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Mitra
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Mitra" />
         ),
     },
     {
         accessorKey: "status",
         header: ({ column }) => (
-            <div className="text-center">
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Status
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            </div>
+            <SortableHeader column={column} title="Status" align="center" />
         ),
         size: 80,
         cell: ({ row }) => {

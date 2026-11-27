@@ -4,6 +4,7 @@ import { useState } from "react";
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/shared/DataTable";
 import { useGetAllUsers, useDeleteMultipleUsers } from "@/hooks/useUsers";
+import { useDebounce } from "@/hooks/useDebounce";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { CreateUserButton } from "./components/createUserButton";
 import { PaginationState, SortingState } from "@tanstack/react-table";
@@ -29,15 +30,16 @@ export default function AdminUsersPage() {
     });
     const [sorting, setSorting] = useState<SortingState>([]);
     const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 400);
     const [role, setRole] = useState<"ADMIN" | "USER" | "RENTER" | undefined>(
         undefined
     );
     const [isVerified, setIsVerified] = useState<string | undefined>(undefined);
 
-    const { data, isLoading, isError } = useGetAllUsers(
+    const { data, isLoading, isFetching, isError } = useGetAllUsers(
         pageIndex + 1,
         pageSize,
-        search,
+        debouncedSearch || undefined,
         role,
         isVerified,
         sorting.length > 0 ? sorting[0].id : undefined,
@@ -53,8 +55,20 @@ export default function AdminUsersPage() {
         } catch (error) {}
     };
 
-    if (isLoading || isDeleting) return <FullScreenLoader />;
-    if (isError) return <p className="text-red-500">Gagal memuat data.</p>;
+    const handleSearch = (val: string) => {
+        setSearch(val);
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    };
+
+    const handleResetFilters = () => {
+        setSearch("");
+        setRole(undefined);
+        setIsVerified(undefined);
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    };
+
+    if ((isLoading && !data) || isDeleting) return <FullScreenLoader />;
+    if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
@@ -73,23 +87,31 @@ export default function AdminUsersPage() {
                         pageCount={pageCount}
                         pagination={{ pageIndex, pageSize }}
                         onPaginationChange={setPagination}
-                        onSearch={setSearch}
+                        onSearch={handleSearch}
                         searchValue={search}
+                        searchPlaceholder="Cari nama lengkap atau email..."
                         sorting={sorting}
                         onSortingChange={setSorting}
+                        isFetching={isFetching && !isLoading}
+                        hasActiveFilters={Boolean(role || isVerified)}
+                        onResetFilters={handleResetFilters}
                         filters={
                             <>
                                 <Select
                                     value={role || "ALL"}
-                                    onValueChange={(val) =>
+                                    onValueChange={(val) => {
                                         setRole(
                                             val === "ALL"
                                                 ? undefined
                                                 : (val as any)
-                                        )
-                                    }
+                                        );
+                                        setPagination((prev) => ({
+                                            ...prev,
+                                            pageIndex: 0,
+                                        }));
+                                    }}
                                 >
-                                    <SelectTrigger className="w-[150px]">
+                                    <SelectTrigger className="h-9 w-[150px]">
                                         <SelectValue placeholder="Filter Peran" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -110,13 +132,17 @@ export default function AdminUsersPage() {
 
                                 <Select
                                     value={isVerified || "ALL"}
-                                    onValueChange={(val) =>
+                                    onValueChange={(val) => {
                                         setIsVerified(
                                             val === "ALL" ? undefined : val
-                                        )
-                                    }
+                                        );
+                                        setPagination((prev) => ({
+                                            ...prev,
+                                            pageIndex: 0,
+                                        }));
+                                    }}
                                 >
-                                    <SelectTrigger className="w-[150px]">
+                                    <SelectTrigger className="h-9 w-[165px]">
                                         <SelectValue placeholder="Verifikasi" />
                                     </SelectTrigger>
                                     <SelectContent>

@@ -1,8 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -133,20 +134,9 @@ export const columns: ColumnDef<SportType>[] = [
     },
     {
         accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                    className="p-0 hover:bg-transparent"
-                >
-                    Nama
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Nama" />
+        ),
         cell: ({ row }) => {
             return (
                 <div className="font-medium capitalize pl-0">

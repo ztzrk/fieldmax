@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -126,10 +127,17 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
         enableSorting: false,
         enableHiding: false,
     },
-    { accessorKey: "name", header: "Nama" },
+    {
+        accessorKey: "name",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Nama" />
+        ),
+    },
     {
         accessorKey: "address",
-        header: "Alamat",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Alamat" />
+        ),
         size: 250,
         cell: ({ row }) => {
             const address = row.original.address;
@@ -143,7 +151,9 @@ export const columns: ColumnDef<VenueResponseSchema>[] = [
     { accessorKey: "renter.fullName", header: "Mitra" },
     {
         accessorKey: "status",
-        header: () => <div className="text-center">Status</div>,
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Status" align="center" />
+        ),
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;

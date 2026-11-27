@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useGetAllReports } from "@/hooks/useReports";
+import { useDebounce } from "@/hooks/useDebounce";
 import { DataTable } from "@/components/shared/DataTable";
 import { columns } from "./components/columns";
 import { PaginationState, SortingState } from "@tanstack/react-table";
@@ -27,21 +28,22 @@ export default function AdminReportsPage() {
     });
     const [sorting, setSorting] = useState<SortingState>([]);
     const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 400);
     const [statusFilter, setStatusFilter] = useState("ALL");
     const [categoryFilter, setCategoryFilter] = useState("ALL");
 
-    const { data, isLoading, isError } = useGetAllReports(
+    const { data, isLoading, isFetching, isError } = useGetAllReports(
         pageIndex + 1,
         pageSize,
-        search,
+        debouncedSearch || undefined,
         sorting.length > 0 ? sorting[0].id : undefined,
         sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
         statusFilter,
         categoryFilter
     );
 
-    if (isLoading) return <FullScreenLoader />;
-    if (isError) return <p className="text-red-500">Gagal memuat data.</p>;
+    if (isLoading && !data) return <FullScreenLoader />;
+    if (isError) return <p className="text-destructive">Gagal memuat data.</p>;
 
     const pageCount = data?.meta?.totalPages ?? 0;
 
@@ -60,6 +62,13 @@ export default function AdminReportsPage() {
         setPagination((prev) => ({ ...prev, pageIndex: 0 }));
     };
 
+    const handleResetFilters = () => {
+        setSearch("");
+        setStatusFilter("ALL");
+        setCategoryFilter("ALL");
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    };
+
     return (
         <AdminPageWrapper
             title="Kelola Laporan"
@@ -75,15 +84,21 @@ export default function AdminReportsPage() {
                         onPaginationChange={setPagination}
                         onSearch={handleSearch}
                         searchValue={search}
+                        searchPlaceholder="Cari subjek, nama, atau email..."
                         sorting={sorting}
                         onSortingChange={setSorting}
+                        isFetching={isFetching && !isLoading}
+                        hasActiveFilters={
+                            statusFilter !== "ALL" || categoryFilter !== "ALL"
+                        }
+                        onResetFilters={handleResetFilters}
                         filters={
-                            <div className="flex flex-wrap items-center gap-2">
+                            <>
                                 <Select
                                     value={statusFilter}
                                     onValueChange={handleStatusChange}
                                 >
-                                    <SelectTrigger className="w-[170px]">
+                                    <SelectTrigger className="h-9 w-[170px]">
                                         <SelectValue placeholder="Semua Status" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -107,7 +122,7 @@ export default function AdminReportsPage() {
                                     value={categoryFilter}
                                     onValueChange={handleCategoryChange}
                                 >
-                                    <SelectTrigger className="w-[190px]">
+                                    <SelectTrigger className="h-9 w-[190px]">
                                         <SelectValue placeholder="Semua Kategori" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -127,7 +142,7 @@ export default function AdminReportsPage() {
                                         ))}
                                     </SelectContent>
                                 </Select>
-                            </div>
+                            </>
                         }
                     />
                 </CardContent>

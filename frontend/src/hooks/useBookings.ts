@@ -10,7 +10,10 @@ import RenterService from "@/services/renter.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { BackendErrorResponse } from "@/types/error";
-import { BookingFormSchema } from "@/lib/schema/booking.schema";
+import {
+    BookingFormSchema,
+    BookingQuerySchema,
+} from "@/lib/schema/booking.schema";
 import { queryKeys } from "@/lib/queryKeys";
 
 export function useFieldAvailability(fieldId: string, date: string) {
@@ -57,13 +60,17 @@ export function useGetBookings(
     limit: number,
     search?: string,
     sortBy?: string,
-    sortOrder?: "asc" | "desc"
+    sortOrder?: "asc" | "desc",
+    status?: BookingQuerySchema["status"],
+    paymentStatus?: BookingQuerySchema["paymentStatus"]
 ) {
     return useQuery({
         queryKey: queryKeys.bookings.list({
             page,
             limit,
             search,
+            status,
+            paymentStatus,
             sortBy,
             sortOrder,
         }),
@@ -72,6 +79,8 @@ export function useGetBookings(
                 page,
                 limit,
                 search,
+                status,
+                paymentStatus,
                 sortBy,
                 sortOrder,
             });

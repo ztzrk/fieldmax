@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Column,
     ColumnDef,
     flexRender,
     getCoreRowModel,
@@ -31,13 +32,70 @@ import {
 import { useState } from "react";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import {
+    ArrowDown,
+    ArrowUp,
+    ArrowUpDown,
     ChevronLeft,
     ChevronRight,
     ChevronsLeft,
     ChevronsRight,
+    Loader2,
+    RotateCcw,
+    Search,
+    X,
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+interface SortableHeaderProps<TData, TValue> {
+    column: Column<TData, TValue>;
+    title: string;
+    align?: "left" | "center" | "right";
+}
+
+/**
+ * Shared sortable column header button with active directional indicator.
+ */
+export function SortableHeader<TData, TValue>({
+    column,
+    title,
+    align = "left",
+}: SortableHeaderProps<TData, TValue>) {
+    const sorted = column.getIsSorted();
+
+    return (
+        <div
+            className={cn(
+                "flex",
+                align === "right" && "justify-end",
+                align === "center" && "justify-center"
+            )}
+        >
+            <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => column.toggleSorting(sorted === "asc")}
+                className={cn(
+                    "h-8 px-2 font-medium hover:bg-muted/60",
+                    align === "left" && "-ml-2",
+                    align === "right" && "-mr-2",
+                    sorted ? "text-foreground" : "text-muted-foreground"
+                )}
+            >
+                <span>{title}</span>
+                {sorted === "asc" ? (
+                    <ArrowUp className="ml-1.5 h-3.5 w-3.5 text-primary" />
+                ) : sorted === "desc" ? (
+                    <ArrowDown className="ml-1.5 h-3.5 w-3.5 text-primary" />
+                ) : (
+                    <ArrowUpDown className="ml-1.5 h-3.5 w-3.5 opacity-60" />
+                )}
+            </Button>
+        </div>
+    );
+}
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -48,14 +106,18 @@ interface DataTableProps<TData, TValue> {
     onPaginationChange: (pagination: PaginationState) => void;
     onSearch?: (value: string) => void;
     searchValue?: string;
+    searchPlaceholder?: string;
     filters?: React.ReactNode;
+    hasActiveFilters?: boolean;
+    onResetFilters?: () => void;
+    isFetching?: boolean;
 }
 
 /**
  * DataTable Component
  *
  * Reusable table component built on Tanstack Table.
- * Supports sorting, pagination, row selection, and bulk deletion.
+ * Supports sorting, pagination, row selection, filters, and bulk deletion.
  */
 export function DataTable<TData, TValue>({
     columns,
@@ -66,7 +128,11 @@ export function DataTable<TData, TValue>({
     onPaginationChange,
     onSearch,
     searchValue,
+    searchPlaceholder = "Cari data...",
     filters,
+    hasActiveFilters = false,
+    onResetFilters,
+    isFetching = false,
     sorting,
     onSortingChange,
 }: DataTableProps<TData, TValue> & {
@@ -110,44 +176,84 @@ export function DataTable<TData, TValue>({
         }
     };
 
+    const showResetButton =
+        Boolean(onResetFilters) && (hasActiveFilters || Boolean(searchValue));
+
     return (
         <div className="w-full min-w-0">
-            <div className="flex items-center py-4 justify-between flex-wrap gap-2">
-                {onSearch && (
-                    <Input
-                        placeholder="Cari..."
-                        aria-label="Cari data tabel"
-                        className="max-w-sm"
-                        value={searchValue ?? ""}
-                        onChange={(event) => onSearch(event.target.value)}
-                    />
-                )}
-                {filters && (
-                    <div className="flex items-center gap-2 mr-4">
-                        {filters}
-                    </div>
-                )}
-                {onDeleteSelected && Object.keys(rowSelection).length > 0 && (
-                    <ConfirmationDialog
-                        trigger={
-                            <Button
-                                variant="destructive"
-                                size="sm"
-                                className="mr-4"
-                            >
-                                Hapus {Object.keys(rowSelection).length}{" "}
-                                dipilih
-                            </Button>
-                        }
-                        title={`Yakin ingin menghapus ${
-                            Object.keys(rowSelection).length
-                        } item?`}
-                        description="Tindakan ini tidak dapat dibatalkan."
-                        onConfirm={handleDelete}
-                    />
-                )}
+            <div className="flex flex-col gap-3 pb-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex flex-1 flex-wrap items-center gap-2">
+                    {onSearch && (
+                        <div className="relative w-full sm:w-64 lg:w-72">
+                            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <Input
+                                placeholder={searchPlaceholder}
+                                aria-label={searchPlaceholder}
+                                className="h-9 pl-9 pr-8"
+                                value={searchValue ?? ""}
+                                onChange={(event) => onSearch(event.target.value)}
+                            />
+                            {searchValue && (
+                                <button
+                                    type="button"
+                                    onClick={() => onSearch("")}
+                                    aria-label="Bersihkan pencarian"
+                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-sm p-0.5 text-muted-foreground hover:text-foreground"
+                                >
+                                    <X className="h-3.5 w-3.5" />
+                                </button>
+                            )}
+                        </div>
+                    )}
+                    {filters && (
+                        <div className="flex flex-wrap items-center gap-2">
+                            {filters}
+                        </div>
+                    )}
+                    {showResetButton && (
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={onResetFilters}
+                            className="h-9 gap-1.5 text-muted-foreground hover:text-foreground"
+                        >
+                            <RotateCcw className="h-3.5 w-3.5" />
+                            Reset
+                        </Button>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                    {isFetching && (
+                        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            Memperbarui...
+                        </span>
+                    )}
+                    {onDeleteSelected && Object.keys(rowSelection).length > 0 && (
+                        <ConfirmationDialog
+                            trigger={
+                                <Button variant="destructive" size="sm">
+                                    Hapus {Object.keys(rowSelection).length}{" "}
+                                    dipilih
+                                </Button>
+                            }
+                            title={`Yakin ingin menghapus ${
+                                Object.keys(rowSelection).length
+                            } item?`}
+                            description="Tindakan ini tidak dapat dibatalkan."
+                            onConfirm={handleDelete}
+                        />
+                    )}
+                </div>
             </div>
-            <div className="rounded-md border overflow-x-auto w-full max-w-[calc(100vw-4rem)] md:max-w-full">
+            <div
+                className={cn(
+                    "rounded-md border overflow-x-auto w-full max-w-[calc(100vw-4rem)] md:max-w-full transition-opacity duration-150",
+                    isFetching && "opacity-65 pointer-events-none"
+                )}
+            >
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -206,9 +312,27 @@ export function DataTable<TData, TValue>({
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length}
-                                    className="h-24 text-center"
+                                    className="h-32 text-center"
                                 >
-                                    Tidak ada hasil.
+                                    <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
+                                        <p className="text-sm">
+                                            {hasActiveFilters || searchValue
+                                                ? "Tidak ada data yang cocok dengan pencarian atau filter Anda."
+                                                : "Belum ada data."}
+                                        </p>
+                                        {showResetButton && (
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={onResetFilters}
+                                                className="h-8 gap-1.5"
+                                            >
+                                                <RotateCcw className="h-3.5 w-3.5" />
+                                                Reset Filter
+                                            </Button>
+                                        )}
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         )}
@@ -248,9 +372,9 @@ export function DataTable<TData, TValue>({
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex w-[130px] items-center justify-center text-sm font-medium">
+                    <div className="flex w-[130px] items-center justify-center text-sm font-medium tabular-nums">
                         Hal {table.getState().pagination.pageIndex + 1} dari{" "}
-                        {table.getPageCount()}
+                        {Math.max(1, table.getPageCount())}
                     </div>
                     <div className="flex items-center space-x-2">
                         <Button

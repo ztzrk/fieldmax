@@ -1,8 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -44,15 +45,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "id",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                ID Pemesanan
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="ID Pemesanan" />
         ),
         cell: ({ row }) => {
             const id = row.getValue("id") as string;
@@ -70,15 +63,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         id: "user",
         accessorFn: (row) => row.user?.fullName,
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Pengguna
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Pengguna" />
         ),
         cell: ({ row }) => {
             const user = row.original.user;
@@ -98,15 +83,10 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         id: "venue_field",
         accessorFn: (row) => row.field?.venue?.name,
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Tempat Olahraga / Lapangan
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader
+                column={column}
+                title="Tempat Olahraga / Lapangan"
+            />
         ),
         cell: ({ row }) => {
             const field = row.original.field;
@@ -125,15 +105,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "bookingDate",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Tanggal & Waktu
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Tanggal & Waktu" />
         ),
         cell: ({ row }) => {
             const bookingDate = row.getValue("bookingDate") as string;
@@ -152,15 +124,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "status",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Status
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Status" />
         ),
         cell: ({ row }) => {
             const status = row.getValue("status") as string;
@@ -175,15 +139,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
         id: "paymentStatus",
         accessorFn: (row) => row.payment?.status ?? row.paymentStatus,
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Pembayaran
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Pembayaran" />
         ),
         cell: ({ row }) => {
             const paymentStatus =
@@ -200,17 +156,7 @@ export const columns: ColumnDef<BookingResponseSchema>[] = [
     {
         accessorKey: "totalPrice",
         header: ({ column }) => (
-            <div className="text-right">
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Total
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            </div>
+            <SortableHeader column={column} title="Total" align="right" />
         ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("totalPrice"));

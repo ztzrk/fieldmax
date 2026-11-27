@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -107,19 +108,31 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "name",
-        header: "Nama Lapangan",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Nama Lapangan" />
+        ),
     },
     {
         accessorKey: "sportType.name",
-        header: "Cabang Olahraga",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Cabang Olahraga" />
+        ),
     },
     {
         accessorKey: "venue.name",
-        header: "Tempat Olahraga",
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Tempat Olahraga" />
+        ),
     },
     {
         accessorKey: "pricePerHour",
-        header: () => <div className="text-right">Harga / Jam</div>,
+        header: ({ column }) => (
+            <SortableHeader
+                column={column}
+                title="Harga / Jam"
+                align="right"
+            />
+        ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
             return (
@@ -131,7 +144,13 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "isClosed",
-        header: () => <div className="text-center">Ketersediaan</div>,
+        header: ({ column }) => (
+            <SortableHeader
+                column={column}
+                title="Ketersediaan"
+                align="center"
+            />
+        ),
         cell: ({ row }) => {
             const isClosed = row.getValue("isClosed");
             return (
@@ -146,7 +165,9 @@ export const renterAllFieldColumns: ColumnDef<FieldResponseSchema>[] = [
     },
     {
         accessorKey: "status",
-        header: () => <div className="text-center">Status</div>,
+        header: ({ column }) => (
+            <SortableHeader column={column} title="Status" align="center" />
+        ),
         size: 80,
         cell: ({ row }) => {
             const status = row.original.status;

@@ -42,10 +42,13 @@ export type BookingFormSchema = CreateBooking;
 export const bookingQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional(),
     limit: z.coerce.number().int().min(1).max(100).optional(),
+    cursor: z.string().optional(),
+    take: z.coerce.number().int().min(1).max(100).optional(),
     search: z.string().optional(),
     status: z
         .enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED", "NO_SHOW"])
         .optional(),
+    paymentStatus: z.enum(["PENDING", "PAID", "EXPIRED", "FAILED"]).optional(),
     sortBy: z.string().optional(),
     sortOrder: z.enum(["asc", "desc"]).optional(),
 });

@@ -1,8 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SortableHeader } from "@/components/shared/DataTable";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -107,59 +108,29 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Nama Lapangan
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Nama Lapangan" />
         ),
     },
     {
         accessorKey: "venue.name",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Tempat Olahraga
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Tempat Olahraga" />
         ),
     },
     {
         accessorKey: "sportType.name",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Cabang Olahraga
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Cabang Olahraga" />
         ),
     },
     {
         accessorKey: "pricePerHour",
         header: ({ column }) => (
-            <div className="text-right">
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Harga / Jam
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            </div>
+            <SortableHeader
+                column={column}
+                title="Harga / Jam"
+                align="right"
+            />
         ),
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("pricePerHour"));
@@ -173,17 +144,11 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
     {
         accessorKey: "isClosed",
         header: ({ column }) => (
-            <div className="text-center">
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Ketersediaan
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            </div>
+            <SortableHeader
+                column={column}
+                title="Ketersediaan"
+                align="center"
+            />
         ),
         cell: ({ row }) => {
             const isClosed = row.getValue("isClosed");
@@ -200,17 +165,7 @@ export const columns: ColumnDef<FieldResponseSchema>[] = [
     {
         accessorKey: "status",
         header: ({ column }) => (
-            <div className="text-center">
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Status
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            </div>
+            <SortableHeader column={column} title="Status" align="center" />
         ),
         size: 80,
         cell: ({ row }) => {

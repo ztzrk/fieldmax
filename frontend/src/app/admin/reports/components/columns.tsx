@@ -3,8 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Report } from "@/services/reports.service";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown, CheckCircle2, Clock, MessageSquare } from "lucide-react";
+import { SortableHeader } from "@/components/shared/DataTable";
+import { CheckCircle2, Clock, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import Link from "next/link";
@@ -20,15 +20,7 @@ export const columns: ColumnDef<Report>[] = [
     {
         accessorKey: "subject",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Subjek
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Subjek" />
         ),
         cell: ({ row }) => {
             const report = row.original;
@@ -59,15 +51,7 @@ export const columns: ColumnDef<Report>[] = [
     {
         accessorKey: "category",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Kategori
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Kategori" />
         ),
         cell: ({ row }) => {
             const category = row.getValue("category") as Report["category"];
@@ -85,15 +69,7 @@ export const columns: ColumnDef<Report>[] = [
         id: "user",
         accessorKey: "user.fullName",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Pengguna
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Pengguna" />
         ),
         cell: ({ row }) => {
             const user = row.original.user;
@@ -110,15 +86,7 @@ export const columns: ColumnDef<Report>[] = [
     {
         accessorKey: "status",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Status
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Status" />
         ),
         cell: ({ row }) => {
             const status = row.getValue("status") as Report["status"];
@@ -142,15 +110,7 @@ export const columns: ColumnDef<Report>[] = [
     {
         accessorKey: "createdAt",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Tanggal
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Tanggal" />
         ),
         cell: ({ row }) =>
             format(new Date(row.getValue("createdAt")), "dd MMM yyyy", {

@@ -1,7 +1,6 @@
 import prisma from "../db";
-import { CreateBooking } from "../schemas/bookings.schema";
+import { BookingQuerySchema, CreateBooking } from "../schemas/bookings.schema";
 import { Prisma, User } from "@prisma/client";
-import { Pagination } from "../schemas/pagination.schema";
 import { config } from "../config/env";
 import {
     ConflictError,
@@ -17,13 +16,44 @@ export class BookingsService {
         this.snap = snap;
     }
 
-    public async findAllBookings(query: Pagination, user: User) {
+    private buildOrderBy(
+        sortBy?: string,
+        sortOrder?: "asc" | "desc"
+    ): Prisma.BookingOrderByWithRelationInput {
+        if (!sortBy || !sortOrder) {
+            return { createdAt: "desc" };
+        }
+        if (sortBy === "user") {
+            return { user: { fullName: sortOrder } };
+        }
+        if (sortBy === "field" || sortBy === "venue_field") {
+            return { field: { venue: { name: sortOrder } } };
+        }
+        if (sortBy === "paymentStatus") {
+            return { payment: { status: sortOrder } };
+        }
+        const allowedFields = [
+            "id",
+            "bookingDate",
+            "status",
+            "totalPrice",
+            "createdAt",
+        ];
+        if (allowedFields.includes(sortBy)) {
+            return { [sortBy]: sortOrder };
+        }
+        return { createdAt: "desc" };
+    }
+
+    public async findAllBookings(query: BookingQuerySchema, user: User) {
         const {
             page = 1,
             limit = 10,
             cursor,
             take,
             search,
+            status,
+            paymentStatus,
             sortBy,
             sortOrder,
         } = query;
@@ -33,11 +63,35 @@ export class BookingsService {
         const skip = (pageNum - 1) * limitNum;
 
         const whereCondition: Prisma.BookingWhereInput = {
+            ...(status ? { status } : {}),
+            ...(paymentStatus
+                ? { payment: { is: { status: paymentStatus } } }
+                : {}),
             ...(search && {
                 OR: [
-                    { id: { contains: search } },
-                    { user: { fullName: { contains: search } } },
-                    { field: { name: { contains: search } } },
+                    { id: { contains: search, mode: "insensitive" } },
+                    {
+                        user: {
+                            fullName: { contains: search, mode: "insensitive" },
+                        },
+                    },
+                    {
+                        user: {
+                            email: { contains: search, mode: "insensitive" },
+                        },
+                    },
+                    {
+                        field: {
+                            name: { contains: search, mode: "insensitive" },
+                        },
+                    },
+                    {
+                        field: {
+                            venue: {
+                                name: { contains: search, mode: "insensitive" },
+                            },
+                        },
+                    },
                 ],
             }),
         };
@@ -54,14 +108,7 @@ export class BookingsService {
         }
         // ADMIN sees all (no additional filter)
 
-        const orderByCondition: Prisma.BookingOrderByWithRelationInput =
-            sortBy && sortOrder
-                ? sortBy === "user"
-                    ? { user: { fullName: sortOrder } }
-                    : sortBy === "field"
-                    ? { field: { name: sortOrder } }
-                    : { [sortBy]: sortOrder }
-                : { createdAt: "desc" };
+        const orderByCondition = this.buildOrderBy(sortBy, sortOrder);
 
         const paginationArgs: any = {
             take: takeNum ?? limitNum,

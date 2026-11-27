@@ -1,7 +1,8 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
+import { SortableHeader } from "@/components/shared/DataTable";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -34,6 +35,7 @@ export type User = {
     fullName: string;
     email: string;
     role: "USER" | "RENTER" | "ADMIN";
+    isVerified?: boolean;
     createdAt: string;
 };
 
@@ -144,43 +146,19 @@ export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "fullName",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Nama Lengkap
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Nama Lengkap" />
         ),
     },
     {
         accessorKey: "email",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Email
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Email" />
         ),
     },
     {
         accessorKey: "role",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Peran
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Peran" />
         ),
         cell: ({ row }) => {
             const role = row.getValue("role") as string;
@@ -192,17 +170,30 @@ export const columns: ColumnDef<User>[] = [
         },
     },
     {
+        accessorKey: "isVerified",
+        header: ({ column }) => (
+            <SortableHeader
+                column={column}
+                title="Verifikasi"
+                align="center"
+            />
+        ),
+        cell: ({ row }) => {
+            const isVerified = Boolean(row.original.isVerified);
+            return (
+                <div className="flex justify-center">
+                    <StatusBadge
+                        label={isVerified ? "Terverifikasi" : "Belum Verifikasi"}
+                        tone={isVerified ? "success" : "warning"}
+                    />
+                </div>
+            );
+        },
+    },
+    {
         accessorKey: "createdAt",
         header: ({ column }) => (
-            <Button
-                variant="ghost"
-                onClick={() =>
-                    column.toggleSorting(column.getIsSorted() === "asc")
-                }
-            >
-                Bergabung
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
+            <SortableHeader column={column} title="Bergabung" />
         ),
         cell: ({ row }) => {
             return (
