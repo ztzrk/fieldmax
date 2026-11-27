@@ -62,6 +62,33 @@ export function CheckInScannerDialog() {
 
         async function startScanner() {
             try {
+                if (
+                    typeof navigator === "undefined" ||
+                    !navigator.mediaDevices?.getUserMedia
+                ) {
+                    if (!cancelled) {
+                        setCameraError(
+                            "Kamera tidak tersedia atau izin ditolak. Gunakan tab Input Kode Manual."
+                        );
+                    }
+                    return;
+                }
+                if (navigator.mediaDevices.enumerateDevices) {
+                    const devices =
+                        await navigator.mediaDevices.enumerateDevices();
+                    const hasCamera = devices.some(
+                        (d) => d.kind === "videoinput"
+                    );
+                    if (!hasCamera) {
+                        if (!cancelled) {
+                            setCameraError(
+                                "Kamera tidak tersedia atau izin ditolak. Gunakan tab Input Kode Manual."
+                            );
+                        }
+                        return;
+                    }
+                }
+
                 const { Html5Qrcode } = await import("html5-qrcode");
                 if (cancelled) return;
 
@@ -100,10 +127,14 @@ export function CheckInScannerDialog() {
             const current = scannerRef.current;
             scannerRef.current = null;
             if (current) {
-                current
-                    .stop()
-                    .then(() => current.clear())
-                    .catch(() => {});
+                try {
+                    // html5-qrcode may throw synchronously when the scanner never started
+                    Promise.resolve(current.stop())
+                        .then(() => current.clear())
+                        .catch(() => {});
+                } catch {
+                    // Ignore: scanner is not running or paused
+                }
             }
         };
     }, [open, mode, checkedInBooking, scanError]);

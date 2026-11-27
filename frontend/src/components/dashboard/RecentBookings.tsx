@@ -114,7 +114,7 @@ export function RecentBookings({
                                             className="hover:bg-muted/40"
                                         >
                                             <TableCell>
-                                                <div className="flex flex-col min-w-0">
+                                                <div className="flex flex-col min-w-0 max-w-[120px] xl:max-w-[150px]">
                                                     {detailHref ? (
                                                         <Link
                                                             href={detailHref}
@@ -133,7 +133,7 @@ export function RecentBookings({
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="flex flex-col min-w-0">
+                                                <div className="flex flex-col min-w-0 max-w-[140px] xl:max-w-[200px]">
                                                     <span className="font-medium text-sm truncate">
                                                         {booking.field.venue.name} •{" "}
                                                         {booking.field.name}

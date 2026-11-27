@@ -262,44 +262,6 @@ export function RevenueChart({
                             data={data}
                             margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
                         >
-                            <defs>
-                                <linearGradient
-                                    id="fillRevenuePrimary"
-                                    x1="0"
-                                    y1="0"
-                                    x2="0"
-                                    y2="1"
-                                >
-                                    <stop
-                                        offset="0%"
-                                        stopColor="var(--primary)"
-                                        stopOpacity={0.95}
-                                    />
-                                    <stop
-                                        offset="100%"
-                                        stopColor="var(--primary)"
-                                        stopOpacity={0.55}
-                                    />
-                                </linearGradient>
-                                <linearGradient
-                                    id="fillCountInfo"
-                                    x1="0"
-                                    y1="0"
-                                    x2="0"
-                                    y2="1"
-                                >
-                                    <stop
-                                        offset="0%"
-                                        stopColor="var(--chart-2)"
-                                        stopOpacity={0.95}
-                                    />
-                                    <stop
-                                        offset="100%"
-                                        stopColor="var(--chart-2)"
-                                        stopOpacity={0.55}
-                                    />
-                                </linearGradient>
-                            </defs>
                             <CartesianGrid
                                 vertical={false}
                                 strokeDasharray="3 3"
@@ -333,11 +295,12 @@ export function RevenueChart({
                                 dataKey={activeMetric}
                                 fill={
                                     activeMetric === "total"
-                                        ? "url(#fillRevenuePrimary)"
-                                        : "url(#fillCountInfo)"
+                                        ? "var(--primary)"
+                                        : "var(--chart-2)"
                                 }
                                 radius={[5, 5, 0, 0]}
                                 maxBarSize={40}
+                                isAnimationActive={false}
                             />
                         </BarChart>
                     </ChartContainer>
