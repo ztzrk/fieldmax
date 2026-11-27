@@ -168,19 +168,17 @@ export function Navbar() {
                 {/* Right: Dashboard / Auth / UserNav / Mobile Toggle */}
                 <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
                     {dashboardHref && (
-                        <Link
-                            href={dashboardHref}
-                            className="hidden sm:inline-flex"
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            asChild
+                            className="hidden sm:inline-flex rounded-full gap-1.5 border-primary/30 bg-primary/5 text-primary hover:bg-primary/15 hover:text-primary"
                         >
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="rounded-full gap-1.5 border-primary/30 bg-primary/5 text-primary hover:bg-primary/15 hover:text-primary"
-                            >
+                            <Link href={dashboardHref}>
                                 <LayoutDashboard className="h-3.5 w-3.5" />
                                 Dashboard
-                            </Button>
-                        </Link>
+                            </Link>
+                        </Button>
                     )}
 
                     {isAuthLoading ? (
@@ -189,23 +187,21 @@ export function Navbar() {
                         <UserNav />
                     ) : (
                         <div className="hidden sm:flex items-center gap-2">
-                            <Link href="/login">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="rounded-full px-4 bg-background"
-                                >
-                                    Masuk
-                                </Button>
-                            </Link>
-                            <Link href="/register">
-                                <Button
-                                    size="sm"
-                                    className="rounded-full px-5 shadow-xs"
-                                >
-                                    Daftar
-                                </Button>
-                            </Link>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                asChild
+                                className="rounded-full px-4 bg-background"
+                            >
+                                <Link href="/login">Masuk</Link>
+                            </Button>
+                            <Button
+                                size="sm"
+                                asChild
+                                className="rounded-full px-5 shadow-xs"
+                            >
+                                <Link href="/register">Daftar</Link>
+                            </Button>
                         </div>
                     )}
 
@@ -285,25 +281,26 @@ export function Navbar() {
 
                     {!isAuthLoading && !user && (
                         <div className="pt-3 border-t border-border grid grid-cols-2 gap-2">
-                            <Link
-                                href="/login"
-                                onClick={() => setMobileMenuOpen(false)}
+                            <Button
+                                variant="outline"
+                                asChild
+                                className="w-full rounded-full"
                             >
-                                <Button
-                                    variant="outline"
-                                    className="w-full rounded-full"
+                                <Link
+                                    href="/login"
+                                    onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Masuk
-                                </Button>
-                            </Link>
-                            <Link
-                                href="/register"
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                <Button className="w-full rounded-full">
+                                </Link>
+                            </Button>
+                            <Button asChild className="w-full rounded-full">
+                                <Link
+                                    href="/register"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
                                     Daftar
-                                </Button>
-                            </Link>
+                                </Link>
+                            </Button>
                         </div>
                     )}
                 </div>

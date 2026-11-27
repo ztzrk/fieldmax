@@ -175,22 +175,23 @@ export function ExploreFieldsSection({
 
                 {/* Browse All CTA */}
                 <div className="flex justify-center pt-2">
-                    <Link
-                        href={
-                            selectedSportType
-                                ? `/fields?sport=${selectedSportType}`
-                                : "/fields"
-                        }
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        asChild
+                        className="rounded-full px-8 gap-2 group"
                     >
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            className="rounded-full px-8 gap-2 group"
+                        <Link
+                            href={
+                                selectedSportType
+                                    ? `/fields?sport=${selectedSportType}`
+                                    : "/fields"
+                            }
                         >
                             Lihat Semua Lapangan
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </section>

@@ -159,9 +159,9 @@ export default function FAQPage() {
                             Tidak menemukan jawaban yang Anda cari? Tim bantuan
                             kami siap membantu Anda.
                         </p>
-                        <Link href="/reports">
-                            <Button>Hubungi Bantuan</Button>
-                        </Link>
+                        <Button asChild>
+                            <Link href="/reports">Hubungi Bantuan</Link>
+                        </Button>
                     </div>
                 </div>
             </section>

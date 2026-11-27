@@ -171,28 +171,26 @@ export function HeroSection({
                         </div>
                         {/* Sport Type Filters */}
                         <div className="relative z-10 flex flex-wrap items-center justify-center gap-2 pt-1">
-                            <Link href="/fields">
-                                <Button
-                                    variant="secondary"
-                                    size="sm"
-                                    className="rounded-full px-4 h-8 text-xs font-semibold shadow-sm"
-                                >
-                                    Semua Olahraga
-                                </Button>
-                            </Link>
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                asChild
+                                className="rounded-full px-4 h-8 text-xs font-semibold shadow-sm"
+                            >
+                                <Link href="/fields">Semua Olahraga</Link>
+                            </Button>
                             {sportTypes?.slice(0, 6).map((type) => (
-                                <Link
+                                <Button
                                     key={type.id}
-                                    href={`/fields?sport=${type.id}`}
+                                    variant="ghost"
+                                    size="sm"
+                                    asChild
+                                    className="rounded-full px-4 h-8 text-xs font-medium text-white bg-white/15 hover:bg-white/25 hover:text-white border border-white/20 backdrop-blur-sm transition-all"
                                 >
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="rounded-full px-4 h-8 text-xs font-medium text-white bg-white/15 hover:bg-white/25 hover:text-white border border-white/20 backdrop-blur-sm transition-all"
-                                    >
+                                    <Link href={`/fields?sport=${type.id}`}>
                                         {type.name}
-                                    </Button>
-                                </Link>
+                                    </Link>
+                                </Button>
                             ))}
                         </div>
                     </div>

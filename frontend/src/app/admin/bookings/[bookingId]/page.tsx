@@ -40,9 +40,9 @@ export default function AdminBookingDetailPage({
             <div className="flex flex-col items-center justify-center gap-4 py-10">
                 <AlertCircle className="h-10 w-10 text-destructive" />
                 <h2 className="text-xl font-semibold">Booking not found</h2>
-                <Link href="/admin/bookings">
-                    <Button variant="outline">Back to Bookings</Button>
-                </Link>
+                <Button variant="outline" asChild>
+                    <Link href="/admin/bookings">Back to Bookings</Link>
+                </Button>
             </div>
         );
     }
@@ -67,11 +67,16 @@ export default function AdminBookingDetailPage({
     return (
         <div className="max-w-3xl mx-auto space-y-6">
             <div className="flex items-center gap-4">
-                <Link href="/admin/bookings">
-                    <Button variant="ghost" size="icon">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    asChild
+                    aria-label="Kembali ke daftar pemesanan"
+                >
+                    <Link href="/admin/bookings">
                         <ArrowLeft className="h-5 w-5" />
-                    </Button>
-                </Link>
+                    </Link>
+                </Button>
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
                         Booking Details

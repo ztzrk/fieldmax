@@ -115,18 +115,19 @@ export default function EditFieldPage() {
     return (
         <div className="space-y-6">
             {/* Back Link */}
-            <Link href={backHref} className="inline-block">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className="gap-2 -ml-2 text-muted-foreground hover:text-foreground"
-                >
+            <Button
+                variant="ghost"
+                size="sm"
+                asChild
+                className="gap-2 -ml-2 text-muted-foreground hover:text-foreground"
+            >
+                <Link href={backHref}>
                     <ArrowLeft className="h-4 w-4" />
                     {fromVenueId
                         ? "Kembali ke Detail Tempat Olahraga"
                         : "Kembali ke Lapangan Saya"}
-                </Button>
-            </Link>
+                </Link>
+            </Button>
 
             {/* Summary Header Card */}
             <Card className="rounded-2xl border-border/70 shadow-sm">

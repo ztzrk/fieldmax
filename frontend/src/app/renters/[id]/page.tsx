@@ -35,9 +35,9 @@ export default function RenterProfilePage() {
                 <p className="text-muted-foreground">
                     Profil mitra yang Anda cari tidak tersedia.
                 </p>
-                <Link href="/renters">
-                    <Button variant="outline">Lihat Semua Mitra</Button>
-                </Link>
+                <Button variant="outline" asChild>
+                    <Link href="/renters">Lihat Semua Mitra</Link>
+                </Button>
             </div>
         );
     }

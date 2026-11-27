@@ -679,18 +679,19 @@ export default function RevenuePage() {
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    <Link
-                                                        href={`/renter/fields/${field.fieldId}?fromVenue=${field.venueId}`}
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        asChild
+                                                        className="h-8 gap-1 text-xs"
                                                     >
-                                                        <Button
-                                                            variant="outline"
-                                                            size="sm"
-                                                            className="h-8 gap-1 text-xs"
+                                                        <Link
+                                                            href={`/renter/fields/${field.fieldId}?fromVenue=${field.venueId}`}
                                                         >
                                                             Kelola
                                                             <ArrowUpRight className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </Link>
+                                                        </Link>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -818,18 +819,19 @@ export default function RevenuePage() {
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    <Link
-                                                        href={`/renter/venues/${venue.venueId}`}
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        asChild
+                                                        className="h-8 gap-1 text-xs"
                                                     >
-                                                        <Button
-                                                            variant="outline"
-                                                            size="sm"
-                                                            className="h-8 gap-1 text-xs"
+                                                        <Link
+                                                            href={`/renter/venues/${venue.venueId}`}
                                                         >
                                                             Kelola
                                                             <ArrowUpRight className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </Link>
+                                                        </Link>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}

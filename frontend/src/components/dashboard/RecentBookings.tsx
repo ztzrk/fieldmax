@@ -76,16 +76,17 @@ export function RecentBookings({
                     Pemesanan Terbaru
                 </CardTitle>
                 {viewAllHref && (
-                    <Link href={viewAllHref}>
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 gap-1 text-xs text-primary hover:text-primary"
-                        >
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="h-8 gap-1 text-xs text-primary hover:text-primary"
+                    >
+                        <Link href={viewAllHref}>
                             Lihat Semua
                             <ArrowRight className="h-3.5 w-3.5" />
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 )}
             </CardHeader>
             <CardContent>

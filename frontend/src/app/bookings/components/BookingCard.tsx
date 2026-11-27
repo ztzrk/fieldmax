@@ -237,18 +237,16 @@ export function BookingCard({ booking, onReview, isPast }: BookingCardProps) {
                             </div>
                         )}
 
-                        <Link
-                            href={`/bookings/${booking.id}`}
-                            className="flex-1 sm:flex-none"
+                        <Button
+                            className="flex-1 sm:flex-none w-full sm:w-auto h-9 text-xs rounded-xl group/btn"
+                            size="sm"
+                            asChild
                         >
-                            <Button
-                                className="w-full sm:w-auto h-9 text-xs rounded-xl group/btn"
-                                size="sm"
-                            >
+                            <Link href={`/bookings/${booking.id}`}>
                                 Lihat Tiket
                                 <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover/btn:translate-x-0.5 transition-transform" />
-                            </Button>
-                        </Link>
+                            </Link>
+                        </Button>
                     </div>
                 </div>
             </div>

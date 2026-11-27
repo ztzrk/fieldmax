@@ -31,26 +31,23 @@ export function RenterCTA() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                            <Link
-                                href="/register/renter"
-                                className="w-full sm:w-auto"
+                            <Button
+                                size="lg"
+                                asChild
+                                className="w-full sm:w-auto bg-white text-slate-900 hover:bg-slate-100 active:scale-[0.98] transition-all duration-200 font-bold h-12 px-8 text-base shadow-lg hover:-translate-y-0.5"
                             >
-                                <Button
-                                    size="lg"
-                                    className="w-full bg-white text-slate-900 hover:bg-slate-100 active:scale-[0.98] transition-all duration-200 font-bold h-12 px-8 text-base shadow-lg hover:-translate-y-0.5"
-                                >
+                                <Link href="/register/renter">
                                     Daftar Sebagai Pengelola
-                                </Button>
-                            </Link>
-                            <Link href="/about" className="w-full sm:w-auto">
-                                <Button
-                                    variant="outline"
-                                    size="lg"
-                                    className="w-full bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-slate-900 hover:border-white h-12 px-8 text-base transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
-                                >
-                                    Pelajari Lebih Lanjut
-                                </Button>
-                            </Link>
+                                </Link>
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                asChild
+                                className="w-full sm:w-auto bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-slate-900 hover:border-white h-12 px-8 text-base transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
+                            >
+                                <Link href="/about">Pelajari Lebih Lanjut</Link>
+                            </Button>
                         </div>
                     </div>
                 </div>

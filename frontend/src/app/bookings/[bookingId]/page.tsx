@@ -168,9 +168,9 @@ export default function BookingDetailPage({
                 <h2 className="text-xl font-semibold">
                     Pemesanan tidak ditemukan
                 </h2>
-                <Link href="/bookings">
-                    <Button variant="outline">Kembali ke Pemesanan</Button>
-                </Link>
+                <Button variant="outline" asChild>
+                    <Link href="/bookings">Kembali ke Pemesanan</Link>
+                </Button>
             </div>
         );
     }

@@ -13,14 +13,13 @@ export function EmptyBookings() {
                 You haven't made any bookings. Find your perfect field and start
                 playing today!
             </p>
-            <Link href="/fields">
-                <Button
-                    size="lg"
-                    className="rounded-full px-8 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
-                >
-                    Find a Field
-                </Button>
-            </Link>
+            <Button
+                size="lg"
+                asChild
+                className="rounded-full px-8 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
+            >
+                <Link href="/fields">Find a Field</Link>
+            </Button>
         </div>
     );
 }

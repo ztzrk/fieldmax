@@ -49,14 +49,13 @@ export default function PricingPage() {
                                     <span>Pembayaran digital aman</span>
                                 </li>
                             </ul>
-                            <Link href="/search">
-                                <Button
-                                    className="w-full h-12 text-lg"
-                                    size="lg"
-                                >
-                                    Mulai Memesan
-                                </Button>
-                            </Link>
+                            <Button
+                                className="w-full h-12 text-lg"
+                                size="lg"
+                                asChild
+                            >
+                                <Link href="/search">Mulai Memesan</Link>
+                            </Button>
                         </div>
 
                         {/* Venue Owner Plan */}
@@ -100,14 +99,15 @@ export default function PricingPage() {
                                     <span>Pemasaran &amp; promosi</span>
                                 </li>
                             </ul>
-                            <Link href="/register/renter">
-                                <Button
-                                    className="w-full h-12 text-lg bg-white text-slate-950 hover:bg-slate-200"
-                                    size="lg"
-                                >
+                            <Button
+                                className="w-full h-12 text-lg bg-white text-slate-950 hover:bg-slate-200"
+                                size="lg"
+                                asChild
+                            >
+                                <Link href="/register/renter">
                                     Daftarkan Tempat Olahraga
-                                </Button>
-                            </Link>
+                                </Link>
+                            </Button>
                         </div>
                     </div>
                 </div>

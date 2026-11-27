@@ -168,21 +168,24 @@ export default function AboutPage() {
                             tempat olahraga, FieldMax siap membantu Anda.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link href="/search">
-                                <Button size="lg" className="gap-2 h-12 px-8">
+                            <Button
+                                size="lg"
+                                asChild
+                                className="gap-2 h-12 px-8"
+                            >
+                                <Link href="/search">
                                     Cari Lapangan{" "}
                                     <ArrowRight className="h-4 w-4" />
-                                </Button>
-                            </Link>
-                            <Link href="/reports">
-                                <Button
-                                    size="lg"
-                                    variant="outline"
-                                    className="h-12 px-8"
-                                >
-                                    Hubungi Kami
-                                </Button>
-                            </Link>
+                                </Link>
+                            </Button>
+                            <Button
+                                size="lg"
+                                variant="outline"
+                                asChild
+                                className="h-12 px-8"
+                            >
+                                <Link href="/reports">Hubungi Kami</Link>
+                            </Button>
                         </div>
                     </div>
                 </div>

@@ -47,9 +47,9 @@ export default function FieldDetailPage() {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                 <h2 className="text-xl font-semibold">Lapangan tidak ditemukan</h2>
-                <Link href="/fields">
-                    <Button variant="outline">Jelajahi Lapangan Lainnya</Button>
-                </Link>
+                <Button variant="outline" asChild>
+                    <Link href="/fields">Jelajahi Lapangan Lainnya</Link>
+                </Button>
             </div>
         );
 

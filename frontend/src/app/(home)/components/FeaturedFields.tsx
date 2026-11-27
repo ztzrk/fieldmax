@@ -36,12 +36,12 @@ export function FeaturedFields({ fields }: FeaturedFieldsProps) {
                             direkomendasikan para pemain.
                         </p>
                     </div>
-                    <Link href="/fields">
-                        <Button variant="ghost" className="gap-2 group">
+                    <Button variant="ghost" asChild className="gap-2 group">
+                        <Link href="/fields">
                             Lihat Semua{" "}
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 </div>
 
                 <div className="px-10">

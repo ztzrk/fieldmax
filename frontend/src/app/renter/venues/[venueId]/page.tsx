@@ -127,16 +127,17 @@ export default function EditVenuePage() {
     return (
         <div className="space-y-6">
             {/* Back Link */}
-            <Link href="/renter/venues" className="inline-block">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className="gap-2 -ml-2 text-muted-foreground hover:text-foreground"
-                >
+            <Button
+                variant="ghost"
+                size="sm"
+                asChild
+                className="gap-2 -ml-2 text-muted-foreground hover:text-foreground"
+            >
+                <Link href="/renter/venues">
                     <ArrowLeft className="h-4 w-4" />
                     Kembali ke Tempat Olahraga Saya
-                </Button>
-            </Link>
+                </Link>
+            </Button>
 
             {/* Summary Header Card */}
             <Card className="rounded-2xl border-border/70 shadow-sm overflow-hidden">

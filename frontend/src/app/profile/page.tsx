@@ -122,9 +122,9 @@ export default function ProfilePage() {
                 <p className="text-muted-foreground">
                     Gagal memuat profil. Pastikan Anda sudah masuk.
                 </p>
-                <Link href="/login">
-                    <Button>Ke Halaman Login</Button>
-                </Link>
+                <Button asChild>
+                    <Link href="/login">Ke Halaman Login</Link>
+                </Button>
             </div>
         );
     }

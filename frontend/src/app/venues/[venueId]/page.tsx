@@ -32,9 +32,9 @@ export default function VenueDetailPage() {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                 <h2 className="text-xl font-semibold">Tempat olahraga tidak ditemukan</h2>
-                <Link href="/">
-                    <Button variant="outline">Kembali ke Beranda</Button>
-                </Link>
+                <Button variant="outline" asChild>
+                    <Link href="/">Kembali ke Beranda</Link>
+                </Button>
             </div>
         );
 

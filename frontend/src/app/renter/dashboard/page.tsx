@@ -100,15 +100,16 @@ export default function RenterDashboard() {
                 {/* Operational Quick Actions */}
                 <div className="flex flex-wrap items-center gap-2.5">
                     <CheckInScannerDialog />
-                    <Link href="/renter/venues">
-                        <Button
-                            variant="outline"
-                            className="gap-2 bg-card hover:bg-muted"
-                        >
+                    <Button
+                        variant="outline"
+                        asChild
+                        className="gap-2 bg-card hover:bg-muted"
+                    >
+                        <Link href="/renter/venues">
                             <Plus className="h-4 w-4 text-primary" />
                             Kelola Venue
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 </div>
             </div>
 
@@ -128,12 +129,12 @@ export default function RenterDashboard() {
                                 ikuti 3 langkah mudah berikut:
                             </p>
                         </div>
-                        <Link href="/renter/venues">
-                            <Button className="shrink-0 font-medium">
+                        <Button asChild className="shrink-0 font-medium">
+                            <Link href="/renter/venues">
                                 Tambah Venue Sekarang
                                 <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                        </Link>
+                            </Link>
+                        </Button>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-primary/10">
@@ -346,15 +347,14 @@ export default function RenterDashboard() {
                                 Pantau kedatangan pelanggan hari ini
                             </p>
                         </div>
-                        <Link href="/renter/bookings">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 text-xs text-primary"
-                            >
-                                Semua
-                            </Button>
-                        </Link>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            asChild
+                            className="h-8 text-xs text-primary"
+                        >
+                            <Link href="/renter/bookings">Semua</Link>
+                        </Button>
                     </CardHeader>
                     <CardContent className="pt-4 flex-1">
                         {todaySchedule.length === 0 ? (

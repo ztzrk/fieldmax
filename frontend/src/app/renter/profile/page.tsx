@@ -120,12 +120,12 @@ export default function RenterProfilePage() {
                         yang tampil di halaman publik.
                     </p>
                 </div>
-                <Link href={`/renters/${user.id}`}>
-                    <Button variant="outline" className="gap-2">
+                <Button variant="outline" asChild className="gap-2">
+                    <Link href={`/renters/${user.id}`}>
                         <ExternalLink className="h-4 w-4" />
                         Lihat Halaman Publik
-                    </Button>
-                </Link>
+                    </Link>
+                </Button>
             </div>
 
             {/* Brand & Account Header Cards */}
