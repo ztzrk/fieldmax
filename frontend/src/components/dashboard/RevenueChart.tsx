@@ -21,7 +21,7 @@ interface RevenueChartProps {
 const chartConfig = {
     total: {
         label: "Pendapatan",
-        color: "hsl(var(--primary))",
+        color: "var(--primary)",
     },
 } satisfies ChartConfig;
 
@@ -55,7 +55,7 @@ export function RevenueChart({
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">
                         Total periode:{" "}
-                        <span className="font-semibold text-foreground">
+                        <span className="font-semibold text-foreground tabular-nums">
                             {formatCurrency(periodTotal)}
                         </span>
                     </p>
@@ -78,12 +78,12 @@ export function RevenueChart({
                             >
                                 <stop
                                     offset="5%"
-                                    stopColor="#f59e0b"
+                                    stopColor="var(--chart-1)"
                                     stopOpacity={0.9}
                                 />
                                 <stop
                                     offset="95%"
-                                    stopColor="#ea580c"
+                                    stopColor="var(--chart-2)"
                                     stopOpacity={0.85}
                                 />
                             </linearGradient>
@@ -109,7 +109,7 @@ export function RevenueChart({
                             }
                         />
                         <ChartTooltip
-                            cursor={{ fill: "rgba(0,0,0,0.04)" }}
+                            cursor={{ fill: "var(--muted)", opacity: 0.4 }}
                             content={<ChartTooltipContent hideLabel />}
                         />
                         <Bar

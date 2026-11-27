@@ -27,8 +27,8 @@ export function SearchHeader({
 
     return (
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center gap-6">
+            <div className="w-full flex flex-wrap sm:flex-nowrap min-h-16 items-center justify-between gap-2 sm:gap-4 px-4 sm:px-6 lg:px-8 py-2.5 sm:py-0">
+                <div className="flex items-center gap-6 shrink-0">
                     <Link
                         href="/"
                         className="flex gap-2 items-center font-bold text-xl"
@@ -53,11 +53,12 @@ export function SearchHeader({
                     </nav>
                 </div>
 
-                <div className="flex-1 max-w-xl mx-4">
+                <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 sm:max-w-xl sm:mx-4 min-w-0">
                     <div className="relative">
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
                             type="search"
+                            aria-label="Cari lapangan atau tempat olahraga"
                             placeholder="Cari lapangan atau tempat olahraga..."
                             className="pl-8 w-full"
                             value={search}
@@ -67,19 +68,19 @@ export function SearchHeader({
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="order-2 sm:order-3 flex items-center gap-2 sm:gap-4 shrink-0">
                     {isAuthLoading ? (
                         <div className="w-24 h-9 bg-muted animate-pulse rounded-md" />
                     ) : user ? (
                         <UserNav />
                     ) : (
                         <div className="flex gap-2">
-                            <Link href="/login">
-                                <Button variant="ghost">Masuk</Button>
-                            </Link>
-                            <Link href="/register">
-                                <Button>Daftar</Button>
-                            </Link>
+                            <Button variant="ghost" size="sm" asChild>
+                                <Link href="/login">Masuk</Link>
+                            </Button>
+                            <Button size="sm" asChild>
+                                <Link href="/register">Daftar</Link>
+                            </Button>
                         </div>
                     )}
                 </div>

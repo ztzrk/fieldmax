@@ -150,6 +150,7 @@ export function Navbar() {
                     <Search className="h-4 w-4 text-muted-foreground shrink-0 mr-2" />
                     <input
                         type="text"
+                        aria-label="Cari lapangan olahraga"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Cari lapangan olahraga..."
@@ -236,6 +237,7 @@ export function Navbar() {
                         <Search className="h-4 w-4 text-muted-foreground shrink-0 mr-2" />
                         <input
                             type="text"
+                            aria-label="Cari lapangan olahraga"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Cari lapangan olahraga..."

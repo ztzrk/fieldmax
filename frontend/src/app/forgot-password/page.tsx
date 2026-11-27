@@ -44,10 +44,14 @@ export default function ForgotPasswordPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen relative">
-            <Card className="w-[350px]">
+        <div className="flex items-center justify-center min-h-screen relative px-4">
+            <Card className="w-full max-w-[380px]">
                 <CardHeader>
-                    <CardTitle>Lupa Kata Sandi</CardTitle>
+                    <CardTitle>
+                        <h1 className="text-xl font-bold tracking-tight">
+                            Lupa Kata Sandi
+                        </h1>
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>

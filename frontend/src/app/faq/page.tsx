@@ -28,6 +28,8 @@ export default function FAQPage() {
                     <div className="relative max-w-lg mx-auto">
                         <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                         <Input
+                            type="search"
+                            aria-label="Cari jawaban di FAQ"
                             placeholder="Cari jawaban..."
                             className="pl-10 h-12 bg-background shadow-sm"
                         />

@@ -58,6 +58,7 @@ export default function PublicRentersPage() {
                         <div className="relative w-full lg:w-96">
                             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                             <Input
+                                aria-label="Cari nama mitra"
                                 placeholder="Cari nama mitra..."
                                 className="pl-10 h-11 bg-white/10 border-white/15 text-white placeholder:text-slate-400 focus-visible:ring-primary"
                                 value={search}

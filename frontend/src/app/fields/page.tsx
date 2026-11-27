@@ -218,6 +218,7 @@ function FieldsContent() {
                                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     type="search"
+                                    aria-label="Cari nama lapangan atau tempat olahraga"
                                     placeholder="Cari nama lapangan atau tempat olahraga..."
                                     className="pl-9 w-full"
                                     value={search}

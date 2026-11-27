@@ -84,6 +84,7 @@ export function SportTypeFilter({
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                 <Input
                     type="search"
+                    aria-label="Cari cabang olahraga"
                     value={sportQuery}
                     onChange={(e) => setSportQuery(e.target.value)}
                     placeholder="Cari cabang olahraga..."
@@ -230,6 +231,7 @@ export function PriceFilter({
                         <Input
                             type="number"
                             min={0}
+                            aria-label="Harga minimum per jam"
                             placeholder="Min"
                             value={customMin}
                             onChange={(e) => setCustomMin(e.target.value)}
@@ -243,6 +245,7 @@ export function PriceFilter({
                         <Input
                             type="number"
                             min={0}
+                            aria-label="Harga maksimum per jam"
                             placeholder="Maks"
                             value={customMax}
                             onChange={(e) => setCustomMax(e.target.value)}

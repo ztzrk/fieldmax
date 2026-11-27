@@ -59,8 +59,8 @@ export function InputField<T extends FieldValues>({
                             {rightLabel}
                         </div>
                     )}
-                    <FormControl>
-                        <div className="relative">
+                    <div className="relative">
+                        <FormControl>
                             <Input
                                 type={
                                     type === "password" && showPassword
@@ -77,23 +77,26 @@ export function InputField<T extends FieldValues>({
                                 }
                                 className={type === "password" ? "pr-10" : ""}
                             />
-                            {type === "password" && (
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setShowPassword(!showPassword)
-                                    }
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                                >
-                                    {showPassword ? (
-                                        <EyeOff className="h-4 w-4" />
-                                    ) : (
-                                        <Eye className="h-4 w-4" />
-                                    )}
-                                </button>
-                            )}
-                        </div>
-                    </FormControl>
+                        </FormControl>
+                        {type === "password" && (
+                            <button
+                                type="button"
+                                aria-label={
+                                    showPassword
+                                        ? "Sembunyikan kata sandi"
+                                        : "Tampilkan kata sandi"
+                                }
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                                {showPassword ? (
+                                    <EyeOff className="h-4 w-4" />
+                                ) : (
+                                    <Eye className="h-4 w-4" />
+                                )}
+                            </button>
+                        )}
+                    </div>
                     <FormMessage />
                 </FormItem>
             )}
