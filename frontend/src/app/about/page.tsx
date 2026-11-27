@@ -23,7 +23,7 @@ export default function AboutPage() {
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                             Maksimalkan{" "}
                             <br className="hidden sm:inline" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
+                            <span className="text-amber-200">
                                 Permainan Anda
                             </span>
                         </h1>
@@ -40,7 +40,7 @@ export default function AboutPage() {
             <section className="w-full py-20 md:py-32 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl skew-y-1 transform transition-transform hover:skew-y-0 duration-500">
+                        <div className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
                             {/* Placeholder for an actual team or generic sports image */}
                             <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
                                 <Trophy className="h-24 w-24 text-primary/50" />

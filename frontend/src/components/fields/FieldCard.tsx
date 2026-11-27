@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { MapPin, Trophy, ArrowRight } from "lucide-react";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { formatPrice } from "@/lib/utils";
@@ -22,7 +21,7 @@ export function FieldCard({ field, priority = false }: FieldCardProps) {
     return (
         <Link
             href={`/fields/${field.id}`}
-            className="block h-full cursor-pointer group"
+            className="block h-full cursor-pointer group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
             <Card className="h-full flex flex-col p-0 overflow-hidden border-border/50 bg-card hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
                 <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
@@ -73,11 +72,10 @@ export function FieldCard({ field, priority = false }: FieldCardProps) {
                         </span>
                     </div>
 
-                    <div className="mt-auto h-12 relative overflow-hidden">
-                        {/* Default State: Price and Rating */}
-                        <div className="absolute inset-0 flex items-center justify-between transition-transform duration-300 group-hover:-translate-y-full">
-                            <div>
-                                <span className="text-xl font-bold text-primary">
+                    <div className="mt-auto pt-2 space-y-3">
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="min-w-0">
+                                <span className="text-lg font-bold text-primary tabular-nums">
                                     {formatPrice(field.pricePerHour)}
                                 </span>
                                 <span className="text-xs text-muted-foreground ml-1">
@@ -85,9 +83,9 @@ export function FieldCard({ field, priority = false }: FieldCardProps) {
                                 </span>
                             </div>
                             {field.rating !== undefined && (
-                                <div className="flex items-center gap-1.5 bg-muted/50 px-2 py-1 rounded-md">
+                                <div className="flex items-center gap-1.5 bg-muted/60 px-2 py-1 rounded-md shrink-0">
                                     <Trophy className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
-                                    <span className="text-sm font-medium">
+                                    <span className="text-xs font-medium tabular-nums">
                                         {field.rating > 0
                                             ? field.rating.toFixed(1)
                                             : "Baru"}
@@ -96,12 +94,9 @@ export function FieldCard({ field, priority = false }: FieldCardProps) {
                             )}
                         </div>
 
-                        {/* Hover State: Book Button */}
-                        <div className="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                            <Button className="w-full font-semibold shadow-md gap-2">
-                                Sewa Lapangan
-                                <ArrowRight className="h-4 w-4" />
-                            </Button>
+                        <div className="pt-2.5 border-t border-border/50 flex items-center justify-between text-xs font-semibold text-primary">
+                            <span>Sewa Lapangan</span>
+                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                         </div>
                     </div>
                 </CardContent>

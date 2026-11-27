@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -10,57 +9,21 @@ import { Button } from "@/components/ui/button";
  * Call-to-action section for venue owners to partner with FieldMax.
  */
 export function RenterCTA() {
-    const [rotate, setRotate] = useState({ x: 0, y: 0 });
-    const sectionRef = useRef<HTMLDivElement>(null);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!sectionRef.current) return;
-
-        const rect = sectionRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const mouseX = e.clientX - centerX;
-        const mouseY = e.clientY - centerY;
-
-        const rotateX = (mouseY / (rect.height / 2)) * -2; // Max 2deg rotation
-        const rotateY = (mouseX / (rect.width / 2)) * 2;
-
-        setRotate({ x: rotateX, y: rotateY });
-    };
-
-    const handleMouseLeave = () => {
-        setRotate({ x: 0, y: 0 });
-    };
-
     return (
-        <section className="w-full py-24 bg-background px-4 md:px-6 perspective-1000">
-            <div
-                ref={sectionRef}
-                className="container mx-auto max-w-5xl transition-transform duration-200 ease-out"
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                    transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-                }}
-            >
-                <div className="relative rounded-3xl overflow-hidden bg-primary shadow-2xl group hover:shadow-primary/50 transition-shadow duration-500">
+        <section className="w-full py-24 bg-background px-4 md:px-6">
+            <div className="container mx-auto max-w-5xl">
+                <div className="relative rounded-3xl overflow-hidden bg-primary shadow-xl transition-shadow duration-300 hover:shadow-2xl">
                     {/* Background effects */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary via-orange-700 to-amber-800" />
+                    <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-full blur-[80px] pointer-events-none" />
+                    <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-black/20 rounded-full blur-[80px] pointer-events-none" />
 
-                    {/* Animated Blobs */}
-                    <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-full blur-[80px] animate-blob" />
-                    <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-black/20 rounded-full blur-[80px] animate-blob animation-delay-2000" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" />
-
-                    {/* Grid Pattern Overlay */}
-
-                    <div className="relative z-10 flex flex-col items-center text-center p-12 md:p-16 space-y-8 transform transition-transform duration-500 group-hover:scale-105">
+                    <div className="relative z-10 flex flex-col items-center text-center p-10 md:p-16 space-y-8">
                         <div className="space-y-4 max-w-2xl mx-auto">
-                            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight drop-shadow-md">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
                                 Punya Tempat Olahraga?
                             </h2>
-                            <p className="text-slate-100 text-lg md:text-xl leading-relaxed font-medium/90 text-shadow-sm">
+                            <p className="text-white/90 text-lg md:text-xl leading-relaxed font-medium">
                                 Bermitra dengan FieldMax untuk mengelola pemesanan
                                 secara otomatis, meningkatkan keterlihatan tempat,
                                 dan mengembangkan bisnis dengan alat manajemen terbaik.
@@ -74,7 +37,7 @@ export function RenterCTA() {
                             >
                                 <Button
                                     size="lg"
-                                    className="w-full bg-white text-slate-900 hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all duration-300 font-bold h-14 px-8 text-lg shadow-xl hover:shadow-2xl hover:shadow-white/20"
+                                    className="w-full bg-white text-slate-900 hover:bg-slate-100 active:scale-[0.98] transition-all duration-200 font-bold h-12 px-8 text-base shadow-lg hover:-translate-y-0.5"
                                 >
                                     Daftar Sebagai Pengelola
                                 </Button>
@@ -83,7 +46,7 @@ export function RenterCTA() {
                                 <Button
                                     variant="outline"
                                     size="lg"
-                                    className="w-full bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-black hover:border-white h-14 px-8 backdrop-blur-sm text-lg transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
+                                    className="w-full bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-slate-900 hover:border-white h-12 px-8 text-base transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
                                 >
                                     Pelajari Lebih Lanjut
                                 </Button>

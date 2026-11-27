@@ -112,35 +112,36 @@ export function VenueCard({ venue, priority = false }: VenueCardProps) {
                 {/* Location */}
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 min-w-0">
                     <MapPin className="h-4 w-4 shrink-0 text-primary/70" />
-                    <div className="relative flex-1 h-5 min-w-0">
-                        <span
-                            className="truncate transition-all duration-300 group-hover:opacity-0 absolute inset-0"
-                            title={venue.address || undefined}
-                        >
-                            {venue.address || "Alamat belum ditambahkan"}
-                        </span>
-                        <span className="truncate transition-all duration-300 opacity-0 group-hover:opacity-100 absolute inset-0">
-                            {[venue.district, venue.city]
+                    <span
+                        className="truncate"
+                        title={
+                            venue.address ||
+                            [venue.district, venue.city]
                                 .filter(Boolean)
-                                .join(", ") || venue.address}
-                        </span>
-                    </div>
+                                .join(", ") ||
+                            undefined
+                        }
+                    >
+                        {venue.address ||
+                            [venue.district, venue.city]
+                                .filter(Boolean)
+                                .join(", ") ||
+                            "Alamat belum ditambahkan"}
+                    </span>
                 </div>
 
                 <Link
                     href={`/venues/${venue.id}`}
-                    className="mt-auto pt-3 border-t border-border/50 flex items-center justify-between"
+                    className="mt-auto pt-3 border-t border-border/50 flex items-center justify-between rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                    <span className="text-xs text-muted-foreground font-medium">
+                    <span className="text-xs text-muted-foreground font-medium tabular-nums">
                         {venue.bookingCount !== undefined
                             ? `${venue.bookingCount} Pesanan`
                             : "Tempat Baru"}
                     </span>
-                    <div className="flex items-center text-xs font-semibold text-primary overflow-hidden">
-                        <span className="translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
-                            Lihat Detail
-                        </span>
-                        <ArrowRight className="h-3.5 w-3.5 ml-1 -translate-x-4 group-hover:translate-x-0 transition-transform duration-300" />
+                    <div className="flex items-center text-xs font-semibold text-primary">
+                        <span>Lihat Detail</span>
+                        <ArrowRight className="h-3.5 w-3.5 ml-1 transition-transform duration-200 group-hover:translate-x-1" />
                     </div>
                 </Link>
             </CardContent>

@@ -78,6 +78,7 @@ export function HeroSection({
                                 <Search className="ml-3.5 h-5 w-5 text-muted-foreground shrink-0" />
                                 <Input
                                     type="search"
+                                    aria-label="Cari nama lapangan, tempat olahraga, atau cabang olahraga"
                                     placeholder="Cari nama lapangan, tempat olahraga, atau cabang olahraga..."
                                     className="border-0 bg-transparent shadow-none focus-visible:ring-0 h-11 text-base px-3"
                                     value={searchValue}
@@ -105,16 +106,12 @@ export function HeroSection({
                                       suggestions.length > 0 ? (
                                         <div className="p-2 space-y-1">
                                             {suggestions.map((field) => (
-                                                <div
+                                                <Link
                                                     key={field.id}
-                                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group"
-                                                    onClick={() =>
-                                                        router.push(
-                                                            `/search?q=${encodeURIComponent(
-                                                                field.name
-                                                            )}`
-                                                        )
-                                                    }
+                                                    href={`/search?q=${encodeURIComponent(
+                                                        field.name
+                                                    )}`}
+                                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors group"
                                                 >
                                                     <div className="h-12 w-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center shrink-0 shadow-sm border group-hover:border-primary/50 transition-colors">
                                                         {field.photos &&
@@ -142,28 +139,24 @@ export function HeroSection({
                                                             {field.venue?.name}
                                                         </span>
                                                     </div>
-                                                </div>
+                                                </Link>
                                             ))}
-                                            <div
-                                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group border-t mt-1"
-                                                onClick={() =>
-                                                    router.push(
-                                                        `/search?q=${encodeURIComponent(
-                                                            searchValue
-                                                        )}`
-                                                    )
-                                                }
+                                            <Link
+                                                href={`/search?q=${encodeURIComponent(
+                                                    searchValue
+                                                )}`}
+                                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors group border-t mt-1"
                                             >
                                                 <div className="h-12 w-12 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
                                                     <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                                                 </div>
                                                 <div className="flex flex-col items-start text-left">
                                                     <span className="text-base font-medium text-foreground group-hover:text-primary transition-colors">
-                                                        Lihat semua hasil untuk "
-                                                        {searchValue}"
+                                                        Lihat semua hasil untuk &ldquo;
+                                                        {searchValue}&rdquo;
                                                     </span>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </div>
                                     ) : (
                                         <div className="p-8 text-center text-muted-foreground">
